@@ -154,6 +154,61 @@ def model_prob_for_outcome(outcome: dict,
     return None
 
 
+# ---------- Market-blend helpers (shared by dashboard + local scripts) ----------
+#
+# Backtest-validated alphas (Apr 28 – May 11, 2026):
+#   - RL  pure model     (alpha = 1.0) — +24.2% ROI, market blending hurts
+#   - ML  50/50 blend    (alpha = 0.5) — pure +17.8% → blend +23.4%
+#   - TOT 30/70 blend    (alpha = 0.3) — pure +2.7% → blend +18.6%
+#                                        (fixes 73% model / 56% actual overcalibration)
+
+BLEND_ALPHA_ML  = 0.5   # ML: 50% model, 50% devigged market
+BLEND_ALPHA_RL  = 1.0   # RL: pure model
+BLEND_ALPHA_TOT = 0.3   # TOT: 30% model, 70% devigged market
+
+
+def devig_two_way(implied_a: float, implied_b: float) -> tuple:
+    """
+    Given two implied probabilities from sportsbook odds (e.g., home & away ML,
+    over & under), return the no-vig fair probabilities that sum to 1.0.
+    """
+    total = implied_a + implied_b
+    if total <= 0:
+        return 0.5, 0.5
+    return implied_a / total, implied_b / total
+
+
+def blend(model_p: float, fair_market_p: float, alpha: float) -> float:
+    """
+    Blend the model probability with the devigged market probability.
+      alpha = 1.0 → pure model (no blend)
+      alpha = 0.0 → pure market (ignore model)
+    """
+    alpha = max(0.0, min(1.0, alpha))
+    return alpha * model_p + (1 - alpha) * fair_market_p
+
+
+def blended_moneyline(model_p_team: float, implied_team: float,
+                      implied_opp: float, alpha: float = BLEND_ALPHA_ML) -> float:
+    """Devig + blend for moneyline."""
+    fair_team, _ = devig_two_way(implied_team, implied_opp)
+    return blend(model_p_team, fair_team, alpha)
+
+
+def blended_total(model_p_side: float, implied_over: float,
+                  implied_under: float, side: str,
+                  alpha: float = BLEND_ALPHA_TOT) -> float:
+    """Devig + blend for totals (over/under)."""
+    fair_over, fair_under = devig_two_way(implied_over, implied_under)
+    fair = fair_over if side.lower() == "over" else fair_under
+    return blend(model_p_side, fair, alpha)
+
+
+def blended_runline(model_p_team: float, *args, **kwargs) -> float:
+    """RL uses pure model (alpha=1.0) per backtest. Helper for symmetry."""
+    return model_p_team
+
+
 if __name__ == "__main__":
     # Sanity tests
     print("Total O/U sanity:")

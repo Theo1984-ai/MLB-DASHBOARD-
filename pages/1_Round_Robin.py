@@ -342,18 +342,14 @@ for g in upcoming:
         if home_ml_offers and away_ml_offers:
             best_home_ml = best_offer(home_ml_offers)
             best_away_ml = best_offer(away_ml_offers)
-            # Devig: remove sportsbook vig to get their true implied probability
+            # Devig (shared helper, keeps dashboard + local scripts in sync)
             imp_h = best_home_ml["implied_prob"]; imp_a = best_away_ml["implied_prob"]
-            _tot = imp_h + imp_a
-            fair_h = imp_h / _tot if _tot > 0 else 0.5
-            fair_a = imp_a / _tot if _tot > 0 else 0.5
-            # Blend: 50% model, 50% devigged market
-            ML_ALPHA = 0.5
+            fair_h, fair_a = markets.devig_two_way(imp_h, imp_a)
             for side_name, mp_raw, fair, best in [
                 (g["home_team"], p_home,       fair_h, best_home_ml),
                 (g["away_team"], 1.0 - p_home, fair_a, best_away_ml),
             ]:
-                blended = ML_ALPHA * mp_raw + (1 - ML_ALPHA) * fair
+                blended = markets.blend(mp_raw, fair, markets.BLEND_ALPHA_ML)
                 edge_pp = (blended - best["implied_prob"]) * 100
                 candidate_pool.append({
                     "label":        f"ML -- {side_name} {best['american_odds']:+d}",
@@ -421,17 +417,14 @@ for g in upcoming:
                 continue
             best_ov = best_offer(over_offers)
             best_un = best_offer(under_offers)
-            # Devig both sides together
+            # Devig (shared helper)
             imp_ov = best_ov["implied_prob"]; imp_un = best_un["implied_prob"]
-            _tot_imp = imp_ov + imp_un
-            fair_ov = imp_ov / _tot_imp if _tot_imp > 0 else 0.5
-            fair_un = imp_un / _tot_imp if _tot_imp > 0 else 0.5
+            fair_ov, fair_un = markets.devig_two_way(imp_ov, imp_un)
             # Model probabilities (pure Poisson)
             mp_ov = markets.prob_total_over(expected_total, float(_line))
             mp_un = markets.prob_total_under(expected_total, float(_line))
-            # Blend: 30% model, 70% devigged market (fixes overcalibration)
-            blended_ov = TOT_ALPHA * mp_ov + (1 - TOT_ALPHA) * fair_ov
-            blended_un = TOT_ALPHA * mp_un + (1 - TOT_ALPHA) * fair_un
+            blended_ov = markets.blend(mp_ov, fair_ov, markets.BLEND_ALPHA_TOT)
+            blended_un = markets.blend(mp_un, fair_un, markets.BLEND_ALPHA_TOT)
             for side_name, mp_raw, blended, fair, best in [
                 ("Over",  mp_ov, blended_ov, fair_ov, best_ov),
                 ("Under", mp_un, blended_un, fair_un, best_un),
@@ -670,7 +663,58 @@ if auto_pick:
     auto_picks = algorithm_pick4(filtered_all)
     auto_labels = [c["label"] + " -- " + c["matchup"] for c in auto_picks]
     st.session_state["rr_chosen_labels"] = auto_labels
-    st.success(f"Auto-picked {len(auto_picks)} legs. Adjust below if needed.")
+
+    # Auto-save the algorithm's slate so we have an unbroken daily log
+    # for backtesting, regardless of whether the user clicks Save below.
+    try:
+        from itertools import combinations
+        # Use default round-robin sizing (by 2s + 3s + 4s @ $5 stake)
+        # for the auto-saved snapshot — user can override on manual save
+        auto_picks_for_log = []
+        for c in auto_picks:
+            auto_picks_for_log.append({
+                "label":       c["label"],
+                "market":      c["market"],
+                "side":        c.get("side"),
+                "point":       c.get("point"),
+                "matchup":     c["matchup"],
+                "game_pk":     c.get("game_pk"),
+                "event_id":    c.get("event_id"),
+                "model_p":     c["model_p"],
+                "raw_model_p": c.get("raw_model_p"),
+                "fair_p":      c.get("fair_p"),
+                "implied":     c["implied"],
+                "edge_pp":     c["edge_pp"],
+                "american":    c["american"],
+                "decimal":     c["decimal"],
+                "book":        c["book"],
+                "first_pitch": c.get("first_pitch"),
+            })
+        # Quick round-robin EV calc for the auto-saved snapshot
+        from models import parlay as _pm
+        _picks_rr = [{"name": p["label"], "prob": p["model_p"],
+                      "decimal_odds": p["decimal"], "game_id": p.get("game_pk")}
+                     for p in auto_picks_for_log]
+        _parlays, _summ = _pm.build_round_robin(
+            _picks_rr, sizes=[2, 3, 4], stake_per_parlay=5.0, one_per_game=True)
+        slate_payload = {
+            "picks":            auto_picks_for_log,
+            "sizes":            [2, 3, 4],
+            "stake_per_parlay": 5.0,
+            "total_stake":      _summ.get("total_stake", 0),
+            "total_ev":         _summ.get("total_ev", 0),
+            "max_payout":       _summ.get("total_max_payout", 0),
+            "p_any_win":        _summ.get("hit_distribution", {}).get("p_at_least_one_win"),
+            "p_profit":         _summ.get("hit_distribution", {}).get("p_profit"),
+            "note":             "Auto-saved by Auto-pick top 4",
+            "auto_saved":       True,
+        }
+        log_path = picks_logger.save_slate(date_str, slate_payload)
+        st.success(f"Auto-picked {len(auto_picks)} legs and logged to "
+                   f"`{os.path.basename(log_path)}`. Adjust below if needed.")
+    except Exception as _ex:
+        st.success(f"Auto-picked {len(auto_picks)} legs. Adjust below if needed.")
+        st.caption(f"⚠️ Auto-save log failed (slate still usable): {_ex}")
 
 
 # ---------- Candidates table (scoped) ----------
