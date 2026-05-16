@@ -1667,12 +1667,14 @@ with tab_pred:
             else:
                 books = st.multiselect(
                     "Books",
-                    options=["betonlineag", "betrivers", "draftkings", "fanduel", "betmgm", "caesars",
-                             "lowvig", "mybookieag", "bovada"],
-                    default=["betonlineag", "betrivers"],
-                    help="Free tier: BetOnline.ag and BetRivers only for HR props.",
+                    options=["draftkings", "fanduel", "betmgm", "caesars", "betrivers",
+                             "betonlineag", "lowvig", "mybookieag", "bovada"],
+                    default=["draftkings", "fanduel", "betmgm", "caesars"],
+                    help=("Sharp US books only by default. BetOnline.ag intentionally "
+                          "excluded — their HR lines are routinely stale longshots "
+                          "(+18,000+) that don't match real market consensus."),
                 )
-                books_str = ",".join(books) if books else "betonlineag,betrivers"
+                books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,caesars"
 
                 try:
                     with st.spinner("Loading odds events..."):

@@ -20,8 +20,13 @@ from datetime import datetime, timezone
 
 BASE = "https://api.the-odds-api.com/v4"
 SPORT_KEY = "baseball_mlb"
-HR_MARKET = "batter_home_runs"
+HR_MARKET = "batter_home_runs"  # standard market (BR/BO/ESPN BET)
+HR_MARKET_ALT = "batter_home_runs_alternate"  # DK/FD/MGM/Caesars use this with point=0.5
+# Sharp US books for HR props. BetOnline.ag intentionally excluded by default —
+# their HR lines are routinely stale longshots (+18,000-+19,900) that don't
+# match real market consensus.
 DEFAULT_BOOKS = "draftkings,fanduel,betmgm,caesars"
+SHARP_HR_BOOKS = "draftkings,fanduel,betmgm,caesars"  # alias for HR-specific use
 
 # Alternate-line markets: higher-probability bets that price at negative odds
 ALT_PROP_MARKETS = {
@@ -220,51 +225,102 @@ def get_hr_odds(api_key: str, event_id: str,
                 bookmakers: str = DEFAULT_BOOKS) -> list:
     """
     Player HR prop odds for a single event. Returns one row per
-    (bookmaker, player) with best-available "Yes" line for HR.
+    (bookmaker, player) with the standard "Yes hit ≥1 HR" line.
 
-    Costs: 1 request per call.
+    DraftKings, FanDuel, BetMGM, and Caesars expose HR props under the
+    `batter_home_runs_alternate` market (filter to point=0.5 for the
+    standard Yes line).  BetRivers / BetOnline / ESPN BET use the
+    standard `batter_home_runs` market with name=Yes/No.
+
+    We pull BOTH markets and combine — gives full coverage across all
+    books on the Starter tier ($30/mo) and above.
+
+    Costs: 2 requests per call (one per market).
     """
     if not api_key or not event_id:
         return []
-    params = urllib.parse.urlencode({
+
+    rows = []
+    seen_keys = set()  # dedupe (bookmaker, player) — prefer first (alternate has DK/FD)
+
+    # 1. Alternate market — DK / FD / MGM / Caesars use this with point=0.5
+    params_alt = urllib.parse.urlencode({
+        "apiKey":     api_key,
+        "regions":    "us",
+        "markets":    "batter_home_runs_alternate",
+        "bookmakers": bookmakers,
+        "oddsFormat": "american",
+    })
+    try:
+        data_alt, _ = _fetch(f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?{params_alt}")
+    except OddsAPIError:
+        data_alt = {}
+
+    for bm in (data_alt or {}).get("bookmakers", []):
+        bm_key = bm.get("key"); bm_title = bm.get("title")
+        for market in bm.get("markets", []):
+            if market.get("key") != "batter_home_runs_alternate":
+                continue
+            for outcome in market.get("outcomes", []):
+                # Alternate market uses name=Over/Under, description=player, point=line
+                name = outcome.get("name", "").strip().lower()
+                if name != "over":
+                    continue   # skip "Under" (won't homer side)
+                point = outcome.get("point")
+                if point is None or float(point) != 0.5:
+                    continue   # only standard "Yes 1+ HR" line
+                player = outcome.get("description") or outcome.get("name")
+                price = outcome.get("price")
+                if price is None or not player:
+                    continue
+                k = (bm_key, player)
+                if k in seen_keys: continue
+                seen_keys.add(k)
+                rows.append({
+                    "bookmaker":      bm_key,
+                    "bookmaker_name": bm_title,
+                    "player":         player,
+                    "american_odds":  int(price),
+                    "decimal_odds":   american_to_decimal(int(price)),
+                    "implied_prob":   american_to_implied(int(price)),
+                })
+
+    # 2. Standard market — BR / BO / ESPN BET use this
+    params_std = urllib.parse.urlencode({
         "apiKey":     api_key,
         "regions":    "us",
         "markets":    HR_MARKET,
         "bookmakers": bookmakers,
         "oddsFormat": "american",
     })
-    url = f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?{params}"
     try:
-        data, _ = _fetch(url)
+        data_std, _ = _fetch(f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?{params_std}")
     except OddsAPIError:
-        return []
+        data_std = {}
 
-    rows = []
-    for bm in (data or {}).get("bookmakers", []):
-        bm_key = bm.get("key")
-        bm_title = bm.get("title")
+    for bm in (data_std or {}).get("bookmakers", []):
+        bm_key = bm.get("key"); bm_title = bm.get("title")
         for market in bm.get("markets", []):
             if market.get("key") != HR_MARKET:
                 continue
             for outcome in market.get("outcomes", []):
-                # The "Yes" outcome is what we care about — player to hit a HR.
-                # Some markets express it as outcome.name="Yes"/"No" with description
-                # = player name; others use outcome.description as the player and
-                # outcome.name as the line.
                 player = outcome.get("description") or outcome.get("name")
-                yes_no = outcome.get("name", "")
-                if yes_no.strip().lower() in ("no",):
-                    continue  # skip the "No" side
-                price_american = outcome.get("price")
-                if price_american is None or not player:
+                yes_no = outcome.get("name", "").strip().lower()
+                if yes_no in ("no", "under"):
                     continue
+                price = outcome.get("price")
+                if price is None or not player:
+                    continue
+                k = (bm_key, player)
+                if k in seen_keys: continue   # already got from alternate market
+                seen_keys.add(k)
                 rows.append({
                     "bookmaker":      bm_key,
                     "bookmaker_name": bm_title,
                     "player":         player,
-                    "american_odds":  int(price_american),
-                    "decimal_odds":   american_to_decimal(int(price_american)),
-                    "implied_prob":   american_to_implied(int(price_american)),
+                    "american_odds":  int(price),
+                    "decimal_odds":   american_to_decimal(int(price)),
+                    "implied_prob":   american_to_implied(int(price)),
                 })
     return rows
 
