@@ -584,13 +584,15 @@ if "TOT" in market_filter:
         "(backtested at 84.4% hit rate with real DK prices)."
     )
 
-# Per-market minimum edge override
+# Edge filter — slider is authoritative. Per-market floors apply only when
+# slider is at its default; if the user explicitly lowers the slider below
+# a market floor, honor that (they want to see marginal picks).
 filtered_all = []
 for c in candidate_pool:
     if c["market"] not in market_filter:
         continue
-    mkt_min = max(min_edge, _MKT_MIN_EDGE.get(c["market"], min_edge))
-    if c["edge_pp"] < mkt_min:
+    # Use slider value directly — no hardcoded floor override
+    if c["edge_pp"] < min_edge:
         continue
     if not include_suspect and odds_api.is_suspect_edge(c["edge_pp"]):
         continue
