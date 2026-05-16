@@ -66,3 +66,13 @@ value_bets.py
 value_bets_live.py
 game_lines_tonight.py
 scan_all_markets.py
+
+# HR tracker scripts (local-only — they read secrets and run at module level)
+daily_hr_tracker.py
+hr_tracker_report.py
+hr_compare_and_backtest.py
+hr_synthetic_backtest.py
+hr_backtest_old_vs_new.py
+
+# Tracker output is local — survives across pushes (don't commit big growing JSON history)
+hr_tracker/
