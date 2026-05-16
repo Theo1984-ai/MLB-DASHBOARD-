@@ -245,6 +245,9 @@ if save_btn:
                     norm = odds_api.normalize_name(bname)
                     odds_data = sharp_odds.get(norm)
 
+                    # Always include all keys (None if no odds) so DataFrame columns
+                    # are stable across picks. Avoids "X not in index" errors when
+                    # displaying mixed odds/no-odds picks.
                     rec = {
                         "batter":      bname,
                         "batter_id":   int(pid),
@@ -255,14 +258,18 @@ if save_btn:
                         "park":        stadium["park"],
                         "model_p":     round(p_cal, 4),
                         "model_p_pct": round(p_cal * 100, 2),
-                        "best_odds":   odds_data[0] if odds_data else None,
-                        "best_book":   odds_data[1] if odds_data else None,
+                        "best_odds":   None,
+                        "best_book":   None,
+                        "implied_pct": None,
+                        "edge_pp":     None,
                     }
                     if odds_data:
+                        rec["best_odds"] = odds_data[0]
+                        rec["best_book"] = odds_data[1]
                         imp = (100 / (odds_data[0] + 100) if odds_data[0] > 0
                                else abs(odds_data[0]) / (abs(odds_data[0]) + 100))
                         rec["implied_pct"] = round(imp * 100, 2)
-                        rec["edge_pp"] = round(p_cal * 100 - imp * 100, 2)
+                        rec["edge_pp"]     = round(p_cal * 100 - imp * 100, 2)
                     all_preds.append(rec)
 
             progress.empty()
@@ -282,17 +289,21 @@ if save_btn:
             cached_list_tracker_files.clear()
             cached_load_tracker.clear()
             st.success(f"Saved {len(top_n)} picks to GitHub at `{path}`.")
-            # Show what was saved
-            df = pd.DataFrame(top_n)[
-                ["batter", "team", "matchup", "model_p_pct", "implied_pct",
-                 "edge_pp", "best_odds", "best_book"]
-            ].rename(columns={
+        except Exception as e:
+            st.error(f"Save failed: {e}")
+
+    # Display saved picks (defensive — reindex so missing cols become NaN)
+    if "top_n" in locals() and top_n:
+        cols = ["batter", "team", "matchup", "model_p_pct", "implied_pct",
+                "edge_pp", "best_odds", "best_book"]
+        try:
+            df = pd.DataFrame(top_n).reindex(columns=cols).rename(columns={
                 "model_p_pct": "Model %", "implied_pct": "Mkt %",
                 "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
             })
             st.dataframe(df, use_container_width=True, hide_index=True)
         except Exception as e:
-            st.error(f"Save failed: {e}")
+            st.caption(f"(Display preview unavailable: {e})")
 
 
 # ---------- History section ----------
@@ -407,11 +418,10 @@ today_file = next((tf for tf in tracker_files if tf["name"] == f"{today}.json"),
 if today_file:
     st.markdown(f"#### Today ({today}) — pending results")
     slate = cached_load_tracker(today_file["path"])
-    if slate:
-        df = pd.DataFrame(slate.get("picks", []))[
-            ["batter", "team", "matchup", "model_p_pct", "implied_pct",
-             "edge_pp", "best_odds", "best_book"]
-        ].rename(columns={
+    if slate and slate.get("picks"):
+        cols = ["batter", "team", "matchup", "model_p_pct", "implied_pct",
+                "edge_pp", "best_odds", "best_book"]
+        df = pd.DataFrame(slate["picks"]).reindex(columns=cols).rename(columns={
             "model_p_pct": "Model %", "implied_pct": "Mkt %",
             "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
         })
