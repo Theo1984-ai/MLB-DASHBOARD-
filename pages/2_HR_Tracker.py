@@ -130,23 +130,34 @@ season = datetime.now(tz=EASTERN).year
 
 st.markdown(f"### Today: **{today}**")
 
-c1, c2, c3, c4 = st.columns([1.2, 1.2, 1, 1.6])
+c1, c2, c3 = st.columns([1.3, 1.3, 1])
 with c1:
-    save_btn = st.button("💣 Save HR top 10", type="primary", use_container_width=True)
+    save_btn = st.button("🔍 Preview HR top 10", type="primary", use_container_width=True)
 with c2:
-    save_hrr_btn = st.button(f"🏃 Save H+R+R top 10 (O{HRR_POINT})",
+    save_hrr_btn = st.button(f"🔍 Preview H+R+R top 10 (O{HRR_POINT})",
                              use_container_width=True)
 with c3:
-    refresh_btn = st.button("🔄 Refresh", use_container_width=True)
+    refresh_btn = st.button("🔄 Refresh", use_container_width=True,
+                            help="Clear cached GitHub history + boxscore results")
     if refresh_btn:
         cached_list_tracker_files.clear()
         cached_load_tracker.clear()
         cached_fetch_hrs.clear()
         cached_fetch_hrr_map.clear()
+        # Also clear preview state
+        for k in ("hr_preview_picks", "hr_preview_meta", "hr_preview_at",
+                  "hrr_preview_picks", "hrr_preview_meta", "hrr_preview_at"):
+            st.session_state.pop(k, None)
         st.rerun()
 
+st.caption(
+    "Click **Preview** to fetch picks (uses Odds API + MLB API but does NOT "
+    "save anything). After reviewing, click **💾 Save to GitHub** beneath the "
+    "preview table to persist the slate."
+)
+
 if save_btn:
-    with st.spinner("Running model + pulling sharp odds + saving to GitHub..."):
+    with st.spinner("Running model + pulling sharp odds (preview only, NOT saved)..."):
         try:
             # Get upcoming games
             all_games = mlb_api.get_schedule(today)
@@ -156,7 +167,7 @@ if save_btn:
                 if fp_dt and fp_dt.astimezone(timezone.utc) > now_utc:
                     upcoming.append((g, fp_dt))
             if not upcoming:
-                st.warning("No upcoming games — nothing to save. Try earlier in the day.")
+                st.warning("No upcoming games — nothing to preview. Try earlier in the day.")
                 st.stop()
 
             # Load model data
@@ -303,40 +314,82 @@ if save_btn:
             progress.empty()
             all_preds.sort(key=lambda x: -x["model_p"])
             top_n = all_preds[:TOP_N]
+            # Stash in session_state — Save button uses this
+            st.session_state["hr_preview_picks"] = top_n
+            st.session_state["hr_preview_meta"] = {
+                "n_games": len(upcoming), "n_total": len(all_preds),
+            }
+            st.session_state["hr_preview_at"] = datetime.now(tz=EASTERN).isoformat()
+            st.success(f"Preview ready: {len(top_n)} picks loaded — review below, then click Save.")
+        except Exception as e:
+            st.error(f"Preview failed: {e}")
+
+# ---------- HR preview display + save-to-GitHub ----------
+if st.session_state.get("hr_preview_picks"):
+    preview = st.session_state["hr_preview_picks"]
+    meta = st.session_state.get("hr_preview_meta", {})
+    at_str = st.session_state.get("hr_preview_at", "?")[:19]
+
+    st.markdown(f"#### 💣 HR preview — top {len(preview)}")
+    st.caption(f"Generated {at_str}  •  {meta.get('n_games','?')} games, "
+               f"{meta.get('n_total','?')} total predictions  •  **NOT yet saved**")
+
+    cols = ["batter", "team", "matchup", "vs_sp", "park", "model_p_pct",
+            "implied_pct", "edge_pp", "best_odds", "best_book"]
+    df_prev = pd.DataFrame(preview).reindex(columns=cols).rename(columns={
+        "vs_sp": "vs SP", "model_p_pct": "Model %", "implied_pct": "Mkt %",
+        "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
+    })
+    for c in ("Model %", "Mkt %", "Edge", "Odds"):
+        if c in df_prev.columns:
+            df_prev[c] = pd.to_numeric(df_prev[c], errors="coerce")
+    st.dataframe(
+        df_prev, use_container_width=True, hide_index=True,
+        column_config={
+            "Model %": st.column_config.NumberColumn(format="%.2f%%"),
+            "Mkt %":   st.column_config.NumberColumn(format="%.2f%%"),
+            "Edge":    st.column_config.NumberColumn(format="%+.2f"),
+            "Odds":    st.column_config.NumberColumn(format="%+d"),
+        },
+    )
+
+    save_cols = st.columns([1, 1, 3])
+    with save_cols[0]:
+        confirm_hr_save = st.button("💾 Save HR picks to GitHub",
+                                    type="primary", use_container_width=True,
+                                    key="confirm_hr_save_btn")
+    with save_cols[1]:
+        if st.button("✖ Discard", use_container_width=True, key="discard_hr_btn"):
+            for k in ("hr_preview_picks", "hr_preview_meta", "hr_preview_at"):
+                st.session_state.pop(k, None)
+            st.rerun()
+
+    if confirm_hr_save:
+        try:
             payload = {
                 "date":     today,
                 "saved_at": datetime.now(tz=EASTERN).isoformat(),
                 "top_n":    TOP_N,
-                "n_games":  len(upcoming),
-                "n_total":  len(all_preds),
-                "picks":    top_n,
+                "n_games":  meta.get("n_games"),
+                "n_total":  meta.get("n_total"),
+                "picks":    preview,
             }
             path = f"{TRACKER_DIR}/{today}.json"
             gh.save_json(GH_TOKEN, OWNER, REPO, path, payload,
                          commit_msg=f"HR tracker: top {TOP_N} for {today}")
             cached_list_tracker_files.clear()
             cached_load_tracker.clear()
-            st.success(f"Saved {len(top_n)} picks to GitHub at `{path}`.")
+            st.success(f"✅ Saved {len(preview)} HR picks to GitHub at `{path}`.")
+            # Clear preview state — user can re-preview if needed
+            for k in ("hr_preview_picks", "hr_preview_meta", "hr_preview_at"):
+                st.session_state.pop(k, None)
         except Exception as e:
-            st.error(f"Save failed: {e}")
-
-    # Display saved picks (defensive — reindex so missing cols become NaN)
-    if "top_n" in locals() and top_n:
-        cols = ["batter", "team", "matchup", "model_p_pct", "implied_pct",
-                "edge_pp", "best_odds", "best_book"]
-        try:
-            df = pd.DataFrame(top_n).reindex(columns=cols).rename(columns={
-                "model_p_pct": "Model %", "implied_pct": "Mkt %",
-                "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
-            })
-            st.dataframe(df, use_container_width=True, hide_index=True)
-        except Exception as e:
-            st.caption(f"(Display preview unavailable: {e})")
+            st.error(f"GitHub save failed: {e}")
 
 
-# ---------- H+R+R save handler ----------
+# ---------- H+R+R preview handler ----------
 if save_hrr_btn:
-    with st.spinner(f"Pulling H+R+R Over {HRR_POINT} odds + saving to GitHub..."):
+    with st.spinner(f"Pulling H+R+R Over {HRR_POINT} odds (preview only, NOT saved)..."):
         try:
             all_games = mlb_api.get_schedule(today)
             upcoming = []
@@ -345,7 +398,7 @@ if save_hrr_btn:
                 if fp_dt and fp_dt.astimezone(timezone.utc) > now_utc:
                     upcoming.append((g, fp_dt))
             if not upcoming:
-                st.warning("No upcoming games — nothing to save. Try earlier in the day.")
+                st.warning("No upcoming games — nothing to preview. Try earlier in the day.")
                 st.stop()
 
             # Map games to Odds API event IDs
@@ -438,33 +491,75 @@ if save_hrr_btn:
             # Rank by implied probability descending — DK's "most likely to clear"
             all_hrr.sort(key=lambda x: -x["implied_pct"])
             top_n_hrr = all_hrr[:TOP_N]
+            # Stash in session_state for review-then-save flow
+            st.session_state["hrr_preview_picks"] = top_n_hrr
+            st.session_state["hrr_preview_meta"] = {
+                "n_games": len(upcoming), "n_total": len(all_hrr),
+                "point":   HRR_POINT,
+            }
+            st.session_state["hrr_preview_at"] = datetime.now(tz=EASTERN).isoformat()
+            st.success(f"Preview ready: {len(top_n_hrr)} H+R+R picks loaded — review below, then click Save.")
+        except Exception as e:
+            st.error(f"H+R+R preview failed: {e}")
+
+# ---------- H+R+R preview display + save-to-GitHub ----------
+if st.session_state.get("hrr_preview_picks"):
+    preview = st.session_state["hrr_preview_picks"]
+    meta = st.session_state.get("hrr_preview_meta", {})
+    at_str = st.session_state.get("hrr_preview_at", "?")[:19]
+    pt = meta.get("point", HRR_POINT)
+
+    st.markdown(f"#### 🏃 H+R+R preview — top {len(preview)} (Over {pt})")
+    st.caption(f"Generated {at_str}  •  {meta.get('n_games','?')} games, "
+               f"{meta.get('n_total','?')} total H+R+R offers  •  **NOT yet saved**")
+
+    cols = ["batter", "team", "matchup", "vs_sp", "park",
+            "implied_pct", "best_odds", "best_book"]
+    df_prev = pd.DataFrame(preview).reindex(columns=cols).rename(columns={
+        "vs_sp": "vs SP", "implied_pct": "Mkt %",
+        "best_odds": "Odds", "best_book": "Book",
+    })
+    for c in ("Mkt %", "Odds"):
+        if c in df_prev.columns:
+            df_prev[c] = pd.to_numeric(df_prev[c], errors="coerce")
+    st.dataframe(
+        df_prev, use_container_width=True, hide_index=True,
+        column_config={
+            "Mkt %": st.column_config.NumberColumn(format="%.2f%%"),
+            "Odds":  st.column_config.NumberColumn(format="%+d"),
+        },
+    )
+
+    hrr_save_cols = st.columns([1, 1, 3])
+    with hrr_save_cols[0]:
+        confirm_hrr_save = st.button("💾 Save H+R+R to GitHub",
+                                     type="primary", use_container_width=True,
+                                     key="confirm_hrr_save_btn")
+    with hrr_save_cols[1]:
+        if st.button("✖ Discard", use_container_width=True, key="discard_hrr_btn"):
+            for k in ("hrr_preview_picks", "hrr_preview_meta", "hrr_preview_at"):
+                st.session_state.pop(k, None)
+            st.rerun()
+
+    if confirm_hrr_save:
+        try:
             payload = {
                 "date":     today,
                 "saved_at": datetime.now(tz=EASTERN).isoformat(),
                 "top_n":    TOP_N,
-                "point":    HRR_POINT,
-                "n_games":  len(upcoming),
-                "n_total":  len(all_hrr),
-                "picks":    top_n_hrr,
+                "point":    pt,
+                "n_games":  meta.get("n_games"),
+                "n_total":  meta.get("n_total"),
+                "picks":    preview,
             }
             path = f"{HRR_TRACKER_DIR}/{today}.json"
             gh.save_json(GH_TOKEN, OWNER, REPO, path, payload,
-                         commit_msg=f"H+R+R tracker: top {TOP_N} (O{HRR_POINT}) for {today}")
-            st.success(f"Saved {len(top_n_hrr)} H+R+R picks (O{HRR_POINT}) to GitHub at `{path}`.")
+                         commit_msg=f"H+R+R tracker: top {TOP_N} (O{pt}) for {today}")
+            st.success(f"✅ Saved {len(preview)} H+R+R picks to GitHub at `{path}`.")
+            for k in ("hrr_preview_picks", "hrr_preview_meta", "hrr_preview_at"):
+                st.session_state.pop(k, None)
         except Exception as e:
-            st.error(f"H+R+R save failed: {e}")
-
-    if "top_n_hrr" in locals() and top_n_hrr:
-        cols = ["batter", "team", "matchup", "vs_sp", "implied_pct",
-                "best_odds", "best_book"]
-        try:
-            df = pd.DataFrame(top_n_hrr).reindex(columns=cols).rename(columns={
-                "implied_pct": "Mkt %", "best_odds": "Odds",
-                "best_book": "Book", "vs_sp": "vs SP",
-            })
-            st.dataframe(df, use_container_width=True, hide_index=True)
-        except Exception as e:
-            st.caption(f"(Display preview unavailable: {e})")
+            st.error(f"GitHub save failed: {e}")
 
 
 # ---------- History section ----------
