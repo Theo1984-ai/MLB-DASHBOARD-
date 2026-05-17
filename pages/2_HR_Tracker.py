@@ -413,17 +413,93 @@ if calibration_pairs:
         })
     st.dataframe(pd.DataFrame(cal_rows), use_container_width=True, hide_index=True)
 
-# Today's saved slate
-today_file = next((tf for tf in tracker_files if tf["name"] == f"{today}.json"), None)
-if today_file:
-    st.markdown(f"#### Today ({today}) — pending results")
-    slate = cached_load_tracker(today_file["path"])
-    if slate and slate.get("picks"):
-        cols = ["batter", "team", "matchup", "model_p_pct", "implied_pct",
-                "edge_pp", "best_odds", "best_book"]
-        df = pd.DataFrame(slate["picks"]).reindex(columns=cols).rename(columns={
-            "model_p_pct": "Model %", "implied_pct": "Mkt %",
-            "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
-        })
-        st.dataframe(df, use_container_width=True, hide_index=True)
-        st.caption(f"Saved at {slate.get('saved_at', '?')[:19]}")
+# ---------- Per-day picks viewer ----------
+st.markdown("---")
+st.markdown("#### 🔎 View picks for a specific day")
+
+date_options = [tf["name"][:-5] for tf in tracker_files]
+default_idx = 0   # most recent (already sorted desc above)
+selected_date = st.selectbox(
+    "Select a saved date",
+    options=date_options,
+    index=default_idx,
+    help="Pick any day from your saved history to see the full top-10 with hit/miss results.",
+)
+
+if selected_date:
+    sel_file = next((tf for tf in tracker_files if tf["name"] == f"{selected_date}.json"), None)
+    if sel_file:
+        slate = cached_load_tracker(sel_file["path"])
+        if slate and slate.get("picks"):
+            picks = slate["picks"]
+            is_today = (selected_date >= today)
+
+            # Fetch HR outcomes for that day's games (if past)
+            hr_map = {}
+            if not is_today:
+                game_pks = list({p["game_pk"] for p in picks if p.get("game_pk")})
+                hr_map = {gpk: set(cached_fetch_hrs(gpk) or []) for gpk in game_pks}
+
+            # Build display rows
+            display_rows = []
+            for i, p in enumerate(picks, 1):
+                won = None
+                if not is_today and p.get("game_pk") in hr_map:
+                    won = p["batter_id"] in hr_map[p["game_pk"]]
+                result = "🟢 HR" if won is True else ("⚪ —" if won is False else "⏳ pending")
+                display_rows.append({
+                    "#":        i,
+                    "Result":   result,
+                    "Batter":   p.get("batter", "?"),
+                    "Team":     p.get("team", "?"),
+                    "Matchup":  p.get("matchup", "?"),
+                    "vs SP":    p.get("vs_sp", "?"),
+                    "Park":     p.get("park", "?"),
+                    "Model %":  p.get("model_p_pct"),
+                    "Mkt %":    p.get("implied_pct"),
+                    "Edge pp":  p.get("edge_pp"),
+                    "Odds":     p.get("best_odds"),
+                    "Book":     p.get("best_book"),
+                })
+
+            # Summary line
+            if not is_today and hr_map:
+                t5_hits = sum(1 for p in picks[:5] if p["batter_id"] in hr_map.get(p["game_pk"], set()))
+                t10_hits = sum(1 for p in picks[:10] if p["batter_id"] in hr_map.get(p["game_pk"], set()))
+                # Top-5 P&L if odds attached
+                pnl, bet = 0.0, 0
+                for p in picks[:5]:
+                    if p.get("best_odds") is None: continue
+                    bet += 1
+                    won = p["batter_id"] in hr_map.get(p["game_pk"], set())
+                    if won:
+                        am = p["best_odds"]
+                        dec = 1 + am/100 if am > 0 else 1 + 100/abs(am)
+                        pnl += 10 * dec - 10
+                    else:
+                        pnl -= 10
+                summary = f"**Top 5: {t5_hits}/5** • **Top 10: {t10_hits}/10**"
+                if bet:
+                    summary += f" • **P&L @ $10 flat: ${pnl:+.2f}** ({bet} bet{'s' if bet != 1 else ''})"
+                st.markdown(summary)
+            else:
+                n_odds = sum(1 for p in picks if p.get("best_odds") is not None)
+                st.markdown(f"⏳ Games haven't settled yet • {n_odds}/{len(picks)} picks have sharp odds attached")
+
+            st.dataframe(
+                pd.DataFrame(display_rows),
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "Model %":  st.column_config.NumberColumn(format="%.2f%%"),
+                    "Mkt %":    st.column_config.NumberColumn(format="%.2f%%"),
+                    "Edge pp":  st.column_config.NumberColumn(format="%+.2f"),
+                    "Odds":     st.column_config.NumberColumn(format="%+d"),
+                },
+            )
+            st.caption(
+                f"Saved at {slate.get('saved_at', '?')[:19]}  •  "
+                f"{slate.get('n_games', '?')} games, {slate.get('n_total', '?')} total predictions"
+            )
+        else:
+            st.info(f"No picks found in {selected_date}.json.")
