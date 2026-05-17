@@ -37,7 +37,9 @@ EASTERN = ZoneInfo("America/New_York")
 OWNER = "Theo1984-ai"
 REPO = "MLB-DASHBOARD-"
 TRACKER_DIR = "hr_tracker"
+HRR_TRACKER_DIR = "hrr_tracker"
 TOP_N = 10
+HRR_POINT = 1.5   # H+R+R threshold to target (Over 1.5 = needs any 2 of H/R/RBI)
 
 st.set_page_config(page_title="HR Tracker", page_icon="📊", layout="wide")
 st.title("📊 HR Tracker — Daily Top 10")
@@ -98,6 +100,28 @@ def cached_fetch_hrs(game_pk):
         return None
 
 
+@st.cache_data(ttl=600, show_spinner=False)
+def cached_fetch_hrr_map(game_pk):
+    """Returns {batter_id: H+R+RBI total} for a finalized game, or None on failure."""
+    try:
+        data = json.loads(urllib.request.urlopen(
+            f"https://statsapi.mlb.com/api/v1/game/{game_pk}/boxscore",
+            timeout=10, context=_UNVERIFIED_SSL).read())
+        out = {}
+        for side in ("away", "home"):
+            for _, p in data.get("teams", {}).get(side, {}).get("players", {}).items():
+                bs = p.get("stats", {}).get("batting", {})
+                h   = bs.get("hits") or 0
+                r   = bs.get("runs") or 0
+                rbi = bs.get("rbi")  or 0
+                # Only include actual batters (someone with a plate appearance)
+                if (bs.get("plateAppearances") or 0) > 0 or h + r + rbi > 0:
+                    out[p["person"]["id"]] = h + r + rbi
+        return out
+    except Exception:
+        return None
+
+
 # ---------- Top section: save today's picks ----------
 
 today = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
@@ -106,15 +130,19 @@ season = datetime.now(tz=EASTERN).year
 
 st.markdown(f"### Today: **{today}**")
 
-c1, c2, c3 = st.columns([1, 1, 2])
+c1, c2, c3, c4 = st.columns([1.2, 1.2, 1, 1.6])
 with c1:
-    save_btn = st.button("Save today's top 10", type="primary", use_container_width=True)
+    save_btn = st.button("💣 Save HR top 10", type="primary", use_container_width=True)
 with c2:
-    refresh_btn = st.button("Refresh", use_container_width=True)
+    save_hrr_btn = st.button(f"🏃 Save H+R+R top 10 (O{HRR_POINT})",
+                             use_container_width=True)
+with c3:
+    refresh_btn = st.button("🔄 Refresh", use_container_width=True)
     if refresh_btn:
         cached_list_tracker_files.clear()
         cached_load_tracker.clear()
         cached_fetch_hrs.clear()
+        cached_fetch_hrr_map.clear()
         st.rerun()
 
 if save_btn:
@@ -300,6 +328,139 @@ if save_btn:
             df = pd.DataFrame(top_n).reindex(columns=cols).rename(columns={
                 "model_p_pct": "Model %", "implied_pct": "Mkt %",
                 "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
+            })
+            st.dataframe(df, use_container_width=True, hide_index=True)
+        except Exception as e:
+            st.caption(f"(Display preview unavailable: {e})")
+
+
+# ---------- H+R+R save handler ----------
+if save_hrr_btn:
+    with st.spinner(f"Pulling H+R+R Over {HRR_POINT} odds + saving to GitHub..."):
+        try:
+            all_games = mlb_api.get_schedule(today)
+            upcoming = []
+            for g in all_games:
+                fp_dt, _ = mlb_api.parse_first_pitch(g.get("gameDate", ""))
+                if fp_dt and fp_dt.astimezone(timezone.utc) > now_utc:
+                    upcoming.append((g, fp_dt))
+            if not upcoming:
+                st.warning("No upcoming games — nothing to save. Try earlier in the day.")
+                st.stop()
+
+            # Map games to Odds API event IDs
+            events = json.loads(urllib.request.urlopen(
+                f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey={ODDS_KEY}",
+                timeout=15, context=_UNVERIFIED_SSL).read())
+            event_map = {(e["away_team"] + "|" + e["home_team"]).lower(): e["id"] for e in events}
+
+            all_hrr = []
+            progress = st.progress(0)
+            for gi, (g, fp_dt) in enumerate(upcoming):
+                progress.progress((gi + 1) / len(upcoming))
+                away_name = g["teams"]["away"]["team"]["name"]
+                home_name = g["teams"]["home"]["team"]["name"]
+                eid = event_map.get((away_name + "|" + home_name).lower())
+                if not eid:
+                    continue
+
+                # Pull all H+R+R Over 1.5 offers across sharp books
+                hrr_offers = odds_api.get_hrr_odds(ODDS_KEY, eid, point=HRR_POINT)
+                if not hrr_offers:
+                    continue
+
+                # Build {normalized_player: (best_american_odds, best_book)}
+                best_by_player = {}
+                for o in hrr_offers:
+                    n = odds_api.normalize_name(o["player"])
+                    # For negative odds (favorites), higher (less negative) is better
+                    # For positive odds (longshots), higher is better
+                    # Either way: higher number = better payout
+                    if n not in best_by_player or o["american_odds"] > best_by_player[n][0]:
+                        best_by_player[n] = (o["american_odds"], o["bookmaker"], o["player"])
+
+                # Map to MLB batter IDs via team rosters
+                home_id = g["teams"]["home"]["team"]["id"]
+                away_id = g["teams"]["away"]["team"]["id"]
+                il = mlb_api.get_team_il(home_id, season) | mlb_api.get_team_il(away_id, season)
+                roster_map = {}   # {normalized_name: (pid, team_name)}
+                for tid in (home_id, away_id):
+                    team_name = (home_name if tid == home_id else away_name)
+                    for r in mlb_api.get_team_roster(tid, season):
+                        if r.get("position", {}).get("type") == "Pitcher": continue
+                        person = r.get("person", {})
+                        pid = person.get("id")
+                        name = person.get("fullName", "")
+                        if pid and pid not in il and name:
+                            roster_map[odds_api.normalize_name(name)] = (pid, team_name, name)
+
+                away_p = g["teams"]["away"].get("probablePitcher") or {}
+                home_p = g["teams"]["home"].get("probablePitcher") or {}
+                stadium = get_stadium(home_id)
+
+                for norm, (am, book, raw_name) in best_by_player.items():
+                    pid_info = roster_map.get(norm)
+                    if not pid_info:
+                        # Player on roster mapping failed — try fuzzy via partial last-name match
+                        last = norm.split()[-1] if norm else ""
+                        candidates = [(n, info) for n, info in roster_map.items()
+                                      if n.split()[-1] == last]
+                        if len(candidates) == 1:
+                            pid_info = candidates[0][1]
+                    if not pid_info:
+                        continue
+                    pid, team, mlb_name = pid_info
+                    # Determine matchup and SP
+                    is_home = (team == home_name)
+                    opp_sp = (away_p.get("fullName", "TBD") if is_home
+                              else home_p.get("fullName", "TBD"))
+
+                    imp = (100 / (am + 100) if am > 0
+                           else abs(am) / (abs(am) + 100))
+                    all_hrr.append({
+                        "batter":      mlb_name,
+                        "batter_id":   int(pid),
+                        "team":        team,
+                        "matchup":     f"{away_name} @ {home_name}",
+                        "game_pk":     g.get("gamePk"),
+                        "vs_sp":       opp_sp,
+                        "park":        stadium["park"],
+                        "point":       HRR_POINT,
+                        "best_odds":   am,
+                        "best_book":   book,
+                        "implied_pct": round(imp * 100, 2),
+                        # No model yet — placeholder for future expansion
+                        "model_p_pct": None,
+                        "edge_pp":     None,
+                    })
+
+            progress.empty()
+            # Rank by implied probability descending — DK's "most likely to clear"
+            all_hrr.sort(key=lambda x: -x["implied_pct"])
+            top_n_hrr = all_hrr[:TOP_N]
+            payload = {
+                "date":     today,
+                "saved_at": datetime.now(tz=EASTERN).isoformat(),
+                "top_n":    TOP_N,
+                "point":    HRR_POINT,
+                "n_games":  len(upcoming),
+                "n_total":  len(all_hrr),
+                "picks":    top_n_hrr,
+            }
+            path = f"{HRR_TRACKER_DIR}/{today}.json"
+            gh.save_json(GH_TOKEN, OWNER, REPO, path, payload,
+                         commit_msg=f"H+R+R tracker: top {TOP_N} (O{HRR_POINT}) for {today}")
+            st.success(f"Saved {len(top_n_hrr)} H+R+R picks (O{HRR_POINT}) to GitHub at `{path}`.")
+        except Exception as e:
+            st.error(f"H+R+R save failed: {e}")
+
+    if "top_n_hrr" in locals() and top_n_hrr:
+        cols = ["batter", "team", "matchup", "vs_sp", "implied_pct",
+                "best_odds", "best_book"]
+        try:
+            df = pd.DataFrame(top_n_hrr).reindex(columns=cols).rename(columns={
+                "implied_pct": "Mkt %", "best_odds": "Odds",
+                "best_book": "Book", "vs_sp": "vs SP",
             })
             st.dataframe(df, use_container_width=True, hide_index=True)
         except Exception as e:
@@ -509,3 +670,185 @@ if selected_date:
             )
         else:
             st.info(f"No picks found in {selected_date}.json.")
+
+
+# ============================================================================
+# H+R+R Tracker — separate section below HR section
+# ============================================================================
+st.markdown("---")
+st.markdown(f"### 🏃 H+R+R Tracker (Over {HRR_POINT})")
+st.caption(
+    f"Tracks the top {TOP_N} Over {HRR_POINT} Hits+Runs+RBIs picks each day. "
+    "Currently uses **DraftKings consensus** (most-likely-to-clear ranking) since "
+    "we don't have a dedicated H+R+R model yet. FD/MGM/Caesars typically post "
+    "closer to first pitch and will be picked up automatically when available."
+)
+
+@st.cache_data(ttl=300, show_spinner=False)
+def cached_list_hrr_files():
+    files = gh.list_dir(GH_TOKEN, OWNER, REPO, HRR_TRACKER_DIR)
+    return [f for f in files if f["name"].endswith(".json") and not f["name"].startswith("_")]
+
+@st.cache_data(ttl=600, show_spinner=False)
+def cached_load_hrr(path):
+    return gh.load_json(GH_TOKEN, OWNER, REPO, path)
+
+with st.spinner("Loading H+R+R history..."):
+    hrr_files = cached_list_hrr_files()
+
+if not hrr_files:
+    st.info(f"No H+R+R tracker files yet. Click **🏃 Save H+R+R top 10 (O{HRR_POINT})** above to start tracking.")
+else:
+    hrr_files.sort(key=lambda f: f["name"], reverse=True)
+    st.caption(f"📦 {len(hrr_files)} H+R+R day(s) saved in GitHub")
+
+    # Aggregate H+R+R stats across settled days
+    hrr_daily = []
+    for tf in hrr_files:
+        date_str = tf["name"][:-5]
+        if date_str >= today: continue
+        slate = cached_load_hrr(tf["path"])
+        if not slate: continue
+        picks = slate.get("picks", [])
+        if not picks: continue
+        game_pks = list({p["game_pk"] for p in picks if p.get("game_pk")})
+        hrr_map = {gpk: (cached_fetch_hrr_map(gpk) or {}) for gpk in game_pks}
+        pt = slate.get("point", HRR_POINT)
+
+        def hit(p):
+            tot = hrr_map.get(p["game_pk"], {}).get(p["batter_id"])
+            return tot is not None and tot > pt
+
+        t5 = sum(1 for p in picks[:5] if hit(p))
+        t10 = sum(1 for p in picks[:10] if hit(p))
+        # P&L on top 5 at flat $10
+        pnl5, bet5 = 0.0, 0
+        for p in picks[:5]:
+            if p.get("best_odds") is None: continue
+            bet5 += 1
+            am = p["best_odds"]
+            dec = 1 + am/100 if am > 0 else 1 + 100/abs(am)
+            pnl5 += (10 * dec - 10) if hit(p) else -10
+        hrr_daily.append({
+            "Date":    date_str,
+            "Line":    f"O{pt}",
+            "Top 5":   f"{t5}/5",
+            "Top 10":  f"{t10}/10",
+            "$ Bet":   bet5 * 10,
+            "PnL@$10": round(pnl5, 2),
+            "AvgImp%": round(sum(p["implied_pct"] for p in picks[:5] if p.get("implied_pct") is not None)
+                              / max(1, sum(1 for p in picks[:5] if p.get("implied_pct") is not None)), 1),
+        })
+
+    if hrr_daily:
+        n = len(hrr_daily)
+        t5 = sum(int(r["Top 5"].split("/")[0]) for r in hrr_daily)
+        t10 = sum(int(r["Top 10"].split("/")[0]) for r in hrr_daily)
+        pnl = sum(r["PnL@$10"] for r in hrr_daily)
+        bet = sum(r["$ Bet"] for r in hrr_daily)
+
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Days tracked", n)
+        m2.metric("Top 5 hit rate", f"{t5}/{n*5}",
+                  delta=f"{t5/(n*5)*100:.1f}%")
+        m3.metric("Top 10 hit rate", f"{t10}/{n*10}",
+                  delta=f"{t10/(n*10)*100:.1f}%")
+        if bet:
+            roi = pnl / bet * 100
+            m4.metric("Top 5 P&L (flat $10)", f"${pnl:+.2f}",
+                      delta=f"{roi:+.1f}% ROI")
+        st.markdown("#### Daily breakdown — H+R+R")
+        st.dataframe(pd.DataFrame(hrr_daily), use_container_width=True, hide_index=True)
+
+    # Per-day viewer for H+R+R
+    st.markdown("#### 🔎 View H+R+R picks for a specific day")
+    hrr_date_options = [tf["name"][:-5] for tf in hrr_files]
+    selected_hrr_date = st.selectbox(
+        "Select a saved H+R+R date",
+        options=hrr_date_options,
+        index=0,
+        key="hrr_date_picker",
+    )
+
+    if selected_hrr_date:
+        sel = next((tf for tf in hrr_files if tf["name"] == f"{selected_hrr_date}.json"), None)
+        if sel:
+            slate = cached_load_hrr(sel["path"])
+            if slate and slate.get("picks"):
+                picks = slate["picks"]
+                pt = slate.get("point", HRR_POINT)
+                is_today = (selected_hrr_date >= today)
+
+                hrr_map = {}
+                if not is_today:
+                    game_pks = list({p["game_pk"] for p in picks if p.get("game_pk")})
+                    hrr_map = {gpk: (cached_fetch_hrr_map(gpk) or {}) for gpk in game_pks}
+
+                display_rows = []
+                for i, p in enumerate(picks, 1):
+                    actual = None
+                    won = None
+                    if not is_today and p.get("game_pk") in hrr_map:
+                        actual = hrr_map[p["game_pk"]].get(p["batter_id"])
+                        if actual is not None:
+                            won = actual > pt
+                    if is_today or actual is None:
+                        result = "⏳ pending"
+                    elif won:
+                        result = f"🟢 {actual} H+R+R"
+                    else:
+                        result = f"⚪ {actual} H+R+R"
+                    display_rows.append({
+                        "#":        i,
+                        "Result":   result,
+                        "Batter":   p.get("batter", "?"),
+                        "Team":     p.get("team", "?"),
+                        "Matchup":  p.get("matchup", "?"),
+                        "vs SP":    p.get("vs_sp", "?"),
+                        "Park":     p.get("park", "?"),
+                        "Line":     f"O{pt}",
+                        "Mkt %":    p.get("implied_pct"),
+                        "Odds":     p.get("best_odds"),
+                        "Book":     p.get("best_book"),
+                    })
+
+                if not is_today and hrr_map:
+                    def hit(p):
+                        tot = hrr_map.get(p["game_pk"], {}).get(p["batter_id"])
+                        return tot is not None and tot > pt
+                    t5 = sum(1 for p in picks[:5] if hit(p))
+                    t10 = sum(1 for p in picks[:10] if hit(p))
+                    pnl, bet = 0.0, 0
+                    for p in picks[:5]:
+                        if p.get("best_odds") is None: continue
+                        bet += 1
+                        am = p["best_odds"]
+                        dec = 1 + am/100 if am > 0 else 1 + 100/abs(am)
+                        pnl += (10 * dec - 10) if hit(p) else -10
+                    summary = f"**Top 5: {t5}/5** • **Top 10: {t10}/10**"
+                    if bet:
+                        summary += f" • **P&L @ $10 flat: ${pnl:+.2f}** ({bet} bet{'s' if bet != 1 else ''})"
+                    st.markdown(summary)
+                else:
+                    n_odds = sum(1 for p in picks if p.get("best_odds") is not None)
+                    st.markdown(f"⏳ Games haven't settled yet • {n_odds}/{len(picks)} picks have odds attached")
+
+                df_view = pd.DataFrame(display_rows)
+                for col in ("Mkt %", "Odds"):
+                    if col in df_view.columns:
+                        df_view[col] = pd.to_numeric(df_view[col], errors="coerce")
+                st.dataframe(
+                    df_view,
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "Mkt %":  st.column_config.NumberColumn(format="%.2f%%"),
+                        "Odds":   st.column_config.NumberColumn(format="%+d"),
+                    },
+                )
+                st.caption(
+                    f"Saved at {slate.get('saved_at', '?')[:19]}  •  "
+                    f"{slate.get('n_games', '?')} games, {slate.get('n_total', '?')} total H+R+R offers"
+                )
+            else:
+                st.info(f"No picks found in {selected_hrr_date}.json.")

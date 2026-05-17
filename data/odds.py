@@ -325,6 +325,76 @@ def get_hr_odds(api_key: str, event_id: str,
     return rows
 
 
+def get_hrr_odds(api_key: str, event_id: str,
+                 point: float = 1.5,
+                 bookmakers: str = DEFAULT_BOOKS) -> list:
+    """
+    Player Hits + Runs + RBIs (H+R+R) prop odds for a single event.
+
+    Most sharp books post H+R+R only under the `batter_hits_runs_rbis_alternate`
+    market, which exposes multiple thresholds (0.5, 1.5, 2.5, 3.5, 4.5) per
+    player. We filter to a single `point` (default 1.5 = the most common line —
+    needs any 2 of hits/runs/RBIs to cash). The market is typically Over-only.
+
+    Currently DraftKings is the most consistent poster; FanDuel/BetMGM/Caesars
+    often add coverage 4-8h before first pitch.
+
+    Returns one row per (bookmaker, player):
+      {bookmaker, bookmaker_name, player, point,
+       american_odds, decimal_odds, implied_prob}
+
+    Costs: 1 request per call.
+    """
+    if not api_key or not event_id:
+        return []
+
+    rows = []
+    seen_keys = set()   # dedupe (bookmaker, player)
+
+    params = urllib.parse.urlencode({
+        "apiKey":     api_key,
+        "regions":    "us",
+        "markets":    "batter_hits_runs_rbis_alternate",
+        "bookmakers": bookmakers,
+        "oddsFormat": "american",
+    })
+    try:
+        data, _ = _fetch(f"{BASE}/sports/{SPORT_KEY}/events/{event_id}/odds?{params}")
+    except OddsAPIError:
+        data = {}
+
+    for bm in (data or {}).get("bookmakers", []):
+        bm_key = bm.get("key"); bm_title = bm.get("title")
+        for market in bm.get("markets", []):
+            if market.get("key") != "batter_hits_runs_rbis_alternate":
+                continue
+            for outcome in market.get("outcomes", []):
+                name = (outcome.get("name") or "").strip().lower()
+                if name != "over":
+                    continue   # Over-only market
+                pt = outcome.get("point")
+                if pt is None or float(pt) != float(point):
+                    continue   # only the requested threshold
+                player = outcome.get("description") or outcome.get("name")
+                price = outcome.get("price")
+                if price is None or not player:
+                    continue
+                k = (bm_key, player)
+                if k in seen_keys:
+                    continue
+                seen_keys.add(k)
+                rows.append({
+                    "bookmaker":      bm_key,
+                    "bookmaker_name": bm_title,
+                    "player":         player,
+                    "point":          float(pt),
+                    "american_odds":  int(price),
+                    "decimal_odds":   american_to_decimal(int(price)),
+                    "implied_prob":   american_to_implied(int(price)),
+                })
+    return rows
+
+
 def get_alternate_prop_odds(
     api_key: str,
     event_id: str,
