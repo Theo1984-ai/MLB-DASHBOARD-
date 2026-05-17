@@ -486,8 +486,14 @@ if selected_date:
                 n_odds = sum(1 for p in picks if p.get("best_odds") is not None)
                 st.markdown(f"⏳ Games haven't settled yet • {n_odds}/{len(picks)} picks have sharp odds attached")
 
+            # Build DataFrame, then coerce numeric cols so NumberColumn doesn't
+            # crash on object-dtype columns (happens when every pick has None odds).
+            df_view = pd.DataFrame(display_rows)
+            for col in ("Model %", "Mkt %", "Edge pp", "Odds"):
+                if col in df_view.columns:
+                    df_view[col] = pd.to_numeric(df_view[col], errors="coerce")
             st.dataframe(
-                pd.DataFrame(display_rows),
+                df_view,
                 use_container_width=True,
                 hide_index=True,
                 column_config={
