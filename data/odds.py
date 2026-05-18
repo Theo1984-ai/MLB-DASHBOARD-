@@ -25,8 +25,13 @@ HR_MARKET_ALT = "batter_home_runs_alternate"  # DK/FD/MGM/Caesars use this with 
 # Sharp US books for HR props. BetOnline.ag intentionally excluded by default —
 # their HR lines are routinely stale longshots (+18,000-+19,900) that don't
 # match real market consensus.
-DEFAULT_BOOKS = "draftkings,fanduel,betmgm,caesars"
-SHARP_HR_BOOKS = "draftkings,fanduel,betmgm,caesars"  # alias for HR-specific use
+# Sharp US books. `williamhill_us` is The Odds API's key for Caesars
+# (Caesars acquired William Hill US in 2021 but kept the legacy API key).
+# `bovada` is offshore but their MLB/NBA mainline prices are typically aligned
+# with sharp consensus (we exclude BetOnline / MyBookie / BetUS which post
+# stale longshot lines that fake edges).
+DEFAULT_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_HR_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"  # alias for HR-specific use
 
 # Alternate-line markets: higher-probability bets that price at negative odds
 ALT_PROP_MARKETS = {
@@ -169,7 +174,7 @@ def get_events(api_key: str) -> list:
 
 
 def get_game_lines(api_key: str, event_id: str,
-                   bookmakers: str = "draftkings,fanduel,betmgm,betrivers,caesars") -> list:
+                   bookmakers: str = "draftkings,fanduel,betmgm,betrivers,williamhill_us,bovada") -> list:
     """
     Pull moneyline (h2h), spread (run-line), and total (over/under) odds
     for a single MLB event. Game-line markets are available on the free

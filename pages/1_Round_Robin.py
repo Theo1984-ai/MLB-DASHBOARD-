@@ -142,10 +142,11 @@ with hc1:
 with hc2:
     books = st.multiselect(
         "Books",
-        options=["draftkings", "fanduel", "betmgm", "caesars", "betrivers", "betonlineag"],
-        default=["draftkings", "fanduel", "betmgm", "caesars"],
-        help="Game lines (h2h/spreads/totals) work on all major books. HR props only "
-             "appear from BetOnline.ag and BetRivers on the free Odds API tier.",
+        options=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada", "betrivers", "fanatics", "betonlineag"],
+        default=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada"],
+        help="Sharp default = DK / FD / BetMGM / Caesars (williamhill_us) / Bovada. "
+             "Caesars is keyed as `williamhill_us` in The Odds API. "
+             "Bovada is offshore but their mainline prices align with sharp consensus.",
     )
 with hc3:
     if st.button(" Refresh", use_container_width=True):
@@ -154,7 +155,7 @@ with hc3:
 
 date_str = selected_date.strftime("%Y-%m-%d")
 season = selected_date.year
-books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,caesars"
+books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada"
 
 
 # ---------- Load schedule + run game predictions ----------
@@ -280,7 +281,7 @@ else:
 if pull_hr:
     with st.spinner("Pulling HR prop odds..."):
         for g in upcoming:
-            g["hr_offers"] = load_hr_odds(odds_key, g["event_id"], "draftkings,fanduel,betmgm,caesars")
+            g["hr_offers"] = load_hr_odds(odds_key, g["event_id"], "draftkings,fanduel,betmgm,williamhill_us,bovada")
     st.session_state["hr_loaded_at"] = datetime.now(tz=EASTERN).isoformat()
     st.session_state["loaded_hr"] = {g["event_id"]: g["hr_offers"] for g in upcoming}
     st.rerun()

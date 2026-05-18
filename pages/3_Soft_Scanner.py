@@ -73,7 +73,11 @@ if not ODDS_KEY:
 
 # ---------- Config ----------
 
-SHARP_BOOKS = "draftkings,fanduel,betmgm,caesars"
+# `williamhill_us` = Caesars (Caesars acquired William Hill US in 2021 but
+# the API kept the legacy key). `bovada` is offshore but their mainline
+# pricing is sharp consensus — we exclude BetOnline / MyBookie / BetUS
+# which post stale longshot lines that fake edges.
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
 MARKET_GROUPS = {
     "HR":    ["batter_home_runs", "batter_home_runs_alternate"],
     "H+R+R": ["batter_hits_runs_rbis_alternate"],

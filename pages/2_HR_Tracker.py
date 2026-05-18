@@ -233,7 +233,7 @@ if save_btn:
 
                 sharp_odds = {}
                 if eid:
-                    for o in odds_api.get_hr_odds(ODDS_KEY, eid, "draftkings,fanduel,betmgm,caesars"):
+                    for o in odds_api.get_hr_odds(ODDS_KEY, eid, "draftkings,fanduel,betmgm,williamhill_us,bovada"):
                         n = odds_api.normalize_name(o["player"])
                         if n not in sharp_odds or o["american_odds"] > sharp_odds[n][0]:
                             sharp_odds[n] = (o["american_odds"], o["bookmaker"])

@@ -1667,14 +1667,16 @@ with tab_pred:
             else:
                 books = st.multiselect(
                     "Books",
-                    options=["draftkings", "fanduel", "betmgm", "caesars", "betrivers",
-                             "betonlineag", "lowvig", "mybookieag", "bovada"],
-                    default=["draftkings", "fanduel", "betmgm", "caesars"],
-                    help=("Sharp US books only by default. BetOnline.ag intentionally "
-                          "excluded — their HR lines are routinely stale longshots "
-                          "(+18,000+) that don't match real market consensus."),
+                    options=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada",
+                             "betrivers", "fanatics", "betonlineag", "lowvig", "mybookieag"],
+                    default=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada"],
+                    help=("Sharp US books only by default. Caesars is keyed as "
+                          "`williamhill_us` (Caesars acquired William Hill US). "
+                          "BetOnline.ag intentionally excluded — their HR lines are "
+                          "routinely stale longshots (+18,000+) that don't match real "
+                          "market consensus."),
                 )
-                books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,caesars"
+                books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada"
 
                 try:
                     with st.spinner("Loading odds events..."):
@@ -2302,11 +2304,12 @@ with tab_pred:
 
             _alt_books = st.multiselect(
                 "Books (alt lines)",
-                options=["draftkings", "fanduel", "betmgm", "caesars",
-                         "betonlineag", "betrivers", "lowvig", "mybookieag"],
-                default=["draftkings", "fanduel", "betmgm"],
+                options=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada",
+                         "betrivers", "fanatics", "betonlineag", "lowvig", "mybookieag"],
+                default=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada"],
                 key="alt_books_select",
-                help="Alternate hits / total-bases props. DK/FD/BetMGM typically post these.",
+                help="Alternate hits / total-bases props. DK/FD/BetMGM typically post these. "
+                     "Caesars is keyed as `williamhill_us` in The Odds API.",
             )
             _alt_books_str = ",".join(_alt_books) if _alt_books else "draftkings,fanduel,betmgm"
 
