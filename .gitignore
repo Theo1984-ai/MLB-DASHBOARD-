@@ -76,3 +76,9 @@ hr_backtest_old_vs_new.py
 
 # Tracker output is local — survives across pushes (don't commit big growing JSON history)
 hr_tracker/
+
+# Live pick status + soft-price scanner (local CLI tools — not used by cloud)
+nba_pick_status.py
+mlb_pick_status.py
+mlb_soft_scanner.py
+_*.py
