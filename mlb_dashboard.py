@@ -1263,12 +1263,18 @@ with tab_pred:
             weather = g["weather"] or {}
             game_pk = g["raw"].get("gamePk")
 
+            # Pre-fetch both bullpens once per game (cached)
+            game_home_id = g["home_team_id"]; game_away_id = g["away_team_id"]
+            game_home_bp = load_bullpen(game_home_id, season)
+            game_away_bp = load_bullpen(game_away_id, season)
+
             for side in ("away", "home"):
                 team_id = g[f"{side}_team_id"]
                 team_name = g[f"{side}_team"]
                 opp_pitcher = g["home_pitcher" if side == "away" else "away_pitcher"]
                 opp_stats   = g["home_stats"   if side == "away" else "away_stats"]
                 opp_pid     = g["home_pid"     if side == "away" else "away_pid"]
+                opp_bullpen = game_home_bp if side == "away" else game_away_bp
 
                 opp_savant = None
                 if opp_pid and not px_df.empty:
@@ -1374,6 +1380,8 @@ with tab_pred:
                         pitcher_savant_split=pitcher_savant_split,
                         pitcher_recent_form=opp_recent,
                         bvp_data=bvp_inline,
+                        bullpen_stats=opp_bullpen,
+                        lineup_spot=spot,
                     )
                     per_game = hr_model.predict_per_game(per_pa, expected_pa)
                     p_raw = per_game["p_at_least_one"]

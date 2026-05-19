@@ -231,6 +231,27 @@ if save_btn:
                             if pid and pid not in il: all_pids.append((pid, tid))
                 handedness = mlb_api.get_handedness(list({p for p, _ in all_pids}))
 
+                # Opposing team bullpen stats (for HR factor blend) + lineup spots
+                home_bp = mlb_api.get_team_bullpen_stats(home_id, season) or {}
+                away_bp = mlb_api.get_team_bullpen_stats(away_id, season) or {}
+                pid_to_spot = {}
+                try:
+                    bx = json.loads(urllib.request.urlopen(
+                        f"https://statsapi.mlb.com/api/v1/game/{g.get('gamePk')}/boxscore",
+                        timeout=10, context=_UNVERIFIED_SSL).read())
+                    for side in ("away", "home"):
+                        for _, pp in bx.get("teams", {}).get(side, {}).get("players", {}).items():
+                            bo = pp.get("battingOrder")
+                            if bo:
+                                try:
+                                    spot = int(bo) // 100
+                                    if 1 <= spot <= 9:
+                                        pid_to_spot[pp["person"]["id"]] = spot
+                                except (ValueError, TypeError):
+                                    pass
+                except Exception:
+                    pass
+
                 sharp_odds = {}
                 if eid:
                     for o in odds_api.get_hr_odds(ODDS_KEY, eid, "draftkings,fanduel,betmgm,williamhill_us,bovada"):
@@ -269,6 +290,11 @@ if save_btn:
                             h = df_s[df_s["player_id"] == opp_pid]
                             if not h.empty: p_split = h.iloc[0].to_dict()
 
+                    # Opposing team bullpen for the BP blend
+                    opp_bullpen = home_bp if tid == away_id else away_bp
+                    spot = pid_to_spot.get(pid)
+                    expected_pa = hr_model.expected_pa_for_spot(spot)
+
                     per_pa = hr_model.predict_per_pa(
                         batter_savant=bs, pitcher_stats=opp_stats, pitcher_savant=opp_savant,
                         park_hr=stadium["hr_factor"], weather=weather_g,
@@ -277,8 +303,9 @@ if save_btn:
                         pitcher_splits=opp_splits, recent_stats=b_recent,
                         pitcher_arsenal=opp_ars, batter_pitch_perf=b_pitch_perf,
                         pitcher_savant_split=p_split, pitcher_recent_form=opp_recent,
+                        bullpen_stats=opp_bullpen, lineup_spot=spot,
                     )
-                    per_game = hr_model.predict_per_game(per_pa, 4.3)
+                    per_game = hr_model.predict_per_game(per_pa, expected_pa)
                     p_cal = cal_model.apply_calibration(per_game["p_at_least_one"], cal_params)
                     bname = bs.get("player_name", "?")
                     norm = odds_api.normalize_name(bname)

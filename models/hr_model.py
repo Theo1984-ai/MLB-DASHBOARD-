@@ -128,16 +128,26 @@ def handedness_factor(batter_hand: str | None,
     return max(0.6, min(1.7, factor))
 
 
-def pitcher_matchup_factor(pitcher_stats: dict, pitcher_savant: dict | None = None) -> float:
+def pitcher_matchup_factor(pitcher_stats: dict, pitcher_savant: dict | None = None,
+                           bullpen_stats: dict | None = None,
+                           lineup_spot: int | None = None) -> float:
     """
-    Pitcher's HR-allow tendency vs league.
-    Combines actual HR/9 with xERA-based xwOBA-allowed for stability.
+    Pitcher's HR-allow tendency vs league. Combines actual HR/9 with xERA-based
+    xwOBA-allowed for stability. Optionally blends in opposing bullpen HR/9 since
+    most batters face BP for 1-2 of their 4 PAs.
+
+    Args:
+      pitcher_stats: starter season stats {hr_per9, ip, ...}
+      pitcher_savant: optional Statcast xStats for the starter
+      bullpen_stats: optional team bullpen aggregates {hr_per9, ip, n_relievers}
+                     If provided, factor becomes weighted blend of SP and BP.
+      lineup_spot: optional batting order (1-9). If known, adjusts SP/BP weight
+                   (top of order sees more SP, bottom sees more BP).
     """
     hr9 = _safe(pitcher_stats.get("hr_per9"), league.HR_PER_9)
     ip = _safe(pitcher_stats.get("ip"), 0) or 0
-    bf_equiv = ip * 4.3  # rough batters-faced-per-IP
+    bf_equiv = ip * 4.3
 
-    # Regress sparse-sample pitchers toward league average
     obs_rate_per_9 = hr9 if bf_equiv > 0 else league.HR_PER_9
     regressed_hr9 = league.regress(
         observed_rate=obs_rate_per_9,
@@ -145,13 +155,43 @@ def pitcher_matchup_factor(pitcher_stats: dict, pitcher_savant: dict | None = No
         prior_rate=league.HR_PER_9,
         prior_weight=league.PRIOR_WEIGHT_PITCHER_BF,
     )
-    factor = regressed_hr9 / league.HR_PER_9
+    sp_factor = regressed_hr9 / league.HR_PER_9
 
-    # Blend in xERA-based factor if available (more stable than ERA)
+    # Blend in xERA-based factor if available
     if pitcher_savant:
         xwoba_against = _safe(pitcher_savant.get("xwoba_against"), league.xwOBA_AGAINST)
-        x_factor = (xwoba_against / league.xwOBA_AGAINST) ** 1.5  # exponent: HR-elasticity to wOBA
-        factor = (factor * 0.7) + (x_factor * 0.3)
+        x_factor = (xwoba_against / league.xwOBA_AGAINST) ** 1.5
+        sp_factor = (sp_factor * 0.7) + (x_factor * 0.3)
+
+    # Bullpen blend — most batters face BP for 1-2 of their PAs.
+    # Top of order (1-3) faces SP for ~3/4 PAs, bottom (7-9) for ~2/4 PAs.
+    if bullpen_stats and bullpen_stats.get("hr_per9") is not None:
+        bp_hr9 = _safe(bullpen_stats.get("hr_per9"), league.HR_PER_9)
+        bp_ip = _safe(bullpen_stats.get("ip"), 0) or 0
+        bp_bf_equiv = bp_ip * 4.3
+        bp_regressed = league.regress(
+            observed_rate=bp_hr9,
+            observed_n=bp_bf_equiv,
+            prior_rate=league.HR_PER_9,
+            prior_weight=league.PRIOR_WEIGHT_PITCHER_BF,
+        )
+        bp_factor = bp_regressed / league.HR_PER_9
+
+        # Spot-aware SP/BP weighting (proportion of PAs vs SP)
+        if lineup_spot and 1 <= lineup_spot <= 9:
+            sp_weight_table = {
+                1: 0.75, 2: 0.72, 3: 0.70,
+                4: 0.68, 5: 0.65, 6: 0.62,
+                7: 0.58, 8: 0.55, 9: 0.52,
+            }
+            sp_weight = sp_weight_table[lineup_spot]
+        else:
+            sp_weight = 0.65   # default — modal batter
+
+        factor = sp_weight * sp_factor + (1 - sp_weight) * bp_factor
+    else:
+        factor = sp_factor
+
     return max(0.5, min(2.0, factor))
 
 
@@ -307,6 +347,8 @@ def predict_per_pa(
     pitcher_savant_split: dict | None = None,
     pitcher_recent_form: dict | None = None,
     bvp_data: dict | None = None,
+    bullpen_stats: dict | None = None,
+    lineup_spot: int | None = None,
 ) -> dict:
     """
     Returns full breakdown plus final per-PA HR probability.
@@ -320,7 +362,9 @@ def predict_per_pa(
     """
     base      = league.HR_PER_PA
     f_bat     = batter_skill_factor(batter_savant, recent_stats=recent_stats)
-    f_pit     = pitcher_matchup_factor(pitcher_stats, pitcher_savant)
+    f_pit     = pitcher_matchup_factor(pitcher_stats, pitcher_savant,
+                                       bullpen_stats=bullpen_stats,
+                                       lineup_spot=lineup_spot)
     f_park    = park_factor_handed(stadium, batter_hand) if stadium else park_factor(park_hr)
     f_hand    = handedness_factor(batter_hand, pitcher_hand, pitcher_splits, pitcher_savant_split)
     f_arsenal = pitch_arsenal_factor(pitcher_arsenal, batter_pitch_perf)

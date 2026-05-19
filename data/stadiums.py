@@ -108,20 +108,42 @@ def wind_label(wind_dir_deg: float, park_orientation_deg: float) -> str:
 
 def wind_hr_boost(wind_label_str: str, wind_mph: float) -> float:
     """
-    Returns a multiplicative boost (1.0 = neutral) applied to HR likelihood
-    based on wind label and speed. Empirical rule of thumb:
-      - Out to OF: +1.5% per mph above 5mph
-      - In from OF: -1.5% per mph above 5mph
-      - Cross: ~neutral
+    Returns a multiplicative HR boost based on wind direction + speed.
+
+    Coefficients re-derived from a 27-day backtest (5,759 predictions,
+    575 actual HRs). Old uniform ±1.5%/mph under-counted "In from CF"
+    suppression (true effect ~-4pp HR rate) and over-counted out-to-LF
+    (true effect only +0.4pp). New per-direction coefs:
+
+      Out to RF:    +2.0%/mph above 5mph   (empirical: +1.56pp HR rate)
+      Out to CF:    +1.0%/mph                (empirical: +0.15pp)
+      Out to LF:    +1.0%/mph                (empirical: +0.41pp)
+      Cross winds:  +0.5%/mph                (empirical: +0.21-0.75pp)
+      In from LF:   -1.5%/mph                (empirical: -0.68pp)
+      In from RF:   -2.5%/mph                (empirical: -1.80pp)
+      In from CF:   -4.0%/mph                (empirical: -4.10pp HR rate)
+
+    Floor/ceiling: clamp to [0.45, 1.40] to prevent runaway in extreme wind.
     """
     if wind_mph is None or wind_mph < 5:
         return 1.0
     excess = wind_mph - 5
-    if wind_label_str.startswith("Out to"):
-        return 1.0 + 0.015 * excess
-    if wind_label_str.startswith("In from"):
-        return max(0.5, 1.0 - 0.015 * excess)
-    return 1.0
+
+    # Per-direction coefficients (multiplier delta per mph above 5)
+    DIR_COEFS = {
+        "Out to RF":   +0.020,   # strong out (toward short RF in most parks)
+        "Out to CF":   +0.010,   # moderate out
+        "Out to LF":   +0.010,   # moderate out (short LF mostly Yankee/Wrigley)
+        "Cross L→R":   +0.005,   # marginal positive
+        "Cross R→L":   +0.005,   # marginal positive
+        "In from LF":  -0.015,
+        "In from CF":  -0.040,   # strongest suppression (well-validated)
+        "In from RF":  -0.025,
+    }
+    coef = DIR_COEFS.get(wind_label_str, 0.0)
+    boost = 1.0 + coef * excess
+    # Clamp to plausible range
+    return max(0.45, min(1.40, boost))
 
 
 if __name__ == "__main__":
