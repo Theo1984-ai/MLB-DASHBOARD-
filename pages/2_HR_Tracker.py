@@ -336,10 +336,15 @@ if save_btn:
                                else abs(odds_data[0]) / (abs(odds_data[0]) + 100))
                         rec["implied_pct"] = round(imp * 100, 2)
                         rec["edge_pp"]     = round(p_cal * 100 - imp * 100, 2)
-                    # Confidence score — combines model prob + edge with red flags
-                    conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
-                    rec["confidence"]      = conf["score"]
-                    rec["confidence_tier"] = conf["tier"]
+                    # Confidence score — combines model prob + edge with red flags.
+                    # Defensive: skip silently if the helper isn't loaded (mid-deploy)
+                    if hasattr(hr_model, "pick_confidence"):
+                        conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
+                        rec["confidence"]      = conf["score"]
+                        rec["confidence_tier"] = conf["tier"]
+                    else:
+                        rec["confidence"]      = None
+                        rec["confidence_tier"] = None
                     all_preds.append(rec)
 
             progress.empty()
@@ -741,7 +746,7 @@ if selected_date:
                 # Backfill confidence on older saved picks that don't have it
                 conf_tier = p.get("confidence_tier")
                 conf_score = p.get("confidence")
-                if conf_tier is None:
+                if conf_tier is None and hasattr(hr_model, "pick_confidence"):
                     c = hr_model.pick_confidence(p.get("model_p_pct"), p.get("edge_pp"))
                     conf_tier = c["tier"]
                     conf_score = c["score"]

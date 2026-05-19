@@ -1416,8 +1416,14 @@ with tab_pred:
                         # Probability-based confidence (no edge here — odds get
                         # merged later in a separate step). HR Tracker page has
                         # the richer edge-aware version.
-                        "Confidence":    hr_model.pick_confidence_tier(
-                            hr_model.pick_confidence_score(round(p_cal * 100, 2))),
+                        # Defensive: fall back to legacy label if new functions
+                        # haven't loaded yet (mid-redeploy on Streamlit Cloud).
+                        "Confidence":    (
+                            hr_model.pick_confidence_tier(
+                                hr_model.pick_confidence_score(round(p_cal * 100, 2)))
+                            if hasattr(hr_model, "pick_confidence_tier")
+                            else hr_model.confidence_label(per_pa)
+                        ),
                         "Game":          f"{g['away_team']} @ {g['home_team']}",
                         # Logging-only fields (kept here for the JSONL writer)
                         "_game_pk":      game_pk,
