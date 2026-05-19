@@ -1413,7 +1413,11 @@ with tab_pred:
                         "Wind":          per_pa["wind_label"],
                         "L15 HR":        (recent_b or {}).get("hr"),
                         "L15 PA":        (recent_b or {}).get("pa"),
-                        "Confidence":    hr_model.confidence_label(per_pa),
+                        # Probability-based confidence (no edge here — odds get
+                        # merged later in a separate step). HR Tracker page has
+                        # the richer edge-aware version.
+                        "Confidence":    hr_model.pick_confidence_tier(
+                            hr_model.pick_confidence_score(round(p_cal * 100, 2))),
                         "Game":          f"{g['away_team']} @ {g['home_team']}",
                         # Logging-only fields (kept here for the JSONL writer)
                         "_game_pk":      game_pk,

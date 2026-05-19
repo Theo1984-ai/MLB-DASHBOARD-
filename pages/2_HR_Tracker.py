@@ -336,6 +336,10 @@ if save_btn:
                                else abs(odds_data[0]) / (abs(odds_data[0]) + 100))
                         rec["implied_pct"] = round(imp * 100, 2)
                         rec["edge_pp"]     = round(p_cal * 100 - imp * 100, 2)
+                    # Confidence score — combines model prob + edge with red flags
+                    conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
+                    rec["confidence"]      = conf["score"]
+                    rec["confidence_tier"] = conf["tier"]
                     all_preds.append(rec)
 
             progress.empty()
@@ -361,18 +365,22 @@ if st.session_state.get("hr_preview_picks"):
     st.caption(f"Generated {at_str}  •  {meta.get('n_games','?')} games, "
                f"{meta.get('n_total','?')} total predictions  •  **NOT yet saved**")
 
-    cols = ["batter", "team", "matchup", "vs_sp", "park", "model_p_pct",
-            "implied_pct", "edge_pp", "best_odds", "best_book"]
+    cols = ["confidence_tier", "confidence", "batter", "team", "matchup",
+            "vs_sp", "park", "model_p_pct", "implied_pct", "edge_pp",
+            "best_odds", "best_book"]
     df_prev = pd.DataFrame(preview).reindex(columns=cols).rename(columns={
+        "confidence_tier": "Conf", "confidence": "Score",
         "vs_sp": "vs SP", "model_p_pct": "Model %", "implied_pct": "Mkt %",
         "edge_pp": "Edge", "best_odds": "Odds", "best_book": "Book",
     })
-    for c in ("Model %", "Mkt %", "Edge", "Odds"):
+    for c in ("Model %", "Mkt %", "Edge", "Odds", "Score"):
         if c in df_prev.columns:
             df_prev[c] = pd.to_numeric(df_prev[c], errors="coerce")
     st.dataframe(
         df_prev, use_container_width=True, hide_index=True,
         column_config={
+            "Conf":    st.column_config.TextColumn(width="small"),
+            "Score":   st.column_config.NumberColumn(format="%d", width="small"),
             "Model %": st.column_config.NumberColumn(format="%.2f%%"),
             "Mkt %":   st.column_config.NumberColumn(format="%.2f%%"),
             "Edge":    st.column_config.NumberColumn(format="%+.2f"),
@@ -730,8 +738,17 @@ if selected_date:
                 if not is_today and p.get("game_pk") in hr_map:
                     won = p["batter_id"] in hr_map[p["game_pk"]]
                 result = "🟢 HR" if won is True else ("⚪ —" if won is False else "⏳ pending")
+                # Backfill confidence on older saved picks that don't have it
+                conf_tier = p.get("confidence_tier")
+                conf_score = p.get("confidence")
+                if conf_tier is None:
+                    c = hr_model.pick_confidence(p.get("model_p_pct"), p.get("edge_pp"))
+                    conf_tier = c["tier"]
+                    conf_score = c["score"]
                 display_rows.append({
                     "#":        i,
+                    "Conf":     conf_tier,
+                    "Score":    conf_score,
                     "Result":   result,
                     "Batter":   p.get("batter", "?"),
                     "Team":     p.get("team", "?"),
@@ -772,7 +789,7 @@ if selected_date:
             # Build DataFrame, then coerce numeric cols so NumberColumn doesn't
             # crash on object-dtype columns (happens when every pick has None odds).
             df_view = pd.DataFrame(display_rows)
-            for col in ("Model %", "Mkt %", "Edge pp", "Odds"):
+            for col in ("Model %", "Mkt %", "Edge pp", "Odds", "Score"):
                 if col in df_view.columns:
                     df_view[col] = pd.to_numeric(df_view[col], errors="coerce")
             st.dataframe(
@@ -780,6 +797,8 @@ if selected_date:
                 use_container_width=True,
                 hide_index=True,
                 column_config={
+                    "Conf":     st.column_config.TextColumn(width="small"),
+                    "Score":    st.column_config.NumberColumn(format="%d", width="small"),
                     "Model %":  st.column_config.NumberColumn(format="%.2f%%"),
                     "Mkt %":    st.column_config.NumberColumn(format="%.2f%%"),
                     "Edge pp":  st.column_config.NumberColumn(format="%+.2f"),

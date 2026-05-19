@@ -442,8 +442,8 @@ def expected_pa_for_spot(lineup_spot: int | None) -> float:
 
 def confidence_label(per_pa_result: dict) -> str:
     """
-    Crude qualitative confidence label based on how extreme the multipliers are.
-    More extreme = noisier estimate (in either direction).
+    Legacy: crude qualitative label based on factor extremity (variance proxy).
+    Kept for backwards compatibility with older code paths.
     """
     extreme = abs(per_pa_result["f_batter"] - 1.0) + abs(per_pa_result["f_pitcher"] - 1.0)
     if extreme < 0.4:
@@ -451,6 +451,94 @@ def confidence_label(per_pa_result: dict) -> str:
     if extreme < 0.8:
         return "High"
     return "Wide"
+
+
+def pick_confidence_score(model_p_pct: float | None,
+                          edge_pp: float | None = None) -> int:
+    """
+    Composite 0-100 confidence score for an HR pick.
+
+    Combines two signals derived from the 27-day backtest:
+
+      1. MODEL PROBABILITY MAGNITUDE (0-60 pts)
+         Higher model probability = stronger signal. Penalty applied to
+         15-20% bin which was empirically +3pp overconfident.
+
+      2. EDGE VS MARKET (0-40 pts, with red flags)
+         Positive edge means the soft market hasn't caught up to the model.
+         BUT: extreme positive edge (>15pp) is usually model error (Baldwin
+         at +25pp went 0-for-4; market knew better). Heavy penalty for
+         suspect-large edges.
+         Negative edge means the sharp market disagrees with the model —
+         model probably overestimating.
+
+    Returns: integer 0-100, where 0 = fade, 100 = max confidence.
+    """
+    p = model_p_pct or 0
+
+    # Component 1: model probability magnitude
+    if p >= 30:        prob_score = 50
+    elif p >= 25:      prob_score = 50
+    elif p >= 20:      prob_score = 42
+    elif p >= 17:      prob_score = 35
+    elif p >= 15:      prob_score = 28
+    elif p >= 12:      prob_score = 20
+    elif p >= 10:      prob_score = 13
+    elif p >= 8:       prob_score = 7
+    elif p >= 5:       prob_score = max(0, int((p - 4) * 1.5))
+    else:              prob_score = 0
+
+    # Empirical penalty: 15-20% bin overconfidence (+3pp historical bias)
+    if 15 <= p < 20:
+        prob_score -= 5
+
+    # Component 2: market edge
+    if edge_pp is None:
+        # No odds — can't assess market disagreement
+        edge_score = 20    # neutral / partial credit
+    elif edge_pp > 15:
+        # Extreme positive edge = likely model error, not real soft line
+        edge_score = 5
+    elif edge_pp >= 8:
+        edge_score = 40
+    elif edge_pp >= 5:
+        edge_score = 32
+    elif edge_pp >= 2:
+        edge_score = 22
+    elif edge_pp >= 0:
+        edge_score = 13
+    elif edge_pp >= -3:
+        edge_score = 5
+    elif edge_pp >= -8:
+        edge_score = -5
+    else:
+        edge_score = -15
+
+    total = max(0, min(100, prob_score + edge_score))
+    return int(total)
+
+
+def pick_confidence_tier(score: int) -> str:
+    """
+    Maps a confidence score to a tier label + emoji.
+      75+  HIGH    — bet with conviction
+      55+  MED     — moderate edge, normal stake
+      35+  LOW     — small stake or pass
+      <35  FADE    — skip
+    """
+    if score >= 75:
+        return "🟢 HIGH"
+    if score >= 55:
+        return "🟡 MED"
+    if score >= 35:
+        return "🟠 LOW"
+    return "🔴 FADE"
+
+
+def pick_confidence(model_p_pct: float | None, edge_pp: float | None = None) -> dict:
+    """Convenience: returns {score, tier} for a pick."""
+    score = pick_confidence_score(model_p_pct, edge_pp)
+    return {"score": score, "tier": pick_confidence_tier(score)}
 
 
 if __name__ == "__main__":
