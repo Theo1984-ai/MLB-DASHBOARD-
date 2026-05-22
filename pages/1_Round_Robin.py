@@ -140,10 +140,22 @@ hc1, hc2, hc3 = st.columns([2, 2, 1])
 with hc1:
     selected_date = st.date_input("Date", value=datetime.now(tz=EASTERN).date(), format="YYYY-MM-DD")
 with hc2:
+    # Defensive: clean any stale "caesars" out of session state (renamed to
+    # williamhill_us on 5/19). If a phone still has the old value cached,
+    # rendering the multiselect would throw StreamlitAPIException.
+    _bkey = "rr_books_select"
+    if _bkey in st.session_state:
+        st.session_state[_bkey] = [
+            "williamhill_us" if b == "caesars" else b
+            for b in st.session_state[_bkey]
+            if b in {"draftkings", "fanduel", "betmgm", "williamhill_us",
+                     "bovada", "betrivers", "fanatics", "betonlineag", "caesars"}
+        ]
     books = st.multiselect(
         "Books",
         options=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada", "betrivers", "fanatics", "betonlineag"],
         default=["draftkings", "fanduel", "betmgm", "williamhill_us", "bovada"],
+        key=_bkey,
         help="Sharp default = DK / FD / BetMGM / Caesars (williamhill_us) / Bovada. "
              "Caesars is keyed as `williamhill_us` in The Odds API. "
              "Bovada is offshore but their mainline prices align with sharp consensus.",
@@ -737,6 +749,12 @@ if filtered:
         "Decimal":    round(c["decimal"], 2),
         "Book":       c["book"],
     } for c in filtered])
+    # Coerce numeric columns so None values become NaN — prevents NumberColumn
+    # from crashing on mixed object dtype (Fair Mkt % can be None for RL picks).
+    for _col in ("Model %", "Fair Mkt %", "Blend %", "Implied %",
+                 "Edge (pp)", "American", "Decimal"):
+        if _col in cand_df.columns:
+            cand_df[_col] = pd.to_numeric(cand_df[_col], errors="coerce")
     st.dataframe(cand_df, use_container_width=True, hide_index=True, height=320,
         column_config={
             "Model %":    st.column_config.NumberColumn(format="%.2f%%",
