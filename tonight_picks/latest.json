@@ -1,112 +1,642 @@
 {
   "date": "2026-05-23",
-  "generated_at": "2026-05-23 morning",
-  "analyst": "Claude (Deep Dive Scan)",
-  "intro": "217 Tier A picks. Only 1 MLB game (TEX @ LAA) has props posted - books are slow today. NBA Knicks @ Cavaliers is the loaded game (150 picks). Re-scan MLB after 3 PM ET when more lines post.",
-
+  "generated_at": "2026-05-23 07:21 PM EDT",
+  "analyst": "Auto-scanner (GitHub Actions cron)",
+  "intro": "65 MLB picks across 1/16 games + 154 NBA picks. Auto-scanned by GitHub Actions cron. Cross-book disagreement methodology — only picks with 3+ books pricing and $5+ EV are surfaced. ⚠️ Many MLB games haven't posted props yet — re-check after 3 PM ET when more lines come up.",
   "concentration_plays": [
     {
-      "player": "Evan Carter",
-      "game": "Rangers @ Angels",
-      "book": "DraftKings (ALL 9 picks!)",
-      "n_picks": 9,
+      "player": "Jalen Brunson",
+      "game": "Knicks @ Cavaliers",
+      "book": "fanduel (13/18 picks)",
+      "n_picks": 18,
       "picks": [
-        {"market": "TB",    "side": "Over", "line": 3.5, "price": 700, "book": "DraftKings", "ev": 20.74},
-        {"market": "TB",    "side": "Over", "line": 2.5, "price": 459, "book": "DraftKings", "ev": 16.15},
-        {"market": "H+R+R", "side": "Over", "line": 3.5, "price": 503, "book": "DraftKings", "ev": 12.19},
-        {"market": "TB",    "side": "Over", "line": 1.5, "price": 210, "book": "DraftKings", "ev": 9.98}
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 4.5,
+          "price": 575,
+          "book": "betmgm",
+          "ev": 18.26
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 34.5,
+          "price": 440,
+          "book": "fanduel",
+          "ev": 17.57
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 5.5,
+          "price": 680,
+          "book": "fanduel",
+          "ev": 17.01
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 1.5,
+          "price": -285,
+          "book": "betmgm",
+          "ev": 14.05
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 3.5,
+          "price": 250,
+          "book": "betmgm",
+          "ev": 12.14
+        },
+        {
+          "market": "AST",
+          "side": "Over",
+          "line": 8.5,
+          "price": 220,
+          "book": "fanduel",
+          "ev": 12.12
+        }
       ]
     },
     {
-      "player": "Joc Pederson",
-      "game": "Rangers @ Angels",
-      "book": "FanDuel (6 of 7 picks)",
-      "n_picks": 7,
+      "player": "James Harden",
+      "game": "Knicks @ Cavaliers",
+      "book": "fanduel (11/14 picks)",
+      "n_picks": 14,
       "picks": [
-        {"market": "HR",    "side": "Yes",  "line": 0.5, "price": 680, "book": "FanDuel", "ev": 18.54},
-        {"market": "TB",    "side": "Over", "line": 3.5, "price": 550, "book": "FanDuel", "ev": 17.38},
-        {"market": "Hits",  "side": "Over", "line": 1.5, "price": 470, "book": "FanDuel", "ev": 13.04},
-        {"market": "H+R+R", "side": "Over", "line": 3.5, "price": 500, "book": "FanDuel", "ev": 12.27}
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 7.5,
+          "price": 600,
+          "book": "fanduel",
+          "ev": 25.07
+        },
+        {
+          "market": "AST",
+          "side": "Over",
+          "line": 9.5,
+          "price": 600,
+          "book": "fanduel",
+          "ev": 13.82
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 4.5,
+          "price": 700,
+          "book": "fanduel",
+          "ev": 11.01
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 3.5,
+          "price": 310,
+          "book": "fanduel",
+          "ev": 10.31
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 6.5,
+          "price": 300,
+          "book": "fanduel",
+          "ev": 10.28
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 1.5,
+          "price": -245,
+          "book": "draftkings",
+          "ev": 9.37
+        }
       ]
     },
     {
-      "player": "Alejandro Osuna",
-      "game": "Rangers @ Angels",
-      "book": "BetMGM (all 8 picks)",
-      "n_picks": 8,
+      "player": "Karl-Anthony Towns",
+      "game": "Knicks @ Cavaliers",
+      "book": "betmgm (6/14 picks)",
+      "n_picks": 14,
       "picks": [
-        {"market": "Hits",  "side": "Over", "line": 1.5, "price": 390, "book": "BetMGM", "ev": 11.43},
-        {"market": "TB",    "side": "Over", "line": 1.5, "price": 230, "book": "BetMGM", "ev": 10.75},
-        {"market": "H+R+R", "side": "Over", "line": 2.5, "price": 270, "book": "BetMGM", "ev": 7.47}
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 24.5,
+          "price": 557,
+          "book": "draftkings",
+          "ev": 18.78
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 0.5,
+          "price": -295,
+          "book": "betmgm",
+          "ev": 17.99
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 16.5,
+          "price": 525,
+          "book": "betmgm",
+          "ev": 13.9
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 2.5,
+          "price": 450,
+          "book": "betmgm",
+          "ev": 13.74
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 1.5,
+          "price": 150,
+          "book": "betmgm",
+          "ev": 10.81
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 19.5,
+          "price": 180,
+          "book": "fanduel",
+          "ev": 10.04
+        }
+      ]
+    },
+    {
+      "player": "Donovan Mitchell",
+      "game": "Knicks @ Cavaliers",
+      "book": "fanduel (all 13 picks)",
+      "n_picks": 13,
+      "picks": [
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 6.5,
+          "price": 410,
+          "book": "fanduel",
+          "ev": 22.27
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 34.5,
+          "price": 390,
+          "book": "fanduel",
+          "ev": 13.49
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 5.5,
+          "price": 680,
+          "book": "fanduel",
+          "ev": 12.57
+        },
+        {
+          "market": "AST",
+          "side": "Over",
+          "line": 5.5,
+          "price": 300,
+          "book": "fanduel",
+          "ev": 11.92
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 5.5,
+          "price": 220,
+          "book": "fanduel",
+          "ev": 11.61
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 4.5,
+          "price": 330,
+          "book": "fanduel",
+          "ev": 10.16
+        }
+      ]
+    },
+    {
+      "player": "Evan Mobley",
+      "game": "Knicks @ Cavaliers",
+      "book": "fanduel (9/12 picks)",
+      "n_picks": 12,
+      "picks": [
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 12.5,
+          "price": 675,
+          "book": "betmgm",
+          "ev": 18.52
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 19.5,
+          "price": 255,
+          "book": "fanduel",
+          "ev": 17.41
+        },
+        {
+          "market": "PRA",
+          "side": "Over",
+          "line": 34.5,
+          "price": 360,
+          "book": "fanduel",
+          "ev": 10.58
+        },
+        {
+          "market": "AST",
+          "side": "Over",
+          "line": 5.5,
+          "price": 500,
+          "book": "fanduel",
+          "ev": 10.52
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 11.5,
+          "price": 420,
+          "book": "fanduel",
+          "ev": 9.74
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 14.5,
+          "price": -146,
+          "book": "fanduel",
+          "ev": 9.67
+        }
       ]
     }
   ],
-
   "top_picks": [
-    {"player": "Miles McBride",      "game": "NYK @ CLE", "market": "PTS",   "side": "Over", "line": 9.5,  "price": 470, "book": "FanDuel",    "ev": 33.65, "fair_pct": 23.4},
-    {"player": "James Harden",       "game": "NYK @ CLE", "market": "REB",   "side": "Over", "line": 7.5,  "price": 600, "book": "FanDuel",    "ev": 25.07, "fair_pct": 17.9},
-    {"player": "Mitchell Robinson",  "game": "NYK @ CLE", "market": "REB",   "side": "Over", "line": 9.5,  "price": 700, "book": "Bovada",     "ev": 22.95, "fair_pct": 15.4},
-    {"player": "Donovan Mitchell",   "game": "NYK @ CLE", "market": "REB",   "side": "Over", "line": 6.5,  "price": 410, "book": "FanDuel",    "ev": 21.96, "fair_pct": 23.9},
-    {"player": "Jalen Brunson",      "game": "NYK @ CLE", "market": "3PM",   "side": "Over", "line": 4.5,  "price": 600, "book": "BetMGM",     "ev": 20.90, "fair_pct": 17.3},
-    {"player": "Evan Carter",        "game": "TEX @ LAA", "market": "TB",    "side": "Over", "line": 3.5,  "price": 700, "book": "DraftKings", "ev": 20.74, "fair_pct": 15.1},
-    {"player": "Evan Mobley",        "game": "NYK @ CLE", "market": "REB",   "side": "Over", "line": 12.5, "price": 700, "book": "BetMGM",     "ev": 20.35, "fair_pct": 15.0},
-    {"player": "Joc Pederson",       "game": "TEX @ LAA", "market": "HR",    "side": "Yes",  "line": 0.5,  "price": 680, "book": "FanDuel",    "ev": 18.54, "fair_pct": 15.2},
-    {"player": "KAT",                "game": "NYK @ CLE", "market": "3PM",   "side": "Over", "line": 2.5,  "price": 475, "book": "BetMGM",     "ev": 18.15, "fair_pct": 20.5},
-    {"player": "Dennis Schroder",    "game": "NYK @ CLE", "market": "PTS",   "side": "Over", "line": 9.5,  "price": 360, "book": "BetMGM",     "ev": 17.19, "fair_pct": 25.5}
+    {
+      "player": "Miles McBride",
+      "game": "Knicks @ Cavaliers",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": 470,
+      "book": "fanduel",
+      "ev": 34.41,
+      "fair_pct": 23.6
+    },
+    {
+      "player": "James Harden",
+      "game": "Knicks @ Cavaliers",
+      "market": "REB",
+      "side": "Over",
+      "line": 7.5,
+      "price": 600,
+      "book": "fanduel",
+      "ev": 25.07,
+      "fair_pct": 17.9
+    },
+    {
+      "player": "Donovan Mitchell",
+      "game": "Knicks @ Cavaliers",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 410,
+      "book": "fanduel",
+      "ev": 22.27,
+      "fair_pct": 24.0
+    },
+    {
+      "player": "Mitchell Robinson",
+      "game": "Knicks @ Cavaliers",
+      "market": "REB",
+      "side": "Over",
+      "line": 9.5,
+      "price": 700,
+      "book": "bovada",
+      "ev": 22.11,
+      "fair_pct": 15.3
+    },
+    {
+      "player": "Evan Carter",
+      "game": "Rangers @ Angels",
+      "market": "TB",
+      "side": "Over",
+      "line": 3.5,
+      "price": 700,
+      "book": "draftkings",
+      "ev": 20.74,
+      "fair_pct": 15.1
+    },
+    {
+      "player": "Karl-Anthony Towns",
+      "game": "Knicks @ Cavaliers",
+      "market": "PTS",
+      "side": "Over",
+      "line": 24.5,
+      "price": 557,
+      "book": "draftkings",
+      "ev": 18.78,
+      "fair_pct": 18.1
+    },
+    {
+      "player": "Evan Mobley",
+      "game": "Knicks @ Cavaliers",
+      "market": "REB",
+      "side": "Over",
+      "line": 12.5,
+      "price": 675,
+      "book": "betmgm",
+      "ev": 18.52,
+      "fair_pct": 15.3
+    },
+    {
+      "player": "Jalen Brunson",
+      "game": "Knicks @ Cavaliers",
+      "market": "3PM",
+      "side": "Over",
+      "line": 4.5,
+      "price": 575,
+      "book": "betmgm",
+      "ev": 18.26,
+      "fair_pct": 17.5
+    },
+    {
+      "player": "Karl-Anthony Towns",
+      "game": "Knicks @ Cavaliers",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -295,
+      "book": "betmgm",
+      "ev": 17.99,
+      "fair_pct": 79.2
+    },
+    {
+      "player": "Jalen Brunson",
+      "game": "Knicks @ Cavaliers",
+      "market": "PTS",
+      "side": "Over",
+      "line": 34.5,
+      "price": 440,
+      "book": "fanduel",
+      "ev": 17.57,
+      "fair_pct": 21.8
+    }
   ],
-
   "bet_card": {
     "💎 Max Conviction (2u each)": [
-      {"stake": "2u", "description": "Miles McBride PTS Over 9.5", "price": 470, "book": "FanDuel"},
-      {"stake": "2u", "description": "Evan Carter TB Over 3.5",     "price": 700, "book": "DraftKings"},
-      {"stake": "2u", "description": "Donovan Mitchell REB Over 6.5", "price": 410, "book": "FanDuel"}
+      {
+        "stake": "2u",
+        "description": "Miles McBride PTS Over 9.5",
+        "price": 470,
+        "book": "fanduel"
+      },
+      {
+        "stake": "2u",
+        "description": "James Harden REB Over 7.5",
+        "price": 600,
+        "book": "fanduel"
+      },
+      {
+        "stake": "2u",
+        "description": "Donovan Mitchell REB Over 6.5",
+        "price": 410,
+        "book": "fanduel"
+      }
     ],
     "🎲 Tier 2 (1u each)": [
-      {"stake": "1u", "description": "Brunson 3PM Over 4.5",          "price": 600, "book": "BetMGM"},
-      {"stake": "1u", "description": "Mitchell Robinson REB Over 9.5", "price": 700, "book": "Bovada"},
-      {"stake": "1u", "description": "Joc Pederson HR Yes",           "price": 680, "book": "FanDuel"},
-      {"stake": "1u", "description": "KAT 3PM Over 2.5",              "price": 475, "book": "BetMGM"}
+      {
+        "stake": "1u",
+        "description": "Mitchell Robinson REB Over 9.5",
+        "price": 700,
+        "book": "bovada"
+      },
+      {
+        "stake": "1u",
+        "description": "Evan Carter TB Over 3.5",
+        "price": 700,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Karl-Anthony Towns PTS Over 24.5",
+        "price": 557,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Evan Mobley REB Over 12.5",
+        "price": 675,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Jalen Brunson 3PM Over 4.5",
+        "price": 575,
+        "book": "betmgm"
+      }
     ],
     "🛡️ Safe Locks (1u each)": [
-      {"stake": "1u", "description": "KAT 3PM Over 0.5",            "price": -295, "book": "BetMGM"},
-      {"stake": "1u", "description": "Brunson 3PM Over 1.5",        "price": -275, "book": "BetMGM"},
-      {"stake": "1u", "description": "Jake Burger Hits Over 0.5",   "price": -175, "book": "BetMGM"}
+      {
+        "stake": "1u",
+        "description": "Karl-Anthony Towns 3PM Over 0.5",
+        "price": -295,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Jalen Brunson 3PM Over 1.5",
+        "price": -285,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Sam Merrill 3PM Over 1.5",
+        "price": -215,
+        "book": "fanduel"
+      }
     ]
   },
-
   "safe_locks": [
-    {"player": "Karl-Anthony Towns", "market": "3PM",   "side": "Over", "line": 0.5, "price": -295, "book": "BetMGM",  "fair_pct": 79.2, "ev": 17.99},
-    {"player": "Jalen Brunson",      "market": "3PM",   "side": "Over", "line": 1.5, "price": -275, "book": "BetMGM",  "fair_pct": 77.4, "ev": 15.40},
-    {"player": "Alejandro Osuna",    "market": "H+R+R", "side": "Over", "line": 0.5, "price": -220, "book": "BetMGM",  "fair_pct": 71.0, "ev": 7.28},
-    {"player": "Jake Burger",        "market": "Hits",  "side": "Over", "line": 0.5, "price": -175, "book": "BetMGM",  "fair_pct": 66.0, "ev": 9.24}
+    {
+      "player": "Karl-Anthony Towns",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -295,
+      "book": "betmgm",
+      "fair_pct": 79.2,
+      "ev": 17.99
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -285,
+      "book": "betmgm",
+      "fair_pct": 77.7,
+      "ev": 14.05
+    },
+    {
+      "player": "Sam Merrill",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -215,
+      "book": "fanduel",
+      "fair_pct": 71.8,
+      "ev": 11.16
+    },
+    {
+      "player": "OG Anunoby",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -185,
+      "book": "betmgm",
+      "fair_pct": 68.4,
+      "ev": 10.05
+    },
+    {
+      "player": "James Harden",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -245,
+      "book": "draftkings",
+      "fair_pct": 73.7,
+      "ev": 9.37
+    },
+    {
+      "player": "Jake Burger",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -175,
+      "book": "betmgm",
+      "fair_pct": 67.0,
+      "ev": 9.24
+    }
   ],
-
-  "nba_game": "Knicks @ Cavaliers (8:10 PM ET) — Playoff game",
+  "nba_game": "New York Knicks @ Cleveland Cavaliers (08:10 PM ET)",
   "nba_picks": [
-    {"player": "Miles McBride",     "market": "PTS",   "side": "Over", "line": 9.5,  "price": 470, "book": "FanDuel", "ev": 33.65},
-    {"player": "James Harden",      "market": "REB",   "side": "Over", "line": 7.5,  "price": 600, "book": "FanDuel", "ev": 25.07},
-    {"player": "Mitchell Robinson", "market": "REB",   "side": "Over", "line": 9.5,  "price": 700, "book": "Bovada",  "ev": 22.95},
-    {"player": "Donovan Mitchell",  "market": "REB",   "side": "Over", "line": 6.5,  "price": 410, "book": "FanDuel", "ev": 21.96},
-    {"player": "Jalen Brunson",     "market": "3PM",   "side": "Over", "line": 4.5,  "price": 600, "book": "BetMGM",  "ev": 20.90},
-    {"player": "Evan Mobley",       "market": "REB",   "side": "Over", "line": 12.5, "price": 700, "book": "BetMGM",  "ev": 20.35},
-    {"player": "KAT",               "market": "3PM",   "side": "Over", "line": 2.5,  "price": 475, "book": "BetMGM",  "ev": 18.15},
-    {"player": "Mikal Bridges",     "market": "AST",   "side": "Over", "line": 4.5,  "price": 525, "book": "BetMGM",  "ev": 17.43},
-    {"player": "Dennis Schroder",   "market": "PTS",   "side": "Over", "line": 9.5,  "price": 360, "book": "BetMGM",  "ev": 17.19}
+    {
+      "player": "Jalen Brunson",
+      "market": "AST",
+      "side": "Over",
+      "line": 7.5,
+      "price": 124,
+      "book": "fanduel",
+      "ev": 6.79
+    },
+    {
+      "player": "Dennis Schroder",
+      "market": "AST",
+      "side": "Under",
+      "line": 2.5,
+      "price": 110,
+      "book": "fanduel",
+      "ev": 5.13
+    },
+    {
+      "player": "Mikal Bridges",
+      "market": "AST",
+      "side": "Over",
+      "line": 2.5,
+      "price": -105,
+      "book": "betmgm",
+      "ev": 6.23
+    },
+    {
+      "player": "OG Anunoby",
+      "market": "AST",
+      "side": "Over",
+      "line": 1.5,
+      "price": -125,
+      "book": "betmgm",
+      "ev": 5.8
+    },
+    {
+      "player": "Dean Wade",
+      "market": "AST",
+      "side": "Over",
+      "line": 1.5,
+      "price": 200,
+      "book": "fanduel",
+      "ev": 12.44
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "AST",
+      "side": "Over",
+      "line": 5.5,
+      "price": -295,
+      "book": "fanduel",
+      "ev": 6.08
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "AST",
+      "side": "Over",
+      "line": 6.5,
+      "price": -154,
+      "book": "fanduel",
+      "ev": 6.98
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "AST",
+      "side": "Over",
+      "line": 8.5,
+      "price": 220,
+      "book": "fanduel",
+      "ev": 12.12
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "AST",
+      "side": "Over",
+      "line": 9.5,
+      "price": 330,
+      "book": "fanduel",
+      "ev": 6.27
+    },
+    {
+      "player": "James Harden",
+      "market": "AST",
+      "side": "Over",
+      "line": 6.5,
+      "price": 116,
+      "book": "fanduel",
+      "ev": 8.41
+    }
   ],
-
   "avoid": [
-    "⛔ All multi-leg parlays — singles only after yesterday's parlay disaster",
-    "⛔ NBA volume betting >5 picks — variance was brutal last night (3/10)",
-    "⛔ Stacking 4+ same-game props — correlation traps",
-    "⛔ Skip 15 of 16 MLB games (no props posted yet)"
+    "⛔ Multi-leg parlays — singles only",
+    "⛔ Single-book longshots at +1500+ (stale pricing trap)",
+    "⛔ Stacking 4+ same-game props (correlation traps)",
+    "⏰ 15 MLB games have no Tier A picks yet — re-scan after 3 PM ET"
   ],
-
   "strategy_notes": [
-    "🌟 McBride PTS O9.5 +470 FD = biggest single EV ($33.65) — 5-book consensus, FD systematically under his playoff role",
-    "🎯 Rangers @ Angels is the only MLB slugfest setup with props — 7 players have edge",
-    "📱 Re-scan MLB at 3 PM ET — more books will post props as we approach first pitch",
-    "💎 Evan Carter is the equivalent of yesterday's Caglianone — DK soft across his ENTIRE profile",
-    "⚠️ NBA variance reminder: last night 3/10 NBA hits. Hedge with safe -295 KAT 3PM lock for downside protection",
-    "🎰 Expected EV from 13-unit card: ~$95-115 (variance band -$50 to +$300)"
+    "🤖 Auto-generated by GitHub Actions cron at 07:21 PM ET",
+    "💎 Singles only — no parlays. Yesterday's parlays went 0/5.",
+    "🎯 20 picks have +$15 EV per $100",
+    "📱 Bookmark this page on your phone for daily access",
+    "🌟 Pick of the night: Miles McBride PTS O9.5 @ +470 (fanduel) = $+34.41 EV"
   ]
 }

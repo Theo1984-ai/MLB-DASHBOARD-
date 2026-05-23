@@ -1,0 +1,53 @@
+name: Daily Picks Auto-Update
+
+on:
+  schedule:
+    # Runs at 4:00 PM ET = 20:00 UTC (EDT) / 21:00 UTC (EST)
+    # Cron is UTC. We schedule both to cover summer + winter.
+    - cron: '0 20 * * *'   # 4 PM ET in EDT (summer)
+    - cron: '0 21 * * *'   # 4 PM ET in EST (winter — runs an hour later in summer)
+    # Bonus mid-afternoon refresh in case books are slow
+    - cron: '0 18 * * *'   # 2 PM ET in EDT
+  workflow_dispatch:        # Allow manual trigger from GitHub UI
+
+jobs:
+  update-picks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # Allow pushing to the repo
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Only install what the daily-picks script needs
+          # (full requirements.txt is heavy; we keep this lean)
+          pip install pandas requests
+
+      - name: Run daily picks update
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+        run: |
+          python scripts/daily_picks_update.py
+
+      - name: Commit updated picks
+        run: |
+          git config user.name "Daily Picks Bot"
+          git config user.email "bot@noreply.github.com"
+          git add tonight_picks/latest.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit (picks unchanged)"
+          else
+            git commit -m "Auto-update tonight's picks $(date -u +%Y-%m-%d)"
+            git push
+          fi
