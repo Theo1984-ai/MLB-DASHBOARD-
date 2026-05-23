@@ -39,13 +39,78 @@ def load_picks():
         return {"error": str(e)}
 
 
-col_refresh, col_info = st.columns([1, 3])
+# ---------- Auth for Update button ----------
+def resolve_secret(name):
+    try:
+        if name in st.secrets:
+            return st.secrets[name]
+    except Exception:
+        pass
+    return os.environ.get(name)
+
+
+ODDS_KEY = resolve_secret("THE_ODDS_API_KEY")
+GH_TOKEN = resolve_secret("GITHUB_TOKEN")
+
+# ---------- Buttons ----------
+col_update, col_refresh, col_spacer = st.columns([1.4, 1, 2])
+
+with col_update:
+    update_btn = st.button(
+        "⚡ Update Now",
+        type="primary",
+        use_container_width=True,
+        help="Run a fresh scan of tonight's slate (10-30 sec)",
+    )
+
 with col_refresh:
-    if st.button("🔄 Refresh", use_container_width=True):
+    if st.button("🔄 Reload", use_container_width=True,
+                 help="Reload the cached picks file"):
         load_picks.clear()
         st.rerun()
 
-data = load_picks()
+# ---------- Update Now handler ----------
+if update_btn:
+    if not ODDS_KEY:
+        st.error("❌ THE_ODDS_API_KEY secret not configured. Cannot run a fresh scan.")
+    else:
+        with st.spinner("🔍 Scanning MLB + NBA slates... (10-30 sec)"):
+            try:
+                # Defensive import in case the cron module isn't loaded yet
+                sys.path.insert(0, ROOT)
+                from scripts.picks_updater import run_scan
+                fresh = run_scan(ODDS_KEY)
+                # Push to GitHub so other devices see it too
+                if GH_TOKEN:
+                    try:
+                        from data import github_storage as gh
+                        gh.save_json(
+                            GH_TOKEN, "Theo1984-ai", "MLB-DASHBOARD-",
+                            "tonight_picks/latest.json", fresh,
+                            commit_msg=f"Update tonight's picks (manual) {fresh.get('date','')}",
+                        )
+                        st.success(
+                            f"✅ Fresh scan complete — {len(fresh.get('top_picks', []))} top picks loaded. "
+                            f"Pushed to GitHub (other devices will see it on next reload)."
+                        )
+                    except Exception as e_gh:
+                        st.warning(f"Scan complete but couldn't push to GitHub: {e_gh}")
+                else:
+                    st.success(
+                        f"✅ Fresh scan complete — {len(fresh.get('top_picks', []))} top picks loaded. "
+                        f"(Note: GITHUB_TOKEN not set, so this update is only on your current view.)"
+                    )
+                # Display fresh data immediately by injecting into the load_picks cache
+                load_picks.clear()
+                st.session_state["_fresh_picks"] = fresh
+            except Exception as e:
+                st.error(f"❌ Scan failed: {e}")
+
+# ---------- Load data: prefer in-session fresh data, fall back to GitHub ----------
+if "_fresh_picks" in st.session_state:
+    data = st.session_state["_fresh_picks"]
+else:
+    data = load_picks()
 
 if "error" in data:
     st.error(f"Could not load picks: {data['error']}")
