@@ -18,6 +18,12 @@ import pandas as pd
 _UNVERIFIED_SSL = _ssl_compat._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
+# Ensure project root on sys.path so the Update button can import
+# scripts.picks_updater (the shared scanner module).
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
 st.set_page_config(page_title="Tonight's Picks", page_icon="🌟", layout="centered")
 st.title("🌟 Tonight's Picks")
 st.caption(
