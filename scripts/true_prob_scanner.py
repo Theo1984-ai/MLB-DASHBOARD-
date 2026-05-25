@@ -22,8 +22,11 @@ SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
 
 # Filter constants
 MIN_TRUE_PROB = 0.75
-MAX_PRICE_CAP = 300
-MIN_PRICE_CAP = -300
+# Price cap intentionally removed — at 75%+ true probability the fair price is
+# already ~-300 or steeper, so capping at -300 was rejecting most chalk that
+# qualified. User opted to see ALL prices that clear the probability filter.
+MAX_PRICE_CAP = None
+MIN_PRICE_CAP = None
 MIN_BOOKS = 4
 
 PROP_MARKETS = (
@@ -168,7 +171,10 @@ def _process(market_key, outcomes_by_key, game_label, away_team, home_team,
         if len(book_prices) < MIN_BOOKS:
             continue
         best_book, best_price = max(book_prices, key=lambda x: x[1])
-        if best_price > MAX_PRICE_CAP or best_price < MIN_PRICE_CAP:
+        # Price cap intentionally disabled — see top of file.
+        if MAX_PRICE_CAP is not None and best_price > MAX_PRICE_CAP:
+            continue
+        if MIN_PRICE_CAP is not None and best_price < MIN_PRICE_CAP:
             continue
         imps = [amer_to_imp(pr) for _, pr in book_prices]
         consensus = sum(imps) / len(imps)

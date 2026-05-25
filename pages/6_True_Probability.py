@@ -34,7 +34,8 @@ st.caption(
     "sharp books** implies a 75%+ true probability of hitting. Covers batter props "
     "(HR, Hits, TB, H+R+R), pitcher props (K's), alternate spreads / totals, mainline "
     "run lines / totals, and moneylines.  \n"
-    "Price band capped at **−300 to +300** to keep juice manageable."
+    "**No price cap** — every play that clears the 75% probability filter is shown, "
+    "including heavy chalk."
 )
 
 
@@ -62,9 +63,10 @@ SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
 # 75%+ true probability is the locked threshold for this page.
 MIN_TRUE_PROB = 0.75
 
-# Hard price cap — same as Tonight's Picks + Soft Scanners.
-MAX_PRICE_CAP = 300
-MIN_PRICE_CAP = -300
+# No price cap — user wants to see every play that clears the probability
+# filter, including heavy chalk like -400/-500 favorites.
+MAX_PRICE_CAP = None
+MIN_PRICE_CAP = None
 
 # Minimum sharp books required to trust the consensus.
 MIN_BOOKS = 4
@@ -263,7 +265,10 @@ def process_outcomes(market_key, outcomes_by_key, game_label, first_pitch, hrs_t
         if len(book_prices) < MIN_BOOKS:
             continue
         best_book, best_price = max(book_prices, key=lambda x: x[1])
-        if best_price > MAX_PRICE_CAP or best_price < MIN_PRICE_CAP:
+        # Price cap disabled — see config above.
+        if MAX_PRICE_CAP is not None and best_price > MAX_PRICE_CAP:
+            continue
+        if MIN_PRICE_CAP is not None and best_price < MIN_PRICE_CAP:
             continue
         imps = [amer_to_imp(pr) for _, pr in book_prices]
         consensus = sum(imps) / len(imps)
@@ -636,9 +641,15 @@ else:
             )
 
 st.markdown("---")
+price_band_str = "no price cap"
+if MIN_PRICE_CAP is not None or MAX_PRICE_CAP is not None:
+    lo = MIN_PRICE_CAP if MIN_PRICE_CAP is not None else "-inf"
+    hi = MAX_PRICE_CAP if MAX_PRICE_CAP is not None else "+inf"
+    price_band_str = f"price band: {lo} to {hi}"
 st.caption(
     f"Last refresh: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}  •  "
     f"{len(upcoming)} games scanned  •  "
-    f"Min books: {MIN_BOOKS}  •  Price band: {MIN_PRICE_CAP} to +{MAX_PRICE_CAP}  •  "
+    f"Min books: {MIN_BOOKS}  •  Min true prob: {int(MIN_TRUE_PROB*100)}%  •  "
+    f"{price_band_str}  •  "
     f"Cache TTL: 5 min (or hit Refresh)"
 )
