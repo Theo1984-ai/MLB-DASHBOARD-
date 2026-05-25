@@ -50,7 +50,9 @@ st.caption(
     "Pulls every MLB prop from DraftKings / FanDuel / BetMGM / Caesars and finds "
     "props where one book is significantly out of line with the others. Surfaces "
     "**soft prices** to attack. Same methodology that found Donovan Mitchell O3.5 "
-    "+121 DK on the NBA side. No MLB model needed."
+    "+121 DK on the NBA side. No MLB model needed.  \n"
+    "🔒 **Hard price cap: −300 to +300** — longshots above +300 and chalk below −300 are "
+    "excluded automatically to keep variance in check."
 )
 
 
@@ -78,6 +80,14 @@ if not ODDS_KEY:
 # pricing is sharp consensus — we exclude BetOnline / MyBookie / BetUS
 # which post stale longshot lines that fake edges.
 SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+
+# Hard price cap — picks outside this range are excluded.
+# Wide longshots (+400/+500/+600) historically lose money even when EV looks
+# positive on paper, because the variance overwhelms the edge. Keep the
+# scanner inside the same risk band as Tonight's Picks.
+MAX_PRICE_CAP = 300
+MIN_PRICE_CAP = -300
+
 MARKET_GROUPS = {
     "HR":    ["batter_home_runs", "batter_home_runs_alternate"],
     "H+R+R": ["batter_hits_runs_rbis_alternate"],
@@ -154,6 +164,11 @@ def find_disagreements(offers_dict, game_label, min_edge_pp, min_books, min_impl
             continue
         prices = [pr for _, pr in book_prices]
         best_book, best_price = max(book_prices, key=lambda x: x[1])
+
+        # Hard price cap — drop longshots and ultra-juiced favorites
+        if best_price > MAX_PRICE_CAP or best_price < MIN_PRICE_CAP:
+            continue
+
         best_imp = amer_to_imp(best_price)
         worst_imp = amer_to_imp(min(prices))
         edge_pp = (worst_imp - best_imp) * 100
