@@ -356,10 +356,13 @@ if save_btn:
             # ===========================================================
             STRICT_HR = True
             if STRICT_HR:
-                # Filter: must have odds, edge >= -2pp (allow slight neg), conf >= 45
+                # Filter: must have odds, edge >= -2pp, conf >= 45, odds <= +300
+                # Cap at +300 reduces variance — longshot HR picks (+400+)
+                # have brutal hit-rate variance even when +EV mathematically.
                 qualifying = [
                     p for p in all_preds
                     if p.get("best_odds") is not None
+                    and p["best_odds"] <= 300
                     and (p.get("edge_pp") is None or p["edge_pp"] >= -2)
                     and (p.get("confidence") is None or p["confidence"] >= 45)
                 ]

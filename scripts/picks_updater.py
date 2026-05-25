@@ -38,9 +38,12 @@ MIN_BOOKS = 5
 # Increased from $5 → $10 minimum EV per $100. Doubles the conviction bar.
 MIN_EV = 10.0
 
-# Price band — unchanged. Avoids extreme juice on both ends.
+# Price band — TIGHTENED 5/24 per user: dropped from +700 → +300 cap.
+# Removes longshot variance traps. At +300 we still capture star-odds
+# value picks (25-35% fair probability) but skip the 15-20% hit-rate
+# +500/+600 longshots that create bumpy bankroll.
 MIN_PRICE = -300
-MAX_PRICE = 700
+MAX_PRICE = 300
 
 
 def amer_to_imp(am):
