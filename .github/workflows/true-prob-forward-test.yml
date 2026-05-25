@@ -1,0 +1,89 @@
+name: True Probability Forward-Test
+
+on:
+  schedule:
+    # ----- Daily SNAPSHOT (3 PM ET) -----
+    # Snapshot when most game props have multi-book coverage.
+    - cron: '0 19 * * *'   # 3 PM ET in EDT (summer)
+    - cron: '0 20 * * *'   # 3 PM ET in EST (winter — runs an hour later in summer)
+
+    # ----- Daily SETTLEMENT (10 AM ET next morning) -----
+    # All west-coast games should be final by 4 AM ET so 10 AM is safe.
+    - cron: '0 14 * * *'   # 10 AM ET in EDT
+    - cron: '0 15 * * *'   # 10 AM ET in EST
+
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'snapshot | settle | both'
+        required: true
+        default: 'both'
+      settle_date:
+        description: 'Date to settle (YYYY-MM-DD, blank = yesterday)'
+        required: false
+        default: ''
+
+jobs:
+  forward-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas requests
+
+      - name: Decide which action to run
+        id: decide
+        run: |
+          HOUR_UTC=$(date -u +%H)
+          # 19-20 UTC = snapshot window, 14-15 UTC = settle window
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ACTION="${{ github.event.inputs.action }}"
+          elif [ "$HOUR_UTC" -ge 19 ]; then
+            ACTION="snapshot"
+          else
+            ACTION="settle"
+          fi
+          echo "action=$ACTION" >> $GITHUB_OUTPUT
+          echo "Selected action: $ACTION (hour=$HOUR_UTC)"
+
+      - name: Run snapshot
+        if: steps.decide.outputs.action == 'snapshot' || steps.decide.outputs.action == 'both'
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+        run: |
+          python scripts/true_prob_snapshot.py
+
+      - name: Run settler
+        if: steps.decide.outputs.action == 'settle' || steps.decide.outputs.action == 'both'
+        run: |
+          if [ -n "${{ github.event.inputs.settle_date }}" ]; then
+            python scripts/true_prob_settler.py "${{ github.event.inputs.settle_date }}"
+          else
+            python scripts/true_prob_settler.py
+          fi
+
+      - name: Commit changes
+        run: |
+          git config user.name "True Prob Forward-Test Bot"
+          git config user.email "bot@noreply.github.com"
+          git add true_prob_history/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "True Prob ${{ steps.decide.outputs.action }} $(date -u +%Y-%m-%d-%H%M)"
+            git push
+          fi

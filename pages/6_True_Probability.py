@@ -469,6 +469,172 @@ for r in all_plays[:5]:
             f"{r['# Books']} sharp books pricing this prop"
         )
 
+# ---------- Performance / Forward-Test Tracking ----------
+
+st.markdown("---")
+st.markdown("### 📈 Forward-Test Performance")
+st.caption(
+    "Daily snapshots of the 75%+ picks taken at 3 PM ET, then settled the next "
+    "morning vs actual results. This is the *real* track record of the True "
+    "Probability filter — accumulating from 2026-05-25 forward."
+)
+
+HISTORY_DIR = os.path.join(ROOT, "true_prob_history")
+
+@st.cache_data(ttl=600, show_spinner=False)
+def load_history():
+    """Load all saved snapshot files."""
+    if not os.path.isdir(HISTORY_DIR):
+        return []
+    out = []
+    for fn in sorted(os.listdir(HISTORY_DIR)):
+        if not fn.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(HISTORY_DIR, fn)) as f:
+                d = json.load(f)
+                out.append(d)
+        except Exception:
+            pass
+    return out
+
+
+history = load_history()
+
+if not history:
+    st.info(
+        "No history snapshots yet. The first snapshot lands at 3 PM ET today; "
+        "results settle ~10 AM ET tomorrow morning."
+    )
+else:
+    # Aggregate stats
+    all_picks = []
+    for snap in history:
+        for p in snap.get("picks", []):
+            p2 = dict(p)
+            p2["snapshot_date"] = snap.get("date")
+            all_picks.append(p2)
+
+    settled = [p for p in all_picks if p.get("result") in ("WIN", "LOSS", "PUSH")]
+    wins = sum(1 for p in settled if p["result"] == "WIN")
+    losses = sum(1 for p in settled if p["result"] == "LOSS")
+    pushes = sum(1 for p in settled if p["result"] == "PUSH")
+    settled_count = wins + losses
+    hit_rate = (wins / settled_count * 100) if settled_count else 0
+
+    # ROI
+    risk_total = 0.0
+    profit_total = 0.0
+    for p in settled:
+        if p["result"] == "PUSH":
+            continue
+        am = p.get("best_price", 0)
+        if am > 0:
+            risk = 100; payout = am
+        else:
+            risk = abs(am); payout = 100
+        risk_total += risk
+        profit_total += payout if p["result"] == "WIN" else -risk
+    roi = (profit_total / risk_total * 100) if risk_total else 0
+
+    # Average true_prob predicted
+    avg_predicted = (
+        sum(p.get("true_prob_pct", 0) for p in settled) / len(settled)
+        if settled else 0
+    )
+
+    # Calibration gap
+    cal_gap = hit_rate - avg_predicted if settled_count else 0
+
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Total Picks", f"{len(all_picks)}", f"{settled_count} settled")
+    c2.metric("Hit Rate", f"{hit_rate:.1f}%",
+              f"vs predicted {avg_predicted:.1f}%" if settled_count else "no data")
+    c3.metric("Calibration", f"{cal_gap:+.1f}pp",
+              "Good" if abs(cal_gap) < 3 else ("Hot" if cal_gap > 0 else "Cold"))
+    c4.metric("Net Profit", f"${profit_total:+.0f}", f"on ${risk_total:.0f}")
+    c5.metric("ROI", f"{roi:+.1f}%", "per $ risked")
+
+    # Per-day table
+    st.markdown("#### Day-by-day")
+    day_rows = []
+    for snap in history:
+        s = snap.get("summary") or {}
+        if s:
+            day_rows.append({
+                "Date":      snap.get("date"),
+                "Picks":     snap.get("n_picks"),
+                "Settled":   s.get("n_settled"),
+                "W-L-P":     f"{s.get('wins',0)}-{s.get('losses',0)}-{s.get('pushes',0)}",
+                "Hit %":     s.get("hit_rate"),
+                "Net":       s.get("profit_total"),
+                "ROI %":     s.get("roi_pct"),
+            })
+        else:
+            day_rows.append({
+                "Date":      snap.get("date"),
+                "Picks":     snap.get("n_picks"),
+                "Settled":   "pending",
+                "W-L-P":     "—",
+                "Hit %":     None,
+                "Net":       None,
+                "ROI %":     None,
+            })
+    day_df = pd.DataFrame(day_rows)
+    if not day_df.empty:
+        st.dataframe(
+            day_df, use_container_width=True, hide_index=True,
+            column_config={
+                "Hit %":  st.column_config.NumberColumn(format="%.1f%%"),
+                "Net":    st.column_config.NumberColumn(format="$%+.0f"),
+                "ROI %":  st.column_config.NumberColumn(format="%+.1f%%"),
+            },
+        )
+
+    # By market breakdown
+    if settled_count > 0:
+        st.markdown("#### Performance by market")
+        from collections import defaultdict
+        by_mkt = defaultdict(lambda: {"w": 0, "l": 0, "p": 0, "risk": 0.0, "profit": 0.0})
+        for p in settled:
+            r = p["result"]
+            am = p.get("best_price", 0)
+            risk = 100 if am > 0 else abs(am)
+            payout = am if am > 0 else 100
+            mkt = p.get("market", "?")
+            if r == "WIN":
+                by_mkt[mkt]["w"] += 1
+                by_mkt[mkt]["risk"] += risk
+                by_mkt[mkt]["profit"] += payout
+            elif r == "LOSS":
+                by_mkt[mkt]["l"] += 1
+                by_mkt[mkt]["risk"] += risk
+                by_mkt[mkt]["profit"] -= risk
+            else:
+                by_mkt[mkt]["p"] += 1
+        mkt_rows = []
+        for mkt, stats in sorted(by_mkt.items(), key=lambda x: -(x[1]["w"]+x[1]["l"])):
+            n = stats["w"] + stats["l"]
+            if n == 0:
+                continue
+            mkt_rows.append({
+                "Market":  mkt,
+                "W-L":     f"{stats['w']}-{stats['l']}",
+                "Hit %":   round(stats["w"] / n * 100, 1),
+                "Net":     round(stats["profit"], 2),
+                "ROI %":   round(stats["profit"] / stats["risk"] * 100, 1) if stats["risk"] else 0,
+            })
+        if mkt_rows:
+            mkt_df = pd.DataFrame(mkt_rows)
+            st.dataframe(
+                mkt_df, use_container_width=True, hide_index=True,
+                column_config={
+                    "Hit %":  st.column_config.NumberColumn(format="%.1f%%"),
+                    "Net":    st.column_config.NumberColumn(format="$%+.0f"),
+                    "ROI %":  st.column_config.NumberColumn(format="%+.1f%%"),
+                },
+            )
+
 st.markdown("---")
 st.caption(
     f"Last refresh: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}  •  "
