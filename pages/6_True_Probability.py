@@ -235,6 +235,28 @@ st.markdown(f"### Scanning **{len(upcoming)}** upcoming MLB games")
 
 all_plays = []
 
+SPREAD_MARKETS = {"spreads", "alternate_spreads"}
+TOTAL_MARKETS = {"totals", "alternate_totals"}
+
+def format_selection(market_key, selection, side, point):
+    """Build a human-readable selection label that includes signed spreads and totals.
+
+    Spreads → 'Cleveland Guardians +1.5' (sign attached, no ambiguity)
+    Totals  → 'Over 5.5' or 'Under 5.5'
+    Props   → just the player name (point shown separately in Line column)
+    """
+    if market_key in SPREAD_MARKETS:
+        if point is None:
+            return selection or side
+        sign = "+" if point > 0 else ""  # negative already has its '-'
+        return f"{selection} {sign}{point}"
+    if market_key in TOTAL_MARKETS:
+        if point is None:
+            return f"{side}"
+        return f"{side} {point}"
+    return selection or side
+
+
 def process_outcomes(market_key, outcomes_by_key, game_label, first_pitch, hrs_to_start):
     """outcomes_by_key: {(side, point, player): [(book, price)]}."""
     for (side, point, player), book_prices in outcomes_by_key.items():
@@ -253,7 +275,7 @@ def process_outcomes(market_key, outcomes_by_key, game_label, first_pitch, hrs_t
             "Hours":       round(hrs_to_start, 1),
             "Game":        game_label,
             "Market":      MARKET_LABELS.get(market_key, market_key),
-            "Selection":   player or side,
+            "Selection":   format_selection(market_key, player, side, point),
             "Side":        side,
             "Line":        point,
             "Best Book":   best_book,
