@@ -3,6 +3,11 @@ Picks updater — importable scan + JSON-builder.
 Used by both:
   - scripts/daily_picks_update.py (GitHub Actions cron)
   - pages/5_Tonight_Picks.py (manual "Update" button)
+
+TIER A FILTER — TIGHTENED 2026-05-24 after 8-day analysis showed
+loose filters (3+ books, $5+ EV) were underperforming. New filters
+require 5+ book consensus and $10+ EV, dramatically reducing volume
+but improving conviction per pick.
 """
 import os
 import sys
@@ -21,6 +26,21 @@ if ROOT not in sys.path:
 ctx = ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 SHARP = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+
+# ============================================================================
+# TIER A FILTER PARAMETERS (tightened 2026-05-24)
+# ============================================================================
+# Increased from 3 → 5 minimum books. With 5 sharp books in our pool, this
+# requires near-total consensus on the prop. Eliminates 2-book disagreements
+# that turned out to be noise rather than signal.
+MIN_BOOKS = 5
+
+# Increased from $5 → $10 minimum EV per $100. Doubles the conviction bar.
+MIN_EV = 10.0
+
+# Price band — unchanged. Avoids extreme juice on both ends.
+MIN_PRICE = -300
+MAX_PRICE = 700
 
 
 def amer_to_imp(am):
@@ -100,16 +120,17 @@ def _scan_event(api_key, eid, sport, markets, mkt_label_map):
 
     picks = []
     for (mkt, player, side, pt), books in offers.items():
-        if len(books) < 3:
+        # TIGHTENED FILTER (5/24): require near-total consensus
+        if len(books) < MIN_BOOKS:
             continue
         best_book, best_price = max(books, key=lambda x: x[1])
-        if best_price < -300 or best_price > 700:
+        if best_price < MIN_PRICE or best_price > MAX_PRICE:
             continue
         imp_list = [amer_to_imp(p) for _, p in books]
         consensus = sum(imp_list) / len(imp_list)
         edge_pp = (max(imp_list) - amer_to_imp(best_price)) * 100
         EV = ev(best_price, consensus)
-        if EV < 5:
+        if EV < MIN_EV:
             continue
         picks.append({
             "market": mkt_label_map.get(mkt, mkt),
@@ -173,11 +194,12 @@ def run_scan(api_key):
     all_picks.sort(key=lambda x: -x["ev"])
     top_picks = all_picks[:15]
 
-    # Concentration plays
+    # Concentration plays — lowered threshold from 5 to 3 since the new strict
+    # filter (5+ books, $10+ EV) naturally produces fewer picks per player.
     player_counts = Counter((p["sport"], p["player"], p["game"]) for p in all_picks)
     concentration_plays = []
     for (sport, player, game), count in player_counts.most_common():
-        if count < 5:
+        if count < 3:
             break
         plays = sorted(
             [p for p in all_picks if p["player"] == player and p["game"] == game],
@@ -229,16 +251,18 @@ def run_scan(api_key):
         } for s in safe_lock_dicts[:3]]
 
     games_with_props = len({p["game"] for p in mlb_picks})
-    intro = (f"{len(mlb_picks)} MLB picks across {games_with_props}/{len(mlb_games)} games + "
-             f"{len(nba_picks)} NBA picks. Cross-book disagreement methodology — only "
-             f"picks with 3+ books pricing and $5+ EV.")
+    intro = (f"🔒 STRICT FILTER: {len(mlb_picks)} MLB + {len(nba_picks)} NBA Tier A picks "
+             f"(5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose "
+             f"filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but "
+             f"each one has near-total book consensus.")
     if mlb_games and games_with_props < len(mlb_games) / 2:
-        intro += " ⚠️ Many MLB games haven't posted props yet — re-scan later for full coverage."
+        intro += " ⚠️ Many MLB games haven't posted props yet — re-scan later."
 
     strategy_notes = [
-        f"🤖 Scanned at {today_dt.strftime('%I:%M %p %Z')}",
-        "💎 Singles only — no parlays (yesterday's parlays went 0/5)",
+        f"🤖 Scanned at {today_dt.strftime('%I:%M %p %Z')} with TIGHTENED filter (5+ books, $10+ EV)",
+        "💎 Singles only — no parlays",
         f"🎯 {sum(1 for p in all_picks if p['ev'] >= 15)} picks have $15+ EV",
+        "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
         "📱 Bookmark this page for daily access",
     ]
     if top_picks:
@@ -253,9 +277,12 @@ def run_scan(api_key):
         "⛔ Multi-leg parlays — singles only",
         "⛔ Single-book longshots at +1500+ (stale pricing trap)",
         "⛔ Stacking 4+ same-game props (correlation traps)",
+        "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
     ]
     if mlb_games and games_with_props < len(mlb_games) / 2:
         avoid.append(f"⏰ {len(mlb_games) - games_with_props} MLB games still lack props — re-scan later")
+    if len(all_picks) < 5:
+        avoid.append("ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity.")
 
     return {
         "date": today_str,
