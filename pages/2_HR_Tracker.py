@@ -348,15 +348,40 @@ if save_btn:
                     all_preds.append(rec)
 
             progress.empty()
-            all_preds.sort(key=lambda x: -x["model_p"])
-            top_n = all_preds[:TOP_N]
+            # ===========================================================
+            # TIGHTENED FILTERING (5/24) — apply quality gates before save
+            # 8-day analysis showed loose top-10 saves were 20% hit rate.
+            # Strict filter requires: odds attached, non-negative edge,
+            # MED+ confidence tier. Caps to top 7 picks.
+            # ===========================================================
+            STRICT_HR = True
+            if STRICT_HR:
+                # Filter: must have odds, edge >= -2pp (allow slight neg), conf >= 45
+                qualifying = [
+                    p for p in all_preds
+                    if p.get("best_odds") is not None
+                    and (p.get("edge_pp") is None or p["edge_pp"] >= -2)
+                    and (p.get("confidence") is None or p["confidence"] >= 45)
+                ]
+                qualifying.sort(key=lambda x: (-x.get("confidence", 0), -x["model_p"]))
+                top_n = qualifying[:7]
+            else:
+                all_preds.sort(key=lambda x: -x["model_p"])
+                top_n = all_preds[:TOP_N]
             # Stash in session_state — Save button uses this
             st.session_state["hr_preview_picks"] = top_n
             st.session_state["hr_preview_meta"] = {
                 "n_games": len(upcoming), "n_total": len(all_preds),
+                "filter": "STRICT" if STRICT_HR else "TOP_N",
             }
             st.session_state["hr_preview_at"] = datetime.now(tz=EASTERN).isoformat()
-            st.success(f"Preview ready: {len(top_n)} picks loaded — review below, then click Save.")
+            if STRICT_HR:
+                st.success(
+                    f"Preview ready: {len(top_n)} STRICT picks (must have odds, edge >= -2pp, "
+                    f"confidence >= 45). Filtered from {len(all_preds)} total predictions."
+                )
+            else:
+                st.success(f"Preview ready: {len(top_n)} picks loaded — review below.")
         except Exception as e:
             st.error(f"Preview failed: {e}")
 
@@ -528,17 +553,53 @@ if save_hrr_btn:
                     })
 
             progress.empty()
-            # Rank by implied probability descending — DK's "most likely to clear"
-            all_hrr.sort(key=lambda x: -x["implied_pct"])
-            top_n_hrr = all_hrr[:TOP_N]
+            # ===========================================================
+            # TIGHTENED FILTERING (5/24) — H+R+R was losing money on heavy
+            # juice. 8-day data: 53.3% hit rate at avg -150 = -11% ROI.
+            # New filter:
+            #   - skip picks worse than -180 juice (math doesn't work)
+            #   - prefer +130 to -170 range (sweet spot for H+R+R)
+            #   - cap to 6 picks max (down from 10)
+            # ===========================================================
+            STRICT_HRR = True
+            if STRICT_HRR:
+                # Filter out extreme juice (worse than -180)
+                qualifying = [
+                    p for p in all_hrr
+                    if p.get("best_odds") is not None
+                    and p["best_odds"] >= -180   # cap juice at -180
+                    and p.get("implied_pct") is not None
+                    and p["implied_pct"] >= 50   # at least 50% implied (skip longshots)
+                ]
+                # Rank by a combined score: implied prob (50%) + price-weighted EV (50%)
+                # Picks with similar implied % but better odds get bumped up
+                def score(p):
+                    am = p["best_odds"]
+                    imp = p["implied_pct"]
+                    # bonus for moderate-juice picks (-180 to -120 range)
+                    juice_bonus = 5 if -180 <= am <= -120 else (10 if -120 < am <= 100 else 0)
+                    return imp + juice_bonus
+                qualifying.sort(key=lambda x: -score(x))
+                top_n_hrr = qualifying[:6]
+            else:
+                all_hrr.sort(key=lambda x: -x["implied_pct"])
+                top_n_hrr = all_hrr[:TOP_N]
             # Stash in session_state for review-then-save flow
             st.session_state["hrr_preview_picks"] = top_n_hrr
             st.session_state["hrr_preview_meta"] = {
                 "n_games": len(upcoming), "n_total": len(all_hrr),
                 "point":   HRR_POINT,
+                "filter":  "STRICT" if STRICT_HRR else "TOP_N",
             }
             st.session_state["hrr_preview_at"] = datetime.now(tz=EASTERN).isoformat()
-            st.success(f"Preview ready: {len(top_n_hrr)} H+R+R picks loaded — review below, then click Save.")
+            if STRICT_HRR:
+                st.success(
+                    f"Preview ready: {len(top_n_hrr)} STRICT H+R+R picks "
+                    f"(juice capped at -180, implied >= 50%). "
+                    f"Filtered from {len(all_hrr)} total."
+                )
+            else:
+                st.success(f"Preview ready: {len(top_n_hrr)} H+R+R picks loaded — review below.")
         except Exception as e:
             st.error(f"H+R+R preview failed: {e}")
 
