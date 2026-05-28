@@ -46,6 +46,50 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas requests certifi tzdata
 
+      - name: Diagnose secrets + Odds API
+        # Self-diagnosing step — writes status to GITHUB_STEP_SUMMARY so we
+        # can see what's wrong even without log access.
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+        run: |
+          echo "## Pre-flight diagnostics" >> $GITHUB_STEP_SUMMARY
+          python <<'PY'
+          import os, urllib.request, urllib.error, json, sys
+          key = os.environ.get("THE_ODDS_API_KEY", "")
+          summary = []
+          if not key:
+              summary.append("- ❌ **THE_ODDS_API_KEY is EMPTY** — secret not configured in repo settings")
+              print("FAIL: THE_ODDS_API_KEY is empty")
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+                  f.write("\n".join(summary) + "\n")
+              sys.exit(1)
+          summary.append(f"- ✅ Secret length: {len(key)} chars (starts {key[:3]}***, ends ***{key[-3:]})")
+          # Try a real API call
+          try:
+              url = f"https://api.the-odds-api.com/v4/sports?apiKey={key}"
+              with urllib.request.urlopen(url, timeout=10) as r:
+                  data = json.loads(r.read())
+              summary.append(f"- ✅ Odds API responded — {len(data)} sports listed")
+              quota_used = r.headers.get("x-requests-used", "?")
+              quota_left = r.headers.get("x-requests-remaining", "?")
+              summary.append(f"- 📊 Quota: {quota_used} used / {quota_left} remaining")
+          except urllib.error.HTTPError as e:
+              summary.append(f"- ❌ Odds API HTTP {e.code}: {e.reason}")
+              if e.code == 401:
+                  summary.append("- 🔑 **Key is INVALID** — wrong value pasted in secret")
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+                  f.write("\n".join(summary) + "\n")
+              sys.exit(1)
+          except Exception as e:
+              summary.append(f"- ❌ Network error: {e}")
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+                  f.write("\n".join(summary) + "\n")
+              sys.exit(1)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write("\n".join(summary) + "\n")
+          print("OK: secrets + API working")
+          PY
+
       - name: Run daily_all.py
         env:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
