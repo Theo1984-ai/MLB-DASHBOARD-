@@ -2,8 +2,6 @@ name: Daily All Tracker (cloud backup)
 
 on:
   schedule:
-    # Daily 3:30 PM ET (one shot: settle yesterday + snapshot today + HR/H+R+R save)
-    # Note: GitHub Actions cron times are UTC and may run 5-30 min late.
     - cron: '30 19 * * *'   # 3:30 PM ET in EDT (summer)
     - cron: '30 20 * * *'   # 3:30 PM ET in EST (winter)
 
@@ -29,21 +27,30 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
+      - name: Configure git
+        run: |
+          git config user.name "Daily All Bot"
+          git config user.email "bot@noreply.github.com"
+
+      - name: Install minimal dependencies
+        # Don't install full requirements.txt (streamlit is 50+ MB and
+        # unnecessary for the daily script). Just what daily_all.py needs.
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pandas requests certifi tzdata
 
       - name: Run daily_all.py
         env:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTIONS: 'true'
         run: |
           ARGS=""
           if [ "${{ github.event.inputs.skip_hr }}" = "true" ]; then
@@ -54,17 +61,13 @@ jobs:
           fi
           python daily_all.py $ARGS
 
-      - name: Commit any local file changes (true_prob_history)
-        # daily_all.py already pushed via git push origin main, but if there
-        # were rebase conflicts we want to retry here as backup.
+      - name: Commit + push true_prob_history
         run: |
-          git config user.name "Daily All Bot"
-          git config user.email "bot@noreply.github.com"
           git add true_prob_history/
           if git diff --staged --quiet; then
-            echo "No remaining changes to commit (daily_all.py already pushed)"
+            echo "No changes to commit"
           else
-            git commit -m "True Prob backup commit $(date -u +%Y-%m-%d-%H%M)"
+            git commit -m "True Prob daily $(date -u +%Y-%m-%d)"
             for i in 1 2 3; do
               git pull --rebase origin main && git push origin main && break
               echo "Push attempt $i failed, retrying..."

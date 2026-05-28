@@ -80,6 +80,10 @@ def main():
     do_push = "--no-push" not in args
     do_hr = "--skip-hr" not in args
     do_hrr = "--skip-hrr" not in args
+    # In CI (GitHub Actions), don't do git operations from inside the script.
+    # The workflow YAML handles the commit + push so credentials are
+    # configured correctly. Locally, we still git-push from here.
+    in_ci = os.environ.get("GITHUB_ACTIONS") == "true" or "--no-git" in args
 
     today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
     yest_et = (datetime.now(tz=EASTERN) - timedelta(days=1)).strftime("%Y-%m-%d")
@@ -175,7 +179,7 @@ def main():
         step("H+R+R Tracker (generate + push)", _hrr)
 
     # ---------- Step 5: Commit + push true_prob_history ----------
-    if do_push:
+    if do_push and not in_ci:
         def _git_push():
             subprocess.run(["git", "add", "true_prob_history/"], cwd=ROOT, check=False)
             r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
@@ -193,6 +197,8 @@ def main():
                 raise RuntimeError("git push failed")
             return True
         step("Commit + push true_prob_history", _git_push)
+    elif do_push and in_ci:
+        print("\n[CI] Skipping git push from script — workflow YAML handles it.")
 
     header("ALL DONE")
     print(f"Run finished at {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}")
