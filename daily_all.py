@@ -1,0 +1,202 @@
+"""
+Daily ALL-IN-ONE auto-save script.
+
+Runs every daily task in one shot:
+  1. Settle yesterday's True Probability snapshot (via MLB Stats API)
+  2. Take today's True Probability snapshot (saves to true_prob_history/)
+  3. Generate + save HR Tracker picks (STRICT filter, top 7) -> GitHub
+  4. Generate + save H+R+R Tracker picks (STRICT filter, top 6) -> GitHub
+  5. Commit + push true_prob_history/ to GitHub
+
+REPLACES your daily manual clicks on the HR Tracker page Save button.
+
+Usage:
+    python daily_all.py            # Do everything; push HR + H+R+R via GH API,
+                                   # commit + push true_prob_history/ via git.
+
+    python daily_all.py --skip-hr  # Skip HR generation (just True Prob)
+    python daily_all.py --skip-hrr # Skip H+R+R generation
+    python daily_all.py --no-push  # Run locally only, don't push anything
+
+Add to Windows Task Scheduler:
+    Program:  python
+    Arguments:  C:\\Users\\17146\\MLB homerun\\daily_all.py
+    Start in:  C:\\Users\\17146\\MLB homerun
+    Trigger:  Daily, 4:00 PM
+"""
+import os
+import subprocess
+import sys
+import tomllib
+import traceback
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+EASTERN = ZoneInfo("America/New_York")
+ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, ROOT)
+
+OWNER = "Theo1984-ai"
+REPO = "MLB-DASHBOARD-"
+HR_DIR = "hr_tracker"
+HRR_DIR = "hrr_tracker"
+
+
+def load_secrets():
+    """Load API keys from .streamlit/secrets.toml OR from environment."""
+    odds_key = os.environ.get("THE_ODDS_API_KEY")
+    gh_token = os.environ.get("GITHUB_TOKEN")
+    secrets_path = os.path.join(ROOT, ".streamlit", "secrets.toml")
+    if os.path.exists(secrets_path):
+        with open(secrets_path, "rb") as f:
+            cfg = tomllib.load(f)
+        odds_key = odds_key or cfg.get("THE_ODDS_API_KEY")
+        gh_token = gh_token or cfg.get("GITHUB_TOKEN")
+    return odds_key, gh_token
+
+
+def header(msg):
+    bar = "=" * 60
+    print(f"\n{bar}\n{msg}\n{bar}")
+
+
+def step(name, fn, *args, **kwargs):
+    """Run a step with timing + safe error handling."""
+    print(f"\n[STEP] {name}...")
+    t0 = datetime.now()
+    try:
+        result = fn(*args, **kwargs)
+        dt = (datetime.now() - t0).total_seconds()
+        print(f"[OK]   {name} done in {dt:.1f}s")
+        return result
+    except Exception as e:
+        print(f"[FAIL] {name}: {e}")
+        traceback.print_exc(limit=3)
+        return None
+
+
+def main():
+    args = set(sys.argv[1:])
+    do_push = "--no-push" not in args
+    do_hr = "--skip-hr" not in args
+    do_hrr = "--skip-hrr" not in args
+
+    today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
+    yest_et = (datetime.now(tz=EASTERN) - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    header(f"Daily ALL Tracker run — {today_et}")
+    print(f"Yesterday (to settle): {yest_et}")
+    print(f"Push to GitHub:        {do_push}")
+    print(f"HR Tracker:            {'YES' if do_hr else 'SKIP'}")
+    print(f"H+R+R Tracker:         {'YES' if do_hrr else 'SKIP'}")
+
+    odds_key, gh_token = load_secrets()
+    if not odds_key:
+        print("\nFATAL: THE_ODDS_API_KEY not set in env or .streamlit/secrets.toml")
+        sys.exit(1)
+    if do_push and not gh_token:
+        print("\nWARN: GITHUB_TOKEN not found — HR/H+R+R won't push (True Prob still pushes via git).")
+
+    os.environ["THE_ODDS_API_KEY"] = odds_key
+
+    # ---------- Step 1: Settle yesterday's True Prob snapshot ----------
+    yest_path = os.path.join(ROOT, "true_prob_history", f"{yest_et}.json")
+    if os.path.exists(yest_path):
+        def _settle():
+            r = subprocess.run(
+                [sys.executable, os.path.join(ROOT, "scripts", "true_prob_settler.py"), yest_et],
+                cwd=ROOT, capture_output=True, text=True,
+            )
+            print(r.stdout, end="")
+            if r.returncode != 0:
+                print("STDERR:", r.stderr[:500])
+                raise RuntimeError(f"settler exit {r.returncode}")
+            return True
+        step(f"Settle True Prob {yest_et}", _settle)
+    else:
+        print(f"\n[SKIP] No True Prob snapshot for {yest_et} — nothing to settle.")
+
+    # ---------- Step 2: Take today's True Prob snapshot ----------
+    def _snapshot():
+        r = subprocess.run(
+            [sys.executable, os.path.join(ROOT, "scripts", "true_prob_snapshot.py")],
+            cwd=ROOT, capture_output=True, text=True,
+        )
+        print(r.stdout, end="")
+        if r.returncode != 0:
+            print("STDERR:", r.stderr[:500])
+            raise RuntimeError(f"snapshot exit {r.returncode}")
+        return True
+    step(f"Snapshot True Prob {today_et}", _snapshot)
+
+    # ---------- Step 3: HR Tracker ----------
+    if do_hr:
+        def _hr():
+            from scripts.hr_tracker_scanner import generate_hr_picks
+            payload = generate_hr_picks(odds_key)
+            print(f"  Generated {len(payload['picks'])} HR picks from {payload['n_total']} predictions")
+            if do_push and gh_token:
+                from data import github_storage as gh
+                path = f"{HR_DIR}/{today_et}.json"
+                gh.save_json(gh_token, OWNER, REPO, path, payload,
+                             commit_msg=f"HR tracker: top {payload['top_n']} for {today_et}")
+                print(f"  Pushed to GitHub: {path}")
+            else:
+                # Write locally so the user can manually push
+                import json
+                os.makedirs(os.path.join(ROOT, HR_DIR), exist_ok=True)
+                local_path = os.path.join(ROOT, HR_DIR, f"{today_et}.json")
+                with open(local_path, "w") as f:
+                    json.dump(payload, f, indent=2, default=str)
+                print(f"  Saved locally (no push): {local_path}")
+            return payload
+        step("HR Tracker (generate + push)", _hr)
+
+    # ---------- Step 4: H+R+R Tracker ----------
+    if do_hrr:
+        def _hrr():
+            from scripts.hrr_tracker_scanner import generate_hrr_picks
+            payload = generate_hrr_picks(odds_key)
+            print(f"  Generated {len(payload['picks'])} H+R+R picks from {payload['n_total']} offers")
+            if do_push and gh_token:
+                from data import github_storage as gh
+                path = f"{HRR_DIR}/{today_et}.json"
+                gh.save_json(gh_token, OWNER, REPO, path, payload,
+                             commit_msg=f"H+R+R tracker: top {payload['top_n']} (O{payload['point']}) for {today_et}")
+                print(f"  Pushed to GitHub: {path}")
+            else:
+                import json
+                os.makedirs(os.path.join(ROOT, HRR_DIR), exist_ok=True)
+                local_path = os.path.join(ROOT, HRR_DIR, f"{today_et}.json")
+                with open(local_path, "w") as f:
+                    json.dump(payload, f, indent=2, default=str)
+                print(f"  Saved locally (no push): {local_path}")
+            return payload
+        step("H+R+R Tracker (generate + push)", _hrr)
+
+    # ---------- Step 5: Commit + push true_prob_history ----------
+    if do_push:
+        def _git_push():
+            subprocess.run(["git", "add", "true_prob_history/"], cwd=ROOT, check=False)
+            r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
+            if r.returncode == 0:
+                print("  No true_prob_history changes to commit.")
+                return True
+            subprocess.run(
+                ["git", "commit", "-m",
+                 f"True Prob daily: settle {yest_et} + snapshot {today_et}"],
+                cwd=ROOT, check=False,
+            )
+            subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=False)
+            r2 = subprocess.run(["git", "push", "origin", "main"], cwd=ROOT)
+            if r2.returncode != 0:
+                raise RuntimeError("git push failed")
+            return True
+        step("Commit + push true_prob_history", _git_push)
+
+    header("ALL DONE")
+    print(f"Run finished at {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}")
+
+
+if __name__ == "__main__":
+    main()
