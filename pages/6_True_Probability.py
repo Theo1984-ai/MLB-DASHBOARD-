@@ -200,19 +200,35 @@ with st.spinner("Fetching upcoming MLB games..."):
         events = cached_fetch_events()
     except Exception as e:
         st.error(f"Failed to fetch events: {e}")
+        st.info("This is usually a temporary API issue. Hit **🔄 Refresh Now** to retry.")
         st.stop()
+
+# Defensive: API can return non-list payloads if quota is exhausted or auth fails
+if not isinstance(events, list):
+    st.error(
+        "The Odds API returned an unexpected response. This usually means the API "
+        "key is invalid or daily quota is exhausted. Check `.streamlit/secrets.toml` "
+        "or hit **🔄 Refresh Now** later when quota resets."
+    )
+    st.stop()
 
 now_utc = datetime.now(timezone.utc)
 upcoming = []
 for e in events:
-    ct = datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
+    try:
+        ct = datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
+    except (KeyError, ValueError, TypeError):
+        continue  # skip malformed event entries
     hours_to_start = (ct - now_utc).total_seconds() / 3600
     if hours_to_start > -0.5:  # exclude games already 30+ min in
         upcoming.append((e, hours_to_start))
 upcoming.sort(key=lambda x: x[1])
 
 if not upcoming:
-    st.warning("No upcoming MLB games on the board.")
+    st.warning(
+        "No upcoming MLB games on the board. This is normal between game days, "
+        "or very early before any games are scheduled. Try again later."
+    )
     st.stop()
 
 # Game labels by event id.
@@ -334,7 +350,7 @@ for g in game_lines:
 
 # 2) Props per event
 prog = st.progress(0.0, text="Pulling props per game...")
-total_events = len(upcoming)
+total_events = max(1, len(upcoming))  # defensive: avoid div-by-zero
 for idx, (e, hrs) in enumerate(upcoming):
     prog.progress((idx + 1) / total_events, text=f"Pulling props: {idx+1}/{total_events}")
     eid = e["id"]

@@ -84,3 +84,7 @@ nba_pick_status.py
 mlb_pick_status.py
 mlb_soft_scanner.py
 _*.py
+# Exception: Python package __init__.py files MUST be tracked even though
+# they start with an underscore. Without this, `from scripts.foo import bar`
+# can fail intermittently on cloud deployments.
+!__init__.py
