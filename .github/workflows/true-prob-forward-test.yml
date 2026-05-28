@@ -83,7 +83,13 @@ jobs:
           git add true_prob_history/
           if git diff --staged --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "True Prob ${{ steps.decide.outputs.action }} $(date -u +%Y-%m-%d-%H%M)"
-            git push
+            exit 0
           fi
+          git commit -m "True Prob ${{ steps.decide.outputs.action }} $(date -u +%Y-%m-%d-%H%M)"
+          # Pull-rebase before push to avoid 'non-fast-forward' rejections when
+          # another commit landed during the snapshot/settle (which takes 1-5 min).
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && break
+            echo "Push attempt $i failed, retrying..."
+            sleep 5
+          done
