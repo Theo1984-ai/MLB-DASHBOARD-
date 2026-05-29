@@ -100,6 +100,157 @@ all_data = {t["dir"]: load_files(t["dir"]) for t in TRACKERS}
 today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
 
 
+# ---------- Date picker + per-day results ----------
+
+st.markdown("### 🎯 Results for a specific day")
+
+# Build the universe of dates that have ANY saved data
+all_dates = set()
+for files in all_data.values():
+    for f in files:
+        all_dates.add(f[0])
+all_dates_sorted = sorted(all_dates, reverse=True)
+
+if not all_dates_sorted:
+    st.info("No saved data yet — the cron hasn't run, or the trackers haven't been populated.")
+else:
+    # Default to today if it exists, else most recent
+    default_idx = 0 if today_et in all_dates_sorted else 0
+    if today_et in all_dates_sorted:
+        default_idx = all_dates_sorted.index(today_et)
+    sel_date = st.selectbox(
+        "Pick a date",
+        options=all_dates_sorted,
+        index=default_idx,
+        format_func=lambda d: (
+            f"{d}  ({datetime.strptime(d, '%Y-%m-%d').strftime('%a, %b %d')})"
+            + ("  — TODAY" if d == today_et else "")
+        ),
+    )
+
+    # Aggregate counts for the picked day
+    summary_row = st.columns(len(TRACKERS) + 1)
+    total_picks_day = 0
+    total_w = total_l = total_p = 0
+    for i, t in enumerate(TRACKERS):
+        files_by_date = {f[0]: f[1] for f in all_data[t["dir"]]}
+        payload = files_by_date.get(sel_date)
+        if payload:
+            n = payload.get("n_picks") or len(payload.get("picks", []))
+            total_picks_day += n
+            picks = payload.get("picks", [])
+            settled_w = sum(1 for p in picks if p.get("result") == "WIN")
+            settled_l = sum(1 for p in picks if p.get("result") == "LOSS")
+            settled_p = sum(1 for p in picks if p.get("result") == "PUSH")
+            total_w += settled_w; total_l += settled_l; total_p += settled_p
+            if settled_w + settled_l > 0:
+                rate = settled_w / (settled_w + settled_l) * 100
+                summary_row[i].metric(
+                    f"{t['icon']} {t['name']}",
+                    f"{n} picks",
+                    f"{settled_w}W-{settled_l}L ({rate:.0f}%)",
+                )
+            else:
+                summary_row[i].metric(
+                    f"{t['icon']} {t['name']}",
+                    f"{n} picks",
+                    "pending" if n else "",
+                    delta_color="off",
+                )
+        else:
+            summary_row[i].metric(f"{t['icon']} {t['name']}", "—", "no save")
+    if total_w + total_l > 0:
+        day_rate = total_w / (total_w + total_l) * 100
+        summary_row[-1].metric("📊 Day total",
+                               f"{total_picks_day} picks",
+                               f"{total_w}W-{total_l}L-{total_p}P ({day_rate:.0f}%)")
+    else:
+        summary_row[-1].metric("📊 Day total", f"{total_picks_day} picks", "no settled")
+
+    # Detail tables per tracker for this date
+    st.markdown(f"#### Picks for {sel_date}")
+    detail_tabs = st.tabs([f"{t['icon']} {t['name']}" for t in TRACKERS])
+    for i, t in enumerate(TRACKERS):
+        with detail_tabs[i]:
+            files_by_date = {f[0]: f[1] for f in all_data[t["dir"]]}
+            payload = files_by_date.get(sel_date)
+            if not payload:
+                st.info(f"No {t['name']} save for {sel_date}.")
+                continue
+            picks = payload.get("picks", [])
+            if not picks:
+                st.warning(f"{t['name']} ran but produced 0 picks (filter rejected all).")
+                continue
+
+            # Normalize fields across tracker formats
+            rows = []
+            for p in picks:
+                # Player/selection
+                sel = p.get("selection") or p.get("player") or p.get("batter") or "?"
+                # Market
+                mkt = p.get("market") or "HR" if t["dir"] == "hr_tracker" else p.get("market", "")
+                if t["dir"] == "hrr_tracker":
+                    mkt = "H+R+R"
+                if t["dir"] == "hr_tracker":
+                    mkt = "HR"
+                # Side / line
+                side = p.get("side", "")
+                line = p.get("point")
+                # Price
+                price = p.get("best_price") or p.get("best_odds")
+                book = p.get("best_book", "")
+                # Edge / probability
+                edge = p.get("edge_pp")
+                true_prob = p.get("true_prob_pct") or p.get("consensus_pct") or p.get("model_p_pct")
+                # Result
+                result = p.get("result", "")
+                detail = p.get("settle_detail", "")
+                # Game
+                game = p.get("game") or p.get("matchup", "")
+                row = {
+                    "Game":     game,
+                    "Player":   sel,
+                    "Market":   mkt,
+                    "Side":     side,
+                    "Line":     line,
+                    "Price":    price,
+                    "Book":     book,
+                    "TrueP %":  true_prob,
+                    "Edge pp":  edge,
+                    "Result":   result if result else ("pending" if t["has_settle"] else ""),
+                    "Detail":   detail,
+                }
+                rows.append(row)
+
+            df = pd.DataFrame(rows)
+            # Drop columns that are entirely empty/None for cleanliness
+            for c in list(df.columns):
+                if df[c].isna().all() or (df[c].astype(str).str.strip() == "").all():
+                    df = df.drop(columns=c)
+
+            # Color-code Result column
+            def color_result(val):
+                if val == "WIN":  return "background-color: #1f7a1f; color: white"
+                if val == "LOSS": return "background-color: #a52a2a; color: white"
+                if val == "PUSH": return "background-color: #888; color: white"
+                return ""
+            cfg = {}
+            if "TrueP %" in df.columns:
+                df["TrueP %"] = pd.to_numeric(df["TrueP %"], errors="coerce")
+                cfg["TrueP %"] = st.column_config.NumberColumn(format="%.1f%%")
+            if "Edge pp" in df.columns:
+                df["Edge pp"] = pd.to_numeric(df["Edge pp"], errors="coerce")
+                cfg["Edge pp"] = st.column_config.NumberColumn(format="%+.1f")
+            if "Price" in df.columns:
+                df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
+                cfg["Price"] = st.column_config.NumberColumn(format="%+d")
+
+            styled = df.style.map(color_result, subset=["Result"]) if "Result" in df.columns else df
+            st.dataframe(styled, use_container_width=True, hide_index=True, column_config=cfg)
+
+st.markdown("---")
+
+
 # ---------- Hero metrics ----------
 
 st.markdown("### 🏥 Health overview")
