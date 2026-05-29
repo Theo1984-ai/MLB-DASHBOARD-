@@ -76,8 +76,10 @@ hr_compare_and_backtest.py
 hr_synthetic_backtest.py
 hr_backtest_old_vs_new.py
 
-# Tracker output is local — survives across pushes (don't commit big growing JSON history)
-hr_tracker/
+# Tracker output is committed so daily_all.py auto-settle can push results.
+# Previously gitignored, but now we want git history for the W/L track record.
+# (Files were already on GitHub via the page's Save button — same API.)
+# hr_tracker/ — now tracked
 
 # Live pick status + soft-price scanner (local CLI tools — not used by cloud)
 nba_pick_status.py

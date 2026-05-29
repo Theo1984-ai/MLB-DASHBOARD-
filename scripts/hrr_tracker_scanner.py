@@ -125,6 +125,14 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
                 "implied_pct": round(imp * 100, 2),
                 "model_p_pct": None,
                 "edge_pp":     None,
+                # Settler metadata (H+R+R Over HRR_POINT)
+                "stat_key":    "hrr",
+                "side":        "Over",
+                "player":      mlb_name,
+                "away_team":   away_name,
+                "home_team":   home_name,
+                "first_pitch": _fp.isoformat() if _fp else None,
+                "best_price":  am,  # alias so settler ROI calc works
             })
 
     # STRICT filter (matches page)

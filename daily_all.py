@@ -132,6 +132,18 @@ def main():
     else:
         print(f"[SKIP] No Soft Scanner snapshot for {yest_et} — nothing to settle.")
 
+    yest_hr = os.path.join(ROOT, "hr_tracker", f"{yest_et}.json")
+    if os.path.exists(yest_hr):
+        step(f"Settle HR Tracker {yest_et}", _settle("hr_tracker"))
+    else:
+        print(f"[SKIP] No HR Tracker snapshot for {yest_et} — nothing to settle.")
+
+    yest_hrr = os.path.join(ROOT, "hrr_tracker", f"{yest_et}.json")
+    if os.path.exists(yest_hrr):
+        step(f"Settle H+R+R Tracker {yest_et}", _settle("hrr_tracker"))
+    else:
+        print(f"[SKIP] No H+R+R Tracker snapshot for {yest_et} — nothing to settle.")
+
     # ---------- Step 2: Take today's True Prob snapshot ----------
     def _snapshot():
         r = subprocess.run(
@@ -222,7 +234,9 @@ def main():
     # ---------- Step 5: Commit + push forward-test history files ----------
     if do_push and not in_ci:
         def _git_push():
-            subprocess.run(["git", "add", "true_prob_history/", "soft_scanner_history/"],
+            subprocess.run(["git", "add",
+                            "true_prob_history/", "soft_scanner_history/",
+                            "hr_tracker/", "hrr_tracker/"],
                            cwd=ROOT, check=False)
             r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
             if r.returncode == 0:

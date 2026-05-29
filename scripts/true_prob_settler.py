@@ -183,12 +183,14 @@ def settle_pick(pick, games, player_id_cache):
         return ("NO_DATA", f"unknown total side={side}")
 
     # ---- Player props ----
-    player = pick.get("player") or pick.get("selection", "")
+    # Tolerate HR/H+R+R legacy field names: batter, batter_id
+    player = (pick.get("player") or pick.get("selection")
+              or pick.get("batter") or "")
     if not player:
         return ("NO_DATA", "no player name")
 
-    # Determine team for the player (best effort — try both teams)
-    pid = player_id_cache.get(player)
+    # Prefer pre-recorded batter_id (HR/H+R+R trackers store it directly)
+    pid = pick.get("batter_id") or player_id_cache.get(player)
     if pid is None:
         # Search across both teams (best-effort)
         pid = find_player_id(player, away) or find_player_id(player, home)
@@ -196,7 +198,10 @@ def settle_pick(pick, games, player_id_cache):
     if not pid:
         return ("NO_DATA", f"player_id not found: {player}")
 
-    date = pick.get("first_pitch", "")[:10]
+    date = pick.get("first_pitch", "")[:10] if pick.get("first_pitch") else ""
+    # Fallback for old HR/H+R+R saves that lack first_pitch — use snapshot date
+    if not date:
+        date = pick.get("date") or pick.get("snapshot_date", "")
     if stat_key == "pitcher_w":
         s = get_pitcher_game_stats(pid, date)
         if not s:
@@ -251,12 +256,33 @@ def settle_pick(pick, games, player_id_cache):
 
 def settle_snapshot(date_str, history_dir="true_prob_history"):
     """Settle a snapshot file. Default settles True Prob snapshots, but
-    can also settle Soft Scanner snapshots (or any compatible file)
-    by passing history_dir='soft_scanner_history' etc."""
+    can also settle Soft Scanner snapshots, HR Tracker, H+R+R Tracker,
+    or any compatible file by passing the appropriate directory name."""
     path = os.path.join(ROOT, history_dir, f"{date_str}.json")
     if not os.path.exists(path):
         print(f"No snapshot found for {date_str}: {path}")
         return False
+
+    # For HR/H+R+R: if picks don't have settle metadata yet (pre-fix saves),
+    # inject defaults so settling still works.
+    def _backfill_settle_fields(p, default_stat_key, default_point):
+        if "stat_key" not in p or p.get("stat_key") is None:
+            p["stat_key"] = default_stat_key
+        if "side" not in p:
+            p["side"] = "Over"
+        if "point" not in p or p.get("point") is None:
+            p["point"] = default_point
+        if "player" not in p:
+            p["player"] = p.get("batter", "")
+        # Parse matchup -> away/home if not set
+        mu = p.get("matchup", "")
+        if "away_team" not in p and " @ " in mu:
+            p["away_team"], p["home_team"] = mu.split(" @ ", 1)
+        if "first_pitch" not in p or not p.get("first_pitch"):
+            p["first_pitch"] = date_str + "T00:00:00"
+        # Alias best_price for ROI math
+        if "best_price" not in p and p.get("best_odds") is not None:
+            p["best_price"] = p["best_odds"]
 
     with open(path) as f:
         snap = json.load(f)
@@ -265,6 +291,14 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
     if not games:
         print(f"No schedule data for {date_str} yet — try again later.")
         return False
+
+    # Apply backfill for older HR/H+R+R saves that lack settle metadata
+    if history_dir == "hr_tracker":
+        for p in snap.get("picks", []):
+            _backfill_settle_fields(p, default_stat_key="hr", default_point=0.5)
+    elif history_dir == "hrr_tracker":
+        for p in snap.get("picks", []):
+            _backfill_settle_fields(p, default_stat_key="hrr", default_point=1.5)
 
     player_id_cache = {}
     n_settled = 0
@@ -344,11 +378,14 @@ def main():
     args = sys.argv[1:]
     history_dir = "true_prob_history"
     date_str = None
+    # Date looks like YYYY-MM-DD; anything else is the directory name.
+    import re
+    date_pat = re.compile(r"^\d{4}-\d{2}-\d{2}$")
     for a in args:
-        if "_history" in a:
-            history_dir = a
-        else:
+        if date_pat.match(a):
             date_str = a
+        else:
+            history_dir = a
     if date_str is None:
         yest = datetime.now(tz=EASTERN) - timedelta(days=1)
         date_str = yest.strftime("%Y-%m-%d")

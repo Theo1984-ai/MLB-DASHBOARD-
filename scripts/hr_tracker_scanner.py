@@ -205,6 +205,14 @@ def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
                 "best_book":   None,
                 "implied_pct": None,
                 "edge_pp":     None,
+                # Settler metadata (HR market = "did the batter hit a HR?")
+                "stat_key":    "hr",
+                "side":        "Over",
+                "point":       0.5,
+                "player":      bname,
+                "away_team":   away_name,
+                "home_team":   home_name,
+                "first_pitch": fp_dt.isoformat() if fp_dt else None,
             }
             if odds_data:
                 rec["best_odds"] = odds_data[0]

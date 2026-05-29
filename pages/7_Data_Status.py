@@ -43,7 +43,7 @@ TRACKERS = [
         "icon":     "💣",
         "dir":      "hr_tracker",
         "page":     "2_HR_Tracker",
-        "has_settle": False,
+        "has_settle": True,
         "desc":     "Top 7 HR picks (STRICT filter: odds attached, edge >= -2pp, confidence >= 45)",
     },
     {
@@ -51,7 +51,7 @@ TRACKERS = [
         "icon":     "🏃",
         "dir":      "hrr_tracker",
         "page":     "2_HR_Tracker",
-        "has_settle": False,
+        "has_settle": True,
         "desc":     "Top 6 H+R+R Over 1.5 picks (juice cap -180, implied >= 50%)",
     },
     {
