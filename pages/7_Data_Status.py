@@ -60,6 +60,31 @@ all_data = {t["dir"]: load_files(t["dir"]) for t in TRACKERS}
 today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
 
 
+def fmt_line(x):
+    """Format prop lines without redundant zeros.
+        0.5 -> ".5"
+        1.5 -> "1.5"
+        5.0 -> "5"
+        None / NaN -> ""
+    """
+    if x is None:
+        return ""
+    try:
+        v = float(x)
+    except (TypeError, ValueError):
+        return str(x)
+    if pd.isna(v):
+        return ""
+    if v == int(v):
+        return str(int(v))
+    s = f"{v:g}"
+    if s.startswith("0."):
+        return s[1:]
+    if s.startswith("-0."):
+        return "-" + s[2:]
+    return s
+
+
 def freshness_emoji(date_str):
     if not date_str:
         return "⚪"
@@ -229,6 +254,9 @@ for i, t in enumerate(TRACKERS):
             rows.append(row)
 
         df = pd.DataFrame(rows)
+        # Format the Line column to strip redundant zeros (".5" instead of "0.5")
+        if "Line" in df.columns:
+            df["Line"] = df["Line"].apply(fmt_line)
         # Drop empty columns
         for c in list(df.columns):
             if df[c].isna().all() or (df[c].astype(str).str.strip() == "").all():
