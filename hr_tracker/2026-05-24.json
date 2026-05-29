@@ -29,8 +29,8 @@
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-05-24T00:00:00",
       "best_price": 285,
-      "result": "NO_DATA",
-      "settle_detail": "game status=Postponed"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Wetherholt, JJ",
@@ -56,8 +56,8 @@
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-05-24T00:00:00",
       "best_price": 470,
-      "result": "NO_DATA",
-      "settle_detail": "game status=Postponed"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Harris II, Michael",
@@ -110,8 +110,8 @@
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-05-24T00:00:00",
       "best_price": 340,
-      "result": "NO_DATA",
-      "settle_detail": "game status=Postponed"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Herrera, Iv\u00e1n",
@@ -137,8 +137,8 @@
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-05-24T00:00:00",
       "best_price": 520,
-      "result": "NO_DATA",
-      "settle_detail": "game status=Postponed"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Vargas, Miguel",
@@ -191,8 +191,8 @@
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-05-24T00:00:00",
       "best_price": 304,
-      "result": "NO_DATA",
-      "settle_detail": "game status=Postponed"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Riley, Austin",
@@ -271,15 +271,16 @@
       "away_team": "Los Angeles Dodgers",
       "home_team": "Milwaukee Brewers",
       "first_pitch": "2026-05-24T00:00:00",
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Muncy, Max)"
     }
   ],
-  "settled_at": "2026-05-28T20:27:38.432065-04:00",
+  "settled_at": "2026-05-28T20:44:32.213925-04:00",
   "summary": {
     "n_total": 10,
     "n_settled": 4,
-    "n_no_data": 6,
+    "n_void": 6,
+    "n_no_data": 0,
     "wins": 1,
     "losses": 3,
     "pushes": 0,

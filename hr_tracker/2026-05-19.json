@@ -28,8 +28,8 @@
       "away_team": "Cincinnati Reds",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-05-19T00:00:00",
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Schwarber, Kyle)"
     },
     {
       "batter": "Schmitt, Casey",
@@ -268,11 +268,12 @@
       "settle_detail": "hr=0 vs O0.5"
     }
   ],
-  "settled_at": "2026-05-28T20:27:29.596262-04:00",
+  "settled_at": "2026-05-28T20:44:28.935763-04:00",
   "summary": {
     "n_total": 10,
     "n_settled": 9,
-    "n_no_data": 1,
+    "n_void": 1,
+    "n_no_data": 0,
     "wins": 4,
     "losses": 5,
     "pushes": 0,

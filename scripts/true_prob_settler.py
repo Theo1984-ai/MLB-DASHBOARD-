@@ -45,14 +45,38 @@ def get_schedule_with_scores(date):
     return out
 
 
+def _norm(name):
+    """Normalize team name for tolerant matching."""
+    return (name or "").strip().lower().replace(".", "").replace("  ", " ")
+
+
 def find_game(games, away_team, home_team):
+    """Find a game by team names. Tolerates trailing/leading whitespace and
+    minor case/punctuation diffs. Returns the first match (handles
+    doubleheaders by picking the first of the two; both have same
+    final-score grading for moneyline/spread/total — no impact)."""
+    aw_n, hm_n = _norm(away_team), _norm(home_team)
     for g in games:
         try:
             a = g["teams"]["away"]["team"]["name"]
             h = g["teams"]["home"]["team"]["name"]
             if a == away_team and h == home_team:
                 return g
+            if _norm(a) == aw_n and _norm(h) == hm_n:
+                return g
         except KeyError:
+            continue
+    # Last-resort: match on just the last word of each team name
+    # (e.g. "Toronto Blue Jays" -> "Jays" matches "Jays")
+    aw_last = aw_n.split()[-1] if aw_n else ""
+    hm_last = hm_n.split()[-1] if hm_n else ""
+    for g in games:
+        try:
+            a_last = _norm(g["teams"]["away"]["team"]["name"]).split()[-1]
+            h_last = _norm(g["teams"]["home"]["team"]["name"]).split()[-1]
+            if a_last == aw_last and h_last == hm_last:
+                return g
+        except (KeyError, IndexError):
             continue
     return None
 
@@ -132,9 +156,12 @@ def settle_pick(pick, games, player_id_cache):
 
     game = find_game(games, away, home)
     if not game:
-        return ("NO_DATA", "game not found in schedule")
+        return ("NO_DATA", f"game not found ({away} @ {home})")
 
     status = (game.get("status") or {}).get("detailedState", "")
+    # Postponed / cancelled / suspended = sportsbook void = NOT a loss
+    if any(s in status for s in ("Postponed", "Cancelled", "Suspended")):
+        return ("VOID", f"game {status.lower()}")
     if "Final" not in status:
         return ("NO_DATA", f"game status={status}")
 
@@ -205,12 +232,12 @@ def settle_pick(pick, games, player_id_cache):
     if stat_key == "pitcher_w":
         s = get_pitcher_game_stats(pid, date)
         if not s:
-            return ("NO_DATA", "no pitcher stat")
+            return ("VOID", f"pitcher did not start ({player})")
         return ("WIN" if s["win"] else "LOSS", f"win={s['win']}")
     if stat_key == "ks":
         s = get_pitcher_game_stats(pid, date)
         if not s:
-            return ("NO_DATA", "no pitcher stat")
+            return ("VOID", f"pitcher did not start ({player})")
         actual = s["ks"]
         if side == "Over":
             if actual > point: return ("WIN", f"ks={actual} vs O{point}")
@@ -221,10 +248,11 @@ def settle_pick(pick, games, player_id_cache):
             if actual > point: return ("LOSS", f"ks={actual} vs U{point}")
             return ("PUSH", f"ks={actual} vs U{point}")
 
-    # Batter markets
+    # Batter markets — no game log entry for the date = batter didn't play
+    # (rest day / late scratch / sub used). Sportsbooks void these.
     s = get_batter_game_stats(pid, date)
     if not s:
-        return ("NO_DATA", "no batter stat")
+        return ("VOID", f"batter did not play ({player})")
 
     actual = None
     if stat_key == "hr":    actual = s["hr"]
@@ -292,6 +320,17 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
         print(f"No schedule data for {date_str} yet — try again later.")
         return False
 
+    # Some picks may have a first_pitch on a different date than the snapshot
+    # (e.g. cron ran late and captured tomorrow's slate). Pre-load schedules
+    # for any other dates referenced by picks.
+    extra_schedules = {}
+    for p in snap.get("picks", []):
+        fp = (p.get("first_pitch") or "")[:10]
+        if fp and fp != date_str and fp not in extra_schedules:
+            extra_schedules[fp] = get_schedule_with_scores(fp)
+    if extra_schedules:
+        print(f"  Also loaded schedules for {sorted(extra_schedules)}")
+
     # Apply backfill for older HR/H+R+R saves that lack settle metadata
     if history_dir == "hr_tracker":
         for p in snap.get("picks", []):
@@ -303,26 +342,40 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
     player_id_cache = {}
     n_settled = 0
     n_already = 0
+    n_void = 0
     n_no_data = 0
 
+    # IMPORTANT: re-settle picks marked NO_DATA previously, in case the
+    # settler logic improved since the last run. PUSH/VOID/WIN/LOSS are
+    # final outcomes that don't change.
+    FINAL = ("WIN", "LOSS", "PUSH", "VOID")
     for p in snap.get("picks", []):
-        if p.get("result") in ("WIN", "LOSS", "PUSH"):
+        if p.get("result") in FINAL:
             n_already += 1
             continue
-        result, detail = settle_pick(p, games, player_id_cache)
+        # Use the pick's first_pitch date if it differs from snapshot date
+        fp_date = (p.get("first_pitch") or "")[:10]
+        games_for_pick = (extra_schedules.get(fp_date)
+                          if fp_date and fp_date != date_str else None)
+        if games_for_pick is None:
+            games_for_pick = games
+        result, detail = settle_pick(p, games_for_pick, player_id_cache)
         p["result"] = result
         p["settle_detail"] = detail
         if result in ("WIN", "LOSS", "PUSH"):
             n_settled += 1
+        elif result == "VOID":
+            n_void += 1
         else:
             n_no_data += 1
 
     snap["settled_at"] = datetime.now(tz=EASTERN).isoformat()
 
-    # Summary stats
+    # Summary stats — VOIDs excluded from W/L AND from ROI (book refunds them)
     wins = sum(1 for p in snap["picks"] if p.get("result") == "WIN")
     losses = sum(1 for p in snap["picks"] if p.get("result") == "LOSS")
     pushes = sum(1 for p in snap["picks"] if p.get("result") == "PUSH")
+    voids = sum(1 for p in snap["picks"] if p.get("result") == "VOID")
     settled = wins + losses + pushes
     hit_rate = wins / (wins + losses) * 100 if (wins + losses) else 0
 
@@ -343,11 +396,12 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
             profit_total += payout
         elif r == "LOSS":
             profit_total -= risk
-        # PUSH = 0 P/L
+        # PUSH / VOID = 0 P/L
 
     snap["summary"] = {
         "n_total":   len(snap.get("picks", [])),
         "n_settled": settled,
+        "n_void":    voids,
         "n_no_data": n_no_data,
         "wins":      wins,
         "losses":    losses,
@@ -363,7 +417,7 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
 
     print(f"Settled {date_str}: {wins}W/{losses}L/{pushes}P  "
           f"hit_rate={hit_rate:.1f}%  ROI={snap['summary']['roi_pct']:+.1f}%  "
-          f"(no_data={n_no_data}, already={n_already})")
+          f"(void={voids}, no_data={n_no_data}, already={n_already})")
     return True
 
 

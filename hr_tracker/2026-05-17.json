@@ -26,8 +26,8 @@
       "away_team": "San Francisco Giants",
       "home_team": "Athletics",
       "first_pitch": "2026-05-17T00:00:00",
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Langeliers, Shea)"
     },
     {
       "batter": "Trout, Mike",
@@ -255,11 +255,12 @@
       "settle_detail": "hr=0 vs O0.5"
     }
   ],
-  "settled_at": "2026-05-28T20:27:26.014655-04:00",
+  "settled_at": "2026-05-28T20:44:27.466648-04:00",
   "summary": {
     "n_total": 10,
     "n_settled": 9,
-    "n_no_data": 1,
+    "n_void": 1,
+    "n_no_data": 0,
     "wins": 0,
     "losses": 9,
     "pushes": 0,

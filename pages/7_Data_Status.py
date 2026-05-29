@@ -264,9 +264,11 @@ for i, t in enumerate(TRACKERS):
 
         # Color-code results
         def color_result(val):
-            if val == "WIN":  return "background-color: #1f7a1f; color: white"
-            if val == "LOSS": return "background-color: #a52a2a; color: white"
-            if val == "PUSH": return "background-color: #666; color: white"
+            if val == "WIN":     return "background-color: #1f7a1f; color: white"
+            if val == "LOSS":    return "background-color: #a52a2a; color: white"
+            if val == "PUSH":    return "background-color: #666; color: white"
+            if val == "VOID":    return "background-color: #4a6fa5; color: white"
+            if val == "NO_DATA": return "background-color: #999; color: white"
             return ""
         cfg = {}
         if "TrueP %" in df.columns:

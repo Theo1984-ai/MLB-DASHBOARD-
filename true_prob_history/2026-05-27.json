@@ -46,8 +46,8 @@
           -2000
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "no pitcher stat"
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Shohei Ohtani)"
     },
     {
       "event_id": "77b3529d80cffeb203543f5f2201f8ff",
@@ -170,8 +170,8 @@
           -550
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "no pitcher stat"
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Shohei Ohtani)"
     },
     {
       "event_id": "77b3529d80cffeb203543f5f2201f8ff",
@@ -379,7 +379,7 @@
         ]
       ],
       "result": "NO_DATA",
-      "settle_detail": "game not found in schedule"
+      "settle_detail": "game status=In Progress"
     },
     {
       "event_id": "10c998a5c2995335fd238b7e7e037c62",
@@ -462,8 +462,8 @@
           -320
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Shohei Ohtani)"
     },
     {
       "event_id": "77b3529d80cffeb203543f5f2201f8ff",
@@ -506,15 +506,16 @@
           -325
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Andy Pages)"
     }
   ],
-  "settled_at": "2026-05-28T20:02:21.830938-04:00",
+  "settled_at": "2026-05-28T20:45:29.803839-04:00",
   "summary": {
     "n_total": 12,
     "n_settled": 7,
-    "n_no_data": 5,
+    "n_void": 4,
+    "n_no_data": 1,
     "wins": 4,
     "losses": 3,
     "pushes": 0,

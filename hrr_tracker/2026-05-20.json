@@ -219,8 +219,8 @@
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-05-20T00:00:00",
       "best_price": -155,
-      "result": "NO_DATA",
-      "settle_detail": "no batter stat"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Kyle Schwarber)"
     },
     {
       "batter": "Bobby Witt Jr.",
@@ -247,11 +247,12 @@
       "settle_detail": "hrr=1 vs O1.5"
     }
   ],
-  "settled_at": "2026-05-28T20:27:44.588409-04:00",
+  "settled_at": "2026-05-28T20:44:35.402551-04:00",
   "summary": {
     "n_total": 10,
     "n_settled": 9,
-    "n_no_data": 1,
+    "n_void": 1,
+    "n_no_data": 0,
     "wins": 6,
     "losses": 3,
     "pushes": 0,
