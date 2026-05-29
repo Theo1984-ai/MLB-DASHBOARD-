@@ -2,8 +2,11 @@ name: Daily All Tracker (cloud backup)
 
 on:
   schedule:
-    - cron: '30 19 * * *'   # 3:30 PM ET in EDT (summer)
-    - cron: '30 20 * * *'   # 3:30 PM ET in EST (winter)
+    # Run at 12:00 PM ET daily — captures props for early afternoon games
+    # (some MLB games start at 12:10 PM ET, so this catches them before
+    # first pitch). Note: GitHub Actions cron may fire 5-30 min late.
+    - cron: '0 16 * * *'    # 12:00 PM ET in EDT (summer)
+    - cron: '0 17 * * *'    # 12:00 PM ET in EST (winter)
 
   workflow_dispatch:
     inputs:
