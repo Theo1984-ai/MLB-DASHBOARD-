@@ -1,7 +1,7 @@
 {
   "date": "2026-05-29",
-  "snapshot_at": "2026-05-29T18:15:23.072102-04:00",
-  "n_picks": 128,
+  "snapshot_at": "2026-05-29T18:42:27.434969-04:00",
+  "n_picks": 130,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -48,6 +48,44 @@
       ]
     },
     {
+      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
+      "game": "Cubs @ Cardinals",
+      "away_team": "Chicago Cubs",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-05-29T23:16:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Shota Imanaga",
+      "player": "Shota Imanaga",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "betmgm",
+      "best_price": -900,
+      "true_prob_pct": 92.18,
+      "ev_per_100": 21.78,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          -900
+        ],
+        [
+          "draftkings",
+          -1100
+        ],
+        [
+          "bovada",
+          -1200
+        ],
+        [
+          "fanduel",
+          -1800
+        ]
+      ]
+    },
+    {
       "event_id": "26c7991c125b7365c82472e2468e59a6",
       "game": "Yankees @ Athletics",
       "away_team": "New York Yankees",
@@ -86,44 +124,6 @@
       ]
     },
     {
-      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
-      "game": "Cubs @ Cardinals",
-      "away_team": "Chicago Cubs",
-      "home_team": "St. Louis Cardinals",
-      "first_pitch": "2026-05-29T23:16:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Shota Imanaga",
-      "player": "Shota Imanaga",
-      "side": "Over",
-      "point": 2.5,
-      "best_book": "betmgm",
-      "best_price": -900,
-      "true_prob_pct": 91.88,
-      "ev_per_100": 18.81,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "betmgm",
-          -900
-        ],
-        [
-          "draftkings",
-          -1100
-        ],
-        [
-          "bovada",
-          -1200
-        ],
-        [
-          "fanduel",
-          -1450
-        ]
-      ]
-    },
-    {
       "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
       "game": "Phillies @ Dodgers",
       "away_team": "Philadelphia Phillies",
@@ -138,26 +138,26 @@
       "side": "Over",
       "point": 2.5,
       "best_book": "draftkings",
-      "best_price": -750,
-      "true_prob_pct": 90.65,
-      "ev_per_100": 20.52,
+      "best_price": -700,
+      "true_prob_pct": 90.35,
+      "ev_per_100": 22.81,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -750
+          -700
         ],
         [
           "bovada",
           -800
         ],
         [
-          "betmgm",
+          "fanduel",
           -1000
         ],
         [
-          "fanduel",
-          -1100
+          "betmgm",
+          -1000
         ],
         [
           "williamhill_us",
@@ -181,8 +181,8 @@
       "point": 3.5,
       "best_book": "draftkings",
       "best_price": -830,
-      "true_prob_pct": 90.05,
-      "ev_per_100": 7.46,
+      "true_prob_pct": 90.17,
+      "ev_per_100": 8.55,
       "n_books": 4,
       "all_prices": [
         [
@@ -195,11 +195,49 @@
         ],
         [
           "williamhill_us",
-          -904
+          -954
         ],
         [
           "fanduel",
           -1000
+        ]
+      ]
+    },
+    {
+      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
+      "game": "Royals @ Rangers",
+      "away_team": "Kansas City Royals",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-05-30T00:06:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 12.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 12.5,
+      "best_book": "draftkings",
+      "best_price": -810,
+      "true_prob_pct": 89.88,
+      "ev_per_100": 7.92,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -810
+        ],
+        [
+          "betmgm",
+          -900
+        ],
+        [
+          "williamhill_us",
+          -904
+        ],
+        [
+          "fanduel",
+          -950
         ]
       ]
     },
@@ -242,86 +280,6 @@
         [
           "williamhill_us",
           -1200
-        ]
-      ]
-    },
-    {
-      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
-      "game": "Royals @ Rangers",
-      "away_team": "Kansas City Royals",
-      "home_team": "Texas Rangers",
-      "first_pitch": "2026-05-30T00:06:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 12.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 12.5,
-      "best_book": "draftkings",
-      "best_price": -810,
-      "true_prob_pct": 89.63,
-      "ev_per_100": 5.65,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -810
-        ],
-        [
-          "williamhill_us",
-          -854
-        ],
-        [
-          "fanduel",
-          -900
-        ],
-        [
-          "betmgm",
-          -900
-        ]
-      ]
-    },
-    {
-      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
-      "game": "Phillies @ Dodgers",
-      "away_team": "Philadelphia Phillies",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-05-30T02:16:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Zack Wheeler",
-      "player": "Zack Wheeler",
-      "side": "Over",
-      "point": 3.5,
-      "best_book": "fanduel",
-      "best_price": -670,
-      "true_prob_pct": 89.5,
-      "ev_per_100": 19.16,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "fanduel",
-          -670
-        ],
-        [
-          "betmgm",
-          -800
-        ],
-        [
-          "draftkings",
-          -810
-        ],
-        [
-          "bovada",
-          -900
-        ],
-        [
-          "williamhill_us",
-          -1250
         ]
       ]
     },
@@ -383,8 +341,8 @@
       "point": 3.5,
       "best_book": "williamhill_us",
       "best_price": -754,
-      "true_prob_pct": 89.03,
-      "ev_per_100": 6.33,
+      "true_prob_pct": 88.95,
+      "ev_per_100": 5.6,
       "n_books": 4,
       "all_prices": [
         [
@@ -396,12 +354,54 @@
           -800
         ],
         [
+          "draftkings",
+          -820
+        ],
+        [
           "fanduel",
           -850
+        ]
+      ]
+    },
+    {
+      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
+      "game": "Phillies @ Dodgers",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-05-30T02:16:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Zack Wheeler",
+      "player": "Zack Wheeler",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "fanduel",
+      "best_price": -500,
+      "true_prob_pct": 88.86,
+      "ev_per_100": 33.15,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -500
+        ],
+        [
+          "betmgm",
+          -800
         ],
         [
           "draftkings",
           -850
+        ],
+        [
+          "bovada",
+          -900
+        ],
+        [
+          "williamhill_us",
+          -1250
         ]
       ]
     },
@@ -421,8 +421,8 @@
       "point": 12.5,
       "best_book": "draftkings",
       "best_price": -750,
-      "true_prob_pct": 88.72,
-      "ev_per_100": 4.14,
+      "true_prob_pct": 88.64,
+      "ev_per_100": 3.46,
       "n_books": 4,
       "all_prices": [
         [
@@ -430,16 +430,16 @@
           -750
         ],
         [
-          "williamhill_us",
-          -754
+          "fanduel",
+          -770
         ],
         [
           "betmgm",
           -800
         ],
         [
-          "fanduel",
-          -850
+          "williamhill_us",
+          -804
         ]
       ]
     },
@@ -459,8 +459,8 @@
       "point": 3.5,
       "best_book": "williamhill_us",
       "best_price": -704,
-      "true_prob_pct": 88.41,
-      "ev_per_100": 6.82,
+      "true_prob_pct": 88.54,
+      "ev_per_100": 7.88,
       "n_books": 4,
       "all_prices": [
         [
@@ -477,7 +477,7 @@
         ],
         [
           "fanduel",
-          -850
+          -900
         ]
       ]
     },
@@ -496,14 +496,14 @@
       "side": "Under",
       "point": 11.5,
       "best_book": "fanduel",
-      "best_price": -720,
-      "true_prob_pct": 88.18,
-      "ev_per_100": 3.04,
+      "best_price": -750,
+      "true_prob_pct": 88.28,
+      "ev_per_100": 0.41,
       "n_books": 4,
       "all_prices": [
         [
           "fanduel",
-          -720
+          -750
         ],
         [
           "betmgm",
@@ -573,8 +573,8 @@
       "point": 13.5,
       "best_book": "williamhill_us",
       "best_price": -704,
-      "true_prob_pct": 87.92,
-      "ev_per_100": 2.91,
+      "true_prob_pct": 87.96,
+      "ev_per_100": 3.19,
       "n_books": 4,
       "all_prices": [
         [
@@ -587,7 +587,7 @@
         ],
         [
           "draftkings",
-          -740
+          -750
         ],
         [
           "betmgm",
@@ -691,8 +691,8 @@
       "point": 12.5,
       "best_book": "williamhill_us",
       "best_price": -654,
-      "true_prob_pct": 87.11,
-      "ev_per_100": 2.79,
+      "true_prob_pct": 87.29,
+      "ev_per_100": 4.18,
       "n_books": 4,
       "all_prices": [
         [
@@ -709,7 +709,7 @@
         ],
         [
           "betmgm",
-          -700
+          -750
         ]
       ]
     },
@@ -727,27 +727,27 @@
       "player": "Game Total",
       "side": "Under",
       "point": 12.5,
-      "best_book": "betmgm",
-      "best_price": -650,
+      "best_book": "williamhill_us",
+      "best_price": -629,
       "true_prob_pct": 86.9,
-      "ev_per_100": 1.74,
+      "ev_per_100": 4.47,
       "n_books": 4,
       "all_prices": [
         [
-          "betmgm",
-          -650
-        ],
-        [
           "williamhill_us",
-          -654
-        ],
-        [
-          "fanduel",
-          -670
+          -629
         ],
         [
           "draftkings",
-          -680
+          -630
+        ],
+        [
+          "fanduel",
+          -700
+        ],
+        [
+          "betmgm",
+          -700
         ]
       ]
     },
@@ -765,27 +765,27 @@
       "player": "Texas Rangers",
       "side": "Home",
       "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -630,
-      "true_prob_pct": 86.88,
-      "ev_per_100": 4.21,
+      "best_book": "williamhill_us",
+      "best_price": -604,
+      "true_prob_pct": 86.77,
+      "ev_per_100": 6.89,
       "n_books": 4,
       "all_prices": [
+        [
+          "williamhill_us",
+          -604
+        ],
         [
           "draftkings",
           -630
         ],
         [
-          "betmgm",
-          -650
-        ],
-        [
-          "williamhill_us",
-          -654
-        ],
-        [
           "fanduel",
-          -720
+          -700
+        ],
+        [
+          "betmgm",
+          -700
         ]
       ]
     },
@@ -828,116 +828,40 @@
       ]
     },
     {
-      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
-      "game": "Marlins @ Mets",
-      "away_team": "Miami Marlins",
-      "home_team": "New York Mets",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 11.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 11.5,
-      "best_book": "williamhill_us",
-      "best_price": -604,
-      "true_prob_pct": 86.15,
-      "ev_per_100": 2.47,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "williamhill_us",
-          -604
-        ],
-        [
-          "draftkings",
-          -610
-        ],
-        [
-          "betmgm",
-          -625
-        ],
-        [
-          "fanduel",
-          -650
-        ]
-      ]
-    },
-    {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
-      "first_pitch": "2026-05-29T22:46:00Z",
+      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
+      "game": "Royals @ Rangers",
+      "away_team": "Kansas City Royals",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-05-30T00:06:00Z",
       "market": "Run Line alt",
       "market_key": "alternate_spreads",
       "stat_key": "spread",
       "settle_type": "Team",
-      "selection": "Pittsburgh Pirates +3.5",
-      "player": "Pittsburgh Pirates",
-      "side": "Home",
+      "selection": "Kansas City Royals +3.5",
+      "player": "Kansas City Royals",
+      "side": "Away",
       "point": 3.5,
       "best_book": "draftkings",
-      "best_price": -560,
-      "true_prob_pct": 86.12,
-      "ev_per_100": 8.37,
+      "best_price": -534,
+      "true_prob_pct": 86.25,
+      "ev_per_100": 12.8,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -560
+          -534
         ],
         [
           "williamhill_us",
           -629
         ],
         [
-          "fanduel",
-          -650
-        ],
-        [
           "betmgm",
           -650
-        ]
-      ]
-    },
-    {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 12.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 12.5,
-      "best_book": "williamhill_us",
-      "best_price": -604,
-      "true_prob_pct": 86.12,
-      "ev_per_100": 2.3,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "williamhill_us",
-          -604
-        ],
-        [
-          "draftkings",
-          -610
         ],
         [
           "fanduel",
-          -620
-        ],
-        [
-          "betmgm",
-          -650
+          -720
         ]
       ]
     },
@@ -956,178 +880,22 @@
       "side": "Under",
       "point": 12.5,
       "best_book": "draftkings",
-      "best_price": -573,
-      "true_prob_pct": 86.05,
-      "ev_per_100": 6.12,
+      "best_price": -587,
+      "true_prob_pct": 86.15,
+      "ev_per_100": 4.85,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -573
+          -587
         ],
         [
-          "fanduel",
-          -620
+          "betmgm",
+          -625
         ],
         [
           "williamhill_us",
           -629
-        ],
-        [
-          "betmgm",
-          -650
-        ]
-      ]
-    },
-    {
-      "event_id": "d32dadf5a576ba276bac1775287783ba",
-      "game": "Sox @ Guardians",
-      "away_team": "Boston Red Sox",
-      "home_team": "Cleveland Guardians",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Cleveland Guardians +3.5",
-      "player": "Cleveland Guardians",
-      "side": "Home",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -571,
-      "true_prob_pct": 86.03,
-      "ev_per_100": 6.24,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -571
-        ],
-        [
-          "betmgm",
-          -600
-        ],
-        [
-          "williamhill_us",
-          -604
-        ],
-        [
-          "fanduel",
-          -700
-        ]
-      ]
-    },
-    {
-      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
-      "game": "Royals @ Rangers",
-      "away_team": "Kansas City Royals",
-      "home_team": "Texas Rangers",
-      "first_pitch": "2026-05-30T00:06:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Kansas City Royals +3.5",
-      "player": "Kansas City Royals",
-      "side": "Away",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -534,
-      "true_prob_pct": 85.93,
-      "ev_per_100": 10.81,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -534
-        ],
-        [
-          "williamhill_us",
-          -604
-        ],
-        [
-          "betmgm",
-          -625
-        ],
-        [
-          "fanduel",
-          -700
-        ]
-      ]
-    },
-    {
-      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
-      "game": "Braves @ Reds",
-      "away_team": "Atlanta Braves",
-      "home_team": "Cincinnati Reds",
-      "first_pitch": "2026-05-29T22:41:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Grant Holmes",
-      "player": "Grant Holmes",
-      "side": "Over",
-      "point": 3.5,
-      "best_book": "fanduel",
-      "best_price": -500,
-      "true_prob_pct": 85.91,
-      "ev_per_100": 15.48,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "fanduel",
-          -500
-        ],
-        [
-          "bovada",
-          -550
-        ],
-        [
-          "draftkings",
-          -577
-        ],
-        [
-          "betmgm",
-          -700
-        ],
-        [
-          "williamhill_us",
-          -800
-        ]
-      ]
-    },
-    {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 13.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 13.5,
-      "best_book": "draftkings",
-      "best_price": -566,
-      "true_prob_pct": 85.91,
-      "ev_per_100": 6.18,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -566
-        ],
-        [
-          "williamhill_us",
-          -604
-        ],
-        [
-          "betmgm",
-          -625
         ],
         [
           "fanduel",
@@ -1151,8 +919,8 @@
       "point": 11.5,
       "best_book": "draftkings",
       "best_price": -574,
-      "true_prob_pct": 85.82,
-      "ev_per_100": 4.42,
+      "true_prob_pct": 86.08,
+      "ev_per_100": 6.18,
       "n_books": 4,
       "all_prices": [
         [
@@ -1160,8 +928,46 @@
           -574
         ],
         [
+          "betmgm",
+          -625
+        ],
+        [
+          "williamhill_us",
+          -629
+        ],
+        [
+          "fanduel",
+          -650
+        ]
+      ]
+    },
+    {
+      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
+      "game": "Marlins @ Mets",
+      "away_team": "Miami Marlins",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 11.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 11.5,
+      "best_book": "williamhill_us",
+      "best_price": -604,
+      "true_prob_pct": 86.01,
+      "ev_per_100": 1.49,
+      "n_books": 4,
+      "all_prices": [
+        [
           "williamhill_us",
           -604
+        ],
+        [
+          "draftkings",
+          -610
         ],
         [
           "fanduel",
@@ -1170,6 +976,44 @@
         [
           "betmgm",
           -625
+        ]
+      ]
+    },
+    {
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Pittsburgh Pirates +3.5",
+      "player": "Pittsburgh Pirates",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -560,
+      "true_prob_pct": 86.0,
+      "ev_per_100": 7.61,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -560
+        ],
+        [
+          "betmgm",
+          -625
+        ],
+        [
+          "williamhill_us",
+          -629
+        ],
+        [
+          "fanduel",
+          -650
         ]
       ]
     },
@@ -1188,18 +1032,136 @@
       "side": "Away",
       "point": 3.5,
       "best_book": "draftkings",
-      "best_price": -547,
-      "true_prob_pct": 85.66,
-      "ev_per_100": 7.25,
+      "best_price": -548,
+      "true_prob_pct": 85.97,
+      "ev_per_100": 9.09,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -547
+          -548
+        ],
+        [
+          "betmgm",
+          -600
         ],
         [
           "williamhill_us",
           -604
+        ],
+        [
+          "fanduel",
+          -720
+        ]
+      ]
+    },
+    {
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
+      "selection": "Luis Arraez",
+      "player": "Luis Arraez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -500,
+      "true_prob_pct": 85.63,
+      "ev_per_100": 13.79,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -500
+        ],
+        [
+          "bovada",
+          -500
+        ],
+        [
+          "betmgm",
+          -600
+        ],
+        [
+          "draftkings",
+          -630
+        ],
+        [
+          "williamhill_us",
+          -850
+        ]
+      ]
+    },
+    {
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 12.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 12.5,
+      "best_book": "betmgm",
+      "best_price": -525,
+      "true_prob_pct": 85.59,
+      "ev_per_100": 9.97,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          -525
+        ],
+        [
+          "williamhill_us",
+          -604
+        ],
+        [
+          "draftkings",
+          -610
+        ],
+        [
+          "fanduel",
+          -650
+        ]
+      ]
+    },
+    {
+      "event_id": "d32dadf5a576ba276bac1775287783ba",
+      "game": "Sox @ Guardians",
+      "away_team": "Boston Red Sox",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Boston Red Sox +3.5",
+      "player": "Boston Red Sox",
+      "side": "Away",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -556,
+      "true_prob_pct": 85.59,
+      "ev_per_100": 5.45,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -556
+        ],
+        [
+          "williamhill_us",
+          -579
         ],
         [
           "fanduel",
@@ -1227,8 +1189,8 @@
       "point": 2.5,
       "best_book": "betmgm",
       "best_price": -500,
-      "true_prob_pct": 85.62,
-      "ev_per_100": 13.7,
+      "true_prob_pct": 85.5,
+      "ev_per_100": 13.02,
       "n_books": 5,
       "all_prices": [
         [
@@ -1237,7 +1199,7 @@
         ],
         [
           "draftkings",
-          -549
+          -526
         ],
         [
           "fanduel",
@@ -1254,44 +1216,78 @@
       ]
     },
     {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Hits alt",
-      "market_key": "batter_hits_alternate",
-      "stat_key": "hits",
-      "settle_type": "Over/Under",
-      "selection": "Luis Arraez",
-      "player": "Luis Arraez",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "fanduel",
-      "best_price": -475,
-      "true_prob_pct": 85.23,
-      "ev_per_100": 15.06,
-      "n_books": 5,
+      "event_id": "d32dadf5a576ba276bac1775287783ba",
+      "game": "Sox @ Guardians",
+      "away_team": "Boston Red Sox",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Cleveland Guardians +3.5",
+      "player": "Cleveland Guardians",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -520,
+      "true_prob_pct": 85.47,
+      "ev_per_100": 9.9,
+      "n_books": 4,
       "all_prices": [
         [
-          "fanduel",
-          -475
-        ],
-        [
-          "bovada",
-          -500
-        ],
-        [
-          "betmgm",
-          -550
-        ],
-        [
           "draftkings",
-          -620
+          -520
         ],
         [
           "williamhill_us",
-          -850
+          -579
+        ],
+        [
+          "betmgm",
+          -600
+        ],
+        [
+          "fanduel",
+          -670
+        ]
+      ]
+    },
+    {
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 13.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 13.5,
+      "best_book": "draftkings",
+      "best_price": -512,
+      "true_prob_pct": 85.46,
+      "ev_per_100": 11.01,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -512
+        ],
+        [
+          "betmgm",
+          -600
+        ],
+        [
+          "williamhill_us",
+          -604
+        ],
+        [
+          "fanduel",
+          -650
         ]
       ]
     },
@@ -1334,44 +1330,6 @@
       ]
     },
     {
-      "event_id": "d32dadf5a576ba276bac1775287783ba",
-      "game": "Sox @ Guardians",
-      "away_team": "Boston Red Sox",
-      "home_team": "Cleveland Guardians",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Boston Red Sox +3.5",
-      "player": "Boston Red Sox",
-      "side": "Away",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -516,
-      "true_prob_pct": 84.92,
-      "ev_per_100": 7.13,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -516
-        ],
-        [
-          "williamhill_us",
-          -554
-        ],
-        [
-          "fanduel",
-          -590
-        ],
-        [
-          "betmgm",
-          -600
-        ]
-      ]
-    },
-    {
       "event_id": "95952a4215c0c1d281c4dcbed7471d28",
       "game": "Angels @ Rays",
       "away_team": "Los Angeles Angels",
@@ -1387,8 +1345,8 @@
       "point": 2.5,
       "best_book": "bovada",
       "best_price": -500,
-      "true_prob_pct": 84.88,
-      "ev_per_100": 9.28,
+      "true_prob_pct": 84.9,
+      "ev_per_100": 9.4,
       "n_books": 5,
       "all_prices": [
         [
@@ -1401,11 +1359,91 @@
         ],
         [
           "draftkings",
-          -534
+          -538
         ],
         [
           "fanduel",
           -550
+        ],
+        [
+          "williamhill_us",
+          -800
+        ]
+      ]
+    },
+    {
+      "event_id": "bc8152dee5f6a9c85e452cc78f0747e4",
+      "game": "Diamondbacks @ Mariners",
+      "away_team": "Arizona Diamondbacks",
+      "home_team": "Seattle Mariners",
+      "first_pitch": "2026-05-30T02:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Arizona Diamondbacks +3.5",
+      "player": "Arizona Diamondbacks",
+      "side": "Away",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -520,
+      "true_prob_pct": 84.83,
+      "ev_per_100": 5.93,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -520
+        ],
+        [
+          "betmgm",
+          -550
+        ],
+        [
+          "williamhill_us",
+          -554
+        ],
+        [
+          "fanduel",
+          -620
+        ]
+      ]
+    },
+    {
+      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
+      "game": "Braves @ Reds",
+      "away_team": "Atlanta Braves",
+      "home_team": "Cincinnati Reds",
+      "first_pitch": "2026-05-29T22:41:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Grant Holmes",
+      "player": "Grant Holmes",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -380,
+      "true_prob_pct": 84.7,
+      "ev_per_100": 26.56,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -380
+        ],
+        [
+          "fanduel",
+          -500
+        ],
+        [
+          "bovada",
+          -550
+        ],
+        [
+          "betmgm",
+          -700
         ],
         [
           "williamhill_us",
@@ -1427,111 +1465,31 @@
       "player": "Trevor Rogers",
       "side": "Over",
       "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -440,
-      "true_prob_pct": 84.87,
-      "ev_per_100": 18.29,
+      "best_book": "betmgm",
+      "best_price": -450,
+      "true_prob_pct": 84.6,
+      "ev_per_100": 15.28,
       "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          -440
-        ],
-        [
           "betmgm",
           -450
+        ],
+        [
+          "draftkings",
+          -460
         ],
         [
           "fanduel",
           -600
         ],
         [
-          "bovada",
-          -675
-        ],
-        [
           "williamhill_us",
-          -750
-        ]
-      ]
-    },
-    {
-      "event_id": "bc8152dee5f6a9c85e452cc78f0747e4",
-      "game": "Diamondbacks @ Mariners",
-      "away_team": "Arizona Diamondbacks",
-      "home_team": "Seattle Mariners",
-      "first_pitch": "2026-05-30T02:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Arizona Diamondbacks +3.5",
-      "player": "Arizona Diamondbacks",
-      "side": "Away",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -520,
-      "true_prob_pct": 84.68,
-      "ev_per_100": 4.99,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -520
-        ],
-        [
-          "betmgm",
-          -550
-        ],
-        [
-          "williamhill_us",
-          -554
-        ],
-        [
-          "fanduel",
-          -590
-        ]
-      ]
-    },
-    {
-      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
-      "game": "Marlins @ Mets",
-      "away_team": "Miami Marlins",
-      "home_team": "New York Mets",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Freddy Peralta",
-      "player": "Freddy Peralta",
-      "side": "Over",
-      "point": 3.5,
-      "best_book": "fanduel",
-      "best_price": -300,
-      "true_prob_pct": 84.61,
-      "ev_per_100": 38.45,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "fanduel",
-          -300
-        ],
-        [
-          "draftkings",
-          -487
-        ],
-        [
-          "betmgm",
           -625
         ],
         [
-          "williamhill_us",
-          -800
-        ],
-        [
           "bovada",
-          -900
+          -675
         ]
       ]
     },
@@ -1574,82 +1532,6 @@
       ]
     },
     {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 13.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 13.5,
-      "best_book": "draftkings",
-      "best_price": -517,
-      "true_prob_pct": 84.34,
-      "ev_per_100": 3.37,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -517
-        ],
-        [
-          "williamhill_us",
-          -529
-        ],
-        [
-          "betmgm",
-          -550
-        ],
-        [
-          "fanduel",
-          -560
-        ]
-      ]
-    },
-    {
-      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
-      "game": "Braves @ Reds",
-      "away_team": "Atlanta Braves",
-      "home_team": "Cincinnati Reds",
-      "first_pitch": "2026-05-29T22:41:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 13.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 13.5,
-      "best_book": "betmgm",
-      "best_price": -500,
-      "true_prob_pct": 84.08,
-      "ev_per_100": 4.5,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "betmgm",
-          -500
-        ],
-        [
-          "williamhill_us",
-          -504
-        ],
-        [
-          "draftkings",
-          -527
-        ],
-        [
-          "fanduel",
-          -590
-        ]
-      ]
-    },
-    {
       "event_id": "4018fbc29a76d2079208cbe8913a9de1",
       "game": "Cubs @ Cardinals",
       "away_team": "Chicago Cubs",
@@ -1663,27 +1545,27 @@
       "player": "Game Total",
       "side": "Under",
       "point": 11.5,
-      "best_book": "williamhill_us",
-      "best_price": -504,
-      "true_prob_pct": 84.05,
-      "ev_per_100": 3.64,
+      "best_book": "fanduel",
+      "best_price": -520,
+      "true_prob_pct": 84.3,
+      "ev_per_100": 2.65,
       "n_books": 4,
       "all_prices": [
         [
-          "williamhill_us",
-          -504
+          "fanduel",
+          -520
         ],
         [
           "draftkings",
           -525
         ],
         [
-          "fanduel",
-          -530
-        ],
-        [
           "betmgm",
           -550
+        ],
+        [
+          "williamhill_us",
+          -554
         ]
       ]
     },
@@ -1702,14 +1584,14 @@
       "side": "Home",
       "point": 3.5,
       "best_book": "draftkings",
-      "best_price": -493,
-      "true_prob_pct": 84.0,
-      "ev_per_100": 5.09,
+      "best_price": -519,
+      "true_prob_pct": 84.17,
+      "ev_per_100": 2.03,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -493
+          -519
         ],
         [
           "williamhill_us",
@@ -1726,40 +1608,44 @@
       ]
     },
     {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Baltimore Orioles +3.5",
-      "player": "Baltimore Orioles",
-      "side": "Home",
+      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
+      "game": "Marlins @ Mets",
+      "away_team": "Miami Marlins",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Freddy Peralta",
+      "player": "Freddy Peralta",
+      "side": "Over",
       "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -462,
-      "true_prob_pct": 83.94,
-      "ev_per_100": 9.73,
-      "n_books": 4,
+      "best_book": "fanduel",
+      "best_price": -270,
+      "true_prob_pct": 84.03,
+      "ev_per_100": 40.91,
+      "n_books": 5,
       "all_prices": [
         [
+          "fanduel",
+          -270
+        ],
+        [
           "draftkings",
-          -462
+          -458
         ],
         [
           "betmgm",
-          -500
+          -625
         ],
         [
           "williamhill_us",
-          -529
+          -800
         ],
         [
-          "fanduel",
-          -620
+          "bovada",
+          -900
         ]
       ]
     },
@@ -1779,8 +1665,8 @@
       "point": 3.5,
       "best_book": "fanduel",
       "best_price": -500,
-      "true_prob_pct": 83.7,
-      "ev_per_100": 2.21,
+      "true_prob_pct": 83.98,
+      "ev_per_100": 3.86,
       "n_books": 4,
       "all_prices": [
         [
@@ -1797,7 +1683,7 @@
         ],
         [
           "betmgm",
-          -550
+          -600
         ]
       ]
     },
@@ -1817,8 +1703,8 @@
       "point": 2.5,
       "best_book": "draftkings",
       "best_price": -489,
-      "true_prob_pct": 83.65,
-      "ev_per_100": 3.68,
+      "true_prob_pct": 83.8,
+      "ev_per_100": 4.57,
       "n_books": 4,
       "all_prices": [
         [
@@ -1830,39 +1716,73 @@
           -500
         ],
         [
+          "fanduel",
+          -530
+        ],
+        [
+          "williamhill_us",
+          -554
+        ]
+      ]
+    },
+    {
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Baltimore Orioles +3.5",
+      "player": "Baltimore Orioles",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -435,
+      "true_prob_pct": 83.71,
+      "ev_per_100": 12.87,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -435
+        ],
+        [
+          "betmgm",
+          -500
+        ],
+        [
           "williamhill_us",
           -529
         ],
         [
           "fanduel",
-          -530
+          -620
         ]
       ]
     },
     {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "San Francisco Giants +2.5",
-      "player": "San Francisco Giants",
-      "side": "Away",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -460,
-      "true_prob_pct": 83.61,
-      "ev_per_100": 8.2,
+      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
+      "game": "Braves @ Reds",
+      "away_team": "Atlanta Braves",
+      "home_team": "Cincinnati Reds",
+      "first_pitch": "2026-05-29T22:41:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 13.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 13.5,
+      "best_book": "betmgm",
+      "best_price": -500,
+      "true_prob_pct": 83.66,
+      "ev_per_100": 1.97,
       "n_books": 4,
       "all_prices": [
-        [
-          "draftkings",
-          -460
-        ],
         [
           "betmgm",
           -500
@@ -1873,7 +1793,87 @@
         ],
         [
           "fanduel",
-          -590
+          -520
+        ],
+        [
+          "draftkings",
+          -525
+        ]
+      ]
+    },
+    {
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 13.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 13.5,
+      "best_book": "williamhill_us",
+      "best_price": -479,
+      "true_prob_pct": 83.64,
+      "ev_per_100": 5.29,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "williamhill_us",
+          -479
+        ],
+        [
+          "draftkings",
+          -514
+        ],
+        [
+          "betmgm",
+          -525
+        ],
+        [
+          "fanduel",
+          -530
+        ]
+      ]
+    },
+    {
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Minnesota Twins +3.5",
+      "player": "Minnesota Twins",
+      "side": "Away",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -472,
+      "true_prob_pct": 83.43,
+      "ev_per_100": 5.24,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -472
+        ],
+        [
+          "williamhill_us",
+          -479
+        ],
+        [
+          "fanduel",
+          -520
+        ],
+        [
+          "betmgm",
+          -550
         ]
       ]
     },
@@ -1893,8 +1893,8 @@
       "point": 3.5,
       "best_book": "bovada",
       "best_price": -450,
-      "true_prob_pct": 83.43,
-      "ev_per_100": 8.85,
+      "true_prob_pct": 83.24,
+      "ev_per_100": 7.8,
       "n_books": 5,
       "all_prices": [
         [
@@ -1915,45 +1915,49 @@
         ],
         [
           "fanduel",
-          -650
+          -600
         ]
       ]
     },
     {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Minnesota Twins +3.5",
-      "player": "Minnesota Twins",
-      "side": "Away",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -472,
-      "true_prob_pct": 83.14,
-      "ev_per_100": 3.59,
-      "n_books": 4,
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Logan Webb",
+      "player": "Logan Webb",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "fanduel",
+      "best_price": -220,
+      "true_prob_pct": 83.06,
+      "ev_per_100": 45.8,
+      "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          -472
-        ],
-        [
-          "williamhill_us",
-          -479
-        ],
-        [
           "fanduel",
+          -220
+        ],
+        [
+          "bovada",
           -500
         ],
         [
+          "draftkings",
+          -620
+        ],
+        [
           "betmgm",
-          -525
+          -750
+        ],
+        [
+          "williamhill_us",
+          -800
         ]
       ]
     },
@@ -1996,23 +2000,23 @@
       ]
     },
     {
-      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
-      "game": "Angels @ Rays",
-      "away_team": "Los Angeles Angels",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-05-29T23:11:00Z",
+      "event_id": "1587b2f52f5f1a490cebb01e524ec361",
+      "game": "Tigers @ Sox",
+      "away_team": "Detroit Tigers",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-05-29T23:41:00Z",
       "market": "Run Line alt",
       "market_key": "alternate_spreads",
       "stat_key": "spread",
       "settle_type": "Team",
-      "selection": "Tampa Bay Rays +2.5",
-      "player": "Tampa Bay Rays",
+      "selection": "Chicago White Sox +3.5",
+      "player": "Chicago White Sox",
       "side": "Home",
-      "point": 2.5,
+      "point": 3.5,
       "best_book": "williamhill_us",
       "best_price": -454,
-      "true_prob_pct": 82.87,
-      "ev_per_100": 5.12,
+      "true_prob_pct": 82.81,
+      "ev_per_100": 4.76,
       "n_books": 4,
       "all_prices": [
         [
@@ -2021,53 +2025,15 @@
         ],
         [
           "draftkings",
-          -484
-        ],
-        [
-          "fanduel",
-          -500
+          -458
         ],
         [
           "betmgm",
           -500
-        ]
-      ]
-    },
-    {
-      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
-      "game": "Angels @ Rays",
-      "away_team": "Los Angeles Angels",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 11.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 11.5,
-      "best_book": "williamhill_us",
-      "best_price": -454,
-      "true_prob_pct": 82.78,
-      "ev_per_100": 4.58,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "williamhill_us",
-          -454
-        ],
-        [
-          "draftkings",
-          -471
         ],
         [
           "fanduel",
-          -500
-        ],
-        [
-          "betmgm",
-          -500
+          -520
         ]
       ]
     },
@@ -2087,8 +2053,8 @@
       "point": 3.5,
       "best_book": "williamhill_us",
       "best_price": -454,
-      "true_prob_pct": 82.77,
-      "ev_per_100": 4.55,
+      "true_prob_pct": 82.8,
+      "ev_per_100": 4.72,
       "n_books": 4,
       "all_prices": [
         [
@@ -2097,7 +2063,7 @@
         ],
         [
           "draftkings",
-          -468
+          -472
         ],
         [
           "betmgm",
@@ -2110,44 +2076,78 @@
       ]
     },
     {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
+      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
+      "game": "Angels @ Rays",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
       "settle_type": "Over/Under",
-      "selection": "Logan Webb",
-      "player": "Logan Webb",
-      "side": "Over",
-      "point": 2.5,
-      "best_book": "fanduel",
-      "best_price": -225,
-      "true_prob_pct": 82.68,
-      "ev_per_100": 43.7,
-      "n_books": 5,
+      "selection": "Under 11.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 11.5,
+      "best_book": "williamhill_us",
+      "best_price": -454,
+      "true_prob_pct": 82.76,
+      "ev_per_100": 4.49,
+      "n_books": 4,
       "all_prices": [
         [
-          "fanduel",
-          -225
-        ],
-        [
-          "bovada",
-          -500
+          "williamhill_us",
+          -454
         ],
         [
           "draftkings",
-          -579
+          -466
+        ],
+        [
+          "fanduel",
+          -480
         ],
         [
           "betmgm",
-          -650
-        ],
+          -525
+        ]
+      ]
+    },
+    {
+      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
+      "game": "Angels @ Rays",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Tampa Bay Rays +2.5",
+      "player": "Tampa Bay Rays",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "williamhill_us",
+      "best_price": -454,
+      "true_prob_pct": 82.69,
+      "ev_per_100": 4.08,
+      "n_books": 4,
+      "all_prices": [
         [
           "williamhill_us",
-          -800
+          -454
+        ],
+        [
+          "draftkings",
+          -478
+        ],
+        [
+          "fanduel",
+          -480
+        ],
+        [
+          "betmgm",
+          -500
         ]
       ]
     },
@@ -2199,82 +2199,6 @@
       "away_team": "Detroit Tigers",
       "home_team": "Chicago White Sox",
       "first_pitch": "2026-05-29T23:41:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Chicago White Sox +3.5",
-      "player": "Chicago White Sox",
-      "side": "Home",
-      "point": 3.5,
-      "best_book": "williamhill_us",
-      "best_price": -454,
-      "true_prob_pct": 82.63,
-      "ev_per_100": 3.75,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "williamhill_us",
-          -454
-        ],
-        [
-          "draftkings",
-          -458
-        ],
-        [
-          "betmgm",
-          -475
-        ],
-        [
-          "fanduel",
-          -520
-        ]
-      ]
-    },
-    {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Washington Nationals +3.5",
-      "player": "Washington Nationals",
-      "side": "Home",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -411,
-      "true_prob_pct": 82.46,
-      "ev_per_100": 10.37,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -411
-        ],
-        [
-          "williamhill_us",
-          -454
-        ],
-        [
-          "betmgm",
-          -500
-        ],
-        [
-          "fanduel",
-          -530
-        ]
-      ]
-    },
-    {
-      "event_id": "1587b2f52f5f1a490cebb01e524ec361",
-      "game": "Tigers @ Sox",
-      "away_team": "Detroit Tigers",
-      "home_team": "Chicago White Sox",
-      "first_pitch": "2026-05-29T23:41:00Z",
       "market": "K's alt",
       "market_key": "pitcher_strikeouts_alternate",
       "stat_key": "ks",
@@ -2285,8 +2209,8 @@
       "point": 2.5,
       "best_book": "bovada",
       "best_price": -435,
-      "true_prob_pct": 82.46,
-      "ev_per_100": 6.18,
+      "true_prob_pct": 82.58,
+      "ev_per_100": 6.81,
       "n_books": 5,
       "all_prices": [
         [
@@ -2303,7 +2227,7 @@
         ],
         [
           "fanduel",
-          -470
+          -490
         ],
         [
           "williamhill_us",
@@ -2327,8 +2251,8 @@
       "point": 12.5,
       "best_book": "fanduel",
       "best_price": -460,
-      "true_prob_pct": 82.44,
-      "ev_per_100": 1.65,
+      "true_prob_pct": 82.48,
+      "ev_per_100": 1.91,
       "n_books": 4,
       "all_prices": [
         [
@@ -2337,7 +2261,7 @@
         ],
         [
           "draftkings",
-          -464
+          -470
         ],
         [
           "betmgm",
@@ -2346,6 +2270,44 @@
         [
           "williamhill_us",
           -479
+        ]
+      ]
+    },
+    {
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Washington Nationals +3.5",
+      "player": "Washington Nationals",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -411,
+      "true_prob_pct": 82.28,
+      "ev_per_100": 9.45,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -411
+        ],
+        [
+          "williamhill_us",
+          -454
+        ],
+        [
+          "betmgm",
+          -475
+        ],
+        [
+          "fanduel",
+          -530
         ]
       ]
     },
@@ -2363,27 +2325,27 @@
       "player": "Game Total",
       "side": "Under",
       "point": 11.5,
-      "best_book": "williamhill_us",
-      "best_price": -454,
-      "true_prob_pct": 82.33,
-      "ev_per_100": 2.14,
+      "best_book": "draftkings",
+      "best_price": -448,
+      "true_prob_pct": 82.27,
+      "ev_per_100": 2.82,
       "n_books": 4,
       "all_prices": [
         [
-          "williamhill_us",
-          -454
+          "draftkings",
+          -448
         ],
         [
-          "fanduel",
-          -460
+          "williamhill_us",
+          -454
         ],
         [
           "betmgm",
           -475
         ],
         [
-          "draftkings",
-          -476
+          "fanduel",
+          -480
         ]
       ]
     },
@@ -2468,44 +2430,6 @@
       ]
     },
     {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 14.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 14.5,
-      "best_book": "draftkings",
-      "best_price": -396,
-      "true_prob_pct": 81.85,
-      "ev_per_100": 9.95,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -396
-        ],
-        [
-          "fanduel",
-          -440
-        ],
-        [
-          "williamhill_us",
-          -479
-        ],
-        [
-          "betmgm",
-          -500
-        ]
-      ]
-    },
-    {
       "event_id": "bc8152dee5f6a9c85e452cc78f0747e4",
       "game": "Diamondbacks @ Mariners",
       "away_team": "Arizona Diamondbacks",
@@ -2544,44 +2468,6 @@
       ]
     },
     {
-      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
-      "game": "Angels @ Rays",
-      "away_team": "Los Angeles Angels",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Los Angeles Angels +3.5",
-      "player": "Los Angeles Angels",
-      "side": "Away",
-      "point": 3.5,
-      "best_book": "draftkings",
-      "best_price": -390,
-      "true_prob_pct": 81.73,
-      "ev_per_100": 10.46,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -390
-        ],
-        [
-          "williamhill_us",
-          -454
-        ],
-        [
-          "betmgm",
-          -475
-        ],
-        [
-          "fanduel",
-          -480
-        ]
-      ]
-    },
-    {
       "event_id": "bc8152dee5f6a9c85e452cc78f0747e4",
       "game": "Diamondbacks @ Mariners",
       "away_team": "Arizona Diamondbacks",
@@ -2596,14 +2482,14 @@
       "side": "Under",
       "point": 10.5,
       "best_book": "fanduel",
-      "best_price": -430,
-      "true_prob_pct": 81.67,
-      "ev_per_100": 2.86,
+      "best_price": -440,
+      "true_prob_pct": 81.76,
+      "ev_per_100": 1.5,
       "n_books": 4,
       "all_prices": [
         [
           "fanduel",
-          -430
+          -440
         ],
         [
           "draftkings",
@@ -2616,6 +2502,44 @@
         [
           "williamhill_us",
           -454
+        ]
+      ]
+    },
+    {
+      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
+      "game": "Angels @ Rays",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Los Angeles Angels +3.5",
+      "player": "Los Angeles Angels",
+      "side": "Away",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -393,
+      "true_prob_pct": 81.6,
+      "ev_per_100": 9.31,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -393
+        ],
+        [
+          "williamhill_us",
+          -454
+        ],
+        [
+          "fanduel",
+          -460
+        ],
+        [
+          "betmgm",
+          -475
         ]
       ]
     },
@@ -2662,40 +2586,40 @@
       ]
     },
     {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
-      "first_pitch": "2026-05-29T22:46:00Z",
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
       "market": "Total alt",
       "market_key": "alternate_totals",
       "stat_key": "total",
       "settle_type": "Over/Under",
-      "selection": "Under 11.5",
+      "selection": "Under 14.5",
       "player": "Game Total",
       "side": "Under",
-      "point": 11.5,
-      "best_book": "williamhill_us",
-      "best_price": -429,
-      "true_prob_pct": 81.41,
-      "ev_per_100": 1.65,
+      "point": 14.5,
+      "best_book": "draftkings",
+      "best_price": -397,
+      "true_prob_pct": 81.39,
+      "ev_per_100": 7.52,
       "n_books": 4,
       "all_prices": [
         [
-          "williamhill_us",
-          -429
-        ],
-        [
           "draftkings",
-          -433
+          -397
         ],
         [
           "fanduel",
-          -440
+          -430
+        ],
+        [
+          "williamhill_us",
+          -454
         ],
         [
           "betmgm",
-          -450
+          -475
         ]
       ]
     },
@@ -2714,14 +2638,14 @@
       "side": "Under",
       "point": 11.5,
       "best_book": "draftkings",
-      "best_price": -411,
-      "true_prob_pct": 81.12,
-      "ev_per_100": 3.52,
+      "best_price": -424,
+      "true_prob_pct": 81.24,
+      "ev_per_100": 1.7,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -411
+          -424
         ],
         [
           "williamhill_us",
@@ -2738,44 +2662,78 @@
       ]
     },
     {
-      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
-      "game": "Angels @ Rays",
-      "away_team": "Los Angeles Angels",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
       "settle_type": "Over/Under",
-      "selection": "Walbert Urena",
-      "player": "Walbert Urena",
-      "side": "Over",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -362,
-      "true_prob_pct": 80.63,
-      "ev_per_100": 10.53,
-      "n_books": 5,
+      "selection": "Under 11.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 11.5,
+      "best_book": "betmgm",
+      "best_price": -375,
+      "true_prob_pct": 80.69,
+      "ev_per_100": 8.28,
+      "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
-          -362
-        ],
-        [
-          "fanduel",
-          -400
-        ],
-        [
           "betmgm",
-          -400
+          -375
         ],
         [
           "williamhill_us",
-          -440
+          -429
         ],
         [
-          "bovada",
-          -500
+          "draftkings",
+          -433
+        ],
+        [
+          "fanduel",
+          -440
+        ]
+      ]
+    },
+    {
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 6.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 6.5,
+      "best_book": "draftkings",
+      "best_price": -364,
+      "true_prob_pct": 80.24,
+      "ev_per_100": 8.31,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -364
+        ],
+        [
+          "fanduel",
+          -390
+        ],
+        [
+          "williamhill_us",
+          -429
+        ],
+        [
+          "betmgm",
+          -450
         ]
       ]
     },
@@ -2795,8 +2753,8 @@
       "point": 2.5,
       "best_book": "draftkings",
       "best_price": -373,
-      "true_prob_pct": 80.33,
-      "ev_per_100": 6.94,
+      "true_prob_pct": 80.22,
+      "ev_per_100": 6.43,
       "n_books": 5,
       "all_prices": [
         [
@@ -2805,11 +2763,11 @@
         ],
         [
           "bovada",
-          -390
+          -400
         ],
         [
           "betmgm",
-          -425
+          -400
         ],
         [
           "williamhill_us",
@@ -2869,14 +2827,52 @@
       "market_key": "batter_hits_alternate",
       "stat_key": "hits",
       "settle_type": "Over/Under",
+      "selection": "Jung Hoo Lee",
+      "player": "Jung Hoo Lee",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -360,
+      "true_prob_pct": 79.97,
+      "ev_per_100": 7.88,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -360
+        ],
+        [
+          "bovada",
+          -375
+        ],
+        [
+          "draftkings",
+          -414
+        ],
+        [
+          "williamhill_us",
+          -460
+        ]
+      ]
+    },
+    {
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
       "selection": "Willy Adames",
       "player": "Willy Adames",
       "side": "Over",
       "point": 0.5,
       "best_book": "betmgm",
       "best_price": -350,
-      "true_prob_pct": 80.17,
-      "ev_per_100": 10.78,
+      "true_prob_pct": 79.91,
+      "ev_per_100": 9.61,
       "n_books": 5,
       "all_prices": [
         [
@@ -2893,53 +2889,11 @@
         ],
         [
           "draftkings",
-          -432
+          -429
         ],
         [
           "williamhill_us",
-          -500
-        ]
-      ]
-    },
-    {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Lucas Giolito",
-      "player": "Lucas Giolito",
-      "side": "Over",
-      "point": 2.5,
-      "best_book": "bovada",
-      "best_price": -375,
-      "true_prob_pct": 80.12,
-      "ev_per_100": 5.58,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "bovada",
-          -375
-        ],
-        [
-          "fanduel",
-          -380
-        ],
-        [
-          "draftkings",
-          -380
-        ],
-        [
-          "betmgm",
-          -400
-        ],
-        [
-          "williamhill_us",
-          -500
+          -460
         ]
       ]
     },
@@ -2982,6 +2936,48 @@
       ]
     },
     {
+      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
+      "game": "Cubs @ Cardinals",
+      "away_team": "Chicago Cubs",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-05-29T23:16:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Shota Imanaga",
+      "player": "Shota Imanaga",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "betmgm",
+      "best_price": -325,
+      "true_prob_pct": 79.62,
+      "ev_per_100": 13.39,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "draftkings",
+          -369
+        ],
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "fanduel",
+          -440
+        ],
+        [
+          "williamhill_us",
+          -440
+        ]
+      ]
+    },
+    {
       "event_id": "1587b2f52f5f1a490cebb01e524ec361",
       "game": "Tigers @ Sox",
       "away_team": "Detroit Tigers",
@@ -3020,124 +3016,6 @@
       ]
     },
     {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 12.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 12.5,
-      "best_book": "draftkings",
-      "best_price": -370,
-      "true_prob_pct": 79.52,
-      "ev_per_100": 3.72,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -370
-        ],
-        [
-          "williamhill_us",
-          -384
-        ],
-        [
-          "fanduel",
-          -400
-        ],
-        [
-          "betmgm",
-          -400
-        ]
-      ]
-    },
-    {
-      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
-      "game": "Cubs @ Cardinals",
-      "away_team": "Chicago Cubs",
-      "home_team": "St. Louis Cardinals",
-      "first_pitch": "2026-05-29T23:16:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Shota Imanaga",
-      "player": "Shota Imanaga",
-      "side": "Over",
-      "point": 3.5,
-      "best_book": "betmgm",
-      "best_price": -325,
-      "true_prob_pct": 79.49,
-      "ev_per_100": 12.83,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -325
-        ],
-        [
-          "draftkings",
-          -370
-        ],
-        [
-          "bovada",
-          -400
-        ],
-        [
-          "fanduel",
-          -420
-        ],
-        [
-          "williamhill_us",
-          -440
-        ]
-      ]
-    },
-    {
-      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
-      "game": "Royals @ Rangers",
-      "away_team": "Kansas City Royals",
-      "home_team": "Texas Rangers",
-      "first_pitch": "2026-05-30T00:06:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 10.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 10.5,
-      "best_book": "draftkings",
-      "best_price": -362,
-      "true_prob_pct": 79.32,
-      "ev_per_100": 4.46,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -362
-        ],
-        [
-          "williamhill_us",
-          -384
-        ],
-        [
-          "fanduel",
-          -390
-        ],
-        [
-          "betmgm",
-          -400
-        ]
-      ]
-    },
-    {
       "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
       "game": "Royals @ Rangers",
       "away_team": "Kansas City Royals",
@@ -3151,145 +3029,27 @@
       "player": "Texas Rangers",
       "side": "Home",
       "point": 2.5,
-      "best_book": "betmgm",
-      "best_price": -375,
-      "true_prob_pct": 79.32,
-      "ev_per_100": 1.77,
+      "best_book": "williamhill_us",
+      "best_price": -354,
+      "true_prob_pct": 79.24,
+      "ev_per_100": 5.76,
       "n_books": 4,
       "all_prices": [
         [
-          "betmgm",
-          -375
+          "williamhill_us",
+          -354
         ],
         [
           "draftkings",
           -376
         ],
         [
-          "williamhill_us",
-          -384
-        ],
-        [
-          "fanduel",
-          -400
-        ]
-      ]
-    },
-    {
-      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
-      "game": "Marlins @ Mets",
-      "away_team": "Miami Marlins",
-      "home_team": "New York Mets",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 10.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 10.5,
-      "best_book": "draftkings",
-      "best_price": -375,
-      "true_prob_pct": 79.31,
-      "ev_per_100": 1.71,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -375
-        ],
-        [
-          "betmgm",
-          -375
-        ],
-        [
-          "williamhill_us",
-          -384
-        ],
-        [
-          "fanduel",
-          -400
-        ]
-      ]
-    },
-    {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Over 6.5",
-      "player": "Game Total",
-      "side": "Over",
-      "point": 6.5,
-      "best_book": "draftkings",
-      "best_price": -360,
-      "true_prob_pct": 79.29,
-      "ev_per_100": 4.74,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -360
-        ],
-        [
-          "williamhill_us",
-          -374
-        ],
-        [
           "fanduel",
           -400
         ],
         [
           "betmgm",
           -400
-        ]
-      ]
-    },
-    {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Hits alt",
-      "market_key": "batter_hits_alternate",
-      "stat_key": "hits",
-      "settle_type": "Over/Under",
-      "selection": "Casey Schmitt",
-      "player": "Casey Schmitt",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -325,
-      "true_prob_pct": 79.27,
-      "ev_per_100": 11.92,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -325
-        ],
-        [
-          "fanduel",
-          -360
-        ],
-        [
-          "bovada",
-          -360
-        ],
-        [
-          "draftkings",
-          -433
-        ],
-        [
-          "williamhill_us",
-          -460
         ]
       ]
     },
@@ -3336,28 +3096,74 @@
       ]
     },
     {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
       "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Pittsburgh Pirates +2.5",
-      "player": "Pittsburgh Pirates",
-      "side": "Home",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Lucas Giolito",
+      "player": "Lucas Giolito",
+      "side": "Over",
       "point": 2.5,
+      "best_book": "fanduel",
+      "best_price": -330,
+      "true_prob_pct": 79.17,
+      "ev_per_100": 10.44,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "draftkings",
+          -355
+        ],
+        [
+          "bovada",
+          -375
+        ],
+        [
+          "betmgm",
+          -400
+        ],
+        [
+          "williamhill_us",
+          -460
+        ]
+      ]
+    },
+    {
+      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
+      "game": "Marlins @ Mets",
+      "away_team": "Miami Marlins",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 10.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 10.5,
       "best_book": "draftkings",
-      "best_price": -346,
-      "true_prob_pct": 79.13,
-      "ev_per_100": 6.91,
+      "best_price": -371,
+      "true_prob_pct": 79.16,
+      "ev_per_100": 1.85,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -346
+          -371
+        ],
+        [
+          "betmgm",
+          -375
         ],
         [
           "williamhill_us",
@@ -3366,48 +3172,166 @@
         [
           "fanduel",
           -390
-        ],
-        [
-          "betmgm",
-          -400
         ]
       ]
     },
     {
-      "event_id": "765d27e397e587aa1885002dd751e9da",
-      "game": "Twins @ Pirates",
-      "away_team": "Minnesota Twins",
-      "home_team": "Pittsburgh Pirates",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
+      "event_id": "57848c1e5cf12fb46c9c6e5c89c1022e",
+      "game": "Royals @ Rangers",
+      "away_team": "Kansas City Royals",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-05-30T00:06:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
       "settle_type": "Over/Under",
-      "selection": "Jared Jones",
-      "player": "Jared Jones",
-      "side": "Over",
-      "point": 3.5,
-      "best_book": "fanduel",
-      "best_price": -360,
-      "true_prob_pct": 79.04,
-      "ev_per_100": 3.58,
+      "selection": "Under 10.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 10.5,
+      "best_book": "draftkings",
+      "best_price": -362,
+      "true_prob_pct": 79.06,
+      "ev_per_100": 3.25,
       "n_books": 4,
       "all_prices": [
         [
+          "draftkings",
+          -362
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "williamhill_us",
+          -384
+        ],
+        [
           "fanduel",
+          -390
+        ]
+      ]
+    },
+    {
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
+      "selection": "Casey Schmitt",
+      "player": "Casey Schmitt",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -325,
+      "true_prob_pct": 79.05,
+      "ev_per_100": 10.95,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "fanduel",
+          -350
+        ],
+        [
+          "bovada",
           -360
         ],
         [
           "draftkings",
-          -361
+          -415
+        ],
+        [
+          "williamhill_us",
+          -460
+        ]
+      ]
+    },
+    {
+      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
+      "game": "Braves @ Reds",
+      "away_team": "Atlanta Braves",
+      "home_team": "Cincinnati Reds",
+      "first_pitch": "2026-05-29T22:41:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Chris Paddack",
+      "player": "Chris Paddack",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "fanduel",
+      "best_price": -320,
+      "true_prob_pct": 78.98,
+      "ev_per_100": 11.7,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -320
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "williamhill_us",
+          -420
+        ]
+      ]
+    },
+    {
+      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
+      "game": "Angels @ Rays",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Walbert Urena",
+      "player": "Walbert Urena",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -303,
+      "true_prob_pct": 78.97,
+      "ev_per_100": 15.25,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -303
+        ],
+        [
+          "fanduel",
+          -330
         ],
         [
           "williamhill_us",
           -390
         ],
         [
-          "bovada",
+          "betmgm",
           -400
+        ],
+        [
+          "bovada",
+          -500
         ]
       ]
     },
@@ -3468,18 +3392,18 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "draftkings",
-      "best_price": -345,
-      "true_prob_pct": 78.65,
-      "ev_per_100": 4.98,
+      "best_price": -347,
+      "true_prob_pct": 78.92,
+      "ev_per_100": 5.77,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -345
+          -347
         ],
         [
           "bovada",
-          -360
+          -370
         ],
         [
           "williamhill_us",
@@ -3491,87 +3415,121 @@
         ],
         [
           "fanduel",
-          -390
+          -410
         ]
       ]
     },
     {
-      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
-      "game": "Braves @ Reds",
-      "away_team": "Atlanta Braves",
-      "home_team": "Cincinnati Reds",
-      "first_pitch": "2026-05-29T22:41:00Z",
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
       "market": "K's alt",
       "market_key": "pitcher_strikeouts_alternate",
       "stat_key": "ks",
       "settle_type": "Over/Under",
-      "selection": "Chris Paddack",
-      "player": "Chris Paddack",
+      "selection": "Jared Jones",
+      "player": "Jared Jones",
       "side": "Over",
-      "point": 2.5,
+      "point": 3.5,
       "best_book": "fanduel",
-      "best_price": -320,
-      "true_prob_pct": 78.63,
-      "ev_per_100": 10.23,
-      "n_books": 5,
+      "best_price": -350,
+      "true_prob_pct": 78.92,
+      "ev_per_100": 5.14,
+      "n_books": 4,
       "all_prices": [
         [
           "fanduel",
-          -320
+          -350
         ],
         [
           "draftkings",
-          -339
+          -361
+        ],
+        [
+          "williamhill_us",
+          -390
+        ],
+        [
+          "bovada",
+          -400
+        ]
+      ]
+    },
+    {
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 12.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 12.5,
+      "best_book": "draftkings",
+      "best_price": -341,
+      "true_prob_pct": 78.9,
+      "ev_per_100": 6.96,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -341
         ],
         [
           "betmgm",
           -375
         ],
         [
-          "bovada",
-          -400
-        ],
-        [
           "williamhill_us",
-          -420
-        ]
-      ]
-    },
-    {
-      "event_id": "d32dadf5a576ba276bac1775287783ba",
-      "game": "Sox @ Guardians",
-      "away_team": "Boston Red Sox",
-      "home_team": "Cleveland Guardians",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Cleveland Guardians +2.5",
-      "player": "Cleveland Guardians",
-      "side": "Home",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -348,
-      "true_prob_pct": 78.59,
-      "ev_per_100": 4.08,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -348
-        ],
-        [
-          "betmgm",
-          -350
-        ],
-        [
-          "williamhill_us",
-          -374
+          -384
         ],
         [
           "fanduel",
           -400
+        ]
+      ]
+    },
+    {
+      "event_id": "765d27e397e587aa1885002dd751e9da",
+      "game": "Twins @ Pirates",
+      "away_team": "Minnesota Twins",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Pittsburgh Pirates +2.5",
+      "player": "Pittsburgh Pirates",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -346,
+      "true_prob_pct": 78.86,
+      "ev_per_100": 5.73,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -346
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "williamhill_us",
+          -384
+        ],
+        [
+          "fanduel",
+          -390
         ]
       ]
     },
@@ -3591,8 +3549,8 @@
       "point": 2.5,
       "best_book": "draftkings",
       "best_price": -333,
-      "true_prob_pct": 78.42,
-      "ev_per_100": 6.55,
+      "true_prob_pct": 78.6,
+      "ev_per_100": 7.35,
       "n_books": 5,
       "all_prices": [
         [
@@ -3600,8 +3558,54 @@
           -333
         ],
         [
+          "bovada",
+          -360
+        ],
+        [
+          "williamhill_us",
+          -374
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "fanduel",
+          -400
+        ]
+      ]
+    },
+    {
+      "event_id": "d32dadf5a576ba276bac1775287783ba",
+      "game": "Sox @ Guardians",
+      "away_team": "Boston Red Sox",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Boston Red Sox +2.5",
+      "player": "Boston Red Sox",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -344,
+      "true_prob_pct": 78.18,
+      "ev_per_100": 3.14,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -344
+        ],
+        [
           "williamhill_us",
           -354
+        ],
+        [
+          "fanduel",
+          -360
         ],
         [
           "bovada",
@@ -3610,6 +3614,40 @@
         [
           "betmgm",
           -375
+        ]
+      ]
+    },
+    {
+      "event_id": "d32dadf5a576ba276bac1775287783ba",
+      "game": "Sox @ Guardians",
+      "away_team": "Boston Red Sox",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Cleveland Guardians +2.5",
+      "player": "Cleveland Guardians",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -325,
+      "true_prob_pct": 78.06,
+      "ev_per_100": 6.74,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -325
+        ],
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "williamhill_us",
+          -354
         ],
         [
           "fanduel",
@@ -3656,44 +3694,6 @@
       ]
     },
     {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 12.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 12.5,
-      "best_book": "draftkings",
-      "best_price": -345,
-      "true_prob_pct": 77.76,
-      "ev_per_100": 1.05,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -345
-        ],
-        [
-          "fanduel",
-          -350
-        ],
-        [
-          "betmgm",
-          -350
-        ],
-        [
-          "williamhill_us",
-          -354
-        ]
-      ]
-    },
-    {
       "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
       "game": "Braves @ Reds",
       "away_team": "Atlanta Braves",
@@ -3709,9 +3709,9 @@
       "point": 0.5,
       "best_book": "betmgm",
       "best_price": -325,
-      "true_prob_pct": 77.71,
-      "ev_per_100": 5.29,
-      "n_books": 5,
+      "true_prob_pct": 77.74,
+      "ev_per_100": 5.38,
+      "n_books": 4,
       "all_prices": [
         [
           "betmgm",
@@ -3720,10 +3720,6 @@
         [
           "bovada",
           -345
-        ],
-        [
-          "draftkings",
-          -347
         ],
         [
           "fanduel",
@@ -3791,19 +3787,19 @@
       "player": "Game Total",
       "side": "Over",
       "point": 5.5,
-      "best_book": "draftkings",
-      "best_price": -336,
-      "true_prob_pct": 77.52,
-      "ev_per_100": 2.0,
+      "best_book": "fanduel",
+      "best_price": -340,
+      "true_prob_pct": 77.59,
+      "ev_per_100": 1.38,
       "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
-          -336
-        ],
-        [
           "fanduel",
           -340
+        ],
+        [
+          "draftkings",
+          -341
         ],
         [
           "betmgm",
@@ -3816,40 +3812,74 @@
       ]
     },
     {
-      "event_id": "d32dadf5a576ba276bac1775287783ba",
-      "game": "Sox @ Guardians",
-      "away_team": "Boston Red Sox",
-      "home_team": "Cleveland Guardians",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Boston Red Sox +2.5",
-      "player": "Boston Red Sox",
-      "side": "Away",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -323,
-      "true_prob_pct": 77.38,
-      "ev_per_100": 4.33,
-      "n_books": 5,
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 12.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 12.5,
+      "best_book": "williamhill_us",
+      "best_price": -314,
+      "true_prob_pct": 77.26,
+      "ev_per_100": 5.87,
+      "n_books": 4,
       "all_prices": [
         [
+          "williamhill_us",
+          -314
+        ],
+        [
           "draftkings",
-          -323
+          -338
+        ],
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "fanduel",
+          -360
+        ]
+      ]
+    },
+    {
+      "event_id": "1587b2f52f5f1a490cebb01e524ec361",
+      "game": "Tigers @ Sox",
+      "away_team": "Detroit Tigers",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-05-29T23:41:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 11.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 11.5,
+      "best_book": "fanduel",
+      "best_price": -330,
+      "true_prob_pct": 77.21,
+      "ev_per_100": 2.02,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "draftkings",
+          -337
         ],
         [
           "williamhill_us",
           -339
-        ],
-        [
-          "fanduel",
-          -350
-        ],
-        [
-          "bovada",
-          -350
         ],
         [
           "betmgm",
@@ -3871,15 +3901,95 @@
       "player": "San Diego Padres",
       "side": "Away",
       "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -328,
-      "true_prob_pct": 77.34,
-      "ev_per_100": 3.0,
+      "best_book": "williamhill_us",
+      "best_price": -324,
+      "true_prob_pct": 77.2,
+      "ev_per_100": 3.34,
       "n_books": 5,
       "all_prices": [
         [
+          "williamhill_us",
+          -324
+        ],
+        [
           "draftkings",
           -328
+        ],
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "bovada",
+          -340
+        ],
+        [
+          "betmgm",
+          -375
+        ]
+      ]
+    },
+    {
+      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
+      "game": "Cubs @ Cardinals",
+      "away_team": "Chicago Cubs",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-05-29T23:16:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 10.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 10.5,
+      "best_book": "fanduel",
+      "best_price": -330,
+      "true_prob_pct": 77.16,
+      "ev_per_100": 1.8,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "draftkings",
+          -333
+        ],
+        [
+          "williamhill_us",
+          -339
+        ],
+        [
+          "betmgm",
+          -350
+        ]
+      ]
+    },
+    {
+      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
+      "game": "Phillies @ Dodgers",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-05-30T02:16:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Los Angeles Dodgers +2.5",
+      "player": "Los Angeles Dodgers",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -321,
+      "true_prob_pct": 77.13,
+      "ev_per_100": 3.72,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -321
         ],
         [
           "williamhill_us",
@@ -3890,7 +4000,79 @@
           -340
         ],
         [
-          "bovada",
+          "betmgm",
+          -350
+        ]
+      ]
+    },
+    {
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 6.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 6.5,
+      "best_book": "draftkings",
+      "best_price": -327,
+      "true_prob_pct": 77.08,
+      "ev_per_100": 2.14,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -327
+        ],
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "williamhill_us",
+          -339
+        ],
+        [
+          "betmgm",
+          -350
+        ]
+      ]
+    },
+    {
+      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
+      "game": "Marlins @ Mets",
+      "away_team": "Miami Marlins",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Mets +2.5",
+      "player": "New York Mets",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -322,
+      "true_prob_pct": 77.07,
+      "ev_per_100": 3.23,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -322
+        ],
+        [
+          "williamhill_us",
+          -324
+        ],
+        [
+          "fanduel",
           -350
         ],
         [
@@ -3915,8 +4097,8 @@
       "point": 12.5,
       "best_book": "williamhill_us",
       "best_price": -324,
-      "true_prob_pct": 77.21,
-      "ev_per_100": 3.36,
+      "true_prob_pct": 76.98,
+      "ev_per_100": 2.41,
       "n_books": 4,
       "all_prices": [
         [
@@ -3928,285 +4110,11 @@
           -325
         ],
         [
-          "draftkings",
-          -339
-        ],
-        [
-          "fanduel",
-          -370
-        ]
-      ]
-    },
-    {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Michael Lorenzen",
-      "player": "Michael Lorenzen",
-      "side": "Over",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -303,
-      "true_prob_pct": 77.2,
-      "ev_per_100": 8.13,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "draftkings",
-          -303
-        ],
-        [
-          "bovada",
-          -320
-        ],
-        [
           "fanduel",
           -340
         ],
         [
-          "betmgm",
-          -350
-        ],
-        [
-          "williamhill_us",
-          -390
-        ]
-      ]
-    },
-    {
-      "event_id": "6493e9132fdd464eebd5031d8ad02c41",
-      "game": "Marlins @ Mets",
-      "away_team": "Miami Marlins",
-      "home_team": "New York Mets",
-      "first_pitch": "2026-05-29T23:11:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "New York Mets +2.5",
-      "player": "New York Mets",
-      "side": "Home",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -322,
-      "true_prob_pct": 77.19,
-      "ev_per_100": 3.74,
-      "n_books": 4,
-      "all_prices": [
-        [
           "draftkings",
-          -322
-        ],
-        [
-          "williamhill_us",
-          -324
-        ],
-        [
-          "betmgm",
-          -350
-        ],
-        [
-          "fanduel",
-          -360
-        ]
-      ]
-    },
-    {
-      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
-      "game": "Phillies @ Dodgers",
-      "away_team": "Philadelphia Phillies",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-05-30T02:16:00Z",
-      "market": "K's alt",
-      "market_key": "pitcher_strikeouts_alternate",
-      "stat_key": "ks",
-      "settle_type": "Over/Under",
-      "selection": "Zack Wheeler",
-      "player": "Zack Wheeler",
-      "side": "Over",
-      "point": 4.5,
-      "best_book": "betmgm",
-      "best_price": -300,
-      "true_prob_pct": 77.14,
-      "ev_per_100": 8.54,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -300
-        ],
-        [
-          "fanduel",
-          -320
-        ],
-        [
-          "draftkings",
-          -337
-        ],
-        [
-          "bovada",
-          -350
-        ],
-        [
-          "williamhill_us",
-          -390
-        ]
-      ]
-    },
-    {
-      "event_id": "1587b2f52f5f1a490cebb01e524ec361",
-      "game": "Tigers @ Sox",
-      "away_team": "Detroit Tigers",
-      "home_team": "Chicago White Sox",
-      "first_pitch": "2026-05-29T23:41:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 11.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 11.5,
-      "best_book": "fanduel",
-      "best_price": -330,
-      "true_prob_pct": 77.14,
-      "ev_per_100": 1.68,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "fanduel",
-          -330
-        ],
-        [
-          "draftkings",
-          -331
-        ],
-        [
-          "williamhill_us",
-          -339
-        ],
-        [
-          "betmgm",
-          -350
-        ]
-      ]
-    },
-    {
-      "event_id": "4018fbc29a76d2079208cbe8913a9de1",
-      "game": "Cubs @ Cardinals",
-      "away_team": "Chicago Cubs",
-      "home_team": "St. Louis Cardinals",
-      "first_pitch": "2026-05-29T23:16:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Under 10.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 10.5,
-      "best_book": "williamhill_us",
-      "best_price": -324,
-      "true_prob_pct": 77.09,
-      "ev_per_100": 2.87,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "williamhill_us",
-          -324
-        ],
-        [
-          "draftkings",
-          -333
-        ],
-        [
-          "fanduel",
-          -340
-        ],
-        [
-          "betmgm",
-          -350
-        ]
-      ]
-    },
-    {
-      "event_id": "26c7991c125b7365c82472e2468e59a6",
-      "game": "Yankees @ Athletics",
-      "away_team": "New York Yankees",
-      "home_team": "Athletics",
-      "first_pitch": "2026-05-30T01:41:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Athletics +3.5",
-      "player": "Athletics",
-      "side": "Home",
-      "point": 3.5,
-      "best_book": "betmgm",
-      "best_price": -325,
-      "true_prob_pct": 77.04,
-      "ev_per_100": 2.42,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "betmgm",
-          -325
-        ],
-        [
-          "draftkings",
-          -329
-        ],
-        [
-          "williamhill_us",
-          -339
-        ],
-        [
-          "fanduel",
-          -350
-        ]
-      ]
-    },
-    {
-      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
-      "game": "Phillies @ Dodgers",
-      "away_team": "Philadelphia Phillies",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-05-30T02:16:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Los Angeles Dodgers +2.5",
-      "player": "Los Angeles Dodgers",
-      "side": "Home",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -313,
-      "true_prob_pct": 77.01,
-      "ev_per_100": 5.07,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -313
-        ],
-        [
-          "williamhill_us",
-          -339
-        ],
-        [
-          "fanduel",
-          -340
-        ],
-        [
-          "betmgm",
           -350
         ]
       ]
@@ -4226,18 +4134,18 @@
       "side": "Over",
       "point": 5.5,
       "best_book": "draftkings",
-      "best_price": -311,
-      "true_prob_pct": 76.99,
-      "ev_per_100": 5.41,
+      "best_price": -323,
+      "true_prob_pct": 76.96,
+      "ev_per_100": 2.52,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -311
+          -323
         ],
         [
           "williamhill_us",
-          -339
+          -324
         ],
         [
           "fanduel",
@@ -4255,65 +4163,69 @@
       "away_team": "San Francisco Giants",
       "home_team": "Colorado Rockies",
       "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
       "settle_type": "Over/Under",
-      "selection": "Under 13.5",
-      "player": "Game Total",
-      "side": "Under",
-      "point": 13.5,
-      "best_book": "draftkings",
-      "best_price": -306,
-      "true_prob_pct": 76.97,
-      "ev_per_100": 6.48,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "draftkings",
-          -306
-        ],
-        [
-          "fanduel",
-          -330
-        ],
-        [
-          "betmgm",
-          -350
-        ],
-        [
-          "williamhill_us",
-          -354
-        ]
-      ]
-    },
-    {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Baltimore Orioles +2.5",
-      "player": "Baltimore Orioles",
-      "side": "Home",
+      "selection": "Michael Lorenzen",
+      "player": "Michael Lorenzen",
+      "side": "Over",
       "point": 2.5,
       "best_book": "draftkings",
-      "best_price": -307,
-      "true_prob_pct": 76.96,
-      "ev_per_100": 6.23,
-      "n_books": 4,
+      "best_price": -303,
+      "true_prob_pct": 76.94,
+      "ev_per_100": 7.08,
+      "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -307
+          -303
+        ],
+        [
+          "bovada",
+          -320
         ],
         [
           "betmgm",
           -325
+        ],
+        [
+          "fanduel",
+          -340
+        ],
+        [
+          "williamhill_us",
+          -390
+        ]
+      ]
+    },
+    {
+      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
+      "game": "Braves @ Reds",
+      "away_team": "Atlanta Braves",
+      "home_team": "Cincinnati Reds",
+      "first_pitch": "2026-05-29T22:41:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Cincinnati Reds +3.5",
+      "player": "Cincinnati Reds",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "betmgm",
+      "best_price": -325,
+      "true_prob_pct": 76.93,
+      "ev_per_100": 1.94,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "draftkings",
+          -330
         ],
         [
           "williamhill_us",
@@ -4321,7 +4233,87 @@
         ],
         [
           "fanduel",
-          -370
+          -340
+        ]
+      ]
+    },
+    {
+      "event_id": "18e8a4acb1d40019544cfef0a5f07ef1",
+      "game": "Phillies @ Dodgers",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-05-30T02:16:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Zack Wheeler",
+      "player": "Zack Wheeler",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "fanduel",
+      "best_price": -300,
+      "true_prob_pct": 76.92,
+      "ev_per_100": 7.67,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -300
+        ],
+        [
+          "betmgm",
+          -300
+        ],
+        [
+          "draftkings",
+          -339
+        ],
+        [
+          "bovada",
+          -350
+        ],
+        [
+          "williamhill_us",
+          -390
+        ]
+      ]
+    },
+    {
+      "event_id": "26c7991c125b7365c82472e2468e59a6",
+      "game": "Yankees @ Athletics",
+      "away_team": "New York Yankees",
+      "home_team": "Athletics",
+      "first_pitch": "2026-05-30T01:41:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Athletics +3.5",
+      "player": "Athletics",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "betmgm",
+      "best_price": -325,
+      "true_prob_pct": 76.91,
+      "ev_per_100": 1.88,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "draftkings",
+          -329
+        ],
+        [
+          "williamhill_us",
+          -339
+        ],
+        [
+          "fanduel",
+          -340
         ]
       ]
     },
@@ -4368,48 +4360,6 @@
       ]
     },
     {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Hits alt",
-      "market_key": "batter_hits_alternate",
-      "stat_key": "hits",
-      "settle_type": "Over/Under",
-      "selection": "Rafael Devers",
-      "player": "Rafael Devers",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -295,
-      "true_prob_pct": 76.8,
-      "ev_per_100": 8.36,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -295
-        ],
-        [
-          "fanduel",
-          -300
-        ],
-        [
-          "bovada",
-          -305
-        ],
-        [
-          "williamhill_us",
-          -380
-        ],
-        [
-          "draftkings",
-          -396
-        ]
-      ]
-    },
-    {
       "event_id": "ddd9481c210fa90dea318ad8e185cf22",
       "game": "Jays @ Orioles",
       "away_team": "Toronto Blue Jays",
@@ -4425,8 +4375,8 @@
       "point": 0.5,
       "best_book": "betmgm",
       "best_price": -300,
-      "true_prob_pct": 76.76,
-      "ev_per_100": 7.03,
+      "true_prob_pct": 76.77,
+      "ev_per_100": 7.08,
       "n_books": 5,
       "all_prices": [
         [
@@ -4434,16 +4384,16 @@
           -300
         ],
         [
+          "fanduel",
+          -310
+        ],
+        [
           "bovada",
           -315
         ],
         [
-          "fanduel",
-          -320
-        ],
-        [
           "draftkings",
-          -345
+          -358
         ],
         [
           "williamhill_us",
@@ -4452,40 +4402,82 @@
       ]
     },
     {
-      "event_id": "0efc76f321b5fc7e72e7e7641d5667f6",
-      "game": "Braves @ Reds",
-      "away_team": "Atlanta Braves",
-      "home_team": "Cincinnati Reds",
-      "first_pitch": "2026-05-29T22:41:00Z",
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
       "market": "Run Line alt",
       "market_key": "alternate_spreads",
       "stat_key": "spread",
       "settle_type": "Team",
-      "selection": "Cincinnati Reds +3.5",
-      "player": "Cincinnati Reds",
+      "selection": "Baltimore Orioles +2.5",
+      "player": "Baltimore Orioles",
       "side": "Home",
-      "point": 3.5,
+      "point": 2.5,
       "best_book": "draftkings",
-      "best_price": -313,
-      "true_prob_pct": 76.61,
-      "ev_per_100": 3.41,
+      "best_price": -294,
+      "true_prob_pct": 76.64,
+      "ev_per_100": 7.97,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -313
-        ],
-        [
-          "williamhill_us",
-          -324
+          -294
         ],
         [
           "betmgm",
           -325
         ],
         [
+          "williamhill_us",
+          -339
+        ],
+        [
           "fanduel",
-          -350
+          -360
+        ]
+      ]
+    },
+    {
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
+      "selection": "Rafael Devers",
+      "player": "Rafael Devers",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -290,
+      "true_prob_pct": 76.54,
+      "ev_per_100": 8.49,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -290
+        ],
+        [
+          "betmgm",
+          -295
+        ],
+        [
+          "bovada",
+          -305
+        ],
+        [
+          "draftkings",
+          -380
+        ],
+        [
+          "williamhill_us",
+          -380
         ]
       ]
     },
@@ -4547,9 +4539,9 @@
       "point": 0.5,
       "best_book": "betmgm",
       "best_price": -300,
-      "true_prob_pct": 76.51,
-      "ev_per_100": 6.05,
-      "n_books": 5,
+      "true_prob_pct": 76.48,
+      "ev_per_100": 5.92,
+      "n_books": 4,
       "all_prices": [
         [
           "betmgm",
@@ -4557,15 +4549,11 @@
         ],
         [
           "fanduel",
-          -310
+          -320
         ],
         [
           "bovada",
           -325
-        ],
-        [
-          "draftkings",
-          -339
         ],
         [
           "williamhill_us",
@@ -4574,28 +4562,28 @@
       ]
     },
     {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
       "market": "Total alt",
       "market_key": "alternate_totals",
       "stat_key": "total",
       "settle_type": "Over/Under",
-      "selection": "Over 6.5",
+      "selection": "Under 13.5",
       "player": "Game Total",
-      "side": "Over",
-      "point": 6.5,
+      "side": "Under",
+      "point": 13.5,
       "best_book": "draftkings",
-      "best_price": -309,
-      "true_prob_pct": 76.5,
-      "ev_per_100": 3.87,
+      "best_price": -304,
+      "true_prob_pct": 76.42,
+      "ev_per_100": 4.74,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -309
+          -304
         ],
         [
           "betmgm",
@@ -4705,10 +4693,52 @@
       "player": "San Francisco Giants",
       "side": "Away",
       "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -289,
+      "true_prob_pct": 75.94,
+      "ev_per_100": 6.39,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -289
+        ],
+        [
+          "betmgm",
+          -300
+        ],
+        [
+          "bovada",
+          -320
+        ],
+        [
+          "williamhill_us",
+          -324
+        ],
+        [
+          "fanduel",
+          -350
+        ]
+      ]
+    },
+    {
+      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
+      "game": "Jays @ Orioles",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-05-29T23:06:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Toronto Blue Jays +2.5",
+      "player": "Toronto Blue Jays",
+      "side": "Away",
+      "point": 2.5,
       "best_book": "betmgm",
       "best_price": -300,
-      "true_prob_pct": 76.0,
-      "ev_per_100": 3.99,
+      "true_prob_pct": 75.93,
+      "ev_per_100": 3.72,
       "n_books": 5,
       "all_prices": [
         [
@@ -4716,62 +4746,20 @@
           -300
         ],
         [
-          "draftkings",
-          -302
-        ],
-        [
           "williamhill_us",
-          -314
-        ],
-        [
-          "bovada",
-          -330
-        ],
-        [
-          "fanduel",
-          -340
-        ]
-      ]
-    },
-    {
-      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
-      "game": "Giants @ Rockies",
-      "away_team": "San Francisco Giants",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-05-30T00:41:00Z",
-      "market": "Hits alt",
-      "market_key": "batter_hits_alternate",
-      "stat_key": "hits",
-      "settle_type": "Over/Under",
-      "selection": "Daniel Susac",
-      "player": "Daniel Susac",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -295,
-      "true_prob_pct": 75.95,
-      "ev_per_100": 5.0,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -295
-        ],
-        [
-          "fanduel",
-          -310
-        ],
-        [
-          "bovada",
-          -315
+          -304
         ],
         [
           "draftkings",
-          -317
+          -307
         ],
         [
-          "williamhill_us",
-          -345
+          "bovada",
+          -320
+        ],
+        [
+          "fanduel",
+          -350
         ]
       ]
     },
@@ -4810,48 +4798,6 @@
         [
           "betmgm",
           -325
-        ]
-      ]
-    },
-    {
-      "event_id": "ddd9481c210fa90dea318ad8e185cf22",
-      "game": "Jays @ Orioles",
-      "away_team": "Toronto Blue Jays",
-      "home_team": "Baltimore Orioles",
-      "first_pitch": "2026-05-29T23:06:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Toronto Blue Jays +2.5",
-      "player": "Toronto Blue Jays",
-      "side": "Away",
-      "point": 2.5,
-      "best_book": "betmgm",
-      "best_price": -300,
-      "true_prob_pct": 75.9,
-      "ev_per_100": 3.62,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -300
-        ],
-        [
-          "williamhill_us",
-          -304
-        ],
-        [
-          "draftkings",
-          -305
-        ],
-        [
-          "bovada",
-          -320
-        ],
-        [
-          "fanduel",
-          -350
         ]
       ]
     },
@@ -4898,40 +4844,44 @@
       ]
     },
     {
-      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
-      "game": "Padres @ Nationals",
-      "away_team": "San Diego Padres",
-      "home_team": "Washington Nationals",
-      "first_pitch": "2026-05-29T22:46:00Z",
-      "market": "Run Line alt",
-      "market_key": "alternate_spreads",
-      "stat_key": "spread",
-      "settle_type": "Team",
-      "selection": "Washington Nationals +2.5",
-      "player": "Washington Nationals",
-      "side": "Home",
-      "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -276,
-      "true_prob_pct": 75.47,
-      "ev_per_100": 7.75,
-      "n_books": 4,
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
+      "selection": "Daniel Susac",
+      "player": "Daniel Susac",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -295,
+      "true_prob_pct": 75.78,
+      "ev_per_100": 4.33,
+      "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          -276
-        ],
-        [
-          "williamhill_us",
-          -304
-        ],
-        [
           "betmgm",
-          -325
+          -295
         ],
         [
           "fanduel",
-          -330
+          -300
+        ],
+        [
+          "draftkings",
+          -313
+        ],
+        [
+          "bovada",
+          -315
+        ],
+        [
+          "williamhill_us",
+          -345
         ]
       ]
     },
@@ -4951,8 +4901,8 @@
       "point": 4.5,
       "best_book": "betmgm",
       "best_price": -275,
-      "true_prob_pct": 75.41,
-      "ev_per_100": 7.77,
+      "true_prob_pct": 75.62,
+      "ev_per_100": 8.58,
       "n_books": 5,
       "all_prices": [
         [
@@ -4968,12 +4918,50 @@
           -308
         ],
         [
-          "fanduel",
-          -320
-        ],
-        [
           "williamhill_us",
           -335
+        ],
+        [
+          "fanduel",
+          -340
+        ]
+      ]
+    },
+    {
+      "event_id": "95952a4215c0c1d281c4dcbed7471d28",
+      "game": "Angels @ Rays",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-05-29T23:11:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 10.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 10.5,
+      "best_book": "williamhill_us",
+      "best_price": -284,
+      "true_prob_pct": 75.16,
+      "ev_per_100": 4.63,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "williamhill_us",
+          -284
+        ],
+        [
+          "draftkings",
+          -294
+        ],
+        [
+          "fanduel",
+          -310
+        ],
+        [
+          "betmgm",
+          -325
         ]
       ]
     },
@@ -4993,8 +4981,8 @@
       "point": 0.5,
       "best_book": "betmgm",
       "best_price": -250,
-      "true_prob_pct": 75.26,
-      "ev_per_100": 13.42,
+      "true_prob_pct": 75.14,
+      "ev_per_100": 13.0,
       "n_books": 5,
       "all_prices": [
         [
@@ -5010,12 +4998,92 @@
           -315
         ],
         [
+          "draftkings",
+          -322
+        ],
+        [
+          "williamhill_us",
+          -325
+        ]
+      ]
+    },
+    {
+      "event_id": "2106f4fc8ef576eac2a39262d02f66e7",
+      "game": "Giants @ Rockies",
+      "away_team": "San Francisco Giants",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-05-30T00:41:00Z",
+      "market": "Hits alt",
+      "market_key": "batter_hits_alternate",
+      "stat_key": "hits",
+      "settle_type": "Over/Under",
+      "selection": "Jake McCarthy",
+      "player": "Jake McCarthy",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "bovada",
+      "best_price": -275,
+      "true_prob_pct": 75.1,
+      "ev_per_100": 6.63,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "bovada",
+          -275
+        ],
+        [
+          "fanduel",
+          -280
+        ],
+        [
+          "draftkings",
+          -309
+        ],
+        [
           "williamhill_us",
           -325
         ],
         [
+          "betmgm",
+          -325
+        ]
+      ]
+    },
+    {
+      "event_id": "8c92a04b11da0a1f6f84d1dfd48fbf9d",
+      "game": "Padres @ Nationals",
+      "away_team": "San Diego Padres",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-05-29T22:46:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Washington Nationals +2.5",
+      "player": "Washington Nationals",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -276,
+      "true_prob_pct": 75.1,
+      "ev_per_100": 6.37,
+      "n_books": 4,
+      "all_prices": [
+        [
           "draftkings",
-          -333
+          -276
+        ],
+        [
+          "betmgm",
+          -300
+        ],
+        [
+          "williamhill_us",
+          -304
+        ],
+        [
+          "fanduel",
+          -330
         ]
       ]
     },
@@ -5025,35 +5093,39 @@
       "away_team": "Detroit Tigers",
       "home_team": "Chicago White Sox",
       "first_pitch": "2026-05-29T23:41:00Z",
-      "market": "Total alt",
-      "market_key": "alternate_totals",
-      "stat_key": "total",
-      "settle_type": "Over/Under",
-      "selection": "Over 6.5",
-      "player": "Game Total",
-      "side": "Over",
-      "point": 6.5,
-      "best_book": "williamhill_us",
-      "best_price": -294,
-      "true_prob_pct": 75.13,
-      "ev_per_100": 2.01,
-      "n_books": 4,
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Chicago White Sox +2.5",
+      "player": "Chicago White Sox",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -290,
+      "true_prob_pct": 75.03,
+      "ev_per_100": 2.63,
+      "n_books": 5,
       "all_prices": [
+        [
+          "draftkings",
+          -290
+        ],
         [
           "williamhill_us",
           -294
         ],
         [
-          "fanduel",
-          -295
-        ],
-        [
-          "draftkings",
-          -296
+          "bovada",
+          -300
         ],
         [
           "betmgm",
-          -325
+          -300
+        ],
+        [
+          "fanduel",
+          -320
         ]
       ]
     }
