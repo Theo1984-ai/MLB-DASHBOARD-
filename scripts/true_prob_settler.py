@@ -249,8 +249,11 @@ def settle_pick(pick, games, player_id_cache):
 
 # ---------- Settle a whole snapshot ----------
 
-def settle_snapshot(date_str):
-    path = os.path.join(ROOT, "true_prob_history", f"{date_str}.json")
+def settle_snapshot(date_str, history_dir="true_prob_history"):
+    """Settle a snapshot file. Default settles True Prob snapshots, but
+    can also settle Soft Scanner snapshots (or any compatible file)
+    by passing history_dir='soft_scanner_history' etc."""
+    path = os.path.join(ROOT, history_dir, f"{date_str}.json")
     if not os.path.exists(path):
         print(f"No snapshot found for {date_str}: {path}")
         return False
@@ -333,14 +336,25 @@ def settle_snapshot(date_str):
 # ---------- CLI ----------
 
 def main():
-    if len(sys.argv) > 1:
-        date_str = sys.argv[1]
-    else:
-        # Default: yesterday (ET)
+    """CLI usage:
+        python true_prob_settler.py                          # yesterday, True Prob
+        python true_prob_settler.py 2026-05-27               # specific date, True Prob
+        python true_prob_settler.py 2026-05-27 soft_scanner_history  # other dir
+    """
+    args = sys.argv[1:]
+    history_dir = "true_prob_history"
+    date_str = None
+    for a in args:
+        if "_history" in a:
+            history_dir = a
+        else:
+            date_str = a
+    if date_str is None:
         yest = datetime.now(tz=EASTERN) - timedelta(days=1)
         date_str = yest.strftime("%Y-%m-%d")
-    print(f"Settling True Probability snapshot for {date_str}...")
-    settle_snapshot(date_str)
+    label = "True Probability" if history_dir == "true_prob_history" else history_dir
+    print(f"Settling {label} snapshot for {date_str}...")
+    settle_snapshot(date_str, history_dir=history_dir)
 
 
 if __name__ == "__main__":

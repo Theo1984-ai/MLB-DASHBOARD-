@@ -108,13 +108,13 @@ jobs:
           fi
           python daily_all.py $ARGS
 
-      - name: Commit + push true_prob_history
+      - name: Commit + push history files
         run: |
-          git add true_prob_history/
+          git add true_prob_history/ soft_scanner_history/
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "True Prob daily $(date -u +%Y-%m-%d)"
+            git commit -m "Daily forward-test $(date -u +%Y-%m-%d)"
             for i in 1 2 3; do
               git pull --rebase origin main && git push origin main && break
               echo "Push attempt $i failed, retrying..."

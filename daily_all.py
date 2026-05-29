@@ -80,6 +80,7 @@ def main():
     do_push = "--no-push" not in args
     do_hr = "--skip-hr" not in args
     do_hrr = "--skip-hrr" not in args
+    do_soft = "--skip-soft" not in args
     # In CI (GitHub Actions), don't do git operations from inside the script.
     # The workflow YAML handles the commit + push so credentials are
     # configured correctly. Locally, we still git-push from here.
@@ -93,6 +94,7 @@ def main():
     print(f"Push to GitHub:        {do_push}")
     print(f"HR Tracker:            {'YES' if do_hr else 'SKIP'}")
     print(f"H+R+R Tracker:         {'YES' if do_hrr else 'SKIP'}")
+    print(f"Soft Scanner:          {'YES' if do_soft else 'SKIP'}")
 
     odds_key, gh_token = load_secrets()
     if not odds_key:
@@ -103,12 +105,12 @@ def main():
 
     os.environ["THE_ODDS_API_KEY"] = odds_key
 
-    # ---------- Step 1: Settle yesterday's True Prob snapshot ----------
-    yest_path = os.path.join(ROOT, "true_prob_history", f"{yest_et}.json")
-    if os.path.exists(yest_path):
-        def _settle():
+    # ---------- Step 1: Settle yesterday's snapshots ----------
+    def _settle(history_dir):
+        def fn():
             r = subprocess.run(
-                [sys.executable, os.path.join(ROOT, "scripts", "true_prob_settler.py"), yest_et],
+                [sys.executable, os.path.join(ROOT, "scripts", "true_prob_settler.py"),
+                 yest_et, history_dir],
                 cwd=ROOT, capture_output=True, text=True,
             )
             print(r.stdout, end="")
@@ -116,9 +118,19 @@ def main():
                 print("STDERR:", r.stderr[:500])
                 raise RuntimeError(f"settler exit {r.returncode}")
             return True
-        step(f"Settle True Prob {yest_et}", _settle)
+        return fn
+
+    yest_tp = os.path.join(ROOT, "true_prob_history", f"{yest_et}.json")
+    if os.path.exists(yest_tp):
+        step(f"Settle True Prob {yest_et}", _settle("true_prob_history"))
     else:
         print(f"\n[SKIP] No True Prob snapshot for {yest_et} — nothing to settle.")
+
+    yest_soft = os.path.join(ROOT, "soft_scanner_history", f"{yest_et}.json")
+    if os.path.exists(yest_soft):
+        step(f"Settle Soft Scanner {yest_et}", _settle("soft_scanner_history"))
+    else:
+        print(f"[SKIP] No Soft Scanner snapshot for {yest_et} — nothing to settle.")
 
     # ---------- Step 2: Take today's True Prob snapshot ----------
     def _snapshot():
@@ -132,6 +144,35 @@ def main():
             raise RuntimeError(f"snapshot exit {r.returncode}")
         return True
     step(f"Snapshot True Prob {today_et}", _snapshot)
+
+    # ---------- Step 2b: Take today's Soft Scanner snapshot ----------
+    if do_soft:
+        def _soft_snap():
+            from scripts.soft_scanner import scan as soft_scan
+            picks = soft_scan(odds_key)
+            print(f"  Found {len(picks)} soft-price plays (edge >= 5pp, 3+ books)")
+            payload = {
+                "date":        today_et,
+                "snapshot_at": datetime.now(tz=EASTERN).isoformat(),
+                "n_picks":     len(picks),
+                "filter": {
+                    "min_edge_pp": 5.0,
+                    "min_books":   3,
+                    "min_price":   -300,
+                    "max_price":   300,
+                    "top_n":       30,
+                },
+                "picks": picks,
+            }
+            out_dir = os.path.join(ROOT, "soft_scanner_history")
+            os.makedirs(out_dir, exist_ok=True)
+            out_path = os.path.join(out_dir, f"{today_et}.json")
+            import json
+            with open(out_path, "w") as f:
+                json.dump(payload, f, indent=2, default=str)
+            print(f"  Saved -> {out_path}")
+            return True
+        step(f"Snapshot Soft Scanner {today_et}", _soft_snap)
 
     # ---------- Step 3: HR Tracker ----------
     if do_hr:
@@ -178,17 +219,18 @@ def main():
             return payload
         step("H+R+R Tracker (generate + push)", _hrr)
 
-    # ---------- Step 5: Commit + push true_prob_history ----------
+    # ---------- Step 5: Commit + push forward-test history files ----------
     if do_push and not in_ci:
         def _git_push():
-            subprocess.run(["git", "add", "true_prob_history/"], cwd=ROOT, check=False)
+            subprocess.run(["git", "add", "true_prob_history/", "soft_scanner_history/"],
+                           cwd=ROOT, check=False)
             r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
             if r.returncode == 0:
-                print("  No true_prob_history changes to commit.")
+                print("  No history changes to commit.")
                 return True
             subprocess.run(
                 ["git", "commit", "-m",
-                 f"True Prob daily: settle {yest_et} + snapshot {today_et}"],
+                 f"Daily forward-test: settle {yest_et} + snapshot {today_et}"],
                 cwd=ROOT, check=False,
             )
             subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=False)
@@ -196,7 +238,7 @@ def main():
             if r2.returncode != 0:
                 raise RuntimeError("git push failed")
             return True
-        step("Commit + push true_prob_history", _git_push)
+        step("Commit + push history files", _git_push)
     elif do_push and in_ci:
         print("\n[CI] Skipping git push from script — workflow YAML handles it.")
 
