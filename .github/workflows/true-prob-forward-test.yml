@@ -2,11 +2,17 @@ name: Daily All Tracker (cloud backup)
 
 on:
   schedule:
-    # Run at 12:00 PM ET daily — captures props for early afternoon games
-    # (some MLB games start at 12:10 PM ET, so this catches them before
-    # first pitch). Note: GitHub Actions cron may fire 5-30 min late.
-    - cron: '0 16 * * *'    # 12:00 PM ET in EDT (summer)
-    - cron: '0 17 * * *'    # 12:00 PM ET in EST (winter)
+    # Target: capture props by ~12 PM ET (some games start 12:10 PM ET).
+    # GitHub Actions cron is unreliable — schedules routinely fire 1-6 hours
+    # late under load. We spam multiple times to maximize chance of hitting
+    # the noon window. daily_all.py skips re-snapshotting if today's file is
+    # fresh, so extra firings only cost a cheap settle of yesterday.
+    - cron: '0 15 * * *'    # 11:00 AM ET (EDT) — early bird
+    - cron: '0 16 * * *'    # 12:00 PM ET (EDT) — target
+    - cron: '30 16 * * *'   # 12:30 PM ET (EDT)
+    - cron: '0 17 * * *'    # 1:00 PM ET (EDT) / 12:00 PM ET (EST)
+    - cron: '0 18 * * *'    # 2:00 PM ET (EDT) / 1:00 PM ET (EST) — backup
+    - cron: '0 19 * * *'    # 3:00 PM ET (EDT) — last chance
 
   workflow_dispatch:
     inputs:

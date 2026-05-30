@@ -145,20 +145,49 @@ def main():
         print(f"[SKIP] No H+R+R Tracker snapshot for {yest_et} — nothing to settle.")
 
     # ---------- Step 2: Take today's True Prob snapshot ----------
-    def _snapshot():
-        r = subprocess.run(
-            [sys.executable, os.path.join(ROOT, "scripts", "true_prob_snapshot.py")],
-            cwd=ROOT, capture_output=True, text=True,
-        )
-        print(r.stdout, end="")
-        if r.returncode != 0:
-            print("STDERR:", r.stderr[:500])
-            raise RuntimeError(f"snapshot exit {r.returncode}")
-        return True
-    step(f"Snapshot True Prob {today_et}", _snapshot)
+    # Idempotent guard: if today's snapshot already exists and was taken
+    # within FRESHNESS_HOURS, skip the re-scan to save API quota. Forced
+    # re-run with --force.
+    FRESHNESS_HOURS = 4
+    force = "--force" in args
+
+    def _is_fresh(filepath):
+        if force or not os.path.exists(filepath):
+            return False
+        try:
+            with open(filepath) as f:
+                payload = __import__("json").load(f)
+            ts_str = payload.get("snapshot_at") or payload.get("saved_at")
+            if not ts_str:
+                return False
+            ts = datetime.fromisoformat(ts_str)
+            age_hours = (datetime.now(tz=EASTERN) - ts).total_seconds() / 3600
+            return age_hours < FRESHNESS_HOURS
+        except Exception:
+            return False
+
+    tp_today = os.path.join(ROOT, "true_prob_history", f"{today_et}.json")
+    if _is_fresh(tp_today):
+        print(f"\n[SKIP] True Prob snapshot for {today_et} is < {FRESHNESS_HOURS}h old. "
+              f"Use --force to re-run.")
+    else:
+        def _snapshot():
+            r = subprocess.run(
+                [sys.executable, os.path.join(ROOT, "scripts", "true_prob_snapshot.py")],
+                cwd=ROOT, capture_output=True, text=True,
+            )
+            print(r.stdout, end="")
+            if r.returncode != 0:
+                print("STDERR:", r.stderr[:500])
+                raise RuntimeError(f"snapshot exit {r.returncode}")
+            return True
+        step(f"Snapshot True Prob {today_et}", _snapshot)
 
     # ---------- Step 2b: Take today's Soft Scanner snapshot ----------
-    if do_soft:
+    soft_today = os.path.join(ROOT, "soft_scanner_history", f"{today_et}.json")
+    if do_soft and _is_fresh(soft_today):
+        print(f"[SKIP] Soft Scanner snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    elif do_soft:
         def _soft_snap():
             from scripts.soft_scanner import scan as soft_scan
             picks = soft_scan(odds_key)
@@ -187,7 +216,10 @@ def main():
         step(f"Snapshot Soft Scanner {today_et}", _soft_snap)
 
     # ---------- Step 3: HR Tracker ----------
-    if do_hr:
+    hr_today = os.path.join(ROOT, HR_DIR, f"{today_et}.json")
+    if do_hr and _is_fresh(hr_today):
+        print(f"[SKIP] HR Tracker snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    elif do_hr:
         def _hr():
             from scripts.hr_tracker_scanner import generate_hr_picks
             payload = generate_hr_picks(odds_key)
@@ -210,7 +242,10 @@ def main():
         step("HR Tracker (generate + push)", _hr)
 
     # ---------- Step 4: H+R+R Tracker ----------
-    if do_hrr:
+    hrr_today = os.path.join(ROOT, HRR_DIR, f"{today_et}.json")
+    if do_hrr and _is_fresh(hrr_today):
+        print(f"[SKIP] H+R+R Tracker snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    elif do_hrr:
         def _hrr():
             from scripts.hrr_tracker_scanner import generate_hrr_picks
             payload = generate_hrr_picks(odds_key)
