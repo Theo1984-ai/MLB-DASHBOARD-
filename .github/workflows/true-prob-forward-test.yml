@@ -2,16 +2,27 @@ name: Daily All Tracker (cloud backup)
 
 on:
   schedule:
-    # Target: capture props by ~12 PM ET (some games start 12:10 PM ET).
-    # GitHub Actions cron is unreliable — schedules routinely fire 1-6 hours
-    # late under load. We spam multiple times to maximize chance of hitting
-    # the noon window. daily_all.py skips re-snapshotting if today's file is
-    # fresh, so extra firings only cost a cheap settle of yesterday.
-    - cron: '0 15 * * *'    # 11:00 AM ET (EDT) — early bird
+    # === EARLY-MORNING SETTLE CRONS ===
+    # Yesterday's MLB games are all final by ~2 AM ET. We settle them
+    # before user wakes up so results are visible in the morning.
+    # These runs only SETTLE — they don't take today's snapshots (which
+    # wait for the noon window when all books have posted lines).
+    - cron: '0 10 * * *'    # 6:00 AM ET (EDT) — earliest settle attempt
+    - cron: '0 11 * * *'    # 7:00 AM ET (EDT) / 6:00 AM ET (EST)
+    - cron: '0 12 * * *'    # 8:00 AM ET (EDT) / 7:00 AM ET (EST)
+    - cron: '0 13 * * *'    # 9:00 AM ET (EDT) — last morning attempt
+
+    # === NOON SNAPSHOT CRONS ===
+    # Capture today's picks for tomorrow's settlement. Some games start
+    # at 12:10 PM ET so we want this BEFORE first pitch.
+    # GitHub Actions cron is unreliable — schedules routinely fire 1-6h
+    # late under load. We spam multiple slots; daily_all.py's freshness
+    # guard prevents duplicate API burn.
+    - cron: '0 15 * * *'    # 11:00 AM ET (EDT)
     - cron: '0 16 * * *'    # 12:00 PM ET (EDT) — target
     - cron: '30 16 * * *'   # 12:30 PM ET (EDT)
     - cron: '0 17 * * *'    # 1:00 PM ET (EDT) / 12:00 PM ET (EST)
-    - cron: '0 18 * * *'    # 2:00 PM ET (EDT) / 1:00 PM ET (EST) — backup
+    - cron: '0 18 * * *'    # 2:00 PM ET (EDT) / 1:00 PM ET (EST)
     - cron: '0 19 * * *'    # 3:00 PM ET (EDT) — last chance
 
   workflow_dispatch:
@@ -106,6 +117,14 @@ jobs:
           GITHUB_ACTIONS: 'true'
         run: |
           ARGS=""
+          # If this is a scheduled run during the early-morning settle
+          # window (10:00-13:59 UTC = 6 AM - 9:59 AM ET in EDT), only
+          # settle yesterday — don't take today's snapshots.
+          HOUR=$(date -u +%H)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$HOUR" -ge 10 ] && [ "$HOUR" -lt 14 ]; then
+            echo "Early-morning cron detected (hour=$HOUR UTC) — settle only."
+            ARGS="$ARGS --settle-only"
+          fi
           if [ "${{ github.event.inputs.skip_hr }}" = "true" ]; then
             ARGS="$ARGS --skip-hr"
           fi

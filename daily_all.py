@@ -81,6 +81,12 @@ def main():
     do_hr = "--skip-hr" not in args
     do_hrr = "--skip-hrr" not in args
     do_soft = "--skip-soft" not in args
+    # --settle-only: only settle yesterday's picks; skip today's snapshots
+    # entirely. Used by the early-morning cron so results are available
+    # when you wake up, without burning API quota on premature scans.
+    settle_only = "--settle-only" in args
+    if settle_only:
+        do_hr = do_hrr = do_soft = False
     # In CI (GitHub Actions), don't do git operations from inside the script.
     # The workflow YAML handles the commit + push so credentials are
     # configured correctly. Locally, we still git-push from here.
@@ -91,6 +97,7 @@ def main():
 
     header(f"Daily ALL Tracker run — {today_et}")
     print(f"Yesterday (to settle): {yest_et}")
+    print(f"Mode:                  {'SETTLE-ONLY' if settle_only else 'FULL'}")
     print(f"Push to GitHub:        {do_push}")
     print(f"HR Tracker:            {'YES' if do_hr else 'SKIP'}")
     print(f"H+R+R Tracker:         {'YES' if do_hrr else 'SKIP'}")
@@ -167,7 +174,9 @@ def main():
             return False
 
     tp_today = os.path.join(ROOT, "true_prob_history", f"{today_et}.json")
-    if _is_fresh(tp_today):
+    if settle_only:
+        print(f"\n[SKIP] --settle-only: not taking True Prob snapshot for {today_et}.")
+    elif _is_fresh(tp_today):
         print(f"\n[SKIP] True Prob snapshot for {today_et} is < {FRESHNESS_HOURS}h old. "
               f"Use --force to re-run.")
     else:
