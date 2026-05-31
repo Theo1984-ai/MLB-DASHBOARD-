@@ -43,30 +43,36 @@ def cached_scan(min_volume, min_liquidity, top_n):
 
 # ---------- Controls ----------
 
-ctrl_cols = st.columns([1.5, 1, 1, 1, 1.5])
+ctrl_cols = st.columns([1.5, 1, 1, 1, 1, 1])
 with ctrl_cols[0]:
     refresh = st.button("🔄 Refresh now", type="primary", use_container_width=True,
                         help="Clears the 15-min cache and pulls fresh order books")
 with ctrl_cols[1]:
-    top_n = st.selectbox("Markets to scan", [15, 30, 50, 75], index=1,
+    top_n = st.selectbox("Markets to scan", [30, 50, 75, 100], index=1,
                          help="Top N MLB markets by volume to fetch order books for")
 with ctrl_cols[2]:
+    min_liquidity = st.number_input("Min liquidity $", value=10000, step=1000,
+                                     help="Polymarket listed liquidity floor — "
+                                          "$10K+ guarantees real money is behind the market")
+with ctrl_cols[3]:
     min_skew = st.slider("Min skew %", 50, 95, 60, 5,
                          help="Only show markets with this much imbalance")
-with ctrl_cols[3]:
-    min_depth = st.number_input("Min total depth $", value=500, step=500,
-                                help="Filter out tiny dead markets")
 with ctrl_cols[4]:
+    min_depth = st.number_input("Min depth $", value=500, step=500,
+                                help="Bid-side depth within 5¢ of mid (filter out tiny books)")
+with ctrl_cols[5]:
     st.caption(
-        "💡 70%+ skew = strong sharp positioning  \n"
-        "85%+ skew = extreme conviction (small samples!)"
+        "💡 70%+ skew = strong  \n"
+        "85%+ skew = extreme  \n"
+        "$10K+ liq = real money"
     )
 
 if refresh:
     cached_scan.clear()
     st.toast("Cache cleared — pulling fresh data...", icon="🔄")
 
-rows, debug = cached_scan(min_volume=500, min_liquidity=20000, top_n=top_n)
+# Scan with $10K min so we include all the $10K+ markets the user wants
+rows, debug = cached_scan(min_volume=500, min_liquidity=min_liquidity, top_n=top_n)
 
 st.caption(
     f"Scanned **{debug['total_events']}** MLB events → "
@@ -82,6 +88,7 @@ filtered = [
     r for r in rows
     if r["skew_strength"] >= min_skew
     and (r["yes_bid_depth"] + r["no_bid_depth"]) >= min_depth
+    and (r.get("liquidity") or 0) >= min_liquidity
 ]
 
 st.markdown(f"### 🎯 {len(filtered)} markets passing filter")
@@ -284,11 +291,11 @@ else:
                 },
             )
 
-            # Top 3 actionable plays — positive edge + strong skew + decent volume
+            # Top 3 actionable plays — positive edge + strong skew + real liquidity
             actionable = [r for r in matched
                           if r.get("edge_pp") is not None and r["edge_pp"] > 0
                           and r["skew_strength"] >= 70
-                          and r["volume"] > 1000
+                          and (r.get("liquidity") or 0) >= 10000
                           and r.get("sb_best_price") is not None]
             actionable.sort(key=lambda r: -r["edge_pp"])
 
@@ -320,7 +327,7 @@ else:
             else:
                 st.info(
                     "No clean cross-venue arbs right now (need: +edge, ≥70% skew, "
-                    "≥$1K volume, sportsbook match). Try lowering the strict filter "
+                    "≥$10K liquidity, sportsbook match). Try lowering the strict filter "
                     "above, or check back closer to first pitch when lines firm up."
                 )
 
