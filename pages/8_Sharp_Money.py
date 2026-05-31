@@ -109,6 +109,22 @@ tab_all, tab_yes, tab_no = st.tabs([
 ])
 
 
+def _opponent_team(team, event_title):
+    """Given one team's name and the event title 'A vs B', return the other team."""
+    if not team or not event_title:
+        return None
+    for sep in (" vs. ", " vs ", " @ "):
+        if sep in event_title:
+            a, b = event_title.split(sep, 1)
+            a, b = a.strip(), b.strip()
+            t = team.strip().lower()
+            if t in a.lower() or a.lower() in t:
+                return b
+            if t in b.lower() or b.lower() in t:
+                return a
+    return None
+
+
 def _other_side_label(r):
     """The label for the OPPOSITE side of the sharp pick (in human terms)."""
     mt = r.get("match_type")
@@ -125,8 +141,15 @@ def _other_side_label(r):
     if mt == "spreads":
         team = r.get("team")
         pt = r.get("point")
+        # The opposite of "Team A -1.5 covers" is "Team B +1.5 covers"
+        # (i.e., Team B wins OR Team A wins by exactly 1)
+        opponent = _opponent_team(team, r.get("event", "")) or "Opponent"
         if sharp_side == "YES":
-            return f"NOT {team} covers"
+            # Sharp says Team A covers -> Other side = Team B gets the +N points
+            opp_pt = -(pt or 0)
+            sign = "+" if opp_pt > 0 else ""
+            return f"{opponent} {sign}{opp_pt}"
+        # Sharp says Team A doesn't cover -> Other side = Team A covers the original spread
         sign = "+" if (pt or 0) > 0 else ""
         return f"{team} {sign}{pt}"
     return "?"
