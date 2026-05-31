@@ -395,9 +395,9 @@ else:
                 for r in actionable[:5]:
                     edge = r["edge_pp"]
                     color = "🟢🟢" if edge >= 10 else ("🟢" if edge >= 5 else "🟡")
+                    game = r.get("event", "?")
                     with st.expander(
-                        f"{color} **{r['play']}**  ·  edge {edge:+.1f}pp  ·  "
-                        f"{r['skew_side']} {r['skew_strength']:.0f}% on Polymarket",
+                        f"{color} **{game}**  ·  {r['play']}  ·  edge {edge:+.1f}pp",
                         expanded=True,
                     ):
                         c1, c2, c3 = st.columns(3)
@@ -406,7 +406,9 @@ else:
                         c2.metric("Sportsbook implied", f"{r['sb_implied_pct']:.1f}%")
                         c3.metric("Edge", f"{edge:+.1f}pp", help="PM sharp implied − SB implied")
                         st.write(
+                            f"**Game:** {game}  \n"
                             f"**The play:** {r['play']}  \n"
+                            f"**Sharp pick:** {r.get('sharp_pick', '')}  \n"
                             f"**Why:** Polymarket sharps have loaded {r['skew_side']} side "
                             f"with {r['skew_strength']:.0f}% bid depth on ${r['volume']:,.0f} volume. "
                             f"That implies they think the true probability is "
