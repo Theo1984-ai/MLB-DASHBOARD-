@@ -104,7 +104,9 @@ def match_signals(polymarket_rows, api_key):
         game = (game_by_pair.get((away_pm, home_pm))
                 or game_by_pair.get((home_pm, away_pm)))
         if not game:
-            row["play"] = "no sportsbook match"
+            # Most common reason: Polymarket lists tomorrow's games but
+            # sportsbooks haven't posted lines yet. Communicate clearly.
+            row["play"] = "game not on sportsbook board yet"
             enriched.append(row); continue
 
         books = game.get("bookmakers", [])
