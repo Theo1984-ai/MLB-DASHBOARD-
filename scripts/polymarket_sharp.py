@@ -1,0 +1,187 @@
+"""
+Polymarket sharp-money scanner.
+
+For each currently-open MLB game-level market, compute the bid-side
+imbalance within the inside spread. Heavy skew on one side = where the
+limit-order book wants to bet at better prices = sharp money.
+
+Strategy:
+  - Pull MLB events from Gamma API
+  - Filter to game-level markets (no futures)
+  - For each candidate (above a volume/liquidity threshold), pull the
+    CLOB order book and measure depth within +/-5 cents of the mid
+  - Return rows sorted by skew strength
+"""
+from __future__ import annotations
+
+import json
+import ssl as _ssl
+import time
+import urllib.request
+from collections import defaultdict
+
+_SSL = _ssl._create_unverified_context()
+_UA = {"User-Agent": "mlb-dashboard/1.0"}
+
+GAMMA = "https://gamma-api.polymarket.com"
+CLOB = "https://clob.polymarket.com"
+
+
+def _get(url):
+    req = urllib.request.Request(url, headers=_UA)
+    return json.loads(urllib.request.urlopen(req, timeout=20, context=_SSL).read())
+
+
+# ---------- Market filtering ----------
+
+FUTURES_TOKENS = (
+    "world series", "world champ", "mvp", "cy young", "rookie of",
+    "division", "clinch", "playoff", "2026 al", "2026 nl",
+    "cba", "perfect game", "regular season", "season wins",
+    "season hr", "season home run", "season strikeout",
+)
+
+
+def _is_daily_game(title, slug):
+    blob = (title + " " + slug).lower()
+    if any(b in blob for b in FUTURES_TOKENS):
+        return False
+    return any(s in blob for s in (" vs.", " vs ", " @ ", " at "))
+
+
+def _categorize(question, slug):
+    q = question.lower()
+    s = slug.lower()
+    if "nrfi" in s or "first inning" in q or "yrfi" in s:
+        return "NRFI / 1st inning"
+    if "first 5 innings" in q or "-f5-" in s:
+        return "First 5 innings"
+    if "o/u" in q or "over/under" in q or "total" in q:
+        return "Total"
+    if "spread" in q or "run line" in q or "(-1.5)" in q or "(+1.5)" in q:
+        return "Run line"
+    return "Moneyline"
+
+
+def _parse_op(m):
+    try:
+        op = m.get("outcomePrices", "[]")
+        return json.loads(op) if isinstance(op, str) else op
+    except Exception:
+        return [0, 0]
+
+
+# ---------- Order book metrics ----------
+
+def _book_metrics(token_id, band=0.05):
+    """For a single CLOB token, return depth within `band` cents of mid."""
+    try:
+        ob = _get(f"{CLOB}/book?token_id={token_id}")
+    except Exception:
+        return None
+    bids = [(float(b["price"]), float(b["size"])) for b in ob.get("bids", [])]
+    asks = [(float(a["price"]), float(a["size"])) for a in ob.get("asks", [])]
+    if not bids or not asks:
+        return None
+    best_bid = max(bids, key=lambda x: x[0])
+    best_ask = min(asks, key=lambda x: x[0])
+    mid = (best_bid[0] + best_ask[0]) / 2
+    bid_depth = sum(s for p, s in bids if p >= mid - band)
+    return {
+        "mid": mid,
+        "best_bid": best_bid[0],
+        "best_ask": best_ask[0],
+        "spread": best_ask[0] - best_bid[0],
+        "bid_depth_5c": bid_depth,
+    }
+
+
+# ---------- Public scan ----------
+
+def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
+    """Returns (rows, debug_stats).
+
+    rows: list of dicts with sharp-money metrics per market
+    debug_stats: {'total_events', 'daily_markets', 'candidates', 'with_book'}
+    """
+    events = _get(f"{GAMMA}/events?closed=false&tag_slug=mlb&limit=200")
+    daily_markets = []
+    for ev in events:
+        title = ev.get("title", "")
+        slug = ev.get("slug", "")
+        if not _is_daily_game(title, slug):
+            continue
+        for m in (ev.get("markets") or []):
+            if m.get("closed") or not m.get("active", True):
+                continue
+            m["_event_title"] = title
+            m["_event_slug"] = slug
+            daily_markets.append(m)
+
+    def _vol(m):
+        try: return float(m.get("volume", 0) or 0)
+        except: return 0
+    def _liq(m):
+        try: return float(m.get("liquidity", 0) or 0)
+        except: return 0
+
+    candidates = [m for m in daily_markets
+                  if _vol(m) > min_volume or _liq(m) > min_liquidity]
+    candidates.sort(key=lambda m: -_vol(m))
+
+    rows = []
+    for m in candidates[:top_n]:
+        ids = m.get("clobTokenIds", "[]")
+        try:
+            ids = json.loads(ids) if isinstance(ids, str) else ids
+        except Exception:
+            continue
+        if not isinstance(ids, list) or len(ids) < 2:
+            continue
+
+        yes_book = _book_metrics(ids[0])
+        no_book = _book_metrics(ids[1])
+        if not yes_book or not no_book:
+            continue
+
+        # YES bid_depth = orders trying to BUY YES (bullish on YES)
+        # NO bid_depth = orders trying to BUY NO (bullish on NO)
+        yes_bid = yes_book["bid_depth_5c"]
+        no_bid = no_book["bid_depth_5c"]
+        total = yes_bid + no_bid
+        if total < 100:
+            continue
+
+        yes_skew_pct = yes_bid / total * 100
+        no_skew_pct = no_bid / total * 100
+
+        question = m.get("question") or ""
+        slug = m.get("slug") or m.get("_event_slug") or ""
+
+        rows.append({
+            "event":       m.get("_event_title", ""),
+            "question":    question,
+            "category":    _categorize(question, slug),
+            "mid":         round(yes_book["mid"], 3),
+            "best_bid":    round(yes_book["best_bid"], 3),
+            "best_ask":    round(yes_book["best_ask"], 3),
+            "spread":      round(yes_book["spread"], 3),
+            "yes_bid_depth": int(yes_bid),
+            "no_bid_depth": int(no_bid),
+            "yes_skew_pct": round(yes_skew_pct, 1),
+            "no_skew_pct":  round(no_skew_pct, 1),
+            "skew_side":   "YES" if yes_skew_pct > no_skew_pct else "NO",
+            "skew_strength": round(max(yes_skew_pct, no_skew_pct), 1),
+            "volume":      round(_vol(m), 2),
+            "liquidity":   round(_liq(m), 2),
+            "slug":        slug,
+        })
+        time.sleep(sleep_between)
+
+    debug = {
+        "total_events":   len(events),
+        "daily_markets":  len(daily_markets),
+        "candidates":     len(candidates),
+        "with_book":      len(rows),
+    }
+    return rows, debug
