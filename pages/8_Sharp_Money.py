@@ -109,31 +109,56 @@ tab_all, tab_yes, tab_no = st.tabs([
 ])
 
 
+def _other_side_label(r):
+    """The label for the OPPOSITE side of the sharp pick (in human terms)."""
+    mt = r.get("match_type")
+    sharp_side = r.get("skew_side")
+    if mt == "h2h":
+        # Sharp on AWAY team if YES, HOME team if NO; other is the other team
+        return r.get("home_team", "?") if sharp_side == "YES" else r.get("away_team", "?")
+    if mt == "totals":
+        # Sharp on OVER if YES, UNDER if NO
+        pt = r.get("point")
+        if sharp_side == "YES":
+            return f"UNDER {pt}" if pt is not None else "UNDER"
+        return f"OVER {pt}" if pt is not None else "OVER"
+    if mt == "spreads":
+        team = r.get("team")
+        pt = r.get("point")
+        if sharp_side == "YES":
+            return f"NOT {team} covers"
+        sign = "+" if (pt or 0) > 0 else ""
+        return f"{team} {sign}{pt}"
+    return "?"
+
+
 def render_table(rows_subset, sort_by="depth"):
     if not rows_subset:
         st.info("No markets in this bucket.")
         return
     table = []
     for r in rows_subset:
-        total_depth = r["yes_bid_depth"] + r["no_bid_depth"]
         marker = "💰💰" if r["skew_strength"] >= 85 else ("💰" if r["skew_strength"] >= 70 else "")
+        # Depth on the sharp side vs the other side (no more "YES bid $" jargon)
+        sharp_depth = (r["yes_bid_depth"] if r["skew_side"] == "YES"
+                       else r["no_bid_depth"])
+        other_depth = (r["no_bid_depth"] if r["skew_side"] == "YES"
+                       else r["yes_bid_depth"])
         table.append({
-            "Game":         r["event"][:32],
-            "Mkt":          r["category"],
-            "Sharp pick":   r.get("sharp_pick", ""),
-            "Mid (YES)":    r["mid"],
-            "Best bid":     r["best_bid"],
-            "Best ask":     r["best_ask"],
-            "Spread":       r["spread"],
-            "YES bid $":    r["yes_bid_depth"],
-            "NO bid $":     r["no_bid_depth"],
-            "Side":         f"{marker} {r['skew_side']}",
-            "Skew %":       r["skew_strength"],
-            "Volume $":     r["volume"],
+            "Game":             r["event"][:32],
+            "Mkt":              r["category"],
+            "Sharp pick":       f"{marker} {r.get('sharp_pick', '')}",
+            "$ on sharp pick":  sharp_depth,
+            "Other side":       _other_side_label(r),
+            "$ on other side":  other_depth,
+            "Skew %":           r["skew_strength"],
+            "Mid (YES)":        r["mid"],
+            "Spread":           r["spread"],
+            "Volume $":         r["volume"],
         })
     df = pd.DataFrame(table)
     if sort_by == "depth":
-        df["_sort"] = df["YES bid $"] + df["NO bid $"]
+        df["_sort"] = df["$ on sharp pick"] + df["$ on other side"]
         df = df.sort_values("_sort", ascending=False).drop(columns="_sort")
     elif sort_by == "skew":
         df = df.sort_values("Skew %", ascending=False)
@@ -143,14 +168,12 @@ def render_table(rows_subset, sort_by="depth"):
     st.dataframe(
         df, use_container_width=True, hide_index=True,
         column_config={
-            "Mid (YES)":  st.column_config.NumberColumn(format="$%.3f"),
-            "Best bid":   st.column_config.NumberColumn(format="$%.3f"),
-            "Best ask":   st.column_config.NumberColumn(format="$%.3f"),
-            "Spread":     st.column_config.NumberColumn(format="$%.3f"),
-            "YES bid $":  st.column_config.NumberColumn(format="$%,d"),
-            "NO bid $":   st.column_config.NumberColumn(format="$%,d"),
-            "Skew %":     st.column_config.NumberColumn(format="%.0f%%"),
-            "Volume $":   st.column_config.NumberColumn(format="$%,.0f"),
+            "Mid (YES)":         st.column_config.NumberColumn(format="$%.3f"),
+            "Spread":            st.column_config.NumberColumn(format="$%.3f"),
+            "$ on sharp pick":   st.column_config.NumberColumn(format="$%,d"),
+            "$ on other side":   st.column_config.NumberColumn(format="$%,d"),
+            "Skew %":            st.column_config.NumberColumn(format="%.0f%%"),
+            "Volume $":          st.column_config.NumberColumn(format="$%,.0f"),
         },
     )
 
@@ -257,20 +280,24 @@ else:
         if matched:
             tbl = []
             for r in matched:
+                marker = "💰💰" if r['skew_strength']>=85 else "💰"
+                sharp_d = (r["yes_bid_depth"] if r["skew_side"]=="YES"
+                           else r["no_bid_depth"])
+                other_d = (r["no_bid_depth"] if r["skew_side"]=="YES"
+                           else r["yes_bid_depth"])
                 tbl.append({
                     "Game":        r.get("event", "")[:32],
                     "Mkt":         r.get("category", ""),
-                    "Sharp pick":  r.get("sharp_pick", ""),
-                    "Side":        f"{'💰💰' if r['skew_strength']>=85 else '💰'} {r['skew_side']} {r['skew_strength']:.0f}%",
-                    "PM mid":      r.get("mid"),
-                    "PM YES depth $": r.get("yes_bid_depth"),
-                    "PM NO depth $":  r.get("no_bid_depth"),
+                    "Sharp pick":  f"{marker} {r.get('sharp_pick', '')}",
+                    "$ on pick":   sharp_d,
+                    "Other side":  _other_side_label(r),
+                    "$ on other":  other_d,
+                    "Skew %":      r["skew_strength"],
                     "SB price":    r.get("sb_best_price"),
                     "SB book":     r.get("sb_book", ""),
                     "SB %":        r.get("sb_implied_pct"),
                     "Edge pp":     r.get("edge_pp"),
                     "Play":        r.get("play", "")[:50],
-                    "Volume $":    r.get("volume"),
                 })
             df = pd.DataFrame(tbl)
             # Sort by edge (highest first)
@@ -281,13 +308,12 @@ else:
             st.dataframe(
                 df_sorted, use_container_width=True, hide_index=True,
                 column_config={
-                    "PM mid":         st.column_config.NumberColumn(format="$%.3f"),
-                    "PM YES depth $": st.column_config.NumberColumn(format="$%,d"),
-                    "PM NO depth $":  st.column_config.NumberColumn(format="$%,d"),
-                    "SB price":       st.column_config.NumberColumn(format="%+d"),
-                    "SB %":           st.column_config.NumberColumn(format="%.1f%%"),
-                    "Edge pp":        st.column_config.NumberColumn(format="%+.1f"),
-                    "Volume $":       st.column_config.NumberColumn(format="$%,.0f"),
+                    "$ on pick":   st.column_config.NumberColumn(format="$%,d"),
+                    "$ on other":  st.column_config.NumberColumn(format="$%,d"),
+                    "Skew %":      st.column_config.NumberColumn(format="%.0f%%"),
+                    "SB price":    st.column_config.NumberColumn(format="%+d"),
+                    "SB %":        st.column_config.NumberColumn(format="%.1f%%"),
+                    "Edge pp":     st.column_config.NumberColumn(format="%+.1f"),
                 },
             )
 
