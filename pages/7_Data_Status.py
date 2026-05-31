@@ -58,7 +58,7 @@ def check_quota():
         return {"used": None, "remaining": None, "status": f"error: {msg[:60]}"}
 
 
-QUOTA_RESET_DATE = "2026-06-13"   # Odds API monthly reset (per user)
+QUOTA_RESET_DATE = "2026-06-30"   # Odds API monthly reset after 5/30 upgrade to 100K plan
 
 
 def _days_until(date_str):
