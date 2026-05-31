@@ -116,6 +116,11 @@ def match_signals(polymarket_rows, api_key):
 
         sharp_side = r["skew_side"]  # YES or NO
 
+        # Settle metadata — populated when sportsbook match succeeds
+        row["first_pitch"] = game.get("commence_time")
+        row["sb_away_team"] = game.get("away_team")
+        row["sb_home_team"] = game.get("home_team")
+
         # ---- ML matching ----
         if r["match_type"] == "h2h":
             # YES = first-named team in Polymarket; need to know if that's
@@ -136,6 +141,13 @@ def match_signals(polymarket_rows, api_key):
                 # Edge = pm_pct - sb_implied (sharps think it's higher than book)
                 row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
                 row["play"] = f"{target_team} ML @ {best['book']} {best['price']:+d}"
+                # Settle: bet on target_team -> need to know if Home or Away in SB
+                row["bet_stat_key"] = "h2h"
+                row["bet_team"] = target_team
+                row["bet_side"] = ("Home" if tt_norm == _norm_team(game.get("home_team",""))
+                                   else "Away")
+                row["bet_point"] = None
+                row["best_price"] = best["price"]  # alias for settler ROI calc
 
         # ---- Totals matching ----
         elif r["match_type"] == "totals" and r.get("point") is not None:
@@ -152,6 +164,12 @@ def match_signals(polymarket_rows, api_key):
                 pm_pct = (r["mid"] if sharp_side == "YES" else 1 - r["mid"]) * 100
                 row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
                 row["play"] = f"{target_side} {tgt_pt} @ {best['book']} {best['price']:+d}"
+                # Settle metadata
+                row["bet_stat_key"] = "total"
+                row["bet_team"] = None
+                row["bet_side"] = target_side
+                row["bet_point"] = tgt_pt
+                row["best_price"] = best["price"]
 
         # ---- Spread matching ----
         elif r["match_type"] == "spreads" and r.get("point") is not None and r.get("team"):
@@ -172,6 +190,13 @@ def match_signals(polymarket_rows, api_key):
                 row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
                 side_str = "+" if target_point > 0 else ""
                 row["play"] = f"{target_team} {side_str}{target_point} @ {best['book']} {best['price']:+d}"
+                # Settle metadata
+                row["bet_stat_key"] = "spread"
+                row["bet_team"] = target_team
+                row["bet_side"] = ("Home" if tt_norm == _norm_team(game.get("home_team",""))
+                                   else "Away")
+                row["bet_point"] = target_point
+                row["best_price"] = best["price"]
 
         # ---- NRFI ----
         elif r["match_type"] == "nrfi":

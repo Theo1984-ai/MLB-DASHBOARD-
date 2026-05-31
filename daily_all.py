@@ -179,6 +179,12 @@ def main():
     else:
         print(f"[SKIP] No H+R+R Tracker snapshot for {yest_et} — nothing to settle.")
 
+    yest_sharp = os.path.join(ROOT, "sharp_money_history", f"{yest_et}.json")
+    if os.path.exists(yest_sharp):
+        step(f"Settle Sharp Money {yest_et}", _settle("sharp_money_history"))
+    else:
+        print(f"[SKIP] No Sharp Money snapshot for {yest_et} — nothing to settle.")
+
     # ---------- Step 2: Take today's True Prob snapshot ----------
     # Idempotent guard: if today's snapshot already exists and was taken
     # within FRESHNESS_HOURS, skip the re-scan to save API quota. Forced
@@ -252,6 +258,25 @@ def main():
             return True
         step(f"Snapshot Soft Scanner {today_et}", _soft_snap)
 
+    # ---------- Step 2c: Take today's Sharp Money snapshot ----------
+    sharp_today = os.path.join(ROOT, "sharp_money_history", f"{today_et}.json")
+    if settle_only:
+        print(f"[SKIP] --settle-only: not taking Sharp Money snapshot for {today_et}.")
+    elif _is_fresh(sharp_today):
+        print(f"[SKIP] Sharp Money snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    else:
+        def _sharp_snap():
+            r = subprocess.run(
+                [sys.executable, os.path.join(ROOT, "scripts", "sharp_money_snapshot.py")],
+                cwd=ROOT, capture_output=True, text=True,
+            )
+            print(r.stdout, end="")
+            if r.returncode != 0:
+                print("STDERR:", r.stderr[:500])
+                raise RuntimeError(f"sharp money snap exit {r.returncode}")
+            return True
+        step(f"Snapshot Sharp Money {today_et}", _sharp_snap)
+
     # ---------- Step 3: HR Tracker ----------
     hr_today = os.path.join(ROOT, HR_DIR, f"{today_et}.json")
     if do_hr and _is_fresh(hr_today):
@@ -308,7 +333,8 @@ def main():
         def _git_push():
             subprocess.run(["git", "add",
                             "true_prob_history/", "soft_scanner_history/",
-                            "hr_tracker/", "hrr_tracker/"],
+                            "hr_tracker/", "hrr_tracker/",
+                            "sharp_money_history/"],
                            cwd=ROOT, check=False)
             r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
             if r.returncode == 0:

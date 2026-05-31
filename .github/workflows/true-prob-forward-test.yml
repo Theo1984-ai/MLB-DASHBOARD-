@@ -135,7 +135,7 @@ jobs:
 
       - name: Commit + push history files
         run: |
-          git add true_prob_history/ soft_scanner_history/ hr_tracker/ hrr_tracker/
+          git add true_prob_history/ soft_scanner_history/ hr_tracker/ hrr_tracker/ sharp_money_history/
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
