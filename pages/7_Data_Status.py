@@ -58,25 +58,48 @@ def check_quota():
         return {"used": None, "remaining": None, "status": f"error: {msg[:60]}"}
 
 
+QUOTA_RESET_DATE = "2026-06-13"   # Odds API monthly reset (per user)
+
+
+def _days_until(date_str):
+    try:
+        target = datetime.strptime(date_str, "%Y-%m-%d").date()
+        today = datetime.now(tz=EASTERN).date()
+        return (target - today).days
+    except Exception:
+        return None
+
+
 _q = check_quota()
 if _q is None:
     pass  # no key configured — nothing to show
 elif _q["status"] == "exhausted":
+    days_left = _days_until(QUOTA_RESET_DATE)
+    if days_left and days_left > 0:
+        reset_msg = (f"Quota resets in **{days_left} day{'s' if days_left != 1 else ''}** "
+                     f"on **{QUOTA_RESET_DATE}**. Snapshots resume automatically.")
+    elif days_left == 0:
+        reset_msg = "**Quota resets today.** Snapshots should resume on the next cron firing."
+    else:
+        reset_msg = "Reset date may have passed — quota may still be syncing."
     st.error(
-        "🚨 **Odds API quota exhausted.** Snapshots are paused until the "
-        "monthly quota resets. Settles + historical data + this page all "
-        "still work normally.",
+        "🚨 **Odds API quota exhausted.** Snapshots are paused. "
+        "Settles, historical data, and this page all still work normally.  \n"
+        f"{reset_msg}",
         icon="🚨",
     )
 elif _q["remaining"] is not None and _q["remaining"] < 200:
     st.warning(
         f"⚠️ **Odds API quota low: {_q['remaining']} calls remaining** "
-        f"({_q['used']} used). Each daily cron uses ~30-50 calls.",
+        f"({_q['used']} used). Each daily cron uses ~30-50 calls. "
+        f"Resets {QUOTA_RESET_DATE}.",
         icon="⚠️",
     )
 elif _q["remaining"] is not None:
+    days_left = _days_until(QUOTA_RESET_DATE)
+    suffix = f" · resets in {days_left}d" if days_left and days_left > 0 else ""
     st.caption(
-        f"Odds API quota: {_q['used']} used · {_q['remaining']} remaining"
+        f"Odds API quota: {_q['used']} used · {_q['remaining']} remaining{suffix}"
     )
 
 
