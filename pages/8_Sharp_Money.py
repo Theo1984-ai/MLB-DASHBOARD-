@@ -113,7 +113,7 @@ def render_table(rows_subset, sort_by="depth"):
         table.append({
             "Game":         r["event"][:32],
             "Mkt":          r["category"],
-            "Question":     r["question"][:50],
+            "Sharp pick":   r.get("sharp_pick", ""),
             "Mid (YES)":    r["mid"],
             "Best bid":     r["best_bid"],
             "Best ask":     r["best_ask"],
@@ -253,7 +253,8 @@ else:
                 tbl.append({
                     "Game":        r.get("event", "")[:32],
                     "Mkt":         r.get("category", ""),
-                    "Sharp side":  f"{'💰💰' if r['skew_strength']>=85 else '💰'} {r['skew_side']} {r['skew_strength']:.0f}%",
+                    "Sharp pick":  r.get("sharp_pick", ""),
+                    "Side":        f"{'💰💰' if r['skew_strength']>=85 else '💰'} {r['skew_side']} {r['skew_strength']:.0f}%",
                     "PM mid":      r.get("mid"),
                     "PM YES depth $": r.get("yes_bid_depth"),
                     "PM NO depth $":  r.get("no_bid_depth"),

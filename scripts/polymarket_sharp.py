@@ -98,6 +98,34 @@ def _book_metrics(token_id, band=0.05):
 
 # ---------- Public scan ----------
 
+def sharp_pick_label(parsed, skew_side):
+    """Translate a parsed market + sharp side into the explicit pick.
+    Returns e.g. 'Cubs ML', 'OVER 8.5', 'Braves -1.5' — always says what to bet."""
+    mt = parsed.get("market_type")
+    if mt == "h2h":
+        team = parsed.get("away_team") if skew_side == "YES" else parsed.get("home_team")
+        return f"{team} ML" if team else f"{skew_side} (team unknown)"
+    if mt == "totals":
+        pt = parsed.get("point")
+        side = "OVER" if skew_side == "YES" else "UNDER"
+        return f"{side} {pt}" if pt is not None else side
+    if mt == "spreads":
+        team = parsed.get("team")
+        pt = parsed.get("point") or 0
+        # YES = team covers (+/-pt as listed). NO = team does NOT cover.
+        if skew_side == "YES":
+            sign = "+" if pt > 0 else ""
+            return f"{team} {sign}{pt}"
+        # For NO, the other side's spread = the inverse
+        opp_pt = -pt
+        sign = "+" if opp_pt > 0 else ""
+        # We don't have the opponent's name in the spread title; describe by relation
+        return f"NOT {team} {('+' if pt>0 else '')}{pt}  (other team covers)"
+    if mt == "nrfi":
+        return "YES = run in 1st" if skew_side == "YES" else "NRFI"
+    return skew_side
+
+
 def parse_market_for_match(question, slug):
     """Decode a Polymarket question into structured fields for sportsbook matching.
 
@@ -234,11 +262,13 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
         question = m.get("question") or ""
         slug = m.get("slug") or m.get("_event_slug") or ""
         parsed = parse_market_for_match(question, slug)
+        skew_side = "YES" if yes_skew_pct > no_skew_pct else "NO"
 
         rows.append({
             "event":       m.get("_event_title", ""),
             "question":    question,
             "category":    _categorize(question, slug),
+            "sharp_pick":  sharp_pick_label(parsed, skew_side),
             "mid":         round(yes_book["mid"], 3),
             "best_bid":    round(yes_book["best_bid"], 3),
             "best_ask":    round(yes_book["best_ask"], 3),
