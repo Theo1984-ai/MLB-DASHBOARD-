@@ -91,6 +91,13 @@ filtered = [
     and (r.get("liquidity") or 0) >= min_liquidity
 ]
 
+st.warning(
+    "⚠️ **Big sharp money ≠ good bet.** Always check the **Verdict** column "
+    "in the Cross-venue plays table below. A market can have $2M of sharp money "
+    "on one side and STILL be bad value if the sportsbook is already pricing it "
+    "correctly. Only ✅ BET verdicts (≥5pp edge) are real arbs.",
+    icon="⚠️",
+)
 st.markdown(f"### 🎯 {len(filtered)} markets passing filter")
 if not filtered:
     st.warning(
@@ -308,7 +315,20 @@ else:
                            else r["no_bid_depth"])
                 other_d = (r["no_bid_depth"] if r["skew_side"]=="YES"
                            else r["yes_bid_depth"])
+                edge = r.get("edge_pp")
+                # Verdict that makes it obvious whether to bet
+                if edge is None:
+                    verdict = "❓ no SB match"
+                elif edge >= 5:
+                    verdict = "✅ BET — real edge"
+                elif edge >= 3:
+                    verdict = "🟡 marginal edge"
+                elif edge >= 0:
+                    verdict = "⚠️ confirms SB — no arb"
+                else:
+                    verdict = "🚫 SB favors other side"
                 tbl.append({
+                    "Verdict":     verdict,
                     "Game":        r.get("event", "")[:32],
                     "Mkt":         r.get("category", ""),
                     "Sharp pick":  f"{marker} {r.get('sharp_pick', '')}",
@@ -318,8 +338,10 @@ else:
                     "Skew %":      r["skew_strength"],
                     "SB price":    r.get("sb_best_price"),
                     "SB book":     r.get("sb_book", ""),
+                    "PM %":        round((r["mid"] if r["skew_side"]=="YES"
+                                         else (1-r["mid"]))*100, 1),
                     "SB %":        r.get("sb_implied_pct"),
-                    "Edge pp":     r.get("edge_pp"),
+                    "Edge pp":     edge,
                     "Play":        r.get("play", "")[:50],
                 })
             df = pd.DataFrame(tbl)
@@ -335,9 +357,23 @@ else:
                     "$ on other":  st.column_config.NumberColumn(format="$%,d"),
                     "Skew %":      st.column_config.NumberColumn(format="%.0f%%"),
                     "SB price":    st.column_config.NumberColumn(format="%+d"),
-                    "SB %":        st.column_config.NumberColumn(format="%.1f%%"),
-                    "Edge pp":     st.column_config.NumberColumn(format="%+.1f"),
+                    "PM %":        st.column_config.NumberColumn(format="%.1f%%",
+                                    help="Polymarket-implied probability for the sharp side"),
+                    "SB %":        st.column_config.NumberColumn(format="%.1f%%",
+                                    help="Sportsbook-implied probability for the sharp side"),
+                    "Edge pp":     st.column_config.NumberColumn(format="%+.1f",
+                                    help="PM % − SB %. Positive = sportsbook underpricing, "
+                                         "actionable at 3pp+, strong at 5pp+, very strong at 10pp+"),
                 },
+            )
+
+            st.caption(
+                "**Verdict column legend:** "
+                "✅ BET = ≥5pp edge (real arb)  ·  "
+                "🟡 marginal = 3-5pp edge (small bet or skip)  ·  "
+                "⚠️ confirms SB = sharp money agrees with sportsbook, no edge to exploit  ·  "
+                "🚫 SB favors other side = sportsbook prices the OPPOSITE of sharps — skip the sharp pick  \n"
+                "_Always verify the live sportsbook price before betting — odds move._"
             )
 
             # Top actionable plays — REAL edge (>=3pp), strong skew, real liquidity.
