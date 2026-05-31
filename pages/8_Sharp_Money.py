@@ -291,9 +291,11 @@ else:
                 },
             )
 
-            # Top 3 actionable plays — positive edge + strong skew + real liquidity
+            # Top actionable plays — REAL edge (>=3pp), strong skew, real liquidity.
+            # Sub-3pp edges get eaten by sportsbook vig (~4-5pp typical).
+            MIN_EDGE_FOR_ACTION = 3.0
             actionable = [r for r in matched
-                          if r.get("edge_pp") is not None and r["edge_pp"] > 0
+                          if r.get("edge_pp") is not None and r["edge_pp"] >= MIN_EDGE_FOR_ACTION
                           and r["skew_strength"] >= 70
                           and (r.get("liquidity") or 0) >= 10000
                           and r.get("sb_best_price") is not None]
@@ -301,10 +303,13 @@ else:
 
             if actionable:
                 st.markdown(f"#### 🏆 Top {min(5, len(actionable))} actionable plays")
-                st.caption("Positive edge AND ≥70% skew AND ≥$1K volume AND sportsbook match found")
+                st.caption(
+                    f"≥{MIN_EDGE_FOR_ACTION}pp edge AND ≥70% skew AND ≥$10K liquidity AND sportsbook match found. "
+                    "Sub-3pp edges get eaten by sportsbook vig (~4-5pp) — those aren't shown."
+                )
                 for r in actionable[:5]:
                     edge = r["edge_pp"]
-                    color = "🟢" if edge >= 5 else "🟡"
+                    color = "🟢🟢" if edge >= 10 else ("🟢" if edge >= 5 else "🟡")
                     with st.expander(
                         f"{color} **{r['play']}**  ·  edge {edge:+.1f}pp  ·  "
                         f"{r['skew_side']} {r['skew_strength']:.0f}% on Polymarket",
@@ -326,9 +331,12 @@ else:
                         )
             else:
                 st.info(
-                    "No clean cross-venue arbs right now (need: +edge, ≥70% skew, "
-                    "≥$10K liquidity, sportsbook match). Try lowering the strict filter "
-                    "above, or check back closer to first pitch when lines firm up."
+                    f"**No actionable plays right now.** "
+                    f"Need ≥{MIN_EDGE_FOR_ACTION}pp edge + ≥70% skew + ≥$10K liquidity + sportsbook match.  \n"
+                    f"This is normal — strong cross-venue mispricing only shows up "
+                    f"a few times per slate, usually closer to first pitch when "
+                    f"sportsbook lines firm up. Marginal-edge plays (sub-3pp) "
+                    f"appear in the table above but aren't worth betting after vig."
                 )
 
 
