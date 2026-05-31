@@ -98,6 +98,82 @@ def _book_metrics(token_id, band=0.05):
 
 # ---------- Public scan ----------
 
+def parse_market_for_match(question, slug):
+    """Decode a Polymarket question into structured fields for sportsbook matching.
+
+    Returns dict with:
+      market_type: 'h2h' / 'totals' / 'spreads' / 'nrfi' / 'unknown'
+      yes_means:   plain-English description of what YES outcome wins on
+      away_team, home_team: best-effort parse (Polymarket convention: "A vs. B" → A=away)
+      point: number (for totals + spreads) or None
+      team:  team named in spread (for spreads only) or None
+    """
+    q = question
+    out = {"market_type": "unknown", "yes_means": q,
+           "away_team": None, "home_team": None,
+           "point": None, "team": None}
+
+    # NRFI
+    if "first inning" in q.lower():
+        out["market_type"] = "nrfi"
+        out["yes_means"] = "YES = run scored in 1st inning"
+        # Pull teams from the suffix
+        if ":" in q:
+            sides = q.split(":", 1)[1].strip()
+            for sep in (" vs. ", " vs ", " @ "):
+                if sep in sides:
+                    a, b = sides.split(sep, 1)
+                    out["away_team"], out["home_team"] = a.strip(), b.strip()
+                    break
+        return out
+
+    # Spread
+    if q.lower().startswith("spread:"):
+        out["market_type"] = "spreads"
+        body = q.split(":", 1)[1].strip()
+        # "Team Name (-1.5)" or "Team Name (+2.5)"
+        if "(" in body and ")" in body:
+            team = body.split("(")[0].strip()
+            point_str = body[body.index("(")+1:body.index(")")]
+            try: point = float(point_str)
+            except: point = None
+            out["team"] = team
+            out["point"] = point
+            sign = "+" if (point or 0) > 0 else ""
+            out["yes_means"] = f"YES = {team} covers ({sign}{point})"
+        return out
+
+    # Totals
+    if "o/u" in q.lower() or "over/under" in q.lower() or "total" in q.lower():
+        out["market_type"] = "totals"
+        # "Team A vs. Team B: O/U 8.5"
+        for sep in (" vs. ", " vs ", " @ "):
+            if sep in q:
+                left, rest = q.split(sep, 1)
+                out["away_team"] = left.strip()
+                if ":" in rest:
+                    right_team, total_part = rest.split(":", 1)
+                    out["home_team"] = right_team.strip()
+                    # Extract the number
+                    import re
+                    m = re.search(r"(\d+(?:\.\d+)?)", total_part)
+                    if m: out["point"] = float(m.group(1))
+                break
+        out["yes_means"] = f"YES = OVER {out['point']}" if out["point"] else "YES = OVER"
+        return out
+
+    # Moneyline (default)
+    for sep in (" vs. ", " vs ", " @ "):
+        if sep in q:
+            a, b = q.split(sep, 1)
+            out["away_team"] = a.strip()
+            out["home_team"] = b.strip()
+            out["market_type"] = "h2h"
+            out["yes_means"] = f"YES = {a.strip()} wins"
+            break
+    return out
+
+
 def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
     """Returns (rows, debug_stats).
 
@@ -157,6 +233,7 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
 
         question = m.get("question") or ""
         slug = m.get("slug") or m.get("_event_slug") or ""
+        parsed = parse_market_for_match(question, slug)
 
         rows.append({
             "event":       m.get("_event_title", ""),
@@ -175,6 +252,13 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
             "volume":      round(_vol(m), 2),
             "liquidity":   round(_liq(m), 2),
             "slug":        slug,
+            # Sportsbook matching fields
+            "match_type":  parsed["market_type"],
+            "yes_means":   parsed["yes_means"],
+            "away_team":   parsed["away_team"],
+            "home_team":   parsed["home_team"],
+            "point":       parsed["point"],
+            "team":        parsed["team"],
         })
         time.sleep(sleep_between)
 
