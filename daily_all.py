@@ -112,6 +112,34 @@ def main():
 
     os.environ["THE_ODDS_API_KEY"] = odds_key
 
+    # ---------- Quota pre-check ----------
+    # Cheap probe: 1 request, returns quota headers. If exhausted, force
+    # settle-only mode so we still get yesterday's results without piling
+    # failed-snapshot errors in the log.
+    quota_ok = True
+    try:
+        import urllib.request, ssl as _ssl
+        _ctx = _ssl._create_unverified_context()
+        _r = urllib.request.urlopen(
+            f"https://api.the-odds-api.com/v4/sports?apiKey={odds_key}",
+            timeout=10, context=_ctx)
+        used = _r.headers.get("x-requests-used", "?")
+        remaining = _r.headers.get("x-requests-remaining", "?")
+        print(f"\nOdds API quota: {used} used / {remaining} remaining")
+        try:
+            if int(remaining) < 100:  # tight margin — daily_all needs ~30-50
+                quota_ok = False
+                print("[QUOTA LOW] Forcing --settle-only mode.")
+        except Exception:
+            pass
+    except Exception as e:
+        # 401 = exhausted or invalid key
+        quota_ok = False
+        print(f"\n[QUOTA EXHAUSTED] {e} — running settle-only.")
+    if not quota_ok and not settle_only:
+        settle_only = True
+        do_hr = do_hrr = do_soft = False
+
     # ---------- Step 1: Settle yesterday's snapshots ----------
     def _settle(history_dir):
         def fn():

@@ -24,6 +24,62 @@ st.title("📊 Data Status")
 st.caption("Daily picks + results across all four trackers. Auto-updates from the 12 PM ET cron.")
 
 
+# ---------- Odds API quota indicator ----------
+
+def resolve_secret(name):
+    try:
+        if name in st.secrets:
+            return st.secrets[name]
+    except Exception:
+        pass
+    return os.environ.get(name)
+
+
+@st.cache_data(ttl=600, show_spinner=False)   # cheap cached probe
+def check_quota():
+    key = resolve_secret("THE_ODDS_API_KEY")
+    if not key:
+        return None
+    try:
+        import urllib.request, ssl as _ssl
+        ctx = _ssl._create_unverified_context()
+        r = urllib.request.urlopen(
+            f"https://api.the-odds-api.com/v4/sports?apiKey={key}",
+            timeout=10, context=ctx)
+        return {
+            "used": int(r.headers.get("x-requests-used", -1)),
+            "remaining": int(r.headers.get("x-requests-remaining", -1)),
+            "status": "ok",
+        }
+    except Exception as e:
+        msg = str(e)
+        if "401" in msg or "Unauthorized" in msg:
+            return {"used": None, "remaining": 0, "status": "exhausted"}
+        return {"used": None, "remaining": None, "status": f"error: {msg[:60]}"}
+
+
+_q = check_quota()
+if _q is None:
+    pass  # no key configured — nothing to show
+elif _q["status"] == "exhausted":
+    st.error(
+        "🚨 **Odds API quota exhausted.** Snapshots are paused until the "
+        "monthly quota resets. Settles + historical data + this page all "
+        "still work normally.",
+        icon="🚨",
+    )
+elif _q["remaining"] is not None and _q["remaining"] < 200:
+    st.warning(
+        f"⚠️ **Odds API quota low: {_q['remaining']} calls remaining** "
+        f"({_q['used']} used). Each daily cron uses ~30-50 calls.",
+        icon="⚠️",
+    )
+elif _q["remaining"] is not None:
+    st.caption(
+        f"Odds API quota: {_q['used']} used · {_q['remaining']} remaining"
+    )
+
+
 # ---------- Tracker config ----------
 
 TRACKERS = [
