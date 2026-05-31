@@ -225,7 +225,18 @@ def settle_pick(pick, games, player_id_cache):
     if not pid:
         return ("NO_DATA", f"player_id not found: {player}")
 
-    date = pick.get("first_pitch", "")[:10] if pick.get("first_pitch") else ""
+    # IMPORTANT: convert first_pitch from UTC to ET before extracting date.
+    # MLB Stats API schedules games by their LOCAL date (ET), not UTC date.
+    # Late-night west-coast games start ~10pm ET = 02:00 UTC the next day —
+    # without this conversion, we'd query the wrong date and get NO_DATA.
+    date = ""
+    fp_iso = pick.get("first_pitch", "")
+    if fp_iso:
+        try:
+            dt = datetime.fromisoformat(fp_iso.replace("Z", "+00:00"))
+            date = dt.astimezone(EASTERN).strftime("%Y-%m-%d")
+        except Exception:
+            date = fp_iso[:10]   # fallback to raw UTC slice
     # Fallback for old HR/H+R+R saves that lack first_pitch — use snapshot date
     if not date:
         date = pick.get("date") or pick.get("snapshot_date", "")
@@ -320,14 +331,22 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
         print(f"No schedule data for {date_str} yet — try again later.")
         return False
 
-    # Some picks may have a first_pitch on a different date than the snapshot
-    # (e.g. cron ran late and captured tomorrow's slate). Pre-load schedules
-    # for any other dates referenced by picks.
+    # Pre-load schedules for any pick whose first_pitch date (in ET, not UTC!)
+    # differs from the snapshot date. This handles two cases:
+    #   1. Late-night games where UTC date != ET date
+    #   2. Cron ran late and captured tomorrow's slate
     extra_schedules = {}
     for p in snap.get("picks", []):
-        fp = (p.get("first_pitch") or "")[:10]
-        if fp and fp != date_str and fp not in extra_schedules:
-            extra_schedules[fp] = get_schedule_with_scores(fp)
+        fp_iso = p.get("first_pitch") or ""
+        if not fp_iso:
+            continue
+        try:
+            dt = datetime.fromisoformat(fp_iso.replace("Z", "+00:00"))
+            fp_et = dt.astimezone(EASTERN).strftime("%Y-%m-%d")
+        except Exception:
+            fp_et = fp_iso[:10]
+        if fp_et and fp_et != date_str and fp_et not in extra_schedules:
+            extra_schedules[fp_et] = get_schedule_with_scores(fp_et)
     if extra_schedules:
         print(f"  Also loaded schedules for {sorted(extra_schedules)}")
 
@@ -353,8 +372,15 @@ def settle_snapshot(date_str, history_dir="true_prob_history"):
         if p.get("result") in FINAL:
             n_already += 1
             continue
-        # Use the pick's first_pitch date if it differs from snapshot date
-        fp_date = (p.get("first_pitch") or "")[:10]
+        # Use the pick's first_pitch date (converted to ET) for schedule lookup
+        fp_iso = p.get("first_pitch") or ""
+        fp_date = None
+        if fp_iso:
+            try:
+                dt = datetime.fromisoformat(fp_iso.replace("Z", "+00:00"))
+                fp_date = dt.astimezone(EASTERN).strftime("%Y-%m-%d")
+            except Exception:
+                fp_date = fp_iso[:10]
         games_for_pick = (extra_schedules.get(fp_date)
                           if fp_date and fp_date != date_str else None)
         if games_for_pick is None:
