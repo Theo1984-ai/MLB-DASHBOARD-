@@ -64,10 +64,15 @@ def to_settler_pick(p):
     }
 
 
+def _play_key(pick):
+    """Unique signature for dedup: game + market + side + point."""
+    return (pick.get("game", ""), pick.get("market", ""),
+            pick.get("side", ""), pick.get("point"))
+
+
 def main():
     api_key = os.environ.get("THE_ODDS_API_KEY")
     if not api_key:
-        # Try secrets.toml as fallback (local runs)
         try:
             import tomllib
             with open(os.path.join(ROOT, ".streamlit", "secrets.toml"), "rb") as f:
@@ -90,7 +95,6 @@ def main():
     matched = match_signals(pm_rows, api_key)
     print(f"  Sportsbook matched: {sum(1 for m in matched if m.get('sb_best_price') is not None)} of {len(matched)}")
 
-    # Filter to actionable only
     actionable = [m for m in matched
                   if m.get("edge_pp") is not None and m["edge_pp"] >= MIN_EDGE_PP
                   and m.get("skew_strength", 0) >= MIN_SKEW
@@ -98,22 +102,44 @@ def main():
                   and m.get("sb_best_price") is not None
                   and m.get("bet_stat_key") is not None]
     actionable.sort(key=lambda r: -r["edge_pp"])
-
     print(f"  Actionable (edge>={MIN_EDGE_PP}pp, skew>={MIN_SKEW}%, liq>=${MIN_LIQUIDITY}): {len(actionable)}")
+    new_picks = [to_settler_pick(p) for p in actionable]
+    now_iso = datetime.now(tz=EASTERN).isoformat()
+    for p in new_picks:
+        p["captured_at"] = now_iso
 
-    # Convert to settler-compatible format
-    picks = [to_settler_pick(p) for p in actionable]
+    # APPEND: if today's file exists, merge new picks with existing (dedup by play key).
+    # Sharp money signals are fleeting — multiple scans per day catch more plays.
+    existing_picks = []
+    if os.path.exists(out_path):
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                prev = json.load(f)
+            existing_picks = prev.get("picks", []) or []
+        except Exception:
+            pass
+
+    by_key = {_play_key(p): p for p in existing_picks}
+    added = 0
+    for p in new_picks:
+        k = _play_key(p)
+        if k not in by_key:
+            by_key[k] = p
+            added += 1
+    merged = list(by_key.values())
+    merged.sort(key=lambda x: -(x.get("edge_pp") or 0))
+    print(f"  Merged: {added} new picks added (had {len(existing_picks)} previously, total {len(merged)})")
 
     payload = {
         "date":        today_et,
-        "snapshot_at": datetime.now(tz=EASTERN).isoformat(),
-        "n_picks":     len(picks),
+        "snapshot_at": now_iso,
+        "n_picks":     len(merged),
         "filter": {
             "min_edge_pp":   MIN_EDGE_PP,
             "min_skew_pct":  MIN_SKEW,
             "min_liquidity": MIN_LIQUIDITY,
         },
-        "picks": picks,
+        "picks": merged,
     }
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, default=str)

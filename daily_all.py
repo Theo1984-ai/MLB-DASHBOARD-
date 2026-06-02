@@ -258,12 +258,11 @@ def main():
             return True
         step(f"Snapshot Soft Scanner {today_et}", _soft_snap)
 
-    # ---------- Step 2c: Take today's Sharp Money snapshot ----------
-    sharp_today = os.path.join(ROOT, "sharp_money_history", f"{today_et}.json")
+    # ---------- Step 2c: Sharp Money snapshot — ALWAYS RUN (append + dedup) ----------
+    # Sharp money signals are fleeting — different scans through the day
+    # catch different plays. Skip only in settle-only mode.
     if settle_only:
         print(f"[SKIP] --settle-only: not taking Sharp Money snapshot for {today_et}.")
-    elif _is_fresh(sharp_today):
-        print(f"[SKIP] Sharp Money snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
     else:
         def _sharp_snap():
             r = subprocess.run(
