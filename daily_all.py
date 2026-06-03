@@ -329,8 +329,13 @@ def main():
 
     # ---------- Step 5: Commit + push forward-test history files ----------
     if do_push and not in_ci:
+        # Pass git identity inline so Task Scheduler runs don't need
+        # any global git config on the box.
+        GIT_ID = ["-c", "user.email=theo1984@users.noreply.github.com",
+                  "-c", "user.name=Theo1984-ai"]
+
         def _git_push():
-            subprocess.run(["git", "add",
+            subprocess.run(["git"] + GIT_ID + ["add",
                             "true_prob_history/", "soft_scanner_history/",
                             "hr_tracker/", "hrr_tracker/",
                             "sharp_money_history/"],
@@ -340,12 +345,23 @@ def main():
                 print("  No history changes to commit.")
                 return True
             subprocess.run(
-                ["git", "commit", "-m",
+                ["git"] + GIT_ID + ["commit", "-m",
                  f"Daily forward-test: settle {yest_et} + snapshot {today_et}"],
                 cwd=ROOT, check=False,
             )
-            subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=False)
-            r2 = subprocess.run(["git", "push", "origin", "main"], cwd=ROOT)
+            # Pull rebase with retry — handle "unstaged/uncommitted changes" via stash
+            for attempt in range(3):
+                r1 = subprocess.run(["git"] + GIT_ID + ["pull", "--rebase", "origin", "main"],
+                                    cwd=ROOT, capture_output=True, text=True)
+                if r1.returncode == 0:
+                    break
+                err = (r1.stderr or "").lower()
+                if "unstaged" in err or "uncommitted" in err or "your index contains" in err:
+                    subprocess.run(["git", "stash", "--include-untracked"], cwd=ROOT, check=False)
+                    continue
+                print(f"  pull warning: {r1.stderr[:200]}")
+                break
+            r2 = subprocess.run(["git"] + GIT_ID + ["push", "origin", "main"], cwd=ROOT)
             if r2.returncode != 0:
                 raise RuntimeError("git push failed")
             return True
