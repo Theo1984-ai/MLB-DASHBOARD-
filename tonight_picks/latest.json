@@ -1,9 +1,42 @@
 {
-  "date": "2026-06-02",
-  "generated_at": "2026-06-02 08:14 PM EDT",
+  "date": "2026-06-03",
+  "generated_at": "2026-06-03 09:00 AM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 0 MLB + 10 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
-  "concentration_plays": [],
+  "intro": "🔒 STRICT FILTER: 25 MLB + 13 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus.",
+  "concentration_plays": [
+    {
+      "player": "Karl-Anthony Towns",
+      "game": "Knicks @ Spurs",
+      "book": "betmgm (1/3 picks)",
+      "n_picks": 3,
+      "picks": [
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 0.5,
+          "price": -300,
+          "book": "betmgm",
+          "ev": 14.92
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 9.5,
+          "price": -255,
+          "book": "draftkings",
+          "ev": 10.88
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 19.5,
+          "price": 196,
+          "book": "fanduel",
+          "ev": 10.06
+        }
+      ]
+    }
+  ],
   "top_picks": [
     {
       "player": "Stephon Castle",
@@ -11,10 +44,10 @@
       "market": "REB",
       "side": "Over",
       "line": 6.5,
-      "price": 265,
+      "price": 290,
       "book": "fanduel",
-      "ev": 19.75,
-      "fair_pct": 32.8
+      "ev": 17.21,
+      "fair_pct": 30.1
     },
     {
       "player": "Karl-Anthony Towns",
@@ -24,85 +57,52 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "ev": 16.65,
-      "fair_pct": 79.2
+      "ev": 14.92,
+      "fair_pct": 78.7
     },
     {
-      "player": "Devin Vassell",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
+      "player": "Masataka Yoshida",
+      "game": "Orioles @ Sox",
+      "market": "Hits",
       "side": "Over",
-      "line": 9.5,
-      "price": -300,
+      "line": 1.5,
+      "price": 270,
+      "book": "fanduel",
+      "ev": 14.72,
+      "fair_pct": 31.0
+    },
+    {
+      "player": "Isiah Kiner-Falefa",
+      "game": "Orioles @ Sox",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 290,
       "book": "betmgm",
-      "ev": 14.43,
-      "fair_pct": 78.6
+      "ev": 14.67,
+      "fair_pct": 29.4
     },
     {
-      "player": "Jalen Brunson",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
+      "player": "Nick Gonzales",
+      "game": "Pirates @ Astros",
+      "market": "Hits",
       "side": "Over",
-      "line": 29.5,
-      "price": 230,
-      "book": "fanduel",
-      "ev": 13.54,
-      "fair_pct": 34.4
-    },
-    {
-      "player": "De'Aaron Fox",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
-      "side": "Over",
-      "line": 19.5,
-      "price": 255,
-      "book": "fanduel",
-      "ev": 11.89,
-      "fair_pct": 31.5
-    },
-    {
-      "player": "De'Aaron Fox",
-      "game": "Knicks @ Spurs",
-      "market": "REB",
-      "side": "Over",
-      "line": 4.5,
-      "price": 174,
-      "book": "fanduel",
-      "ev": 11.36,
-      "fair_pct": 40.6
-    },
-    {
-      "player": "Devin Vassell",
-      "game": "Knicks @ Spurs",
-      "market": "3PM",
-      "side": "Over",
-      "line": 3.5,
-      "price": 280,
-      "book": "fanduel",
-      "ev": 11.29,
-      "fair_pct": 29.3
-    },
-    {
-      "player": "Josh Hart",
-      "game": "Knicks @ Spurs",
-      "market": "REB",
-      "side": "Over",
-      "line": 6.5,
-      "price": -250,
-      "book": "fanduel",
-      "ev": 11.23,
-      "fair_pct": 74.6
-    },
-    {
-      "player": "Miles McBride",
-      "game": "Knicks @ Spurs",
-      "market": "3PM",
-      "side": "Over",
-      "line": 0.5,
-      "price": -281,
+      "line": 1.5,
+      "price": 274,
       "book": "draftkings",
-      "ev": 11.05,
-      "fair_pct": 76.7
+      "ev": 14.67,
+      "fair_pct": 30.7
+    },
+    {
+      "player": "Jose Ramirez",
+      "game": "Guardians @ Yankees",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 280,
+      "book": "betmgm",
+      "ev": 14.65,
+      "fair_pct": 30.2
     },
     {
       "player": "Stephon Castle",
@@ -110,10 +110,43 @@
       "market": "PTS",
       "side": "Over",
       "line": 19.5,
-      "price": 190,
+      "price": 210,
       "book": "fanduel",
-      "ev": 10.27,
-      "fair_pct": 38.0
+      "ev": 14.26,
+      "fair_pct": 36.9
+    },
+    {
+      "player": "Luis Arraez",
+      "game": "Giants @ Brewers",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 260,
+      "book": "fanduel",
+      "ev": 14.04,
+      "fair_pct": 31.7
+    },
+    {
+      "player": "George Springer",
+      "game": "Jays @ Braves",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 263,
+      "book": "draftkings",
+      "ev": 13.38,
+      "fair_pct": 31.2
+    },
+    {
+      "player": "Shohei Ohtani",
+      "game": "Dodgers @ Diamondbacks",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -275,
+      "book": "betmgm",
+      "ev": 13.2,
+      "fair_pct": 76.9
     }
   ],
   "bet_card": {
@@ -121,7 +154,7 @@
       {
         "stake": "2u",
         "description": "Stephon Castle REB Over 6.5",
-        "price": 265,
+        "price": 290,
         "book": "fanduel"
       },
       {
@@ -132,40 +165,40 @@
       },
       {
         "stake": "2u",
-        "description": "Devin Vassell PTS Over 9.5",
-        "price": -300,
-        "book": "betmgm"
+        "description": "Masataka Yoshida Hits Over 1.5",
+        "price": 270,
+        "book": "fanduel"
       }
     ],
     "🎲 Tier 2 (1u each)": [
       {
         "stake": "1u",
-        "description": "Jalen Brunson PTS Over 29.5",
-        "price": 230,
-        "book": "fanduel"
+        "description": "Isiah Kiner-Falefa Hits Over 1.5",
+        "price": 290,
+        "book": "betmgm"
       },
       {
         "stake": "1u",
-        "description": "De'Aaron Fox PTS Over 19.5",
-        "price": 255,
-        "book": "fanduel"
+        "description": "Nick Gonzales Hits Over 1.5",
+        "price": 274,
+        "book": "draftkings"
       },
       {
         "stake": "1u",
-        "description": "De'Aaron Fox REB Over 4.5",
-        "price": 174,
-        "book": "fanduel"
-      },
-      {
-        "stake": "1u",
-        "description": "Devin Vassell 3PM Over 3.5",
+        "description": "Jose Ramirez Hits Over 1.5",
         "price": 280,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Stephon Castle PTS Over 19.5",
+        "price": 210,
         "book": "fanduel"
       },
       {
         "stake": "1u",
-        "description": "Josh Hart REB Over 6.5",
-        "price": -250,
+        "description": "Luis Arraez Hits Over 1.5",
+        "price": 260,
         "book": "fanduel"
       }
     ],
@@ -178,15 +211,15 @@
       },
       {
         "stake": "1u",
-        "description": "Devin Vassell PTS Over 9.5",
-        "price": -300,
+        "description": "Shohei Ohtani Hits Over 0.5",
+        "price": -275,
         "book": "betmgm"
       },
       {
         "stake": "1u",
-        "description": "Josh Hart REB Over 6.5",
-        "price": -250,
-        "book": "fanduel"
+        "description": "Bo Bichette Hits Over 0.5",
+        "price": -235,
+        "book": "betmgm"
       }
     ]
   },
@@ -198,113 +231,133 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "fair_pct": 79.2,
-      "ev": 16.65
+      "fair_pct": 78.7,
+      "ev": 14.92
     },
     {
-      "player": "Devin Vassell",
-      "market": "PTS",
+      "player": "Shohei Ohtani",
+      "market": "Hits",
       "side": "Over",
-      "line": 9.5,
-      "price": -300,
+      "line": 0.5,
+      "price": -275,
       "book": "betmgm",
-      "fair_pct": 78.6,
-      "ev": 14.43
+      "fair_pct": 76.9,
+      "ev": 13.2
     },
     {
-      "player": "Josh Hart",
-      "market": "REB",
+      "player": "Bo Bichette",
+      "market": "Hits",
       "side": "Over",
-      "line": 6.5,
-      "price": -250,
-      "book": "fanduel",
-      "fair_pct": 74.6,
-      "ev": 11.23
+      "line": 0.5,
+      "price": -235,
+      "book": "betmgm",
+      "fair_pct": 73.6,
+      "ev": 11.72
     },
     {
       "player": "Miles McBride",
       "market": "3PM",
       "side": "Over",
       "line": 0.5,
-      "price": -281,
+      "price": -276,
       "book": "draftkings",
-      "fair_pct": 76.7,
-      "ev": 11.05
+      "fair_pct": 76.5,
+      "ev": 11.69
+    },
+    {
+      "player": "Isiah Kiner-Falefa",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -190,
+      "book": "betmgm",
+      "fair_pct": 69.5,
+      "ev": 11.56
+    },
+    {
+      "player": "Yandy Diaz",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -250,
+      "book": "betmgm",
+      "fair_pct": 74.7,
+      "ev": 11.42
     }
   ],
   "nba_game": "New York Knicks @ San Antonio Spurs (08:30 PM ET)",
   "nba_picks": [
     {
+      "player": "Karl-Anthony Towns",
+      "market": "PTS",
+      "side": "Over",
+      "line": 19.5,
+      "price": 196,
+      "book": "fanduel",
+      "ev": 10.06
+    },
+    {
       "player": "Stephon Castle",
       "market": "PTS",
       "side": "Over",
       "line": 19.5,
-      "price": 190,
+      "price": 210,
       "book": "fanduel",
-      "ev": 10.27
+      "ev": 14.26
     },
     {
       "player": "De'Aaron Fox",
       "market": "PTS",
       "side": "Over",
       "line": 19.5,
-      "price": 255,
+      "price": 280,
       "book": "fanduel",
-      "ev": 11.89
-    },
-    {
-      "player": "Devin Vassell",
-      "market": "PTS",
-      "side": "Over",
-      "line": 9.5,
-      "price": -300,
-      "book": "betmgm",
-      "ev": 14.43
+      "ev": 10.89
     },
     {
       "player": "Jalen Brunson",
       "market": "PTS",
       "side": "Over",
       "line": 29.5,
-      "price": 230,
+      "price": 235,
       "book": "fanduel",
-      "ev": 13.54
+      "ev": 12.2
     },
     {
-      "player": "Josh Hart",
+      "player": "Karl-Anthony Towns",
+      "market": "REB",
+      "side": "Over",
+      "line": 9.5,
+      "price": -255,
+      "book": "draftkings",
+      "ev": 10.88
+    },
+    {
+      "player": "Julian Champagnie",
       "market": "REB",
       "side": "Over",
       "line": 6.5,
-      "price": -250,
+      "price": 172,
       "book": "fanduel",
-      "ev": 11.23
+      "ev": 10.74
     },
     {
       "player": "Stephon Castle",
       "market": "REB",
       "side": "Over",
       "line": 6.5,
-      "price": 265,
+      "price": 290,
       "book": "fanduel",
-      "ev": 19.75
-    },
-    {
-      "player": "De'Aaron Fox",
-      "market": "REB",
-      "side": "Over",
-      "line": 4.5,
-      "price": 174,
-      "book": "fanduel",
-      "ev": 11.36
+      "ev": 17.21
     },
     {
       "player": "Devin Vassell",
       "market": "3PM",
       "side": "Over",
       "line": 3.5,
-      "price": 280,
+      "price": 285,
       "book": "fanduel",
-      "ev": 11.29
+      "ev": 11.28
     },
     {
       "player": "Karl-Anthony Towns",
@@ -313,31 +366,30 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "ev": 16.65
+      "ev": 14.92
     },
     {
       "player": "Miles McBride",
       "market": "3PM",
       "side": "Over",
       "line": 0.5,
-      "price": -281,
+      "price": -276,
       "book": "draftkings",
-      "ev": 11.05
+      "ev": 11.69
     }
   ],
   "avoid": [
     "⛔ Multi-leg parlays — singles only",
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
-    "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 15 MLB games still lack props — re-scan later"
+    "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 08:14 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 09:00 AM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
-    "🎯 2 picks have $15+ EV",
+    "🎯 1 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: Stephon Castle REB Over 6.5 @ +265 (fanduel) = $+19.75 EV"
+    "🌟 Pick of the night: Stephon Castle REB Over 6.5 @ +290 (fanduel) = $+17.21 EV"
   ]
 }
