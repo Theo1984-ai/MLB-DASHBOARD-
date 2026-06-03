@@ -140,12 +140,21 @@ def main():
         settle_only = True
         do_hr = do_hrr = do_soft = False
 
-    # ---------- Step 1: Settle yesterday's snapshots ----------
-    def _settle(history_dir):
+    # ---------- Step 1: Settle recent snapshots ----------
+    # Re-settle the last 3 days, not just yesterday. Some picks (especially
+    # Sharp Money) are forward-looking — taken on day N but for games on
+    # day N+1 or N+2. Skip files that are already fully graded so it's cheap.
+    SETTLE_WINDOW_DAYS = 3
+    settle_dates = [
+        (datetime.now(tz=EASTERN) - timedelta(days=i)).strftime("%Y-%m-%d")
+        for i in range(1, SETTLE_WINDOW_DAYS + 1)
+    ]
+
+    def _settle(history_dir, target_date):
         def fn():
             r = subprocess.run(
                 [sys.executable, os.path.join(ROOT, "scripts", "true_prob_settler.py"),
-                 yest_et, history_dir],
+                 target_date, history_dir],
                 cwd=ROOT, capture_output=True, text=True,
             )
             print(r.stdout, end="")
@@ -155,35 +164,24 @@ def main():
             return True
         return fn
 
-    yest_tp = os.path.join(ROOT, "true_prob_history", f"{yest_et}.json")
-    if os.path.exists(yest_tp):
-        step(f"Settle True Prob {yest_et}", _settle("true_prob_history"))
-    else:
-        print(f"\n[SKIP] No True Prob snapshot for {yest_et} — nothing to settle.")
-
-    yest_soft = os.path.join(ROOT, "soft_scanner_history", f"{yest_et}.json")
-    if os.path.exists(yest_soft):
-        step(f"Settle Soft Scanner {yest_et}", _settle("soft_scanner_history"))
-    else:
-        print(f"[SKIP] No Soft Scanner snapshot for {yest_et} — nothing to settle.")
-
-    yest_hr = os.path.join(ROOT, "hr_tracker", f"{yest_et}.json")
-    if os.path.exists(yest_hr):
-        step(f"Settle HR Tracker {yest_et}", _settle("hr_tracker"))
-    else:
-        print(f"[SKIP] No HR Tracker snapshot for {yest_et} — nothing to settle.")
-
-    yest_hrr = os.path.join(ROOT, "hrr_tracker", f"{yest_et}.json")
-    if os.path.exists(yest_hrr):
-        step(f"Settle H+R+R Tracker {yest_et}", _settle("hrr_tracker"))
-    else:
-        print(f"[SKIP] No H+R+R Tracker snapshot for {yest_et} — nothing to settle.")
-
-    yest_sharp = os.path.join(ROOT, "sharp_money_history", f"{yest_et}.json")
-    if os.path.exists(yest_sharp):
-        step(f"Settle Sharp Money {yest_et}", _settle("sharp_money_history"))
-    else:
-        print(f"[SKIP] No Sharp Money snapshot for {yest_et} — nothing to settle.")
+    import json as _json_check
+    for d in settle_dates:
+        for tracker in ("true_prob_history", "soft_scanner_history",
+                        "hr_tracker", "hrr_tracker", "sharp_money_history"):
+            path = os.path.join(ROOT, tracker, f"{d}.json")
+            if not os.path.exists(path):
+                continue
+            # Skip if file is fully settled (every pick has a final result)
+            try:
+                with open(path, encoding="utf-8") as f:
+                    snap = _json_check.load(f)
+                picks = snap.get("picks", [])
+                if picks and all(p.get("result") in ("WIN","LOSS","PUSH","VOID")
+                                 for p in picks):
+                    continue
+            except Exception:
+                pass
+            step(f"Settle {tracker} {d}", _settle(tracker, d))
 
     # ---------- Step 2: Take today's True Prob snapshot ----------
     # Idempotent guard: if today's snapshot already exists and was taken
