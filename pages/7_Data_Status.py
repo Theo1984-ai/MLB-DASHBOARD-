@@ -111,6 +111,7 @@ TRACKERS = [
     {"name": "True Prob",     "icon": "🎯", "dir": "true_prob_history"},
     {"name": "Soft Scanner",  "icon": "🔍", "dir": "soft_scanner_history"},
     {"name": "Sharp Money",   "icon": "💰", "dir": "sharp_money_history"},
+    {"name": "Fundamentals",  "icon": "📊", "dir": "fundamentals_history"},
 ]
 
 

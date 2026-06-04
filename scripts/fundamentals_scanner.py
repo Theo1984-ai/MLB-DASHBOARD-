@@ -255,6 +255,10 @@ def find_prop_plays(elite_batters, api_key, max_games=12):
                             .replace("home_runs", "HR")
                             .replace("total_bases", "TB")
                             .replace("hits", "Hits"))
+            # stat_key for settler: map market_raw -> settler stat name
+            stat_key = ("hr" if "home_runs" in mkt
+                        else "tb" if "total_bases" in mkt
+                        else "hits")
             plays.append({
                 "score": e["score"],
                 "name": e["name"],
@@ -276,6 +280,12 @@ def find_prop_plays(elite_batters, api_key, max_games=12):
                 "hard_hit": e["hard_hit"],
                 "barrel": e["barrel"],
                 "first_pitch": e["first_pitch"],
+                # Settler-required fields
+                "stat_key":  stat_key,
+                "player":    e["name"],
+                "batter_id": e["pid"],
+                "away_team": e["matchup_full_away"],
+                "home_team": e["matchup_full_home"],
             })
 
     # Sort by composite × consensus × cross-book gap weighting

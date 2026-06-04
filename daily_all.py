@@ -167,7 +167,8 @@ def main():
     import json as _json_check
     for d in settle_dates:
         for tracker in ("true_prob_history", "soft_scanner_history",
-                        "hr_tracker", "hrr_tracker", "sharp_money_history"):
+                        "hr_tracker", "hrr_tracker", "sharp_money_history",
+                        "fundamentals_history"):
             path = os.path.join(ROOT, tracker, f"{d}.json")
             if not os.path.exists(path):
                 continue
@@ -274,6 +275,25 @@ def main():
             return True
         step(f"Snapshot Sharp Money {today_et}", _sharp_snap)
 
+    # ---------- Step 2d: Fundamentals Props snapshot ----------
+    fund_today = os.path.join(ROOT, "fundamentals_history", f"{today_et}.json")
+    if settle_only:
+        print(f"[SKIP] --settle-only: not taking Fundamentals snapshot for {today_et}.")
+    elif _is_fresh(fund_today):
+        print(f"[SKIP] Fundamentals snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    else:
+        def _fund_snap():
+            r = subprocess.run(
+                [sys.executable, os.path.join(ROOT, "scripts", "fundamentals_snapshot.py")],
+                cwd=ROOT, capture_output=True, text=True,
+            )
+            print(r.stdout, end="")
+            if r.returncode != 0:
+                print("STDERR:", r.stderr[:500])
+                raise RuntimeError(f"fundamentals snap exit {r.returncode}")
+            return True
+        step(f"Snapshot Fundamentals {today_et}", _fund_snap)
+
     # ---------- Step 3: HR Tracker ----------
     hr_today = os.path.join(ROOT, HR_DIR, f"{today_et}.json")
     if do_hr and _is_fresh(hr_today):
@@ -336,7 +356,7 @@ def main():
             subprocess.run(["git"] + GIT_ID + ["add",
                             "true_prob_history/", "soft_scanner_history/",
                             "hr_tracker/", "hrr_tracker/",
-                            "sharp_money_history/"],
+                            "sharp_money_history/", "fundamentals_history/"],
                            cwd=ROOT, check=False)
             r = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd=ROOT)
             if r.returncode == 0:
