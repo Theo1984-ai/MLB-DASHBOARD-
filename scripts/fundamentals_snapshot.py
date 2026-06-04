@@ -31,7 +31,9 @@ MIN_XBOOK = 2.0
 
 
 def to_settler_pick(p):
-    """Reshape a fundamentals pick into the settler's expected schema."""
+    """Reshape a fundamentals pick into the settler's expected schema.
+    Works for batter props (xwoba/hard_hit/barrel) AND pitcher K props
+    (xwoba_against/k_per_9). Fields differ between the two — use .get()."""
     return {
         # Settle-required
         "stat_key":    p["stat_key"],
@@ -43,20 +45,24 @@ def to_settler_pick(p):
         "best_price":  p["best_price"],
         "player":      p["player"],
         "batter_id":   p.get("batter_id"),
+        "pitcher_id":  p.get("pitcher_id"),
         # Display fields
         "selection":   f'{p["name"]} {p["market"]} {p["side"]} {p.get("point","")}'.strip(),
         "market":      p["market"],
         "game":        p["matchup"],
-        # Framework context
-        "composite":      p["score"],
-        "xwoba":          p.get("xwoba"),
-        "hard_hit":       p.get("hard_hit"),
-        "barrel":         p.get("barrel"),
-        "consensus_pct":  p["consensus_pct"],
-        "cross_book_pp":  p["cross_book_pp"],
-        "edge_pp":        p["edge_pp"],
-        "best_book":      p["best_book"],
-        "opp_pitcher":    p["opp_pitcher"],
+        # Framework context (some only relevant for batters, others for pitchers)
+        "composite":       p["score"],
+        "xwoba":           p.get("xwoba"),
+        "hard_hit":        p.get("hard_hit"),
+        "barrel":          p.get("barrel"),
+        "xwoba_against":   p.get("xwoba_against"),
+        "k_per_9":         p.get("k_per_9"),
+        "consensus_pct":   p["consensus_pct"],
+        "cross_book_pp":   p["cross_book_pp"],
+        "edge_pp":         p["edge_pp"],
+        "best_book":       p["best_book"],
+        "opp_pitcher":     p.get("opp_pitcher"),  # only batter picks have this
+        "opp_team":        p.get("opp_team"),     # only pitcher picks have this
     }
 
 
@@ -80,35 +86,68 @@ def main():
 
     print(f"Running Fundamentals scan for {today_et}...")
     result = scan(api_key)
-    print(f"  Elite batters facing today: {result['n_elite_batters']}")
-    print(f"  Prop offers analyzed: {result['n_plays']}")
+    print(f"  Elite batters: {result['n_elite_batters']}, pitchers: {result['n_elite_pitchers']}")
+    print(f"  Offers analyzed: {result['n_plays']} hitter / {result['n_pitcher_plays']} pitcher K")
 
-    # Filter to actionable + dedupe (one pick per batter+market+side+point)
-    actionable = [p for p in result["plays"]
-                  if p["score"] >= MIN_COMPOSITE
-                  and p["consensus_pct"] >= MIN_CONSENSUS
-                  and p["cross_book_pp"] >= MIN_XBOOK
-                  and p.get("stat_key") is not None
-                  and p.get("away_team") is not None]
-    # Dedupe — best play per batter+market+side
+    # ---- 1) HITTER plays (Hits / TB / RBIs / Runs) ----
+    hitter_actionable = [p for p in result["hitter_plays"]
+                         if p["score"] >= MIN_COMPOSITE
+                         and p["consensus_pct"] >= MIN_CONSENSUS
+                         and p["cross_book_pp"] >= MIN_XBOOK
+                         and p.get("stat_key") is not None
+                         and p.get("away_team") is not None]
     seen = set()
-    unique = []
-    for p in actionable:
+    hitter_unique = []
+    for p in hitter_actionable:
         key = (p["name"], p["market"].split("*")[0], p["side"], p["point"])
         if key in seen: continue
         seen.add(key)
-        unique.append(p)
+        hitter_unique.append(p)
+    hitter_unique.sort(key=lambda x: -(x["score"]/100 * x["consensus_pct"]
+                                       * (1 + x["cross_book_pp"]/10)))
+    hitter_final = hitter_unique[:15]
 
-    # Sort by combined ranking score
-    unique.sort(key=lambda x: -(x["score"]/100 * x["consensus_pct"]
-                                 * (1 + x["cross_book_pp"]/10)))
+    # ---- 2) PITCHER K plays (relaxed consensus — K's often >55%) ----
+    MIN_K_CONS = 55
+    pitcher_actionable = [p for p in result["pitcher_plays"]
+                          if p["score"] >= 65
+                          and p["consensus_pct"] >= MIN_K_CONS
+                          and p["cross_book_pp"] >= 1.5
+                          and p.get("away_team") is not None]
+    seen_p = set()
+    pitcher_unique = []
+    for p in pitcher_actionable:
+        key = (p["name"], p["market"].split("*")[0], p["side"], p["point"])
+        if key in seen_p: continue
+        seen_p.add(key)
+        pitcher_unique.append(p)
+    pitcher_unique.sort(key=lambda x: -(x["score"]/100 * x["consensus_pct"]
+                                        * (1 + x["cross_book_pp"]/10)))
+    pitcher_final = pitcher_unique[:10]
 
-    # Cap at top 20 to avoid bloat
-    final = unique[:20]
-    print(f"  Actionable (composite>={MIN_COMPOSITE}, cons>={MIN_CONSENSUS}%, "
-          f"X-book>={MIN_XBOOK}pp): {len(final)} picks")
+    # ---- 3) HR longshots (Barrel-driven, low consensus expected) ----
+    MIN_HR_CONS = 10
+    hr_actionable = [p for p in result["hr_plays"]
+                     if p["score"] >= 85          # elite Barrel/xSLG only
+                     and p["consensus_pct"] >= MIN_HR_CONS
+                     and p["cross_book_pp"] >= 1.0
+                     and p.get("away_team") is not None
+                     and p["side"] in ("Yes", "Over")]
+    seen_hr = set()
+    hr_unique = []
+    for p in hr_actionable:
+        key = (p["name"], p["point"])
+        if key in seen_hr: continue
+        seen_hr.add(key)
+        hr_unique.append(p)
+    hr_unique.sort(key=lambda x: -(x["score"] * x["consensus_pct"] / 100))
+    hr_final = hr_unique[:8]
 
-    picks = [to_settler_pick(p) for p in final]
+    print(f"  Actionable: {len(hitter_final)} hitter + {len(pitcher_final)} pitcher K + {len(hr_final)} HR longshot")
+
+    picks = ([to_settler_pick(p) for p in hitter_final]
+             + [to_settler_pick(p) for p in pitcher_final]
+             + [to_settler_pick(p) for p in hr_final])
 
     payload = {
         "date":        today_et,
