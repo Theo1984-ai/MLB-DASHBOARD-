@@ -1,8 +1,8 @@
 {
   "date": "2026-06-05",
-  "generated_at": "2026-06-05 06:22 PM EDT",
+  "generated_at": "2026-06-05 07:53 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 1 MLB + 16 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "intro": "🔒 STRICT FILTER: 0 MLB + 11 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
   "concentration_plays": [
     {
       "player": "Karl-Anthony Towns",
@@ -11,12 +11,20 @@
       "n_picks": 3,
       "picks": [
         {
+          "market": "PTS",
+          "side": "Over",
+          "line": 19.5,
+          "price": 200,
+          "book": "fanduel",
+          "ev": 12.94
+        },
+        {
           "market": "3PM",
           "side": "Over",
           "line": 0.5,
           "price": -300,
           "book": "betmgm",
-          "ev": 12.84
+          "ev": 11.87
         },
         {
           "market": "REB",
@@ -24,84 +32,66 @@
           "line": 12.5,
           "price": 195,
           "book": "betmgm",
-          "ev": 11.1
-        },
-        {
-          "market": "AST",
-          "side": "Over",
-          "line": 4.5,
-          "price": 162,
-          "book": "fanduel",
-          "ev": 11.09
-        }
-      ]
-    },
-    {
-      "player": "Mikal Bridges",
-      "game": "Knicks @ Spurs",
-      "book": "betmgm (2/3 picks)",
-      "n_picks": 3,
-      "picks": [
-        {
-          "market": "PTS",
-          "side": "Over",
-          "line": 14.5,
-          "price": 210,
-          "book": "fanduel",
-          "ev": 11.97
-        },
-        {
-          "market": "3PM",
-          "side": "Over",
-          "line": 0.5,
-          "price": -300,
-          "book": "betmgm",
-          "ev": 10.81
-        },
-        {
-          "market": "REB",
-          "side": "Over",
-          "line": 4.5,
-          "price": 300,
-          "book": "betmgm",
-          "ev": 10.28
+          "ev": 10.59
         }
       ]
     }
   ],
   "top_picks": [
     {
-      "player": "Devin Vassell",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
-      "side": "Over",
-      "line": 9.5,
-      "price": -250,
-      "book": "betmgm",
-      "ev": 18.73,
-      "fair_pct": 76.8
-    },
-    {
-      "player": "Devin Vassell",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
-      "side": "Over",
-      "line": 14.5,
-      "price": 160,
-      "book": "betmgm",
-      "ev": 13.37,
-      "fair_pct": 43.6
-    },
-    {
       "player": "Miles McBride",
       "game": "Knicks @ Spurs",
       "market": "3PM",
       "side": "Over",
       "line": 0.5,
-      "price": -264,
+      "price": -261,
       "book": "draftkings",
-      "ev": 13.02,
-      "fair_pct": 76.1
+      "ev": 13.3,
+      "fair_pct": 76.0
+    },
+    {
+      "player": "Karl-Anthony Towns",
+      "game": "Knicks @ Spurs",
+      "market": "PTS",
+      "side": "Over",
+      "line": 19.5,
+      "price": 200,
+      "book": "fanduel",
+      "ev": 12.94,
+      "fair_pct": 37.6
+    },
+    {
+      "player": "Devin Vassell",
+      "game": "Knicks @ Spurs",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -275,
+      "book": "betmgm",
+      "ev": 12.49,
+      "fair_pct": 76.7
+    },
+    {
+      "player": "Jose Alvarado",
+      "game": "Knicks @ Spurs",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": 146,
+      "book": "fanduel",
+      "ev": 12.32,
+      "fair_pct": 45.7
+    },
+    {
+      "player": "Stephon Castle",
+      "game": "Knicks @ Spurs",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 260,
+      "book": "fanduel",
+      "ev": 12.31,
+      "fair_pct": 31.2
     },
     {
       "player": "Karl-Anthony Towns",
@@ -111,19 +101,8 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "ev": 12.84,
-      "fair_pct": 78.2
-    },
-    {
-      "player": "Stephon Castle",
-      "game": "Knicks @ Spurs",
-      "market": "PTS",
-      "side": "Over",
-      "line": 19.5,
-      "price": 215,
-      "book": "fanduel",
-      "ev": 12.11,
-      "fair_pct": 35.6
+      "ev": 11.87,
+      "fair_pct": 78.0
     },
     {
       "player": "De'Aaron Fox",
@@ -133,87 +112,82 @@
       "line": 4.5,
       "price": 230,
       "book": "fanduel",
-      "ev": 12.06,
-      "fair_pct": 34.0
+      "ev": 11.8,
+      "fair_pct": 33.9
+    },
+    {
+      "player": "Jalen Brunson",
+      "game": "Knicks @ Spurs",
+      "market": "PTS",
+      "side": "Over",
+      "line": 29.5,
+      "price": 220,
+      "book": "fanduel",
+      "ev": 11.78,
+      "fair_pct": 34.9
     },
     {
       "player": "Mikal Bridges",
       "game": "Knicks @ Spurs",
-      "market": "PTS",
+      "market": "3PM",
       "side": "Over",
-      "line": 14.5,
-      "price": 210,
-      "book": "fanduel",
-      "ev": 11.97,
-      "fair_pct": 36.1
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "ev": 11.31,
+      "fair_pct": 77.8
     },
     {
-      "player": "Stephon Castle",
+      "player": "Karl-Anthony Towns",
       "game": "Knicks @ Spurs",
       "market": "REB",
       "side": "Over",
-      "line": 6.5,
-      "price": 260,
+      "line": 12.5,
+      "price": 195,
       "book": "betmgm",
-      "ev": 11.9,
-      "fair_pct": 31.1
-    },
-    {
-      "player": "De'Aaron Fox",
-      "game": "Knicks @ Spurs",
-      "market": "AST",
-      "side": "Over",
-      "line": 4.5,
-      "price": -241,
-      "book": "draftkings",
-      "ev": 11.45,
-      "fair_pct": 74.0
-    },
-    {
-      "player": "Otto Lopez",
-      "game": "Rays @ Marlins",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -250,
-      "book": "betmgm",
-      "ev": 11.22,
-      "fair_pct": 74.6
+      "ev": 10.59,
+      "fair_pct": 37.5
     }
   ],
   "bet_card": {
     "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
-        "description": "Devin Vassell PTS Over 9.5",
-        "price": -250,
-        "book": "betmgm"
-      },
-      {
-        "stake": "2u",
-        "description": "Devin Vassell PTS Over 14.5",
-        "price": 160,
-        "book": "betmgm"
-      },
-      {
-        "stake": "2u",
         "description": "Miles McBride 3PM Over 0.5",
-        "price": -264,
+        "price": -261,
         "book": "draftkings"
+      },
+      {
+        "stake": "2u",
+        "description": "Karl-Anthony Towns PTS Over 19.5",
+        "price": 200,
+        "book": "fanduel"
+      },
+      {
+        "stake": "2u",
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -275,
+        "book": "betmgm"
       }
     ],
     "🎲 Tier 2 (1u each)": [
       {
         "stake": "1u",
-        "description": "Karl-Anthony Towns 3PM Over 0.5",
-        "price": -300,
-        "book": "betmgm"
+        "description": "Jose Alvarado 3PM Over 0.5",
+        "price": 146,
+        "book": "fanduel"
       },
       {
         "stake": "1u",
-        "description": "Stephon Castle PTS Over 19.5",
-        "price": 215,
+        "description": "Stephon Castle REB Over 6.5",
+        "price": 260,
         "book": "fanduel"
+      },
+      {
+        "stake": "1u",
+        "description": "Karl-Anthony Towns 3PM Over 0.5",
+        "price": -300,
+        "book": "betmgm"
       },
       {
         "stake": "1u",
@@ -223,29 +197,23 @@
       },
       {
         "stake": "1u",
-        "description": "Mikal Bridges PTS Over 14.5",
-        "price": 210,
+        "description": "Jalen Brunson PTS Over 29.5",
+        "price": 220,
         "book": "fanduel"
-      },
-      {
-        "stake": "1u",
-        "description": "Stephon Castle REB Over 6.5",
-        "price": 260,
-        "book": "betmgm"
       }
     ],
     "🛡️ Safe Locks (1u each)": [
       {
         "stake": "1u",
-        "description": "Devin Vassell PTS Over 9.5",
-        "price": -250,
-        "book": "betmgm"
+        "description": "Miles McBride 3PM Over 0.5",
+        "price": -261,
+        "book": "draftkings"
       },
       {
         "stake": "1u",
-        "description": "Miles McBride 3PM Over 0.5",
-        "price": -264,
-        "book": "draftkings"
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -275,
+        "book": "betmgm"
       },
       {
         "stake": "1u",
@@ -257,24 +225,24 @@
   },
   "safe_locks": [
     {
-      "player": "Devin Vassell",
-      "market": "PTS",
-      "side": "Over",
-      "line": 9.5,
-      "price": -250,
-      "book": "betmgm",
-      "fair_pct": 76.8,
-      "ev": 18.73
-    },
-    {
       "player": "Miles McBride",
       "market": "3PM",
       "side": "Over",
       "line": 0.5,
-      "price": -264,
+      "price": -261,
       "book": "draftkings",
-      "fair_pct": 76.1,
-      "ev": 13.02
+      "fair_pct": 76.0,
+      "ev": 13.3
+    },
+    {
+      "player": "Devin Vassell",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -275,
+      "book": "betmgm",
+      "fair_pct": 76.7,
+      "ev": 12.49
     },
     {
       "player": "Karl-Anthony Towns",
@@ -283,28 +251,8 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "fair_pct": 78.2,
-      "ev": 12.84
-    },
-    {
-      "player": "De'Aaron Fox",
-      "market": "AST",
-      "side": "Over",
-      "line": 4.5,
-      "price": -241,
-      "book": "draftkings",
-      "fair_pct": 74.0,
-      "ev": 11.45
-    },
-    {
-      "player": "Otto Lopez",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -250,
-      "book": "betmgm",
-      "fair_pct": 74.6,
-      "ev": 11.22
+      "fair_pct": 78.0,
+      "ev": 11.87
     },
     {
       "player": "Mikal Bridges",
@@ -313,8 +261,18 @@
       "line": 0.5,
       "price": -300,
       "book": "betmgm",
-      "fair_pct": 77.7,
-      "ev": 10.81
+      "fair_pct": 77.8,
+      "ev": 11.31
+    },
+    {
+      "player": "De'Aaron Fox",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": -241,
+      "book": "draftkings",
+      "fair_pct": 73.7,
+      "ev": 10.28
     }
   ],
   "nba_game": "New York Knicks @ San Antonio Spurs (08:40 PM ET)",
@@ -326,70 +284,34 @@
       "line": 4.5,
       "price": -241,
       "book": "draftkings",
-      "ev": 11.45
-    },
-    {
-      "player": "Karl-Anthony Towns",
-      "market": "AST",
-      "side": "Over",
-      "line": 4.5,
-      "price": 162,
-      "book": "fanduel",
-      "ev": 11.09
+      "ev": 10.28
     },
     {
       "player": "Jalen Brunson",
       "market": "PTS",
       "side": "Over",
       "line": 29.5,
-      "price": 210,
+      "price": 220,
       "book": "fanduel",
-      "ev": 10.01
+      "ev": 11.78
     },
     {
-      "player": "Mikal Bridges",
-      "market": "PTS",
-      "side": "Over",
-      "line": 14.5,
-      "price": 210,
-      "book": "fanduel",
-      "ev": 11.97
-    },
-    {
-      "player": "Stephon Castle",
+      "player": "Karl-Anthony Towns",
       "market": "PTS",
       "side": "Over",
       "line": 19.5,
-      "price": 215,
+      "price": 200,
       "book": "fanduel",
-      "ev": 12.11
+      "ev": 12.94
     },
     {
       "player": "Devin Vassell",
       "market": "PTS",
       "side": "Over",
       "line": 9.5,
-      "price": -250,
+      "price": -275,
       "book": "betmgm",
-      "ev": 18.73
-    },
-    {
-      "player": "Keldon Johnson",
-      "market": "PTS",
-      "side": "Over",
-      "line": 9.5,
-      "price": 250,
-      "book": "fanduel",
-      "ev": 10.52
-    },
-    {
-      "player": "Devin Vassell",
-      "market": "PTS",
-      "side": "Over",
-      "line": 14.5,
-      "price": 160,
-      "book": "betmgm",
-      "ev": 13.37
+      "ev": 12.49
     },
     {
       "player": "De'Aaron Fox",
@@ -398,7 +320,7 @@
       "line": 4.5,
       "price": 230,
       "book": "fanduel",
-      "ev": 12.06
+      "ev": 11.8
     },
     {
       "player": "Stephon Castle",
@@ -406,8 +328,44 @@
       "side": "Over",
       "line": 6.5,
       "price": 260,
+      "book": "fanduel",
+      "ev": 12.31
+    },
+    {
+      "player": "Karl-Anthony Towns",
+      "market": "REB",
+      "side": "Over",
+      "line": 12.5,
+      "price": 195,
       "book": "betmgm",
-      "ev": 11.9
+      "ev": 10.59
+    },
+    {
+      "player": "Miles McBride",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -261,
+      "book": "draftkings",
+      "ev": 13.3
+    },
+    {
+      "player": "Karl-Anthony Towns",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "ev": 11.87
+    },
+    {
+      "player": "Mikal Bridges",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "ev": 11.31
     }
   ],
   "avoid": [
@@ -415,14 +373,14 @@
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 14 MLB games still lack props — re-scan later"
+    "⏰ 15 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 06:22 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 07:53 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
-    "🎯 1 picks have $15+ EV",
+    "🎯 0 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: Devin Vassell PTS Over 9.5 @ -250 (betmgm) = $+18.73 EV"
+    "🌟 Pick of the night: Miles McBride 3PM Over 0.5 @ -261 (draftkings) = $+13.30 EV"
   ]
 }
