@@ -2533,12 +2533,20 @@ with tab_ai:
     _ai_mtime = None
     if os.path.exists(_ai_pred_path):
         _ai_mtime = os.path.getmtime(_ai_pred_path)
+        _ai_bad_lines = 0
         with open(_ai_pred_path, encoding="utf-8") as _f:
             for _line in _f:
                 _line = _line.strip()
                 if not _line:
                     continue
-                _r = json.loads(_line)
+                # Skip git conflict markers if present (partial-write corruption)
+                if _line.startswith(("<<<<<<<", "=======", ">>>>>>>")):
+                    continue
+                try:
+                    _r = json.loads(_line)
+                except (ValueError, json.JSONDecodeError):
+                    _ai_bad_lines += 1
+                    continue
                 if "p_at_least_one" not in _r:
                     continue
                 _name = _r.get("batter_name", "?")
