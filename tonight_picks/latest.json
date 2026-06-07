@@ -1,10 +1,65 @@
 {
   "date": "2026-06-07",
-  "generated_at": "2026-06-07 05:52 PM EDT",
+  "generated_at": "2026-06-07 07:43 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 3 MLB + 2 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
-  "concentration_plays": [],
+  "intro": "🔒 STRICT FILTER: 4 MLB + 8 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "concentration_plays": [
+    {
+      "player": "Julian Champagnie",
+      "game": "Spurs @ Knicks",
+      "book": "betmgm (2/3 picks)",
+      "n_picks": 3,
+      "picks": [
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 1.5,
+          "price": -235,
+          "book": "betmgm",
+          "ev": 14.1
+        },
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 6.5,
+          "price": 188,
+          "book": "fanduel",
+          "ev": 12.5
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 3.5,
+          "price": 300,
+          "book": "betmgm",
+          "ev": 10.12
+        }
+      ]
+    }
+  ],
   "top_picks": [
+    {
+      "player": "De'Aaron Fox",
+      "game": "Spurs @ Knicks",
+      "market": "REB",
+      "side": "Over",
+      "line": 4.5,
+      "price": 260,
+      "book": "fanduel",
+      "ev": 14.43,
+      "fair_pct": 31.8
+    },
+    {
+      "player": "Julian Champagnie",
+      "game": "Spurs @ Knicks",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -235,
+      "book": "betmgm",
+      "ev": 14.1,
+      "fair_pct": 74.4
+    },
     {
       "player": "Nico Hoerner",
       "game": "Giants @ Cubs",
@@ -13,8 +68,8 @@
       "line": 1.5,
       "price": 270,
       "book": "betmgm",
-      "ev": 14.88,
-      "fair_pct": 31.0
+      "ev": 13.48,
+      "fair_pct": 30.7
     },
     {
       "player": "Casey Schmitt",
@@ -30,24 +85,46 @@
     {
       "player": "Julian Champagnie",
       "game": "Spurs @ Knicks",
-      "market": "3PM",
+      "market": "REB",
       "side": "Over",
-      "line": 1.5,
-      "price": -235,
-      "book": "betmgm",
-      "ev": 11.48,
-      "fair_pct": 73.6
+      "line": 6.5,
+      "price": 188,
+      "book": "fanduel",
+      "ev": 12.5,
+      "fair_pct": 39.1
     },
     {
-      "player": "Jalen Brunson",
+      "player": "OG Anunoby",
       "game": "Spurs @ Knicks",
-      "market": "3PM",
+      "market": "PTS",
       "side": "Over",
-      "line": 2.5,
-      "price": 142,
+      "line": 19.5,
+      "price": 280,
       "book": "fanduel",
-      "ev": 11.23,
-      "fair_pct": 46.0
+      "ev": 12.49,
+      "fair_pct": 29.6
+    },
+    {
+      "player": "Devin Vassell",
+      "game": "Spurs @ Knicks",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -248,
+      "book": "draftkings",
+      "ev": 11.94,
+      "fair_pct": 74.7
+    },
+    {
+      "player": "Dylan Harper",
+      "game": "Spurs @ Knicks",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": 280,
+      "book": "fanduel",
+      "ev": 11.45,
+      "fair_pct": 29.3
     },
     {
       "player": "Nico Hoerner",
@@ -57,43 +134,72 @@
       "line": 0.5,
       "price": -200,
       "book": "betmgm",
-      "ev": 10.97,
+      "ev": 11.02,
       "fair_pct": 70.3
+    },
+    {
+      "player": "Josh Hart",
+      "game": "Spurs @ Knicks",
+      "market": "REB",
+      "side": "Over",
+      "line": 9.5,
+      "price": 180,
+      "book": "betmgm",
+      "ev": 11.0,
+      "fair_pct": 39.6
     }
   ],
   "bet_card": {
     "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
-        "description": "Nico Hoerner Hits Over 1.5",
-        "price": 270,
-        "book": "betmgm"
-      },
-      {
-        "stake": "2u",
-        "description": "Casey Schmitt Hits Over 1.5",
-        "price": 263,
-        "book": "draftkings"
+        "description": "De'Aaron Fox REB Over 4.5",
+        "price": 260,
+        "book": "fanduel"
       },
       {
         "stake": "2u",
         "description": "Julian Champagnie 3PM Over 1.5",
         "price": -235,
         "book": "betmgm"
+      },
+      {
+        "stake": "2u",
+        "description": "Nico Hoerner Hits Over 1.5",
+        "price": 270,
+        "book": "betmgm"
       }
     ],
     "🎲 Tier 2 (1u each)": [
       {
         "stake": "1u",
-        "description": "Jalen Brunson 3PM Over 2.5",
-        "price": 142,
+        "description": "Casey Schmitt Hits Over 1.5",
+        "price": 263,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Julian Champagnie REB Over 6.5",
+        "price": 188,
         "book": "fanduel"
       },
       {
         "stake": "1u",
-        "description": "Nico Hoerner Hits Over 0.5",
-        "price": -200,
-        "book": "betmgm"
+        "description": "OG Anunoby PTS Over 19.5",
+        "price": 280,
+        "book": "fanduel"
+      },
+      {
+        "stake": "1u",
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -248,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Dylan Harper AST Over 4.5",
+        "price": 280,
+        "book": "fanduel"
       }
     ],
     "🛡️ Safe Locks (1u each)": [
@@ -102,6 +208,12 @@
         "description": "Julian Champagnie 3PM Over 1.5",
         "price": -235,
         "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -248,
+        "book": "draftkings"
       },
       {
         "stake": "1u",
@@ -119,8 +231,18 @@
       "line": 1.5,
       "price": -235,
       "book": "betmgm",
-      "fair_pct": 73.6,
-      "ev": 11.48
+      "fair_pct": 74.4,
+      "ev": 14.1
+    },
+    {
+      "player": "Devin Vassell",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -248,
+      "book": "draftkings",
+      "fair_pct": 74.7,
+      "ev": 11.94
     },
     {
       "player": "Nico Hoerner",
@@ -130,11 +252,65 @@
       "price": -200,
       "book": "betmgm",
       "fair_pct": 70.3,
-      "ev": 10.97
+      "ev": 11.02
     }
   ],
   "nba_game": "San Antonio Spurs @ New York Knicks (08:40 PM ET)",
   "nba_picks": [
+    {
+      "player": "Dylan Harper",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": 280,
+      "book": "fanduel",
+      "ev": 11.45
+    },
+    {
+      "player": "Devin Vassell",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -248,
+      "book": "draftkings",
+      "ev": 11.94
+    },
+    {
+      "player": "OG Anunoby",
+      "market": "PTS",
+      "side": "Over",
+      "line": 19.5,
+      "price": 280,
+      "book": "fanduel",
+      "ev": 12.49
+    },
+    {
+      "player": "De'Aaron Fox",
+      "market": "REB",
+      "side": "Over",
+      "line": 4.5,
+      "price": 260,
+      "book": "fanduel",
+      "ev": 14.43
+    },
+    {
+      "player": "Josh Hart",
+      "market": "REB",
+      "side": "Over",
+      "line": 9.5,
+      "price": 180,
+      "book": "betmgm",
+      "ev": 11.0
+    },
+    {
+      "player": "Julian Champagnie",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 188,
+      "book": "fanduel",
+      "ev": 12.5
+    },
     {
       "player": "Julian Champagnie",
       "market": "3PM",
@@ -142,16 +318,16 @@
       "line": 1.5,
       "price": -235,
       "book": "betmgm",
-      "ev": 11.48
+      "ev": 14.1
     },
     {
-      "player": "Jalen Brunson",
+      "player": "Julian Champagnie",
       "market": "3PM",
       "side": "Over",
-      "line": 2.5,
-      "price": 142,
-      "book": "fanduel",
-      "ev": 11.23
+      "line": 3.5,
+      "price": 300,
+      "book": "betmgm",
+      "ev": 10.12
     }
   ],
   "avoid": [
@@ -162,11 +338,11 @@
     "⏰ 14 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 05:52 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 07:43 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
     "🎯 0 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: Nico Hoerner Hits Over 1.5 @ +270 (betmgm) = $+14.88 EV"
+    "🌟 Pick of the night: De'Aaron Fox REB Over 4.5 @ +260 (fanduel) = $+14.43 EV"
   ]
 }
