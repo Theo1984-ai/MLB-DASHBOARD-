@@ -1,27 +1,172 @@
 {
   "date": "2026-06-07",
-  "generated_at": "2026-06-07 04:38 AM EDT",
+  "generated_at": "2026-06-07 05:52 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 0 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "intro": "🔒 STRICT FILTER: 3 MLB + 2 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
   "concentration_plays": [],
-  "top_picks": [],
-  "bet_card": {},
-  "safe_locks": [],
-  "nba_game": "No NBA game on the slate",
-  "nba_picks": [],
+  "top_picks": [
+    {
+      "player": "Nico Hoerner",
+      "game": "Giants @ Cubs",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 270,
+      "book": "betmgm",
+      "ev": 14.88,
+      "fair_pct": 31.0
+    },
+    {
+      "player": "Casey Schmitt",
+      "game": "Giants @ Cubs",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 263,
+      "book": "draftkings",
+      "ev": 12.6,
+      "fair_pct": 31.0
+    },
+    {
+      "player": "Julian Champagnie",
+      "game": "Spurs @ Knicks",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -235,
+      "book": "betmgm",
+      "ev": 11.48,
+      "fair_pct": 73.6
+    },
+    {
+      "player": "Jalen Brunson",
+      "game": "Spurs @ Knicks",
+      "market": "3PM",
+      "side": "Over",
+      "line": 2.5,
+      "price": 142,
+      "book": "fanduel",
+      "ev": 11.23,
+      "fair_pct": 46.0
+    },
+    {
+      "player": "Nico Hoerner",
+      "game": "Giants @ Cubs",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -200,
+      "book": "betmgm",
+      "ev": 10.97,
+      "fair_pct": 70.3
+    }
+  ],
+  "bet_card": {
+    "💎 Max Conviction (2u each)": [
+      {
+        "stake": "2u",
+        "description": "Nico Hoerner Hits Over 1.5",
+        "price": 270,
+        "book": "betmgm"
+      },
+      {
+        "stake": "2u",
+        "description": "Casey Schmitt Hits Over 1.5",
+        "price": 263,
+        "book": "draftkings"
+      },
+      {
+        "stake": "2u",
+        "description": "Julian Champagnie 3PM Over 1.5",
+        "price": -235,
+        "book": "betmgm"
+      }
+    ],
+    "🎲 Tier 2 (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Jalen Brunson 3PM Over 2.5",
+        "price": 142,
+        "book": "fanduel"
+      },
+      {
+        "stake": "1u",
+        "description": "Nico Hoerner Hits Over 0.5",
+        "price": -200,
+        "book": "betmgm"
+      }
+    ],
+    "🛡️ Safe Locks (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Julian Champagnie 3PM Over 1.5",
+        "price": -235,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Nico Hoerner Hits Over 0.5",
+        "price": -200,
+        "book": "betmgm"
+      }
+    ]
+  },
+  "safe_locks": [
+    {
+      "player": "Julian Champagnie",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -235,
+      "book": "betmgm",
+      "fair_pct": 73.6,
+      "ev": 11.48
+    },
+    {
+      "player": "Nico Hoerner",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -200,
+      "book": "betmgm",
+      "fair_pct": 70.3,
+      "ev": 10.97
+    }
+  ],
+  "nba_game": "San Antonio Spurs @ New York Knicks (08:40 PM ET)",
+  "nba_picks": [
+    {
+      "player": "Julian Champagnie",
+      "market": "3PM",
+      "side": "Over",
+      "line": 1.5,
+      "price": -235,
+      "book": "betmgm",
+      "ev": 11.48
+    },
+    {
+      "player": "Jalen Brunson",
+      "market": "3PM",
+      "side": "Over",
+      "line": 2.5,
+      "price": 142,
+      "book": "fanduel",
+      "ev": 11.23
+    }
+  ],
   "avoid": [
     "⛔ Multi-leg parlays — singles only",
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 15 MLB games still lack props — re-scan later",
-    "ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity."
+    "⏰ 14 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 04:38 AM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 05:52 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
     "🎯 0 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
-    "📱 Bookmark this page for daily access"
+    "📱 Bookmark this page for daily access",
+    "🌟 Pick of the night: Nico Hoerner Hits Over 1.5 @ +270 (betmgm) = $+14.88 EV"
   ]
 }
