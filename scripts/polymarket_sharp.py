@@ -202,14 +202,41 @@ def parse_market_for_match(question, slug):
     return out
 
 
-def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
+def _parse_game_start(market):
+    """Pull gameStartTime from a Polymarket market dict and return UTC datetime."""
+    from datetime import datetime
+    gs = market.get("gameStartTime") or ""
+    if not gs: return None
+    try:
+        # Format: "2026-07-07 18:15:00+00" or ISO 8601
+        gs = gs.replace(" ", "T")
+        if gs.endswith("+00"):
+            gs = gs[:-3] + "+00:00"
+        return datetime.fromisoformat(gs)
+    except Exception:
+        return None
+
+
+def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
+         today_only=True):
     """Returns (rows, debug_stats).
 
     rows: list of dicts with sharp-money metrics per market
-    debug_stats: {'total_events', 'daily_markets', 'candidates', 'with_book'}
+    debug_stats: {'total_events', 'daily_markets', 'candidates', 'with_book',
+                  'filtered_future_games'}
+
+    today_only=True (default): filters out markets whose gameStartTime is
+    NOT today in ET. Polymarket lists future-series markets (e.g. games
+    a week away) that shouldn't show up as today's actionable plays.
     """
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    ET = ZoneInfo("America/New_York")
+    today_et = datetime.now(tz=ET).date()
+
     events = _get(f"{GAMMA}/events?closed=false&tag_slug=mlb&limit=200")
     daily_markets = []
+    filtered_future = 0
     for ev in events:
         title = ev.get("title", "")
         slug = ev.get("slug", "")
@@ -218,6 +245,18 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
         for m in (ev.get("markets") or []):
             if m.get("closed") or not m.get("active", True):
                 continue
+            # Filter out future-series markets — only today's games
+            if today_only:
+                game_dt = _parse_game_start(m)
+                if game_dt is None:
+                    # No timestamp -> can't verify, skip to be safe
+                    filtered_future += 1
+                    continue
+                game_date_et = game_dt.astimezone(ET).date()
+                if game_date_et != today_et:
+                    filtered_future += 1
+                    continue
+                m["_game_start"] = game_dt.isoformat()
             m["_event_title"] = title
             m["_event_slug"] = slug
             daily_markets.append(m)
@@ -269,6 +308,7 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
             "question":    question,
             "category":    _categorize(question, slug),
             "sharp_pick":  sharp_pick_label(parsed, skew_side),
+            "game_start":  m.get("_game_start"),  # ISO timestamp from Polymarket
             "mid":         round(yes_book["mid"], 3),
             "best_bid":    round(yes_book["best_bid"], 3),
             "best_ask":    round(yes_book["best_ask"], 3),
@@ -298,4 +338,8 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15):
         "candidates":     len(candidates),
         "with_book":      len(rows),
     }
+    # Add filter stats so the page can show what was excluded
+    if today_only:
+        debug["filtered_future_games"] = filtered_future
+        debug["today_et"] = today_et.isoformat()
     return rows, debug
