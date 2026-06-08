@@ -98,9 +98,22 @@ def _book_metrics(token_id, band=0.05):
 
 # ---------- Public scan ----------
 
+def _short_matchup(parsed):
+    """Build a compact 'AwaySuffix @ HomeSuffix' matchup label."""
+    a = parsed.get("away_team") or ""
+    h = parsed.get("home_team") or ""
+    if not a or not h:
+        return ""
+    # Last word of each team name is usually the nickname (Rays, Yankees, etc.)
+    a_short = a.split()[-1] if a else "?"
+    h_short = h.split()[-1] if h else "?"
+    return f"{a_short} @ {h_short}"
+
+
 def sharp_pick_label(parsed, skew_side):
     """Translate a parsed market + sharp side into the explicit pick.
-    Returns e.g. 'Cubs ML', 'OVER 8.5', 'Braves -1.5' — always says what to bet."""
+    Always includes the game context so totals/spreads aren't ambiguous.
+    Returns e.g. 'Cubs ML', 'OVER 8.5 (Rays @ Red Sox)', 'Braves -1.5'."""
     mt = parsed.get("market_type")
     if mt == "h2h":
         team = parsed.get("away_team") if skew_side == "YES" else parsed.get("home_team")
@@ -108,21 +121,21 @@ def sharp_pick_label(parsed, skew_side):
     if mt == "totals":
         pt = parsed.get("point")
         side = "OVER" if skew_side == "YES" else "UNDER"
-        return f"{side} {pt}" if pt is not None else side
+        match = _short_matchup(parsed)
+        body = f"{side} {pt}" if pt is not None else side
+        return f"{body} ({match})" if match else body
     if mt == "spreads":
         team = parsed.get("team")
         pt = parsed.get("point") or 0
-        # YES = team covers (+/-pt as listed). NO = team does NOT cover.
         if skew_side == "YES":
             sign = "+" if pt > 0 else ""
             return f"{team} {sign}{pt}"
-        # For NO, the other side's spread = the inverse
-        opp_pt = -pt
-        sign = "+" if opp_pt > 0 else ""
-        # We don't have the opponent's name in the spread title; describe by relation
+        # For NO, the team named in the spread doesn't cover -> opponent covers
         return f"NOT {team} {('+' if pt>0 else '')}{pt}  (other team covers)"
     if mt == "nrfi":
-        return "YES = run in 1st" if skew_side == "YES" else "NRFI"
+        match = _short_matchup(parsed)
+        body = "YES = run in 1st" if skew_side == "YES" else "NRFI"
+        return f"{body} ({match})" if match else body
     return skew_side
 
 

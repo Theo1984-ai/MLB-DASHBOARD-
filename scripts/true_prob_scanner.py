@@ -111,16 +111,20 @@ def ev_per_100(am, p):
     return p * 100 - (1 - p) * abs(am)
 
 
-def format_selection(market_key, selection, side, point):
+def format_selection(market_key, selection, side, point, game_label=None):
+    """Returns a human-readable bet description.
+    Totals/Spreads include the game so they're not ambiguous when listed
+    alongside other plays. game_label like 'Yankees @ Guardians'."""
+    match_suffix = f" ({game_label})" if game_label else ""
     if market_key in SPREAD_MARKETS:
         if point is None:
-            return selection or side
+            return (selection or side) + match_suffix
         sign = "+" if point > 0 else ""
-        return f"{selection} {sign}{point}"
+        return f"{selection} {sign}{point}"   # team name already in selection
     if market_key in TOTAL_MARKETS:
         if point is None:
-            return f"{side}"
-        return f"{side} {point}"
+            return f"{side}{match_suffix}"
+        return f"{side} {point}{match_suffix}"
     return selection or side
 
 
@@ -191,7 +195,7 @@ def _process(market_key, outcomes_by_key, game_label, away_team, home_team,
             "market_key":    market_key,
             "stat_key":      stat_key,
             "settle_type":   settle_type,
-            "selection":     format_selection(market_key, player, side, point),
+            "selection":     format_selection(market_key, player, side, point, game_label),
             "player":        player,
             "side":          side,   # Over/Under/Home/Away/Yes
             "point":         point,  # numerical line

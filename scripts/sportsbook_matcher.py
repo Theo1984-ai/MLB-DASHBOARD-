@@ -163,7 +163,13 @@ def match_signals(polymarket_rows, api_key):
                 row["sb_implied_pct"] = round(_amer_to_imp(best["price"]) * 100, 1)
                 pm_pct = (r["mid"] if sharp_side == "YES" else 1 - r["mid"]) * 100
                 row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
-                row["play"] = f"{target_side} {tgt_pt} @ {best['book']} {best['price']:+d}"
+                # Include matchup so the totals play is unambiguous
+                away_short = (game.get("away_team","").split()[-1]
+                              if game.get("away_team") else "")
+                home_short = (game.get("home_team","").split()[-1]
+                              if game.get("home_team") else "")
+                match_str = f" ({away_short} @ {home_short})" if away_short and home_short else ""
+                row["play"] = f"{target_side} {tgt_pt}{match_str} @ {best['book']} {best['price']:+d}"
                 # Settle metadata
                 row["bet_stat_key"] = "total"
                 row["bet_team"] = None

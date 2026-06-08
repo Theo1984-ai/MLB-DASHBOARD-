@@ -140,11 +140,16 @@ def _other_side_label(r):
         # Sharp on AWAY team if YES, HOME team if NO; other is the other team
         return r.get("home_team", "?") if sharp_side == "YES" else r.get("away_team", "?")
     if mt == "totals":
-        # Sharp on OVER if YES, UNDER if NO
+        # Sharp on OVER if YES, UNDER if NO — include matchup for clarity
         pt = r.get("point")
+        away = (r.get("away_team","") or "").split()[-1] or ""
+        home = (r.get("home_team","") or "").split()[-1] or ""
+        match_str = f" ({away} @ {home})" if away and home else ""
         if sharp_side == "YES":
-            return f"UNDER {pt}" if pt is not None else "UNDER"
-        return f"OVER {pt}" if pt is not None else "OVER"
+            base = f"UNDER {pt}" if pt is not None else "UNDER"
+        else:
+            base = f"OVER {pt}" if pt is not None else "OVER"
+        return f"{base}{match_str}"
     if mt == "spreads":
         team = r.get("team")
         pt = r.get("point")
