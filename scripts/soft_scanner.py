@@ -105,8 +105,71 @@ def _collect_offers(bookmakers, market_filter):
     return offers
 
 
+def _build_team_lookup_for_game(away_team, home_team):
+    """Returns {normalized_player_name: team_abbrev} for both teams in a game.
+    Uses MLB Stats API per-team roster (one call per team, cached for the day)."""
+    if not hasattr(_build_team_lookup_for_game, "_cache"):
+        _build_team_lookup_for_game._cache = {}
+    cache = _build_team_lookup_for_game._cache
+    cache_key = (away_team, home_team)
+    if cache_key in cache:
+        return cache[cache_key]
+
+    from datetime import datetime
+    season = datetime.now().year
+    lookup = {}
+
+    try:
+        # Resolve team names → IDs (one schedule call has them)
+        url = (f"https://statsapi.mlb.com/api/v1/teams?season={season}&sportId=1")
+        teams = json.loads(urllib.request.urlopen(url, timeout=10, context=_SSL).read())
+        team_map = {}  # name → (id, abbr)
+        for t in teams.get("teams", []):
+            team_map[t.get("name")] = (t.get("id"), t.get("abbreviation"))
+
+        for team_name in (away_team, home_team):
+            entry = team_map.get(team_name)
+            if not entry:
+                continue
+            tid, abbr = entry
+            try:
+                r = json.loads(urllib.request.urlopen(
+                    f"https://statsapi.mlb.com/api/v1/teams/{tid}/roster?season={season}",
+                    timeout=10, context=_SSL).read())
+                for r_entry in r.get("roster", []):
+                    name = r_entry.get("person", {}).get("fullName", "")
+                    if not name: continue
+                    # normalize: lowercase, strip punctuation
+                    norm = name.lower().replace(",", "").replace(".", "").strip()
+                    lookup[norm] = abbr
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    cache[cache_key] = lookup
+    return lookup
+
+
+def _resolve_team(player, team_lookup):
+    """Find team abbreviation for a player. Handles 'Last, First' style too."""
+    if not player or not team_lookup: return None
+    n = player.lower().replace(",", "").replace(".", "").strip()
+    if n in team_lookup: return team_lookup[n]
+    # Try last-name partial
+    parts = n.split()
+    if not parts: return None
+    last = parts[-1]
+    matches = [v for k, v in team_lookup.items() if k.split() and k.split()[-1] == last]
+    if len(matches) == 1:
+        return matches[0]
+    return None
+
+
 def _find_soft_picks(offers_dict, event_meta,
                      min_edge_pp, min_books, min_implied_pct):
+    team_lookup = _build_team_lookup_for_game(
+        event_meta.get("away_team"), event_meta.get("home_team"))
     rows = []
     for (mk, player, side, pt), book_prices in offers_dict.items():
         if len(book_prices) < min_books:
@@ -133,6 +196,7 @@ def _find_soft_picks(offers_dict, event_meta,
         else:
             ev_per_100 = consensus_imp * 100 - (1 - consensus_imp) * abs(best_price)
 
+        team_abbr = _resolve_team(player, team_lookup)
         rows.append({
             # Settlement metadata (matches true_prob_settler.py expectations)
             "event_id":    event_meta["event_id"],
@@ -145,6 +209,7 @@ def _find_soft_picks(offers_dict, event_meta,
             "game":          event_meta["game_label"],
             "market":        MARKET_LABELS.get(mk, mk),
             "player":        player,
+            "team":          team_abbr,  # team abbreviation (e.g. 'KCR') or None
             "selection":     player,
             "side":          side,
             "point":         pt,

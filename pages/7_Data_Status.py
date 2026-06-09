@@ -375,6 +375,10 @@ for i, t in enumerate(TRACKERS):
         for p in picks:
             sel = (p.get("selection") or p.get("player")
                    or p.get("batter") or "?")
+            # Add team abbreviation if present (Soft Scanner / Fundamentals carry this)
+            team = p.get("team")
+            if team and "(" not in str(sel):
+                sel = f"{sel} ({team})"
             mkt = p.get("market") or ""
             if t["dir"] == "hr_tracker": mkt = "HR"
             if t["dir"] == "hrr_tracker": mkt = "H+R+R"

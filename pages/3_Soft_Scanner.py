@@ -362,9 +362,12 @@ if a_grade:
         if r.get("n_books", 0) >= 5: triggers.append("5books")
         if r.get("best_price") is not None and r["best_price"] <= -150: triggers.append("chalk")
         if r.get("edge_pp") is not None and r["edge_pp"] >= 10: triggers.append("10pp+")
+        # Player label with team if known
+        team = r.get("team")
+        player_disp = f"{r['player']} ({team})" if team else r["player"]
         a_rows.append({
             "Why":       " · ".join(triggers),
-            "Player":    r["player"],
+            "Player":    player_disp,
             "Game":      r["game"],
             "Market":    r["market"],
             "Side":      r["side"],
@@ -412,8 +415,10 @@ if not all_disagreements:
 # Build display dataframe
 display_rows = []
 for r in all_disagreements:
+    team = r.get("team")
+    player_disp = f"{r['player']} ({team})" if team else r["player"]
     display_rows.append({
-        "Player":    r["player"],
+        "Player":    player_disp,
         "Game":      r["game"],
         "Market":    r["market"],
         "Side":      r["side"],
