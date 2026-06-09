@@ -105,18 +105,72 @@ elif _q["remaining"] is not None:
 
 # ---------- Tracker config ----------
 
+def _is_a_grade_soft(p):
+    """A-Grade Soft Scanner filter (backtested on 248 settled picks):
+       H+R+R or Hits market only (TB +4% / HR -100% historically dropped)
+       AND at least one of:
+         - 5 books pricing (full sharp consensus)
+         - best price <= -150 (chalk where books still disagree)
+         - edge_pp >= 10 (strong cross-book disagreement)
+    Historical: 65-85% hit rate, +20-30% ROI (vs 50% / +11% on full Soft Scanner)."""
+    if p.get("market") not in ("H+R+R", "Hits"):
+        return False
+    n_books = p.get("n_books", 0) or 0
+    price = p.get("best_price")
+    edge = p.get("edge_pp")
+    return (n_books >= 5
+            or (price is not None and price <= -150)
+            or (edge is not None and edge >= 10))
+
+
+def _recompute_summary(picks):
+    """Rebuild the summary block from a filtered list of picks."""
+    wins = sum(1 for p in picks if p.get("result") == "WIN")
+    losses = sum(1 for p in picks if p.get("result") == "LOSS")
+    pushes = sum(1 for p in picks if p.get("result") == "PUSH")
+    voids = sum(1 for p in picks if p.get("result") == "VOID")
+    settled = wins + losses + pushes
+    risk_total = profit_total = 0.0
+    for p in picks:
+        r = p.get("result")
+        if r not in ("WIN", "LOSS", "PUSH"):
+            continue
+        am = p.get("best_price") or 0
+        if am > 0: risk, payout = 100, am
+        else:      risk, payout = abs(am), 100
+        risk_total += risk
+        if r == "WIN":   profit_total += payout
+        elif r == "LOSS": profit_total -= risk
+    return {
+        "n_total":      len(picks),
+        "n_settled":    settled,
+        "n_void":       voids,
+        "wins":         wins,
+        "losses":       losses,
+        "pushes":       pushes,
+        "hit_rate":     round(wins/(wins+losses)*100, 1) if (wins+losses) else 0,
+        "risk_total":   round(risk_total, 2),
+        "profit_total": round(profit_total, 2),
+        "roi_pct":      round(profit_total/risk_total*100, 2) if risk_total else 0,
+    }
+
+
 TRACKERS = [
-    {"name": "HR",            "icon": "💣", "dir": "hr_tracker"},
-    {"name": "H+R+R",         "icon": "🏃", "dir": "hrr_tracker"},
-    {"name": "True Prob",     "icon": "🎯", "dir": "true_prob_history"},
-    {"name": "Soft Scanner",  "icon": "🔍", "dir": "soft_scanner_history"},
-    {"name": "Sharp Money",   "icon": "💰", "dir": "sharp_money_history"},
-    {"name": "Fundamentals",  "icon": "📊", "dir": "fundamentals_history"},
+    {"name": "HR",             "icon": "💣", "dir": "hr_tracker"},
+    {"name": "H+R+R",          "icon": "🏃", "dir": "hrr_tracker"},
+    {"name": "True Prob",      "icon": "🎯", "dir": "true_prob_history"},
+    # Soft Scanner now filtered to A-Grade only (backtest-driven subset)
+    {"name": "Soft A-Grade",   "icon": "🏆", "dir": "soft_scanner_history",
+     "pick_filter": _is_a_grade_soft},
+    {"name": "Sharp Money",    "icon": "💰", "dir": "sharp_money_history"},
+    {"name": "Fundamentals",   "icon": "📊", "dir": "fundamentals_history"},
 ]
 
 
-def load_files(dirname):
-    """Returns list of (date_str, payload, mtime, size_bytes) sorted asc."""
+def load_files(dirname, pick_filter=None):
+    """Returns list of (date_str, payload, mtime, size_bytes) sorted asc.
+    If pick_filter is provided, filters the picks and recomputes the summary
+    so all downstream stats reflect the filtered subset only."""
     path = os.path.join(ROOT, dirname)
     if not os.path.isdir(path):
         return []
@@ -127,8 +181,15 @@ def load_files(dirname):
         date_str = fn[:-5]
         full = os.path.join(path, fn)
         try:
-            with open(full) as f:
+            with open(full, encoding="utf-8") as f:
                 payload = json.load(f)
+            if pick_filter is not None:
+                # Apply filter and rebuild summary in-place (on this in-memory copy)
+                payload = dict(payload)
+                filtered = [p for p in payload.get("picks", []) if pick_filter(p)]
+                payload["picks"] = filtered
+                payload["n_picks"] = len(filtered)
+                payload["summary"] = _recompute_summary(filtered)
             mtime = datetime.fromtimestamp(os.path.getmtime(full), tz=EASTERN)
             size = os.path.getsize(full)
             out.append((date_str, payload, mtime, size))
@@ -137,7 +198,8 @@ def load_files(dirname):
     return out
 
 
-all_data = {t["dir"]: load_files(t["dir"]) for t in TRACKERS}
+all_data = {t["dir"]: load_files(t["dir"], pick_filter=t.get("pick_filter"))
+            for t in TRACKERS}
 today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
 
 
