@@ -123,6 +123,50 @@ def _is_a_grade_soft(p):
             or (edge is not None and edge >= 10))
 
 
+@st.cache_data(ttl=86400, show_spinner=False)   # 24-hr cache
+def _league_player_team_map():
+    """Build {normalized_player_name: team_abbr} across all 30 MLB rosters.
+    Used to backfill team info on historical picks that pre-date the
+    team-enrichment in the scanner."""
+    import json as _json, ssl as _ssl, urllib.request as _urlreq
+    from datetime import datetime as _dt
+    ctx = _ssl._create_unverified_context()
+    season = _dt.now().year
+    out = {}
+    try:
+        teams = _json.loads(_urlreq.urlopen(
+            f"https://statsapi.mlb.com/api/v1/teams?season={season}&sportId=1",
+            timeout=15, context=ctx).read()).get("teams", [])
+        for t in teams:
+            tid = t.get("id"); abbr = t.get("abbreviation")
+            if not tid or not abbr: continue
+            try:
+                r = _json.loads(_urlreq.urlopen(
+                    f"https://statsapi.mlb.com/api/v1/teams/{tid}/roster?season={season}",
+                    timeout=10, context=ctx).read())
+                for r_entry in r.get("roster", []):
+                    name = r_entry.get("person", {}).get("fullName", "")
+                    if not name: continue
+                    out[name.lower().replace(",","").replace(".","").strip()] = abbr
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return out
+
+
+def _lookup_team(player, team_map):
+    if not player or not team_map: return None
+    n = str(player).lower().replace(",","").replace(".","").strip()
+    if n in team_map: return team_map[n]
+    parts = n.split()
+    if not parts: return None
+    last = parts[-1]
+    matches = [v for k, v in team_map.items() if k.split() and k.split()[-1] == last]
+    if len(matches) == 1: return matches[0]
+    return None
+
+
 def _recompute_summary(picks):
     """Rebuild the summary block from a filtered list of picks."""
     wins = sum(1 for p in picks if p.get("result") == "WIN")
@@ -371,12 +415,21 @@ for i, t in enumerate(TRACKERS):
             st.caption(f"{t['name']} ran but produced 0 picks (filter rejected all).")
             continue
 
+        # Resolve team for any pick missing it (historical files pre-date
+        # the team-enrichment in the scanner)
+        _team_map = _league_player_team_map()
+
         rows = []
         for p in picks:
             sel = (p.get("selection") or p.get("player")
                    or p.get("batter") or "?")
-            # Add team abbreviation if present (Soft Scanner / Fundamentals carry this)
+            # Use saved team if present, else backfill from league roster lookup
             team = p.get("team")
+            if not team:
+                # Try player/batter field for backfill lookup
+                lookup_name = (p.get("player") or p.get("batter")
+                               or (sel if "(" not in str(sel) else sel.split("(")[0]))
+                team = _lookup_team(lookup_name, _team_map)
             if team and "(" not in str(sel):
                 sel = f"{sel} ({team})"
             mkt = p.get("market") or ""
