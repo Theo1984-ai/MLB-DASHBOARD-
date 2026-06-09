@@ -1,27 +1,356 @@
 {
   "date": "2026-06-09",
-  "generated_at": "2026-06-09 04:50 AM EDT",
+  "generated_at": "2026-06-09 07:03 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 0 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
-  "concentration_plays": [],
-  "top_picks": [],
-  "bet_card": {},
-  "safe_locks": [],
-  "nba_game": "No NBA game on the slate",
-  "nba_picks": [],
+  "intro": "🔒 STRICT FILTER: 0 MLB + 9 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "concentration_plays": [
+    {
+      "player": "Stephon Castle",
+      "game": "Spurs @ Knicks",
+      "book": "fanduel (2/3 picks)",
+      "n_picks": 3,
+      "picks": [
+        {
+          "market": "REB",
+          "side": "Over",
+          "line": 6.5,
+          "price": 290,
+          "book": "fanduel",
+          "ev": 17.08
+        },
+        {
+          "market": "3PM",
+          "side": "Over",
+          "line": 0.5,
+          "price": -300,
+          "book": "betmgm",
+          "ev": 16.18
+        },
+        {
+          "market": "PTS",
+          "side": "Over",
+          "line": 19.5,
+          "price": 240,
+          "book": "fanduel",
+          "ev": 11.42
+        }
+      ]
+    }
+  ],
+  "top_picks": [
+    {
+      "player": "Stephon Castle",
+      "game": "Spurs @ Knicks",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 290,
+      "book": "fanduel",
+      "ev": 17.08,
+      "fair_pct": 30.0
+    },
+    {
+      "player": "Julian Champagnie",
+      "game": "Spurs @ Knicks",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 300,
+      "book": "fanduel",
+      "ev": 16.67,
+      "fair_pct": 29.2
+    },
+    {
+      "player": "Stephon Castle",
+      "game": "Spurs @ Knicks",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "ev": 16.18,
+      "fair_pct": 79.0
+    },
+    {
+      "player": "Keldon Johnson",
+      "game": "Spurs @ Knicks",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": 289,
+      "book": "draftkings",
+      "ev": 12.8,
+      "fair_pct": 29.0
+    },
+    {
+      "player": "Dylan Harper",
+      "game": "Spurs @ Knicks",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -235,
+      "book": "betmgm",
+      "ev": 12.27,
+      "fair_pct": 73.8
+    },
+    {
+      "player": "Stephon Castle",
+      "game": "Spurs @ Knicks",
+      "market": "PTS",
+      "side": "Over",
+      "line": 19.5,
+      "price": 240,
+      "book": "fanduel",
+      "ev": 11.42,
+      "fair_pct": 32.8
+    },
+    {
+      "player": "Devin Vassell",
+      "game": "Spurs @ Knicks",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -275,
+      "book": "betmgm",
+      "ev": 11.25,
+      "fair_pct": 76.3
+    },
+    {
+      "player": "De'Aaron Fox",
+      "game": "Spurs @ Knicks",
+      "market": "REB",
+      "side": "Over",
+      "line": 4.5,
+      "price": 270,
+      "book": "fanduel",
+      "ev": 10.73,
+      "fair_pct": 29.9
+    },
+    {
+      "player": "De'Aaron Fox",
+      "game": "Spurs @ Knicks",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": -269,
+      "book": "draftkings",
+      "ev": 10.66,
+      "fair_pct": 75.8
+    }
+  ],
+  "bet_card": {
+    "💎 Max Conviction (2u each)": [
+      {
+        "stake": "2u",
+        "description": "Stephon Castle REB Over 6.5",
+        "price": 290,
+        "book": "fanduel"
+      },
+      {
+        "stake": "2u",
+        "description": "Julian Champagnie REB Over 6.5",
+        "price": 300,
+        "book": "fanduel"
+      },
+      {
+        "stake": "2u",
+        "description": "Stephon Castle 3PM Over 0.5",
+        "price": -300,
+        "book": "betmgm"
+      }
+    ],
+    "🎲 Tier 2 (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Keldon Johnson PTS Over 9.5",
+        "price": 289,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Dylan Harper 3PM Over 0.5",
+        "price": -235,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Stephon Castle PTS Over 19.5",
+        "price": 240,
+        "book": "fanduel"
+      },
+      {
+        "stake": "1u",
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -275,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "De'Aaron Fox REB Over 4.5",
+        "price": 270,
+        "book": "fanduel"
+      }
+    ],
+    "🛡️ Safe Locks (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Stephon Castle 3PM Over 0.5",
+        "price": -300,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Dylan Harper 3PM Over 0.5",
+        "price": -235,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Devin Vassell PTS Over 9.5",
+        "price": -275,
+        "book": "betmgm"
+      }
+    ]
+  },
+  "safe_locks": [
+    {
+      "player": "Stephon Castle",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "fair_pct": 79.0,
+      "ev": 16.18
+    },
+    {
+      "player": "Dylan Harper",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -235,
+      "book": "betmgm",
+      "fair_pct": 73.8,
+      "ev": 12.27
+    },
+    {
+      "player": "Devin Vassell",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -275,
+      "book": "betmgm",
+      "fair_pct": 76.3,
+      "ev": 11.25
+    },
+    {
+      "player": "De'Aaron Fox",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": -269,
+      "book": "draftkings",
+      "fair_pct": 75.8,
+      "ev": 10.66
+    }
+  ],
+  "nba_game": "San Antonio Spurs @ New York Knicks (08:40 PM ET)",
+  "nba_picks": [
+    {
+      "player": "De'Aaron Fox",
+      "market": "AST",
+      "side": "Over",
+      "line": 4.5,
+      "price": -269,
+      "book": "draftkings",
+      "ev": 10.66
+    },
+    {
+      "player": "Stephon Castle",
+      "market": "PTS",
+      "side": "Over",
+      "line": 19.5,
+      "price": 240,
+      "book": "fanduel",
+      "ev": 11.42
+    },
+    {
+      "player": "Devin Vassell",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": -275,
+      "book": "betmgm",
+      "ev": 11.25
+    },
+    {
+      "player": "Keldon Johnson",
+      "market": "PTS",
+      "side": "Over",
+      "line": 9.5,
+      "price": 289,
+      "book": "draftkings",
+      "ev": 12.8
+    },
+    {
+      "player": "Julian Champagnie",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 300,
+      "book": "fanduel",
+      "ev": 16.67
+    },
+    {
+      "player": "Stephon Castle",
+      "market": "REB",
+      "side": "Over",
+      "line": 6.5,
+      "price": 290,
+      "book": "fanduel",
+      "ev": 17.08
+    },
+    {
+      "player": "De'Aaron Fox",
+      "market": "REB",
+      "side": "Over",
+      "line": 4.5,
+      "price": 270,
+      "book": "fanduel",
+      "ev": 10.73
+    },
+    {
+      "player": "Dylan Harper",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -235,
+      "book": "betmgm",
+      "ev": 12.27
+    },
+    {
+      "player": "Stephon Castle",
+      "market": "3PM",
+      "side": "Over",
+      "line": 0.5,
+      "price": -300,
+      "book": "betmgm",
+      "ev": 16.18
+    }
+  ],
   "avoid": [
     "⛔ Multi-leg parlays — singles only",
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 15 MLB games still lack props — re-scan later",
-    "ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity."
+    "⏰ 15 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 04:50 AM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 07:03 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
-    "🎯 0 picks have $15+ EV",
+    "🎯 3 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
-    "📱 Bookmark this page for daily access"
+    "📱 Bookmark this page for daily access",
+    "🌟 Pick of the night: Stephon Castle REB Over 6.5 @ +290 (fanduel) = $+17.08 EV"
   ]
 }
