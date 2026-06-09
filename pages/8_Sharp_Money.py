@@ -227,6 +227,169 @@ with tab_no:
     render_table(sorted(no_only, key=lambda r: -r["no_bid_depth"]))
 
 
+# =============================================================================
+# 🎯 CONFLUENCE PLAYS — Sharp Money agrees with True Prob and/or Soft Scanner
+# =============================================================================
+
+st.markdown("---")
+st.markdown("### 🎯 Confluence Plays — multiple systems agree")
+st.caption(
+    "When the same team / over-under shows up in **Sharp Money** AND in "
+    "today's **True Probability** (75%+ consensus) AND/OR **Soft Scanner** "
+    "picks, that's a multi-source signal — much stronger than any one system alone."
+)
+
+
+def _normalize_team(s):
+    if not s: return ""
+    return s.lower().replace(",","").replace(".","").strip()
+
+
+def _load_today_snapshot(dirname):
+    """Load today's snapshot from a tracker dir; returns picks list or []."""
+    import json as _json
+    from datetime import datetime as _dt
+    from zoneinfo import ZoneInfo as _Z
+    today = _dt.now(tz=_Z("America/New_York")).strftime("%Y-%m-%d")
+    path = os.path.join(ROOT, dirname, f"{today}.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            return _json.load(f).get("picks", [])
+    except Exception:
+        return []
+
+
+def _build_play_index(picks, source_name):
+    """Build a quick lookup index for confluence matching.
+    Returns a dict keyed by (game_normalized, market_type, side_or_team)."""
+    idx = {}
+    for p in picks:
+        game = _normalize_team(p.get("game") or p.get("event") or "")
+        if not game:
+            # Try away+home concatenation
+            away = _normalize_team(p.get("away_team",""))
+            home = _normalize_team(p.get("home_team",""))
+            game = f"{away}@{home}" if (away and home) else ""
+        if not game: continue
+        # For game lines (ML / totals / spreads): key by market + side identifier
+        stat = p.get("stat_key") or p.get("market","").lower()
+        # ML
+        if "h2h" in str(stat) or "moneyline" in str(p.get("market","")).lower():
+            side_team = _normalize_team(p.get("selection") or p.get("player") or "")
+            key = (game, "ml", side_team)
+            idx[key] = p
+        # Totals
+        elif "total" in str(stat).lower() or str(p.get("market","")).lower().startswith("total"):
+            side = (p.get("side") or "").upper()  # OVER/UNDER
+            point = p.get("point") or p.get("line")
+            key = (game, "tot", f"{side}_{point}")
+            idx[key] = p
+        # Player props (hits / tb / hr / k's)
+        elif stat in ("hits","tb","hr","hrr","ks","walks","rbi","runs"):
+            player = _normalize_team(p.get("player") or p.get("selection") or "")
+            side = (p.get("side") or "").upper()
+            point = p.get("point")
+            key = (game, f"prop_{stat}", f"{player}_{side}_{point}")
+            idx[key] = p
+    return idx
+
+
+tp_idx = _build_play_index(_load_today_snapshot("true_prob_history"), "true_prob")
+soft_idx = _build_play_index(_load_today_snapshot("soft_scanner_history"), "soft")
+
+
+def _confluence_check(sharp_row):
+    """Returns list of source names that ALSO have this play (e.g. ['true_prob'])."""
+    game = _normalize_team(sharp_row.get("event") or "")
+    if not game:
+        away = _normalize_team(sharp_row.get("away_team",""))
+        home = _normalize_team(sharp_row.get("home_team",""))
+        game = f"{away}@{home}" if (away and home) else ""
+    mt = sharp_row.get("match_type")
+    sharp_side = sharp_row.get("skew_side")
+    hits = []
+    # ML matching: target team = sharp pick team
+    if mt == "h2h":
+        target_team = (sharp_row.get("away_team") if sharp_side=="YES"
+                       else sharp_row.get("home_team"))
+        target_norm = _normalize_team(target_team)
+        # Try both game keys (away@home, home@away)
+        away_n = _normalize_team(sharp_row.get("away_team",""))
+        home_n = _normalize_team(sharp_row.get("home_team",""))
+        for g_key in (game, f"{away_n}@{home_n}", f"{home_n}@{away_n}"):
+            for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+                if (g_key, "ml", target_norm) in idx:
+                    if src_name not in hits: hits.append(src_name)
+    # Totals matching
+    elif mt == "totals":
+        side = "OVER" if sharp_side == "YES" else "UNDER"
+        pt = sharp_row.get("point")
+        away_n = _normalize_team(sharp_row.get("away_team",""))
+        home_n = _normalize_team(sharp_row.get("home_team",""))
+        for g_key in (game, f"{away_n}@{home_n}", f"{home_n}@{away_n}"):
+            for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+                if (g_key, "tot", f"{side}_{pt}") in idx:
+                    if src_name not in hits: hits.append(src_name)
+    return hits
+
+
+# Annotate filtered picks with confluence hits
+for r in filtered:
+    r["_confluence"] = _confluence_check(r)
+
+confluent = sorted(
+    [r for r in filtered if len(r["_confluence"]) >= 1],
+    key=lambda r: (-len(r["_confluence"]), -r["skew_strength"], -r["yes_bid_depth"] - r["no_bid_depth"])
+)
+
+if not confluent:
+    st.info(
+        "No confluence plays right now — no Sharp Money signals overlap with "
+        "True Prob 75%+ picks or Soft Scanner picks for today. Common early in "
+        "the day before lineups firm up. Recheck closer to first pitch."
+    )
+else:
+    crows = []
+    for r in confluent[:15]:
+        sources = r["_confluence"]
+        # Tier: 1 source = strong, 2 sources = TRIPLE-CONFLUENT
+        if len(sources) >= 2:
+            tier = "🟢🟢🟢 TRIPLE"
+        elif "True Prob" in sources:
+            tier = "🟢🟢 + True Prob"
+        else:
+            tier = "🟢 + Soft Scanner"
+        crows.append({
+            "Tier":        tier,
+            "Sharp pick":  r.get("sharp_pick", ""),
+            "Game":        r["event"][:32],
+            "Skew %":      r["skew_strength"],
+            "Liquidity $": r.get("liquidity", 0),
+            "SB price":    r.get("sb_best_price"),
+            "Edge pp":     r.get("edge_pp"),
+            "Confirmed by": " + ".join(sources),
+        })
+    cdf = pd.DataFrame(crows)
+    st.dataframe(
+        cdf, use_container_width=True, hide_index=True,
+        column_config={
+            "Skew %":      st.column_config.NumberColumn(format="%.0f%%"),
+            "Liquidity $": st.column_config.NumberColumn(format="$%,.0f"),
+            "SB price":    st.column_config.NumberColumn(format="%+d"),
+            "Edge pp":     st.column_config.NumberColumn(format="%+.1f"),
+        },
+    )
+    triples = [r for r in confluent if len(r["_confluence"]) >= 2]
+    if triples:
+        st.success(
+            f"🔥 **{len(triples)} TRIPLE-CONFLUENT play{'s' if len(triples)!=1 else ''} "
+            f"found.** Sharp money + True Prob + Soft Scanner all agree — "
+            f"highest-conviction signals on the dashboard."
+        )
+
+
 # ---------- Top 3 strongest signals — detail expanders ----------
 
 st.markdown("---")
