@@ -45,8 +45,8 @@
           -141
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -83,8 +83,8 @@
           -197
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -121,8 +121,8 @@
           -141
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "65036e67b5aea5d1efb20c275381e2c4",
@@ -159,8 +159,8 @@
           -235
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -197,8 +197,8 @@
           185
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=1 vs O1.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -235,8 +235,8 @@
           -186
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "VOID",
+      "settle_detail": "batter did not play (Luis Torrens)"
     },
     {
       "event_id": "65036e67b5aea5d1efb20c275381e2c4",
@@ -273,8 +273,8 @@
           -136
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -311,8 +311,8 @@
           -280
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "65036e67b5aea5d1efb20c275381e2c4",
@@ -349,8 +349,8 @@
           -170
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -387,8 +387,8 @@
           -136
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "event_id": "c4d4cce67008409b6416dc0e03e55471",
@@ -425,8 +425,8 @@
           -190
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "d4b1fc2e508af0ab9a2ac9381656c269",
@@ -463,8 +463,8 @@
           -120
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "c4d4cce67008409b6416dc0e03e55471",
@@ -501,8 +501,8 @@
           -197
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "e35247af0713e982e58edd85657dbae9",
@@ -539,8 +539,8 @@
           168
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O1.5"
     },
     {
       "event_id": "3b917225da82c6c937c963aa47187645",
@@ -577,22 +577,22 @@
           102
         ]
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Warmup"
+      "result": "LOSS",
+      "settle_detail": "hits=1 vs O1.5"
     }
   ],
-  "settled_at": "2026-06-09T20:35:45.379417-04:00",
+  "settled_at": "2026-06-10T15:44:29.713930-04:00",
   "summary": {
     "n_total": 15,
-    "n_settled": 0,
-    "n_void": 0,
-    "n_no_data": 15,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 14,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 5,
+    "losses": 9,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 35.7,
+    "risk_total": 1720.0,
+    "profit_total": -474.0,
+    "roi_pct": -27.56
   }
 }
