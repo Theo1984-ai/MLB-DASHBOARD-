@@ -246,11 +246,21 @@ def scan(api_key,
 
     events = _fetch_events(api_key)
     now_utc = datetime.now(timezone.utc)
+    # Filter to TODAY's games only (in ET) — prevents late-night snapshots
+    # from saving next-day's slate under today's date and mislabeling picks.
+    from zoneinfo import ZoneInfo as _Z
+    et = _Z("America/New_York")
+    today_et = datetime.now(tz=et).date()
     upcoming = []
     for e in events:
         ct = datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
-        if (ct - now_utc).total_seconds() > -1800:
-            upcoming.append((e, ct))
+        if (ct - now_utc).total_seconds() <= -1800:
+            continue  # game already started 30+ min ago
+        # Only keep games whose first pitch is TODAY in ET
+        game_date_et = ct.astimezone(et).date()
+        if game_date_et != today_et:
+            continue
+        upcoming.append((e, ct))
     upcoming.sort(key=lambda x: x[1])
 
     all_picks = []
