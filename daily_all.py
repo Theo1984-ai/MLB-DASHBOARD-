@@ -367,16 +367,26 @@ def main():
                  f"Daily forward-test: settle {yest_et} + snapshot {today_et}"],
                 cwd=ROOT, check=False,
             )
-            # Pull rebase with retry — handle "unstaged/uncommitted changes" via stash
+            # Pull rebase with retry. Use -X theirs to auto-resolve merge
+            # conflicts by taking the REMOTE version — important because the
+            # cron often races itself across machines/runs. Taking remote
+            # means we get the newer settlement results without leaving
+            # conflict markers in JSON files (which break the page parsers).
             for attempt in range(3):
-                r1 = subprocess.run(["git"] + GIT_ID + ["pull", "--rebase", "origin", "main"],
-                                    cwd=ROOT, capture_output=True, text=True)
+                r1 = subprocess.run(
+                    ["git"] + GIT_ID + ["pull", "--rebase", "-X", "theirs", "origin", "main"],
+                    cwd=ROOT, capture_output=True, text=True)
                 if r1.returncode == 0:
                     break
                 err = (r1.stderr or "").lower()
                 if "unstaged" in err or "uncommitted" in err or "your index contains" in err:
                     subprocess.run(["git", "stash", "--include-untracked"], cwd=ROOT, check=False)
                     continue
+                # If a rebase is in progress with conflicts, abort cleanly
+                if "conflict" in err or "could not apply" in err:
+                    subprocess.run(["git", "rebase", "--abort"], cwd=ROOT, check=False)
+                    print(f"  rebase conflict — aborted, continuing without remote merge")
+                    break
                 print(f"  pull warning: {r1.stderr[:200]}")
                 break
             r2 = subprocess.run(["git"] + GIT_ID + ["push", "origin", "main"], cwd=ROOT)

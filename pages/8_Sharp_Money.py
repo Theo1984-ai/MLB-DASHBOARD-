@@ -246,7 +246,9 @@ def _normalize_team(s):
 
 
 def _load_today_snapshot(dirname):
-    """Load today's snapshot from a tracker dir; returns picks list or []."""
+    """Load today's snapshot from a tracker dir; returns picks list or [].
+    Tolerates git merge-conflict markers in JSON (cron sometimes races and
+    leaves <<<<<<<, =======, >>>>>>> in files) — strips them and retries."""
     import json as _json
     from datetime import datetime as _dt
     from zoneinfo import ZoneInfo as _Z
@@ -256,7 +258,24 @@ def _load_today_snapshot(dirname):
         return []
     try:
         with open(path, encoding="utf-8") as f:
-            return _json.load(f).get("picks", [])
+            raw = f.read()
+        # First try as-is
+        try:
+            return _json.loads(raw).get("picks", [])
+        except Exception:
+            pass
+        # Strip merge-conflict markers (keep INCOMING side after =======)
+        if "<<<<<<<" in raw or "=======" in raw or ">>>>>>>" in raw:
+            out, skip = [], False
+            for line in raw.split("\n"):
+                if line.startswith("<<<<<<<"): skip = True; continue
+                if line.startswith("======="): skip = False; continue
+                if line.startswith(">>>>>>>"): continue
+                if skip: continue
+                out.append(line)
+            cleaned = "\n".join(out)
+            return _json.loads(cleaned).get("picks", [])
+        return []
     except Exception:
         return []
 
