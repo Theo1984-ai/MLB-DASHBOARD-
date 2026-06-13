@@ -39,7 +39,9 @@
       "edge_pp": 2.9,
       "best_book": "betmgm",
       "opp_pitcher": "Shane McClanahan",
-      "opp_team": null
+      "opp_team": null,
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -66,7 +68,9 @@
       "edge_pp": 1.7,
       "best_book": "betmgm",
       "opp_pitcher": "Sam Aldegheri",
-      "opp_team": null
+      "opp_team": null,
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "ks",
@@ -93,7 +97,9 @@
       "edge_pp": 2.1,
       "best_book": "draftkings",
       "opp_pitcher": null,
-      "opp_team": "Miami Marlins"
+      "opp_team": "Miami Marlins",
+      "result": "WIN",
+      "settle_detail": "ks=4 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -120,7 +126,9 @@
       "edge_pp": 1.6,
       "best_book": "draftkings",
       "opp_pitcher": null,
-      "opp_team": "Miami Marlins"
+      "opp_team": "Miami Marlins",
+      "result": "LOSS",
+      "settle_detail": "ks=4 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -147,7 +155,23 @@
       "edge_pp": 1.1,
       "best_book": "draftkings",
       "opp_pitcher": null,
-      "opp_team": "Miami Marlins"
+      "opp_team": "Miami Marlins",
+      "result": "LOSS",
+      "settle_detail": "ks=4 vs O5.5"
     }
-  ]
+  ],
+  "settled_at": "2026-06-13T11:52:22.605929-04:00",
+  "summary": {
+    "n_total": 5,
+    "n_settled": 5,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 3,
+    "pushes": 0,
+    "hit_rate": 40.0,
+    "risk_total": 1602.0,
+    "profit_total": -497.0,
+    "roi_pct": -31.02
+  }
 }
