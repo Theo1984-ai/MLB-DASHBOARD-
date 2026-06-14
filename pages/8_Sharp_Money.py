@@ -241,8 +241,35 @@ st.caption(
 
 
 def _normalize_team(s):
+    """Normalize a team name to a stable comparison key.
+    Handles 'Detroit Tigers', 'Tigers', 'D. Tigers' all → 'tigers'.
+    We use the LAST word so different representations collapse together."""
     if not s: return ""
-    return s.lower().replace(",","").replace(".","").strip()
+    s2 = s.lower().replace(",","").replace(".","").replace("'","").strip()
+    # Take last word so "Detroit Tigers" / "Tigers" / "Detroit" all → "tigers"
+    # (Note: "Red Sox" / "Sox" / "Boston Red Sox" all → "sox", "White Sox" too —
+    # acceptable collision since they don't play each other on same slate.)
+    parts = s2.split()
+    return parts[-1] if parts else ""
+
+
+def _make_game_key(away, home):
+    """Build a sorted game key from two team names. Sorted so order doesn't matter."""
+    a = _normalize_team(away)
+    h = _normalize_team(home)
+    if not a or not h: return ""
+    return "|".join(sorted([a, h]))
+
+
+def _split_event(event_str):
+    """Parse a Sharp Money event string like 'Detroit Tigers vs. Cleveland Guardians'.
+    Returns (away_part, home_part) or (None, None) if can't parse."""
+    if not event_str: return (None, None)
+    for sep in (" vs. ", " vs ", " @ ", " at "):
+        if sep in event_str:
+            a, b = event_str.split(sep, 1)
+            return (a.strip(), b.strip())
+    return (None, None)
 
 
 def _load_today_snapshot(dirname):
@@ -282,75 +309,140 @@ def _load_today_snapshot(dirname):
 
 def _build_play_index(picks, source_name):
     """Build a quick lookup index for confluence matching.
-    Returns a dict keyed by (game_normalized, market_type, side_or_team)."""
+    Returns a dict keyed by (game_key, market_type, side_id) → pick.
+
+    Game key uses sorted(away, home) so the order of teams doesn't matter.
+    Each side_id format documented per market type below."""
     idx = {}
     for p in picks:
-        game = _normalize_team(p.get("game") or p.get("event") or "")
-        if not game:
-            # Try away+home concatenation
-            away = _normalize_team(p.get("away_team",""))
-            home = _normalize_team(p.get("home_team",""))
-            game = f"{away}@{home}" if (away and home) else ""
-        if not game: continue
-        # For game lines (ML / totals / spreads): key by market + side identifier
-        stat = p.get("stat_key") or p.get("market","").lower()
-        # ML
-        if "h2h" in str(stat) or "moneyline" in str(p.get("market","")).lower():
-            side_team = _normalize_team(p.get("selection") or p.get("player") or "")
-            key = (game, "ml", side_team)
-            idx[key] = p
-        # Totals
-        elif "total" in str(stat).lower() or str(p.get("market","")).lower().startswith("total"):
-            side = (p.get("side") or "").upper()  # OVER/UNDER
-            point = p.get("point") or p.get("line")
-            key = (game, "tot", f"{side}_{point}")
-            idx[key] = p
-        # Player props (hits / tb / hr / k's)
-        elif stat in ("hits","tb","hr","hrr","ks","walks","rbi","runs"):
+        # Build canonical game key from away/home team fields.
+        # Falls back to parsing 'game' or 'event' if those aren't present.
+        away = p.get("away_team","")
+        home = p.get("home_team","")
+        if not away or not home:
+            a2, h2 = _split_event(p.get("game") or p.get("event") or "")
+            if a2: away = a2
+            if h2: home = h2
+        gkey = _make_game_key(away, home)
+        if not gkey: continue
+
+        stat = (p.get("stat_key") or "").lower()
+        market = (p.get("market") or "").lower()
+        side = (p.get("side") or "").lower()  # 'over'/'under'/'away'/'home'/'yes'
+        point = p.get("point")
+
+        # --- MONEYLINE (h2h) ---
+        if "h2h" in stat or "moneyline" in market or stat == "ml":
+            # Team picked = the side. For Run Lines side='Away'/'Home'; for true ML
+            # the selection field has the team name.
+            sel = _normalize_team(p.get("selection") or p.get("player") or "")
+            idx[(gkey, "ml", sel)] = p
+            continue
+
+        # --- TOTALS (over/under game runs) ---
+        # Match by side+point. We normalize point to a string with trailing
+        # .5 / .0 collapsed so 12.5 == "12.5" == 12.5.
+        if "total" in stat or market.startswith("total"):
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            if side in ("over", "under"):
+                idx[(gkey, "tot", f"{side}_{pt_str}")] = p
+            continue
+
+        # --- SPREADS / RUN LINE ---
+        # True Prob stores spread picks with side='Away'/'Home' + point=±N.
+        # Sharp Money stores spreads with team + point.
+        if "spread" in stat or "spread" in market or "run line" in market:
+            # Side: prefer team name (player field) — collapses representation
+            team_norm = _normalize_team(p.get("player") or "")
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            if team_norm:
+                idx[(gkey, "spread", f"{team_norm}_{pt_str}")] = p
+            # Also index by Away/Home so we can match without name resolution
+            if side in ("away", "home"):
+                idx[(gkey, "spread_ah", f"{side}_{pt_str}")] = p
+            continue
+
+        # --- PLAYER PROPS (kept for completeness; never matches Sharp Money) ---
+        if stat in ("hits","tb","hr","hrr","ks","walks","rbi","runs"):
             player = _normalize_team(p.get("player") or p.get("selection") or "")
-            side = (p.get("side") or "").upper()
-            point = p.get("point")
-            key = (game, f"prop_{stat}", f"{player}_{side}_{point}")
-            idx[key] = p
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            idx[(gkey, f"prop_{stat}", f"{player}_{side}_{pt_str}")] = p
     return idx
 
 
-tp_idx = _build_play_index(_load_today_snapshot("true_prob_history"), "true_prob")
-soft_idx = _build_play_index(_load_today_snapshot("soft_scanner_history"), "soft")
+_tp_picks = _load_today_snapshot("true_prob_history")
+_soft_picks = _load_today_snapshot("soft_scanner_history")
+tp_idx = _build_play_index(_tp_picks, "true_prob")
+soft_idx = _build_play_index(_soft_picks, "soft")
 
 
 def _confluence_check(sharp_row):
-    """Returns list of source names that ALSO have this play (e.g. ['true_prob'])."""
-    game = _normalize_team(sharp_row.get("event") or "")
-    if not game:
-        away = _normalize_team(sharp_row.get("away_team",""))
-        home = _normalize_team(sharp_row.get("home_team",""))
-        game = f"{away}@{home}" if (away and home) else ""
+    """Returns list of source names that ALSO have this play."""
+    # Build the game key — try the away_team/home_team fields first,
+    # then parse the 'event' string.
+    away = sharp_row.get("away_team","")
+    home = sharp_row.get("home_team","")
+    if not away or not home:
+        a2, h2 = _split_event(sharp_row.get("event") or "")
+        if a2: away = a2
+        if h2: home = h2
+    gkey = _make_game_key(away, home)
+    if not gkey: return []
+
     mt = sharp_row.get("match_type")
     sharp_side = sharp_row.get("skew_side")
     hits = []
-    # ML matching: target team = sharp pick team
+
     if mt == "h2h":
-        target_team = (sharp_row.get("away_team") if sharp_side=="YES"
-                       else sharp_row.get("home_team"))
-        target_norm = _normalize_team(target_team)
-        # Try both game keys (away@home, home@away)
-        away_n = _normalize_team(sharp_row.get("away_team",""))
-        home_n = _normalize_team(sharp_row.get("home_team",""))
-        for g_key in (game, f"{away_n}@{home_n}", f"{home_n}@{away_n}"):
-            for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
-                if (g_key, "ml", target_norm) in idx:
+        # YES=away team, NO=home team
+        target = away if sharp_side == "YES" else home
+        target_norm = _normalize_team(target)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "ml", target_norm) in idx:
+                if src_name not in hits: hits.append(src_name)
+            # Also match against spread (Run Line) — same team with margin
+            # is a weaker confluence signal but still meaningful
+            for key in list(idx.keys()):
+                if (key[0] == gkey and key[1] == "spread"
+                    and key[2].startswith(f"{target_norm}_")):
                     if src_name not in hits: hits.append(src_name)
-    # Totals matching
+                    break
+
     elif mt == "totals":
-        side = "OVER" if sharp_side == "YES" else "UNDER"
+        side_str = "over" if sharp_side == "YES" else "under"
         pt = sharp_row.get("point")
-        away_n = _normalize_team(sharp_row.get("away_team",""))
-        home_n = _normalize_team(sharp_row.get("home_team",""))
-        for g_key in (game, f"{away_n}@{home_n}", f"{home_n}@{away_n}"):
-            for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
-                if (g_key, "tot", f"{side}_{pt}") in idx:
-                    if src_name not in hits: hits.append(src_name)
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "tot", f"{side_str}_{pt_str}") in idx:
+                if src_name not in hits: hits.append(src_name)
+            # Match nearby points too (within 1.0) — if Sharp says O8.5 and
+            # True Prob says O9.5, that's still aligned confluence
+            if src_name in hits: continue
+            for key in list(idx.keys()):
+                if key[0] == gkey and key[1] == "tot":
+                    try:
+                        s, p2 = key[2].rsplit("_", 1)
+                        if s == side_str and abs(float(p2) - float(pt)) <= 1.0:
+                            if src_name not in hits: hits.append(src_name)
+                            break
+                    except Exception:
+                        continue
+
+    elif mt == "spreads":
+        team_norm = _normalize_team(sharp_row.get("team") or "")
+        pt = sharp_row.get("point")
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "spread", f"{team_norm}_{pt_str}") in idx:
+                if src_name not in hits: hits.append(src_name)
+            # Also match the team-side ML pick (covers spread = wins)
+            if (gkey, "ml", team_norm) in idx:
+                if src_name not in hits: hits.append(src_name)
     return hits
 
 
@@ -364,11 +456,47 @@ confluent = sorted(
 )
 
 if not confluent:
+    # Diagnostic: show what we DID try to match against so the user can see
+    # whether the issue is "no snapshots yet" vs "snapshots exist but no overlap"
+    sharp_games = sorted({_make_game_key(r.get("away_team",""), r.get("home_team",""))
+                          for r in filtered if r.get("away_team")})
+    tp_games = sorted({k[0] for k in tp_idx.keys()})
+    soft_games = sorted({k[0] for k in soft_idx.keys()})
+    overlap_tp = [g for g in sharp_games if g in tp_games]
+    overlap_soft = [g for g in sharp_games if g in soft_games]
+
     st.info(
         "No confluence plays right now — no Sharp Money signals overlap with "
-        "True Prob 75%+ picks or Soft Scanner picks for today. Common early in "
-        "the day before lineups firm up. Recheck closer to first pitch."
+        "True Prob or Soft Scanner picks for today."
     )
+    with st.expander("🔍 Why? (diagnostic)", expanded=False):
+        st.markdown(f"""
+- **Sharp Money picks today:** {len(filtered)} markets across {len(sharp_games)} games
+- **True Prob picks loaded:** {len(_tp_picks)} picks across {len(tp_games)} games
+- **Soft Scanner picks loaded:** {len(_soft_picks)} picks across {len(soft_games)} games
+- **Sharp ↔ True Prob game overlap:** {len(overlap_tp)} games
+- **Sharp ↔ Soft Scanner game overlap:** {len(overlap_soft)} games
+""")
+        if not _tp_picks and not _soft_picks:
+            st.warning(
+                "⚠️ **No tracker snapshots have been saved for today yet.** "
+                "The daily cron normally writes True Prob + Soft Scanner snapshots "
+                "around noon ET. Until those run, Confluence has nothing to compare "
+                "against. Check back later, or trigger a manual run."
+            )
+        elif not overlap_tp and not overlap_soft:
+            st.warning(
+                "Snapshots exist but no game-key overlap with today's Sharp Money "
+                "scan. This usually means trackers ran for a different set of games "
+                "(e.g. tomorrow's slate captured early). Possibly stale snapshot."
+            )
+        else:
+            st.info(
+                "Same games appear in both — but different markets/sides. "
+                "Sharp Money's pick (e.g. NO on -125 favorite) didn't match "
+                "True Prob's same-game pick (e.g. Under 12.5 total). "
+                "This is normal — different systems target different angles."
+            )
 else:
     crows = []
     for r in confluent[:15]:
