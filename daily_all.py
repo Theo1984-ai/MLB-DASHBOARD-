@@ -192,11 +192,21 @@ def main():
     force = "--force" in args
 
     def _is_fresh(filepath):
+        """Fresh = file exists AND is < FRESHNESS_HOURS old AND has picks.
+        An empty file (0 picks) is NOT considered fresh — the next cron
+        run should re-scan. Prevents an early-AM run with 0 picks from
+        blocking the noon re-scan that would actually find plays."""
         if force or not os.path.exists(filepath):
             return False
         try:
             with open(filepath) as f:
                 payload = __import__("json").load(f)
+            # Empty payload = re-scan
+            n_picks = (payload.get("n_picks")
+                       or len(payload.get("picks", []))
+                       or 0)
+            if n_picks == 0:
+                return False
             ts_str = payload.get("snapshot_at") or payload.get("saved_at")
             if not ts_str:
                 return False
