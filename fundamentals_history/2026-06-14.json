@@ -39,7 +39,9 @@
       "edge_pp": 1.2,
       "best_book": "betmgm",
       "opp_pitcher": "Nathan Eovaldi",
-      "opp_team": null
+      "opp_team": null,
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -66,7 +68,9 @@
       "edge_pp": 1.7,
       "best_book": "bovada",
       "opp_pitcher": "Connelly Early",
-      "opp_team": null
+      "opp_team": null,
+      "result": "LOSS",
+      "settle_detail": "tb=4 vs U1.5"
     },
     {
       "stat_key": "hr",
@@ -93,7 +97,23 @@
       "edge_pp": 0.6,
       "best_book": "fanduel",
       "opp_pitcher": "Nathan Eovaldi",
-      "opp_team": null
+      "opp_team": null,
+      "result": "WIN",
+      "settle_detail": "hr=2 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-06-15T11:42:09.875408-04:00",
+  "summary": {
+    "n_total": 3,
+    "n_settled": 3,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 1,
+    "pushes": 0,
+    "hit_rate": 66.7,
+    "risk_total": 485.0,
+    "profit_total": 340.0,
+    "roi_pct": 70.1
+  }
 }
