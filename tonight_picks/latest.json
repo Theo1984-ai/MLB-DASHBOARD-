@@ -1,122 +1,67 @@
 {
   "date": "2026-06-17",
-  "generated_at": "2026-06-17 03:57 PM EDT",
+  "generated_at": "2026-06-17 06:02 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 5 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "intro": "🔒 STRICT FILTER: 3 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
   "concentration_plays": [],
   "top_picks": [
+    {
+      "player": "Edouard Julien",
+      "game": "Rockies @ Cubs",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -134,
+      "book": "draftkings",
+      "ev": 12.08,
+      "fair_pct": 62.4
+    },
+    {
+      "player": "Cole Carrigg",
+      "game": "Rockies @ Cubs",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 264,
+      "book": "draftkings",
+      "ev": 11.86,
+      "fair_pct": 30.7
+    },
     {
       "player": "Nick Kurtz",
       "game": "Pirates @ Athletics",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 296,
+      "price": 267,
       "book": "draftkings",
-      "ev": 19.22,
-      "fair_pct": 30.1
-    },
-    {
-      "player": "Tyler Soderstrom",
-      "game": "Pirates @ Athletics",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 287,
-      "book": "draftkings",
-      "ev": 15.47,
-      "fair_pct": 29.8
-    },
-    {
-      "player": "Jared Triolo",
-      "game": "Pirates @ Athletics",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 270,
-      "book": "betmgm",
-      "ev": 11.32,
-      "fair_pct": 30.1
-    },
-    {
-      "player": "Tyler Callihan",
-      "game": "Pirates @ Athletics",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 289,
-      "book": "draftkings",
-      "ev": 10.92,
-      "fair_pct": 28.5
-    },
-    {
-      "player": "Tyler Soderstrom",
-      "game": "Pirates @ Athletics",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -210,
-      "book": "betmgm",
-      "ev": 10.06,
-      "fair_pct": 71.0
+      "ev": 11.36,
+      "fair_pct": 30.3
     }
   ],
   "bet_card": {
     "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
+        "description": "Edouard Julien Hits Over 0.5",
+        "price": -134,
+        "book": "draftkings"
+      },
+      {
+        "stake": "2u",
+        "description": "Cole Carrigg Hits Over 1.5",
+        "price": 264,
+        "book": "draftkings"
+      },
+      {
+        "stake": "2u",
         "description": "Nick Kurtz Hits Over 1.5",
-        "price": 296,
+        "price": 267,
         "book": "draftkings"
-      },
-      {
-        "stake": "2u",
-        "description": "Tyler Soderstrom Hits Over 1.5",
-        "price": 287,
-        "book": "draftkings"
-      },
-      {
-        "stake": "2u",
-        "description": "Jared Triolo Hits Over 1.5",
-        "price": 270,
-        "book": "betmgm"
-      }
-    ],
-    "🎲 Tier 2 (1u each)": [
-      {
-        "stake": "1u",
-        "description": "Tyler Callihan Hits Over 1.5",
-        "price": 289,
-        "book": "draftkings"
-      },
-      {
-        "stake": "1u",
-        "description": "Tyler Soderstrom Hits Over 0.5",
-        "price": -210,
-        "book": "betmgm"
-      }
-    ],
-    "🛡️ Safe Locks (1u each)": [
-      {
-        "stake": "1u",
-        "description": "Tyler Soderstrom Hits Over 0.5",
-        "price": -210,
-        "book": "betmgm"
       }
     ]
   },
-  "safe_locks": [
-    {
-      "player": "Tyler Soderstrom",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -210,
-      "book": "betmgm",
-      "fair_pct": 71.0,
-      "ev": 10.06
-    }
-  ],
+  "safe_locks": [],
   "nba_game": "No NBA game on the slate",
   "nba_picks": [],
   "avoid": [
@@ -124,14 +69,15 @@
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 14 MLB games still lack props — re-scan later"
+    "⏰ 13 MLB games still lack props — re-scan later",
+    "ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity."
   ],
   "strategy_notes": [
-    "🤖 Scanned at 03:57 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 06:02 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
-    "🎯 2 picks have $15+ EV",
+    "🎯 0 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: Nick Kurtz Hits Over 1.5 @ +296 (draftkings) = $+19.22 EV"
+    "🌟 Pick of the night: Edouard Julien Hits Over 0.5 @ -134 (draftkings) = $+12.08 EV"
   ]
 }
