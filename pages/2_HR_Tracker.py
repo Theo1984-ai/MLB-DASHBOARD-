@@ -252,12 +252,19 @@ if save_btn:
                 except Exception:
                     pass
 
-                sharp_odds = {}
+                # Collect ALL prices per player so we can compute consensus
+                # implied probability (median across books). Picking only the
+                # longest-priced book biases edge upward and was the root cause
+                # of the -30% ROI in the 5-day backtest.
+                sharp_odds = {}  # name -> {"all": [(am, book)], "best": (am, book)}
                 if eid:
                     for o in odds_api.get_hr_odds(ODDS_KEY, eid, "draftkings,fanduel,betmgm,williamhill_us,bovada"):
                         n = odds_api.normalize_name(o["player"])
-                        if n not in sharp_odds or o["american_odds"] > sharp_odds[n][0]:
-                            sharp_odds[n] = (o["american_odds"], o["bookmaker"])
+                        am = o["american_odds"]; bk = o["bookmaker"]
+                        entry = sharp_odds.setdefault(n, {"all": [], "best": None})
+                        entry["all"].append((am, bk))
+                        if entry["best"] is None or am > entry["best"][0]:
+                            entry["best"] = (am, bk)
 
                 for pid, tid in all_pids:
                     bs_row = bs_df[bs_df["player_id"] == pid]
@@ -324,18 +331,33 @@ if save_btn:
                         "park":        stadium["park"],
                         "model_p":     round(p_cal, 4),
                         "model_p_pct": round(p_cal * 100, 2),
-                        "best_odds":   None,
-                        "best_book":   None,
-                        "implied_pct": None,
-                        "edge_pp":     None,
+                        "best_odds":         None,
+                        "best_book":         None,
+                        "best_implied_pct":  None,
+                        "consensus_implied_pct": None,
+                        "n_books":           0,
+                        "edge_best_pp":      None,
+                        "edge_pp":           None,  # vs consensus (conservative)
+                        "implied_pct":       None,  # alias for consensus
                     }
                     if odds_data:
-                        rec["best_odds"] = odds_data[0]
-                        rec["best_book"] = odds_data[1]
-                        imp = (100 / (odds_data[0] + 100) if odds_data[0] > 0
-                               else abs(odds_data[0]) / (abs(odds_data[0]) + 100))
-                        rec["implied_pct"] = round(imp * 100, 2)
-                        rec["edge_pp"]     = round(p_cal * 100 - imp * 100, 2)
+                        _i = lambda am: (100.0/(am+100) if am > 0
+                                         else abs(am)/(abs(am)+100))
+                        all_prices = odds_data["all"]
+                        best_am, best_bk = odds_data["best"]
+                        rec["best_odds"]   = best_am
+                        rec["best_book"]   = best_bk
+                        rec["n_books"]     = len(all_prices)
+                        best_imp = _i(best_am)
+                        rec["best_implied_pct"] = round(best_imp * 100, 2)
+                        rec["edge_best_pp"]     = round(p_cal * 100 - best_imp * 100, 2)
+                        imps = sorted([_i(am) for am, _ in all_prices])
+                        n = len(imps)
+                        consensus_imp = (imps[n//2] if n % 2 == 1
+                                         else (imps[n//2-1] + imps[n//2]) / 2)
+                        rec["consensus_implied_pct"] = round(consensus_imp * 100, 2)
+                        rec["implied_pct"]           = rec["consensus_implied_pct"]
+                        rec["edge_pp"]               = round(p_cal * 100 - consensus_imp * 100, 2)
                     # Confidence score — combines model prob + edge with red flags.
                     # Defensive: skip silently if the helper isn't loaded (mid-deploy)
                     if hasattr(hr_model, "pick_confidence"):

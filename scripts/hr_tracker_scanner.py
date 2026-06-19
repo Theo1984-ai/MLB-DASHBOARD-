@@ -133,12 +133,22 @@ def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
         except Exception:
             pass
 
-        sharp_odds = {}
+        # Collect ALL prices per player across books so we can compute a
+        # consensus implied probability. Previously we kept only the longest-
+        # priced book, which gave a positive selection bias toward whichever
+        # book was *wrong* about a player — backtest showed that "+12pp edge
+        # vs best book" picks went -20% ROI because the edge was illusory.
+        # Median across books is the closer-to-truth market estimate.
+        sharp_odds = {}  # normalized_name -> {"all": [(am, book)], "best": (am, book)}
         if eid:
             for o in odds_api.get_hr_odds(odds_key, eid, "draftkings,fanduel,betmgm,williamhill_us,bovada"):
                 n = odds_api.normalize_name(o["player"])
-                if n not in sharp_odds or o["american_odds"] > sharp_odds[n][0]:
-                    sharp_odds[n] = (o["american_odds"], o["bookmaker"])
+                am = o["american_odds"]
+                bk = o["bookmaker"]
+                entry = sharp_odds.setdefault(n, {"all": [], "best": None})
+                entry["all"].append((am, bk))
+                if entry["best"] is None or am > entry["best"][0]:
+                    entry["best"] = (am, bk)
 
         for pid, tid in all_pids:
             bs_row = bs_df[bs_df["player_id"] == pid]
@@ -201,10 +211,14 @@ def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
                 "park":        stadium["park"],
                 "model_p":     round(p_cal, 4),
                 "model_p_pct": round(p_cal * 100, 2),
-                "best_odds":   None,
-                "best_book":   None,
-                "implied_pct": None,
-                "edge_pp":     None,
+                "best_odds":         None,  # longest payout — where to actually bet
+                "best_book":         None,
+                "best_implied_pct":  None,  # implied prob of best (longest) price
+                "consensus_implied_pct": None,  # median across books — "true" market
+                "n_books":           0,
+                "edge_best_pp":      None,  # model − best_implied (legacy, optimistic)
+                "edge_pp":           None,  # model − consensus_implied (NEW, conservative)
+                "implied_pct":       None,  # alias for consensus (for back-compat)
                 # Settler metadata (HR market = "did the batter hit a HR?")
                 "stat_key":    "hr",
                 "side":        "Over",
@@ -215,12 +229,26 @@ def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
                 "first_pitch": fp_dt.isoformat() if fp_dt else None,
             }
             if odds_data:
-                rec["best_odds"] = odds_data[0]
-                rec["best_book"] = odds_data[1]
-                imp = (100 / (odds_data[0] + 100) if odds_data[0] > 0
-                       else abs(odds_data[0]) / (abs(odds_data[0]) + 100))
-                rec["implied_pct"] = round(imp * 100, 2)
-                rec["edge_pp"]     = round(p_cal * 100 - imp * 100, 2)
+                _am_to_imp = lambda am: (100.0/(am+100) if am > 0
+                                         else abs(am)/(abs(am)+100))
+                all_prices = odds_data["all"]
+                best_am, best_bk = odds_data["best"]
+                rec["best_odds"]   = best_am
+                rec["best_book"]   = best_bk
+                rec["n_books"]     = len(all_prices)
+
+                best_imp = _am_to_imp(best_am)
+                rec["best_implied_pct"] = round(best_imp * 100, 2)
+                rec["edge_best_pp"]     = round(p_cal * 100 - best_imp * 100, 2)
+
+                # Consensus implied: median across books. More robust to one
+                # bookmaker mispricing than mean would be.
+                imps = sorted([_am_to_imp(am) for am, _ in all_prices])
+                n = len(imps)
+                consensus_imp = imps[n // 2] if n % 2 == 1 else (imps[n//2 - 1] + imps[n//2]) / 2
+                rec["consensus_implied_pct"] = round(consensus_imp * 100, 2)
+                rec["implied_pct"]           = rec["consensus_implied_pct"]
+                rec["edge_pp"]               = round(p_cal * 100 - consensus_imp * 100, 2)
             if hasattr(hr_model, "pick_confidence"):
                 conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
                 rec["confidence"]      = conf["score"]
