@@ -27,7 +27,10 @@
       "home_team": "New York Yankees",
       "first_pitch": "2026-06-18T19:05:00-04:00",
       "confidence": 90,
-      "confidence_tier": "\ud83d\udfe2 HIGH"
+      "confidence_tier": "\ud83d\udfe2 HIGH",
+      "best_price": 317,
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "batter": "Semien, Marcus",
@@ -51,7 +54,10 @@
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-06-18T18:40:00-04:00",
       "confidence": 52,
-      "confidence_tier": "\ud83d\udfe0 LOW"
+      "confidence_tier": "\ud83d\udfe0 LOW",
+      "best_price": 575,
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "batter": "Marsh, Brandon",
@@ -75,7 +81,24 @@
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-06-18T18:40:00-04:00",
       "confidence": 52,
-      "confidence_tier": "\ud83d\udfe0 LOW"
+      "confidence_tier": "\ud83d\udfe0 LOW",
+      "best_price": 610,
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-06-19T09:00:11.549022-04:00",
+  "summary": {
+    "n_total": 3,
+    "n_settled": 3,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 1,
+    "losses": 2,
+    "pushes": 0,
+    "hit_rate": 33.3,
+    "risk_total": 300.0,
+    "profit_total": 117.0,
+    "roi_pct": 39.0
+  }
 }
