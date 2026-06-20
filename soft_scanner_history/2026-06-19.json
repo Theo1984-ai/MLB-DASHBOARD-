@@ -11,6 +11,48 @@
   },
   "picks": [
     {
+      "event_id": "6bb329abaf86e99a6c742250c3251cec",
+      "away_team": "San Francisco Giants",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Giants @ Marlins",
+      "market": "Hits",
+      "player": "Drew Gilbert",
+      "team": "SF",
+      "selection": "Drew Gilbert",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 107,
+      "best_imp_pct": 48.31,
+      "consensus_pct": 55.25,
+      "edge_pp": 11.69,
+      "ev_per_100": 14.36,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          107
+        ],
+        [
+          "williamhill_us",
+          -115
+        ],
+        [
+          "bovada",
+          -145
+        ],
+        [
+          "fanduel",
+          -150
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
+    },
+    {
       "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
       "away_team": "Washington Nationals",
       "home_team": "Tampa Bay Rays",
@@ -83,8 +125,8 @@
           -150
         ]
       ],
-      "result": "WIN",
-      "settle_detail": "hrr=1 vs O0.5"
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
@@ -205,8 +247,8 @@
           120
         ]
       ],
-      "result": "LOSS",
-      "settle_detail": "tb=1 vs O1.5"
+      "result": "WIN",
+      "settle_detail": "tb=5 vs O1.5"
     },
     {
       "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
@@ -247,158 +289,6 @@
       "settle_detail": "hrr=0 vs O1.5"
     },
     {
-      "event_id": "6bb329abaf86e99a6c742250c3251cec",
-      "away_team": "San Francisco Giants",
-      "home_team": "Miami Marlins",
-      "first_pitch": "2026-06-19T23:11:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Giants @ Marlins",
-      "market": "TB",
-      "player": "Casey Schmitt",
-      "team": "SF",
-      "selection": "Casey Schmitt",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 165,
-      "best_imp_pct": 37.74,
-      "consensus_pct": 42.9,
-      "edge_pp": 8.78,
-      "ev_per_100": 13.68,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          165
-        ],
-        [
-          "draftkings",
-          125
-        ],
-        [
-          "fanduel",
-          115
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "tb=2 vs O1.5"
-    },
-    {
-      "event_id": "a8bc26eb19d767d6433749f35c2224ee",
-      "away_team": "Los Angeles Angels",
-      "home_team": "Athletics",
-      "first_pitch": "2026-06-20T01:41:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Angels @ Athletics",
-      "market": "TB",
-      "player": "Henry Bolte",
-      "team": "ATH",
-      "selection": "Henry Bolte",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 195,
-      "best_imp_pct": 33.9,
-      "consensus_pct": 38.76,
-      "edge_pp": 8.65,
-      "ev_per_100": 14.35,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          195
-        ],
-        [
-          "draftkings",
-          151
-        ],
-        [
-          "fanduel",
-          135
-        ]
-      ],
-      "result": "LOSS",
-      "settle_detail": "tb=1 vs O1.5"
-    },
-    {
-      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
-      "away_team": "Baltimore Orioles",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-06-20T02:11:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Orioles @ Dodgers",
-      "market": "TB",
-      "player": "Adley Rutschman",
-      "team": "BAL",
-      "selection": "Adley Rutschman",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 155,
-      "best_imp_pct": 39.22,
-      "consensus_pct": 42.83,
-      "edge_pp": 8.4,
-      "ev_per_100": 9.23,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          155
-        ],
-        [
-          "draftkings",
-          140
-        ],
-        [
-          "fanduel",
-          110
-        ]
-      ],
-      "result": "VOID",
-      "settle_detail": "batter did not play (Adley Rutschman)"
-    },
-    {
-      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
-      "away_team": "Washington Nationals",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-06-19T23:11:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Nationals @ Rays",
-      "market": "H+R+R",
-      "player": "Dylan Crews",
-      "team": "WSH",
-      "selection": "Dylan Crews",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -210,
-      "best_imp_pct": 67.74,
-      "consensus_pct": 71.14,
-      "edge_pp": 7.87,
-      "ev_per_100": 10.53,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          -210
-        ],
-        [
-          "draftkings",
-          -234
-        ],
-        [
-          "fanduel",
-          -310
-        ]
-      ],
-      "result": "LOSS",
-      "settle_detail": "hrr=0 vs O0.5"
-    },
-    {
       "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
       "away_team": "Washington Nationals",
       "home_team": "Tampa Bay Rays",
@@ -437,6 +327,250 @@
       "settle_detail": "tb=2 vs O1.5"
     },
     {
+      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
+      "away_team": "Chicago White Sox",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-06-19T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Sox @ Tigers",
+      "market": "H+R+R",
+      "player": "Hao-Yu Lee",
+      "team": "DET",
+      "selection": "Hao-Yu Lee",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -167,
+      "best_imp_pct": 62.55,
+      "consensus_pct": 66.5,
+      "edge_pp": 8.88,
+      "ev_per_100": 10.55,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -167
+        ],
+        [
+          "betmgm",
+          -190
+        ],
+        [
+          "fanduel",
+          -250
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=1 vs O0.5"
+    },
+    {
+      "event_id": "2bbd4e284d32261d81b8ebd0263116c3",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-06-19T23:16:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Brewers @ Braves",
+      "market": "TB",
+      "player": "Brice Turang",
+      "team": "MIL",
+      "selection": "Brice Turang",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 165,
+      "best_imp_pct": 37.74,
+      "consensus_pct": 41.47,
+      "edge_pp": 8.78,
+      "ev_per_100": 9.89,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          165
+        ],
+        [
+          "draftkings",
+          149
+        ],
+        [
+          "fanduel",
+          115
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
+    },
+    {
+      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
+      "away_team": "Chicago White Sox",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-06-19T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Sox @ Tigers",
+      "market": "H+R+R",
+      "player": "Junior Perez",
+      "team": "CWS",
+      "selection": "Junior Perez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 57.04,
+      "edge_pp": 8.78,
+      "ev_per_100": 7.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -115
+        ],
+        [
+          "draftkings",
+          -124
+        ],
+        [
+          "fanduel",
+          -165
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O0.5"
+    },
+    {
+      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
+      "away_team": "Baltimore Orioles",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-06-20T02:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Orioles @ Dodgers",
+      "market": "Hits",
+      "player": "Colton Cowser",
+      "team": "BAL",
+      "selection": "Colton Cowser",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -102,
+      "best_imp_pct": 50.5,
+      "consensus_pct": 55.51,
+      "edge_pp": 8.69,
+      "ev_per_100": 10.12,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -102
+        ],
+        [
+          "betmgm",
+          -118
+        ],
+        [
+          "williamhill_us",
+          -120
+        ],
+        [
+          "fanduel",
+          -145
+        ],
+        [
+          "bovada",
+          -145
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
+    },
+    {
+      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
+      "away_team": "Chicago White Sox",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-06-19T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Tigers",
+      "market": "Hits",
+      "player": "Miguel Vargas",
+      "team": "CWS",
+      "selection": "Miguel Vargas",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -160,
+      "best_imp_pct": 61.54,
+      "consensus_pct": 66.78,
+      "edge_pp": 8.61,
+      "ev_per_100": 13.63,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -160
+        ],
+        [
+          "williamhill_us",
+          -190
+        ],
+        [
+          "draftkings",
+          -203
+        ],
+        [
+          "fanduel",
+          -230
+        ],
+        [
+          "bovada",
+          -235
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
+    },
+    {
+      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
+      "away_team": "Washington Nationals",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rays",
+      "market": "H+R+R",
+      "player": "Jacob Young",
+      "team": "WSH",
+      "selection": "Jacob Young",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 141,
+      "best_imp_pct": 41.49,
+      "consensus_pct": 44.68,
+      "edge_pp": 8.51,
+      "ev_per_100": 7.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          141
+        ],
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
+    },
+    {
       "event_id": "a8bc26eb19d767d6433749f35c2224ee",
       "away_team": "Los Angeles Angels",
       "home_team": "Athletics",
@@ -451,11 +585,57 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 105,
-      "best_imp_pct": 48.78,
-      "consensus_pct": 52.64,
-      "edge_pp": 7.74,
-      "ev_per_100": 7.9,
+      "best_price": -165,
+      "best_imp_pct": 62.26,
+      "consensus_pct": 66.17,
+      "edge_pp": 8.32,
+      "ev_per_100": 10.36,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -165
+        ],
+        [
+          "draftkings",
+          -179
+        ],
+        [
+          "williamhill_us",
+          -179
+        ],
+        [
+          "fanduel",
+          -230
+        ],
+        [
+          "bovada",
+          -240
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
+    },
+    {
+      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
+      "away_team": "Washington Nationals",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rays",
+      "market": "H+R+R",
+      "player": "Jacob Young",
+      "team": "WSH",
+      "selection": "Jacob Young",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -177,
+      "best_imp_pct": 63.9,
+      "consensus_pct": 67.21,
+      "edge_pp": 8.32,
+      "ev_per_100": 9.18,
       "n_books": 3,
       "all_prices": [
         [
@@ -472,7 +652,129 @@
         ]
       ],
       "result": "LOSS",
-      "settle_detail": "tb=0 vs O1.5"
+      "settle_detail": "hrr=0 vs O0.5"
+    },
+    {
+      "event_id": "07f4bbde58b19584048fd125a63efb85",
+      "away_team": "Pittsburgh Pirates",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-06-20T00:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Pirates @ Rockies",
+      "market": "TB",
+      "player": "Cole Carrigg",
+      "team": "COL",
+      "selection": "Cole Carrigg",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 133,
+      "best_imp_pct": 42.92,
+      "consensus_pct": 46.53,
+      "edge_pp": 8.3,
+      "ev_per_100": 8.42,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          133
+        ],
+        [
+          "betmgm",
+          120
+        ],
+        [
+          "fanduel",
+          -105
+        ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
+    },
+    {
+      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
+      "away_team": "Washington Nationals",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rays",
+      "market": "Hits",
+      "player": "Jacob Young",
+      "team": "WSH",
+      "selection": "Jacob Young",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -141,
+      "best_imp_pct": 58.51,
+      "consensus_pct": 62.47,
+      "edge_pp": 8.16,
+      "ev_per_100": 9.56,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -141
+        ],
+        [
+          "betmgm",
+          -150
+        ],
+        [
+          "williamhill_us",
+          -157
+        ],
+        [
+          "fanduel",
+          -195
+        ],
+        [
+          "bovada",
+          -200
+        ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
+    },
+    {
+      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
+      "away_team": "Washington Nationals",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Nationals @ Rays",
+      "market": "TB",
+      "player": "Victor Mesa Jr.",
+      "team": "TB",
+      "selection": "Victor Mesa Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 212,
+      "best_imp_pct": 32.05,
+      "consensus_pct": 34.77,
+      "edge_pp": 7.95,
+      "ev_per_100": 8.48,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          212
+        ],
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "fanduel",
+          150
+        ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Victor Mesa Jr.)"
     },
     {
       "event_id": "828d9387e45dac20bd4336888bc32025",
@@ -483,9 +785,47 @@
       "market_key": "batter_total_bases_alternate",
       "game": "Cardinals @ Royals",
       "market": "TB",
-      "player": "Jimmy Crooks",
-      "team": "STL",
-      "selection": "Jimmy Crooks",
+      "player": "Jac Caglianone",
+      "team": "KC",
+      "selection": "Jac Caglianone",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 125,
+      "best_imp_pct": 44.44,
+      "consensus_pct": 48.07,
+      "edge_pp": 7.94,
+      "ev_per_100": 8.16,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          125
+        ],
+        [
+          "draftkings",
+          111
+        ],
+        [
+          "fanduel",
+          -110
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=5 vs O1.5"
+    },
+    {
+      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
+      "away_team": "Washington Nationals",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-06-19T23:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Nationals @ Rays",
+      "market": "TB",
+      "player": "Jacob Young",
+      "team": "WSH",
+      "selection": "Jacob Young",
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
@@ -513,17 +853,223 @@
       "settle_detail": "tb=0 vs O1.5"
     },
     {
-      "event_id": "828d9387e45dac20bd4336888bc32025",
-      "away_team": "St. Louis Cardinals",
-      "home_team": "Kansas City Royals",
-      "first_pitch": "2026-06-20T00:16:00Z",
+      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
+      "away_team": "Chicago White Sox",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-06-19T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Tigers",
+      "market": "Hits",
+      "player": "Junior Perez",
+      "team": "CWS",
+      "selection": "Junior Perez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 52.71,
+      "edge_pp": 7.74,
+      "ev_per_100": 8.05,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          105
+        ],
+        [
+          "draftkings",
+          -102
+        ],
+        [
+          "williamhill_us",
+          -105
+        ],
+        [
+          "fanduel",
+          -130
+        ],
+        [
+          "bovada",
+          -130
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
+    },
+    {
+      "event_id": "a072cb316f0d887f1c0251b417b34317",
+      "away_team": "San Diego Padres",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-06-20T00:06:00Z",
       "stat_key": "tb",
       "market_key": "batter_total_bases_alternate",
       "game": "Cardinals @ Royals",
       "market": "TB",
-      "player": "Nathan Church",
-      "team": "STL",
-      "selection": "Nathan Church",
+      "player": "Brandon Nimmo",
+      "team": "TEX",
+      "selection": "Brandon Nimmo",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 150,
+      "best_imp_pct": 40.0,
+      "consensus_pct": 43.57,
+      "edge_pp": 7.62,
+      "ev_per_100": 8.94,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          150
+        ],
+        [
+          "draftkings",
+          132
+        ],
+        [
+          "fanduel",
+          110
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=4 vs O1.5"
+    },
+    {
+      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
+      "away_team": "Baltimore Orioles",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-06-20T02:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Orioles @ Dodgers",
+      "market": "TB",
+      "player": "Andy Pages",
+      "team": "LAD",
+      "selection": "Andy Pages",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 113,
+      "best_imp_pct": 46.95,
+      "consensus_pct": 49.7,
+      "edge_pp": 7.6,
+      "ev_per_100": 5.87,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          113
+        ],
+        [
+          "betmgm",
+          110
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
+    },
+    {
+      "event_id": "68137f4094d6c3979398139c92d61aca",
+      "away_team": "Minnesota Twins",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-06-20T01:46:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Diamondbacks",
+      "market": "Hits",
+      "player": "LuJames Groover",
+      "team": "AZ",
+      "selection": "LuJames Groover",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -135,
+      "best_imp_pct": 57.45,
+      "consensus_pct": 61.51,
+      "edge_pp": 7.59,
+      "ev_per_100": 9.55,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -135
+        ],
+        [
+          "draftkings",
+          -149
+        ],
+        [
+          "williamhill_us",
+          -152
+        ],
+        [
+          "fanduel",
+          -185
+        ],
+        [
+          "bovada",
+          -186
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
+    },
+    {
+      "event_id": "2bbd4e284d32261d81b8ebd0263116c3",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-06-19T23:16:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Brewers @ Braves",
+      "market": "H+R+R",
+      "player": "Joey Ortiz",
+      "team": "MIL",
+      "selection": "Joey Ortiz",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -177,
+      "best_imp_pct": 63.9,
+      "consensus_pct": 68.03,
+      "edge_pp": 7.53,
+      "ev_per_100": 11.43,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -177
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "betmgm",
+          -250
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=1 vs O0.5"
+    },
+    {
+      "event_id": "a8bc26eb19d767d6433749f35c2224ee",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Athletics",
+      "first_pitch": "2026-06-20T01:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Angels @ Athletics",
+      "market": "TB",
+      "player": "Henry Bolte",
+      "team": "ATH",
+      "selection": "Henry Bolte",
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
@@ -547,8 +1093,92 @@
           135
         ]
       ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
+    },
+    {
+      "event_id": "2bbd4e284d32261d81b8ebd0263116c3",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-06-19T23:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Braves",
+      "market": "Hits",
+      "player": "Joey Ortiz",
+      "team": "MIL",
+      "selection": "Joey Ortiz",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -135,
+      "best_imp_pct": 57.45,
+      "consensus_pct": 59.12,
+      "edge_pp": 7.47,
+      "ev_per_100": 3.93,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          -135
+        ],
+        [
+          "bovada",
+          -136
+        ],
+        [
+          "williamhill_us",
+          -137
+        ],
+        [
+          "draftkings",
+          -137
+        ],
+        [
+          "betmgm",
+          -185
+        ]
+      ],
       "result": "WIN",
-      "settle_detail": "tb=3 vs O1.5"
+      "settle_detail": "hits=1 vs O0.5"
+    },
+    {
+      "event_id": "68137f4094d6c3979398139c92d61aca",
+      "away_team": "Minnesota Twins",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-06-20T01:46:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Twins @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "LuJames Groover",
+      "team": "AZ",
+      "selection": "LuJames Groover",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -190,
+      "best_imp_pct": 65.52,
+      "consensus_pct": 68.39,
+      "edge_pp": 7.46,
+      "ev_per_100": 8.32,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -190
+        ],
+        [
+          "betmgm",
+          -200
+        ],
+        [
+          "fanduel",
+          -270
+        ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O0.5"
     },
     {
       "event_id": "a8bc26eb19d767d6433749f35c2224ee",
@@ -708,505 +1338,21 @@
         ]
       ],
       "result": "LOSS",
-      "settle_detail": "tb=1 vs O1.5"
-    },
-    {
-      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
-      "away_team": "Baltimore Orioles",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-06-20T02:11:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Orioles @ Dodgers",
-      "market": "TB",
-      "player": "Pete Alonso",
-      "team": "BAL",
-      "selection": "Pete Alonso",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 140,
-      "best_imp_pct": 41.67,
-      "consensus_pct": 45.1,
-      "edge_pp": 7.11,
-      "ev_per_100": 8.23,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          140
-        ],
-        [
-          "draftkings",
-          123
-        ],
-        [
-          "fanduel",
-          105
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "tb=4 vs O1.5"
-    },
-    {
-      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
-      "away_team": "Baltimore Orioles",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-06-20T02:11:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Orioles @ Dodgers",
-      "market": "H+R+R",
-      "player": "Dalton Rushing",
-      "team": "LAD",
-      "selection": "Dalton Rushing",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -200,
-      "best_imp_pct": 66.67,
-      "consensus_pct": 69.86,
-      "edge_pp": 7.02,
-      "ev_per_100": 9.58,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          -200
-        ],
-        [
-          "draftkings",
-          -225
-        ],
-        [
-          "fanduel",
-          -280
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "hrr=2 vs O0.5"
-    },
-    {
-      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
-      "away_team": "Washington Nationals",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-06-19T23:11:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Nationals @ Rays",
-      "market": "TB",
-      "player": "Jacob Young",
-      "team": "WSH",
-      "selection": "Jacob Young",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 233,
-      "best_imp_pct": 30.03,
-      "consensus_pct": 33.11,
-      "edge_pp": 7.01,
-      "ev_per_100": 10.25,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "draftkings",
-          233
-        ],
-        [
-          "betmgm",
-          210
-        ],
-        [
-          "fanduel",
-          170
-        ]
-      ],
-      "result": "LOSS",
       "settle_detail": "tb=0 vs O1.5"
-    },
-    {
-      "event_id": "6bb329abaf86e99a6c742250c3251cec",
-      "away_team": "San Francisco Giants",
-      "home_team": "Miami Marlins",
-      "first_pitch": "2026-06-19T23:11:00Z",
-      "stat_key": "hits",
-      "market_key": "batter_hits_alternate",
-      "game": "Giants @ Marlins",
-      "market": "Hits",
-      "player": "Casey Schmitt",
-      "team": "SF",
-      "selection": "Casey Schmitt",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -165,
-      "best_imp_pct": 62.26,
-      "consensus_pct": 66.78,
-      "edge_pp": 6.97,
-      "ev_per_100": 11.97,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -165
-        ],
-        [
-          "williamhill_us",
-          -200
-        ],
-        [
-          "draftkings",
-          -203
-        ],
-        [
-          "fanduel",
-          -220
-        ],
-        [
-          "bovada",
-          -225
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "hits=2 vs O0.5"
-    },
-    {
-      "event_id": "07f4bbde58b19584048fd125a63efb85",
-      "away_team": "Pittsburgh Pirates",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-06-20T00:41:00Z",
-      "stat_key": "tb",
-      "market_key": "batter_total_bases_alternate",
-      "game": "Pirates @ Rockies",
-      "market": "TB",
-      "player": "Esmerlyn Valdez",
-      "team": "PIT",
-      "selection": "Esmerlyn Valdez",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 126,
-      "best_imp_pct": 44.25,
-      "consensus_pct": 47.33,
-      "edge_pp": 6.97,
-      "ev_per_100": 6.96,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "draftkings",
-          126
-        ],
-        [
-          "betmgm",
-          115
-        ],
-        [
-          "fanduel",
-          -105
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "tb=2 vs O1.5"
-    },
-    {
-      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
-      "away_team": "Chicago White Sox",
-      "home_team": "Detroit Tigers",
-      "first_pitch": "2026-06-19T22:41:00Z",
-      "stat_key": "hits",
-      "market_key": "batter_hits_alternate",
-      "game": "Sox @ Tigers",
-      "market": "Hits",
-      "player": "Zach McKinstry",
-      "team": "DET",
-      "selection": "Zach McKinstry",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -155,
-      "best_imp_pct": 60.78,
-      "consensus_pct": 65.58,
-      "edge_pp": 6.96,
-      "ev_per_100": 12.22,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -155
-        ],
-        [
-          "williamhill_us",
-          -190
-        ],
-        [
-          "draftkings",
-          -195
-        ],
-        [
-          "fanduel",
-          -210
-        ],
-        [
-          "bovada",
-          -210
-        ]
-      ],
-      "result": "LOSS",
-      "settle_detail": "hits=0 vs O0.5"
-    },
-    {
-      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
-      "away_team": "Baltimore Orioles",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-06-20T02:11:00Z",
-      "stat_key": "hits",
-      "market_key": "batter_hits_alternate",
-      "game": "Orioles @ Dodgers",
-      "market": "Hits",
-      "player": "Adley Rutschman",
-      "team": "BAL",
-      "selection": "Adley Rutschman",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -175,
-      "best_imp_pct": 63.64,
-      "consensus_pct": 67.34,
-      "edge_pp": 6.95,
-      "ev_per_100": 10.18,
-      "n_books": 5,
-      "all_prices": [
-        [
-          "betmgm",
-          -175
-        ],
-        [
-          "draftkings",
-          -194
-        ],
-        [
-          "williamhill_us",
-          -197
-        ],
-        [
-          "bovada",
-          -235
-        ],
-        [
-          "fanduel",
-          -240
-        ]
-      ],
-      "result": "VOID",
-      "settle_detail": "batter did not play (Adley Rutschman)"
-    },
-    {
-      "event_id": "828d9387e45dac20bd4336888bc32025",
-      "away_team": "St. Louis Cardinals",
-      "home_team": "Kansas City Royals",
-      "first_pitch": "2026-06-20T00:16:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Cardinals @ Royals",
-      "market": "H+R+R",
-      "player": "Nick Loftin",
-      "team": "KC",
-      "selection": "Nick Loftin",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "betmgm",
-      "best_price": -175,
-      "best_imp_pct": 63.64,
-      "consensus_pct": 67.04,
-      "edge_pp": 6.95,
-      "ev_per_100": 9.35,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          -175
-        ],
-        [
-          "draftkings",
-          -202
-        ],
-        [
-          "fanduel",
-          -240
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "hrr=1 vs O0.5"
-    },
-    {
-      "event_id": "bdebd82757453b3cdc93ee168dadf2bb",
-      "away_team": "Washington Nationals",
-      "home_team": "Tampa Bay Rays",
-      "first_pitch": "2026-06-19T23:11:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Nationals @ Rays",
-      "market": "H+R+R",
-      "player": "Jacob Young",
-      "team": "WSH",
-      "selection": "Jacob Young",
-      "side": "Over",
-      "point": 0.5,
-      "best_book": "draftkings",
-      "best_price": -175,
-      "best_imp_pct": 63.64,
-      "consensus_pct": 66.58,
-      "edge_pp": 6.95,
-      "ev_per_100": 8.1,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "draftkings",
-          -175
-        ],
-        [
-          "betmgm",
-          -190
-        ],
-        [
-          "fanduel",
-          -240
-        ]
-      ],
-      "result": "LOSS",
-      "settle_detail": "hrr=0 vs O0.5"
-    },
-    {
-      "event_id": "07f4bbde58b19584048fd125a63efb85",
-      "away_team": "Pittsburgh Pirates",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-06-20T00:41:00Z",
-      "stat_key": "hits",
-      "market_key": "batter_hits_alternate",
-      "game": "Pirates @ Rockies",
-      "market": "Hits",
-      "player": "TJ Rumfield",
-      "team": "COL",
-      "selection": "TJ Rumfield",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "fanduel",
-      "best_price": 240,
-      "best_imp_pct": 29.41,
-      "consensus_pct": 31.78,
-      "edge_pp": 6.95,
-      "ev_per_100": 8.07,
-      "n_books": 4,
-      "all_prices": [
-        [
-          "fanduel",
-          240
-        ],
-        [
-          "bovada",
-          240
-        ],
-        [
-          "draftkings",
-          213
-        ],
-        [
-          "betmgm",
-          175
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "hits=2 vs O1.5"
-    },
-    {
-      "event_id": "2969ea2e73c33f58b97b82fe562cf617",
-      "away_team": "Chicago White Sox",
-      "home_team": "Detroit Tigers",
-      "first_pitch": "2026-06-19T22:41:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Sox @ Tigers",
-      "market": "H+R+R",
-      "player": "Zach McKinstry",
-      "team": "DET",
-      "selection": "Zach McKinstry",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 120,
-      "best_imp_pct": 45.45,
-      "consensus_pct": 49.28,
-      "edge_pp": 6.93,
-      "ev_per_100": 8.41,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          120
-        ],
-        [
-          "draftkings",
-          100
-        ],
-        [
-          "fanduel",
-          -110
-        ]
-      ],
-      "result": "LOSS",
-      "settle_detail": "hrr=0 vs O1.5"
-    },
-    {
-      "event_id": "150da5f2fa6db9e963e0b56fc2863769",
-      "away_team": "Baltimore Orioles",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-06-20T02:11:00Z",
-      "stat_key": "hrr",
-      "market_key": "batter_hits_runs_rbis_alternate",
-      "game": "Orioles @ Dodgers",
-      "market": "H+R+R",
-      "player": "Dalton Rushing",
-      "team": "LAD",
-      "selection": "Dalton Rushing",
-      "side": "Over",
-      "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 110,
-      "best_imp_pct": 47.62,
-      "consensus_pct": 50.8,
-      "edge_pp": 6.93,
-      "ev_per_100": 6.69,
-      "n_books": 3,
-      "all_prices": [
-        [
-          "betmgm",
-          110
-        ],
-        [
-          "draftkings",
-          -101
-        ],
-        [
-          "fanduel",
-          -120
-        ]
-      ],
-      "result": "WIN",
-      "settle_detail": "hrr=2 vs O1.5"
     }
   ],
-  "settled_at": "2026-06-20T07:53:02.751549-04:00",
+  "settled_at": "2026-06-20T09:00:17.332617-04:00",
   "summary": {
     "n_total": 30,
-    "n_settled": 28,
-    "n_void": 2,
+    "n_settled": 29,
+    "n_void": 1,
     "n_no_data": 0,
-    "wins": 15,
-    "losses": 13,
+    "wins": 18,
+    "losses": 11,
     "pushes": 0,
-    "hit_rate": 53.6,
-    "risk_total": 3335.0,
-    "profit_total": 594.0,
-    "roi_pct": 17.81
+    "hit_rate": 62.1,
+    "risk_total": 3519.0,
+    "profit_total": 832.0,
+    "roi_pct": 23.64
   }
 }
