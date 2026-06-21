@@ -31,7 +31,10 @@
       "home_team": "Tampa Bay Rays",
       "first_pitch": "2026-06-20T16:10:00-04:00",
       "confidence": 64,
-      "confidence_tier": "\ud83d\udfe1 MED"
+      "confidence_tier": "\ud83d\udfe1 MED",
+      "best_price": 360,
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "batter": "Moreno, Gabriel",
@@ -59,7 +62,10 @@
       "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-06-20T22:10:00-04:00",
       "confidence": 62,
-      "confidence_tier": "\ud83d\udfe1 MED"
+      "confidence_tier": "\ud83d\udfe1 MED",
+      "best_price": 800,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Moreno, Gabriel)"
     },
     {
       "batter": "Mead, Curtis",
@@ -87,7 +93,10 @@
       "home_team": "Tampa Bay Rays",
       "first_pitch": "2026-06-20T16:10:00-04:00",
       "confidence": 52,
-      "confidence_tier": "\ud83d\udfe0 LOW"
+      "confidence_tier": "\ud83d\udfe0 LOW",
+      "best_price": 557,
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "batter": "Abrams, CJ",
@@ -115,7 +124,24 @@
       "home_team": "Tampa Bay Rays",
       "first_pitch": "2026-06-20T16:10:00-04:00",
       "confidence": 45,
-      "confidence_tier": "\ud83d\udfe0 LOW"
+      "confidence_tier": "\ud83d\udfe0 LOW",
+      "best_price": 630,
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-06-21T08:08:30.639710-04:00",
+  "summary": {
+    "n_total": 4,
+    "n_settled": 3,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 1,
+    "losses": 2,
+    "pushes": 0,
+    "hit_rate": 33.3,
+    "risk_total": 300.0,
+    "profit_total": 430.0,
+    "roi_pct": 143.33
+  }
 }
