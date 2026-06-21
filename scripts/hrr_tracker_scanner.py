@@ -73,11 +73,20 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
         if not hrr_offers:
             continue
 
-        best_by_player = {}
+        # Collect ALL prices per player so we can compute consensus implied.
+        # For H+R+R, the best (longest-priced) book has the LOWEST implied —
+        # backtest shows the 50-55% best-implied bucket actually hit only
+        # 44% (the long-priced book was a discount for a reason, often a
+        # sharper book that knew something). Using consensus tightens
+        # selection to plays the market broadly agrees are likely.
+        best_by_player = {}  # name -> {"all": [(am, book, raw)], "best": (am, book, raw)}
         for o in hrr_offers:
             n = odds_api.normalize_name(o["player"])
-            if n not in best_by_player or o["american_odds"] > best_by_player[n][0]:
-                best_by_player[n] = (o["american_odds"], o["bookmaker"], o["player"])
+            am = o["american_odds"]; bk = o["bookmaker"]; raw = o["player"]
+            entry = best_by_player.setdefault(n, {"all": [], "best": None})
+            entry["all"].append((am, bk, raw))
+            if entry["best"] is None or am > entry["best"][0]:
+                entry["best"] = (am, bk, raw)
 
         il = mlb_api.get_team_il(home_id, season) | mlb_api.get_team_il(away_id, season)
         roster_map = {}
@@ -95,7 +104,9 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
         home_p = g["teams"]["home"].get("probablePitcher") or {}
         stadium = get_stadium(home_id)
 
-        for norm, (am, book, _raw_name) in best_by_player.items():
+        for norm, entry in best_by_player.items():
+            am, book, _raw_name = entry["best"]
+            all_prices = entry["all"]
             pid_info = roster_map.get(norm)
             if not pid_info:
                 last = norm.split()[-1] if norm else ""
@@ -109,8 +120,13 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
             is_home = (team == home_name)
             opp_sp = (away_p.get("fullName", "TBD") if is_home
                       else home_p.get("fullName", "TBD"))
-            imp = (100 / (am + 100) if am > 0
-                   else abs(am) / (abs(am) + 100))
+            _i = lambda a: (100/(a+100) if a > 0 else abs(a)/(abs(a)+100))
+            best_imp = _i(am)
+            # Consensus implied: median across books
+            imps = sorted([_i(a) for a, _, _ in all_prices])
+            n_b = len(imps)
+            consensus_imp = (imps[n_b//2] if n_b % 2 == 1
+                             else (imps[n_b//2-1] + imps[n_b//2]) / 2)
             all_hrr.append({
                 "batter":      mlb_name,
                 "batter_id":   int(pid),
@@ -120,9 +136,14 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
                 "vs_sp":       opp_sp,
                 "park":        stadium["park"],
                 "point":       HRR_POINT,
-                "best_odds":   am,
-                "best_book":   book,
-                "implied_pct": round(imp * 100, 2),
+                "best_odds":              am,
+                "best_book":              book,
+                "best_implied_pct":       round(best_imp * 100, 2),
+                "consensus_implied_pct":  round(consensus_imp * 100, 2),
+                "n_books":                n_b,
+                # implied_pct is now CONSENSUS (the conservative truth);
+                # settler/page logic reads this field
+                "implied_pct": round(consensus_imp * 100, 2),
                 "model_p_pct": None,
                 "edge_pp":     None,
                 # Settler metadata (H+R+R Over HRR_POINT)
@@ -135,17 +156,25 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
                 "best_price":  am,  # alias so settler ROI calc works
             })
 
-    # STRICT filter (matches page)
+    # STRICT filter
+    # Backtest (201 settled picks): the 50-60% best-implied bucket only hit
+    # 46% with -20% ROI. Require consensus_implied >= 55 in addition to the
+    # existing thresholds — eliminates picks where the long-priced book was
+    # a discount that the rest of the market disagreed with.
     if strict:
         qualifying = [
             p for p in all_hrr
             if p.get("best_odds") is not None
             and p["best_odds"] >= -180
-            and p.get("implied_pct") is not None
-            and p["implied_pct"] >= 50
+            and p.get("best_implied_pct") is not None
+            and p["best_implied_pct"] >= 50
+            and p.get("consensus_implied_pct") is not None
+            and p["consensus_implied_pct"] >= 55
         ]
         def score(p):
-            am = p["best_odds"]; imp = p["implied_pct"]
+            am = p["best_odds"]
+            # Rank by CONSENSUS implied, not best — best-book bias gone
+            imp = p["consensus_implied_pct"]
             juice_bonus = 5 if -180 <= am <= -120 else (10 if -120 < am <= 100 else 0)
             return imp + juice_bonus
         qualifying.sort(key=lambda x: -score(x))

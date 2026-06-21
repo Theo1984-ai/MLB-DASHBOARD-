@@ -512,15 +512,19 @@ if save_hrr_btn:
                 if not hrr_offers:
                     continue
 
-                # Build {normalized_player: (best_american_odds, best_book)}
+                # Build {normalized_player: {"all":[(am,book,raw)], "best":(am,book,raw)}}
+                # Collect ALL prices so we can compute consensus implied (median
+                # across books). Backtest showed the 50-60% best-implied bucket
+                # was a -20% ROI loser — long-priced books were discounting for
+                # a reason. Consensus floor catches that.
                 best_by_player = {}
                 for o in hrr_offers:
                     n = odds_api.normalize_name(o["player"])
-                    # For negative odds (favorites), higher (less negative) is better
-                    # For positive odds (longshots), higher is better
-                    # Either way: higher number = better payout
-                    if n not in best_by_player or o["american_odds"] > best_by_player[n][0]:
-                        best_by_player[n] = (o["american_odds"], o["bookmaker"], o["player"])
+                    am = o["american_odds"]; bk = o["bookmaker"]; raw = o["player"]
+                    entry = best_by_player.setdefault(n, {"all": [], "best": None})
+                    entry["all"].append((am, bk, raw))
+                    if entry["best"] is None or am > entry["best"][0]:
+                        entry["best"] = (am, bk, raw)
 
                 # Map to MLB batter IDs via team rosters
                 home_id = g["teams"]["home"]["team"]["id"]
@@ -541,7 +545,9 @@ if save_hrr_btn:
                 home_p = g["teams"]["home"].get("probablePitcher") or {}
                 stadium = get_stadium(home_id)
 
-                for norm, (am, book, raw_name) in best_by_player.items():
+                for norm, entry in best_by_player.items():
+                    am, book, raw_name = entry["best"]
+                    all_prices = entry["all"]
                     pid_info = roster_map.get(norm)
                     if not pid_info:
                         # Player on roster mapping failed — try fuzzy via partial last-name match
@@ -553,13 +559,16 @@ if save_hrr_btn:
                     if not pid_info:
                         continue
                     pid, team, mlb_name = pid_info
-                    # Determine matchup and SP
                     is_home = (team == home_name)
                     opp_sp = (away_p.get("fullName", "TBD") if is_home
                               else home_p.get("fullName", "TBD"))
 
-                    imp = (100 / (am + 100) if am > 0
-                           else abs(am) / (abs(am) + 100))
+                    _i = lambda a: (100/(a+100) if a > 0 else abs(a)/(abs(a)+100))
+                    best_imp = _i(am)
+                    imps = sorted([_i(a) for a, _, _ in all_prices])
+                    n_b = len(imps)
+                    consensus_imp = (imps[n_b//2] if n_b % 2 == 1
+                                     else (imps[n_b//2-1] + imps[n_b//2]) / 2)
                     all_hrr.append({
                         "batter":      mlb_name,
                         "batter_id":   int(pid),
@@ -569,10 +578,12 @@ if save_hrr_btn:
                         "vs_sp":       opp_sp,
                         "park":        stadium["park"],
                         "point":       HRR_POINT,
-                        "best_odds":   am,
-                        "best_book":   book,
-                        "implied_pct": round(imp * 100, 2),
-                        # No model yet — placeholder for future expansion
+                        "best_odds":              am,
+                        "best_book":              book,
+                        "best_implied_pct":       round(best_imp * 100, 2),
+                        "consensus_implied_pct":  round(consensus_imp * 100, 2),
+                        "n_books":                n_b,
+                        "implied_pct": round(consensus_imp * 100, 2),  # alias
                         "model_p_pct": None,
                         "edge_pp":     None,
                     })
@@ -588,20 +599,23 @@ if save_hrr_btn:
             # ===========================================================
             STRICT_HRR = True
             if STRICT_HRR:
-                # Filter out extreme juice (worse than -180)
+                # Tightened filter (6/18): require consensus_implied >= 55,
+                # not just best-book implied >= 50. Backtest showed the
+                # 50-60% best-implied bucket was 46% hit / -20% ROI — long-
+                # priced books were discounting plays the rest of the market
+                # broadly considered weaker. Consensus floor catches it.
                 qualifying = [
                     p for p in all_hrr
                     if p.get("best_odds") is not None
-                    and p["best_odds"] >= -180   # cap juice at -180
-                    and p.get("implied_pct") is not None
-                    and p["implied_pct"] >= 50   # at least 50% implied (skip longshots)
+                    and p["best_odds"] >= -180
+                    and p.get("best_implied_pct") is not None
+                    and p["best_implied_pct"] >= 50
+                    and p.get("consensus_implied_pct") is not None
+                    and p["consensus_implied_pct"] >= 55
                 ]
-                # Rank by a combined score: implied prob (50%) + price-weighted EV (50%)
-                # Picks with similar implied % but better odds get bumped up
                 def score(p):
                     am = p["best_odds"]
-                    imp = p["implied_pct"]
-                    # bonus for moderate-juice picks (-180 to -120 range)
+                    imp = p["consensus_implied_pct"]  # rank by consensus, not best
                     juice_bonus = 5 if -180 <= am <= -120 else (10 if -120 < am <= 100 else 0)
                     return imp + juice_bonus
                 qualifying.sort(key=lambda x: -score(x))
