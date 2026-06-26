@@ -29,7 +29,9 @@
       "away_team": "Houston Astros",
       "home_team": "Detroit Tigers",
       "first_pitch": "2026-06-25T18:40:00-04:00",
-      "best_price": -177
+      "best_price": -177,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "batter": "Gabriel Moreno",
@@ -54,7 +56,9 @@
       "away_team": "Arizona Diamondbacks",
       "home_team": "St. Louis Cardinals",
       "first_pitch": "2026-06-25T19:45:00-04:00",
-      "best_price": -118
+      "best_price": -118,
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Alec Burleson",
@@ -79,7 +83,9 @@
       "away_team": "Arizona Diamondbacks",
       "home_team": "St. Louis Cardinals",
       "first_pitch": "2026-06-25T19:45:00-04:00",
-      "best_price": -169
+      "best_price": -169,
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Trea Turner",
@@ -104,7 +110,9 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-06-25T18:45:00-04:00",
-      "best_price": -155
+      "best_price": -155,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Ketel Marte",
@@ -129,7 +137,9 @@
       "away_team": "Arizona Diamondbacks",
       "home_team": "St. Louis Cardinals",
       "first_pitch": "2026-06-25T19:45:00-04:00",
-      "best_price": -154
+      "best_price": -154,
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "batter": "Jasson Dom\u00ednguez",
@@ -154,7 +164,23 @@
       "away_team": "New York Yankees",
       "home_team": "Boston Red Sox",
       "first_pitch": "2026-06-25T19:10:00-04:00",
-      "best_price": -119
+      "best_price": -119,
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-06-26T08:08:14.116964-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 3,
+    "n_void": 3,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 1,
+    "pushes": 0,
+    "hit_rate": 66.7,
+    "risk_total": 451.0,
+    "profit_total": 23.0,
+    "roi_pct": 5.1
+  }
 }
