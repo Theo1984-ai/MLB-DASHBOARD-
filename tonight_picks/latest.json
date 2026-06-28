@@ -1,83 +1,154 @@
 {
-  "date": "2026-06-27",
-  "generated_at": "2026-06-27 05:51 PM EDT",
+  "date": "2026-06-28",
+  "generated_at": "2026-06-28 03:00 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "\ud83d\udd12 STRICT FILTER: 3 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. \u26a0\ufe0f Many MLB games haven't posted props yet \u2014 re-scan later.",
+  "intro": "🔒 STRICT FILTER: 6 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
   "concentration_plays": [],
   "top_picks": [
     {
-      "player": "Hunter Goodman",
-      "game": "Rockies @ Twins",
+      "player": "Jasson Domínguez",
+      "game": "Yankees @ Sox",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 280,
-      "book": "betmgm",
-      "ev": 11.67,
-      "fair_pct": 29.4
+      "price": 273,
+      "book": "draftkings",
+      "ev": 13.21,
+      "fair_pct": 30.4
+    },
+    {
+      "player": "Cody Bellinger",
+      "game": "Yankees @ Sox",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 246,
+      "book": "draftkings",
+      "ev": 12.66,
+      "fair_pct": 32.6
+    },
+    {
+      "player": "Andy Pages",
+      "game": "Dodgers @ Padres",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 273,
+      "book": "draftkings",
+      "ev": 12.63,
+      "fair_pct": 30.2
     },
     {
       "player": "Henry Bolte",
       "game": "Athletics @ Angels",
       "market": "Hits",
       "side": "Over",
-      "line": 1.5,
-      "price": 293,
-      "book": "draftkings",
-      "ev": 10.78,
-      "fair_pct": 28.2
+      "line": 0.5,
+      "price": -250,
+      "book": "betmgm",
+      "ev": 11.22,
+      "fair_pct": 74.6
     },
     {
-      "player": "Victor Caratini",
-      "game": "Rockies @ Twins",
+      "player": "Vaughn Grissom",
+      "game": "Athletics @ Angels",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 290,
-      "book": "fanduel",
-      "ev": 10.1,
-      "fair_pct": 28.2
+      "price": 273,
+      "book": "draftkings",
+      "ev": 11.13,
+      "fair_pct": 29.8
+    },
+    {
+      "player": "Jo Adell",
+      "game": "Athletics @ Angels",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 254,
+      "book": "draftkings",
+      "ev": 10.89,
+      "fair_pct": 31.3
     }
   ],
   "bet_card": {
-    "\ud83d\udc8e Max Conviction (2u each)": [
+    "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
-        "description": "Hunter Goodman Hits Over 1.5",
-        "price": 280,
-        "book": "betmgm"
-      },
-      {
-        "stake": "2u",
-        "description": "Henry Bolte Hits Over 1.5",
-        "price": 293,
+        "description": "Jasson Domínguez Hits Over 1.5",
+        "price": 273,
         "book": "draftkings"
       },
       {
         "stake": "2u",
-        "description": "Victor Caratini Hits Over 1.5",
-        "price": 290,
-        "book": "fanduel"
+        "description": "Cody Bellinger Hits Over 1.5",
+        "price": 246,
+        "book": "draftkings"
+      },
+      {
+        "stake": "2u",
+        "description": "Andy Pages Hits Over 1.5",
+        "price": 273,
+        "book": "draftkings"
+      }
+    ],
+    "🎲 Tier 2 (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Henry Bolte Hits Over 0.5",
+        "price": -250,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Vaughn Grissom Hits Over 1.5",
+        "price": 273,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Jo Adell Hits Over 1.5",
+        "price": 254,
+        "book": "draftkings"
+      }
+    ],
+    "🛡️ Safe Locks (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Henry Bolte Hits Over 0.5",
+        "price": -250,
+        "book": "betmgm"
       }
     ]
   },
-  "safe_locks": [],
+  "safe_locks": [
+    {
+      "player": "Henry Bolte",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -250,
+      "book": "betmgm",
+      "fair_pct": 74.6,
+      "ev": 11.22
+    }
+  ],
   "nba_game": "No NBA game on the slate",
   "nba_picks": [],
   "avoid": [
-    "\u26d4 Multi-leg parlays \u2014 singles only",
-    "\u26d4 Single-book longshots at +1500+ (stale pricing trap)",
-    "\u26d4 Stacking 4+ same-game props (correlation traps)",
-    "\u26a0\ufe0f FanDuel HR picks underperformed in 8-day sample \u2014 sanity-check before betting",
-    "\u23f0 13 MLB games still lack props \u2014 re-scan later",
-    "\u2139\ufe0f Strict filter produced few picks tonight \u2014 this is normal. Quality > quantity."
+    "⛔ Multi-leg parlays — singles only",
+    "⛔ Single-book longshots at +1500+ (stale pricing trap)",
+    "⛔ Stacking 4+ same-game props (correlation traps)",
+    "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
+    "⏰ 12 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "\ud83e\udd16 Scanned at 05:51 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
-    "\ud83d\udc8e Singles only \u2014 no parlays",
-    "\ud83c\udfaf 0 picks have $15+ EV",
-    "\ud83d\udcca 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
-    "\ud83d\udcf1 Bookmark this page for daily access",
-    "\ud83c\udf1f Pick of the night: Hunter Goodman Hits Over 1.5 @ +280 (betmgm) = $+11.67 EV"
+    "🤖 Scanned at 03:00 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "💎 Singles only — no parlays",
+    "🎯 0 picks have $15+ EV",
+    "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
+    "📱 Bookmark this page for daily access",
+    "🌟 Pick of the night: Jasson Domínguez Hits Over 1.5 @ +273 (draftkings) = $+13.21 EV"
   ]
 }
