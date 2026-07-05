@@ -32,6 +32,11 @@ MIN_LIQUIDITY = 10000
 
 def to_settler_pick(p):
     """Reshape a sharp money pick into the settler's expected schema."""
+    ys = p.get("yes_bid_depth", 0) or 0
+    ns = p.get("no_bid_depth", 0) or 0
+    sharp_d = ys if p.get("skew_side") == "YES" else ns
+    other_d = ns if p.get("skew_side") == "YES" else ys
+    depth_ratio = round(sharp_d / other_d, 2) if other_d > 0 else None
     return {
         # Settle-required fields
         "stat_key":    p.get("bet_stat_key"),
@@ -49,18 +54,22 @@ def to_settler_pick(p):
         "game":        p.get("event", ""),
         "question":    p.get("question", ""),
         # Sharp money context
-        "edge_pp":           p.get("edge_pp"),
-        "skew_strength":     p.get("skew_strength"),
-        "skew_side":         p.get("skew_side"),
-        "liquidity":         p.get("liquidity"),
-        "volume":            p.get("volume"),
-        "yes_bid_depth":     p.get("yes_bid_depth"),
-        "no_bid_depth":      p.get("no_bid_depth"),
-        "pm_mid":            p.get("mid"),
-        "pm_implied_pct":    (p.get("mid", 0) * 100 if p.get("skew_side")=="YES"
-                              else (1 - (p.get("mid", 0))) * 100),
-        "sb_book":           p.get("sb_book"),
-        "sb_implied_pct":    p.get("sb_implied_pct"),
+        "edge_pp":                p.get("edge_pp"),
+        "edge_best_pp":           p.get("edge_best_pp"),
+        "skew_strength":          p.get("skew_strength"),
+        "skew_side":              p.get("skew_side"),
+        "liquidity":              p.get("liquidity"),
+        "volume":                 p.get("volume"),
+        "yes_bid_depth":          ys,
+        "no_bid_depth":           ns,
+        "depth_ratio":            depth_ratio,
+        "pm_mid":                 p.get("mid"),
+        "pm_implied_pct":         (p.get("mid", 0) * 100 if p.get("skew_side")=="YES"
+                                   else (1 - (p.get("mid", 0))) * 100),
+        "sb_book":                p.get("sb_book"),
+        "sb_implied_pct":         p.get("sb_implied_pct"),
+        "sb_consensus_implied_pct": p.get("sb_consensus_implied_pct"),
+        "sb_n_books":             p.get("sb_n_books"),
     }
 
 
@@ -108,8 +117,10 @@ def main():
     for p in new_picks:
         p["captured_at"] = now_iso
 
-    # APPEND: if today's file exists, merge new picks with existing (dedup by play key).
-    # Sharp money signals are fleeting — multiple scans per day catch more plays.
+    # APPEND with PERSISTENCE TRACKING: instead of dedup-first-wins, we
+    # track how many scans each pick appeared in. A signal seen in 3+
+    # snapshots is much stronger than a one-time "flash" — the flash may
+    # be one whale getting cold feet; persistence proves real conviction.
     existing_picks = []
     if os.path.exists(out_path):
         try:
@@ -120,15 +131,56 @@ def main():
             pass
 
     by_key = {_play_key(p): p for p in existing_picks}
-    added = 0
+    added = new_appearances = 0
     for p in new_picks:
         k = _play_key(p)
+        history_entry = {
+            "t":     now_iso,
+            "skew":  p.get("skew_strength"),
+            "mid":   p.get("pm_mid"),
+            "edge":  p.get("edge_pp"),
+            "ratio": p.get("depth_ratio"),
+        }
         if k not in by_key:
+            # First sighting
+            p["n_appearances"] = 1
+            p["first_seen_at"] = now_iso
+            p["last_seen_at"]  = now_iso
+            p["skew_history"]  = [history_entry]
+            # Refresh the top-level fields to the latest observed values
+            p["captured_at"]   = now_iso
             by_key[k] = p
             added += 1
+        else:
+            # Re-hit: increment counter, update rolling fields, append history
+            prev_pick = by_key[k]
+            prev_pick["n_appearances"] = (prev_pick.get("n_appearances") or 1) + 1
+            prev_pick["last_seen_at"]  = now_iso
+            # Preserve first_seen_at (set on first sighting)
+            prev_pick.setdefault("first_seen_at",
+                                 prev_pick.get("captured_at") or now_iso)
+            hist = prev_pick.get("skew_history") or []
+            hist.append(history_entry)
+            prev_pick["skew_history"] = hist
+            # Refresh current-state fields with the latest scan's values so
+            # the display always shows most-recent depth/skew/edge.
+            for field in ("skew_strength", "yes_bid_depth", "no_bid_depth",
+                          "depth_ratio", "pm_mid", "pm_implied_pct",
+                          "edge_pp", "edge_best_pp", "liquidity", "volume",
+                          "sb_best_price", "sb_book", "sb_implied_pct",
+                          "sb_consensus_implied_pct", "sb_n_books"):
+                if p.get(field) is not None:
+                    prev_pick[field] = p[field]
+            new_appearances += 1
     merged = list(by_key.values())
-    merged.sort(key=lambda x: -(x.get("edge_pp") or 0))
-    print(f"  Merged: {added} new picks added (had {len(existing_picks)} previously, total {len(merged)})")
+    # Sort by (persistence tier, edge) so proven-persistent signals rise to top
+    def _sort_key(x):
+        n = x.get("n_appearances") or 1
+        e = x.get("edge_pp") or 0
+        return (-min(n, 5), -e)  # cap n at 5 so extreme persistence doesn't outrank huge edge
+    merged.sort(key=_sort_key)
+    print(f"  Merged: {added} new + {new_appearances} re-appearances "
+          f"(had {len(existing_picks)} previously, total {len(merged)})")
 
     payload = {
         "date":        today_et,

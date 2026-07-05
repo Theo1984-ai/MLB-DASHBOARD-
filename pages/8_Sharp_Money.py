@@ -174,6 +174,44 @@ def _depth_ratio(sharp_d, other_d):
     return min(99.0, sharp_d / other_d)
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def _load_persistence_index():
+    """Load today's saved sharp_money_history and index by (game, sharp_pick)
+    so we can annotate live scan rows with n_appearances / first_seen_at.
+    Both fields are populated identically on live rows and saved records,
+    so no field-name gymnastics needed.
+    Cached 2 min to avoid re-reading the file on every rerun."""
+    import json as _j
+    today = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
+    path = os.path.join(ROOT, "sharp_money_history", f"{today}.json")
+    idx = {}
+    if not os.path.exists(path):
+        return idx
+    try:
+        with open(path, encoding="utf-8") as f:
+            for p in _j.load(f).get("picks", []) or []:
+                key = (p.get("game","").strip(), p.get("sharp_pick","").strip())
+                idx[key] = {
+                    "n":     p.get("n_appearances") or 1,
+                    "first": p.get("first_seen_at"),
+                    "last":  p.get("last_seen_at"),
+                    "hist":  p.get("skew_history") or [],
+                }
+    except Exception:
+        pass
+    return idx
+
+
+_persist_idx = _load_persistence_index()
+
+
+def _lookup_persistence(row):
+    """For a live scan row, look up n_appearances from today's saved snapshot."""
+    key = (str(row.get("event","")).strip(),
+           str(row.get("sharp_pick","")).strip())
+    return _persist_idx.get(key)
+
+
 def render_table(rows_subset, sort_by="depth"):
     if not rows_subset:
         st.info("No markets in this bucket.")
@@ -187,6 +225,8 @@ def render_table(rows_subset, sort_by="depth"):
         other_depth = (r["no_bid_depth"] if r["skew_side"] == "YES"
                        else r["yes_bid_depth"])
         ratio = _depth_ratio(sharp_depth, other_depth)
+        persist = _lookup_persistence(r)
+        n_seen = persist["n"] if persist else None
         table.append({
             "Game":             r["event"][:32],
             "Mkt":              r["category"],
@@ -196,6 +236,7 @@ def render_table(rows_subset, sort_by="depth"):
             "$ on other side":  other_depth,
             "Depth ratio":      ratio,
             "Skew %":           r["skew_strength"],
+            "Seen":             n_seen,
             "Mid (YES)":        r["mid"],
             "Spread":           r["spread"],
             "Volume $":         r["volume"],
@@ -210,6 +251,8 @@ def render_table(rows_subset, sort_by="depth"):
         df = df.sort_values("Volume $", ascending=False)
     elif sort_by == "ratio":
         df = df.sort_values("Depth ratio", ascending=False)
+    elif sort_by == "persistence":
+        df = df.sort_values("Seen", ascending=False, na_position="last")
 
     st.dataframe(
         df, use_container_width=True, hide_index=True,
@@ -224,14 +267,23 @@ def render_table(rows_subset, sort_by="depth"):
                      "hit 70% / +21% ROI, 5-10x hit 67% / +31% ROI, "
                      "2-5x hit 52% / +35% ROI. <2x almost never appears."),
             "Skew %":            st.column_config.NumberColumn(format="%.0f%%"),
+            "Seen":              st.column_config.NumberColumn(
+                format="%d×",
+                help="How many scans this signal has appeared in today. "
+                     "Higher = more persistent conviction. '—' means the "
+                     "pick hasn't yet passed the strict save filter "
+                     "(edge≥3pp AND liquidity≥$10K AND SB match)."),
             "Volume $":          st.column_config.NumberColumn(format="$%,.0f"),
         },
     )
 
 
 with tab_all:
-    sort_choice = st.radio("Sort by", ["depth", "skew", "volume", "ratio"],
-                           horizontal=True, key="sort_all")
+    sort_choice = st.radio(
+        "Sort by", ["depth", "skew", "volume", "ratio", "persistence"],
+        horizontal=True, key="sort_all",
+        help="'persistence' surfaces signals seen in 2+ scans first — "
+             "confirmed conviction beats one-shot flashes.")
     render_table(filtered, sort_by=sort_choice)
 
 with tab_yes:
@@ -582,9 +634,18 @@ for r in strongest:
     elif ratio >= 2:     ratio_tier = "🟡 moderate (2-5x)"
     else:                ratio_tier = "🔴 weak (<2x)"
 
+    # Persistence: how many scans has this signal appeared in today?
+    persist = _lookup_persistence(r)
+    n_seen = persist["n"] if persist else 0
+    if n_seen >= 3:      persist_tier = f"🟢🟢 confirmed ({n_seen}× seen)"
+    elif n_seen == 2:    persist_tier = f"🟢 emerging (2× seen)"
+    elif n_seen == 1:    persist_tier = f"🟡 first sighting"
+    else:                persist_tier = f"⚪ not yet saved"
+
+    header_suffix = f" · seen {n_seen}×" if n_seen else " · new"
     with st.expander(
         f"**{r['question'][:80]}**  ·  {r['skew_side']} {fav_pct:.0f}% skew  ·  "
-        f"{ratio:.1f}x depth",
+        f"{ratio:.1f}x depth{header_suffix}",
         expanded=True,
     ):
         c1, c2, c3, c4, c5 = st.columns(5)
@@ -597,11 +658,24 @@ for r in strongest:
                        "5-10x hit 67%, 2-5x hit 52%.")
         st.markdown(interpretation)
         st.caption(
-            f"Depth-ratio tier: **{ratio_tier}**  ·  "
+            f"Depth-ratio: **{ratio_tier}**  ·  Persistence: **{persist_tier}**  ·  "
             f"Volume traded: ${r['volume']:,.0f}  ·  "
             f"Listed liquidity: ${r['liquidity']:,.0f}  ·  "
             f"Category: {r['category']}"
         )
+        # If we have persistence history, show skew trajectory
+        if persist and len(persist.get("hist") or []) >= 2:
+            hist = persist["hist"]
+            first_skew = hist[0].get("skew") or 0
+            last_skew = hist[-1].get("skew") or 0
+            trend = "strengthening ↑" if last_skew > first_skew + 2 else (
+                    "weakening ↓" if last_skew < first_skew - 2 else "stable →")
+            st.caption(
+                f"**Skew trajectory:** {first_skew:.0f}% → {last_skew:.0f}% "
+                f"across {len(hist)} scans ({trend}). A strengthening skew "
+                f"means sharps are pressing the position; weakening = doubt "
+                f"creeping in."
+            )
 
 
 
