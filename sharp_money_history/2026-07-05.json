@@ -1,11 +1,55 @@
 {
   "date": "2026-07-05",
-  "snapshot_at": "2026-07-05T14:06:29.002744-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-07-05T15:19:59.892272-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 70.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Away",
+      "point": null,
+      "away_team": "New York Mets",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-07-06T23:16:00Z",
+      "best_price": 108,
+      "player": null,
+      "selection": "New York Mets ML @ fanduel +108",
+      "market": "Moneyline",
+      "sharp_pick": "New York Mets ML",
+      "game": "New York Mets vs. Atlanta Braves",
+      "question": "New York Mets vs. Atlanta Braves",
+      "edge_pp": 22.2,
+      "edge_best_pp": 22.9,
+      "skew_strength": 86.2,
+      "skew_side": "YES",
+      "liquidity": 86504.96,
+      "volume": 1053600.68,
+      "yes_bid_depth": 1092,
+      "no_bid_depth": 174,
+      "depth_ratio": 6.28,
+      "pm_mid": 0.71,
+      "pm_implied_pct": 71.0,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 48.1,
+      "sb_consensus_implied_pct": 48.8,
+      "sb_n_books": 4,
+      "captured_at": "2026-07-05T15:19:59.892272-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-05T15:19:59.892272-04:00",
+      "last_seen_at": "2026-07-05T15:19:59.892272-04:00",
+      "skew_history": [
+        {
+          "t": "2026-07-05T15:19:59.892272-04:00",
+          "skew": 86.2,
+          "mid": 0.71,
+          "edge": 22.2,
+          "ratio": 6.28
+        }
+      ]
+    }
+  ]
 }
