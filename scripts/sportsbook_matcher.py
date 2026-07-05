@@ -56,10 +56,11 @@ def fetch_alt_lines(api_key, event_id):
         return {}
 
 
-def _find_best_price(bookmakers, market_key, outcome_filter):
-    """Across books, find best (highest) American price matching the filter.
-    outcome_filter is a function: outcome_dict -> bool"""
-    best = None
+def _find_all_prices(bookmakers, market_key, outcome_filter):
+    """Across books, return every price matching the filter.
+    outcome_filter is a function: outcome_dict -> bool
+    Returns list of {price, book, name, point} dicts."""
+    out = []
     for b in bookmakers:
         for m in b.get("markets", []):
             if m["key"] != market_key: continue
@@ -67,10 +68,26 @@ def _find_best_price(bookmakers, market_key, outcome_filter):
                 if outcome_filter(o):
                     price = o.get("price")
                     if price is None: continue
-                    if best is None or price > best["price"]:
-                        best = {"price": int(price), "book": b["key"],
-                                "name": o.get("name"), "point": o.get("point")}
-    return best
+                    out.append({"price": int(price), "book": b["key"],
+                                "name": o.get("name"), "point": o.get("point")})
+    return out
+
+
+def _find_best_price(bookmakers, market_key, outcome_filter):
+    """Compat wrapper: returns single best (highest American) or None."""
+    all_p = _find_all_prices(bookmakers, market_key, outcome_filter)
+    if not all_p: return None
+    return max(all_p, key=lambda x: x["price"])
+
+
+def _consensus_implied_pct(all_prices):
+    """Median implied probability across books. Returns (pct, n_books)."""
+    if not all_prices:
+        return (None, 0)
+    imps = sorted(_amer_to_imp(p["price"]) for p in all_prices)
+    n = len(imps)
+    med = imps[n // 2] if n % 2 == 1 else (imps[n//2 - 1] + imps[n//2]) / 2
+    return (round(med * 100, 1), n)
 
 
 def match_signals(polymarket_rows, api_key):
@@ -88,12 +105,15 @@ def match_signals(polymarket_rows, api_key):
     enriched = []
     for r in polymarket_rows:
         row = dict(r)
-        row["sb_best_price"] = None
-        row["sb_book"] = None
-        row["sb_implied_pct"] = None
-        row["pm_implied_pct_yes"] = round(r["mid"] * 100, 1)
-        row["edge_pp"] = None
-        row["play"] = None
+        row["sb_best_price"]           = None
+        row["sb_book"]                 = None
+        row["sb_implied_pct"]          = None   # implied from best-priced book
+        row["sb_consensus_implied_pct"] = None  # median across books (NEW)
+        row["sb_n_books"]              = 0      # how many books quoted (NEW)
+        row["pm_implied_pct_yes"]      = round(r["mid"] * 100, 1)
+        row["edge_best_pp"]            = None   # legacy metric (vs best book)
+        row["edge_pp"]                 = None   # NEW: vs consensus (conservative)
+        row["play"]                    = None
 
         # Polymarket convention: "A vs. B" → A is mentioned first
         # The Odds API: away_team @ home_team
@@ -130,16 +150,22 @@ def match_signals(polymarket_rows, api_key):
             else:
                 target_team = r["home_team"]  # PM NO team
             tt_norm = _norm_team(target_team)
-            best = _find_best_price(books, "h2h",
+            all_p = _find_all_prices(books, "h2h",
                 lambda o: _norm_team(o.get("name", "")) == tt_norm)
+            best = max(all_p, key=lambda x: x["price"]) if all_p else None
             if best:
                 row["sb_best_price"] = best["price"]
                 row["sb_book"] = best["book"]
                 row["sb_implied_pct"] = round(_amer_to_imp(best["price"]) * 100, 1)
+                cons_pct, n_b = _consensus_implied_pct(all_p)
+                row["sb_consensus_implied_pct"] = cons_pct
+                row["sb_n_books"] = n_b
                 # Sharp side implied at Polymarket mid:
                 pm_pct = (r["mid"] if sharp_side == "YES" else 1 - r["mid"]) * 100
-                # Edge = pm_pct - sb_implied (sharps think it's higher than book)
-                row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                # Legacy edge (vs best): kept for transparency
+                row["edge_best_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                # NEW edge (vs consensus): the honest metric
+                row["edge_pp"] = round(pm_pct - cons_pct, 1) if cons_pct is not None else None
                 row["play"] = f"{target_team} ML @ {best['book']} {best['price']:+d}"
                 # Settle: bet on target_team -> need to know if Home or Away in SB
                 row["bet_stat_key"] = "h2h"
@@ -154,15 +180,20 @@ def match_signals(polymarket_rows, api_key):
             # YES = OVER, NO = UNDER
             target_side = "Over" if sharp_side == "YES" else "Under"
             tgt_pt = r["point"]
-            best = _find_best_price(books, "totals",
+            all_p = _find_all_prices(books, "totals",
                 lambda o: (o.get("name") == target_side
                            and abs((o.get("point") or 0) - tgt_pt) < 0.01))
+            best = max(all_p, key=lambda x: x["price"]) if all_p else None
             if best:
                 row["sb_best_price"] = best["price"]
                 row["sb_book"] = best["book"]
                 row["sb_implied_pct"] = round(_amer_to_imp(best["price"]) * 100, 1)
+                cons_pct, n_b = _consensus_implied_pct(all_p)
+                row["sb_consensus_implied_pct"] = cons_pct
+                row["sb_n_books"] = n_b
                 pm_pct = (r["mid"] if sharp_side == "YES" else 1 - r["mid"]) * 100
-                row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                row["edge_best_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                row["edge_pp"] = round(pm_pct - cons_pct, 1) if cons_pct is not None else None
                 # Include matchup so the totals play is unambiguous
                 away_short = (game.get("away_team","").split()[-1]
                               if game.get("away_team") else "")
@@ -185,15 +216,20 @@ def match_signals(polymarket_rows, api_key):
             else:
                 target_team = r["team"]; target_point = -r["point"]  # other side
             tt_norm = _norm_team(target_team)
-            best = _find_best_price(books, "spreads",
+            all_p = _find_all_prices(books, "spreads",
                 lambda o: (_norm_team(o.get("name","")) == tt_norm
                            and abs((o.get("point") or 0) - target_point) < 0.01))
+            best = max(all_p, key=lambda x: x["price"]) if all_p else None
             if best:
                 row["sb_best_price"] = best["price"]
                 row["sb_book"] = best["book"]
                 row["sb_implied_pct"] = round(_amer_to_imp(best["price"]) * 100, 1)
+                cons_pct, n_b = _consensus_implied_pct(all_p)
+                row["sb_consensus_implied_pct"] = cons_pct
+                row["sb_n_books"] = n_b
                 pm_pct = (r["mid"] if sharp_side == "YES" else 1 - r["mid"]) * 100
-                row["edge_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                row["edge_best_pp"] = round(pm_pct - row["sb_implied_pct"], 1)
+                row["edge_pp"] = round(pm_pct - cons_pct, 1) if cons_pct is not None else None
                 side_str = "+" if target_point > 0 else ""
                 row["play"] = f"{target_team} {side_str}{target_point} @ {best['book']} {best['price']:+d}"
                 # Settle metadata
