@@ -161,6 +161,13 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
     # 46% with -20% ROI. Require consensus_implied >= 55 in addition to the
     # existing thresholds — eliminates picks where the long-priced book was
     # a discount that the rest of the market disagreed with.
+    #
+    # 7/5 update: post-fix bucket analysis showed 55-60% best_implied still
+    # bled (40% hit / -31% ROI on 10 picks). Diagnosis: losers clustered
+    # against elite pitchers (Robbie Ray x3, Sonny Gray, Michael King) with
+    # consensus_implied stuck at 58.3-58.5% — right at the old floor. Bumping
+    # consensus_implied floor from 55 -> 58 would have blocked 4 of 6 losers
+    # while keeping 3 of 4 winners (Griffin/Chourio/Caminero).
     if strict:
         qualifying = [
             p for p in all_hrr
@@ -169,7 +176,7 @@ def generate_hrr_picks(odds_key, season=None, top_n=6, strict=True):
             and p.get("best_implied_pct") is not None
             and p["best_implied_pct"] >= 50
             and p.get("consensus_implied_pct") is not None
-            and p["consensus_implied_pct"] >= 55
+            and p["consensus_implied_pct"] >= 58
         ]
         def score(p):
             am = p["best_odds"]

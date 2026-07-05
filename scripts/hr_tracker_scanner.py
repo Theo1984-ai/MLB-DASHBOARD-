@@ -24,7 +24,7 @@ _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
 
-def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
+def generate_hr_picks(odds_key, season=None, top_n=12, strict=True):
     """Generate HR picks matching the HR Tracker page Save flow.
 
     Returns: dict with date, saved_at, top_n, n_games, n_total, picks
@@ -258,13 +258,17 @@ def generate_hr_picks(odds_key, season=None, top_n=7, strict=True):
                 rec["confidence_tier"] = None
             all_preds.append(rec)
 
-    # STRICT filter (matches page logic exactly)
+    # STRICT filter (7/5: loosened after consensus-fix filter proved too tight)
+    # Pre-fix: edge_pp >= -2 vs BEST book -> ~7 picks/day, negative ROI
+    # Post-consensus-fix: same threshold vs CONSENSUS -> ~1 pick/day (too few)
+    # Loosened threshold catches moderate-EV picks the consensus fix over-filtered
+    # while still rejecting negative-edge junk.
     if strict:
         qualifying = [
             p for p in all_preds
             if p.get("best_odds") is not None
-            and (p.get("edge_pp") is None or p["edge_pp"] >= -2)
-            and (p.get("confidence") is None or p["confidence"] >= 45)
+            and (p.get("edge_pp") is None or p["edge_pp"] >= -4)
+            and (p.get("confidence") is None or p["confidence"] >= 40)
         ]
         qualifying.sort(key=lambda x: (-x.get("confidence", 0), -x["model_p"]))
         picks = qualifying[:top_n]

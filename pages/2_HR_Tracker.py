@@ -378,18 +378,17 @@ if save_btn:
             # ===========================================================
             STRICT_HR = True
             if STRICT_HR:
-                # Filter: must have odds, edge >= -2pp, conf >= 45
-                # NO max odds cap on HR Tracker (per user 5/24) — HR is
-                # naturally a longshot market and capping at +300 was
-                # filtering out too many legitimate plays.
+                # 7/5: loosened after consensus fix over-tightened volume
+                # to <1 pick/day. Same underlying quality logic, just
+                # accepts moderate-edge picks the consensus filter missed.
                 qualifying = [
                     p for p in all_preds
                     if p.get("best_odds") is not None
-                    and (p.get("edge_pp") is None or p["edge_pp"] >= -2)
-                    and (p.get("confidence") is None or p["confidence"] >= 45)
+                    and (p.get("edge_pp") is None or p["edge_pp"] >= -4)
+                    and (p.get("confidence") is None or p["confidence"] >= 40)
                 ]
                 qualifying.sort(key=lambda x: (-x.get("confidence", 0), -x["model_p"]))
-                top_n = qualifying[:7]
+                top_n = qualifying[:12]
             else:
                 all_preds.sort(key=lambda x: -x["model_p"])
                 top_n = all_preds[:TOP_N]
@@ -599,11 +598,10 @@ if save_hrr_btn:
             # ===========================================================
             STRICT_HRR = True
             if STRICT_HRR:
-                # Tightened filter (6/18): require consensus_implied >= 55,
-                # not just best-book implied >= 50. Backtest showed the
-                # 50-60% best-implied bucket was 46% hit / -20% ROI — long-
-                # priced books were discounting plays the rest of the market
-                # broadly considered weaker. Consensus floor catches it.
+                # 7/5: tightened consensus_implied floor from 55 -> 58 after
+                # the 55-60% best_implied bucket bled -31% ROI on 10 picks
+                # against elite pitchers (Robbie Ray x3, Sonny Gray). Losers
+                # clustered at consensus 58.3-58.5% right at the old floor.
                 qualifying = [
                     p for p in all_hrr
                     if p.get("best_odds") is not None
@@ -611,7 +609,7 @@ if save_hrr_btn:
                     and p.get("best_implied_pct") is not None
                     and p["best_implied_pct"] >= 50
                     and p.get("consensus_implied_pct") is not None
-                    and p["consensus_implied_pct"] >= 55
+                    and p["consensus_implied_pct"] >= 58
                 ]
                 def score(p):
                     am = p["best_odds"]

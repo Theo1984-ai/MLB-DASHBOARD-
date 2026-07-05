@@ -137,6 +137,63 @@ st.caption(f"Generated: {generated}  •  Analyst: {analyst}")
 if intro:
     st.info(intro)
 
+# ---------- 🏆 Soft Scanner A-Grade (highest-ROI system, +14.7%) ----------
+# This is the single most profitable system on the dashboard (302 picks,
+# 59.9% hit rate, +14.7% ROI). Elevated to the top of Tonight's Picks so
+# users see it before scrolling. Reads from soft_scanner_history if today's
+# snapshot exists.
+def _load_soft_agrade():
+    today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
+    path = os.path.join(ROOT, "soft_scanner_history", f"{today_et}.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            snap = json.load(f)
+        picks = snap.get("picks", [])
+    except Exception:
+        return []
+    # A-Grade filter (matches Data Status page + Soft Scanner logic):
+    # H+R+R or Hits AND (5+ books OR price <= -150 OR edge >= 10pp)
+    a = []
+    for p in picks:
+        m = p.get("market", "")
+        nb = p.get("n_books", 0)
+        price = p.get("best_price", 0)
+        ep = p.get("edge_pp", 0)
+        if m in ("H+R+R", "Hits") and (nb >= 5 or price <= -150 or ep >= 10):
+            a.append(p)
+    return sorted(a, key=lambda x: -(x.get("edge_pp") or 0))[:8]
+
+_a_grade = _load_soft_agrade()
+if _a_grade:
+    st.markdown("---")
+    st.markdown("## 🏆 Soft A-Grade (highest-ROI system: +14.7%)")
+    st.caption(
+        "Soft Scanner A-Grade picks — H+R+R or Hits with 5+ books, "
+        "price ≤ −150, or ≥10pp edge. Backtested at 59.9% hit / +14.7% ROI "
+        "over 302 picks. This is the most profitable system on the dashboard."
+    )
+    _rows = []
+    for p in _a_grade:
+        _rows.append({
+            "Player":  p.get("player", "?"),
+            "Team":    p.get("team") or "—",
+            "Market":  p.get("market", "?"),
+            "Side":    p.get("side", "?"),
+            "Line":    p.get("point", "—"),
+            "Price":   p.get("best_price"),
+            "Book":    p.get("best_book", "?"),
+            "Edge":    p.get("edge_pp"),
+            "Books":   p.get("n_books"),
+        })
+    _adf = pd.DataFrame(_rows)
+    st.dataframe(_adf, use_container_width=True, hide_index=True,
+                 column_config={
+                     "Price": st.column_config.NumberColumn(format="%+d"),
+                     "Edge":  st.column_config.NumberColumn(format="%+.1fpp"),
+                 })
+
 # Concentration plays — the strongest signals
 if data.get("concentration_plays"):
     st.markdown("---")

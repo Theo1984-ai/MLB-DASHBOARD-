@@ -22,11 +22,18 @@ SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
 
 # Filter constants
 MIN_TRUE_PROB = 0.75
-# Price cap intentionally removed — at 75%+ true probability the fair price is
-# already ~-300 or steeper, so capping at -300 was rejecting most chalk that
-# qualified. User opted to see ALL prices that clear the probability filter.
-MAX_PRICE_CAP = None
-MIN_PRICE_CAP = None
+# Juice cap (7/5): 184 picks in the 90-95% TP bucket hit 86.4% and lost -3.5%
+# ROI because prices at -700 to -1100 leave zero margin for tiny consensus
+# errors. Anything worse than -400 (80% implied) is now rejected — the tail
+# of "sharp locks at heavy juice" was our biggest bleeder (~1200 picks losing
+# $30-40 net).
+MAX_PRICE_CAP = None       # no upper cap on longshots
+MIN_PRICE_CAP = -400       # reject picks with juice worse than -400
+# EV floor (7/5): every TP bucket had negative ROI even though hit rates
+# tracked model within ~2pp. Requiring EV/100 >= 3 ensures we only take
+# picks where the consensus edge over the price is meaningful, not
+# borderline. At -110 juice this equates to about 4pp true edge.
+MIN_EV_PER_100 = 3.0
 MIN_BOOKS = 4
 
 PROP_MARKETS = (
@@ -185,6 +192,10 @@ def _process(market_key, outcomes_by_key, game_label, away_team, home_team,
         if consensus < MIN_TRUE_PROB:
             continue
         ev = ev_per_100(best_price, consensus)
+        # New EV floor + juice-cap filters (7/5). Skip picks that historically
+        # bled — heavy juice with no cushion.
+        if ev < MIN_EV_PER_100:
+            continue
         plays.append({
             "event_id":      event_id,
             "game":          game_label,

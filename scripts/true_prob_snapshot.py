@@ -46,10 +46,11 @@ def main():
         "snapshot_at":  datetime.now(tz=EASTERN).isoformat(),
         "n_picks":      len(picks),
         "filter":       {
-            "min_true_prob": 0.75,
-            "min_books":     4,
-            "min_price":     -300,
-            "max_price":     300,
+            "min_true_prob":     0.75,
+            "min_books":         4,
+            "min_price":         -400,  # juice cap: reject worse than -400
+            "max_price":         None,
+            "min_ev_per_100":    3.0,   # EV floor to cover vig
         },
         "picks":        picks,
     }
