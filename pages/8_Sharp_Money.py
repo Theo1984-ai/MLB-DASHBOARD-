@@ -167,6 +167,13 @@ def _other_side_label(r):
     return "?"
 
 
+def _depth_ratio(sharp_d, other_d):
+    """Sharp-side depth ratio. Returns a float, capped at 99 for display."""
+    if not other_d or other_d <= 0:
+        return 99.0 if (sharp_d or 0) > 0 else 0.0
+    return min(99.0, sharp_d / other_d)
+
+
 def render_table(rows_subset, sort_by="depth"):
     if not rows_subset:
         st.info("No markets in this bucket.")
@@ -179,6 +186,7 @@ def render_table(rows_subset, sort_by="depth"):
                        else r["no_bid_depth"])
         other_depth = (r["no_bid_depth"] if r["skew_side"] == "YES"
                        else r["yes_bid_depth"])
+        ratio = _depth_ratio(sharp_depth, other_depth)
         table.append({
             "Game":             r["event"][:32],
             "Mkt":              r["category"],
@@ -186,6 +194,7 @@ def render_table(rows_subset, sort_by="depth"):
             "$ on sharp pick":  sharp_depth,
             "Other side":       _other_side_label(r),
             "$ on other side":  other_depth,
+            "Depth ratio":      ratio,
             "Skew %":           r["skew_strength"],
             "Mid (YES)":        r["mid"],
             "Spread":           r["spread"],
@@ -199,6 +208,8 @@ def render_table(rows_subset, sort_by="depth"):
         df = df.sort_values("Skew %", ascending=False)
     elif sort_by == "volume":
         df = df.sort_values("Volume $", ascending=False)
+    elif sort_by == "ratio":
+        df = df.sort_values("Depth ratio", ascending=False)
 
     st.dataframe(
         df, use_container_width=True, hide_index=True,
@@ -207,6 +218,11 @@ def render_table(rows_subset, sort_by="depth"):
             "Spread":            st.column_config.NumberColumn(format="$%.3f"),
             "$ on sharp pick":   st.column_config.NumberColumn(format="$%,d"),
             "$ on other side":   st.column_config.NumberColumn(format="$%,d"),
+            "Depth ratio":       st.column_config.NumberColumn(
+                format="%.1fx",
+                help="Sharp-side $ divided by other-side $. Backtest: 10x+ "
+                     "hit 70% / +21% ROI, 5-10x hit 67% / +31% ROI, "
+                     "2-5x hit 52% / +35% ROI. <2x almost never appears."),
             "Skew %":            st.column_config.NumberColumn(format="%.0f%%"),
             "Volume $":          st.column_config.NumberColumn(format="$%,.0f"),
         },
@@ -214,7 +230,7 @@ def render_table(rows_subset, sort_by="depth"):
 
 
 with tab_all:
-    sort_choice = st.radio("Sort by", ["depth", "skew", "volume"],
+    sort_choice = st.radio("Sort by", ["depth", "skew", "volume", "ratio"],
                            horizontal=True, key="sort_all")
     render_table(filtered, sort_by=sort_choice)
 
@@ -559,19 +575,33 @@ for r in strongest:
         f"Sharp interpretation: market expects {fav_side}."
     )
 
+    ratio = _depth_ratio(sharp_depth, other_depth)
+    # Ratio tier from 39-pick backtest (see /code)
+    if ratio >= 10:      ratio_tier = "🟢 extreme (10x+)"
+    elif ratio >= 5:     ratio_tier = "🟢 strong (5-10x)"
+    elif ratio >= 2:     ratio_tier = "🟡 moderate (2-5x)"
+    else:                ratio_tier = "🔴 weak (<2x)"
+
     with st.expander(
-        f"**{r['question'][:80]}**  ·  {r['skew_side']} {fav_pct:.0f}% skew",
+        f"**{r['question'][:80]}**  ·  {r['skew_side']} {fav_pct:.0f}% skew  ·  "
+        f"{ratio:.1f}x depth",
         expanded=True,
     ):
-        c1, c2, c3, c4 = st.columns(4)
+        c1, c2, c3, c4, c5 = st.columns(5)
         c1.metric("Mid (YES)", f"${r['mid']:.3f}")
         c2.metric("YES bid depth", f"${r['yes_bid_depth']:,}")
         c3.metric("NO bid depth", f"${r['no_bid_depth']:,}")
         c4.metric("Spread", f"${r['spread']:.3f}")
+        c5.metric("Depth ratio", f"{ratio:.1f}x",
+                  help="Sharp-side $ ÷ other-side $. Backtest: 10x+ hit 70%, "
+                       "5-10x hit 67%, 2-5x hit 52%.")
         st.markdown(interpretation)
-        st.caption(f"Volume traded: ${r['volume']:,.0f}  ·  "
-                   f"Listed liquidity: ${r['liquidity']:,.0f}  ·  "
-                   f"Category: {r['category']}")
+        st.caption(
+            f"Depth-ratio tier: **{ratio_tier}**  ·  "
+            f"Volume traded: ${r['volume']:,.0f}  ·  "
+            f"Listed liquidity: ${r['liquidity']:,.0f}  ·  "
+            f"Category: {r['category']}"
+        )
 
 
 
