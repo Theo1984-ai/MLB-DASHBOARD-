@@ -216,11 +216,29 @@ def main():
         except Exception:
             return False
 
+    # True Prob now merges (not overwrites), so freshness guard tightened
+    # from 4h to 30 min. Multiple runs per day now capture more signals.
+    TP_FRESHNESS_MIN = 30
+    def _tp_is_fresh(filepath):
+        if force or not os.path.exists(filepath): return False
+        try:
+            with open(filepath) as f:
+                p = __import__("json").load(f)
+            n_picks = p.get("n_picks") or len(p.get("picks", [])) or 0
+            if n_picks == 0: return False
+            ts_str = p.get("snapshot_at") or p.get("saved_at")
+            if not ts_str: return False
+            ts = datetime.fromisoformat(ts_str)
+            age_min = (datetime.now(tz=EASTERN) - ts).total_seconds() / 60
+            return age_min < TP_FRESHNESS_MIN
+        except Exception:
+            return False
+
     tp_today = os.path.join(ROOT, "true_prob_history", f"{today_et}.json")
     if settle_only:
         print(f"\n[SKIP] --settle-only: not taking True Prob snapshot for {today_et}.")
-    elif _is_fresh(tp_today):
-        print(f"\n[SKIP] True Prob snapshot for {today_et} is < {FRESHNESS_HOURS}h old. "
+    elif _tp_is_fresh(tp_today):
+        print(f"\n[SKIP] True Prob snapshot for {today_et} is < {TP_FRESHNESS_MIN}min old. "
               f"Use --force to re-run.")
     else:
         def _snapshot():
@@ -236,18 +254,60 @@ def main():
         step(f"Snapshot True Prob {today_et}", _snapshot)
 
     # ---------- Step 2b: Take today's Soft Scanner snapshot ----------
+    # Soft Scanner now uses APPEND+PERSISTENCE (7/7): each cron run merges
+    # new signals into the file with dedup by (game, market, player, side,
+    # point). Prior behavior overwrote the file, losing morning-only
+    # signals when the afternoon slate had different qualifiers.
+    #
+    # Freshness guard is now MUCH shorter (30 min) because we're merging,
+    # not overwriting — no risk of double-counting, only benefit is
+    # capturing more signals as sportsbook lines move through the day.
     soft_today = os.path.join(ROOT, "soft_scanner_history", f"{today_et}.json")
-    if do_soft and _is_fresh(soft_today):
-        print(f"[SKIP] Soft Scanner snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    SOFT_FRESHNESS_MIN = 30
+    def _soft_is_fresh():
+        if not os.path.exists(soft_today) or force:
+            return False
+        try:
+            with open(soft_today) as f:
+                payload = __import__("json").load(f)
+            ts_str = payload.get("snapshot_at") or payload.get("saved_at")
+            if not ts_str: return False
+            ts = datetime.fromisoformat(ts_str)
+            age_min = (datetime.now(tz=EASTERN) - ts).total_seconds() / 60
+            return age_min < SOFT_FRESHNESS_MIN
+        except Exception:
+            return False
+    if do_soft and _soft_is_fresh():
+        print(f"[SKIP] Soft Scanner snapshot for {today_et} is < {SOFT_FRESHNESS_MIN}min old.")
     elif do_soft:
         def _soft_snap():
             from scripts.soft_scanner import scan as soft_scan
-            picks = soft_scan(odds_key)
-            print(f"  Found {len(picks)} soft-price plays (edge >= 5pp, 3+ books)")
+            from scripts.snapshot_merger import (
+                race_safe_git_pull, load_existing, merge_picks, summary as _sm,
+            )
+            race_safe_git_pull(ROOT)
+            new_picks = soft_scan(odds_key)
+            existing = load_existing(soft_today)
+            def _key(p):
+                return (str(p.get("game","") or p.get("event","")),
+                        str(p.get("market","")),
+                        str(p.get("player","") or p.get("selection","")),
+                        str(p.get("side","")),
+                        p.get("point"))
+            merged, added, rehit = merge_picks(
+                existing, new_picks, _key,
+                rolling_fields=("best_price","best_book","best_imp_pct",
+                                "consensus_pct","edge_pp","ev_per_100",
+                                "n_books","all_prices"),
+                history_fields={"edge": "edge_pp", "price": "best_price",
+                                "n_books": "n_books"},
+            )
+            print(f"  Soft-scanner: {added} new + {rehit} re-appearances "
+                  f"(had {len(existing)}, total {len(merged)})")
             payload = {
                 "date":        today_et,
                 "snapshot_at": datetime.now(tz=EASTERN).isoformat(),
-                "n_picks":     len(picks),
+                "n_picks":     len(merged),
                 "filter": {
                     "min_edge_pp": 5.0,
                     "min_books":   3,
@@ -255,15 +315,15 @@ def main():
                     "max_price":   300,
                     "top_n":       30,
                 },
-                "picks": picks,
+                "summary":     _sm(merged),
+                "picks":       merged,
             }
             out_dir = os.path.join(ROOT, "soft_scanner_history")
             os.makedirs(out_dir, exist_ok=True)
-            out_path = os.path.join(out_dir, f"{today_et}.json")
             import json
-            with open(out_path, "w") as f:
+            with open(soft_today, "w") as f:
                 json.dump(payload, f, indent=2, default=str)
-            print(f"  Saved -> {out_path}")
+            print(f"  Saved -> {soft_today}")
             return True
         step(f"Snapshot Soft Scanner {today_et}", _soft_snap)
 
@@ -286,11 +346,27 @@ def main():
         step(f"Snapshot Sharp Money {today_et}", _sharp_snap)
 
     # ---------- Step 2d: Fundamentals Props snapshot ----------
+    # Fundamentals also merges now (7/7). Same 30-min freshness as
+    # Soft/True Prob so intraday scans are captured.
     fund_today = os.path.join(ROOT, "fundamentals_history", f"{today_et}.json")
+    def _fund_is_fresh():
+        if force or not os.path.exists(fund_today): return False
+        try:
+            with open(fund_today) as f:
+                p = __import__("json").load(f)
+            n_picks = p.get("n_picks") or len(p.get("picks", [])) or 0
+            if n_picks == 0: return False
+            ts_str = p.get("snapshot_at") or p.get("saved_at")
+            if not ts_str: return False
+            ts = datetime.fromisoformat(ts_str)
+            age_min = (datetime.now(tz=EASTERN) - ts).total_seconds() / 60
+            return age_min < 30
+        except Exception:
+            return False
     if settle_only:
         print(f"[SKIP] --settle-only: not taking Fundamentals snapshot for {today_et}.")
-    elif _is_fresh(fund_today):
-        print(f"[SKIP] Fundamentals snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    elif _fund_is_fresh():
+        print(f"[SKIP] Fundamentals snapshot for {today_et} is < 30min old.")
     else:
         def _fund_snap():
             r = subprocess.run(

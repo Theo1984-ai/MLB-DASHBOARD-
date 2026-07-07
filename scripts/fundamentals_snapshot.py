@@ -145,14 +145,37 @@ def main():
 
     print(f"  Actionable: {len(hitter_final)} hitter + {len(pitcher_final)} pitcher K + {len(hr_final)} HR longshot")
 
-    picks = ([to_settler_pick(p) for p in hitter_final]
-             + [to_settler_pick(p) for p in pitcher_final]
-             + [to_settler_pick(p) for p in hr_final])
+    new_picks = ([to_settler_pick(p) for p in hitter_final]
+                 + [to_settler_pick(p) for p in pitcher_final]
+                 + [to_settler_pick(p) for p in hr_final])
+
+    # APPEND+PERSISTENCE (7/7): merge into existing file so morning-only
+    # signals aren't lost when the afternoon scan produces a different set.
+    from scripts.snapshot_merger import (
+        race_safe_git_pull, load_existing, merge_picks, summary as _sm,
+    )
+    race_safe_git_pull(ROOT)
+    existing = load_existing(out_path)
+    def _key(p):
+        return (str(p.get("player","")),
+                str(p.get("market","")),
+                str(p.get("side","")),
+                p.get("point"),
+                str(p.get("game","")))
+    merged, added, rehit = merge_picks(
+        existing, new_picks, _key,
+        rolling_fields=("best_price","best_book","composite",
+                        "consensus_pct","cross_book_pp","edge_pp"),
+        history_fields={"composite": "composite", "cons": "consensus_pct",
+                        "edge": "cross_book_pp"},
+    )
+    print(f"  Merged: {added} new + {rehit} re-appearances "
+          f"(had {len(existing)}, total {len(merged)})")
 
     payload = {
         "date":        today_et,
         "snapshot_at": datetime.now(tz=EASTERN).isoformat(),
-        "n_picks":     len(picks),
+        "n_picks":     len(merged),
         "filter": {
             "min_composite":     MIN_COMPOSITE,
             "min_consensus_pct": MIN_CONSENSUS,
@@ -164,7 +187,8 @@ def main():
             "n_elite_batters":  result["n_elite_batters"],
             "n_offers":         result["n_plays"],
         },
-        "picks": picks,
+        "summary":     _sm(merged),
+        "picks":       merged,
     }
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, default=str)
