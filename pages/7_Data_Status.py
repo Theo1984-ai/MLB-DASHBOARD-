@@ -258,7 +258,7 @@ def load_files(dirname, pick_filter=None):
     return out
 
 
-all_data = {t["dir"]: load_files(t["dir"], pick_filter=t.get("pick_filter"))
+all_data = {t["name"]: load_files(t["dir"], pick_filter=t.get("pick_filter"))
             for t in TRACKERS}
 today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
 
@@ -307,7 +307,7 @@ def freshness_emoji(date_str):
 
 status_cols = st.columns(len(TRACKERS))
 for i, t in enumerate(TRACKERS):
-    files = all_data[t["dir"]]
+    files = all_data[t["name"]]
     if files:
         last_date = files[-1][0]
         last_payload = files[-1][1]
@@ -359,7 +359,7 @@ sel_date = st.selectbox(
 day_summary = {}
 total_w = total_l = total_p = total_picks = 0
 for t in TRACKERS:
-    files_by_date = {f[0]: f[1] for f in all_data[t["dir"]]}
+    files_by_date = {f[0]: f[1] for f in all_data[t["name"]]}
     payload = files_by_date.get(sel_date)
     if not payload:
         day_summary[t["name"]] = {"picks": 0, "w": 0, "l": 0, "p": 0,
@@ -514,7 +514,7 @@ st.markdown("### 📈 All-time performance")
 
 perf_rows = []
 for t in TRACKERS:
-    files = all_data[t["dir"]]
+    files = all_data[t["name"]]
     days_total = len(files)
     days_settled = 0
     w = l = p = 0
@@ -563,7 +563,7 @@ with st.expander("🗓️ Last 14 days activity grid"):
         ds = d.strftime("%Y-%m-%d")
         row = {"Date": ds, "Day": d.strftime("%a")}
         for t in TRACKERS:
-            files_by_date = {f[0]: f[1] for f in all_data[t["dir"]]}
+            files_by_date = {f[0]: f[1] for f in all_data[t["name"]]}
             if ds in files_by_date:
                 payload = files_by_date[ds]
                 n = payload.get("n_picks") or len(payload.get("picks", []))
@@ -584,7 +584,7 @@ with st.expander("📂 Per-tracker day-by-day history"):
     history_tabs = st.tabs([f"{t['icon']} {t['name']}" for t in TRACKERS])
     for i, t in enumerate(TRACKERS):
         with history_tabs[i]:
-            files = all_data[t["dir"]]
+            files = all_data[t["name"]]
             if not files:
                 st.caption(f"No data saved yet in `{t['dir']}/`.")
                 continue
