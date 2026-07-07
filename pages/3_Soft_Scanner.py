@@ -357,8 +357,12 @@ def is_a_plus_grade(r):
     return edge is not None and edge >= 10
 
 
-a_grade = [r for r in all_disagreements if is_a_grade(r)]
 a_plus  = [r for r in all_disagreements if is_a_plus_grade(r)]
+# A-Grade table excludes anything already shown as A+ (A+ is a strict subset:
+# every edge>=10pp pick also passes A-Grade). Otherwise both tables show
+# duplicate rows on any slate that has A+ signals.
+a_grade = [r for r in all_disagreements
+           if is_a_grade(r) and not is_a_plus_grade(r)]
 
 # ---------- A+ Grade (highest-ROI subset) ----------
 st.markdown("---")
@@ -410,9 +414,10 @@ else:
         "the A-Grade section below still has profitable plays (+14.2% ROI historically)."
     )
 
-# ---------- A Grade (broader profitable subset) ----------
+# ---------- A Grade (broader profitable subset, excluding A+) ----------
 st.markdown("---")
-st.markdown(f"### 🏆 A-Grade Picks — {len(a_grade)} highest-conviction plays")
+st.markdown(f"### 🏆 A-Grade Picks — {len(a_grade)} additional plays "
+            f"(excludes A+ shown above)")
 st.caption(
     "Backtest-driven filter (248 historical settled picks): "
     "**H+R+R or Hits only** (TB and HR markets historically negative-EV) "
