@@ -23,6 +23,20 @@ from models import hr_model, calibration as cal_model
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
+# Bayesian shrinkage toward market (7/7): trust market's consensus implied
+# probability MORE than the physics-based model, because HRs are rare events
+# (~4%/PA) and the market has thousands of participants pricing them.
+# BLEND_WEIGHT = weight on the MODEL (rest goes to market consensus).
+#
+# 118-pick backtest before this fix: -30.2% ROI. Model was systematically
+# overconfident in 15-25% range where most volume lives. Shrinking toward
+# market caps model overconfidence without abandoning the edge entirely.
+#
+# w=0.25 means: 25% model + 75% market. Recommended by Pinnacle-style sharp
+# betting community as the "trust the market unless you have very good
+# reason not to" default.
+HR_MODEL_BLEND_WEIGHT = 0.25
+
 
 def generate_hr_picks(odds_key, season=None, top_n=12, strict=True):
     """Generate HR picks matching the HR Tracker page Save flow.
@@ -248,7 +262,26 @@ def generate_hr_picks(odds_key, season=None, top_n=12, strict=True):
                 consensus_imp = imps[n // 2] if n % 2 == 1 else (imps[n//2 - 1] + imps[n//2]) / 2
                 rec["consensus_implied_pct"] = round(consensus_imp * 100, 2)
                 rec["implied_pct"]           = rec["consensus_implied_pct"]
-                rec["edge_pp"]               = round(p_cal * 100 - consensus_imp * 100, 2)
+
+                # Bayesian blend: shrink model probability toward market.
+                # Preserve raw model output for analysis but use blended
+                # for edge calculation & the confidence score.
+                rec["raw_model_p_pct"] = round(p_cal * 100, 2)
+                blended_p = (HR_MODEL_BLEND_WEIGHT * p_cal
+                             + (1 - HR_MODEL_BLEND_WEIGHT) * consensus_imp)
+                rec["blended_p_pct"]   = round(blended_p * 100, 2)
+                rec["model_p"]         = round(blended_p, 4)   # overwrite
+                rec["model_p_pct"]     = rec["blended_p_pct"]
+                rec["blend_weight"]    = HR_MODEL_BLEND_WEIGHT
+
+                # edge_pp now uses blended vs consensus (which will be smaller
+                # than the raw-model edge — that's the point).
+                rec["edge_pp"] = round(blended_p * 100 - consensus_imp * 100, 2)
+            else:
+                # No odds match — keep the raw model output for display
+                rec["raw_model_p_pct"] = rec["model_p_pct"]
+                rec["blended_p_pct"]   = rec["model_p_pct"]
+                rec["blend_weight"]    = None
             if hasattr(hr_model, "pick_confidence"):
                 conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
                 rec["confidence"]      = conf["score"]
@@ -258,19 +291,25 @@ def generate_hr_picks(odds_key, season=None, top_n=12, strict=True):
                 rec["confidence_tier"] = None
             all_preds.append(rec)
 
-    # STRICT filter (7/5: loosened after consensus-fix filter proved too tight)
-    # Pre-fix: edge_pp >= -2 vs BEST book -> ~7 picks/day, negative ROI
-    # Post-consensus-fix: same threshold vs CONSENSUS -> ~1 pick/day (too few)
-    # Loosened threshold catches moderate-EV picks the consensus fix over-filtered
-    # while still rejecting negative-edge junk.
+    # STRICT filter (7/7: rebuilt for blended edge)
+    # Historical simulation on 88 pre-existing picks with the new blended
+    # edge_pp showed a striking bimodal pattern:
+    #   blended >= -4: 88 picks, 15.9% hit, -16.0% ROI  (loose baseline)
+    #   blended >= -2: 80 picks, 16.2% hit, -12.7% ROI  (marginal)
+    #   blended >=  0: 50 picks, 10.0% hit, -43.1% ROI  (TRAP - worst tier)
+    #   blended >= +1: 11 picks, 27.3% hit, +28.8% ROI  (real edge)
+    # The moderate positive zone (0-1pp blended = 0-4pp raw model edge) is
+    # anti-selective — model is slightly disagreeing but market is winning.
+    # Only bet when model STRONGLY disagrees (blended edge >= +1pp).
     if strict:
         qualifying = [
             p for p in all_preds
             if p.get("best_odds") is not None
-            and (p.get("edge_pp") is None or p["edge_pp"] >= -4)
+            and (p.get("edge_pp") is None or p["edge_pp"] >= 1.0)
             and (p.get("confidence") is None or p["confidence"] >= 40)
         ]
-        qualifying.sort(key=lambda x: (-x.get("confidence", 0), -x["model_p"]))
+        qualifying.sort(key=lambda x: (-x["edge_pp"] if x.get("edge_pp") else 0,
+                                        -x["model_p"]))
         picks = qualifying[:top_n]
     else:
         all_preds.sort(key=lambda x: -x["model_p"])

@@ -357,7 +357,22 @@ if save_btn:
                                          else (imps[n//2-1] + imps[n//2]) / 2)
                         rec["consensus_implied_pct"] = round(consensus_imp * 100, 2)
                         rec["implied_pct"]           = rec["consensus_implied_pct"]
-                        rec["edge_pp"]               = round(p_cal * 100 - consensus_imp * 100, 2)
+                        # Bayesian blend (7/7): shrink model 75% toward market
+                        # consensus. Preserves model's batter-selection edge
+                        # while capping the "20% at +400" overconfidence trap
+                        # that cost -30% ROI historically.
+                        HR_BLEND_W = 0.25
+                        rec["raw_model_p_pct"] = round(p_cal * 100, 2)
+                        blended_p = HR_BLEND_W * p_cal + (1 - HR_BLEND_W) * consensus_imp
+                        rec["blended_p_pct"]   = round(blended_p * 100, 2)
+                        rec["model_p"]         = round(blended_p, 4)
+                        rec["model_p_pct"]     = rec["blended_p_pct"]
+                        rec["blend_weight"]    = HR_BLEND_W
+                        rec["edge_pp"]         = round(blended_p * 100 - consensus_imp * 100, 2)
+                    else:
+                        rec["raw_model_p_pct"] = rec["model_p_pct"]
+                        rec["blended_p_pct"]   = rec["model_p_pct"]
+                        rec["blend_weight"]    = None
                     # Confidence score — combines model prob + edge with red flags.
                     # Defensive: skip silently if the helper isn't loaded (mid-deploy)
                     if hasattr(hr_model, "pick_confidence"):
@@ -378,17 +393,20 @@ if save_btn:
             # ===========================================================
             STRICT_HR = True
             if STRICT_HR:
-                # 7/5: loosened after consensus fix over-tightened volume
-                # to <1 pick/day. Same underlying quality logic, just
-                # accepts moderate-edge picks the consensus filter missed.
+                # 7/7: rebuilt for BLENDED edge (25% model + 75% market).
+                # Historical simulation showed the moderate-positive-edge
+                # zone (0-1pp blended) is anti-selective — only picks with
+                # blended edge >= +1pp (= raw model edge >= +4pp) actually
+                # hit profitably (27% hit / +28.8% ROI on 11 picks).
                 qualifying = [
                     p for p in all_preds
                     if p.get("best_odds") is not None
-                    and (p.get("edge_pp") is None or p["edge_pp"] >= -4)
+                    and (p.get("edge_pp") is None or p["edge_pp"] >= 1.0)
                     and (p.get("confidence") is None or p["confidence"] >= 40)
                 ]
-                qualifying.sort(key=lambda x: (-x.get("confidence", 0), -x["model_p"]))
-                top_n = qualifying[:12]
+                qualifying.sort(key=lambda x: (-x["edge_pp"] if x.get("edge_pp") else 0,
+                                                -x["model_p"]))
+                top_n = qualifying[:8]
             else:
                 all_preds.sort(key=lambda x: -x["model_p"])
                 top_n = all_preds[:TOP_N]
