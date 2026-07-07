@@ -74,7 +74,8 @@ def _parse_op(m):
 # ---------- Order book metrics ----------
 
 def _book_metrics(token_id, band=0.05):
-    """For a single CLOB token, return depth within `band` cents of mid."""
+    """For a single CLOB token, return depth within `band` cents of mid,
+    plus whale-detection metrics (largest single order + n_orders)."""
     try:
         ob = _get(f"{CLOB}/book?token_id={token_id}")
     except Exception:
@@ -86,13 +87,22 @@ def _book_metrics(token_id, band=0.05):
     best_bid = max(bids, key=lambda x: x[0])
     best_ask = min(asks, key=lambda x: x[0])
     mid = (best_bid[0] + best_ask[0]) / 2
-    bid_depth = sum(s for p, s in bids if p >= mid - band)
+    in_band = [(p, s) for p, s in bids if p >= mid - band]
+    bid_depth = sum(s for _, s in in_band)
+    n_bids = len(in_band)
+    largest_bid = max((s for _, s in in_band), default=0.0)
+    # Whale share: what fraction of depth comes from the single biggest order.
+    # >= 0.5 means one whale is >=half the queued money = fragile signal.
+    whale_share = (largest_bid / bid_depth) if bid_depth > 0 else 0.0
     return {
         "mid": mid,
         "best_bid": best_bid[0],
         "best_ask": best_ask[0],
         "spread": best_ask[0] - best_bid[0],
         "bid_depth_5c": bid_depth,
+        "n_bids":        n_bids,
+        "largest_bid":   largest_bid,
+        "whale_share":   whale_share,
     }
 
 
@@ -316,12 +326,18 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
         parsed = parse_market_for_match(question, slug)
         skew_side = "YES" if yes_skew_pct > no_skew_pct else "NO"
 
+        # Whale metrics on the SHARP side (that's the side we're trusting)
+        sharp_book = yes_book if skew_side == "YES" else no_book
+        sharp_n_bids     = sharp_book.get("n_bids", 0)
+        sharp_largest    = sharp_book.get("largest_bid", 0)
+        sharp_whale_share = sharp_book.get("whale_share", 0)
+
         rows.append({
             "event":       m.get("_event_title", ""),
             "question":    question,
             "category":    _categorize(question, slug),
             "sharp_pick":  sharp_pick_label(parsed, skew_side),
-            "game_start":  m.get("_game_start"),  # ISO timestamp from Polymarket
+            "game_start":  m.get("_game_start"),
             "mid":         round(yes_book["mid"], 3),
             "best_bid":    round(yes_book["best_bid"], 3),
             "best_ask":    round(yes_book["best_ask"], 3),
@@ -335,6 +351,16 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
             "volume":      round(_vol(m), 2),
             "liquidity":   round(_liq(m), 2),
             "slug":        slug,
+            # Whale detection on sharp side (7/7)
+            "sharp_n_bids":        sharp_n_bids,
+            "sharp_largest_bid":   int(sharp_largest),
+            "sharp_whale_share":   round(sharp_whale_share, 3),
+            # Also expose per-side numbers so the UI can show which side has
+            # the whale problem (rare but useful for context)
+            "yes_n_bids":       yes_book.get("n_bids", 0),
+            "yes_whale_share":  round(yes_book.get("whale_share", 0), 3),
+            "no_n_bids":        no_book.get("n_bids", 0),
+            "no_whale_share":   round(no_book.get("whale_share", 0), 3),
             # Sportsbook matching fields
             "match_type":  parsed["market_type"],
             "yes_means":   parsed["yes_means"],

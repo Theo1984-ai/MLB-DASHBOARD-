@@ -352,29 +352,33 @@ def _sharp_score(row, n_confluence, n_appearances, ratio):
       Depth ratio (0-20): 10x+ historically 70% hit, 5-10x 67%, 2-5x 52%
       Skew (0-15): 80-90% is the sweet spot (80% hit / +57% ROI in backtest)
       Edge_pp (0-15): 5-8pp OR 20+pp reward, 8-12pp weak (backtest dip)
+
+    Whale penalty (up to -25): if a single order dominates the sharp-side
+    depth, the "sharp conviction" is really just one whale's position, not
+    a market of many participants. Penalty grows with whale share.
     """
     score = 0
     # Confluence
     if n_confluence >= 2:   score += 30
     elif n_confluence == 1: score += 18
 
-    # Persistence (seen this many scans today)
+    # Persistence
     if n_appearances >= 3:   score += 20
     elif n_appearances == 2: score += 12
     elif n_appearances == 1: score += 4
 
-    # Depth ratio (uses backtest bucket ROI)
+    # Depth ratio
     if ratio >= 10:          score += 20
     elif ratio >= 5:         score += 16
     elif ratio >= 2:         score += 10
 
-    # Skew — 80-90% is the goldilocks band
+    # Skew
     skew = row.get("skew_strength") or 0
     if 80 <= skew < 90:      score += 15
     elif 90 <= skew:         score += 10
     elif 70 <= skew < 80:    score += 5
 
-    # Edge_pp — bimodal per backtest
+    # Edge_pp
     edge = row.get("edge_pp")
     if edge is None:
         pass
@@ -382,8 +386,31 @@ def _sharp_score(row, n_confluence, n_appearances, ratio):
     elif edge >= 20:         score += 15
     elif 12 <= edge < 20:    score += 10
     elif 3 <= edge < 5:      score += 4
-    elif 8 <= edge < 12:     score += 4     # weak backtest bucket
-    return min(100, score)
+    elif 8 <= edge < 12:     score += 4
+
+    # Whale penalty (7/7)
+    whale = row.get("sharp_whale_share") or 0
+    n_bids = row.get("sharp_n_bids") or 0
+    if whale >= 0.80:            score -= 25   # single-whale dominance
+    elif whale >= 0.60:          score -= 15   # heavy concentration
+    elif whale >= 0.45:          score -= 8    # moderate concentration
+    # Also penalize thin books (1-2 orders total) even without whale
+    if n_bids > 0 and n_bids <= 2: score -= 10
+
+    return max(0, min(100, score))
+
+
+def _whale_label(row):
+    """Returns human-readable whale/concentration tier."""
+    whale = row.get("sharp_whale_share")
+    n_bids = row.get("sharp_n_bids") or 0
+    if whale is None:
+        return "—"
+    if whale >= 0.80:  return f"🐋 lone whale ({whale*100:.0f}%)"
+    if whale >= 0.60:  return f"🐟 concentrated ({whale*100:.0f}%)"
+    if whale >= 0.45:  return f"🟡 mixed ({whale*100:.0f}%)"
+    if n_bids >= 5:    return f"🟢 distributed ({n_bids} orders)"
+    return f"⚪ small book ({n_bids} orders)"
 
 
 def _sharp_tier(score):
@@ -457,6 +484,7 @@ def render_table(rows_subset, sort_by="depth"):
             "Score":            score,
             "Tier":             tier,
             "Confluence":       n_conf,
+            "Whale?":           _whale_label(r),
             "$ on sharp pick":  sharp_depth,
             "Other side":       _other_side_label(r),
             "$ on other side":  other_depth,
@@ -489,7 +517,14 @@ def render_table(rows_subset, sort_by="depth"):
                 format="%d",
                 help="Composite 0-100 score. Weights: confluence 30, "
                      "persistence 20, depth ratio 20, skew 15, edge 15. "
+                     "Whale penalty up to −25 for lone-order dominance. "
                      "Tiers: 75+ ELITE, 55-74 STRONG, 35-54 DECENT, <35 WEAK."),
+            "Whale?":            st.column_config.TextColumn(
+                help="How concentrated the sharp-side depth is. "
+                     "🐋 lone whale (80%+ from one order) = fragile. "
+                     "🐟 concentrated (60-80%). 🟡 mixed (45-60%). "
+                     "🟢 distributed (5+ orders, <45% top). "
+                     "⚪ small book (1-2 orders)."),
             "Confluence":        st.column_config.NumberColumn(
                 format="%d",
                 help="Number of other systems (True Prob, Soft Scanner) "
@@ -698,10 +733,22 @@ for r in strongest:
         st.markdown(interpretation)
         st.caption(
             f"Depth-ratio: **{ratio_tier}**  ·  Persistence: **{persist_tier}**  ·  "
+            f"Concentration: **{_whale_label(r)}**  ·  "
             f"Volume traded: ${r['volume']:,.0f}  ·  "
             f"Listed liquidity: ${r['liquidity']:,.0f}  ·  "
             f"Category: {r['category']}"
         )
+        # Warn loudly if this is a lone-whale signal
+        _ws = r.get("sharp_whale_share") or 0
+        if _ws >= 0.60:
+            st.warning(
+                f"⚠️ **Concentration warning:** {_ws*100:.0f}% of the sharp-"
+                f"side depth comes from a single order (${r.get('sharp_largest_bid',0):,}). "
+                f"This is one whale's position, not distributed conviction — "
+                f"treat the skew signal with more skepticism than the raw "
+                f"number suggests.",
+                icon="⚠️",
+            )
         # If we have persistence history, show skew trajectory
         if persist and len(persist.get("hist") or []) >= 2:
             hist = persist["hist"]

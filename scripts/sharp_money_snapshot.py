@@ -70,6 +70,10 @@ def to_settler_pick(p):
         "sb_implied_pct":         p.get("sb_implied_pct"),
         "sb_consensus_implied_pct": p.get("sb_consensus_implied_pct"),
         "sb_n_books":             p.get("sb_n_books"),
+        # Whale detection (7/7): fraction of sharp depth from single order
+        "sharp_n_bids":           p.get("sharp_n_bids"),
+        "sharp_largest_bid":      p.get("sharp_largest_bid"),
+        "sharp_whale_share":      p.get("sharp_whale_share"),
     }
 
 
