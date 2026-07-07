@@ -123,6 +123,17 @@ def _is_a_grade_soft(p):
             or (edge is not None and edge >= 10))
 
 
+def _is_a_plus_grade_soft(p):
+    """A+ Grade Soft Scanner filter — the highest-ROI subset of A-Grade.
+    322-pick backtest through 7/7: full A-Grade hit 60.2% / +14.2% ROI;
+    the edge>=10pp subset hit 58.9% / +27.5% ROI (nearly 2x the ROI at
+    slightly lower hit rate because longer prices)."""
+    if p.get("market") not in ("H+R+R", "Hits"):
+        return False
+    edge = p.get("edge_pp")
+    return edge is not None and edge >= 10
+
+
 @st.cache_data(ttl=86400, show_spinner=False)   # 24-hr cache
 def _league_player_team_map():
     """Build {normalized_player_name: team_abbr} across all 30 MLB rosters.
@@ -203,7 +214,10 @@ TRACKERS = [
     {"name": "HR",             "icon": "💣", "dir": "hr_tracker"},
     {"name": "H+R+R",          "icon": "🏃", "dir": "hrr_tracker"},
     {"name": "True Prob",      "icon": "🎯", "dir": "true_prob_history"},
-    # Soft Scanner now filtered to A-Grade only (backtest-driven subset)
+    # Soft A+ is the highest-ROI subset: edge >= 10pp only. +27.5% ROI historically.
+    {"name": "Soft A+",        "icon": "🌟", "dir": "soft_scanner_history",
+     "pick_filter": _is_a_plus_grade_soft},
+    # Full A-Grade: broader profitable subset. +14.2% ROI.
     {"name": "Soft A-Grade",   "icon": "🏆", "dir": "soft_scanner_history",
      "pick_filter": _is_a_grade_soft},
     {"name": "Sharp Money",    "icon": "💰", "dir": "sharp_money_history"},

@@ -142,40 +142,40 @@ if intro:
 # 59.9% hit rate, +14.7% ROI). Elevated to the top of Tonight's Picks so
 # users see it before scrolling. Reads from soft_scanner_history if today's
 # snapshot exists.
-def _load_soft_agrade():
+def _load_soft_picks():
+    """Load today's Soft Scanner snapshot and return both A+ and A-Grade lists."""
     today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
     path = os.path.join(ROOT, "soft_scanner_history", f"{today_et}.json")
     if not os.path.exists(path):
-        return []
+        return [], []
     try:
         with open(path, encoding="utf-8") as f:
-            snap = json.load(f)
-        picks = snap.get("picks", [])
+            picks = json.load(f).get("picks", [])
     except Exception:
-        return []
-    # A-Grade filter (matches Data Status page + Soft Scanner logic):
-    # H+R+R or Hits AND (5+ books OR price <= -150 OR edge >= 10pp)
-    a = []
+        return [], []
+    a_grade, a_plus = [], []
     for p in picks:
         m = p.get("market", "")
-        nb = p.get("n_books", 0)
-        price = p.get("best_price", 0)
-        ep = p.get("edge_pp", 0)
-        if m in ("H+R+R", "Hits") and (nb >= 5 or price <= -150 or ep >= 10):
-            a.append(p)
-    return sorted(a, key=lambda x: -(x.get("edge_pp") or 0))[:8]
+        if m not in ("H+R+R", "Hits"): continue
+        nb = p.get("n_books", 0) or 0
+        price = p.get("best_price")
+        ep = p.get("edge_pp") or 0
+        # A-Grade: 5+ books OR chalk ≤−150 OR edge ≥10pp
+        if nb >= 5 or (price is not None and price <= -150) or ep >= 10:
+            a_grade.append(p)
+        # A+: strict edge ≥10pp (subset of A-Grade)
+        if ep >= 10:
+            a_plus.append(p)
+    a_grade = sorted(a_grade, key=lambda x: -(x.get("edge_pp") or 0))
+    a_plus = sorted(a_plus, key=lambda x: -(x.get("edge_pp") or 0))
+    # A-Grade display excludes A+ so we don't duplicate
+    a_grade_display = [p for p in a_grade if (p.get("edge_pp") or 0) < 10]
+    return a_plus[:6], a_grade_display[:8]
 
-_a_grade = _load_soft_agrade()
-if _a_grade:
-    st.markdown("---")
-    st.markdown("## 🏆 Soft A-Grade (highest-ROI system: +14.7%)")
-    st.caption(
-        "Soft Scanner A-Grade picks — H+R+R or Hits with 5+ books, "
-        "price ≤ −150, or ≥10pp edge. Backtested at 59.9% hit / +14.7% ROI "
-        "over 302 picks. This is the most profitable system on the dashboard."
-    )
+
+def _render_soft_table(picks):
     _rows = []
-    for p in _a_grade:
+    for p in picks:
         _rows.append({
             "Player":  p.get("player", "?"),
             "Team":    p.get("team") or "—",
@@ -193,6 +193,30 @@ if _a_grade:
                      "Price": st.column_config.NumberColumn(format="%+d"),
                      "Edge":  st.column_config.NumberColumn(format="%+.1fpp"),
                  })
+
+
+_a_plus, _a_grade = _load_soft_picks()
+
+if _a_plus:
+    st.markdown("---")
+    st.markdown("## 🌟 Soft A+ (highest-ROI subset: +27.5%)")
+    st.caption(
+        "The edge ≥ 10pp subset of A-Grade — historically **58.9% hit / "
+        "+27.5% ROI** over 90 picks. Play these first — nearly 2× the ROI "
+        "of the broader A-Grade at similar hit rate because they come at "
+        "longer prices."
+    )
+    _render_soft_table(_a_plus)
+
+if _a_grade:
+    st.markdown("---")
+    st.markdown("## 🏆 Soft A-Grade (broader profitable subset: +14.2%)")
+    st.caption(
+        "H+R+R or Hits with 5+ books, price ≤ −150, or ≥10pp edge — "
+        "excluding A+ shown above. Backtested at 60.2% hit / +14.2% ROI "
+        "over 322 picks. Reliable +EV plays for Round Robin legs."
+    )
+    _render_soft_table(_a_grade)
 
 # Concentration plays — the strongest signals
 if data.get("concentration_plays"):

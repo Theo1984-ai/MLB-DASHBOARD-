@@ -343,8 +343,74 @@ def is_a_grade(r):
             or (price is not None and price <= -150)
             or (edge is not None and edge >= 10))
 
-a_grade = [r for r in all_disagreements if is_a_grade(r)]
 
+def is_a_plus_grade(r):
+    """A+ Grade — the sub-tier with the highest ROI in the backtest.
+    322-settled A-Grade backtest through 7/7 showed:
+      - Full A-Grade:  60.2% hit / +14.2% ROI
+      - edge>=10pp:    58.9% hit / +27.5% ROI  ← A+ subset
+    Slightly fewer picks (90 vs 322 total) but nearly 2x the ROI because
+    the +10pp edges usually come at longer prices."""
+    if r.get("market") not in ("H+R+R", "Hits"):
+        return False
+    edge = r.get("edge_pp", 0)
+    return edge is not None and edge >= 10
+
+
+a_grade = [r for r in all_disagreements if is_a_grade(r)]
+a_plus  = [r for r in all_disagreements if is_a_plus_grade(r)]
+
+# ---------- A+ Grade (highest-ROI subset) ----------
+st.markdown("---")
+st.markdown(f"### 🌟 A+ Grade Picks — {len(a_plus)} highest-ROI plays "
+            f"(edge ≥ 10pp subset)")
+st.caption(
+    "**Backtest through 7/7 (90 A+ picks): 58.9% hit / +27.5% ROI.** "
+    "The subset of A-Grade where the model disagreement is ≥10pp — "
+    "slightly lower hit rate than the full A-Grade (60.2%) but nearly "
+    "**2× the ROI** because these picks come at longer prices. Play these "
+    "first when the slate has them."
+)
+
+if a_plus:
+    aplus_rows = []
+    for r in a_plus:
+        team = r.get("team")
+        player_disp = f"{r['player']} ({team})" if team else r["player"]
+        aplus_rows.append({
+            "Player":    player_disp,
+            "Game":      r["game"],
+            "Market":    r["market"],
+            "Side":      r["side"],
+            "Line":      r["point"],
+            "Best Price": r["best_price"],
+            "Soft Book": r["best_book"],
+            "Edge pp":   r["edge_pp"],
+            "EV/$100":   r["ev_per_100"],
+            "# Books":   r["n_books"],
+        })
+    aplus_df = pd.DataFrame(aplus_rows)
+    for c in ("Edge pp","EV/$100","Best Price"):
+        if c in aplus_df.columns:
+            aplus_df[c] = pd.to_numeric(aplus_df[c], errors="coerce")
+    aplus_df = aplus_df.sort_values("Edge pp", ascending=False)
+    st.dataframe(
+        aplus_df, use_container_width=True, hide_index=True,
+        column_config={
+            "Edge pp":    st.column_config.NumberColumn(format="%+.1f"),
+            "EV/$100":    st.column_config.NumberColumn(format="$%+.2f"),
+            "Best Price": st.column_config.NumberColumn(format="%+d"),
+        },
+    )
+else:
+    st.info(
+        "No A+ picks right now (need H+R+R or Hits with ≥10pp edge). "
+        "Try refreshing closer to first pitch — big cross-book disagreements "
+        "usually surface as sportsbooks fine-tune their lines. In the meantime, "
+        "the A-Grade section below still has profitable plays (+14.2% ROI historically)."
+    )
+
+# ---------- A Grade (broader profitable subset) ----------
 st.markdown("---")
 st.markdown(f"### 🏆 A-Grade Picks — {len(a_grade)} highest-conviction plays")
 st.caption(
