@@ -105,24 +105,6 @@ elif _q["remaining"] is not None:
 
 # ---------- Tracker config ----------
 
-def _is_a_grade_soft(p):
-    """A-Grade Soft Scanner filter (backtested on 248 settled picks):
-       H+R+R or Hits market only (TB +4% / HR -100% historically dropped)
-       AND at least one of:
-         - 5 books pricing (full sharp consensus)
-         - best price <= -150 (chalk where books still disagree)
-         - edge_pp >= 10 (strong cross-book disagreement)
-    Historical: 65-85% hit rate, +20-30% ROI (vs 50% / +11% on full Soft Scanner)."""
-    if p.get("market") not in ("H+R+R", "Hits"):
-        return False
-    n_books = p.get("n_books", 0) or 0
-    price = p.get("best_price")
-    edge = p.get("edge_pp")
-    return (n_books >= 5
-            or (price is not None and price <= -150)
-            or (edge is not None and edge >= 10))
-
-
 def _is_a_plus_grade_soft(p):
     """A+ Grade Soft Scanner filter — the highest-ROI subset of A-Grade.
     322-pick backtest through 7/7: full A-Grade hit 60.2% / +14.2% ROI;
@@ -132,6 +114,26 @@ def _is_a_plus_grade_soft(p):
         return False
     edge = p.get("edge_pp")
     return edge is not None and edge >= 10
+
+
+def _is_a_grade_soft(p):
+    """A-Grade Soft Scanner filter EXCLUDING A+ picks — so A+ and A-Grade
+    tracker stats can be summed without double-counting. A-Grade here is
+    the picks that pass on 5+ books OR chalk<=-150 but NOT via edge>=10pp
+    (those are shown in A+).
+
+    Original A-Grade backtest (all triggers, on 248 settled picks):
+       65-85% hit / +20-30% ROI. When A+ is broken out separately, the
+       remainder (this filter) still shows solidly profitable but at
+       lower magnitude — the A+ subset carries most of the ROI premium."""
+    if p.get("market") not in ("H+R+R", "Hits"):
+        return False
+    if _is_a_plus_grade_soft(p):
+        return False   # exclude — shown in Soft A+ tracker
+    n_books = p.get("n_books", 0) or 0
+    price = p.get("best_price")
+    return (n_books >= 5
+            or (price is not None and price <= -150))
 
 
 @st.cache_data(ttl=86400, show_spinner=False)   # 24-hr cache
