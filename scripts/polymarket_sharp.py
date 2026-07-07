@@ -241,25 +241,34 @@ def _parse_game_start(market):
 
 
 def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
-         today_only=True):
+         today_only=True, skip_started=True, started_grace_min=5):
     """Returns (rows, debug_stats).
 
     rows: list of dicts with sharp-money metrics per market
     debug_stats: {'total_events', 'daily_markets', 'candidates', 'with_book',
-                  'filtered_future_games'}
+                  'filtered_future_games', 'filtered_started_games'}
 
     today_only=True (default): filters out markets whose gameStartTime is
     NOT today in ET. Polymarket lists future-series markets (e.g. games
     a week away) that shouldn't show up as today's actionable plays.
+
+    skip_started=True (default): also drops games whose gameStartTime is
+    in the past (minus grace). Prevents "already started" games from
+    showing up in the live scan and the daily snapshot.
+    started_grace_min: allow this many minutes of lateness (default 5)
+    so first-pitch signals at exactly the start time still count.
     """
-    from datetime import datetime
+    from datetime import datetime, timedelta, timezone
     from zoneinfo import ZoneInfo
     ET = ZoneInfo("America/New_York")
+    now_utc = datetime.now(tz=timezone.utc)
     today_et = datetime.now(tz=ET).date()
+    started_cutoff = now_utc + timedelta(minutes=started_grace_min)
 
     events = _get(f"{GAMMA}/events?closed=false&tag_slug=mlb&limit=200")
     daily_markets = []
     filtered_future = 0
+    filtered_started = 0
     for ev in events:
         title = ev.get("title", "")
         slug = ev.get("slug", "")
@@ -268,11 +277,10 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
         for m in (ev.get("markets") or []):
             if m.get("closed") or not m.get("active", True):
                 continue
+            game_dt = _parse_game_start(m)
             # Filter out future-series markets — only today's games
             if today_only:
-                game_dt = _parse_game_start(m)
                 if game_dt is None:
-                    # No timestamp -> can't verify, skip to be safe
                     filtered_future += 1
                     continue
                 game_date_et = game_dt.astimezone(ET).date()
@@ -280,6 +288,11 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
                     filtered_future += 1
                     continue
                 m["_game_start"] = game_dt.isoformat()
+            # Filter out games already in progress (past first pitch + grace)
+            if skip_started and game_dt is not None:
+                if game_dt < started_cutoff - timedelta(minutes=started_grace_min):
+                    filtered_started += 1
+                    continue
             m["_event_title"] = title
             m["_event_slug"] = slug
             daily_markets.append(m)
@@ -377,8 +390,9 @@ def scan(min_volume=500, min_liquidity=20000, top_n=30, sleep_between=0.15,
         "candidates":     len(candidates),
         "with_book":      len(rows),
     }
-    # Add filter stats so the page can show what was excluded
     if today_only:
         debug["filtered_future_games"] = filtered_future
         debug["today_et"] = today_et.isoformat()
+    if skip_started:
+        debug["filtered_started_games"] = filtered_started
     return rows, debug

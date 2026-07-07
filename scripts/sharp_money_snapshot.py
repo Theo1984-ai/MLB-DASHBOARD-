@@ -102,8 +102,11 @@ def main():
     out_path = os.path.join(out_dir, f"{today_et}.json")
 
     print(f"Running Sharp Money scan for {today_et}...")
-    pm_rows, _debug = pm_scan(top_n=50)
-    print(f"  Polymarket scan: {len(pm_rows)} markets")
+    # skip_started=True drops games whose first pitch is in the past.
+    # (polymarket_sharp.py handles the filter; explicit here for clarity.)
+    pm_rows, _debug = pm_scan(top_n=50, skip_started=True)
+    print(f"  Polymarket scan: {len(pm_rows)} markets "
+          f"(dropped {_debug.get('filtered_started_games',0)} already-started)")
 
     matched = match_signals(pm_rows, api_key)
     print(f"  Sportsbook matched: {sum(1 for m in matched if m.get('sb_best_price') is not None)} of {len(matched)}")
@@ -125,6 +128,20 @@ def main():
     # track how many scans each pick appeared in. A signal seen in 3+
     # snapshots is much stronger than a one-time "flash" — the flash may
     # be one whale getting cold feet; persistence proves real conviction.
+    #
+    # RACE-SAFE READ (7/7): git pull the latest remote version of the file
+    # BEFORE reading it. Otherwise, two concurrent GitHub Actions runners
+    # can both load an old file, each append their own picks, and the
+    # second-pushed run silently loses when the auto-rebase takes REMOTE.
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        try:
+            import subprocess as _sp
+            _sp.run(["git", "pull", "--rebase", "-X", "theirs",
+                     "origin", "main"],
+                    cwd=ROOT, capture_output=True, text=True, timeout=60)
+        except Exception:
+            pass  # non-fatal: if pull fails, we merge with what we have
+
     existing_picks = []
     if os.path.exists(out_path):
         try:
