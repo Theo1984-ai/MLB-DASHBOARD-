@@ -91,6 +91,172 @@ filtered = [
     and (r.get("liquidity") or 0) >= min_liquidity
 ]
 
+# =============================================================================
+# Confluence hoisted — runs BEFORE the tabs so render_table can score each row
+# =============================================================================
+
+def _normalize_team(s):
+    """Normalize a team name to a stable comparison key.
+    Handles 'Detroit Tigers', 'Tigers', 'D. Tigers' all → 'tigers'.
+    We use the LAST word so different representations collapse together."""
+    if not s: return ""
+    s2 = s.lower().replace(",","").replace(".","").replace("'","").strip()
+    parts = s2.split()
+    return parts[-1] if parts else ""
+
+
+def _make_game_key(away, home):
+    a = _normalize_team(away); h = _normalize_team(home)
+    if not a or not h: return ""
+    return "|".join(sorted([a, h]))
+
+
+def _split_event(event_str):
+    if not event_str: return (None, None)
+    for sep in (" vs. ", " vs ", " @ ", " at "):
+        if sep in event_str:
+            a, b = event_str.split(sep, 1)
+            return (a.strip(), b.strip())
+    return (None, None)
+
+
+def _load_today_snapshot(dirname):
+    """Load today's snapshot; tolerates git merge-conflict markers in JSON."""
+    import json as _json
+    from datetime import datetime as _dt
+    from zoneinfo import ZoneInfo as _Z
+    today = _dt.now(tz=_Z("America/New_York")).strftime("%Y-%m-%d")
+    path = os.path.join(ROOT, dirname, f"{today}.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            raw = f.read()
+        try:
+            return _json.loads(raw).get("picks", [])
+        except Exception:
+            pass
+        if "<<<<<<<" in raw or "=======" in raw or ">>>>>>>" in raw:
+            out, skip = [], False
+            for line in raw.split("\n"):
+                if line.startswith("<<<<<<<"): skip = True; continue
+                if line.startswith("======="): skip = False; continue
+                if line.startswith(">>>>>>>"): continue
+                if skip: continue
+                out.append(line)
+            return _json.loads("\n".join(out)).get("picks", [])
+        return []
+    except Exception:
+        return []
+
+
+def _build_play_index(picks, source_name):
+    """Build (game_key, market_type, side_id) → pick index."""
+    idx = {}
+    for p in picks:
+        away = p.get("away_team",""); home = p.get("home_team","")
+        if not away or not home:
+            a2, h2 = _split_event(p.get("game") or p.get("event") or "")
+            if a2: away = a2
+            if h2: home = h2
+        gkey = _make_game_key(away, home)
+        if not gkey: continue
+        stat = (p.get("stat_key") or "").lower()
+        market = (p.get("market") or "").lower()
+        side = (p.get("side") or "").lower()
+        point = p.get("point")
+        if "h2h" in stat or "moneyline" in market or stat == "ml":
+            sel = _normalize_team(p.get("selection") or p.get("player") or "")
+            idx[(gkey, "ml", sel)] = p
+            continue
+        if "total" in stat or market.startswith("total"):
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            if side in ("over", "under"):
+                idx[(gkey, "tot", f"{side}_{pt_str}")] = p
+            continue
+        if "spread" in stat or "spread" in market or "run line" in market:
+            team_norm = _normalize_team(p.get("player") or "")
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            if team_norm:
+                idx[(gkey, "spread", f"{team_norm}_{pt_str}")] = p
+            if side in ("away", "home"):
+                idx[(gkey, "spread_ah", f"{side}_{pt_str}")] = p
+            continue
+        if stat in ("hits","tb","hr","hrr","ks","walks","rbi","runs"):
+            player = _normalize_team(p.get("player") or p.get("selection") or "")
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            idx[(gkey, f"prop_{stat}", f"{player}_{side}_{pt_str}")] = p
+    return idx
+
+
+_tp_picks = _load_today_snapshot("true_prob_history")
+_soft_picks = _load_today_snapshot("soft_scanner_history")
+tp_idx = _build_play_index(_tp_picks, "true_prob")
+soft_idx = _build_play_index(_soft_picks, "soft")
+
+
+def _confluence_check(sharp_row):
+    """Returns list of source names that ALSO have this play."""
+    away = sharp_row.get("away_team",""); home = sharp_row.get("home_team","")
+    if not away or not home:
+        a2, h2 = _split_event(sharp_row.get("event") or "")
+        if a2: away = a2
+        if h2: home = h2
+    gkey = _make_game_key(away, home)
+    if not gkey: return []
+    mt = sharp_row.get("match_type")
+    sharp_side = sharp_row.get("skew_side")
+    hits = []
+    if mt == "h2h":
+        target = away if sharp_side == "YES" else home
+        target_norm = _normalize_team(target)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "ml", target_norm) in idx:
+                if src_name not in hits: hits.append(src_name)
+            for key in list(idx.keys()):
+                if (key[0] == gkey and key[1] == "spread"
+                    and key[2].startswith(f"{target_norm}_")):
+                    if src_name not in hits: hits.append(src_name)
+                    break
+    elif mt == "totals":
+        side_str = "over" if sharp_side == "YES" else "under"
+        pt = sharp_row.get("point")
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "tot", f"{side_str}_{pt_str}") in idx:
+                if src_name not in hits: hits.append(src_name)
+            if src_name in hits: continue
+            for key in list(idx.keys()):
+                if key[0] == gkey and key[1] == "tot":
+                    try:
+                        s, p2 = key[2].rsplit("_", 1)
+                        if s == side_str and abs(float(p2) - float(pt)) <= 1.0:
+                            if src_name not in hits: hits.append(src_name)
+                            break
+                    except Exception:
+                        continue
+    elif mt == "spreads":
+        team_norm = _normalize_team(sharp_row.get("team") or "")
+        pt = sharp_row.get("point")
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
+            if (gkey, "spread", f"{team_norm}_{pt_str}") in idx:
+                if src_name not in hits: hits.append(src_name)
+            if (gkey, "ml", team_norm) in idx:
+                if src_name not in hits: hits.append(src_name)
+    return hits
+
+
+# Annotate every filtered row with confluence hits so render_table can score
+for r in filtered:
+    r["_confluence"] = _confluence_check(r)
+
+
 st.warning(
     "⚠️ **Big sharp money ≠ good bet.** Always check the **Verdict** column "
     "in the Cross-venue plays table below. A market can have $2M of sharp money "
@@ -174,6 +340,60 @@ def _depth_ratio(sharp_d, other_d):
     return min(99.0, sharp_d / other_d)
 
 
+def _sharp_score(row, n_confluence, n_appearances, ratio):
+    """Composite 0-100 confidence score. Weights derived from the 39-pick
+    backtest — confluence and persistence are the most predictive layers.
+
+    Points:
+      Confluence (0-30): matching True Prob or Soft Scanner is the strongest
+                         single edge — 2+ system agreement historically
+                         >2x hit rate vs solo Sharp Money
+      Persistence (0-20): 3+ scans = confirmed conviction, 2 = emerging
+      Depth ratio (0-20): 10x+ historically 70% hit, 5-10x 67%, 2-5x 52%
+      Skew (0-15): 80-90% is the sweet spot (80% hit / +57% ROI in backtest)
+      Edge_pp (0-15): 5-8pp OR 20+pp reward, 8-12pp weak (backtest dip)
+    """
+    score = 0
+    # Confluence
+    if n_confluence >= 2:   score += 30
+    elif n_confluence == 1: score += 18
+
+    # Persistence (seen this many scans today)
+    if n_appearances >= 3:   score += 20
+    elif n_appearances == 2: score += 12
+    elif n_appearances == 1: score += 4
+
+    # Depth ratio (uses backtest bucket ROI)
+    if ratio >= 10:          score += 20
+    elif ratio >= 5:         score += 16
+    elif ratio >= 2:         score += 10
+
+    # Skew — 80-90% is the goldilocks band
+    skew = row.get("skew_strength") or 0
+    if 80 <= skew < 90:      score += 15
+    elif 90 <= skew:         score += 10
+    elif 70 <= skew < 80:    score += 5
+
+    # Edge_pp — bimodal per backtest
+    edge = row.get("edge_pp")
+    if edge is None:
+        pass
+    elif 5 <= edge < 8:      score += 15
+    elif edge >= 20:         score += 15
+    elif 12 <= edge < 20:    score += 10
+    elif 3 <= edge < 5:      score += 4
+    elif 8 <= edge < 12:     score += 4     # weak backtest bucket
+    return min(100, score)
+
+
+def _sharp_tier(score):
+    """Map 0-100 score to a tier label."""
+    if score >= 75:  return "🟢🟢🟢 ELITE"
+    if score >= 55:  return "🟢🟢 STRONG"
+    if score >= 35:  return "🟢 DECENT"
+    return "🟡 WEAK"
+
+
 @st.cache_data(ttl=120, show_spinner=False)
 def _load_persistence_index():
     """Load today's saved sharp_money_history and index by (game, sharp_pick)
@@ -227,10 +447,16 @@ def render_table(rows_subset, sort_by="depth"):
         ratio = _depth_ratio(sharp_depth, other_depth)
         persist = _lookup_persistence(r)
         n_seen = persist["n"] if persist else None
+        n_conf = len(r.get("_confluence") or [])
+        score = _sharp_score(r, n_conf, n_seen or 0, ratio)
+        tier  = _sharp_tier(score)
         table.append({
             "Game":             r["event"][:32],
             "Mkt":              r["category"],
             "Sharp pick":       f"{marker} {r.get('sharp_pick', '')}",
+            "Score":            score,
+            "Tier":             tier,
+            "Confluence":       n_conf,
             "$ on sharp pick":  sharp_depth,
             "Other side":       _other_side_label(r),
             "$ on other side":  other_depth,
@@ -253,10 +479,21 @@ def render_table(rows_subset, sort_by="depth"):
         df = df.sort_values("Depth ratio", ascending=False)
     elif sort_by == "persistence":
         df = df.sort_values("Seen", ascending=False, na_position="last")
+    elif sort_by == "score":
+        df = df.sort_values("Score", ascending=False)
 
     st.dataframe(
         df, use_container_width=True, hide_index=True,
         column_config={
+            "Score":             st.column_config.NumberColumn(
+                format="%d",
+                help="Composite 0-100 score. Weights: confluence 30, "
+                     "persistence 20, depth ratio 20, skew 15, edge 15. "
+                     "Tiers: 75+ ELITE, 55-74 STRONG, 35-54 DECENT, <35 WEAK."),
+            "Confluence":        st.column_config.NumberColumn(
+                format="%d",
+                help="Number of other systems (True Prob, Soft Scanner) "
+                     "that also have this pick. 2+ = multi-system agreement."),
             "Mid (YES)":         st.column_config.NumberColumn(format="$%.3f"),
             "Spread":            st.column_config.NumberColumn(format="$%.3f"),
             "$ on sharp pick":   st.column_config.NumberColumn(format="$%,d"),
@@ -280,10 +517,11 @@ def render_table(rows_subset, sort_by="depth"):
 
 with tab_all:
     sort_choice = st.radio(
-        "Sort by", ["depth", "skew", "volume", "ratio", "persistence"],
-        horizontal=True, key="sort_all",
-        help="'persistence' surfaces signals seen in 2+ scans first — "
-             "confirmed conviction beats one-shot flashes.")
+        "Sort by", ["score", "depth", "skew", "volume", "ratio", "persistence"],
+        horizontal=True, key="sort_all", index=0,
+        help="'score' is the recommended default — composite of confluence + "
+             "persistence + depth ratio + skew + edge, weighted per backtest. "
+             "'persistence' surfaces confirmed conviction (2+ scans).")
     render_table(filtered, sort_by=sort_choice)
 
 with tab_yes:
@@ -308,215 +546,10 @@ st.caption(
 )
 
 
-def _normalize_team(s):
-    """Normalize a team name to a stable comparison key.
-    Handles 'Detroit Tigers', 'Tigers', 'D. Tigers' all → 'tigers'.
-    We use the LAST word so different representations collapse together."""
-    if not s: return ""
-    s2 = s.lower().replace(",","").replace(".","").replace("'","").strip()
-    # Take last word so "Detroit Tigers" / "Tigers" / "Detroit" all → "tigers"
-    # (Note: "Red Sox" / "Sox" / "Boston Red Sox" all → "sox", "White Sox" too —
-    # acceptable collision since they don't play each other on same slate.)
-    parts = s2.split()
-    return parts[-1] if parts else ""
-
-
-def _make_game_key(away, home):
-    """Build a sorted game key from two team names. Sorted so order doesn't matter."""
-    a = _normalize_team(away)
-    h = _normalize_team(home)
-    if not a or not h: return ""
-    return "|".join(sorted([a, h]))
-
-
-def _split_event(event_str):
-    """Parse a Sharp Money event string like 'Detroit Tigers vs. Cleveland Guardians'.
-    Returns (away_part, home_part) or (None, None) if can't parse."""
-    if not event_str: return (None, None)
-    for sep in (" vs. ", " vs ", " @ ", " at "):
-        if sep in event_str:
-            a, b = event_str.split(sep, 1)
-            return (a.strip(), b.strip())
-    return (None, None)
-
-
-def _load_today_snapshot(dirname):
-    """Load today's snapshot from a tracker dir; returns picks list or [].
-    Tolerates git merge-conflict markers in JSON (cron sometimes races and
-    leaves <<<<<<<, =======, >>>>>>> in files) — strips them and retries."""
-    import json as _json
-    from datetime import datetime as _dt
-    from zoneinfo import ZoneInfo as _Z
-    today = _dt.now(tz=_Z("America/New_York")).strftime("%Y-%m-%d")
-    path = os.path.join(ROOT, dirname, f"{today}.json")
-    if not os.path.exists(path):
-        return []
-    try:
-        with open(path, encoding="utf-8") as f:
-            raw = f.read()
-        # First try as-is
-        try:
-            return _json.loads(raw).get("picks", [])
-        except Exception:
-            pass
-        # Strip merge-conflict markers (keep INCOMING side after =======)
-        if "<<<<<<<" in raw or "=======" in raw or ">>>>>>>" in raw:
-            out, skip = [], False
-            for line in raw.split("\n"):
-                if line.startswith("<<<<<<<"): skip = True; continue
-                if line.startswith("======="): skip = False; continue
-                if line.startswith(">>>>>>>"): continue
-                if skip: continue
-                out.append(line)
-            cleaned = "\n".join(out)
-            return _json.loads(cleaned).get("picks", [])
-        return []
-    except Exception:
-        return []
-
-
-def _build_play_index(picks, source_name):
-    """Build a quick lookup index for confluence matching.
-    Returns a dict keyed by (game_key, market_type, side_id) → pick.
-
-    Game key uses sorted(away, home) so the order of teams doesn't matter.
-    Each side_id format documented per market type below."""
-    idx = {}
-    for p in picks:
-        # Build canonical game key from away/home team fields.
-        # Falls back to parsing 'game' or 'event' if those aren't present.
-        away = p.get("away_team","")
-        home = p.get("home_team","")
-        if not away or not home:
-            a2, h2 = _split_event(p.get("game") or p.get("event") or "")
-            if a2: away = a2
-            if h2: home = h2
-        gkey = _make_game_key(away, home)
-        if not gkey: continue
-
-        stat = (p.get("stat_key") or "").lower()
-        market = (p.get("market") or "").lower()
-        side = (p.get("side") or "").lower()  # 'over'/'under'/'away'/'home'/'yes'
-        point = p.get("point")
-
-        # --- MONEYLINE (h2h) ---
-        if "h2h" in stat or "moneyline" in market or stat == "ml":
-            # Team picked = the side. For Run Lines side='Away'/'Home'; for true ML
-            # the selection field has the team name.
-            sel = _normalize_team(p.get("selection") or p.get("player") or "")
-            idx[(gkey, "ml", sel)] = p
-            continue
-
-        # --- TOTALS (over/under game runs) ---
-        # Match by side+point. We normalize point to a string with trailing
-        # .5 / .0 collapsed so 12.5 == "12.5" == 12.5.
-        if "total" in stat or market.startswith("total"):
-            try: pt_str = f"{float(point):g}"
-            except Exception: pt_str = str(point)
-            if side in ("over", "under"):
-                idx[(gkey, "tot", f"{side}_{pt_str}")] = p
-            continue
-
-        # --- SPREADS / RUN LINE ---
-        # True Prob stores spread picks with side='Away'/'Home' + point=±N.
-        # Sharp Money stores spreads with team + point.
-        if "spread" in stat or "spread" in market or "run line" in market:
-            # Side: prefer team name (player field) — collapses representation
-            team_norm = _normalize_team(p.get("player") or "")
-            try: pt_str = f"{float(point):g}"
-            except Exception: pt_str = str(point)
-            if team_norm:
-                idx[(gkey, "spread", f"{team_norm}_{pt_str}")] = p
-            # Also index by Away/Home so we can match without name resolution
-            if side in ("away", "home"):
-                idx[(gkey, "spread_ah", f"{side}_{pt_str}")] = p
-            continue
-
-        # --- PLAYER PROPS (kept for completeness; never matches Sharp Money) ---
-        if stat in ("hits","tb","hr","hrr","ks","walks","rbi","runs"):
-            player = _normalize_team(p.get("player") or p.get("selection") or "")
-            try: pt_str = f"{float(point):g}"
-            except Exception: pt_str = str(point)
-            idx[(gkey, f"prop_{stat}", f"{player}_{side}_{pt_str}")] = p
-    return idx
-
-
-_tp_picks = _load_today_snapshot("true_prob_history")
-_soft_picks = _load_today_snapshot("soft_scanner_history")
-tp_idx = _build_play_index(_tp_picks, "true_prob")
-soft_idx = _build_play_index(_soft_picks, "soft")
-
-
-def _confluence_check(sharp_row):
-    """Returns list of source names that ALSO have this play."""
-    # Build the game key — try the away_team/home_team fields first,
-    # then parse the 'event' string.
-    away = sharp_row.get("away_team","")
-    home = sharp_row.get("home_team","")
-    if not away or not home:
-        a2, h2 = _split_event(sharp_row.get("event") or "")
-        if a2: away = a2
-        if h2: home = h2
-    gkey = _make_game_key(away, home)
-    if not gkey: return []
-
-    mt = sharp_row.get("match_type")
-    sharp_side = sharp_row.get("skew_side")
-    hits = []
-
-    if mt == "h2h":
-        # YES=away team, NO=home team
-        target = away if sharp_side == "YES" else home
-        target_norm = _normalize_team(target)
-        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
-            if (gkey, "ml", target_norm) in idx:
-                if src_name not in hits: hits.append(src_name)
-            # Also match against spread (Run Line) — same team with margin
-            # is a weaker confluence signal but still meaningful
-            for key in list(idx.keys()):
-                if (key[0] == gkey and key[1] == "spread"
-                    and key[2].startswith(f"{target_norm}_")):
-                    if src_name not in hits: hits.append(src_name)
-                    break
-
-    elif mt == "totals":
-        side_str = "over" if sharp_side == "YES" else "under"
-        pt = sharp_row.get("point")
-        try: pt_str = f"{float(pt):g}"
-        except Exception: pt_str = str(pt)
-        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
-            if (gkey, "tot", f"{side_str}_{pt_str}") in idx:
-                if src_name not in hits: hits.append(src_name)
-            # Match nearby points too (within 1.0) — if Sharp says O8.5 and
-            # True Prob says O9.5, that's still aligned confluence
-            if src_name in hits: continue
-            for key in list(idx.keys()):
-                if key[0] == gkey and key[1] == "tot":
-                    try:
-                        s, p2 = key[2].rsplit("_", 1)
-                        if s == side_str and abs(float(p2) - float(pt)) <= 1.0:
-                            if src_name not in hits: hits.append(src_name)
-                            break
-                    except Exception:
-                        continue
-
-    elif mt == "spreads":
-        team_norm = _normalize_team(sharp_row.get("team") or "")
-        pt = sharp_row.get("point")
-        try: pt_str = f"{float(pt):g}"
-        except Exception: pt_str = str(pt)
-        for src_name, idx in (("True Prob", tp_idx), ("Soft Scanner", soft_idx)):
-            if (gkey, "spread", f"{team_norm}_{pt_str}") in idx:
-                if src_name not in hits: hits.append(src_name)
-            # Also match the team-side ML pick (covers spread = wins)
-            if (gkey, "ml", team_norm) in idx:
-                if src_name not in hits: hits.append(src_name)
-    return hits
-
-
-# Annotate filtered picks with confluence hits
-for r in filtered:
-    r["_confluence"] = _confluence_check(r)
+# Confluence machinery and per-row annotation moved above the tabs
+# (search: "Confluence hoisted"). Only display / summary code remains
+# in this section — the actual computation is done pre-tabs so that
+# the render_table function can score each row using confluence hits.
 
 confluent = sorted(
     [r for r in filtered if len(r["_confluence"]) >= 1],
@@ -642,9 +675,15 @@ for r in strongest:
     elif n_seen == 1:    persist_tier = f"🟡 first sighting"
     else:                persist_tier = f"⚪ not yet saved"
 
+    # Composite score using all signals
+    n_conf = len(r.get("_confluence") or [])
+    score = _sharp_score(r, n_conf, n_seen, ratio)
+    tier  = _sharp_tier(score)
+
     header_suffix = f" · seen {n_seen}×" if n_seen else " · new"
     with st.expander(
-        f"**{r['question'][:80]}**  ·  {r['skew_side']} {fav_pct:.0f}% skew  ·  "
+        f"**{r['question'][:80]}**  ·  {tier} ({score})  ·  "
+        f"{r['skew_side']} {fav_pct:.0f}% skew  ·  "
         f"{ratio:.1f}x depth{header_suffix}",
         expanded=True,
     ):
