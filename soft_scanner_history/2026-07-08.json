@@ -1,7 +1,7 @@
 {
   "date": "2026-07-08",
-  "snapshot_at": "2026-07-08T10:11:05.489992-04:00",
-  "n_picks": 30,
+  "snapshot_at": "2026-07-08T11:05:57.223882-04:00",
+  "n_picks": 38,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 30,
+    "n_total": 38,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -84,16 +84,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 182,
-      "best_imp_pct": 35.46,
-      "consensus_pct": 39.9,
-      "edge_pp": 11.05,
-      "ev_per_100": 12.53,
+      "best_price": 177,
+      "best_imp_pct": 36.1,
+      "consensus_pct": 40.12,
+      "edge_pp": 10.41,
+      "ev_per_100": 11.12,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          182
+          177
         ],
         [
           "betmgm",
@@ -104,14 +104,20 @@
           115
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 11.05,
           "price": 182,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 10.41,
+          "price": 177,
           "n_books": 3
         }
       ]
@@ -133,9 +139,9 @@
       "best_book": "betmgm",
       "best_price": 165,
       "best_imp_pct": 37.74,
-      "consensus_pct": 42.96,
-      "edge_pp": 11.04,
-      "ev_per_100": 13.85,
+      "consensus_pct": 43.68,
+      "edge_pp": 12.26,
+      "ev_per_100": 15.74,
       "n_books": 3,
       "all_prices": [
         [
@@ -144,20 +150,26 @@
         ],
         [
           "draftkings",
-          136
+          131
         ],
         [
           "fanduel",
-          105
+          100
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 11.04,
+          "price": 165,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 12.26,
           "price": 165,
           "n_books": 3
         }
@@ -198,12 +210,18 @@
           -270
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 10.85,
+          "price": -164,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 10.85,
           "price": -164,
           "n_books": 3
@@ -225,34 +243,40 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 145,
-      "best_imp_pct": 40.82,
-      "consensus_pct": 45.56,
-      "edge_pp": 10.4,
-      "ev_per_100": 11.62,
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 45.71,
+      "edge_pp": 9.55,
+      "ev_per_100": 9.71,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          145
+          140
         ],
         [
           "draftkings",
-          124
+          126
         ],
         [
           "fanduel",
           -105
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 10.4,
           "price": 145,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.55,
+          "price": 140,
           "n_books": 3
         }
       ]
@@ -274,9 +298,9 @@
       "best_book": "betmgm",
       "best_price": 105,
       "best_imp_pct": 48.78,
-      "consensus_pct": 52.82,
+      "consensus_pct": 53.14,
       "edge_pp": 10.4,
-      "ev_per_100": 8.28,
+      "ev_per_100": 8.94,
       "n_books": 3,
       "all_prices": [
         [
@@ -285,19 +309,25 @@
         ],
         [
           "draftkings",
-          -102
+          -106
         ],
         [
           "fanduel",
           -145
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 10.4,
+          "price": 105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 10.4,
           "price": 105,
           "n_books": 3
@@ -319,16 +349,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -144,
-      "best_imp_pct": 59.02,
-      "consensus_pct": 64.13,
-      "edge_pp": 10.21,
-      "ev_per_100": 12.48,
+      "best_price": -147,
+      "best_imp_pct": 59.51,
+      "consensus_pct": 64.23,
+      "edge_pp": 9.72,
+      "ev_per_100": 11.65,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -144
+          -147
         ],
         [
           "betmgm",
@@ -347,14 +377,20 @@
           -225
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 10.21,
           "price": -144,
+          "n_books": 5
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.72,
+          "price": -147,
           "n_books": 5
         }
       ]
@@ -374,16 +410,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 191,
-      "best_imp_pct": 34.36,
-      "consensus_pct": 38.85,
-      "edge_pp": 10.08,
-      "ev_per_100": 13.05,
+      "best_price": 187,
+      "best_imp_pct": 34.84,
+      "consensus_pct": 39.01,
+      "edge_pp": 9.6,
+      "ev_per_100": 11.95,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          191
+          187
         ],
         [
           "betmgm",
@@ -394,14 +430,20 @@
           125
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 10.08,
           "price": 191,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.6,
+          "price": 187,
           "n_books": 3
         }
       ]
@@ -421,16 +463,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 124,
-      "best_imp_pct": 44.64,
-      "consensus_pct": 49.32,
-      "edge_pp": 9.9,
-      "ev_per_100": 10.48,
+      "best_price": 119,
+      "best_imp_pct": 45.66,
+      "consensus_pct": 49.66,
+      "edge_pp": 8.88,
+      "ev_per_100": 8.76,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          124
+          119
         ],
         [
           "betmgm",
@@ -441,14 +483,20 @@
           -120
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 9.9,
           "price": 124,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.88,
+          "price": 119,
           "n_books": 3
         }
       ]
@@ -519,16 +567,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -124,
-      "best_imp_pct": 55.36,
-      "consensus_pct": 59.62,
-      "edge_pp": 9.68,
-      "ev_per_100": 9.56,
+      "best_price": -123,
+      "best_imp_pct": 55.16,
+      "consensus_pct": 59.58,
+      "edge_pp": 9.88,
+      "ev_per_100": 9.87,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -124
+          -123
         ],
         [
           "betmgm",
@@ -547,14 +595,20 @@
           -186
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 9.68,
           "price": -124,
+          "n_books": 5
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.88,
+          "price": -123,
           "n_books": 5
         }
       ]
@@ -574,16 +628,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 185,
-      "best_imp_pct": 35.09,
-      "consensus_pct": 38.81,
-      "edge_pp": 9.36,
-      "ev_per_100": 10.61,
+      "best_price": 190,
+      "best_imp_pct": 34.48,
+      "consensus_pct": 38.61,
+      "edge_pp": 9.96,
+      "ev_per_100": 11.97,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          185
+          190
         ],
         [
           "draftkings",
@@ -594,14 +648,20 @@
           125
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 9.36,
           "price": 185,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.96,
+          "price": 190,
           "n_books": 3
         }
       ]
@@ -649,12 +709,18 @@
           -240
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 9.35,
+          "price": -158,
+          "n_books": 5
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 9.35,
           "price": -158,
           "n_books": 5
@@ -725,9 +791,9 @@
       "best_book": "draftkings",
       "best_price": 232,
       "best_imp_pct": 30.12,
-      "consensus_pct": 34.41,
+      "consensus_pct": 34.61,
       "edge_pp": 9.1,
-      "ev_per_100": 14.25,
+      "ev_per_100": 14.89,
       "n_books": 3,
       "all_prices": [
         [
@@ -736,19 +802,25 @@
         ],
         [
           "fanduel",
-          195
+          190
         ],
         [
           "betmgm",
           155
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 9.1,
+          "price": 232,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 9.1,
           "price": 232,
           "n_books": 3
@@ -770,16 +842,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 125,
-      "best_imp_pct": 44.44,
-      "consensus_pct": 48.9,
-      "edge_pp": 9.04,
-      "ev_per_100": 10.03,
+      "best_price": 123,
+      "best_imp_pct": 44.84,
+      "consensus_pct": 49.04,
+      "edge_pp": 8.65,
+      "ev_per_100": 9.35,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          125
+          123
         ],
         [
           "betmgm",
@@ -790,14 +862,20 @@
           -115
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 9.04,
           "price": 125,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.65,
+          "price": 123,
           "n_books": 3
         }
       ]
@@ -817,16 +895,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 125,
-      "best_imp_pct": 44.44,
-      "consensus_pct": 48.44,
-      "edge_pp": 9.04,
-      "ev_per_100": 8.99,
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 47.75,
+      "edge_pp": 8.9,
+      "ev_per_100": 9.83,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          125
+          130
         ],
         [
           "draftkings",
@@ -834,17 +912,23 @@
         ],
         [
           "fanduel",
-          -115
+          -110
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 9.04,
           "price": 125,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.9,
+          "price": 130,
           "n_books": 3
         }
       ]
@@ -884,12 +968,18 @@
           -130
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 8.9,
+          "price": 110,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 8.9,
           "price": 110,
           "n_books": 3
@@ -910,20 +1000,20 @@
       "selection": "Jahmai Jones",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 130,
-      "best_imp_pct": 43.48,
-      "consensus_pct": 46.45,
-      "edge_pp": 8.9,
-      "ev_per_100": 6.83,
+      "best_book": "betmgm",
+      "best_price": 135,
+      "best_imp_pct": 42.55,
+      "consensus_pct": 46.14,
+      "edge_pp": 9.83,
+      "ev_per_100": 8.42,
       "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          130
+          "betmgm",
+          135
         ],
         [
-          "betmgm",
+          "draftkings",
           130
         ],
         [
@@ -931,14 +1021,20 @@
           -110
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 8.9,
           "price": 130,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.83,
+          "price": 135,
           "n_books": 3
         }
       ]
@@ -1054,9 +1150,9 @@
       "best_book": "betmgm",
       "best_price": 180,
       "best_imp_pct": 35.71,
-      "consensus_pct": 39.25,
+      "consensus_pct": 39.69,
       "edge_pp": 8.73,
-      "ev_per_100": 9.9,
+      "ev_per_100": 11.13,
       "n_books": 3,
       "all_prices": [
         [
@@ -1065,19 +1161,25 @@
         ],
         [
           "draftkings",
-          166
+          157
         ],
         [
           "fanduel",
           125
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 8.73,
+          "price": 180,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 8.73,
           "price": 180,
           "n_books": 3
@@ -1119,12 +1221,18 @@
           -105
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 8.67,
+          "price": 135,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 8.67,
           "price": 135,
           "n_books": 3
@@ -1193,16 +1301,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 195,
-      "best_imp_pct": 33.9,
-      "consensus_pct": 36.9,
-      "edge_pp": 8.65,
-      "ev_per_100": 8.85,
+      "best_price": 200,
+      "best_imp_pct": 33.33,
+      "consensus_pct": 36.71,
+      "edge_pp": 9.22,
+      "ev_per_100": 10.13,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          195
+          200
         ],
         [
           "draftkings",
@@ -1213,14 +1321,20 @@
           135
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 8.65,
           "price": 195,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.22,
+          "price": 200,
           "n_books": 3
         }
       ]
@@ -1294,35 +1408,41 @@
       "selection": "Blaze Jordan",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 201,
-      "best_imp_pct": 33.22,
-      "consensus_pct": 36.26,
-      "edge_pp": 8.44,
-      "ev_per_100": 9.15,
+      "best_book": "fanduel",
+      "best_price": 200,
+      "best_imp_pct": 33.33,
+      "consensus_pct": 36.48,
+      "edge_pp": 9.22,
+      "ev_per_100": 9.44,
       "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          201
+          "fanduel",
+          200
         ],
         [
-          "fanduel",
-          195
+          "draftkings",
+          198
         ],
         [
           "betmgm",
-          140
+          135
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 8.44,
           "price": 201,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 9.22,
+          "price": 200,
           "n_books": 3
         }
       ]
@@ -1362,12 +1482,18 @@
           -155
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
+          "edge": 8.4,
+          "price": -110,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
           "edge": 8.4,
           "price": -110,
           "n_books": 3
@@ -1391,9 +1517,9 @@
       "best_book": "betmgm",
       "best_price": 300,
       "best_imp_pct": 25.0,
-      "consensus_pct": 29.02,
-      "edge_pp": 8.33,
-      "ev_per_100": 16.09,
+      "consensus_pct": 29.41,
+      "edge_pp": 8.9,
+      "ev_per_100": 17.63,
       "n_books": 3,
       "all_prices": [
         [
@@ -1402,20 +1528,26 @@
         ],
         [
           "draftkings",
-          248
+          241
         ],
         [
           "fanduel",
-          200
+          195
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-08T10:11:05.489905-04:00",
-      "last_seen_at": "2026-07-08T10:11:05.489905-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
       "scan_history": [
         {
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 8.33,
+          "price": 300,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.9,
           "price": 300,
           "n_books": 3
         }
@@ -1472,6 +1604,398 @@
           "t": "2026-07-08T10:11:05.489905-04:00",
           "edge": 8.29,
           "price": -156,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "f30eb3060b32a01dced2737d2398b918",
+      "away_team": "Atlanta Braves",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-07-08T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Braves @ Pirates",
+      "market": "TB",
+      "player": "Mauricio Dubon",
+      "team": null,
+      "selection": "Mauricio Dubon",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 44.62,
+      "edge_pp": 8.33,
+      "ev_per_100": 7.09,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          140
+        ],
+        [
+          "draftkings",
+          137
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.33,
+          "price": 140,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "673394fe5878e43a0bdc2feb5f6634d3",
+      "away_team": "Houston Astros",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-07-08T22:46:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Astros @ Nationals",
+      "market": "TB",
+      "player": "Keibert Ruiz",
+      "team": "WSH",
+      "selection": "Keibert Ruiz",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 175,
+      "best_imp_pct": 36.36,
+      "consensus_pct": 40.71,
+      "edge_pp": 8.08,
+      "ev_per_100": 11.95,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          175
+        ],
+        [
+          "draftkings",
+          142
+        ],
+        [
+          "fanduel",
+          125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.08,
+          "price": 175,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fbdf2c9598b2ee82ae2cd6b9934f9b67",
+      "away_team": "Chicago Cubs",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-07-08T22:36:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Cubs @ Orioles",
+      "market": "H+R+R",
+      "player": "Jackson Holliday",
+      "team": "BAL",
+      "selection": "Jackson Holliday",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -197,
+      "best_imp_pct": 66.33,
+      "consensus_pct": 69.81,
+      "edge_pp": 8.03,
+      "ev_per_100": 10.34,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -197
+        ],
+        [
+          "betmgm",
+          -220
+        ],
+        [
+          "fanduel",
+          -290
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.03,
+          "price": -197,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "e8175b3e1d8e51c76f4fad9075a7d707",
+      "away_team": "Boston Red Sox",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-07-08T23:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Sox @ Sox",
+      "market": "TB",
+      "player": "Miguel Vargas",
+      "team": "CWS",
+      "selection": "Miguel Vargas",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 115,
+      "best_imp_pct": 46.51,
+      "consensus_pct": 50.68,
+      "edge_pp": 8.03,
+      "ev_per_100": 8.96,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "draftkings",
+          -104
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.03,
+          "price": 115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "e8175b3e1d8e51c76f4fad9075a7d707",
+      "away_team": "Boston Red Sox",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-07-08T23:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Sox @ Sox",
+      "market": "TB",
+      "player": "Wilyer Abreu",
+      "team": "BOS",
+      "selection": "Wilyer Abreu",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 120,
+      "best_imp_pct": 45.45,
+      "consensus_pct": 48.63,
+      "edge_pp": 8.03,
+      "ev_per_100": 6.99,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          120
+        ],
+        [
+          "draftkings",
+          113
+        ],
+        [
+          "fanduel",
+          -115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.03,
+          "price": 120,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "79b379f1dea98a6b1596852f00534a6c",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-08T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Rays",
+      "market": "Hits",
+      "player": "Taylor Walls",
+      "team": "TB",
+      "selection": "Taylor Walls",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": 120,
+      "best_imp_pct": 45.45,
+      "consensus_pct": 48.35,
+      "edge_pp": 8.03,
+      "ev_per_100": 6.36,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          120
+        ],
+        [
+          "bovada",
+          120
+        ],
+        [
+          "draftkings",
+          107
+        ],
+        [
+          "williamhill_us",
+          104
+        ],
+        [
+          "betmgm",
+          -115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 8.03,
+          "price": 120,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "ee87ced2d6a2acedec0ca6c9d37dde8c",
+      "away_team": "Seattle Mariners",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-07-08T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Mariners @ Marlins",
+      "market": "H+R+R",
+      "player": "J.P. Crawford",
+      "team": "SEA",
+      "selection": "J.P. Crawford",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 110,
+      "best_imp_pct": 47.62,
+      "consensus_pct": 51.14,
+      "edge_pp": 7.94,
+      "ev_per_100": 7.4,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          110
+        ],
+        [
+          "draftkings",
+          -101
+        ],
+        [
+          "betmgm",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 7.94,
+          "price": 110,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "e8175b3e1d8e51c76f4fad9075a7d707",
+      "away_team": "Boston Red Sox",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-07-08T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Sox",
+      "market": "Hits",
+      "player": "Junior Perez",
+      "team": "CWS",
+      "selection": "Junior Perez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -119,
+      "best_imp_pct": 54.34,
+      "consensus_pct": 59.02,
+      "edge_pp": 7.93,
+      "ev_per_100": 10.26,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -119
+        ],
+        [
+          "williamhill_us",
+          -141
+        ],
+        [
+          "fanduel",
+          -150
+        ],
+        [
+          "bovada",
+          -150
+        ],
+        [
+          "betmgm",
+          -165
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "last_seen_at": "2026-07-08T11:05:57.223760-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-08T11:05:57.223760-04:00",
+          "edge": 7.93,
+          "price": -119,
           "n_books": 5
         }
       ]
