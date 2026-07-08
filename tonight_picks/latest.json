@@ -1,20 +1,20 @@
 {
   "date": "2026-07-08",
-  "generated_at": "2026-07-08 03:04 PM EDT",
+  "generated_at": "2026-07-08 05:09 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 7 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "intro": "🔒 STRICT FILTER: 3 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
   "concentration_plays": [],
   "top_picks": [
     {
-      "player": "Nathan Lukes",
-      "game": "Jays @ Giants",
+      "player": "CJ Abrams",
+      "game": "Astros @ Nationals",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 256,
-      "book": "draftkings",
-      "ev": 14.22,
-      "fair_pct": 32.1
+      "price": 270,
+      "book": "betmgm",
+      "ev": 13.0,
+      "fair_pct": 30.5
     },
     {
       "player": "Jake McCarthy",
@@ -28,68 +28,24 @@
       "fair_pct": 30.5
     },
     {
-      "player": "Jung Hoo Lee",
-      "game": "Jays @ Giants",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 290,
-      "book": "fanduel",
-      "ev": 11.82,
-      "fair_pct": 28.7
-    },
-    {
-      "player": "CJ Abrams",
-      "game": "Astros @ Nationals",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 270,
-      "book": "betmgm",
-      "ev": 11.18,
-      "fair_pct": 30.0
-    },
-    {
-      "player": "Paul Goldschmidt",
+      "player": "Ben Rice",
       "game": "Yankees @ Rays",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 248,
+      "price": 298,
       "book": "draftkings",
-      "ev": 10.97,
-      "fair_pct": 31.9
-    },
-    {
-      "player": "Cal Raleigh",
-      "game": "Mariners @ Marlins",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -165,
-      "book": "betmgm",
-      "ev": 10.54,
-      "fair_pct": 66.2
-    },
-    {
-      "player": "Cam Smith",
-      "game": "Astros @ Nationals",
-      "market": "Hits",
-      "side": "Over",
-      "line": 1.5,
-      "price": 294,
-      "book": "draftkings",
-      "ev": 10.13,
-      "fair_pct": 28.0
+      "ev": 10.84,
+      "fair_pct": 27.9
     }
   ],
   "bet_card": {
     "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
-        "description": "Nathan Lukes Hits Over 1.5",
-        "price": 256,
-        "book": "draftkings"
+        "description": "CJ Abrams Hits Over 1.5",
+        "price": 270,
+        "book": "betmgm"
       },
       {
         "stake": "2u",
@@ -99,58 +55,13 @@
       },
       {
         "stake": "2u",
-        "description": "Jung Hoo Lee Hits Over 1.5",
-        "price": 290,
-        "book": "fanduel"
-      }
-    ],
-    "🎲 Tier 2 (1u each)": [
-      {
-        "stake": "1u",
-        "description": "CJ Abrams Hits Over 1.5",
-        "price": 270,
-        "book": "betmgm"
-      },
-      {
-        "stake": "1u",
-        "description": "Paul Goldschmidt Hits Over 1.5",
-        "price": 248,
+        "description": "Ben Rice Hits Over 1.5",
+        "price": 298,
         "book": "draftkings"
-      },
-      {
-        "stake": "1u",
-        "description": "Cal Raleigh Hits Over 0.5",
-        "price": -165,
-        "book": "betmgm"
-      },
-      {
-        "stake": "1u",
-        "description": "Cam Smith Hits Over 1.5",
-        "price": 294,
-        "book": "draftkings"
-      }
-    ],
-    "🛡️ Safe Locks (1u each)": [
-      {
-        "stake": "1u",
-        "description": "Cal Raleigh Hits Over 0.5",
-        "price": -165,
-        "book": "betmgm"
       }
     ]
   },
-  "safe_locks": [
-    {
-      "player": "Cal Raleigh",
-      "market": "Hits",
-      "side": "Over",
-      "line": 0.5,
-      "price": -165,
-      "book": "betmgm",
-      "fair_pct": 66.2,
-      "ev": 10.54
-    }
-  ],
+  "safe_locks": [],
   "nba_game": "No NBA game on the slate",
   "nba_picks": [],
   "avoid": [
@@ -158,14 +69,15 @@
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 10 MLB games still lack props — re-scan later"
+    "⏰ 12 MLB games still lack props — re-scan later",
+    "ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity."
   ],
   "strategy_notes": [
-    "🤖 Scanned at 03:04 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 05:09 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
     "🎯 0 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: Nathan Lukes Hits Over 1.5 @ +256 (draftkings) = $+14.22 EV"
+    "🌟 Pick of the night: CJ Abrams Hits Over 1.5 @ +270 (betmgm) = $+13.00 EV"
   ]
 }
