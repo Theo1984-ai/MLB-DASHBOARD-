@@ -1,7 +1,7 @@
 {
   "date": "2026-07-09",
-  "snapshot_at": "2026-07-09T11:50:07.065741-04:00",
-  "n_picks": 42,
+  "snapshot_at": "2026-07-09T13:23:35.704556-04:00",
+  "n_picks": 71,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 42,
+    "n_total": 71,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -37,29 +37,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 180,
-      "best_imp_pct": 35.71,
-      "consensus_pct": 40.85,
-      "edge_pp": 11.9,
-      "ev_per_100": 14.38,
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 40.34,
+      "edge_pp": 12.53,
+      "ev_per_100": 14.97,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          180
+          185
         ],
         [
           "draftkings",
-          155
+          161
         ],
         [
           "fanduel",
           110
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-09T11:12:21.246776-04:00",
-      "last_seen_at": "2026-07-09T11:50:07.065621-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
       "scan_history": [
         {
           "t": "2026-07-09T11:12:21.246776-04:00",
@@ -71,6 +71,12 @@
           "t": "2026-07-09T11:50:07.065621-04:00",
           "edge": 11.9,
           "price": 180,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.53,
+          "price": 185,
           "n_books": 3
         }
       ]
@@ -2136,6 +2142,1405 @@
           "t": "2026-07-09T11:50:07.065621-04:00",
           "edge": 7.47,
           "price": 185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Junior Caminero",
+      "team": "TB",
+      "selection": "Junior Caminero",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "betmgm",
+      "best_price": 240,
+      "best_imp_pct": 29.41,
+      "consensus_pct": 42.66,
+      "edge_pp": 38.84,
+      "ev_per_100": 45.03,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          240
+        ],
+        [
+          "fanduel",
+          230
+        ],
+        [
+          "draftkings",
+          -215
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 38.84,
+          "price": 240,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Mets",
+      "market": "Hits",
+      "player": "Starling Marte",
+      "team": "KC",
+      "selection": "Starling Marte",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 270,
+      "best_imp_pct": 27.03,
+      "consensus_pct": 49.08,
+      "edge_pp": 32.97,
+      "ev_per_100": 81.6,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          270
+        ],
+        [
+          "draftkings",
+          -120
+        ],
+        [
+          "williamhill_us",
+          -121
+        ],
+        [
+          "fanduel",
+          -150
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 32.97,
+          "price": 270,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Mets",
+      "market": "Hits",
+      "player": "Lane Thomas",
+      "team": "KC",
+      "selection": "Lane Thomas",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 240,
+      "best_imp_pct": 29.41,
+      "consensus_pct": 52.53,
+      "edge_pp": 32.13,
+      "ev_per_100": 78.61,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          240
+        ],
+        [
+          "williamhill_us",
+          -145
+        ],
+        [
+          "fanduel",
+          -150
+        ],
+        [
+          "draftkings",
+          -160
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 32.13,
+          "price": 240,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Rays",
+      "market": "Hits",
+      "player": "Junior Caminero",
+      "team": "TB",
+      "selection": "Junior Caminero",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 210,
+      "best_imp_pct": 32.26,
+      "consensus_pct": 42.85,
+      "edge_pp": 30.7,
+      "ev_per_100": 32.84,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "bovada",
+          200
+        ],
+        [
+          "draftkings",
+          -170
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 30.7,
+          "price": 210,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Mets",
+      "market": "TB",
+      "player": "Starling Marte",
+      "team": "KC",
+      "selection": "Starling Marte",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 160,
+      "best_imp_pct": 38.46,
+      "consensus_pct": 51.26,
+      "edge_pp": 22.32,
+      "ev_per_100": 33.29,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          160
+        ],
+        [
+          "draftkings",
+          -120
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 22.32,
+          "price": 160,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "A.J. Ewing",
+      "team": "NYM",
+      "selection": "A.J. Ewing",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 120,
+      "best_imp_pct": 45.45,
+      "consensus_pct": 54.86,
+      "edge_pp": 15.33,
+      "ev_per_100": 20.69,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          120
+        ],
+        [
+          "betmgm",
+          -140
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 15.33,
+          "price": 120,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Mets",
+      "market": "Hits",
+      "player": "Juan Soto",
+      "team": "NYM",
+      "selection": "Juan Soto",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -150,
+      "best_imp_pct": 60.0,
+      "consensus_pct": 64.14,
+      "edge_pp": 13.33,
+      "ev_per_100": 10.35,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -150
+        ],
+        [
+          "williamhill_us",
+          -159
+        ],
+        [
+          "fanduel",
+          -162
+        ],
+        [
+          "betmgm",
+          -275
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 13.33,
+          "price": -150,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Yankees @ Rays",
+      "market": "TB",
+      "player": "Jasson Dom\u00ednguez",
+      "team": "NYY",
+      "selection": "Jasson Dom\u00ednguez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 285,
+      "best_imp_pct": 25.97,
+      "consensus_pct": 31.53,
+      "edge_pp": 13.24,
+      "ev_per_100": 21.41,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          285
+        ],
+        [
+          "fanduel",
+          240
+        ],
+        [
+          "betmgm",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 13.24,
+          "price": 285,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Nick Loftin",
+      "team": "KC",
+      "selection": "Nick Loftin",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 46.79,
+      "edge_pp": 13.17,
+      "ev_per_100": 19.32,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          155
+        ],
+        [
+          "fanduel",
+          105
+        ],
+        [
+          "betmgm",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 13.17,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Jonathan Aranda",
+      "team": "TB",
+      "selection": "Jonathan Aranda",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 50.41,
+      "edge_pp": 13.04,
+      "ev_per_100": 15.93,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          130
+        ],
+        [
+          "fanduel",
+          -105
+        ],
+        [
+          "betmgm",
+          -130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 13.04,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Jonathan Aranda",
+      "team": "TB",
+      "selection": "Jonathan Aranda",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -185,
+      "best_imp_pct": 64.91,
+      "consensus_pct": 72.35,
+      "edge_pp": 12.87,
+      "ev_per_100": 21.2,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -185
+        ],
+        [
+          "fanduel",
+          -290
+        ],
+        [
+          "betmgm",
+          -350
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.87,
+          "price": -185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Trent Grisham",
+      "team": "NYY",
+      "selection": "Trent Grisham",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 160,
+      "best_imp_pct": 38.46,
+      "consensus_pct": 45.77,
+      "edge_pp": 12.76,
+      "ev_per_100": 18.99,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          160
+        ],
+        [
+          "betmgm",
+          110
+        ],
+        [
+          "fanduel",
+          -105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.76,
+          "price": 160,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "A.J. Ewing",
+      "team": "NYM",
+      "selection": "A.J. Ewing",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 265,
+      "best_imp_pct": 27.4,
+      "consensus_pct": 35.8,
+      "edge_pp": 12.6,
+      "ev_per_100": 30.67,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          265
+        ],
+        [
+          "fanduel",
+          150
+        ],
+        [
+          "betmgm",
+          150
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.6,
+          "price": 265,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Juan Soto",
+      "team": "NYM",
+      "selection": "Juan Soto",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 43.07,
+      "edge_pp": 12.53,
+      "ev_per_100": 22.76,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          185
+        ],
+        [
+          "fanduel",
+          115
+        ],
+        [
+          "betmgm",
+          110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.53,
+          "price": 185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Rays",
+      "market": "Hits",
+      "player": "Jasson Dom\u00ednguez",
+      "team": "NYY",
+      "selection": "Jasson Dom\u00ednguez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 57.49,
+      "edge_pp": 12.53,
+      "ev_per_100": 10.72,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -110
+        ],
+        [
+          "williamhill_us",
+          -113
+        ],
+        [
+          "fanduel",
+          -118
+        ],
+        [
+          "bovada",
+          -170
+        ],
+        [
+          "betmgm",
+          -185
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.53,
+          "price": -110,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "A.J. Ewing",
+      "team": "NYM",
+      "selection": "A.J. Ewing",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -205,
+      "best_imp_pct": 67.21,
+      "consensus_pct": 75.25,
+      "edge_pp": 12.38,
+      "ev_per_100": 24.51,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -205
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "fanduel",
+          -390
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.38,
+          "price": -205,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Rays",
+      "market": "Hits",
+      "player": "Jonathan Aranda",
+      "team": "TB",
+      "selection": "Jonathan Aranda",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "williamhill_us",
+      "best_price": -137,
+      "best_imp_pct": 57.81,
+      "consensus_pct": 63.16,
+      "edge_pp": 12.34,
+      "ev_per_100": 12.7,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "williamhill_us",
+          -137
+        ],
+        [
+          "draftkings",
+          -145
+        ],
+        [
+          "bovada",
+          -190
+        ],
+        [
+          "betmgm",
+          -235
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.34,
+          "price": -137,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Jonathan Aranda",
+      "team": "TB",
+      "selection": "Jonathan Aranda",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 270,
+      "best_imp_pct": 27.03,
+      "consensus_pct": 33.19,
+      "edge_pp": 12.19,
+      "ev_per_100": 22.81,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          270
+        ],
+        [
+          "fanduel",
+          200
+        ],
+        [
+          "betmgm",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.19,
+          "price": 270,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Bobby Witt Jr.",
+      "team": "KC",
+      "selection": "Bobby Witt Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 60.18,
+      "edge_pp": 12.03,
+      "ev_per_100": 14.39,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -115
+        ],
+        [
+          "betmgm",
+          -160
+        ],
+        [
+          "fanduel",
+          -190
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.03,
+          "price": -115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Rays",
+      "market": "Hits",
+      "player": "Trent Grisham",
+      "team": "NYY",
+      "selection": "Trent Grisham",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 58.12,
+      "edge_pp": 12.03,
+      "ev_per_100": 9.96,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -115
+        ],
+        [
+          "williamhill_us",
+          -117
+        ],
+        [
+          "fanduel",
+          -128
+        ],
+        [
+          "betmgm",
+          -160
+        ],
+        [
+          "bovada",
+          -190
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 12.03,
+          "price": -115,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Nick Loftin",
+      "team": "KC",
+      "selection": "Nick Loftin",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -160,
+      "best_imp_pct": 61.54,
+      "consensus_pct": 68.77,
+      "edge_pp": 11.79,
+      "ev_per_100": 18.79,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -160
+        ],
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "betmgm",
+          -275
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.79,
+          "price": -160,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Jasson Dom\u00ednguez",
+      "team": "NYY",
+      "selection": "Jasson Dom\u00ednguez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -135,
+      "best_imp_pct": 57.45,
+      "consensus_pct": 65.14,
+      "edge_pp": 11.78,
+      "ev_per_100": 18.08,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -135
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "betmgm",
+          -225
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.78,
+          "price": -135,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Bobby Witt Jr.",
+      "team": "KC",
+      "selection": "Bobby Witt Jr.",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 160,
+      "best_imp_pct": 38.46,
+      "consensus_pct": 44.64,
+      "edge_pp": 11.54,
+      "ev_per_100": 16.06,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          160
+        ],
+        [
+          "betmgm",
+          120
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.54,
+          "price": 160,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Juan Soto",
+      "team": "NYM",
+      "selection": "Juan Soto",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 100,
+      "best_imp_pct": 50.0,
+      "consensus_pct": 57.69,
+      "edge_pp": 11.54,
+      "ev_per_100": 15.38,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          100
+        ],
+        [
+          "fanduel",
+          -160
+        ],
+        [
+          "betmgm",
+          -160
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.54,
+          "price": 100,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Trent Grisham",
+      "team": "NYY",
+      "selection": "Trent Grisham",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -150,
+      "best_imp_pct": 60.0,
+      "consensus_pct": 66.73,
+      "edge_pp": 11.43,
+      "ev_per_100": 16.82,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -150
+        ],
+        [
+          "betmgm",
+          -220
+        ],
+        [
+          "fanduel",
+          -250
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.43,
+          "price": -150,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Jasson Dom\u00ednguez",
+      "team": "NYY",
+      "selection": "Jasson Dom\u00ednguez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 42.7,
+      "edge_pp": 11.42,
+      "ev_per_100": 21.71,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          185
+        ],
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "fanduel",
+          115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.42,
+          "price": 185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Mets",
+      "market": "H+R+R",
+      "player": "Juan Soto",
+      "team": "NYM",
+      "selection": "Juan Soto",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -230,
+      "best_imp_pct": 69.7,
+      "consensus_pct": 76.88,
+      "edge_pp": 11.26,
+      "ev_per_100": 23.71,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -230
+        ],
+        [
+          "betmgm",
+          -400
+        ],
+        [
+          "fanduel",
+          -425
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 11.26,
+          "price": -230,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "4690bcfaacd780fc44c057a6a7a4cc46",
+      "away_team": "Kansas City Royals",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-09T17:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Mets",
+      "market": "Hits",
+      "player": "Bobby Witt Jr.",
+      "team": "KC",
+      "selection": "Bobby Witt Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 270,
+      "best_imp_pct": 27.03,
+      "consensus_pct": 30.95,
+      "edge_pp": 10.71,
+      "ev_per_100": 14.51,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          270
+        ],
+        [
+          "fanduel",
+          260
+        ],
+        [
+          "williamhill_us",
+          220
+        ],
+        [
+          "betmgm",
+          165
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 10.71,
+          "price": 270,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "be3485a7acdabede1a849330fcc226dc",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-07-09T17:10:21Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Rays",
+      "market": "H+R+R",
+      "player": "Ben Rice",
+      "team": "NYY",
+      "selection": "Ben Rice",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -160,
+      "best_imp_pct": 61.54,
+      "consensus_pct": 68.4,
+      "edge_pp": 10.68,
+      "ev_per_100": 17.83,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -160
+        ],
+        [
+          "betmgm",
+          -250
+        ],
+        [
+          "fanduel",
+          -260
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "last_seen_at": "2026-07-09T13:23:35.704459-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-09T13:23:35.704459-04:00",
+          "edge": 10.68,
+          "price": -160,
           "n_books": 3
         }
       ]
