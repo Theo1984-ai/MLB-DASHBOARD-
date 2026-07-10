@@ -459,14 +459,13 @@ def _lookup_persistence(row):
     return _persist_idx.get(key)
 
 
-def render_table(rows_subset, sort_by="depth"):
+def render_table(rows_subset, sort_by="depth", show_details=False):
     if not rows_subset:
         st.info("No markets in this bucket.")
         return
     table = []
     for r in rows_subset:
         marker = "💰💰" if r["skew_strength"] >= 85 else ("💰" if r["skew_strength"] >= 70 else "")
-        # Depth on the sharp side vs the other side (no more "YES bid $" jargon)
         sharp_depth = (r["yes_bid_depth"] if r["skew_side"] == "YES"
                        else r["no_bid_depth"])
         other_depth = (r["no_bid_depth"] if r["skew_side"] == "YES"
@@ -477,95 +476,120 @@ def render_table(rows_subset, sort_by="depth"):
         n_conf = len(r.get("_confluence") or [])
         score = _sharp_score(r, n_conf, n_seen or 0, ratio)
         tier  = _sharp_tier(score)
-        table.append({
-            "Game":             r["event"][:32],
-            "Mkt":              r["category"],
+        row = {
+            # 7 essential columns shown by default
             "Sharp pick":       f"{marker} {r.get('sharp_pick', '')}",
             "Score":            score,
             "Tier":             tier,
-            "Confluence":       n_conf,
-            "Whale?":           _whale_label(r),
-            "$ on sharp pick":  sharp_depth,
-            "Other side":       _other_side_label(r),
-            "$ on other side":  other_depth,
-            "Depth ratio":      ratio,
             "Skew %":           r["skew_strength"],
-            "Seen":             n_seen,
-            "Mid (YES)":        r["mid"],
-            "Spread":           r["spread"],
-            "Volume $":         r["volume"],
-        })
+            "Depth ratio":      ratio,
+            "Confluence":       n_conf,
+            "Game":             r["event"][:32],
+        }
+        if show_details:
+            # Extra columns for deep-dive
+            row.update({
+                "Mkt":              r["category"],
+                "Whale?":           _whale_label(r),
+                "Seen":             n_seen,
+                "$ on sharp pick":  sharp_depth,
+                "Other side":       _other_side_label(r),
+                "$ on other side":  other_depth,
+                "Mid (YES)":        r["mid"],
+                "Spread":           r["spread"],
+                "Volume $":         r["volume"],
+            })
+        table.append(row)
     df = pd.DataFrame(table)
+    # Sort keys may or may not be visible columns depending on show_details.
+    # Compute needed values on the fly if the visible column is missing.
+    def _sort_by_hidden(rows, extract_fn, reverse=True):
+        vals = [extract_fn(r) for r in rows]
+        order = sorted(range(len(rows)), key=lambda i: vals[i], reverse=reverse)
+        return df.iloc[order]
+
     if sort_by == "depth":
-        df["_sort"] = df["$ on sharp pick"] + df["$ on other side"]
-        df = df.sort_values("_sort", ascending=False).drop(columns="_sort")
+        df = _sort_by_hidden(rows_subset,
+            lambda r: (r["yes_bid_depth"] + r["no_bid_depth"]))
     elif sort_by == "skew":
         df = df.sort_values("Skew %", ascending=False)
     elif sort_by == "volume":
-        df = df.sort_values("Volume $", ascending=False)
+        df = _sort_by_hidden(rows_subset, lambda r: r.get("volume", 0))
     elif sort_by == "ratio":
         df = df.sort_values("Depth ratio", ascending=False)
     elif sort_by == "persistence":
-        df = df.sort_values("Seen", ascending=False, na_position="last")
+        df = _sort_by_hidden(rows_subset,
+            lambda r: (_lookup_persistence(r) or {}).get("n", 0))
     elif sort_by == "score":
         df = df.sort_values("Score", ascending=False)
 
-    st.dataframe(
-        df, use_container_width=True, hide_index=True,
-        column_config={
-            "Score":             st.column_config.NumberColumn(
-                format="%d",
-                help="Composite 0-100 score. Weights: confluence 30, "
-                     "persistence 20, depth ratio 20, skew 15, edge 15. "
-                     "Whale penalty up to −25 for lone-order dominance. "
-                     "Tiers: 75+ ELITE, 55-74 STRONG, 35-54 DECENT, <35 WEAK."),
-            "Whale?":            st.column_config.TextColumn(
-                help="How concentrated the sharp-side depth is. "
-                     "🐋 lone whale (80%+ from one order) = fragile. "
-                     "🐟 concentrated (60-80%). 🟡 mixed (45-60%). "
-                     "🟢 distributed (5+ orders, <45% top). "
-                     "⚪ small book (1-2 orders)."),
-            "Confluence":        st.column_config.NumberColumn(
-                format="%d",
-                help="Number of other systems (True Prob, Soft Scanner) "
-                     "that also have this pick. 2+ = multi-system agreement."),
-            "Mid (YES)":         st.column_config.NumberColumn(format="$%.3f"),
-            "Spread":            st.column_config.NumberColumn(format="$%.3f"),
-            "$ on sharp pick":   st.column_config.NumberColumn(format="$%,d"),
-            "$ on other side":   st.column_config.NumberColumn(format="$%,d"),
-            "Depth ratio":       st.column_config.NumberColumn(
-                format="%.1fx",
-                help="Sharp-side $ divided by other-side $. Backtest: 10x+ "
-                     "hit 70% / +21% ROI, 5-10x hit 67% / +31% ROI, "
-                     "2-5x hit 52% / +35% ROI. <2x almost never appears."),
-            "Skew %":            st.column_config.NumberColumn(format="%.0f%%"),
-            "Seen":              st.column_config.NumberColumn(
-                format="%d×",
-                help="How many scans this signal has appeared in today. "
-                     "Higher = more persistent conviction. '—' means the "
-                     "pick hasn't yet passed the strict save filter "
-                     "(edge≥3pp AND liquidity≥$10K AND SB match)."),
-            "Volume $":          st.column_config.NumberColumn(format="$%,.0f"),
-        },
-    )
+    full_cfg = {
+        "Score":             st.column_config.NumberColumn(
+            format="%d",
+            help="Composite 0-100 score. Weights: confluence 30, "
+                 "persistence 20, depth ratio 20, skew 15, edge 15. "
+                 "Whale penalty up to −25 for lone-order dominance. "
+                 "Tiers: 75+ ELITE, 55-74 STRONG, 35-54 DECENT, <35 WEAK."),
+        "Whale?":            st.column_config.TextColumn(
+            help="How concentrated the sharp-side depth is. "
+                 "🐋 lone whale (80%+ from one order) = fragile. "
+                 "🐟 concentrated (60-80%). 🟡 mixed (45-60%). "
+                 "🟢 distributed (5+ orders, <45% top). "
+                 "⚪ small book (1-2 orders)."),
+        "Confluence":        st.column_config.NumberColumn(
+            format="%d",
+            help="Number of other systems (True Prob, Soft Scanner) "
+                 "that also have this pick. 2+ = multi-system agreement."),
+        "Mid (YES)":         st.column_config.NumberColumn(format="$%.3f"),
+        "Spread":            st.column_config.NumberColumn(format="$%.3f"),
+        "$ on sharp pick":   st.column_config.NumberColumn(format="$%,d"),
+        "$ on other side":   st.column_config.NumberColumn(format="$%,d"),
+        "Depth ratio":       st.column_config.NumberColumn(
+            format="%.1fx",
+            help="Sharp-side $ divided by other-side $. Backtest: 10x+ "
+                 "hit 70% / +21% ROI, 5-10x hit 67% / +31% ROI, "
+                 "2-5x hit 52% / +35% ROI. <2x almost never appears."),
+        "Skew %":            st.column_config.NumberColumn(format="%.0f%%"),
+        "Seen":              st.column_config.NumberColumn(
+            format="%d×",
+            help="How many scans this signal has appeared in today. "
+                 "Higher = more persistent conviction. '—' means the "
+                 "pick hasn't yet passed the strict save filter "
+                 "(edge≥3pp AND liquidity≥$10K AND SB match)."),
+        "Volume $":          st.column_config.NumberColumn(format="$%,.0f"),
+    }
+    # Only pass column configs for columns actually rendered
+    cfg = {k: v for k, v in full_cfg.items() if k in df.columns}
+    st.dataframe(df, use_container_width=True, hide_index=True, column_config=cfg)
 
 
 with tab_all:
-    sort_choice = st.radio(
-        "Sort by", ["score", "depth", "skew", "volume", "ratio", "persistence"],
-        horizontal=True, key="sort_all", index=0,
-        help="'score' is the recommended default — composite of confluence + "
-             "persistence + depth ratio + skew + edge, weighted per backtest. "
-             "'persistence' surfaces confirmed conviction (2+ scans).")
-    render_table(filtered, sort_by=sort_choice)
+    ctrl_l, ctrl_r = st.columns([3, 1])
+    with ctrl_l:
+        sort_choice = st.radio(
+            "Sort by",
+            ["score", "depth", "skew", "volume", "ratio", "persistence"],
+            horizontal=True, key="sort_all", index=0,
+            help="'score' recommended — composite of confluence + persistence "
+                 "+ depth ratio + skew + edge, weighted per backtest.")
+    with ctrl_r:
+        show_details = st.toggle(
+            "🔧 Show details", value=False, key="details_all",
+            help="Adds 9 extra columns (Mkt, Whale?, Seen, bid depths, Mid, "
+                 "Spread, Volume). Off by default so the table is scannable.")
+    render_table(filtered, sort_by=sort_choice, show_details=show_details)
 
 with tab_yes:
+    show_details_y = st.toggle("🔧 Show details", value=False, key="details_yes")
     yes_only = [r for r in filtered if r["skew_side"] == "YES"]
-    render_table(sorted(yes_only, key=lambda r: -r["yes_bid_depth"]))
+    render_table(sorted(yes_only, key=lambda r: -r["yes_bid_depth"]),
+                 show_details=show_details_y)
 
 with tab_no:
+    show_details_n = st.toggle("🔧 Show details", value=False, key="details_no")
     no_only = [r for r in filtered if r["skew_side"] == "NO"]
-    render_table(sorted(no_only, key=lambda r: -r["no_bid_depth"]))
+    render_table(sorted(no_only, key=lambda r: -r["no_bid_depth"]),
+                 show_details=show_details_n)
 
 
 # =============================================================================
