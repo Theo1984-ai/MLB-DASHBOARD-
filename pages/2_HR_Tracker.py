@@ -157,275 +157,42 @@ st.caption(
 )
 
 if save_btn:
-    with st.spinner("Running model + pulling sharp odds (preview only, NOT saved)..."):
+    with st.spinner("Running Fundamentals HR strategy (Barrel% composite + sharp odds)..."):
         try:
-            # Get upcoming games
-            all_games = mlb_api.get_schedule(today)
-            upcoming = []
-            for g in all_games:
-                fp_dt, _ = mlb_api.parse_first_pitch(g.get("gameDate", ""))
-                if fp_dt and fp_dt.astimezone(timezone.utc) > now_utc:
-                    upcoming.append((g, fp_dt))
-            if not upcoming:
-                st.warning("No upcoming games — nothing to preview. Try earlier in the day.")
-                st.stop()
+            from scripts.hr_tracker_scanner import generate_hr_picks
+            payload = generate_hr_picks(ODDS_KEY, season=season, top_n=8, strict=True)
+            top_n = payload["picks"]
+            n_a_plus = payload.get("n_a_plus", 0)
+            n_a = payload.get("n_a", 0)
 
-            # Load model data
-            bs_df = savant.batter_statcast(season)
-            bx_df = savant.batter_xstats(season)
-            px_df = savant.pitcher_xstats(season)
-            arsenal_df = savant.pitcher_arsenal(season)
-            bvp_df = savant.batter_vs_pitch_types(season)
-            pxL_df = savant.pitcher_xstats_split(season, "L")
-            pxR_df = savant.pitcher_xstats_split(season, "R")
-            recent_hitting = mlb_api.get_recent_hitting_leaderboard(season, 15)
-            cal_params = cal_model.load_params()
-
-            events = json.loads(urllib.request.urlopen(
-                f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events?apiKey={ODDS_KEY}",
-                timeout=15, context=_UNVERIFIED_SSL).read())
-            event_map = {(e["away_team"] + "|" + e["home_team"]).lower(): e["id"] for e in events}
-
-            all_preds = []
-            progress = st.progress(0)
-            for gi, (g, fp_dt) in enumerate(upcoming):
-                progress.progress((gi + 1) / len(upcoming))
-                away_name = g["teams"]["away"]["team"]["name"]
-                home_name = g["teams"]["home"]["team"]["name"]
-                home_id = g["teams"]["home"]["team"]["id"]
-                away_id = g["teams"]["away"]["team"]["id"]
-                stadium = get_stadium(home_id)
-                away_p = g["teams"]["away"].get("probablePitcher") or {}
-                home_p = g["teams"]["home"].get("probablePitcher") or {}
-                away_pid = away_p.get("id"); home_pid = home_p.get("id")
-                eid = event_map.get((away_name + "|" + home_name).lower())
-
-                weather_g = wx.get_forecast(stadium["lat"], stadium["lon"], fp_dt) or {}
-                home_stats = mlb_api.get_pitcher_season(home_pid, season) if home_pid else mlb_api._empty_pitcher()
-                away_stats = mlb_api.get_pitcher_season(away_pid, season) if away_pid else mlb_api._empty_pitcher()
-                home_p_savant = away_p_savant = None
-                if home_pid and not px_df.empty:
-                    h = px_df[px_df["player_id"] == home_pid]
-                    if not h.empty: home_p_savant = h.iloc[0].to_dict()
-                if away_pid and not px_df.empty:
-                    h = px_df[px_df["player_id"] == away_pid]
-                    if not h.empty: away_p_savant = h.iloc[0].to_dict()
-                home_ars = away_ars = None
-                if home_pid and not arsenal_df.empty:
-                    h = arsenal_df[arsenal_df["player_id"] == home_pid]
-                    if not h.empty: home_ars = h.iloc[0].to_dict()
-                if away_pid and not arsenal_df.empty:
-                    h = arsenal_df[arsenal_df["player_id"] == away_pid]
-                    if not h.empty: away_ars = h.iloc[0].to_dict()
-                home_splits = mlb_api.get_pitcher_splits(home_pid, season) if home_pid else None
-                away_splits = mlb_api.get_pitcher_splits(away_pid, season) if away_pid else None
-                home_recent = mlb_api.get_pitcher_recent_form(home_pid, season) if home_pid else None
-                away_recent = mlb_api.get_pitcher_recent_form(away_pid, season) if away_pid else None
-
-                il = mlb_api.get_team_il(home_id, season) | mlb_api.get_team_il(away_id, season)
-                all_pids = []
-                for tid in (home_id, away_id):
-                    for r in mlb_api.get_team_roster(tid, season):
-                        if r.get("position", {}).get("type") != "Pitcher":
-                            pid = r.get("person", {}).get("id")
-                            if pid and pid not in il: all_pids.append((pid, tid))
-                handedness = mlb_api.get_handedness(list({p for p, _ in all_pids}))
-
-                # Opposing team bullpen stats (for HR factor blend) + lineup spots
-                home_bp = mlb_api.get_team_bullpen_stats(home_id, season) or {}
-                away_bp = mlb_api.get_team_bullpen_stats(away_id, season) or {}
-                pid_to_spot = {}
-                try:
-                    bx = json.loads(urllib.request.urlopen(
-                        f"https://statsapi.mlb.com/api/v1/game/{g.get('gamePk')}/boxscore",
-                        timeout=10, context=_UNVERIFIED_SSL).read())
-                    for side in ("away", "home"):
-                        for _, pp in bx.get("teams", {}).get(side, {}).get("players", {}).items():
-                            bo = pp.get("battingOrder")
-                            if bo:
-                                try:
-                                    spot = int(bo) // 100
-                                    if 1 <= spot <= 9:
-                                        pid_to_spot[pp["person"]["id"]] = spot
-                                except (ValueError, TypeError):
-                                    pass
-                except Exception:
-                    pass
-
-                # Collect ALL prices per player so we can compute consensus
-                # implied probability (median across books). Picking only the
-                # longest-priced book biases edge upward and was the root cause
-                # of the -30% ROI in the 5-day backtest.
-                sharp_odds = {}  # name -> {"all": [(am, book)], "best": (am, book)}
-                if eid:
-                    for o in odds_api.get_hr_odds(ODDS_KEY, eid, "draftkings,fanduel,betmgm,williamhill_us,bovada"):
-                        n = odds_api.normalize_name(o["player"])
-                        am = o["american_odds"]; bk = o["bookmaker"]
-                        entry = sharp_odds.setdefault(n, {"all": [], "best": None})
-                        entry["all"].append((am, bk))
-                        if entry["best"] is None or am > entry["best"][0]:
-                            entry["best"] = (am, bk)
-
-                for pid, tid in all_pids:
-                    bs_row = bs_df[bs_df["player_id"] == pid]
-                    if bs_row.empty: continue
-                    bs = bs_row.iloc[0].to_dict()
-                    bx_row = bx_df[bx_df["player_id"] == pid] if not bx_df.empty else pd.DataFrame()
-                    if not bx_row.empty:
-                        bs["xslg"] = bx_row.iloc[0].get("xslg")
-                        bs["xwoba"] = bx_row.iloc[0].get("xwoba")
-                    b_hand = handedness.get(pid, {}).get("bats")
-                    b_recent = recent_hitting.get(pid)
-                    b_pitch_perf = None
-                    if not bvp_df.empty:
-                        h = bvp_df[bvp_df["player_id"] == pid]
-                        if not h.empty: b_pitch_perf = h.iloc[0].to_dict()
-                    opp_stats = home_stats if tid == away_id else away_stats
-                    opp_pid = home_pid if tid == away_id else away_pid
-                    opp_savant = home_p_savant if tid == away_id else away_p_savant
-                    opp_ars = home_ars if tid == away_id else away_ars
-                    opp_splits = home_splits if tid == away_id else away_splits
-                    opp_recent = home_recent if tid == away_id else away_recent
-                    opp_name = home_p.get("fullName", "TBD") if tid == away_id else away_p.get("fullName", "TBD")
-                    p_hand = handedness.get(opp_pid, {}).get("throws") if opp_pid else None
-                    p_split = None
-                    if opp_pid:
-                        eff_bat = b_hand
-                        if eff_bat == "S" and p_hand: eff_bat = "R" if p_hand == "L" else "L"
-                        df_s = pxL_df if eff_bat == "L" else pxR_df
-                        if not df_s.empty:
-                            h = df_s[df_s["player_id"] == opp_pid]
-                            if not h.empty: p_split = h.iloc[0].to_dict()
-
-                    # Opposing team bullpen for the BP blend
-                    opp_bullpen = home_bp if tid == away_id else away_bp
-                    spot = pid_to_spot.get(pid)
-                    expected_pa = hr_model.expected_pa_for_spot(spot)
-
-                    per_pa = hr_model.predict_per_pa(
-                        batter_savant=bs, pitcher_stats=opp_stats, pitcher_savant=opp_savant,
-                        park_hr=stadium["hr_factor"], weather=weather_g,
-                        park_orientation_deg=stadium["orientation_deg"],
-                        stadium=stadium, batter_hand=b_hand, pitcher_hand=p_hand,
-                        pitcher_splits=opp_splits, recent_stats=b_recent,
-                        pitcher_arsenal=opp_ars, batter_pitch_perf=b_pitch_perf,
-                        pitcher_savant_split=p_split, pitcher_recent_form=opp_recent,
-                        bullpen_stats=opp_bullpen, lineup_spot=spot,
-                    )
-                    per_game = hr_model.predict_per_game(per_pa, expected_pa)
-                    p_cal = cal_model.apply_calibration(per_game["p_at_least_one"], cal_params)
-                    bname = bs.get("player_name", "?")
-                    norm = odds_api.normalize_name(bname)
-                    odds_data = sharp_odds.get(norm)
-
-                    # Always include all keys (None if no odds) so DataFrame columns
-                    # are stable across picks. Avoids "X not in index" errors when
-                    # displaying mixed odds/no-odds picks.
-                    rec = {
-                        "batter":      bname,
-                        "batter_id":   int(pid),
-                        "team":        g["teams"]["away" if tid == away_id else "home"]["team"]["name"],
-                        "matchup":     f"{away_name} @ {home_name}",
-                        "game_pk":     g.get("gamePk"),
-                        "vs_sp":       opp_name,
-                        "park":        stadium["park"],
-                        "model_p":     round(p_cal, 4),
-                        "model_p_pct": round(p_cal * 100, 2),
-                        "best_odds":         None,
-                        "best_book":         None,
-                        "best_implied_pct":  None,
-                        "consensus_implied_pct": None,
-                        "n_books":           0,
-                        "edge_best_pp":      None,
-                        "edge_pp":           None,  # vs consensus (conservative)
-                        "implied_pct":       None,  # alias for consensus
-                    }
-                    if odds_data:
-                        _i = lambda am: (100.0/(am+100) if am > 0
-                                         else abs(am)/(abs(am)+100))
-                        all_prices = odds_data["all"]
-                        best_am, best_bk = odds_data["best"]
-                        rec["best_odds"]   = best_am
-                        rec["best_book"]   = best_bk
-                        rec["n_books"]     = len(all_prices)
-                        best_imp = _i(best_am)
-                        rec["best_implied_pct"] = round(best_imp * 100, 2)
-                        rec["edge_best_pp"]     = round(p_cal * 100 - best_imp * 100, 2)
-                        imps = sorted([_i(am) for am, _ in all_prices])
-                        n = len(imps)
-                        consensus_imp = (imps[n//2] if n % 2 == 1
-                                         else (imps[n//2-1] + imps[n//2]) / 2)
-                        rec["consensus_implied_pct"] = round(consensus_imp * 100, 2)
-                        rec["implied_pct"]           = rec["consensus_implied_pct"]
-                        # Bayesian blend (7/7): shrink model 75% toward market
-                        # consensus. Preserves model's batter-selection edge
-                        # while capping the "20% at +400" overconfidence trap
-                        # that cost -30% ROI historically.
-                        HR_BLEND_W = 0.25
-                        rec["raw_model_p_pct"] = round(p_cal * 100, 2)
-                        blended_p = HR_BLEND_W * p_cal + (1 - HR_BLEND_W) * consensus_imp
-                        rec["blended_p_pct"]   = round(blended_p * 100, 2)
-                        rec["model_p"]         = round(blended_p, 4)
-                        rec["model_p_pct"]     = rec["blended_p_pct"]
-                        rec["blend_weight"]    = HR_BLEND_W
-                        rec["edge_pp"]         = round(blended_p * 100 - consensus_imp * 100, 2)
-                    else:
-                        rec["raw_model_p_pct"] = rec["model_p_pct"]
-                        rec["blended_p_pct"]   = rec["model_p_pct"]
-                        rec["blend_weight"]    = None
-                    # Confidence score — combines model prob + edge with red flags.
-                    # Defensive: skip silently if the helper isn't loaded (mid-deploy)
-                    if hasattr(hr_model, "pick_confidence"):
-                        conf = hr_model.pick_confidence(rec["model_p_pct"], rec["edge_pp"])
-                        rec["confidence"]      = conf["score"]
-                        rec["confidence_tier"] = conf["tier"]
-                    else:
-                        rec["confidence"]      = None
-                        rec["confidence_tier"] = None
-                    all_preds.append(rec)
-
-            progress.empty()
-            # ===========================================================
-            # TIGHTENED FILTERING (5/24) — apply quality gates before save
-            # 8-day analysis showed loose top-10 saves were 20% hit rate.
-            # Strict filter requires: odds attached, non-negative edge,
-            # MED+ confidence tier. Caps to top 7 picks.
-            # ===========================================================
-            STRICT_HR = True
-            if STRICT_HR:
-                # 7/7: rebuilt for BLENDED edge (25% model + 75% market).
-                # Historical simulation showed the moderate-positive-edge
-                # zone (0-1pp blended) is anti-selective — only picks with
-                # blended edge >= +1pp (= raw model edge >= +4pp) actually
-                # hit profitably (27% hit / +28.8% ROI on 11 picks).
-                qualifying = [
-                    p for p in all_preds
-                    if p.get("best_odds") is not None
-                    and (p.get("edge_pp") is None or p["edge_pp"] >= 1.0)
-                    and (p.get("confidence") is None or p["confidence"] >= 40)
-                ]
-                qualifying.sort(key=lambda x: (-x["edge_pp"] if x.get("edge_pp") else 0,
-                                                -x["model_p"]))
-                top_n = qualifying[:8]
-            else:
-                all_preds.sort(key=lambda x: -x["model_p"])
-                top_n = all_preds[:TOP_N]
-            # Stash in session_state — Save button uses this
             st.session_state["hr_preview_picks"] = top_n
             st.session_state["hr_preview_meta"] = {
-                "n_games": len(upcoming), "n_total": len(all_preds),
-                "filter": "STRICT" if STRICT_HR else "TOP_N",
+                "n_games": payload.get("n_games", 0),
+                "n_total": payload.get("n_total", 0),
+                "n_a_plus": n_a_plus,
+                "n_a":      n_a,
+                "filter":   "Fundamentals HR",
+                "strategy": payload.get("strategy"),
             }
             st.session_state["hr_preview_at"] = datetime.now(tz=EASTERN).isoformat()
-            if STRICT_HR:
-                st.success(
-                    f"Preview ready: {len(top_n)} STRICT picks (must have odds, edge >= -2pp, "
-                    f"confidence >= 45). Filtered from {len(all_preds)} total predictions."
+            if not top_n:
+                st.info(
+                    f"No qualifying HR plays tonight. "
+                    f"Fundamentals produced {payload.get('n_total',0)} candidates but "
+                    f"none passed the sweet-spot filter (composite 90-94 at +300-399) "
+                    f"nor the broader tier (composite 85+ at +250-499). "
+                    f"This is normal — the sweet spot averages ~1-2 picks/day."
                 )
             else:
-                st.success(f"Preview ready: {len(top_n)} picks loaded — review below.")
+                st.success(
+                    f"Preview ready: **{n_a_plus} A+** (sweet spot) + **{n_a} A** picks. "
+                    f"Strategy: Fundamentals HR (Barrel% composite, +19.5% ROI on the "
+                    f"A+ tier historically)."
+                )
         except Exception as e:
             st.error(f"Preview failed: {e}")
+            import traceback
+            st.code(traceback.format_exc()[:2000])
 
 # ---------- HR preview display + save-to-GitHub ----------
 if st.session_state.get("hr_preview_picks"):
