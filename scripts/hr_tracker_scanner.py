@@ -38,25 +38,32 @@ from scripts.fundamentals_scanner import scan as _fund_scan  # noqa: E402
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
-# --- Sweet-spot thresholds (backtest-driven) ---
-# Composite: 90-94 was the only bucket with positive ROI (+19.5% on 55 picks)
-# Prices: +300-399 was the only bucket with positive ROI (+14.6% on 66 picks)
-SWEET_COMPOSITE_MIN = 90
-SWEET_COMPOSITE_MAX = 94
+# --- Sweet-spot thresholds (backtest-driven, refined 7/9) ---
+# Round 1 backtest (55 picks, comp 90-94 at +300-399): 27.3% hit / +19.5% ROI
+# Round 2 win/loss analysis on 173 settled picks revealed:
+#   - composite 92-95 was a TRAP: 19.4% hit (36 picks) — too high a score
+#     often means the model is over-rating a batter who's cold or
+#     matchup-disadvantaged
+#   - composite 90-92 was pure gold: 42.1% hit (19 picks)
+#   - consensus 18-20% was a dead zone: 0% hit on 14 picks (!)
+#   - consensus 20%+ was consistently strong: 27%+ hit at all sub-buckets
+# So narrow the composite window and require higher consensus floor.
+SWEET_COMPOSITE_MIN = 88
+SWEET_COMPOSITE_MAX = 92
 SWEET_PRICE_MIN     = 300
 SWEET_PRICE_MAX     = 399
 
 # --- Broader-tier thresholds (fallback when sweet spot is empty) ---
-# Backtest: composite 85-94 at any +250-499 price still yields marginal
-# performance — use these when sweet spot is empty to preserve some volume.
 BROAD_COMPOSITE_MIN = 85
+BROAD_COMPOSITE_MAX = 94    # cap at 94 - 95+ underperforms
 BROAD_PRICE_MIN     = 250
 BROAD_PRICE_MAX     = 499
 
-# --- Minimum cross-book edge (proves at least ONE book is soft) ---
-MIN_CROSS_BOOK_PP   = 1.0
-# --- Minimum consensus implied so we're not chasing pure lottery tickets ---
-MIN_CONSENSUS_PCT   = 10.0
+# --- Universal gates (7/9: tightened based on win/loss analysis) ---
+# consensus 18-20% went 0-14 in backtest; 20%+ is where wins live
+MIN_CONSENSUS_PCT   = 20.0     # was 10.0
+# 1.0-1.5pp cross_book had only 17.6% hit; 1.5+ jumps to 25-35%
+MIN_CROSS_BOOK_PP   = 1.5      # was 1.0
 
 
 def _classify_tier(p):
@@ -66,7 +73,7 @@ def _classify_tier(p):
     if (SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX
             and SWEET_PRICE_MIN <= am <= SWEET_PRICE_MAX):
         return "A+"
-    if (BROAD_COMPOSITE_MIN <= comp
+    if (BROAD_COMPOSITE_MIN <= comp <= BROAD_COMPOSITE_MAX
             and BROAD_PRICE_MIN <= am <= BROAD_PRICE_MAX):
         return "A"
     return None
