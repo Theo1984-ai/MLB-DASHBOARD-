@@ -4,7 +4,8 @@ Daily ALL-IN-ONE auto-save script.
 Runs every daily task in one shot:
   1. Settle yesterday's True Probability snapshot (via MLB Stats API)
   2. Take today's True Probability snapshot (saves to true_prob_history/)
-  3. Generate + save HR Tracker picks (STRICT filter, top 7) -> GitHub
+  3. Generate + save HR Tracker picks (Fundamentals HR strategy — sweet
+     spot: composite 90-94 at +300-399, backtested +19.5% ROI) -> GitHub
   4. Generate + save H+R+R Tracker picks (STRICT filter, top 6) -> GitHub
   5. Commit + push true_prob_history/ to GitHub
 
@@ -381,14 +382,37 @@ def main():
         step(f"Snapshot Fundamentals {today_et}", _fund_snap)
 
     # ---------- Step 3: HR Tracker ----------
+    # Since 7/9, HR Tracker uses the Fundamentals HR strategy — the
+    # underlying fundamentals_history file already merges-with-persistence
+    # so intraday HR opportunities are captured automatically. We can safely
+    # re-run more often (30 min guard instead of 4h) because we're just
+    # re-picking the top-N from the already-merged fundamentals data.
     hr_today = os.path.join(ROOT, HR_DIR, f"{today_et}.json")
-    if do_hr and _is_fresh(hr_today):
-        print(f"[SKIP] HR Tracker snapshot for {today_et} is < {FRESHNESS_HOURS}h old.")
+    def _hr_is_fresh():
+        if force or not os.path.exists(hr_today): return False
+        try:
+            with open(hr_today) as f:
+                p = __import__("json").load(f)
+            n_picks = p.get("n_picks") or len(p.get("picks", [])) or 0
+            if n_picks == 0: return False
+            ts_str = p.get("saved_at") or p.get("snapshot_at")
+            if not ts_str: return False
+            ts = datetime.fromisoformat(ts_str)
+            age_min = (datetime.now(tz=EASTERN) - ts).total_seconds() / 60
+            return age_min < 30
+        except Exception:
+            return False
+    if do_hr and _hr_is_fresh():
+        print(f"[SKIP] HR Tracker snapshot for {today_et} is < 30min old.")
     elif do_hr:
         def _hr():
             from scripts.hr_tracker_scanner import generate_hr_picks
             payload = generate_hr_picks(odds_key)
-            print(f"  Generated {len(payload['picks'])} HR picks from {payload['n_total']} predictions")
+            n_ap = payload.get("n_a_plus", 0)
+            n_a  = payload.get("n_a", 0)
+            print(f"  HR Tracker: {len(payload['picks'])} saved  "
+                  f"({n_ap} A+ sweet-spot, {n_a} A broader)  "
+                  f"from {payload['n_total']} qualifying candidates")
             if do_push and gh_token:
                 from data import github_storage as gh
                 path = f"{HR_DIR}/{today_et}.json"
