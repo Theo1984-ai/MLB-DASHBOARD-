@@ -38,43 +38,39 @@ from scripts.fundamentals_scanner import scan as _fund_scan  # noqa: E402
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
-# --- Sweet-spot thresholds (backtest-driven, refined 7/9) ---
-# Round 1 backtest (55 picks, comp 90-94 at +300-399): 27.3% hit / +19.5% ROI
-# Round 2 win/loss analysis on 173 settled picks revealed:
-#   - composite 92-95 was a TRAP: 19.4% hit (36 picks) — too high a score
-#     often means the model is over-rating a batter who's cold or
-#     matchup-disadvantaged
-#   - composite 90-92 was pure gold: 42.1% hit (19 picks)
-#   - consensus 18-20% was a dead zone: 0% hit on 14 picks (!)
-#   - consensus 20%+ was consistently strong: 27%+ hit at all sub-buckets
-# So narrow the composite window and require higher consensus floor.
+# --- Sweet-spot thresholds (backtest-driven, refined 7/9 v2) ---
+# v1 (25% ROI): required composite 88-92 AND price 300-399 → 14 picks
+# v2 backtest: dropping the price band adds ~2× volume with equivalent ROI:
+#   comp 88-92 + price 300-399:  14 picks, 42.9% hit, +88.9% ROI
+#   comp 88-92 no price filter:  30 picks, 40.0% hit, +82.2% ROI  <-- v2
+# Price bracket was doing almost no filtering work — the composite +
+# consensus + cross_book gates already capture the signal. Removing it
+# roughly doubles daily volume while preserving hit rate and ROI.
 SWEET_COMPOSITE_MIN = 88
 SWEET_COMPOSITE_MAX = 92
-SWEET_PRICE_MIN     = 300
-SWEET_PRICE_MAX     = 399
+# Price filter dropped — no bracket
 
-# --- Broader-tier thresholds (fallback when sweet spot is empty) ---
+# --- Broader-tier thresholds (marginal composite bands, fills volume) ---
+# comp 85-87 or 93-94 with all other gates: breakeven historically. Kept
+# in the file for volume during Round Robin construction, but tagged "A"
+# not "A+" so users know these are the marginal-quality picks.
 BROAD_COMPOSITE_MIN = 85
-BROAD_COMPOSITE_MAX = 94    # cap at 94 - 95+ underperforms
-BROAD_PRICE_MIN     = 250
-BROAD_PRICE_MAX     = 499
+BROAD_COMPOSITE_MAX = 94
+# No price filter on A tier either
 
 # --- Universal gates (7/9: tightened based on win/loss analysis) ---
-# consensus 18-20% went 0-14 in backtest; 20%+ is where wins live
-MIN_CONSENSUS_PCT   = 20.0     # was 10.0
-# 1.0-1.5pp cross_book had only 17.6% hit; 1.5+ jumps to 25-35%
-MIN_CROSS_BOOK_PP   = 1.5      # was 1.0
+MIN_CONSENSUS_PCT   = 20.0
+MIN_CROSS_BOOK_PP   = 1.5
 
 
 def _classify_tier(p):
-    """A+ (sweet spot), A (broader), or None."""
+    """A+ (composite sweet spot) or A (composite marginal). Price no longer
+    factors in — backtest showed the price bracket wasn't doing filtering
+    work on top of the composite + universal gates."""
     comp = p.get("score") or 0
-    am = p.get("best_price") or 0
-    if (SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX
-            and SWEET_PRICE_MIN <= am <= SWEET_PRICE_MAX):
+    if SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX:
         return "A+"
-    if (BROAD_COMPOSITE_MIN <= comp <= BROAD_COMPOSITE_MAX
-            and BROAD_PRICE_MIN <= am <= BROAD_PRICE_MAX):
+    if BROAD_COMPOSITE_MIN <= comp <= BROAD_COMPOSITE_MAX:
         return "A"
     return None
 
@@ -162,10 +158,10 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
 
     print(f"  {sum(1 for p in filtered if p['_tier']=='A+')} A+ picks "
           f"(composite {SWEET_COMPOSITE_MIN}-{SWEET_COMPOSITE_MAX}, "
-          f"price +{SWEET_PRICE_MIN} to +{SWEET_PRICE_MAX})")
+          f"any price)")
     print(f"  {sum(1 for p in filtered if p['_tier']=='A')} A picks "
-          f"(composite {BROAD_COMPOSITE_MIN}-{BROAD_COMPOSITE_MAX}, "
-          f"price +{BROAD_PRICE_MIN} to +{BROAD_PRICE_MAX}, excluding A+)")
+          f"(composite {BROAD_COMPOSITE_MIN}-{BROAD_COMPOSITE_MAX} "
+          f"excluding A+, any price)")
 
     # Rank: A+ before A, then by composite descending, tiebreak by consensus
     def _rank(p):
@@ -221,14 +217,13 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
         "date":     today,
         "saved_at": datetime.now(tz=EASTERN).isoformat(),
         "top_n":    top_n,
-        "strategy": "fundamentals_hr_v1_merged",
+        "strategy": "fundamentals_hr_v2_no_price_filter",
         "filter": {
             "sweet_composite":  [SWEET_COMPOSITE_MIN, SWEET_COMPOSITE_MAX],
-            "sweet_price":      [SWEET_PRICE_MIN, SWEET_PRICE_MAX],
-            "broad_composite":  BROAD_COMPOSITE_MIN,
-            "broad_price":      [BROAD_PRICE_MIN, BROAD_PRICE_MAX],
+            "broad_composite":  [BROAD_COMPOSITE_MIN, BROAD_COMPOSITE_MAX],
             "min_cross_book_pp": MIN_CROSS_BOOK_PP,
             "min_consensus_pct": MIN_CONSENSUS_PCT,
+            "price_filter":     "none (v2)",
         },
         "n_games":  result.get("n_games", 0),
         "n_total":  len(filtered),
