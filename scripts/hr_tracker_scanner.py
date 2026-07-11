@@ -125,7 +125,15 @@ def _to_pick(p, tier):
 
 
 def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
-    """Generate HR picks using the Fundamentals strategy.
+    """Generate HR picks using the Fundamentals strategy — MERGE-WITH-
+    PERSISTENCE (7/9): if today's file already has picks, merge new
+    picks with existing ones instead of overwriting.
+
+    Fixes the "seen a pick in the morning, gone by game time" bug: prices
+    move, lineups get confirmed, and composite scores recalculate, causing
+    yesterday's morning A+ picks to drop out of subsequent scans. Merging
+    preserves anything that ever qualified so users see the full day's
+    opportunity set.
 
     Returns: dict with date, saved_at, top_n, n_games, n_total, picks
     (ready to pass to gh.save_json).
@@ -156,8 +164,8 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
           f"(composite {SWEET_COMPOSITE_MIN}-{SWEET_COMPOSITE_MAX}, "
           f"price +{SWEET_PRICE_MIN} to +{SWEET_PRICE_MAX})")
     print(f"  {sum(1 for p in filtered if p['_tier']=='A')} A picks "
-          f"(composite {BROAD_COMPOSITE_MIN}+, price +{BROAD_PRICE_MIN} to "
-          f"+{BROAD_PRICE_MAX}, excluding A+)")
+          f"(composite {BROAD_COMPOSITE_MIN}-{BROAD_COMPOSITE_MAX}, "
+          f"price +{BROAD_PRICE_MIN} to +{BROAD_PRICE_MAX}, excluding A+)")
 
     # Rank: A+ before A, then by composite descending, tiebreak by consensus
     def _rank(p):
@@ -166,15 +174,54 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
     filtered.sort(key=_rank)
 
     if strict:
-        picks = [_to_pick(p, p["_tier"]) for p in filtered[:top_n]]
+        new_picks = [_to_pick(p, p["_tier"]) for p in filtered[:top_n]]
     else:
-        picks = [_to_pick(p, p.get("_tier")) for p in filtered]
+        new_picks = [_to_pick(p, p.get("_tier")) for p in filtered]
+
+    # --- MERGE WITH EXISTING FILE (7/9) ---
+    # Preserve any picks saved earlier today that no longer pass the current
+    # scan (price moved, lineup changed, etc). Track n_appearances so users
+    # can see which picks were persistently qualifying vs one-time flashes.
+    try:
+        from scripts.snapshot_merger import race_safe_git_pull, load_existing, merge_picks
+        race_safe_git_pull(ROOT)
+        out_path = os.path.join(ROOT, "hr_tracker", f"{today}.json")
+        existing = load_existing(out_path)
+        # Key by batter — same batter is the same "pick" even if price changes
+        def _key(p):
+            return (p.get("batter_id") or p.get("player") or p.get("batter"),
+                    p.get("game") or p.get("matchup"))
+        merged, added, rehit = merge_picks(
+            existing, new_picks, _key,
+            rolling_fields=("best_price", "best_book", "composite",
+                            "consensus_pct", "cross_book_pp", "edge_pp",
+                            "confidence", "confidence_tier"),
+            history_fields={"comp": "composite", "cons": "consensus_pct",
+                            "price": "best_price", "tier": "confidence_tier"},
+        )
+        # Sort merged list so current A+ picks stay at the top; picks that
+        # HAVE been A+ at any point today (via history) come before A picks
+        def _merged_rank(p):
+            # Find best tier ever seen (from history)
+            hist = p.get("scan_history") or []
+            tiers = [h.get("tier") for h in hist] + [p.get("confidence_tier")]
+            best_tier = "A+" if "A+" in tiers else "A"
+            tier_rank = 0 if best_tier == "A+" else 1
+            n_app = p.get("n_appearances") or 1
+            return (tier_rank, -n_app, -(p.get("composite") or 0))
+        merged.sort(key=_merged_rank)
+        picks_out = merged
+        print(f"  Merged: {added} new + {rehit} re-appearances "
+              f"(had {len(existing)}, total {len(merged)})")
+    except Exception as e:
+        print(f"  Merge failed ({e}) — falling back to overwrite mode")
+        picks_out = new_picks
 
     return {
         "date":     today,
         "saved_at": datetime.now(tz=EASTERN).isoformat(),
         "top_n":    top_n,
-        "strategy": "fundamentals_hr_v1",
+        "strategy": "fundamentals_hr_v1_merged",
         "filter": {
             "sweet_composite":  [SWEET_COMPOSITE_MIN, SWEET_COMPOSITE_MAX],
             "sweet_price":      [SWEET_PRICE_MIN, SWEET_PRICE_MAX],
@@ -187,5 +234,6 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
         "n_total":  len(filtered),
         "n_a_plus": sum(1 for p in filtered if p["_tier"] == "A+"),
         "n_a":      sum(1 for p in filtered if p["_tier"] == "A"),
-        "picks":    picks,
+        "n_picks":  len(picks_out),
+        "picks":    picks_out,
     }
