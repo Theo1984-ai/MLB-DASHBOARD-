@@ -1,0 +1,1464 @@
+{
+  "date": "2026-07-12",
+  "snapshot_at": "2026-07-12T10:20:39.063241-04:00",
+  "n_picks": 30,
+  "filter": {
+    "min_edge_pp": 5.0,
+    "min_books": 3,
+    "min_price": -300,
+    "max_price": 300,
+    "top_n": 30
+  },
+  "summary": {
+    "n_total": 30,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Sox @ Mets",
+      "market": "TB",
+      "player": "Carson Benge",
+      "team": "NYM",
+      "selection": "Carson Benge",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 180,
+      "best_imp_pct": 35.71,
+      "consensus_pct": 40.74,
+      "edge_pp": 10.8,
+      "ev_per_100": 14.08,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          180
+        ],
+        [
+          "draftkings",
+          150
+        ],
+        [
+          "fanduel",
+          115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.8,
+          "price": 180,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "H+R+R",
+      "player": "Matt Vierling",
+      "team": "DET",
+      "selection": "Matt Vierling",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -133,
+      "best_imp_pct": 57.08,
+      "consensus_pct": 62.36,
+      "edge_pp": 10.66,
+      "ev_per_100": 12.3,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -133
+        ],
+        [
+          "betmgm",
+          -165
+        ],
+        [
+          "fanduel",
+          -210
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.66,
+          "price": -133,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Sox @ Mets",
+      "market": "H+R+R",
+      "player": "Zack Short",
+      "team": "NYM",
+      "selection": "Zack Short",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 106,
+      "best_imp_pct": 48.54,
+      "consensus_pct": 52.58,
+      "edge_pp": 10.64,
+      "ev_per_100": 8.31,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          106
+        ],
+        [
+          "betmgm",
+          100
+        ],
+        [
+          "fanduel",
+          -145
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.64,
+          "price": 106,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "Hits",
+      "player": "Matt Vierling",
+      "team": "DET",
+      "selection": "Matt Vierling",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 57.04,
+      "edge_pp": 10.58,
+      "ev_per_100": 9.78,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -110
+        ],
+        [
+          "williamhill_us",
+          -124
+        ],
+        [
+          "betmgm",
+          -135
+        ],
+        [
+          "fanduel",
+          -170
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.58,
+          "price": -110,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Mets",
+      "market": "Hits",
+      "player": "Carson Benge",
+      "team": "NYM",
+      "selection": "Carson Benge",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -165,
+      "best_imp_pct": 62.26,
+      "consensus_pct": 68.38,
+      "edge_pp": 10.34,
+      "ev_per_100": 16.22,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -165
+        ],
+        [
+          "draftkings",
+          -201
+        ],
+        [
+          "williamhill_us",
+          -213
+        ],
+        [
+          "fanduel",
+          -260
+        ],
+        [
+          "bovada",
+          -265
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.34,
+          "price": -165,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Sox @ Mets",
+      "market": "H+R+R",
+      "player": "Carson Benge",
+      "team": "NYM",
+      "selection": "Carson Benge",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 115,
+      "best_imp_pct": 46.51,
+      "consensus_pct": 51.09,
+      "edge_pp": 10.01,
+      "ev_per_100": 9.85,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "draftkings",
+          -101
+        ],
+        [
+          "fanduel",
+          -130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 10.01,
+          "price": 115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "f1d16b70bce98d0cea5eb7551dfbe37f",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-12T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Jays @ Padres",
+      "market": "TB",
+      "player": "Kazuma Okamoto",
+      "team": "TOR",
+      "selection": "Kazuma Okamoto",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 135,
+      "best_imp_pct": 42.55,
+      "consensus_pct": 47.08,
+      "edge_pp": 9.83,
+      "ev_per_100": 10.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "draftkings",
+          116
+        ],
+        [
+          "fanduel",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.83,
+          "price": 135,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "16afd7bc765cb79fe5e887e2e28e0b20",
+      "away_team": "Atlanta Braves",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-07-12T18:16:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Braves @ Cardinals",
+      "market": "H+R+R",
+      "player": "Eli White",
+      "team": "ATL",
+      "selection": "Eli White",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -155,
+      "best_imp_pct": 60.78,
+      "consensus_pct": 64.2,
+      "edge_pp": 9.8,
+      "ev_per_100": 8.72,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -155
+        ],
+        [
+          "draftkings",
+          -158
+        ],
+        [
+          "fanduel",
+          -240
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.8,
+          "price": -155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7446dc66dc13eb736b1b6a5a61b450e4",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-07-12T16:16:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Brewers @ Pirates",
+      "market": "TB",
+      "player": "Jake Mangum",
+      "team": "PIT",
+      "selection": "Jake Mangum",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "bovada",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 43.52,
+      "edge_pp": 9.56,
+      "ev_per_100": 10.97,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          155
+        ],
+        [
+          "williamhill_us",
+          135
+        ],
+        [
+          "betmgm",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.56,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "16afd7bc765cb79fe5e887e2e28e0b20",
+      "away_team": "Atlanta Braves",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-07-12T18:16:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Braves @ Cardinals",
+      "market": "H+R+R",
+      "player": "Eli White",
+      "team": "ATL",
+      "selection": "Eli White",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 42.72,
+      "edge_pp": 9.56,
+      "ev_per_100": 8.93,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "draftkings",
+          149
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.56,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "180ee18000bc994ba8c23c2ebc9ef746",
+      "away_team": "Houston Astros",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-07-12T18:36:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Astros @ Rangers",
+      "market": "TB",
+      "player": "Brandon Nimmo",
+      "team": "TEX",
+      "selection": "Brandon Nimmo",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 46.25,
+      "edge_pp": 9.55,
+      "ev_per_100": 11.01,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          140
+        ],
+        [
+          "draftkings",
+          118
+        ],
+        [
+          "fanduel",
+          -105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.55,
+          "price": 140,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "16afd7bc765cb79fe5e887e2e28e0b20",
+      "away_team": "Atlanta Braves",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-07-12T18:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Braves @ Cardinals",
+      "market": "Hits",
+      "player": "Eli White",
+      "team": "ATL",
+      "selection": "Eli White",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -125,
+      "best_imp_pct": 55.56,
+      "consensus_pct": 60.29,
+      "edge_pp": 9.48,
+      "ev_per_100": 10.64,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -125
+        ],
+        [
+          "draftkings",
+          -133
+        ],
+        [
+          "williamhill_us",
+          -143
+        ],
+        [
+          "fanduel",
+          -185
+        ],
+        [
+          "bovada",
+          -186
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.48,
+          "price": -125,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "f1d16b70bce98d0cea5eb7551dfbe37f",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-12T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Jays @ Padres",
+      "market": "TB",
+      "player": "Vladimir Guerrero Jr.",
+      "team": "TOR",
+      "selection": "Vladimir Guerrero Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 115,
+      "best_imp_pct": 46.51,
+      "consensus_pct": 50.13,
+      "edge_pp": 9.04,
+      "ev_per_100": 7.77,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "draftkings",
+          107
+        ],
+        [
+          "fanduel",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 9.04,
+          "price": 115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "f1d16b70bce98d0cea5eb7551dfbe37f",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-12T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Jays @ Padres",
+      "market": "TB",
+      "player": "George Springer",
+      "team": "TOR",
+      "selection": "George Springer",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 47.9,
+      "edge_pp": 8.9,
+      "ev_per_100": 10.17,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "draftkings",
+          109
+        ],
+        [
+          "fanduel",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.9,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "TB",
+      "player": "Matt Vierling",
+      "team": "DET",
+      "selection": "Matt Vierling",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 281,
+      "best_imp_pct": 26.25,
+      "consensus_pct": 31.2,
+      "edge_pp": 8.84,
+      "ev_per_100": 18.86,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          281
+        ],
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "fanduel",
+          185
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.84,
+          "price": 281,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "H+R+R",
+      "player": "Matt Vierling",
+      "team": "DET",
+      "selection": "Matt Vierling",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 187,
+      "best_imp_pct": 34.84,
+      "consensus_pct": 39.18,
+      "edge_pp": 8.64,
+      "ev_per_100": 12.44,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          187
+        ],
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "fanduel",
+          130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.64,
+          "price": 187,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7446dc66dc13eb736b1b6a5a61b450e4",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-07-12T16:16:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Brewers @ Pirates",
+      "market": "TB",
+      "player": "Jake Mangum",
+      "team": "PIT",
+      "selection": "Jake Mangum",
+      "side": "Under",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -145,
+      "best_imp_pct": 59.18,
+      "consensus_pct": 63.82,
+      "edge_pp": 8.56,
+      "ev_per_100": 11.36,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -145
+        ],
+        [
+          "williamhill_us",
+          -182
+        ],
+        [
+          "bovada",
+          -210
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.56,
+          "price": -145,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Sox @ Mets",
+      "market": "H+R+R",
+      "player": "Carson Benge",
+      "team": "NYM",
+      "selection": "Carson Benge",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -220,
+      "best_imp_pct": 68.75,
+      "consensus_pct": 72.8,
+      "edge_pp": 8.52,
+      "ev_per_100": 12.96,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -220
+        ],
+        [
+          "draftkings",
+          -262
+        ],
+        [
+          "fanduel",
+          -340
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.52,
+          "price": -220,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "H+R+R",
+      "player": "Colt Keith",
+      "team": "DET",
+      "selection": "Colt Keith",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 46.43,
+      "edge_pp": 8.33,
+      "ev_per_100": 11.43,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          140
+        ],
+        [
+          "betmgm",
+          110
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.33,
+          "price": 140,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fd0e4e074c09a0148b633ff72e4450d7",
+      "away_team": "Boston Red Sox",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Mets",
+      "market": "Hits",
+      "player": "Zack Short",
+      "team": "NYM",
+      "selection": "Zack Short",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 45.73,
+      "edge_pp": 8.33,
+      "ev_per_100": 9.76,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          140
+        ],
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "williamhill_us",
+          125
+        ],
+        [
+          "fanduel",
+          100
+        ],
+        [
+          "bovada",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 8.33,
+          "price": 140,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "f1d16b70bce98d0cea5eb7551dfbe37f",
+      "away_team": "Toronto Blue Jays",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-12T20:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Jays @ Padres",
+      "market": "H+R+R",
+      "player": "Kazuma Okamoto",
+      "team": "TOR",
+      "selection": "Kazuma Okamoto",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -105,
+      "best_imp_pct": 51.22,
+      "consensus_pct": 55.32,
+      "edge_pp": 7.96,
+      "ev_per_100": 8.41,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -105
+        ],
+        [
+          "draftkings",
+          -125
+        ],
+        [
+          "fanduel",
+          -145
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.96,
+          "price": -105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "TB",
+      "player": "Colt Keith",
+      "team": "DET",
+      "selection": "Colt Keith",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 189,
+      "best_imp_pct": 34.6,
+      "consensus_pct": 38.79,
+      "edge_pp": 7.95,
+      "ev_per_100": 12.1,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          189
+        ],
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "fanduel",
+          135
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.95,
+          "price": 189,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "161be820330ad3e3e7e2ab5b0add2ff4",
+      "away_team": "Athletics",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-07-12T18:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Athletics @ Sox",
+      "market": "TB",
+      "player": "Jacob Wilson",
+      "team": "ATH",
+      "selection": "Jacob Wilson",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 283,
+      "best_imp_pct": 26.11,
+      "consensus_pct": 29.01,
+      "edge_pp": 7.79,
+      "ev_per_100": 11.11,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          283
+        ],
+        [
+          "fanduel",
+          270
+        ],
+        [
+          "betmgm",
+          195
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.79,
+          "price": 283,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "H+R+R",
+      "player": "Colt Keith",
+      "team": "DET",
+      "selection": "Colt Keith",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -182,
+      "best_imp_pct": 64.54,
+      "consensus_pct": 68.66,
+      "edge_pp": 7.68,
+      "ev_per_100": 11.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -182
+        ],
+        [
+          "betmgm",
+          -225
+        ],
+        [
+          "fanduel",
+          -260
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.68,
+          "price": -182,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "16afd7bc765cb79fe5e887e2e28e0b20",
+      "away_team": "Atlanta Braves",
+      "home_team": "St. Louis Cardinals",
+      "first_pitch": "2026-07-12T18:16:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Braves @ Cardinals",
+      "market": "TB",
+      "player": "Eli White",
+      "team": "ATL",
+      "selection": "Eli White",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 240,
+      "best_imp_pct": 29.41,
+      "consensus_pct": 32.57,
+      "edge_pp": 7.63,
+      "ev_per_100": 10.73,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          240
+        ],
+        [
+          "draftkings",
+          220
+        ],
+        [
+          "fanduel",
+          170
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.63,
+          "price": 240,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fe2a389f5cf40c61156a794804ec0fff",
+      "away_team": "Cleveland Guardians",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Guardians @ Marlins",
+      "market": "H+R+R",
+      "player": "Kahlil Watson",
+      "team": "CLE",
+      "selection": "Kahlil Watson",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 143,
+      "best_imp_pct": 41.15,
+      "consensus_pct": 44.47,
+      "edge_pp": 7.63,
+      "ev_per_100": 8.06,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          143
+        ],
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.63,
+          "price": 143,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "40ac03ae2d2b1dc11d41ced3f411f478",
+      "away_team": "Arizona Diamondbacks",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-07-12T20:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Diamondbacks @ Dodgers",
+      "market": "H+R+R",
+      "player": "Geraldo Perdomo",
+      "team": "AZ",
+      "selection": "Geraldo Perdomo",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 118,
+      "best_imp_pct": 45.87,
+      "consensus_pct": 48.99,
+      "edge_pp": 7.62,
+      "ev_per_100": 6.8,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          118
+        ],
+        [
+          "fanduel",
+          110
+        ],
+        [
+          "betmgm",
+          -115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.62,
+          "price": 118,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fe2a389f5cf40c61156a794804ec0fff",
+      "away_team": "Cleveland Guardians",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Guardians @ Marlins",
+      "market": "H+R+R",
+      "player": "Kahlil Watson",
+      "team": "CLE",
+      "selection": "Kahlil Watson",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -171,
+      "best_imp_pct": 63.1,
+      "consensus_pct": 66.4,
+      "edge_pp": 7.49,
+      "ev_per_100": 8.95,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -171
+        ],
+        [
+          "betmgm",
+          -190
+        ],
+        [
+          "fanduel",
+          -240
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.49,
+          "price": -171,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "180ee18000bc994ba8c23c2ebc9ef746",
+      "away_team": "Houston Astros",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-07-12T18:36:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Astros @ Rangers",
+      "market": "H+R+R",
+      "player": "Isaac Paredes",
+      "team": "HOU",
+      "selection": "Isaac Paredes",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 117,
+      "best_imp_pct": 46.08,
+      "consensus_pct": 49.45,
+      "edge_pp": 7.41,
+      "ev_per_100": 7.31,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          117
+        ],
+        [
+          "fanduel",
+          105
+        ],
+        [
+          "betmgm",
+          -115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.41,
+          "price": 117,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "44263373c8152cfeef60f3501f9f0cbc",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Detroit Tigers",
+      "first_pitch": "2026-07-12T17:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Tigers",
+      "market": "H+R+R",
+      "player": "James Outman",
+      "team": "DET",
+      "selection": "James Outman",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 112,
+      "best_imp_pct": 47.17,
+      "consensus_pct": 51.37,
+      "edge_pp": 7.38,
+      "ev_per_100": 8.89,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          112
+        ],
+        [
+          "betmgm",
+          -110
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "last_seen_at": "2026-07-12T10:20:39.063165-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:20:39.063165-04:00",
+          "edge": 7.38,
+          "price": 112,
+          "n_books": 3
+        }
+      ]
+    }
+  ]
+}
