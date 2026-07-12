@@ -1,6 +1,6 @@
 {
   "date": "2026-07-12",
-  "saved_at": "2026-07-12T13:02:11.407991-04:00",
+  "saved_at": "2026-07-12T13:35:33.691741-04:00",
   "top_n": 8,
   "strategy": "fundamentals_hr_v2_no_price_filter",
   "filter": {
@@ -16,10 +16,10 @@
     "min_consensus_pct": 20.0,
     "price_filter": "none (v2)"
   },
-  "n_games": 13,
-  "n_total": 9,
-  "n_a_plus": 3,
-  "n_a": 6,
+  "n_games": 11,
+  "n_total": 5,
+  "n_a_plus": 2,
+  "n_a": 3,
   "n_picks": 9,
   "picks": [
     {
@@ -54,9 +54,9 @@
       "model_p_pct": null,
       "confidence": 91,
       "confidence_tier": "A+",
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
-      "last_seen_at": "2026-07-12T13:02:11.407933-04:00",
+      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
       "scan_history": [
         {
           "t": "2026-07-12T10:21:11.433595-04:00",
@@ -78,6 +78,13 @@
           "cons": 21.0,
           "price": 475,
           "tier": "A+"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 91.8,
+          "cons": 21.0,
+          "price": 475,
+          "tier": "A+"
         }
       ]
     },
@@ -88,7 +95,7 @@
       "away_team": "Seattle Mariners",
       "home_team": "Tampa Bay Rays",
       "first_pitch": "2026-07-12T13:40:00-04:00",
-      "best_price": 256,
+      "best_price": 255,
       "player": "Junior Caminero",
       "batter": "Junior Caminero",
       "batter_id": 691406,
@@ -98,13 +105,13 @@
       "vs_sp": "Emerson Hancock",
       "park": null,
       "best_odds": 264,
-      "best_book": "draftkings",
+      "best_book": "fanduel",
       "composite": 89.3,
       "xwoba": 0.374,
       "hard_hit": null,
       "barrel": 13.6,
-      "consensus_pct": 28.7,
-      "cross_book_pp": 2.2,
+      "consensus_pct": 28.8,
+      "cross_book_pp": 2.1,
       "edge_pp": 0.6,
       "consensus_implied_pct": 28.1,
       "implied_pct": 28.1,
@@ -113,9 +120,9 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
-      "last_seen_at": "2026-07-12T13:02:11.407933-04:00",
+      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
       "scan_history": [
         {
           "t": "2026-07-12T10:21:11.433595-04:00",
@@ -136,6 +143,13 @@
           "comp": 89.3,
           "cons": 28.7,
           "price": 256,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 89.3,
+          "cons": 28.8,
+          "price": 255,
           "tier": "A+"
         }
       ]
@@ -203,6 +217,72 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "Chicago Cubs",
+      "home_team": "Cincinnati Reds",
+      "first_pitch": "2026-07-12T13:40:00-04:00",
+      "best_price": 350,
+      "player": "Elly De La Cruz",
+      "batter": "Elly De La Cruz",
+      "batter_id": 682829,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Matthew Boyd",
+      "park": null,
+      "best_odds": 340,
+      "best_book": "betmgm",
+      "composite": 87.5,
+      "xwoba": 0.362,
+      "hard_hit": null,
+      "barrel": 15.2,
+      "consensus_pct": 24.2,
+      "cross_book_pp": 2.8,
+      "edge_pp": 2.0,
+      "consensus_implied_pct": 24.9,
+      "implied_pct": 24.9,
+      "n_books": 4,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 87,
+      "confidence_tier": "A",
+      "n_appearances": 4,
+      "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
+      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:21:11.433595-04:00",
+          "comp": 87.5,
+          "cons": 24.9,
+          "price": 340,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T12:03:09.418528-04:00",
+          "comp": 87.5,
+          "cons": 24.4,
+          "price": 340,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T13:02:11.407933-04:00",
+          "comp": 87.5,
+          "cons": 24.2,
+          "price": 350,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 87.5,
+          "cons": 24.2,
+          "price": 350,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "New York Yankees",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-07-12T13:35:00-04:00",
@@ -254,65 +334,6 @@
           "comp": 93.2,
           "cons": 23.3,
           "price": 369,
-          "tier": "A"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
-      "away_team": "Chicago Cubs",
-      "home_team": "Cincinnati Reds",
-      "first_pitch": "2026-07-12T13:40:00-04:00",
-      "best_price": 350,
-      "player": "Elly De La Cruz",
-      "batter": "Elly De La Cruz",
-      "batter_id": 682829,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Matthew Boyd",
-      "park": null,
-      "best_odds": 340,
-      "best_book": "betmgm",
-      "composite": 87.5,
-      "xwoba": 0.362,
-      "hard_hit": null,
-      "barrel": 15.2,
-      "consensus_pct": 24.2,
-      "cross_book_pp": 2.8,
-      "edge_pp": 2.0,
-      "consensus_implied_pct": 24.9,
-      "implied_pct": 24.9,
-      "n_books": 4,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 87,
-      "confidence_tier": "A",
-      "n_appearances": 3,
-      "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
-      "last_seen_at": "2026-07-12T13:02:11.407933-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-12T10:21:11.433595-04:00",
-          "comp": 87.5,
-          "cons": 24.9,
-          "price": 340,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-12T12:03:09.418528-04:00",
-          "comp": 87.5,
-          "cons": 24.4,
-          "price": 340,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-12T13:02:11.407933-04:00",
-          "comp": 87.5,
-          "cons": 24.2,
-          "price": 350,
           "tier": "A"
         }
       ]
@@ -408,9 +429,9 @@
       "model_p_pct": null,
       "confidence": 86,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-12T12:03:09.418528-04:00",
-      "last_seen_at": "2026-07-12T13:02:11.407933-04:00",
+      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
       "scan_history": [
         {
           "t": "2026-07-12T12:03:09.418528-04:00",
@@ -425,6 +446,13 @@
           "cons": 21.2,
           "price": 400,
           "tier": "A"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 86.3,
+          "cons": 21.2,
+          "price": 400,
+          "tier": "A"
         }
       ]
     },
@@ -435,7 +463,7 @@
       "away_team": "Arizona Diamondbacks",
       "home_team": "Los Angeles Dodgers",
       "first_pitch": "2026-07-12T16:10:00-04:00",
-      "best_price": 350,
+      "best_price": 360,
       "player": "Max Muncy",
       "batter": "Max Muncy",
       "batter_id": 571970,
@@ -445,14 +473,14 @@
       "vs_sp": "Mitch Bratt",
       "park": null,
       "best_odds": 350,
-      "best_book": "fanduel",
+      "best_book": "bovada",
       "composite": 85.2,
       "xwoba": 0.361,
       "hard_hit": null,
       "barrel": 13.6,
-      "consensus_pct": 24.3,
-      "cross_book_pp": 6.3,
-      "edge_pp": 2.1,
+      "consensus_pct": 23.5,
+      "cross_book_pp": 4.6,
+      "edge_pp": 1.8,
       "consensus_implied_pct": 24.3,
       "implied_pct": 24.3,
       "n_books": 3,
@@ -460,9 +488,9 @@
       "model_p_pct": null,
       "confidence": 85,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
-      "last_seen_at": "2026-07-12T12:03:09.418528-04:00",
+      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
       "scan_history": [
         {
           "t": "2026-07-12T10:21:11.433595-04:00",
@@ -476,6 +504,13 @@
           "comp": 85.2,
           "cons": 24.3,
           "price": 350,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 85.2,
+          "cons": 23.5,
+          "price": 360,
           "tier": "A"
         }
       ]
