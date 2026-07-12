@@ -1,6 +1,6 @@
 {
   "date": "2026-07-12",
-  "saved_at": "2026-07-12T13:35:33.691741-04:00",
+  "saved_at": "2026-07-12T15:07:28.692017-04:00",
   "top_n": 8,
   "strategy": "fundamentals_hr_v2_no_price_filter",
   "filter": {
@@ -16,10 +16,10 @@
     "min_consensus_pct": 20.0,
     "price_filter": "none (v2)"
   },
-  "n_games": 11,
-  "n_total": 5,
-  "n_a_plus": 2,
-  "n_a": 3,
+  "n_games": 2,
+  "n_total": 1,
+  "n_a_plus": 0,
+  "n_a": 1,
   "n_picks": 9,
   "picks": [
     {
@@ -283,6 +283,72 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "Arizona Diamondbacks",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-07-12T16:10:00-04:00",
+      "best_price": 350,
+      "player": "Max Muncy",
+      "batter": "Max Muncy",
+      "batter_id": 571970,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Mitch Bratt",
+      "park": null,
+      "best_odds": 350,
+      "best_book": "fanduel",
+      "composite": 85.2,
+      "xwoba": 0.361,
+      "hard_hit": null,
+      "barrel": 13.6,
+      "consensus_pct": 23.4,
+      "cross_book_pp": 4.8,
+      "edge_pp": 1.2,
+      "consensus_implied_pct": 24.3,
+      "implied_pct": 24.3,
+      "n_books": 3,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 85,
+      "confidence_tier": "A",
+      "n_appearances": 4,
+      "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
+      "last_seen_at": "2026-07-12T15:07:28.691967-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-12T10:21:11.433595-04:00",
+          "comp": 85.2,
+          "cons": 24.3,
+          "price": 350,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T12:03:09.418528-04:00",
+          "comp": 85.2,
+          "cons": 24.3,
+          "price": 350,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T13:35:33.691691-04:00",
+          "comp": 85.2,
+          "cons": 23.5,
+          "price": 360,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-12T15:07:28.691967-04:00",
+          "comp": 85.2,
+          "cons": 23.4,
+          "price": 350,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "New York Yankees",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-07-12T13:35:00-04:00",
@@ -452,65 +518,6 @@
           "comp": 86.3,
           "cons": 21.2,
           "price": 400,
-          "tier": "A"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
-      "away_team": "Arizona Diamondbacks",
-      "home_team": "Los Angeles Dodgers",
-      "first_pitch": "2026-07-12T16:10:00-04:00",
-      "best_price": 360,
-      "player": "Max Muncy",
-      "batter": "Max Muncy",
-      "batter_id": 571970,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Mitch Bratt",
-      "park": null,
-      "best_odds": 350,
-      "best_book": "bovada",
-      "composite": 85.2,
-      "xwoba": 0.361,
-      "hard_hit": null,
-      "barrel": 13.6,
-      "consensus_pct": 23.5,
-      "cross_book_pp": 4.6,
-      "edge_pp": 1.8,
-      "consensus_implied_pct": 24.3,
-      "implied_pct": 24.3,
-      "n_books": 3,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 85,
-      "confidence_tier": "A",
-      "n_appearances": 3,
-      "first_seen_at": "2026-07-12T10:21:11.433595-04:00",
-      "last_seen_at": "2026-07-12T13:35:33.691691-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-12T10:21:11.433595-04:00",
-          "comp": 85.2,
-          "cons": 24.3,
-          "price": 350,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-12T12:03:09.418528-04:00",
-          "comp": 85.2,
-          "cons": 24.3,
-          "price": 350,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-12T13:35:33.691691-04:00",
-          "comp": 85.2,
-          "cons": 23.5,
-          "price": 360,
           "tier": "A"
         }
       ]
