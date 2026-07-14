@@ -1,7 +1,7 @@
 {
   "date": "2026-07-14",
-  "snapshot_at": "2026-07-14T10:40:55.240573-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-07-14T12:19:09.551464-04:00",
+  "n_picks": 1,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 0,
+    "n_total": 1,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -21,5 +21,55 @@
     "profit_total": 0.0,
     "roi_pct": 0
   },
-  "picks": []
+  "picks": [
+    {
+      "event_id": "7fecfdecc539334a88781da1943c5e9a",
+      "game": "League @ League",
+      "away_team": "American League",
+      "home_team": "National League",
+      "first_pitch": "2026-07-15T00:01:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "American League +2.5",
+      "player": "American League",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -291,
+      "true_prob_pct": 75.35,
+      "ev_per_100": 3.63,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -291
+        ],
+        [
+          "betmgm",
+          -300
+        ],
+        [
+          "williamhill_us",
+          -304
+        ],
+        [
+          "fanduel",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-14T12:19:09.551442-04:00",
+      "last_seen_at": "2026-07-14T12:19:09.551442-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-14T12:19:09.551442-04:00",
+          "tp": 75.35,
+          "ev": 3.63,
+          "price": -291
+        }
+      ]
+    }
+  ]
 }
