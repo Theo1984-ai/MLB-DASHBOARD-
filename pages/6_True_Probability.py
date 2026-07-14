@@ -58,7 +58,7 @@ if not ODDS_KEY:
 
 # ---------- Config ----------
 
-SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 # 75%+ true probability is the locked threshold for this page.
 MIN_TRUE_PROB = 0.75

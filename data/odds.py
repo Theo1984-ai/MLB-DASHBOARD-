@@ -30,8 +30,8 @@ HR_MARKET_ALT = "batter_home_runs_alternate"  # DK/FD/MGM/Caesars use this with 
 # `bovada` is offshore but their MLB/NBA mainline prices are typically aligned
 # with sharp consensus (we exclude BetOnline / MyBookie / BetUS which post
 # stale longshot lines that fake edges).
-DEFAULT_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
-SHARP_HR_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"  # alias for HR-specific use
+DEFAULT_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
+SHARP_HR_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"  # alias for HR-specific use
 
 # Alternate-line markets: higher-probability bets that price at negative odds
 ALT_PROP_MARKETS = {

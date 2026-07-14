@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 
 _UNVERIFIED_SSL = _ssl_compat._create_unverified_context()
 
-SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 # Filter constants
 MIN_TRUE_PROB = 0.75

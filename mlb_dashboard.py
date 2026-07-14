@@ -1694,7 +1694,7 @@ with tab_pred:
                           "routinely stale longshots (+18,000+) that don't match real "
                           "market consensus."),
                 )
-                books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada"
+                books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
                 try:
                     with st.spinner("Loading odds events..."):

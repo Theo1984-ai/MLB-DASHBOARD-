@@ -79,7 +79,7 @@ if not ODDS_KEY:
 # the API kept the legacy key). `bovada` is offshore but their mainline
 # pricing is sharp consensus — we exclude BetOnline / MyBookie / BetUS
 # which post stale longshot lines that fake edges.
-SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 # Hard price cap — picks outside this range are excluded.
 # Wide longshots (+400/+500/+600) historically lose money even when EV looks

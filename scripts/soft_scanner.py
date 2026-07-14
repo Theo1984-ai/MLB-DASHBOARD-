@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 
 _SSL = _ssl._create_unverified_context()
 
-SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 # Default filter — matches page's default-slider settings.
 DEFAULT_MIN_EDGE_PP = 5.0

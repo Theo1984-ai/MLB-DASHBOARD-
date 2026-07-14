@@ -167,7 +167,7 @@ with hc3:
 
 date_str = selected_date.strftime("%Y-%m-%d")
 season = selected_date.year
-books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada"
+books_str = ",".join(books) if books else "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 
 # ---------- Load schedule + run game predictions ----------
@@ -293,7 +293,7 @@ else:
 if pull_hr:
     with st.spinner("Pulling HR prop odds..."):
         for g in upcoming:
-            g["hr_offers"] = load_hr_odds(odds_key, g["event_id"], "draftkings,fanduel,betmgm,williamhill_us,bovada")
+            g["hr_offers"] = load_hr_odds(odds_key, g["event_id"], "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle")
     st.session_state["hr_loaded_at"] = datetime.now(tz=EASTERN).isoformat()
     st.session_state["loaded_hr"] = {g["event_id"]: g["hr_offers"] for g in upcoming}
     st.rerun()

@@ -22,7 +22,7 @@ import pandas as pd
 from data import savant, mlb_api
 
 _SSL = _ssl._create_unverified_context()
-SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP_BOOKS = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 
 def _amer_to_imp(am):

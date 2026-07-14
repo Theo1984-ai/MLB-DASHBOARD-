@@ -25,7 +25,7 @@ if ROOT not in sys.path:
 
 ctx = ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
-SHARP = "draftkings,fanduel,betmgm,williamhill_us,bovada"
+SHARP = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
 # ============================================================================
 # TIER A FILTER PARAMETERS (tightened 2026-05-24)
