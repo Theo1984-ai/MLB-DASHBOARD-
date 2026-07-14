@@ -75,8 +75,17 @@ def _classify_tier(p):
     return None
 
 
-def _to_pick(p, tier):
-    """Reshape a Fundamentals HR play into the HR Tracker output format."""
+def _to_pick(p, tier, game_pk_map=None):
+    """Reshape a Fundamentals HR play into the HR Tracker output format.
+
+    game_pk_map: optional dict of (away_team, home_team) → game_pk (int)
+                 used to populate the game_pk field. Required so the page's
+                 history/results section can grade past picks against MLB
+                 boxscore data.
+    """
+    game_pk = None
+    if game_pk_map:
+        game_pk = game_pk_map.get((p.get("away_team"), p.get("home_team")))
     return {
         # Settle-required
         "stat_key":    "hr",
@@ -89,6 +98,7 @@ def _to_pick(p, tier):
         "player":      p.get("player"),
         "batter":      p.get("player"),
         "batter_id":   p.get("batter_id"),
+        "game_pk":     game_pk,   # needed by page for HR grading
         # Display / context
         "team":        p.get("away_team") if p.get("player") in str(p.get("away_team",""))
                        else None,  # best-effort; fundamentals doesn't always have team
@@ -142,6 +152,21 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
     all_hr = result.get("hr_plays") or []
     print(f"  Fundamentals produced {len(all_hr)} HR candidates")
 
+    # Build (away, home) -> game_pk map from today's MLB schedule so we can
+    # attach game_pk to each pick. Without this the page's history/results
+    # section KeyErrors when grading picks.
+    game_pk_map = {}
+    try:
+        from data import mlb_api
+        for g in mlb_api.get_schedule(today):
+            away = g.get("teams", {}).get("away", {}).get("team", {}).get("name")
+            home = g.get("teams", {}).get("home", {}).get("team", {}).get("name")
+            gpk = g.get("gamePk")
+            if away and home and gpk:
+                game_pk_map[(away, home)] = int(gpk)
+    except Exception as e:
+        print(f"  Warning: game_pk lookup failed ({e}) — picks will lack game_pk")
+
     # Apply universal gates (consensus & cross-book), then classify tier
     filtered = []
     for p in all_hr:
@@ -170,9 +195,9 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
     filtered.sort(key=_rank)
 
     if strict:
-        new_picks = [_to_pick(p, p["_tier"]) for p in filtered[:top_n]]
+        new_picks = [_to_pick(p, p["_tier"], game_pk_map) for p in filtered[:top_n]]
     else:
-        new_picks = [_to_pick(p, p.get("_tier")) for p in filtered]
+        new_picks = [_to_pick(p, p.get("_tier"), game_pk_map) for p in filtered]
 
     # --- MERGE WITH EXISTING FILE (7/9) ---
     # Preserve any picks saved earlier today that no longer pass the current

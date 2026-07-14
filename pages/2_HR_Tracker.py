@@ -520,34 +520,48 @@ for tf in tracker_files:
 
     top5 = picks[:5]
     top10 = picks[:10]
-    t5_hits = sum(1 for p in top5 if p["batter_id"] in hr_map.get(p["game_pk"], set()))
-    t10_hits = sum(1 for p in top10 if p["batter_id"] in hr_map.get(p["game_pk"], set()))
+    # Defensive: new v2 picks (Fundamentals HR strategy) don't carry game_pk.
+    # Skip those from hit-rate + P&L calc so the page doesn't KeyError.
+    t5_hits = sum(1 for p in top5
+                  if p.get("game_pk") is not None
+                  and p.get("batter_id") in hr_map.get(p["game_pk"], set()))
+    t10_hits = sum(1 for p in top10
+                   if p.get("game_pk") is not None
+                   and p.get("batter_id") in hr_map.get(p["game_pk"], set()))
 
     # P&L on top 5 at $10 flat at sharp odds
     pnl5 = 0; bet5 = 0
     for p in top5:
         if p.get("best_odds") is None: continue
+        if p.get("game_pk") is None: continue   # can't grade without game_pk
         bet5 += 1
-        won = p["batter_id"] in hr_map.get(p["game_pk"], set())
+        won = p.get("batter_id") in hr_map.get(p["game_pk"], set())
         if won:
             am = p["best_odds"]
             dec = 1 + am/100 if am > 0 else 1 + 100/abs(am)
             pnl5 += 10 * dec - 10
         else:
             pnl5 -= 10
+    # Defensive avg: v2 picks have model_p_pct=None (composite is the model
+    # now). Filter to numeric values only so we don't crash on None.
+    _mps = [p.get("model_p_pct") for p in top5
+            if isinstance(p.get("model_p_pct"), (int, float))]
+    avg_model = round(sum(_mps) / len(_mps), 1) if _mps else None
     daily_rows.append({
         "Date":        date,
         "Top 5":       f"{t5_hits}/5",
         "Top 10":      f"{t10_hits}/10",
         "$ Bet":       bet5 * 10,
         "PnL@$10":     round(pnl5, 2),
-        "AvgModel%":   round(sum(p["model_p_pct"] for p in top5) / max(1, len(top5)), 1),
+        "AvgModel%":   avg_model,
     })
 
     for p in top10:
         if p.get("game_pk") is None: continue
-        actual = 1 if p["batter_id"] in hr_map.get(p["game_pk"], set()) else 0
-        calibration_pairs.append((p["model_p_pct"], actual))
+        mp = p.get("model_p_pct")
+        if not isinstance(mp, (int, float)): continue   # v2 picks have None
+        actual = 1 if p.get("batter_id") in hr_map.get(p["game_pk"], set()) else 0
+        calibration_pairs.append((mp, actual))
 
 # Aggregate metrics
 if daily_rows:
