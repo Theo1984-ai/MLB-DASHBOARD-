@@ -47,10 +47,11 @@ EASTERN = ZoneInfo("America/New_York")
 st.set_page_config(page_title="MLB Soft Scanner", page_icon="🎯", layout="wide")
 st.title("🎯 MLB Soft-Price Scanner")
 st.caption(
-    "Pulls every MLB prop from DraftKings / FanDuel / BetMGM / Caesars and finds "
-    "props where one book is significantly out of line with the others. Surfaces "
-    "**soft prices** to attack. Same methodology that found Donovan Mitchell O3.5 "
-    "+121 DK on the NBA side. No MLB model needed.  \n"
+    "Pulls every MLB prop from **6 sharp books** (DraftKings / FanDuel / BetMGM / "
+    "Caesars / Bovada / Pinnacle) and finds props where one book is significantly "
+    "out of line with the others. Surfaces **soft prices** to attack. Same "
+    "methodology that found Donovan Mitchell O3.5 +121 DK on the NBA side. "
+    "No MLB model needed.  \n"
     "🔒 **Hard price cap: −300 to +300** — longshots above +300 and chalk below −300 are "
     "excluded automatically to keep variance in check."
 )
@@ -119,12 +120,14 @@ def cached_fetch_events():
 
 
 @st.cache_data(ttl=300, show_spinner=False)
-def cached_fetch_event_odds(event_id, markets_tuple):
-    """markets_tuple must be a tuple for caching to work."""
+def cached_fetch_event_odds(event_id, markets_tuple, books_tuple=None):
+    """markets_tuple + books_tuple must be tuples for caching to work.
+    books_tuple defaults to the full SHARP_BOOKS list if not provided."""
     markets = ",".join(markets_tuple)
+    books = ",".join(books_tuple) if books_tuple else SHARP_BOOKS
     url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events/{event_id}/odds"
            f"?apiKey={ODDS_KEY}&regions=us&markets={markets}"
-           f"&bookmakers={SHARP_BOOKS}&oddsFormat=american")
+           f"&bookmakers={books}&oddsFormat=american")
     try:
         return json.loads(urllib.request.urlopen(url, timeout=20, context=_UNVERIFIED_SSL).read())
     except urllib.error.HTTPError:
@@ -206,22 +209,46 @@ def find_disagreements(offers_dict, game_label, min_edge_pp, min_books, min_impl
 
 st.markdown("---")
 
-cc1, cc2, cc3, cc4 = st.columns([1.5, 1.5, 1.5, 1])
-with cc1:
+# --- Row 1: Markets + Books ---
+BOOK_OPTIONS = ["draftkings", "fanduel", "betmgm", "williamhill_us",
+                "bovada", "pinnacle"]
+BOOK_LABELS = {"draftkings": "DraftKings", "fanduel": "FanDuel",
+               "betmgm": "BetMGM", "williamhill_us": "Caesars",
+               "bovada": "Bovada", "pinnacle": "Pinnacle"}
+r1c1, r1c2 = st.columns([1.5, 2])
+with r1c1:
     sel_markets = st.multiselect(
         "Markets to scan",
         options=list(MARKET_GROUPS.keys()),
         default=list(MARKET_GROUPS.keys()),
+        key="soft_markets_select",   # persists across reruns
         help="Pick which prop markets to include. Fewer = faster + less Odds API quota.",
     )
-with cc2:
+with r1c2:
+    sel_books = st.multiselect(
+        "Sportsbooks",
+        options=BOOK_OPTIONS,
+        default=BOOK_OPTIONS,        # all 6 by default
+        format_func=lambda k: BOOK_LABELS.get(k, k),
+        key="soft_books_select",     # persists across reruns
+        help="Which sportsbooks to include in the cross-book comparison. "
+             "All 6 selected by default. Pinnacle = sharpest reference; "
+             "excluding it produces looser edges against the softer books.",
+    )
+
+# --- Row 2: Filters ---
+cc1, cc2, cc3 = st.columns([1.5, 1.5, 1])
+with cc1:
     min_edge_pp = st.slider("Minimum edge (pp)", 1.0, 15.0, 5.0, 0.5,
+                            key="soft_min_edge",
                             help="Only show props where best book is N+ pp better than worst")
-with cc3:
+with cc2:
     min_implied = st.slider("Min consensus implied %", 0, 80, 0, 5,
+                            key="soft_min_implied",
                             help="Skip longshots — only show props with at least this implied probability")
-with cc4:
+with cc3:
     min_books = st.selectbox("Min books", [2, 3, 4], index=0,
+                             key="soft_min_books",
                              help="Require this many books to be pricing the prop")
 
 cs1, cs2 = st.columns([1, 5])
@@ -279,7 +306,8 @@ progress = st.progress(0)
 for gi, (e, dh) in enumerate(upcoming):
     progress.progress((gi + 1) / max(1, len(upcoming)))
     game_label = f"{e['away_team'].split()[-1]} @ {e['home_team'].split()[-1]}"
-    data = cached_fetch_event_odds(e["id"], markets_tuple)
+    data = cached_fetch_event_odds(e["id"], markets_tuple,
+                                    tuple(sel_books) if sel_books else None)
     books = data.get("bookmakers", [])
     offers = collect_offers(books, market_filter)
     n_props = len(offers)
