@@ -1,0 +1,177 @@
+{
+  "date": "2026-07-16",
+  "snapshot_at": "2026-07-16T10:50:56.151136-04:00",
+  "n_picks": 3,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 3,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "7ad2e88701ead09625333188a5b653b2",
+      "game": "Mets @ Phillies",
+      "away_team": "New York Mets",
+      "home_team": "Philadelphia Phillies",
+      "first_pitch": "2026-07-16T23:11:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Aaron Nola",
+      "player": "Aaron Nola",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "bovada",
+      "best_price": -400,
+      "true_prob_pct": 81.72,
+      "ev_per_100": 8.61,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "draftkings",
+          -434
+        ],
+        [
+          "betmgm",
+          -450
+        ],
+        [
+          "fanduel",
+          -480
+        ],
+        [
+          "williamhill_us",
+          -480
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "last_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T10:50:56.151102-04:00",
+          "tp": 81.72,
+          "ev": 8.61,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "7ad2e88701ead09625333188a5b653b2",
+      "game": "Mets @ Phillies",
+      "away_team": "New York Mets",
+      "home_team": "Philadelphia Phillies",
+      "first_pitch": "2026-07-16T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Mets +3.0",
+      "player": "New York Mets",
+      "side": "Away",
+      "point": 3.0,
+      "best_book": "draftkings",
+      "best_price": -375,
+      "true_prob_pct": 79.71,
+      "ev_per_100": 3.62,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -375
+        ],
+        [
+          "pinnacle",
+          -384
+        ],
+        [
+          "williamhill_us",
+          -404
+        ],
+        [
+          "bovada",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "last_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T10:50:56.151102-04:00",
+          "tp": 79.71,
+          "ev": 3.62,
+          "price": -375
+        }
+      ]
+    },
+    {
+      "event_id": "7ad2e88701ead09625333188a5b653b2",
+      "game": "Mets @ Phillies",
+      "away_team": "New York Mets",
+      "home_team": "Philadelphia Phillies",
+      "first_pitch": "2026-07-16T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Philadelphia Phillies +2.5",
+      "player": "Philadelphia Phillies",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "betmgm",
+      "best_price": -325,
+      "true_prob_pct": 77.46,
+      "ev_per_100": 4.19,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "williamhill_us",
+          -339
+        ],
+        [
+          "fanduel",
+          -350
+        ],
+        [
+          "draftkings",
+          -362
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "last_seen_at": "2026-07-16T10:50:56.151102-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T10:50:56.151102-04:00",
+          "tp": 77.46,
+          "ev": 4.19,
+          "price": -325
+        }
+      ]
+    }
+  ]
+}
