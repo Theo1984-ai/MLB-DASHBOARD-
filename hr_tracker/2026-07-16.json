@@ -1,9 +1,26 @@
 {
   "date": "2026-07-16",
-  "saved_at": "2026-07-16T09:22:31.344576-04:00",
-  "top_n": 10,
+  "saved_at": "2026-07-16T10:51:02.087872-04:00",
+  "top_n": 8,
+  "strategy": "fundamentals_hr_v2_no_price_filter",
+  "filter": {
+    "sweet_composite": [
+      88,
+      92
+    ],
+    "broad_composite": [
+      85,
+      94
+    ],
+    "min_cross_book_pp": 1.5,
+    "min_consensus_pct": 20.0,
+    "price_filter": "none (v2)"
+  },
   "n_games": 1,
   "n_total": 1,
+  "n_a_plus": 1,
+  "n_a": 0,
+  "n_picks": 1,
   "picks": [
     {
       "stat_key": "hr",
@@ -12,7 +29,7 @@
       "away_team": "New York Mets",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-07-16T19:10:00-04:00",
-      "best_price": 294,
+      "best_price": 300,
       "player": "Bryce Harper",
       "batter": "Bryce Harper",
       "batter_id": 547180,
@@ -23,14 +40,14 @@
       "vs_sp": "Christian Scott",
       "park": null,
       "best_odds": 294,
-      "best_book": "draftkings",
+      "best_book": "fanduel",
       "composite": 88.2,
       "xwoba": 0.391,
       "hard_hit": null,
       "barrel": 11.3,
-      "consensus_pct": 26.3,
-      "cross_book_pp": 3.2,
-      "edge_pp": 0.9,
+      "consensus_pct": 26.0,
+      "cross_book_pp": 3.6,
+      "edge_pp": 1.0,
       "consensus_implied_pct": 26.3,
       "implied_pct": 26.3,
       "n_books": 4,
@@ -38,15 +55,22 @@
       "model_p_pct": null,
       "confidence": 88,
       "confidence_tier": "A+",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-16T09:22:03.556337-04:00",
-      "last_seen_at": "2026-07-16T09:22:03.556337-04:00",
+      "last_seen_at": "2026-07-16T10:51:02.087846-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T09:22:03.556337-04:00",
           "comp": 88.2,
           "cons": 26.3,
           "price": 294,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-16T10:51:02.087846-04:00",
+          "comp": 88.2,
+          "cons": 26.0,
+          "price": 300,
           "tier": "A+"
         }
       ]
