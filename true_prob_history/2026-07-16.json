@@ -1,7 +1,7 @@
 {
   "date": "2026-07-16",
-  "snapshot_at": "2026-07-16T13:20:34.479239-04:00",
-  "n_picks": 3,
+  "snapshot_at": "2026-07-16T14:08:05.951369-04:00",
+  "n_picks": 5,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 3,
+    "n_total": 5,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -63,9 +63,9 @@
           -500
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-16T10:50:56.151102-04:00",
-      "last_seen_at": "2026-07-16T13:20:34.479199-04:00",
+      "last_seen_at": "2026-07-16T14:08:05.951328-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T10:50:56.151102-04:00",
@@ -81,6 +81,12 @@
         },
         {
           "t": "2026-07-16T13:20:34.479199-04:00",
+          "tp": 81.58,
+          "ev": 7.91,
+          "price": -400
+        },
+        {
+          "t": "2026-07-16T14:08:05.951328-04:00",
           "tp": 81.58,
           "ev": 7.91,
           "price": -400
@@ -182,6 +188,104 @@
           "tp": 77.46,
           "ev": 4.19,
           "price": -325
+        }
+      ]
+    },
+    {
+      "event_id": "c137da348b9193a96f85af78c01a1aca",
+      "game": "Pirates @ Guardians",
+      "away_team": "Pittsburgh Pirates",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-07-17T23:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Pittsburgh Pirates +2.5",
+      "player": "Pittsburgh Pirates",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -336,
+      "true_prob_pct": 78.37,
+      "ev_per_100": 5.68,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -336
+        ],
+        [
+          "williamhill_us",
+          -339
+        ],
+        [
+          "fanduel",
+          -390
+        ],
+        [
+          "bovada",
+          -390
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T14:08:05.951328-04:00",
+      "last_seen_at": "2026-07-16T14:08:05.951328-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T14:08:05.951328-04:00",
+          "tp": 78.37,
+          "ev": 5.68,
+          "price": -336
+        }
+      ]
+    },
+    {
+      "event_id": "cfb2e85cbd19eb03e617782d90d2c60e",
+      "game": "Sox @ Jays",
+      "away_team": "Chicago White Sox",
+      "home_team": "Toronto Blue Jays",
+      "first_pitch": "2026-07-17T23:16:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Chicago White Sox +2.5",
+      "player": "Chicago White Sox",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -307,
+      "true_prob_pct": 76.33,
+      "ev_per_100": 3.68,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -307
+        ],
+        [
+          "williamhill_us",
+          -324
+        ],
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "bovada",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T14:08:05.951328-04:00",
+      "last_seen_at": "2026-07-16T14:08:05.951328-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T14:08:05.951328-04:00",
+          "tp": 76.33,
+          "ev": 3.68,
+          "price": -307
         }
       ]
     }
