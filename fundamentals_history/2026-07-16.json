@@ -1,7 +1,7 @@
 {
   "date": "2026-07-16",
-  "snapshot_at": "2026-07-16T10:51:01.216879-04:00",
-  "n_picks": 5,
+  "snapshot_at": "2026-07-16T12:19:31.818498-04:00",
+  "n_picks": 6,
   "filter": {
     "min_composite": 80,
     "min_consensus_pct": 60,
@@ -14,7 +14,7 @@
     "n_offers": 42
   },
   "summary": {
-    "n_total": 5,
+    "n_total": 6,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -33,7 +33,7 @@
       "away_team": "New York Mets",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-07-16T19:10:00-04:00",
-      "best_price": -223,
+      "best_price": -234,
       "player": "Juan Soto",
       "batter_id": 665742,
       "pitcher_id": null,
@@ -46,21 +46,27 @@
       "barrel": 14.9,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 71.2,
-      "cross_book_pp": 3.9,
-      "edge_pp": 2.2,
+      "consensus_pct": 71.3,
+      "cross_book_pp": 2.5,
+      "edge_pp": 1.2,
       "best_book": "draftkings",
       "opp_pitcher": "Aaron Nola",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-16T10:51:01.216855-04:00",
-      "last_seen_at": "2026-07-16T10:51:01.216855-04:00",
+      "last_seen_at": "2026-07-16T12:19:31.818452-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T10:51:01.216855-04:00",
           "composite": 96.7,
           "cons": 71.2,
           "edge": 3.9
+        },
+        {
+          "t": "2026-07-16T12:19:31.818452-04:00",
+          "composite": 96.7,
+          "cons": 71.3,
+          "edge": 2.5
         }
       ]
     },
@@ -84,21 +90,27 @@
       "barrel": 19.3,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 65.8,
-      "cross_book_pp": 3.3,
-      "edge_pp": 2.2,
+      "consensus_pct": 66.6,
+      "cross_book_pp": 4.1,
+      "edge_pp": 3.0,
       "best_book": "betmgm",
       "opp_pitcher": "Christian Scott",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-16T10:51:01.216855-04:00",
-      "last_seen_at": "2026-07-16T10:51:01.216855-04:00",
+      "last_seen_at": "2026-07-16T12:19:31.818452-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T10:51:01.216855-04:00",
           "composite": 96.1,
           "cons": 65.8,
           "edge": 3.3
+        },
+        {
+          "t": "2026-07-16T12:19:31.818452-04:00",
+          "composite": 96.1,
+          "cons": 66.6,
+          "edge": 4.1
         }
       ]
     },
@@ -185,7 +197,7 @@
       "away_team": "New York Mets",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-07-16T19:10:00-04:00",
-      "best_price": 300,
+      "best_price": 280,
       "player": "Bryce Harper",
       "batter_id": 547180,
       "pitcher_id": null,
@@ -198,21 +210,65 @@
       "barrel": 11.3,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 26.0,
-      "cross_book_pp": 3.6,
-      "edge_pp": 1.0,
+      "consensus_pct": 26.8,
+      "cross_book_pp": 1.5,
+      "edge_pp": 0.5,
       "best_book": "fanduel",
       "opp_pitcher": "Christian Scott",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-16T10:51:01.216855-04:00",
-      "last_seen_at": "2026-07-16T10:51:01.216855-04:00",
+      "last_seen_at": "2026-07-16T12:19:31.818452-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T10:51:01.216855-04:00",
           "composite": 88.2,
           "cons": 26.0,
           "edge": 3.6
+        },
+        {
+          "t": "2026-07-16T12:19:31.818452-04:00",
+          "composite": 88.2,
+          "cons": 26.8,
+          "edge": 1.5
+        }
+      ]
+    },
+    {
+      "stat_key": "hits",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "New York Mets",
+      "home_team": "Philadelphia Phillies",
+      "first_pitch": "2026-07-16T19:10:00-04:00",
+      "best_price": -235,
+      "player": "Bryce Harper",
+      "batter_id": 547180,
+      "pitcher_id": null,
+      "selection": "Bryce Harper Hits* Over 0.5",
+      "market": "Hits*",
+      "game": "Mets @ Phillies",
+      "composite": 88.2,
+      "xwoba": 0.391,
+      "hard_hit": null,
+      "barrel": 11.3,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 71.7,
+      "cross_book_pp": 2.5,
+      "edge_pp": 1.6,
+      "best_book": "betmgm",
+      "opp_pitcher": "Christian Scott",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T12:19:31.818452-04:00",
+      "last_seen_at": "2026-07-16T12:19:31.818452-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T12:19:31.818452-04:00",
+          "composite": 88.2,
+          "cons": 71.7,
+          "edge": 2.5
         }
       ]
     }
