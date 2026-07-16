@@ -1,7 +1,7 @@
 {
   "date": "2026-07-16",
-  "snapshot_at": "2026-07-16T14:08:06.668488-04:00",
-  "n_picks": 16,
+  "snapshot_at": "2026-07-16T15:12:27.863738-04:00",
+  "n_picks": 17,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 16,
+    "n_total": 17,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -305,29 +305,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 155,
-      "best_imp_pct": 39.22,
-      "consensus_pct": 42.41,
-      "edge_pp": 6.24,
-      "ev_per_100": 8.14,
+      "best_price": 148,
+      "best_imp_pct": 40.32,
+      "consensus_pct": 42.48,
+      "edge_pp": 5.13,
+      "ev_per_100": 5.35,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          155
+          148
         ],
         [
           "betmgm",
-          135
+          140
         ],
         [
           "fanduel",
           120
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-07-16T10:50:56.419797-04:00",
-      "last_seen_at": "2026-07-16T14:08:06.668425-04:00",
+      "last_seen_at": "2026-07-16T15:12:27.863665-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T10:50:56.419797-04:00",
@@ -351,6 +351,12 @@
           "t": "2026-07-16T14:08:06.668425-04:00",
           "edge": 6.24,
           "price": 155,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-16T15:12:27.863665-04:00",
+          "edge": 5.13,
+          "price": 148,
           "n_books": 3
         }
       ]
@@ -790,24 +796,24 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -110,
-      "best_imp_pct": 52.38,
-      "consensus_pct": 56.6,
-      "edge_pp": 6.13,
-      "ev_per_100": 8.86,
+      "best_price": -114,
+      "best_imp_pct": 53.27,
+      "consensus_pct": 56.4,
+      "edge_pp": 5.24,
+      "ev_per_100": 6.7,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -110
+          -114
+        ],
+        [
+          "betmgm",
+          -125
         ],
         [
           "williamhill_us",
           -129
-        ],
-        [
-          "betmgm",
-          -135
         ],
         [
           "fanduel",
@@ -818,9 +824,9 @@
           -141
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-16T12:19:26.619729-04:00",
-      "last_seen_at": "2026-07-16T13:20:35.253702-04:00",
+      "last_seen_at": "2026-07-16T15:12:27.863665-04:00",
       "scan_history": [
         {
           "t": "2026-07-16T12:19:26.619729-04:00",
@@ -832,6 +838,12 @@
           "t": "2026-07-16T13:20:35.253702-04:00",
           "edge": 6.13,
           "price": -110,
+          "n_books": 5
+        },
+        {
+          "t": "2026-07-16T15:12:27.863665-04:00",
+          "edge": 5.24,
+          "price": -114,
           "n_books": 5
         }
       ]
@@ -938,6 +950,53 @@
           "t": "2026-07-16T13:20:35.253702-04:00",
           "edge": 5.13,
           "price": 227,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7ad2e88701ead09625333188a5b653b2",
+      "away_team": "New York Mets",
+      "home_team": "Philadelphia Phillies",
+      "first_pitch": "2026-07-16T23:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Mets @ Phillies",
+      "market": "TB",
+      "player": "Kyle Schwarber",
+      "team": "PHI",
+      "selection": "Kyle Schwarber",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 51.27,
+      "edge_pp": 5.76,
+      "ev_per_100": 5.11,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          105
+        ],
+        [
+          "draftkings",
+          -102
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-16T15:12:27.863665-04:00",
+      "last_seen_at": "2026-07-16T15:12:27.863665-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-16T15:12:27.863665-04:00",
+          "edge": 5.76,
+          "price": 105,
           "n_books": 3
         }
       ]
