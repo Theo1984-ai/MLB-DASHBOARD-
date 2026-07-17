@@ -1,9 +1,26 @@
 {
   "date": "2026-07-17",
-  "saved_at": "2026-07-17T09:32:22.749175-04:00",
-  "top_n": 10,
+  "saved_at": "2026-07-17T10:24:13.513422-04:00",
+  "top_n": 8,
+  "strategy": "fundamentals_hr_v2_no_price_filter",
+  "filter": {
+    "sweet_composite": [
+      88,
+      92
+    ],
+    "broad_composite": [
+      85,
+      94
+    ],
+    "min_cross_book_pp": 1.5,
+    "min_consensus_pct": 20.0,
+    "price_filter": "none (v2)"
+  },
   "n_games": 12,
-  "n_total": 11,
+  "n_total": 10,
+  "n_a_plus": 4,
+  "n_a": 6,
+  "n_picks": 11,
   "picks": [
     {
       "stat_key": "hr",
@@ -38,9 +55,9 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -51,6 +68,13 @@
         },
         {
           "t": "2026-07-17T09:32:01.688016-04:00",
+          "comp": 89.9,
+          "cons": 21.2,
+          "price": 400,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
           "comp": 89.9,
           "cons": 21.2,
           "price": 400,
@@ -91,9 +115,9 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -107,6 +131,66 @@
           "comp": 89.3,
           "cons": 25.3,
           "price": 316,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 89.3,
+          "cons": 25.3,
+          "price": 316,
+          "tier": "A+"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Washington Nationals",
+      "home_team": "Athletics",
+      "first_pitch": "2026-07-17T21:40:00-04:00",
+      "best_price": 320,
+      "player": "Shea Langeliers",
+      "batter": "Shea Langeliers",
+      "batter_id": 669127,
+      "game_pk": 824981,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Cade Cavalli",
+      "park": null,
+      "best_odds": 320,
+      "best_book": "fanduel",
+      "composite": 88.0,
+      "xwoba": 0.36,
+      "hard_hit": null,
+      "barrel": 14.7,
+      "consensus_pct": 24.4,
+      "cross_book_pp": 2.5,
+      "edge_pp": 0.6,
+      "consensus_implied_pct": 24.5,
+      "implied_pct": 24.5,
+      "n_books": 4,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 88,
+      "confidence_tier": "A+",
+      "n_appearances": 2,
+      "first_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T09:32:01.688016-04:00",
+          "comp": 88.0,
+          "cons": 24.5,
+          "price": 320,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 88.0,
+          "cons": 24.4,
+          "price": 320,
           "tier": "A+"
         }
       ]
@@ -161,44 +245,44 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
-      "away_team": "Washington Nationals",
-      "home_team": "Athletics",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-07-17T21:40:00-04:00",
-      "best_price": 320,
-      "player": "Shea Langeliers",
-      "batter": "Shea Langeliers",
-      "batter_id": 669127,
-      "game_pk": 824981,
+      "best_price": 425,
+      "player": "Alec Burleson",
+      "batter": "Alec Burleson",
+      "batter_id": 676475,
+      "game_pk": 825060,
       "team": null,
       "matchup": null,
       "game": null,
-      "vs_sp": "Cade Cavalli",
+      "vs_sp": "Merrill Kelly",
       "park": null,
-      "best_odds": 320,
-      "best_book": "fanduel",
-      "composite": 88.0,
-      "xwoba": 0.36,
+      "best_odds": 425,
+      "best_book": "betmgm",
+      "composite": 89.5,
+      "xwoba": 0.383,
       "hard_hit": null,
-      "barrel": 14.7,
-      "consensus_pct": 24.5,
-      "cross_book_pp": 2.5,
-      "edge_pp": 0.6,
-      "consensus_implied_pct": 24.5,
-      "implied_pct": 24.5,
+      "barrel": 11.6,
+      "consensus_pct": 20.5,
+      "cross_book_pp": 2.2,
+      "edge_pp": 1.5,
+      "consensus_implied_pct": 20.5,
+      "implied_pct": 20.5,
       "n_books": 4,
       "model_p": null,
       "model_p_pct": null,
-      "confidence": 88,
+      "confidence": 89,
       "confidence_tier": "A+",
       "n_appearances": 1,
-      "first_seen_at": "2026-07-17T09:32:01.688016-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "first_seen_at": "2026-07-17T10:24:13.513349-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
-          "t": "2026-07-17T09:32:01.688016-04:00",
-          "comp": 88.0,
-          "cons": 24.5,
-          "price": 320,
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 89.5,
+          "cons": 20.5,
+          "price": 425,
           "tier": "A+"
         }
       ]
@@ -210,7 +294,7 @@
       "away_team": "Los Angeles Dodgers",
       "home_team": "New York Yankees",
       "first_pitch": "2026-07-17T19:05:00-04:00",
-      "best_price": 320,
+      "best_price": 314,
       "player": "Ben Rice",
       "batter": "Ben Rice",
       "batter_id": 700250,
@@ -221,14 +305,14 @@
       "vs_sp": "Roki Sasaki",
       "park": null,
       "best_odds": 326,
-      "best_book": "fanduel",
+      "best_book": "draftkings",
       "composite": 93.9,
       "xwoba": 0.381,
       "hard_hit": null,
       "barrel": 15.3,
-      "consensus_pct": 26.4,
-      "cross_book_pp": 10.1,
-      "edge_pp": 2.6,
+      "consensus_pct": 27.0,
+      "cross_book_pp": 9.7,
+      "edge_pp": 2.9,
       "consensus_implied_pct": 26.2,
       "implied_pct": 26.2,
       "n_books": 4,
@@ -236,9 +320,9 @@
       "model_p_pct": null,
       "confidence": 93,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -253,6 +337,13 @@
           "cons": 26.4,
           "price": 320,
           "tier": "A"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 93.9,
+          "cons": 27.0,
+          "price": 314,
+          "tier": "A"
         }
       ]
     },
@@ -263,7 +354,7 @@
       "away_team": "Chicago White Sox",
       "home_team": "Toronto Blue Jays",
       "first_pitch": "2026-07-17T19:15:00-04:00",
-      "best_price": 312,
+      "best_price": 330,
       "player": "Munetaka Murakami",
       "batter": "Munetaka Murakami",
       "batter_id": 808959,
@@ -274,14 +365,14 @@
       "vs_sp": "Spencer Miles",
       "park": null,
       "best_odds": 312,
-      "best_book": "draftkings",
+      "best_book": "fanduel",
       "composite": 93.4,
       "xwoba": 0.37,
       "hard_hit": null,
       "barrel": 20.0,
-      "consensus_pct": 25.6,
-      "cross_book_pp": 2.8,
-      "edge_pp": 1.4,
+      "consensus_pct": 24.2,
+      "cross_book_pp": 3.8,
+      "edge_pp": 0.9,
       "consensus_implied_pct": 25.6,
       "implied_pct": 25.6,
       "n_books": 4,
@@ -289,9 +380,9 @@
       "model_p_pct": null,
       "confidence": 93,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -306,6 +397,13 @@
           "cons": 25.6,
           "price": 312,
           "tier": "A"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 93.4,
+          "cons": 24.2,
+          "price": 330,
+          "tier": "A"
         }
       ]
     },
@@ -316,7 +414,7 @@
       "away_team": "Texas Rangers",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-07-17T19:15:00-04:00",
-      "best_price": 398,
+      "best_price": 386,
       "player": "Drake Baldwin",
       "batter": "Drake Baldwin",
       "batter_id": 686948,
@@ -332,9 +430,9 @@
       "xwoba": 0.379,
       "hard_hit": null,
       "barrel": 15.3,
-      "consensus_pct": 21.6,
-      "cross_book_pp": 2.6,
-      "edge_pp": 1.5,
+      "consensus_pct": 21.3,
+      "cross_book_pp": 1.6,
+      "edge_pp": 0.8,
       "consensus_implied_pct": 21.6,
       "implied_pct": 21.6,
       "n_books": 4,
@@ -342,9 +440,9 @@
       "model_p_pct": null,
       "confidence": 93,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -358,6 +456,13 @@
           "comp": 93.0,
           "cons": 21.6,
           "price": 398,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 93.0,
+          "cons": 21.3,
+          "price": 386,
           "tier": "A"
         }
       ]
@@ -385,8 +490,8 @@
       "xwoba": 0.358,
       "hard_hit": null,
       "barrel": 13.8,
-      "consensus_pct": 26.5,
-      "cross_book_pp": 3.3,
+      "consensus_pct": 26.4,
+      "cross_book_pp": 2.5,
       "edge_pp": 1.1,
       "consensus_implied_pct": 26.5,
       "implied_pct": 26.5,
@@ -395,9 +500,9 @@
       "model_p_pct": null,
       "confidence": 87,
       "confidence_tier": "A",
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T09:32:01.688016-04:00",
+      "last_seen_at": "2026-07-17T10:24:13.513349-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -410,6 +515,13 @@
           "t": "2026-07-17T09:32:01.688016-04:00",
           "comp": 87.0,
           "cons": 26.5,
+          "price": 295,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-17T10:24:13.513349-04:00",
+          "comp": 87.0,
+          "cons": 26.4,
           "price": 295,
           "tier": "A"
         }
