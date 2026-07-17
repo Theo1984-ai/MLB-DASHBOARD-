@@ -15,15 +15,16 @@
   },
   "summary": {
     "n_total": 6,
-    "n_settled": 0,
+    "n_settled": 6,
     "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_no_data": 0,
+    "wins": 3,
+    "losses": 3,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
+    "hit_rate": 50.0,
+    "risk_total": 955.0,
     "profit_total": 0.0,
-    "roi_pct": 0
+    "roi_pct": 0.0
   },
   "picks": [
     {
@@ -92,7 +93,9 @@
           "cons": 71.8,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -160,7 +163,9 @@
           "cons": 66.3,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -204,7 +209,9 @@
           "cons": 36.2,
           "edge": 1.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -248,7 +255,9 @@
           "cons": 33.3,
           "edge": 1.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -316,7 +325,9 @@
           "cons": 27.3,
           "edge": 1.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -378,7 +389,10 @@
           "cons": 71.7,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-17T07:18:16.376893-04:00"
 }
