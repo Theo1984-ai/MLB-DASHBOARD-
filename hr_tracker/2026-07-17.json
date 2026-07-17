@@ -1,6 +1,6 @@
 {
   "date": "2026-07-17",
-  "saved_at": "2026-07-17T14:08:30.951222-04:00",
+  "saved_at": "2026-07-17T15:11:42.219822-04:00",
   "top_n": 8,
   "strategy": "fundamentals_hr_v2_no_price_filter",
   "filter": {
@@ -55,9 +55,9 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 7,
+      "n_appearances": 8,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T14:08:30.951158-04:00",
+      "last_seen_at": "2026-07-17T15:11:42.219773-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -103,6 +103,13 @@
         },
         {
           "t": "2026-07-17T14:08:30.951158-04:00",
+          "comp": 89.9,
+          "cons": 21.1,
+          "price": 400,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-17T15:11:42.219773-04:00",
           "comp": 89.9,
           "cons": 21.1,
           "price": 400,
@@ -752,6 +759,59 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "Cincinnati Reds",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-17T20:40:00-04:00",
+      "best_price": 360,
+      "player": "Elly De La Cruz",
+      "batter": "Elly De La Cruz",
+      "batter_id": 682829,
+      "game_pk": 824332,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Gabriel Hughes",
+      "park": null,
+      "best_odds": 360,
+      "best_book": "betmgm",
+      "composite": 86.3,
+      "xwoba": 0.359,
+      "hard_hit": null,
+      "barrel": 14.9,
+      "consensus_pct": 24.2,
+      "cross_book_pp": 3.3,
+      "edge_pp": 2.4,
+      "consensus_implied_pct": 24.1,
+      "implied_pct": 24.1,
+      "n_books": 4,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 86,
+      "confidence_tier": "A",
+      "n_appearances": 2,
+      "first_seen_at": "2026-07-17T14:08:30.951158-04:00",
+      "last_seen_at": "2026-07-17T15:11:42.219773-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T14:08:30.951158-04:00",
+          "comp": 86.3,
+          "cons": 24.1,
+          "price": 360,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-17T15:11:42.219773-04:00",
+          "comp": 86.3,
+          "cons": 24.2,
+          "price": 360,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "Miami Marlins",
       "home_team": "Milwaukee Brewers",
       "first_pitch": "2026-07-17T19:40:00-04:00",
@@ -790,52 +850,6 @@
           "comp": 86.8,
           "cons": 23.4,
           "price": 337,
-          "tier": "A"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
-      "away_team": "Cincinnati Reds",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-07-17T20:40:00-04:00",
-      "best_price": 360,
-      "player": "Elly De La Cruz",
-      "batter": "Elly De La Cruz",
-      "batter_id": 682829,
-      "game_pk": 824332,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Gabriel Hughes",
-      "park": null,
-      "best_odds": 360,
-      "best_book": "betmgm",
-      "composite": 86.3,
-      "xwoba": 0.359,
-      "hard_hit": null,
-      "barrel": 14.9,
-      "consensus_pct": 24.1,
-      "cross_book_pp": 3.3,
-      "edge_pp": 2.3,
-      "consensus_implied_pct": 24.1,
-      "implied_pct": 24.1,
-      "n_books": 4,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 86,
-      "confidence_tier": "A",
-      "n_appearances": 1,
-      "first_seen_at": "2026-07-17T14:08:30.951158-04:00",
-      "last_seen_at": "2026-07-17T14:08:30.951158-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-17T14:08:30.951158-04:00",
-          "comp": 86.3,
-          "cons": 24.1,
-          "price": 360,
           "tier": "A"
         }
       ]
