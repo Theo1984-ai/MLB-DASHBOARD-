@@ -1,7 +1,7 @@
 {
   "date": "2026-07-17",
-  "snapshot_at": "2026-07-17T13:16:14.673404-04:00",
-  "n_picks": 39,
+  "snapshot_at": "2026-07-17T14:08:22.050133-04:00",
+  "n_picks": 43,
   "filter": {
     "min_composite": 80,
     "min_consensus_pct": 60,
@@ -10,11 +10,11 @@
   },
   "scanner_stats": {
     "n_games": 14,
-    "n_elite_batters": 57,
-    "n_offers": 509
+    "n_elite_batters": 54,
+    "n_offers": 78
   },
   "summary": {
-    "n_total": 39,
+    "n_total": 43,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -246,9 +246,9 @@
       "best_book": "fanduel",
       "opp_pitcher": "Gabriel Hughes",
       "opp_team": null,
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-17T10:23:57.117437-04:00",
-      "last_seen_at": "2026-07-17T13:16:14.673278-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T10:23:57.117437-04:00",
@@ -264,6 +264,12 @@
         },
         {
           "t": "2026-07-17T13:16:14.673278-04:00",
+          "composite": 84.0,
+          "cons": 80.0,
+          "edge": 3.9
+        },
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
           "composite": 84.0,
           "cons": 80.0,
           "edge": 3.9
@@ -296,9 +302,9 @@
       "best_book": "bovada",
       "opp_pitcher": "Gabriel Hughes",
       "opp_team": null,
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-17T10:23:57.117437-04:00",
-      "last_seen_at": "2026-07-17T13:16:14.673278-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T10:23:57.117437-04:00",
@@ -314,6 +320,12 @@
         },
         {
           "t": "2026-07-17T13:16:14.673278-04:00",
+          "composite": 86.3,
+          "cons": 81.1,
+          "edge": 3.4
+        },
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
           "composite": 86.3,
           "cons": 81.1,
           "edge": 3.4
@@ -346,9 +358,9 @@
       "best_book": "betmgm",
       "opp_pitcher": "Michael King",
       "opp_team": null,
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-17T10:23:57.117437-04:00",
-      "last_seen_at": "2026-07-17T13:16:14.673278-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T10:23:57.117437-04:00",
@@ -364,6 +376,12 @@
         },
         {
           "t": "2026-07-17T13:16:14.673278-04:00",
+          "composite": 89.9,
+          "cons": 78.4,
+          "edge": 3.1
+        },
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
           "composite": 89.9,
           "cons": 78.4,
           "edge": 3.1
@@ -1865,6 +1883,158 @@
           "composite": 88.0,
           "cons": 23.4,
           "edge": 2.3
+        }
+      ]
+    },
+    {
+      "stat_key": "hits",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Cincinnati Reds",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-17T20:40:00-04:00",
+      "best_price": -310,
+      "player": "Hunter Goodman",
+      "batter_id": 696100,
+      "pitcher_id": null,
+      "selection": "Hunter Goodman Hits* Over 0.5",
+      "market": "Hits*",
+      "game": "Reds @ Rockies",
+      "composite": 80.0,
+      "xwoba": 0.334,
+      "hard_hit": null,
+      "barrel": 16.4,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 76.7,
+      "cross_book_pp": 2.7,
+      "edge_pp": 1.1,
+      "best_book": "fanduel",
+      "opp_pitcher": "Brady Singer",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
+          "composite": 80.0,
+          "cons": 76.7,
+          "edge": 2.7
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Cincinnati Reds",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-17T20:40:00-04:00",
+      "best_price": 360,
+      "player": "Elly De La Cruz",
+      "batter_id": 682829,
+      "pitcher_id": null,
+      "selection": "Elly De La Cruz HR* Over 0.5",
+      "market": "HR*",
+      "game": "Reds @ Rockies",
+      "composite": 86.3,
+      "xwoba": 0.359,
+      "hard_hit": null,
+      "barrel": 14.9,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 24.1,
+      "cross_book_pp": 3.3,
+      "edge_pp": 2.3,
+      "best_book": "betmgm",
+      "opp_pitcher": "Gabriel Hughes",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
+          "composite": 86.3,
+          "cons": 24.1,
+          "edge": 3.3
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "San Diego Padres",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-07-17T20:10:00-04:00",
+      "best_price": 400,
+      "player": "Bobby Witt Jr.",
+      "batter_id": 677951,
+      "pitcher_id": null,
+      "selection": "Bobby Witt Jr. HR* Over 0.5",
+      "market": "HR*",
+      "game": "Padres @ Royals",
+      "composite": 89.9,
+      "xwoba": 0.389,
+      "hard_hit": null,
+      "barrel": 11.9,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 21.1,
+      "cross_book_pp": 2.7,
+      "edge_pp": 1.1,
+      "best_book": "fanduel",
+      "opp_pitcher": "Michael King",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
+          "composite": 89.9,
+          "cons": 21.1,
+          "edge": 2.7
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "San Diego Padres",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-07-17T20:10:00-04:00",
+      "best_price": 435,
+      "player": "Jac Caglianone",
+      "batter_id": 695506,
+      "pitcher_id": null,
+      "selection": "Jac Caglianone HR* Over 0.5",
+      "market": "HR*",
+      "game": "Padres @ Royals",
+      "composite": 86.5,
+      "xwoba": 0.357,
+      "hard_hit": null,
+      "barrel": 14.7,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 19.8,
+      "cross_book_pp": 3.5,
+      "edge_pp": 1.2,
+      "best_book": "draftkings",
+      "opp_pitcher": "Michael King",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "last_seen_at": "2026-07-17T14:08:22.050066-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T14:08:22.050066-04:00",
+          "composite": 86.5,
+          "cons": 19.8,
+          "edge": 3.5
         }
       ]
     }
