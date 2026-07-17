@@ -1,26 +1,9 @@
 {
   "date": "2026-07-17",
-  "saved_at": "2026-07-17T15:58:03.936868-04:00",
-  "top_n": 8,
-  "strategy": "fundamentals_hr_v2_no_price_filter",
-  "filter": {
-    "sweet_composite": [
-      88,
-      92
-    ],
-    "broad_composite": [
-      85,
-      94
-    ],
-    "min_cross_book_pp": 1.5,
-    "min_consensus_pct": 20.0,
-    "price_filter": "none (v2)"
-  },
+  "saved_at": "2026-07-17T18:20:53.964511-04:00",
+  "top_n": 10,
   "n_games": 12,
   "n_total": 3,
-  "n_a_plus": 1,
-  "n_a": 2,
-  "n_picks": 13,
   "picks": [
     {
       "stat_key": "hr",
@@ -29,7 +12,7 @@
       "away_team": "San Diego Padres",
       "home_team": "Kansas City Royals",
       "first_pitch": "2026-07-17T20:10:00-04:00",
-      "best_price": 400,
+      "best_price": 407,
       "player": "Bobby Witt Jr.",
       "batter": "Bobby Witt Jr.",
       "batter_id": 677951,
@@ -40,13 +23,13 @@
       "vs_sp": "Michael King",
       "park": null,
       "best_odds": 400,
-      "best_book": "fanduel",
+      "best_book": "draftkings",
       "composite": 89.9,
       "xwoba": 0.389,
       "hard_hit": null,
       "barrel": 11.9,
-      "consensus_pct": 21.1,
-      "cross_book_pp": 2.7,
+      "consensus_pct": 20.8,
+      "cross_book_pp": 3.0,
       "edge_pp": 1.1,
       "consensus_implied_pct": 21.2,
       "implied_pct": 21.2,
@@ -55,9 +38,9 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 9,
+      "n_appearances": 10,
       "first_seen_at": "2026-07-17T08:27:40.663780-04:00",
-      "last_seen_at": "2026-07-17T15:58:03.936817-04:00",
+      "last_seen_at": "2026-07-17T18:20:28.529565-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T08:27:40.663780-04:00",
@@ -120,6 +103,13 @@
           "comp": 89.9,
           "cons": 21.1,
           "price": 400,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-17T18:20:28.529565-04:00",
+          "comp": 89.9,
+          "cons": 20.8,
+          "price": 407,
           "tier": "A+"
         }
       ]
@@ -732,7 +722,7 @@
       "xwoba": 0.359,
       "hard_hit": null,
       "barrel": 14.9,
-      "consensus_pct": 24.2,
+      "consensus_pct": 24.1,
       "cross_book_pp": 3.3,
       "edge_pp": 2.4,
       "consensus_implied_pct": 24.1,
@@ -742,9 +732,9 @@
       "model_p_pct": null,
       "confidence": 86,
       "confidence_tier": "A",
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-07-17T14:08:30.951158-04:00",
-      "last_seen_at": "2026-07-17T15:58:03.936817-04:00",
+      "last_seen_at": "2026-07-17T18:20:28.529565-04:00",
       "scan_history": [
         {
           "t": "2026-07-17T14:08:30.951158-04:00",
@@ -764,6 +754,13 @@
           "t": "2026-07-17T15:58:03.936817-04:00",
           "comp": 86.3,
           "cons": 24.2,
+          "price": 360,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-17T18:20:28.529565-04:00",
+          "comp": 86.3,
+          "cons": 24.1,
           "price": 360,
           "tier": "A"
         }
@@ -826,6 +823,59 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "San Diego Padres",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-07-17T20:10:00-04:00",
+      "best_price": 390,
+      "player": "Jac Caglianone",
+      "batter": "Jac Caglianone",
+      "batter_id": 695506,
+      "game_pk": 824090,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Michael King",
+      "park": null,
+      "best_odds": 435,
+      "best_book": "fanduel",
+      "composite": 86.5,
+      "xwoba": 0.357,
+      "hard_hit": null,
+      "barrel": 14.7,
+      "consensus_pct": 21.1,
+      "cross_book_pp": 2.3,
+      "edge_pp": 0.7,
+      "consensus_implied_pct": 20.0,
+      "implied_pct": 20.0,
+      "n_books": 4,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 86,
+      "confidence_tier": "A",
+      "n_appearances": 2,
+      "first_seen_at": "2026-07-17T15:58:03.936817-04:00",
+      "last_seen_at": "2026-07-17T18:20:28.529565-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-17T15:58:03.936817-04:00",
+          "comp": 86.5,
+          "cons": 20.0,
+          "price": 435,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-17T18:20:28.529565-04:00",
+          "comp": 86.5,
+          "cons": 21.1,
+          "price": 390,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "Miami Marlins",
       "home_team": "Milwaukee Brewers",
       "first_pitch": "2026-07-17T19:40:00-04:00",
@@ -864,52 +914,6 @@
           "comp": 86.8,
           "cons": 23.4,
           "price": 337,
-          "tier": "A"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
-      "away_team": "San Diego Padres",
-      "home_team": "Kansas City Royals",
-      "first_pitch": "2026-07-17T20:10:00-04:00",
-      "best_price": 435,
-      "player": "Jac Caglianone",
-      "batter": "Jac Caglianone",
-      "batter_id": 695506,
-      "game_pk": 824090,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Michael King",
-      "park": null,
-      "best_odds": 435,
-      "best_book": "draftkings",
-      "composite": 86.5,
-      "xwoba": 0.357,
-      "hard_hit": null,
-      "barrel": 14.7,
-      "consensus_pct": 20.0,
-      "cross_book_pp": 4.0,
-      "edge_pp": 1.3,
-      "consensus_implied_pct": 20.0,
-      "implied_pct": 20.0,
-      "n_books": 4,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 86,
-      "confidence_tier": "A",
-      "n_appearances": 1,
-      "first_seen_at": "2026-07-17T15:58:03.936817-04:00",
-      "last_seen_at": "2026-07-17T15:58:03.936817-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-17T15:58:03.936817-04:00",
-          "comp": 86.5,
-          "cons": 20.0,
-          "price": 435,
           "tier": "A"
         }
       ]
