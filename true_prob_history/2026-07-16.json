@@ -11,16 +11,16 @@
   },
   "summary": {
     "n_total": 6,
-    "n_settled": 3,
-    "n_void": 0,
-    "n_no_data": 3,
-    "wins": 2,
-    "losses": 1,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 3,
+    "losses": 2,
     "pushes": 0,
-    "hit_rate": 66.7,
-    "risk_total": 1097.0,
-    "profit_total": -125.0,
-    "roi_pct": -11.39
+    "hit_rate": 60.0,
+    "risk_total": 1727.0,
+    "profit_total": -348.0,
+    "roi_pct": -20.15
   },
   "picks": [
     {
@@ -276,8 +276,8 @@
           "price": -336
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Pre-Game"
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "cfb2e85cbd19eb03e617782d90d2c60e",
@@ -339,8 +339,8 @@
           "price": -307
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Pre-Game"
+      "result": "WIN",
+      "settle_detail": "margin=+8 vs -2.5"
     },
     {
       "event_id": "43706fff6ae5bb5201b9add3c0945034",
@@ -396,9 +396,9 @@
           "price": -323
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Game Over"
+      "result": "LOSS",
+      "settle_detail": "margin=-10 vs -2.5"
     }
   ],
-  "settled_at": "2026-07-17T15:57:08.205222-04:00"
+  "settled_at": "2026-07-18T06:58:12.432688-04:00"
 }
