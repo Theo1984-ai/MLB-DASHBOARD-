@@ -1,27 +1,98 @@
 {
   "date": "2026-07-19",
-  "saved_at": "2026-07-19T13:33:49.740579-04:00",
-  "top_n": 8,
-  "strategy": "fundamentals_hr_v2_no_price_filter",
-  "filter": {
-    "sweet_composite": [
-      88,
-      92
-    ],
-    "broad_composite": [
-      85,
-      94
-    ],
-    "min_cross_book_pp": 1.5,
-    "min_consensus_pct": 20.0,
-    "price_filter": "none (v2)"
-  },
-  "n_games": 12,
-  "n_total": 8,
-  "n_a_plus": 6,
-  "n_a": 2,
-  "n_picks": 12,
+  "saved_at": "2026-07-19T14:54:40.796452-04:00",
+  "top_n": 10,
+  "n_games": 6,
+  "n_total": 2,
   "picks": [
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Cincinnati Reds",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-19T15:10:00-04:00",
+      "best_price": 340,
+      "player": "Elly De La Cruz",
+      "batter": "Elly De La Cruz",
+      "batter_id": 682829,
+      "game_pk": 824330,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Ryan Feltner",
+      "park": null,
+      "best_odds": 340,
+      "best_book": "betmgm",
+      "composite": 88.2,
+      "xwoba": 0.364,
+      "hard_hit": null,
+      "barrel": 14.7,
+      "consensus_pct": 24.3,
+      "cross_book_pp": 2.5,
+      "edge_pp": 1.6,
+      "consensus_implied_pct": 23.7,
+      "implied_pct": 23.7,
+      "n_books": 3,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 88,
+      "confidence_tier": "A+",
+      "n_appearances": 7,
+      "first_seen_at": "2026-07-19T08:19:51.186957-04:00",
+      "last_seen_at": "2026-07-19T14:54:26.221085-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-19T08:19:51.186957-04:00",
+          "comp": 88.2,
+          "cons": 23.7,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T08:34:26.163885-04:00",
+          "comp": 88.2,
+          "cons": 23.7,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T10:18:34.774206-04:00",
+          "comp": 88.2,
+          "cons": 23.7,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T12:01:15.412995-04:00",
+          "comp": 88.2,
+          "cons": 24.1,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T13:01:39.144175-04:00",
+          "comp": 88.2,
+          "cons": 24.1,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T13:33:49.740505-04:00",
+          "comp": 88.2,
+          "cons": 24.1,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T14:54:26.221085-04:00",
+          "comp": 88.2,
+          "cons": 24.3,
+          "price": 340,
+          "tier": "A+"
+        }
+      ]
+    },
     {
       "stat_key": "hr",
       "side": "Over",
@@ -350,87 +421,6 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
-      "away_team": "Cincinnati Reds",
-      "home_team": "Colorado Rockies",
-      "first_pitch": "2026-07-19T15:10:00-04:00",
-      "best_price": 340,
-      "player": "Elly De La Cruz",
-      "batter": "Elly De La Cruz",
-      "batter_id": 682829,
-      "game_pk": 824330,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Ryan Feltner",
-      "park": null,
-      "best_odds": 340,
-      "best_book": "betmgm",
-      "composite": 88.2,
-      "xwoba": 0.364,
-      "hard_hit": null,
-      "barrel": 14.7,
-      "consensus_pct": 24.1,
-      "cross_book_pp": 2.5,
-      "edge_pp": 1.4,
-      "consensus_implied_pct": 23.7,
-      "implied_pct": 23.7,
-      "n_books": 3,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 88,
-      "confidence_tier": "A+",
-      "n_appearances": 6,
-      "first_seen_at": "2026-07-19T08:19:51.186957-04:00",
-      "last_seen_at": "2026-07-19T13:33:49.740505-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-19T08:19:51.186957-04:00",
-          "comp": 88.2,
-          "cons": 23.7,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T08:34:26.163885-04:00",
-          "comp": 88.2,
-          "cons": 23.7,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T10:18:34.774206-04:00",
-          "comp": 88.2,
-          "cons": 23.7,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T12:01:15.412995-04:00",
-          "comp": 88.2,
-          "cons": 24.1,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T13:01:39.144175-04:00",
-          "comp": 88.2,
-          "cons": 24.1,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T13:33:49.740505-04:00",
-          "comp": 88.2,
-          "cons": 24.1,
-          "price": 340,
-          "tier": "A+"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
       "away_team": "Texas Rangers",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-07-19T13:35:00-04:00",
@@ -597,6 +587,80 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "Detroit Tigers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-07-19T16:07:00-04:00",
+      "best_price": 390,
+      "player": "Dillon Dingler",
+      "batter": "Dillon Dingler",
+      "batter_id": 693307,
+      "game_pk": 824007,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Ryan Johnson",
+      "park": null,
+      "best_odds": 393,
+      "best_book": "fanduel",
+      "composite": 87.6,
+      "xwoba": 0.377,
+      "hard_hit": null,
+      "barrel": 11.4,
+      "consensus_pct": 22.0,
+      "cross_book_pp": 4.0,
+      "edge_pp": 1.6,
+      "consensus_implied_pct": 21.7,
+      "implied_pct": 21.7,
+      "n_books": 3,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 87,
+      "confidence_tier": "A",
+      "n_appearances": 5,
+      "first_seen_at": "2026-07-19T08:34:26.163885-04:00",
+      "last_seen_at": "2026-07-19T14:54:26.221085-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-19T08:34:26.163885-04:00",
+          "comp": 87.6,
+          "cons": 21.7,
+          "price": 393,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-19T10:18:34.774206-04:00",
+          "comp": 87.6,
+          "cons": 22.3,
+          "price": 372,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-19T13:01:39.144175-04:00",
+          "comp": 87.6,
+          "cons": 22.0,
+          "price": 400,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-19T13:33:49.740505-04:00",
+          "comp": 87.6,
+          "cons": 22.0,
+          "price": 390,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-19T14:54:26.221085-04:00",
+          "comp": 87.6,
+          "cons": 22.0,
+          "price": 390,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "Chicago White Sox",
       "home_team": "Toronto Blue Jays",
       "first_pitch": "2026-07-19T12:15:00-04:00",
@@ -656,73 +720,6 @@
           "comp": 92.2,
           "cons": 25.2,
           "price": 340,
-          "tier": "A"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
-      "away_team": "Detroit Tigers",
-      "home_team": "Los Angeles Angels",
-      "first_pitch": "2026-07-19T16:07:00-04:00",
-      "best_price": 390,
-      "player": "Dillon Dingler",
-      "batter": "Dillon Dingler",
-      "batter_id": 693307,
-      "game_pk": 824007,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Ryan Johnson",
-      "park": null,
-      "best_odds": 393,
-      "best_book": "fanduel",
-      "composite": 87.6,
-      "xwoba": 0.377,
-      "hard_hit": null,
-      "barrel": 11.4,
-      "consensus_pct": 22.0,
-      "cross_book_pp": 4.0,
-      "edge_pp": 1.6,
-      "consensus_implied_pct": 21.7,
-      "implied_pct": 21.7,
-      "n_books": 3,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 87,
-      "confidence_tier": "A",
-      "n_appearances": 4,
-      "first_seen_at": "2026-07-19T08:34:26.163885-04:00",
-      "last_seen_at": "2026-07-19T13:33:49.740505-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-19T08:34:26.163885-04:00",
-          "comp": 87.6,
-          "cons": 21.7,
-          "price": 393,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-19T10:18:34.774206-04:00",
-          "comp": 87.6,
-          "cons": 22.3,
-          "price": 372,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-19T13:01:39.144175-04:00",
-          "comp": 87.6,
-          "cons": 22.0,
-          "price": 400,
-          "tier": "A"
-        },
-        {
-          "t": "2026-07-19T13:33:49.740505-04:00",
-          "comp": 87.6,
-          "cons": 22.0,
-          "price": 390,
           "tier": "A"
         }
       ]
