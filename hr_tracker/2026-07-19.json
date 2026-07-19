@@ -1,9 +1,26 @@
 {
   "date": "2026-07-19",
-  "saved_at": "2026-07-19T14:54:40.796452-04:00",
-  "top_n": 10,
-  "n_games": 6,
+  "saved_at": "2026-07-19T16:02:04.317438-04:00",
+  "top_n": 8,
+  "strategy": "fundamentals_hr_v2_no_price_filter",
+  "filter": {
+    "sweet_composite": [
+      88,
+      92
+    ],
+    "broad_composite": [
+      85,
+      94
+    ],
+    "min_cross_book_pp": 1.5,
+    "min_consensus_pct": 20.0,
+    "price_filter": "none (v2)"
+  },
+  "n_games": 5,
   "n_total": 2,
+  "n_a_plus": 1,
+  "n_a": 1,
+  "n_picks": 12,
   "picks": [
     {
       "stat_key": "hr",
@@ -481,6 +498,66 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
+      "away_team": "Washington Nationals",
+      "home_team": "Athletics",
+      "first_pitch": "2026-07-19T16:05:00-04:00",
+      "best_price": 259,
+      "player": "Shea Langeliers",
+      "batter": "Shea Langeliers",
+      "batter_id": 669127,
+      "game_pk": 824978,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Foster Griffin",
+      "park": null,
+      "best_odds": 265,
+      "best_book": "draftkings",
+      "composite": 89.3,
+      "xwoba": 0.361,
+      "hard_hit": null,
+      "barrel": 14.9,
+      "consensus_pct": 28.6,
+      "cross_book_pp": 1.6,
+      "edge_pp": 0.8,
+      "consensus_implied_pct": 28.5,
+      "implied_pct": 28.5,
+      "n_books": 3,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 89,
+      "confidence_tier": "A+",
+      "n_appearances": 3,
+      "first_seen_at": "2026-07-19T08:19:51.186957-04:00",
+      "last_seen_at": "2026-07-19T16:02:04.317386-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-19T08:19:51.186957-04:00",
+          "comp": 89.3,
+          "cons": 28.5,
+          "price": 265,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T12:01:15.412995-04:00",
+          "comp": 89.3,
+          "cons": 28.6,
+          "price": 258,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-19T16:02:04.317386-04:00",
+          "comp": 89.3,
+          "cons": 28.6,
+          "price": 259,
+          "tier": "A+"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
       "away_team": "San Diego Padres",
       "home_team": "Kansas City Royals",
       "first_pitch": "2026-07-19T14:10:00-04:00",
@@ -534,59 +611,6 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
-      "away_team": "Washington Nationals",
-      "home_team": "Athletics",
-      "first_pitch": "2026-07-19T16:05:00-04:00",
-      "best_price": 258,
-      "player": "Shea Langeliers",
-      "batter": "Shea Langeliers",
-      "batter_id": 669127,
-      "game_pk": 824978,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Foster Griffin",
-      "park": null,
-      "best_odds": 265,
-      "best_book": "draftkings",
-      "composite": 89.3,
-      "xwoba": 0.361,
-      "hard_hit": null,
-      "barrel": 14.9,
-      "consensus_pct": 28.6,
-      "cross_book_pp": 1.5,
-      "edge_pp": 0.7,
-      "consensus_implied_pct": 28.5,
-      "implied_pct": 28.5,
-      "n_books": 3,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 89,
-      "confidence_tier": "A+",
-      "n_appearances": 2,
-      "first_seen_at": "2026-07-19T08:19:51.186957-04:00",
-      "last_seen_at": "2026-07-19T12:01:15.412995-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-19T08:19:51.186957-04:00",
-          "comp": 89.3,
-          "cons": 28.5,
-          "price": 265,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-19T12:01:15.412995-04:00",
-          "comp": 89.3,
-          "cons": 28.6,
-          "price": 258,
-          "tier": "A+"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
       "away_team": "Detroit Tigers",
       "home_team": "Los Angeles Angels",
       "first_pitch": "2026-07-19T16:07:00-04:00",
@@ -616,9 +640,9 @@
       "model_p_pct": null,
       "confidence": 87,
       "confidence_tier": "A",
-      "n_appearances": 5,
+      "n_appearances": 6,
       "first_seen_at": "2026-07-19T08:34:26.163885-04:00",
-      "last_seen_at": "2026-07-19T14:54:26.221085-04:00",
+      "last_seen_at": "2026-07-19T16:02:04.317386-04:00",
       "scan_history": [
         {
           "t": "2026-07-19T08:34:26.163885-04:00",
@@ -650,6 +674,13 @@
         },
         {
           "t": "2026-07-19T14:54:26.221085-04:00",
+          "comp": 87.6,
+          "cons": 22.0,
+          "price": 390,
+          "tier": "A"
+        },
+        {
+          "t": "2026-07-19T16:02:04.317386-04:00",
           "comp": 87.6,
           "cons": 22.0,
           "price": 390,
