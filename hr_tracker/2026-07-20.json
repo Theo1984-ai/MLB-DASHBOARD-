@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "saved_at": "2026-07-20T14:54:41.532446-04:00",
+  "saved_at": "2026-07-20T15:45:00.183301-04:00",
   "top_n": 8,
   "strategy": "fundamentals_hr_v2_no_price_filter",
   "filter": {
@@ -17,9 +17,9 @@
     "price_filter": "none (v2)"
   },
   "n_games": 15,
-  "n_total": 5,
-  "n_a_plus": 4,
-  "n_a": 1,
+  "n_total": 3,
+  "n_a_plus": 3,
+  "n_a": 0,
   "n_picks": 11,
   "picks": [
     {
@@ -55,9 +55,9 @@
       "model_p_pct": null,
       "confidence": 91,
       "confidence_tier": "A+",
-      "n_appearances": 6,
+      "n_appearances": 7,
       "first_seen_at": "2026-07-20T08:51:06.970439-04:00",
-      "last_seen_at": "2026-07-20T14:54:41.532383-04:00",
+      "last_seen_at": "2026-07-20T15:45:00.183238-04:00",
       "scan_history": [
         {
           "t": "2026-07-20T08:51:06.970439-04:00",
@@ -99,6 +99,87 @@
           "comp": 91.7,
           "cons": 25.9,
           "price": 302,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T15:45:00.183238-04:00",
+          "comp": 91.7,
+          "cons": 25.9,
+          "price": 302,
+          "tier": "A+"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Athletics",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-07-20T21:40:00-04:00",
+      "best_price": 340,
+      "player": "Shea Langeliers",
+      "batter": "Shea Langeliers",
+      "batter_id": 669127,
+      "game_pk": 825058,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Mitch Bratt",
+      "park": null,
+      "best_odds": 340,
+      "best_book": "betmgm",
+      "composite": 90.0,
+      "xwoba": 0.361,
+      "hard_hit": null,
+      "barrel": 15.1,
+      "consensus_pct": 23.8,
+      "cross_book_pp": 1.7,
+      "edge_pp": 1.0,
+      "consensus_implied_pct": 23.5,
+      "implied_pct": 23.5,
+      "n_books": 3,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 90,
+      "confidence_tier": "A+",
+      "n_appearances": 5,
+      "first_seen_at": "2026-07-20T11:00:43.980390-04:00",
+      "last_seen_at": "2026-07-20T15:45:00.183238-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-20T11:00:43.980390-04:00",
+          "comp": 90.0,
+          "cons": 23.5,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T12:27:32.454799-04:00",
+          "comp": 90.0,
+          "cons": 23.4,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T14:08:10.846463-04:00",
+          "comp": 90.0,
+          "cons": 23.8,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T14:54:41.532383-04:00",
+          "comp": 90.0,
+          "cons": 23.8,
+          "price": 340,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T15:45:00.183238-04:00",
+          "comp": 90.0,
+          "cons": 23.8,
+          "price": 340,
           "tier": "A+"
         }
       ]
@@ -315,73 +396,6 @@
       "stat_key": "hr",
       "side": "Over",
       "point": 0.5,
-      "away_team": "Athletics",
-      "home_team": "Arizona Diamondbacks",
-      "first_pitch": "2026-07-20T21:40:00-04:00",
-      "best_price": 340,
-      "player": "Shea Langeliers",
-      "batter": "Shea Langeliers",
-      "batter_id": 669127,
-      "game_pk": 825058,
-      "team": null,
-      "matchup": null,
-      "game": null,
-      "vs_sp": "Mitch Bratt",
-      "park": null,
-      "best_odds": 340,
-      "best_book": "betmgm",
-      "composite": 90.0,
-      "xwoba": 0.361,
-      "hard_hit": null,
-      "barrel": 15.1,
-      "consensus_pct": 23.8,
-      "cross_book_pp": 1.7,
-      "edge_pp": 1.0,
-      "consensus_implied_pct": 23.5,
-      "implied_pct": 23.5,
-      "n_books": 3,
-      "model_p": null,
-      "model_p_pct": null,
-      "confidence": 90,
-      "confidence_tier": "A+",
-      "n_appearances": 4,
-      "first_seen_at": "2026-07-20T11:00:43.980390-04:00",
-      "last_seen_at": "2026-07-20T14:54:41.532383-04:00",
-      "scan_history": [
-        {
-          "t": "2026-07-20T11:00:43.980390-04:00",
-          "comp": 90.0,
-          "cons": 23.5,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-20T12:27:32.454799-04:00",
-          "comp": 90.0,
-          "cons": 23.4,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-20T14:08:10.846463-04:00",
-          "comp": 90.0,
-          "cons": 23.8,
-          "price": 340,
-          "tier": "A+"
-        },
-        {
-          "t": "2026-07-20T14:54:41.532383-04:00",
-          "comp": 90.0,
-          "cons": 23.8,
-          "price": 340,
-          "tier": "A+"
-        }
-      ]
-    },
-    {
-      "stat_key": "hr",
-      "side": "Over",
-      "point": 0.5,
       "away_team": "San Diego Padres",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-07-20T19:15:00-04:00",
@@ -519,7 +533,7 @@
       "away_team": "Minnesota Twins",
       "home_team": "Cleveland Guardians",
       "first_pitch": "2026-07-20T18:40:00-04:00",
-      "best_price": 269,
+      "best_price": 275,
       "player": "Byron Buxton",
       "batter": "Byron Buxton",
       "batter_id": 621439,
@@ -535,9 +549,9 @@
       "xwoba": 0.351,
       "hard_hit": null,
       "barrel": 18.7,
-      "consensus_pct": 29.9,
-      "cross_book_pp": 6.2,
-      "edge_pp": 2.8,
+      "consensus_pct": 30.0,
+      "cross_book_pp": 7.2,
+      "edge_pp": 3.3,
       "consensus_implied_pct": 29.9,
       "implied_pct": 29.9,
       "n_books": 3,
@@ -545,15 +559,22 @@
       "model_p_pct": null,
       "confidence": 89,
       "confidence_tier": "A+",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-20T14:54:41.532383-04:00",
-      "last_seen_at": "2026-07-20T14:54:41.532383-04:00",
+      "last_seen_at": "2026-07-20T15:45:00.183238-04:00",
       "scan_history": [
         {
           "t": "2026-07-20T14:54:41.532383-04:00",
           "comp": 89.9,
           "cons": 29.9,
           "price": 269,
+          "tier": "A+"
+        },
+        {
+          "t": "2026-07-20T15:45:00.183238-04:00",
+          "comp": 89.9,
+          "cons": 30.0,
+          "price": 275,
           "tier": "A+"
         }
       ]
