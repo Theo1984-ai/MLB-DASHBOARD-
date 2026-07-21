@@ -142,13 +142,31 @@ if not snapshots:
 
 # ---------- Summary strip ----------
 
+# Use FIRST NON-EMPTY snapshot as the opening. DK often hasn't posted HR
+# props at 11 PM ET the night before, so snapshot #1 can be empty.
+def _first_populated(snaps):
+    for s in snaps:
+        if (s.get("n_players") or 0) > 0 and s.get("players"):
+            return s
+    return snaps[0] if snaps else {}
+
+first_populated_snap = _first_populated(snapshots)
+
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Snapshots", len(snapshots))
-try: first_t = datetime.fromisoformat(snapshots[0]["captured_at"]).strftime("%I:%M %p")
-except Exception: first_t = "?"
-try: last_t = datetime.fromisoformat(snapshots[-1]["captured_at"]).strftime("%I:%M %p")
-except Exception: last_t = "?"
-c2.metric("First snapshot", first_t)
+try:
+    first_t = datetime.fromisoformat(
+        first_populated_snap.get("captured_at", "")
+    ).strftime("%I:%M %p")
+except Exception:
+    first_t = "?"
+try:
+    last_t = datetime.fromisoformat(snapshots[-1]["captured_at"]).strftime("%I:%M %p")
+except Exception:
+    last_t = "?"
+c2.metric("First snapshot", first_t,
+          help="First snapshot that actually captured HR props. Empty "
+               "snapshots (DK hadn't posted yet) are skipped.")
 c3.metric("Latest snapshot", last_t)
 c4.metric("Players tracked", snapshots[-1].get("n_players", 0))
 
@@ -157,7 +175,7 @@ st.divider()
 
 # ---------- Build the delta table ----------
 
-opening = snapshots[0].get("players", []) or []
+opening = first_populated_snap.get("players", []) or []
 current = snapshots[-1].get("players", []) or []
 opening_map = {(p["player"], p["game"]): p for p in opening}
 current_map = {(p["player"], p["game"]): p for p in current}

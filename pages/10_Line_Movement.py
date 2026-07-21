@@ -152,15 +152,32 @@ if not snapshots:
 # Summary strip
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Snapshots today", len(snapshots))
+
+# Use FIRST NON-EMPTY snapshot as the opening. The 11 PM ET run often
+# fires before DK has posted the next day's team totals, so snapshot #1
+# can legitimately have 0 games. Fall back to the earliest snapshot that
+# actually captured lines.
+def _first_populated(snaps):
+    for s in snaps:
+        if (s.get("n_games") or 0) > 0 and s.get("games"):
+            return s
+    return snaps[0] if snaps else {}
+
+first_populated_snap = _first_populated(snapshots)
 try:
-    first_t = datetime.fromisoformat(snapshots[0]["captured_at"]).strftime("%I:%M %p")
+    first_t = datetime.fromisoformat(
+        first_populated_snap.get("captured_at", "")
+    ).strftime("%I:%M %p")
 except Exception:
     first_t = "?"
 try:
     last_t = datetime.fromisoformat(snapshots[-1]["captured_at"]).strftime("%I:%M %p")
 except Exception:
     last_t = "?"
-c2.metric("First snapshot", first_t)
+c2.metric("First snapshot", first_t,
+          help="First snapshot that actually captured line data. Snapshots "
+               "before DK posts lines are skipped (see 'Snapshots today' for "
+               "raw count including empties).")
 c3.metric("Latest snapshot", last_t)
 c4.metric("Games tracked", snapshots[-1].get("n_games", 0))
 
@@ -169,7 +186,7 @@ st.divider()
 
 # ---------- Build the delta table ----------
 
-opening = snapshots[0].get("games", [])
+opening = first_populated_snap.get("games", [])
 current = snapshots[-1].get("games", [])
 opening_map = {g["game"]: g for g in opening}
 current_map = {g["game"]: g for g in current}
