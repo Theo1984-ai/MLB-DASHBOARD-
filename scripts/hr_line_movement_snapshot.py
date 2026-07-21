@@ -49,7 +49,11 @@ if ROOT not in sys.path:
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 BOOK = "draftkings"
-MARKET = "batter_home_runs"
+# DK uses `batter_home_runs_alternate` (not `batter_home_runs`). The alt
+# market includes multiple lines (0.5, 1.5, 2.5) per player. We filter
+# to point=0.5 which is the standard "≥1 HR in the game" prop.
+MARKET = "batter_home_runs_alternate"
+STANDARD_LINE = 0.5
 
 
 def _resolve_api_key():
@@ -100,43 +104,30 @@ def _parse_event(event):
     for m in dk.get("markets", []):
         if m.get("key") != MARKET:
             continue
-        # HR outcomes: name='Yes' or player name, description usually has player
+        # DK batter_home_runs_alternate outcomes:
+        #   {name: "Over", description: "Byron Buxton", point: 0.5, price: 272}
+        # Filter to the standard 0.5 line (≥1 HR). Higher lines (1.5, 2.5)
+        # are multi-HR longshots and not the "will he hit a HR" prop.
         for o in m.get("outcomes", []):
-            # Odds API for batter_home_runs typically returns:
-            #   name = "Over" (or player name), description = player name (or side)
-            # Try both possibilities
-            name = o.get("name") or ""
+            name = (o.get("name") or "").lower()
             desc = o.get("description") or ""
             price = o.get("price")
             point = o.get("point")
-            if price is None:
+            # Filter: only Over side at the standard 0.5 line
+            if name != "over":
                 continue
-            # Figure out which field is the player
-            # Common shapes:
-            #   {name: "Aaron Judge", description: None, price: 320, point: 0.5}
-            #   {name: "Over", description: "Aaron Judge", point: 0.5, price: 320}
-            #   {name: "Yes", description: "Aaron Judge", price: 320}
-            player = None
-            if desc and name in ("Over", "Under", "Yes", "No"):
-                player = desc
-            elif name and desc in ("Over", "Under", "Yes", "No", ""):
-                player = name
-            else:
-                # Fallback — whichever isn't a side marker
-                player = desc or name
-            # Skip Under/No — only track Yes/Over (hit a HR)
-            if name.lower() in ("under", "no") or desc.lower() in ("under", "no"):
+            if point is None or abs(point - STANDARD_LINE) > 0.001:
                 continue
-            if not player:
+            if price is None or not desc:
                 continue
             players.append({
-                "player":      player,
+                "player":      desc,
                 "game":        f"{away} @ {home}",
                 "away_team":   away,
                 "home_team":   home,
                 "first_pitch": event.get("commence_time"),
-                "price":       int(price) if price is not None else None,
-                "line":        point if point is not None else 0.5,
+                "price":       int(price),
+                "line":        point,
             })
     return players
 
