@@ -61,6 +61,17 @@ BROAD_COMPOSITE_MAX = 94
 MIN_CONSENSUS_PCT   = 20.0
 MIN_CROSS_BOOK_PP   = 1.5
 
+# --- Edge floor (7/21): the [0, +2) zone bleeds -29% ROI ---
+# July analysis on 74 settled picks revealed edge_pp between 0 and 2 was
+# a trap: 53 picks, 9.4% hit, -59.5% ROI ($-315 P&L). Only picks with
+# edge >= 2 were profitable (11 picks, 45.5% hit, +94.5% ROI, +$104).
+# Simulation of adding this floor to v3 A-only:
+#   v3 alone:            35 picks, 25.7% hit, +9.9% ROI,  +$34.50
+#   v3 + edge >= 1.0:    27 picks, 29.6% hit, +24.4% ROI, +$65.90
+#   v3 + edge >= 2.0:    11 picks, 45.5% hit, +94.5% ROI, +$104.00  <-- chosen
+# Volume drops to ~2-3 picks/week (some days ZERO); by design.
+MIN_EDGE_PP         = 2.0
+
 
 def _classify_tier(p):
     """Return 'A' for composite in the profitable bands (85-87 or 93-94),
@@ -174,19 +185,27 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
     except Exception as e:
         print(f"  Warning: game_pk lookup failed ({e}) — picks will lack game_pk")
 
-    # Apply universal gates (consensus & cross-book), then classify tier
+    # Apply universal gates (consensus, cross-book, edge), then classify tier
     filtered = []
+    n_rejected_edge = 0
     for p in all_hr:
         cons = p.get("consensus_pct") or 0
         xbk = p.get("cross_book_pp") or 0
+        edge = p.get("edge_pp") or 0
         if cons < MIN_CONSENSUS_PCT: continue
         if xbk < MIN_CROSS_BOOK_PP: continue
+        if edge < MIN_EDGE_PP:
+            n_rejected_edge += 1
+            continue
         if p.get("side") not in ("Yes", "Over"): continue
         if p.get("away_team") is None: continue
         tier = _classify_tier(p)
         if tier is None: continue
         p["_tier"] = tier
         filtered.append(p)
+    if n_rejected_edge:
+        print(f"  Rejected {n_rejected_edge} picks with edge_pp < {MIN_EDGE_PP} "
+              f"(the [0,+2) 'moderate edge' zone historically lost -60% ROI)")
 
     if SWEET_TIER_ENABLED:
         print(f"  {sum(1 for p in filtered if p['_tier']=='A+')} A+ picks "
@@ -254,12 +273,13 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
         "date":     today,
         "saved_at": datetime.now(tz=EASTERN).isoformat(),
         "top_n":    top_n,
-        "strategy": "fundamentals_hr_v3_a_only",
+        "strategy": "fundamentals_hr_v3_edge2plus",
         "filter": {
             "sweet_composite":  [SWEET_COMPOSITE_MIN, SWEET_COMPOSITE_MAX],
             "broad_composite":  [BROAD_COMPOSITE_MIN, BROAD_COMPOSITE_MAX],
             "min_cross_book_pp": MIN_CROSS_BOOK_PP,
             "min_consensus_pct": MIN_CONSENSUS_PCT,
+            "min_edge_pp":       MIN_EDGE_PP,
             "price_filter":     "none (v2)",
         },
         "n_games":  result.get("n_games", 0),
