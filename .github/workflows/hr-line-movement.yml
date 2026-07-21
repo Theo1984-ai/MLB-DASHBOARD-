@@ -1,13 +1,13 @@
-name: HR Line Movement Snapshot (11 PM + 12 PM ET)
+name: HR Line Movement Snapshot (7 AM + 12 PM ET)
 
 on:
   schedule:
-    # Same schedule as team totals:
-    #   11 PM ET (EDT) = 03:00 UTC (next day) — opening lines for next day
+    # Same schedule as team totals (moved from 11 PM to 7 AM on 7/21):
+    #   7 AM ET  (EDT) = 11:00 UTC — opening snapshot (DK usually posted)
     #   12 PM ET (EDT) = 16:00 UTC — pre-first-pitch check
-    # Backup entries 5 min later; script's freshness guard skips duplicates.
-    - cron: '0 3 * * *'    # 11 PM ET primary
-    - cron: '5 3 * * *'    # 11:05 PM ET backup
+    # 5-min backup entries; script's freshness guard skips duplicates.
+    - cron: '0 11 * * *'   # 7 AM ET primary
+    - cron: '5 11 * * *'   # 7:05 AM ET backup
     - cron: '0 16 * * *'   # 12 PM ET primary
     - cron: '5 16 * * *'   # 12:05 PM ET backup
   workflow_dispatch:

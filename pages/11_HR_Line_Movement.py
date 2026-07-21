@@ -28,7 +28,7 @@ st.set_page_config(page_title="HR Line Movement", page_icon="🎯", layout="wide
 st.title("🎯 HR Line Movement — DraftKings")
 st.caption(
     "DraftKings HR props (batter-to-hit-a-home-run). Snapshots at "
-    "**11 PM ET the night before** and **12 PM ET on game day**, plus "
+    "**7 AM ET** (opening) and **12 PM ET** (pre-first-pitch), plus "
     "manual refresh on demand. Shows Open vs Current price side-by-side; "
     "**highlights players where the price moved ≥ 100 points**."
 )

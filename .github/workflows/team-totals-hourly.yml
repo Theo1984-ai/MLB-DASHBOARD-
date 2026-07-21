@@ -1,19 +1,18 @@
-name: Team Totals Snapshot (11 PM + 12 PM ET)
+name: Team Totals Snapshot (7 AM + 12 PM ET)
 
 on:
   schedule:
-    # ONLY 2 scheduled fires per day (user changed from hourly on 7/20):
-    #  11 PM ET — opening lines for next day's games
-    #  12 PM ET — pre-first-pitch check on same games
+    # 2 scheduled fires per day (user changed from 11 PM to 7 AM on 7/21):
+    #  7 AM ET  — opening snapshot (DK usually has lines by this time)
+    #  12 PM ET — pre-first-pitch check
     #
     # Cron is UTC. During EDT (Mar-Nov, most of MLB season):
-    #   11 PM ET = 03:00 UTC (next day)
+    #   7 AM ET  = 11:00 UTC
     #   12 PM ET = 16:00 UTC
-    # We add a 5-min backup entry for each (GitHub Actions is unreliable
-    # and can delay/skip crons; the script's freshness guard will skip
-    # backup runs if the primary already succeeded).
-    - cron: '0 3 * * *'    # 11 PM ET (EDT) — primary
-    - cron: '5 3 * * *'    # 11:05 PM ET (EDT) — backup
+    # 5-min backup entries; the script's freshness guard skips backup
+    # runs if the primary already succeeded.
+    - cron: '0 11 * * *'   # 7 AM ET (EDT) — primary
+    - cron: '5 11 * * *'   # 7:05 AM ET (EDT) — backup
     - cron: '0 16 * * *'   # 12 PM ET (EDT) — primary
     - cron: '5 16 * * *'   # 12:05 PM ET (EDT) — backup
   workflow_dispatch:

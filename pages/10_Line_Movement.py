@@ -30,10 +30,9 @@ HISTORY_DIR = os.path.join(ROOT, "team_totals_history")
 st.set_page_config(page_title="Line Movement", page_icon="📈", layout="wide")
 st.title("📈 Team Totals — Line Movement")
 st.caption(
-    "DraftKings team-total snapshots. **11 PM ET the night before** captures "
-    "opening lines for next day's games; **12 PM ET** on game day captures "
-    "the pre-first-pitch state. Use the 🔄 button below to take a fresh "
-    "snapshot on demand."
+    "DraftKings team-total snapshots. **7 AM ET** captures opening lines "
+    "for today's games; **12 PM ET** captures the pre-first-pitch state. "
+    "Use the 🔄 button below to take a fresh snapshot on demand."
 )
 
 
