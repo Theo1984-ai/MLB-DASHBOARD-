@@ -30,11 +30,83 @@ HISTORY_DIR = os.path.join(ROOT, "team_totals_history")
 st.set_page_config(page_title="Line Movement", page_icon="📈", layout="wide")
 st.title("📈 Team Totals — Line Movement")
 st.caption(
-    "Hourly DraftKings team-total snapshots from **11 AM to 10 PM ET**. "
-    "Track how lines move through the day to spot steam moves and reverse "
-    "line movement. Opening = first snapshot of the day; Current = most "
-    "recent."
+    "DraftKings team-total snapshots. **11 PM ET the night before** captures "
+    "opening lines for next day's games; **12 PM ET** on game day captures "
+    "the pre-first-pitch state. Use the 🔄 button below to take a fresh "
+    "snapshot on demand."
 )
+
+
+# ---------- Refresh button (manual snapshot) ----------
+
+def _resolve_secret(name):
+    try:
+        if name in st.secrets:
+            return st.secrets[name]
+    except Exception:
+        pass
+    return os.environ.get(name)
+
+
+GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
+ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
+OWNER = "Theo1984-ai"
+REPO = "MLB-DASHBOARD-"
+
+rc1, rc2 = st.columns([1, 5])
+with rc1:
+    refresh_btn = st.button("🔄 Take snapshot now", type="primary",
+                            use_container_width=True,
+                            disabled=not (GH_TOKEN and ODDS_KEY),
+                            help="Runs the scanner now and appends a new "
+                                 "snapshot to today's file. Pushes to GitHub "
+                                 "so the data persists across Streamlit restarts.")
+with rc2:
+    if not ODDS_KEY:
+        st.error("`THE_ODDS_API_KEY` not configured — refresh disabled.")
+    elif not GH_TOKEN:
+        st.error("`GITHUB_TOKEN` not configured — refresh disabled.")
+
+if refresh_btn and ODDS_KEY and GH_TOKEN:
+    with st.spinner("Running DraftKings team-totals scan..."):
+        try:
+            os.environ["THE_ODDS_API_KEY"] = ODDS_KEY
+            from scripts.team_totals_snapshot import main as run_snapshot
+            result = run_snapshot(force=True)   # bypass freshness guard on manual
+            if result.get("status") != "ok":
+                st.error(f"Snapshot returned: {result}")
+            else:
+                # Push updated file to GitHub for persistence
+                from data import github_storage as gh
+                path = result["path"]
+                rel_path = os.path.relpath(path, ROOT).replace(os.sep, "/")
+                target_date = result["target_date"]
+                with open(path, encoding="utf-8") as f:
+                    payload = json.load(f)
+                try:
+                    gh.save_json(
+                        GH_TOKEN, OWNER, REPO, rel_path, payload,
+                        commit_msg=f"Manual team totals snapshot for {target_date}",
+                    )
+                    st.success(
+                        f"✅ Snapshot #{result['snapshot_n']} saved for "
+                        f"{target_date} · {result['n_games']} games captured · "
+                        f"pushed to GitHub."
+                    )
+                except Exception as e:
+                    st.warning(
+                        f"Snapshot saved locally ({result['n_games']} games) "
+                        f"but GitHub push failed: {e}. Will retry on next scheduled "
+                        f"run."
+                    )
+                # Clear the cached day-loader so page reflects new snapshot
+                st.cache_data.clear()
+                st.rerun()
+        except Exception as e:
+            import traceback
+            st.error(f"Snapshot failed: {e}")
+            with st.expander("Traceback"):
+                st.code(traceback.format_exc()[:2000])
 
 
 # ---------- Load today's file ----------

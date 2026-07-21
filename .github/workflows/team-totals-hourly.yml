@@ -1,28 +1,21 @@
-name: Team Totals Hourly Snapshot
+name: Team Totals Snapshot (11 PM + 12 PM ET)
 
 on:
   schedule:
-    # Hourly snapshots 11 AM through 10 PM ET.
-    # Cron is UTC. During EDT (Mar-Nov, most of MLB season): ET+4 = UTC.
-    # During EST (Nov-Mar, offseason): ET+5 = UTC. We schedule for EDT
-    # since that covers the entire regular season.
+    # ONLY 2 scheduled fires per day (user changed from hourly on 7/20):
+    #  11 PM ET — opening lines for next day's games
+    #  12 PM ET — pre-first-pitch check on same games
     #
-    # 11 AM ET = 15:00 UTC
-    # 12 PM ET = 16:00 UTC
-    # ...
-    # 10 PM ET = 02:00 UTC (next day)
-    - cron: '0 15 * * *'   # 11 AM ET (EDT)
-    - cron: '0 16 * * *'   # 12 PM ET
-    - cron: '0 17 * * *'   # 1 PM ET
-    - cron: '0 18 * * *'   # 2 PM ET
-    - cron: '0 19 * * *'   # 3 PM ET
-    - cron: '0 20 * * *'   # 4 PM ET
-    - cron: '0 21 * * *'   # 5 PM ET
-    - cron: '0 22 * * *'   # 6 PM ET
-    - cron: '0 23 * * *'   # 7 PM ET
-    - cron: '0 0 * * *'    # 8 PM ET
-    - cron: '0 1 * * *'    # 9 PM ET
-    - cron: '0 2 * * *'    # 10 PM ET
+    # Cron is UTC. During EDT (Mar-Nov, most of MLB season):
+    #   11 PM ET = 03:00 UTC (next day)
+    #   12 PM ET = 16:00 UTC
+    # We add a 5-min backup entry for each (GitHub Actions is unreliable
+    # and can delay/skip crons; the script's freshness guard will skip
+    # backup runs if the primary already succeeded).
+    - cron: '0 3 * * *'    # 11 PM ET (EDT) — primary
+    - cron: '5 3 * * *'    # 11:05 PM ET (EDT) — backup
+    - cron: '0 16 * * *'   # 12 PM ET (EDT) — primary
+    - cron: '5 16 * * *'   # 12:05 PM ET (EDT) — backup
   workflow_dispatch:
 
 jobs:
@@ -64,7 +57,7 @@ jobs:
         run: |
           git add team_totals_history/
           if git diff --staged --quiet; then
-            echo "No changes to commit (snapshot unchanged?)"
+            echo "No changes to commit (freshness guard skipped or no change)"
           else
             git commit -m "Team totals snapshot $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
             for i in 1 2 3; do

@@ -134,7 +134,7 @@ def race_safe_git_pull():
         pass
 
 
-def main():
+def _resolve_api_key():
     api_key = os.environ.get("THE_ODDS_API_KEY")
     if not api_key:
         try:
@@ -143,43 +143,83 @@ def main():
                 api_key = tomllib.load(f).get("THE_ODDS_API_KEY")
         except Exception:
             pass
-    if not api_key:
-        print("ERROR: THE_ODDS_API_KEY not set", file=sys.stderr)
-        sys.exit(1)
+    return api_key
 
-    now = datetime.now(tz=EASTERN)
-    today_et = now.strftime("%Y-%m-%d")
-    out_dir = os.path.join(ROOT, "team_totals_history")
-    os.makedirs(out_dir, exist_ok=True)
-    out_path = os.path.join(out_dir, f"{today_et}.json")
 
-    print(f"=== Team Totals snapshot ({BOOK}) — {today_et} ===")
-    race_safe_git_pull()
-
-    events = _fetch_events(api_key)
-    print(f"  {len(events)} MLB events found")
-
-    games = []
+def _target_game_date(events, now_et):
+    """Determine which ET date the majority of upcoming events belong to.
+    Used so the 11 PM Monday snapshot saves under Tuesday's file (capturing
+    Tuesday's game lines), not Monday's."""
     from datetime import timezone as _tz
     now_utc = datetime.now(tz=_tz.utc)
+    date_counts = {}
     for ev in events:
-        # Skip games already started. Include all upcoming games in the
-        # next 24h — usually all today's evening games (if snapshot runs
-        # early) and tomorrow's day games (if snapshot runs late tonight).
         try:
             ct = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00"))
         except Exception:
             continue
         if ct <= now_utc:
-            continue   # game already started
+            continue   # already started
+        d = ct.astimezone(EASTERN).date().strftime("%Y-%m-%d")
+        date_counts[d] = date_counts.get(d, 0) + 1
+    if not date_counts:
+        return now_et.strftime("%Y-%m-%d")  # fallback: today
+    # Pick the date with the most upcoming games
+    return max(date_counts.items(), key=lambda x: x[1])[0]
+
+
+def main(force=False, min_gap_min=30):
+    """Run the team-totals snapshot.
+
+    force: bypass the freshness guard (used by manual refresh button).
+    min_gap_min: skip if last snapshot for this date is < this many min ago.
+
+    Returns: dict {status, path, snapshot_n, n_games} for programmatic callers.
+    """
+    api_key = _resolve_api_key()
+    if not api_key:
+        print("ERROR: THE_ODDS_API_KEY not set", file=sys.stderr)
+        return {"status": "no_api_key"}
+
+    now = datetime.now(tz=EASTERN)
+    out_dir = os.path.join(ROOT, "team_totals_history")
+    os.makedirs(out_dir, exist_ok=True)
+
+    print(f"=== Team Totals snapshot ({BOOK}) — run at {now.strftime('%I:%M %p ET')} ===")
+    race_safe_git_pull()
+
+    events = _fetch_events(api_key)
+    print(f"  {len(events)} MLB events found")
+
+    # Smart date detection: files are keyed by the ET date of the GAMES
+    # being tracked, not when the snapshot ran. So 11 PM Monday captures
+    # Tuesday's opening lines and saves under 2026-07-21.json, and then
+    # 12 PM Tuesday appends to the same file.
+    target_date = _target_game_date(events, now)
+    out_path = os.path.join(out_dir, f"{target_date}.json")
+    print(f"  Target game date: {target_date}  →  {out_path}")
+
+    from datetime import timezone as _tz
+    now_utc = datetime.now(tz=_tz.utc)
+    games = []
+    for ev in events:
+        try:
+            ct = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00"))
+        except Exception:
+            continue
+        if ct <= now_utc:
+            continue
+        # Only include games for the target date (avoid mixing multi-day)
+        if ct.astimezone(EASTERN).date().strftime("%Y-%m-%d") != target_date:
+            continue
         data = _fetch_team_totals(api_key, ev["id"])
         parsed = _parse_game(data) if data else None
         if parsed:
             games.append(parsed)
 
-    print(f"  {len(games)} games with DK team-total lines")
+    print(f"  {len(games)} games with DK team-total lines for {target_date}")
 
-    # Load existing snapshots for today (append pattern)
+    # Load existing snapshots
     existing = {"snapshots": []}
     if os.path.exists(out_path):
         try:
@@ -189,6 +229,25 @@ def main():
             pass
     snapshots = existing.get("snapshots", []) or []
 
+    # Freshness guard: if last snapshot < min_gap_min old and NOT forced,
+    # skip so backup crons don't create duplicates.
+    if not force and snapshots:
+        try:
+            last_ts = datetime.fromisoformat(snapshots[-1]["captured_at"])
+            age_min = (now - last_ts).total_seconds() / 60
+            if age_min < min_gap_min:
+                print(f"  [SKIP] Last snapshot {age_min:.0f} min ago "
+                      f"(< {min_gap_min} min gap). Use force=True to override.")
+                return {
+                    "status": "skipped_fresh",
+                    "path": out_path,
+                    "snapshot_n": len(snapshots),
+                    "n_games": snapshots[-1].get("n_games", 0),
+                    "age_min": age_min,
+                }
+        except Exception:
+            pass
+
     snapshots.append({
         "captured_at": now.isoformat(),
         "n_games":     len(games),
@@ -196,7 +255,7 @@ def main():
     })
 
     payload = {
-        "date":         today_et,
+        "date":         target_date,
         "book":         BOOK,
         "market":       MARKET,
         "n_snapshots":  len(snapshots),
@@ -205,7 +264,16 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, default=str)
     print(f"  Saved snapshot #{len(snapshots)} -> {out_path}")
+    return {
+        "status": "ok",
+        "path": out_path,
+        "snapshot_n": len(snapshots),
+        "n_games": len(games),
+        "target_date": target_date,
+    }
 
 
 if __name__ == "__main__":
-    main()
+    import sys as _sys
+    force = "--force" in _sys.argv
+    main(force=force)
