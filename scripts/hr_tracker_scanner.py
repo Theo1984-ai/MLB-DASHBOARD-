@@ -38,25 +38,24 @@ from scripts.fundamentals_scanner import scan as _fund_scan  # noqa: E402
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 
-# --- Sweet-spot thresholds (backtest-driven, refined 7/9 v2) ---
-# v1 (25% ROI): required composite 88-92 AND price 300-399 → 14 picks
-# v2 backtest: dropping the price band adds ~2× volume with equivalent ROI:
-#   comp 88-92 + price 300-399:  14 picks, 42.9% hit, +88.9% ROI
-#   comp 88-92 no price filter:  30 picks, 40.0% hit, +82.2% ROI  <-- v2
-# Price bracket was doing almost no filtering work — the composite +
-# consensus + cross_book gates already capture the signal. Removing it
-# roughly doubles daily volume while preserving hit rate and ROI.
-SWEET_COMPOSITE_MIN = 88
-SWEET_COMPOSITE_MAX = 92
-# Price filter dropped — no bracket
+# --- A+ tier DROPPED 7/21 based on live performance ---
+# Backtest projected 88-92 composite as the "sweet spot" but 66 live
+# settled picks (7/11-7/20) showed:
+#   A+ (comp 88-92): 31 picks, 1 win, 3.2% hit, -85.8% ROI, -$266 P&L
+#   A  (comp 85-87 + 93-94): 35 picks, 25.7% hit, +9.9% ROI, +$34 P&L
+# The market has apparently caught on to the Barrel-composite signal in
+# the 88-92 band. The "marginal" A tier (composite bands that used to be
+# considered less predictive) is now the profitable one.
+#
+# Fix: exclude composite 88-92 entirely. Only take A tier: 85-87 or 93-94.
+# Kept SWEET_ constants for reference / eventual re-enable if data changes.
+SWEET_COMPOSITE_MIN = 88   # (dropped tier)
+SWEET_COMPOSITE_MAX = 92   # (dropped tier)
+SWEET_TIER_ENABLED  = False   # <-- flip to True to re-enable A+ if perf recovers
 
-# --- Broader-tier thresholds (marginal composite bands, fills volume) ---
-# comp 85-87 or 93-94 with all other gates: breakeven historically. Kept
-# in the file for volume during Round Robin construction, but tagged "A"
-# not "A+" so users know these are the marginal-quality picks.
+# --- A tier: composite 85-87 or 93-94 (skipping the dead 88-92 zone) ---
 BROAD_COMPOSITE_MIN = 85
 BROAD_COMPOSITE_MAX = 94
-# No price filter on A tier either
 
 # --- Universal gates (7/9: tightened based on win/loss analysis) ---
 MIN_CONSENSUS_PCT   = 20.0
@@ -64,12 +63,20 @@ MIN_CROSS_BOOK_PP   = 1.5
 
 
 def _classify_tier(p):
-    """A+ (composite sweet spot) or A (composite marginal). Price no longer
-    factors in — backtest showed the price bracket wasn't doing filtering
-    work on top of the composite + universal gates."""
+    """Return 'A' for composite in the profitable bands (85-87 or 93-94),
+    or None. The A+ 'sweet spot' (composite 88-92) is DROPPED as of 7/21
+    after 31 live picks went 1-30 (3.2% hit, -85.8% ROI).
+
+    If SWEET_TIER_ENABLED is flipped back to True, A+ takes precedence
+    over A for composite in 88-92 (original behavior)."""
     comp = p.get("score") or 0
-    if SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX:
-        return "A+"
+    if SWEET_TIER_ENABLED:
+        if SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX:
+            return "A+"
+    else:
+        # A+ dropped: composite 88-92 explicitly EXCLUDED (not just renamed).
+        if SWEET_COMPOSITE_MIN <= comp <= SWEET_COMPOSITE_MAX:
+            return None
     if BROAD_COMPOSITE_MIN <= comp <= BROAD_COMPOSITE_MAX:
         return "A"
     return None
@@ -181,12 +188,17 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
         p["_tier"] = tier
         filtered.append(p)
 
-    print(f"  {sum(1 for p in filtered if p['_tier']=='A+')} A+ picks "
-          f"(composite {SWEET_COMPOSITE_MIN}-{SWEET_COMPOSITE_MAX}, "
-          f"any price)")
+    if SWEET_TIER_ENABLED:
+        print(f"  {sum(1 for p in filtered if p['_tier']=='A+')} A+ picks "
+              f"(composite {SWEET_COMPOSITE_MIN}-{SWEET_COMPOSITE_MAX}, "
+              f"any price)")
+    else:
+        print(f"  A+ tier DISABLED (composite "
+              f"{SWEET_COMPOSITE_MIN}-{SWEET_COMPOSITE_MAX} excluded — "
+              f"1-30 record in live picks 7/11-7/20)")
     print(f"  {sum(1 for p in filtered if p['_tier']=='A')} A picks "
           f"(composite {BROAD_COMPOSITE_MIN}-{BROAD_COMPOSITE_MAX} "
-          f"excluding A+, any price)")
+          f"excluding 88-92 dead zone, any price)")
 
     # Rank: A+ before A, then by composite descending, tiebreak by consensus
     def _rank(p):
@@ -242,7 +254,7 @@ def generate_hr_picks(odds_key, season=None, top_n=8, strict=True):
         "date":     today,
         "saved_at": datetime.now(tz=EASTERN).isoformat(),
         "top_n":    top_n,
-        "strategy": "fundamentals_hr_v2_no_price_filter",
+        "strategy": "fundamentals_hr_v3_a_only",
         "filter": {
             "sweet_composite":  [SWEET_COMPOSITE_MIN, SWEET_COMPOSITE_MAX],
             "broad_composite":  [BROAD_COMPOSITE_MIN, BROAD_COMPOSITE_MAX],
