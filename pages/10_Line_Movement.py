@@ -190,7 +190,15 @@ current = snapshots[-1].get("games", [])
 opening_map = {g["game"]: g for g in opening}
 current_map = {g["game"]: g for g in current}
 
-all_games = sorted(set(opening_map) | set(current_map))
+# Sort games by first-pitch time (earliest first). Fall back to game name
+# for ties or games without a first_pitch. Prefer the current snapshot's
+# first_pitch since it's more recent; fall back to opening.
+def _first_pitch(game_name):
+    g = current_map.get(game_name) or opening_map.get(game_name) or {}
+    fp = g.get("first_pitch") or ""
+    return (fp, game_name)   # tuple sort: fp first, name breaks ties
+
+all_games = sorted(set(opening_map) | set(current_map), key=_first_pitch)
 
 def _delta_price(open_p, cur_p):
     """American odds delta (in 'cents' change). Both same sign expected."""

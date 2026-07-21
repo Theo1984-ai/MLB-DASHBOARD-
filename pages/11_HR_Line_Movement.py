@@ -179,7 +179,15 @@ opening = first_populated_snap.get("players", []) or []
 current = snapshots[-1].get("players", []) or []
 opening_map = {(p["player"], p["game"]): p for p in opening}
 current_map = {(p["player"], p["game"]): p for p in current}
-all_keys = sorted(set(opening_map) | set(current_map))
+
+# Sort by first-pitch time so early games' players show up top of table
+def _first_pitch_key(k):
+    p = current_map.get(k) or opening_map.get(k) or {}
+    fp = p.get("first_pitch") or ""
+    # Sort: first_pitch asc, then player name for stable ties
+    return (fp, k[0], k[1])
+
+all_keys = sorted(set(opening_map) | set(current_map), key=_first_pitch_key)
 
 rows = []
 for k in all_keys:
