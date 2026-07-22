@@ -67,7 +67,9 @@
           "price": 259,
           "tier": "A+"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -113,7 +115,9 @@
           "price": 350,
           "tier": "A+"
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -159,7 +163,9 @@
           "price": 420,
           "tier": "A+"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -205,7 +211,9 @@
           "price": 371,
           "tier": "A+"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -251,7 +259,23 @@
           "price": 324,
           "tier": "A"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-22T07:44:12.619803-04:00",
+  "summary": {
+    "n_total": 5,
+    "n_settled": 5,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 1,
+    "losses": 4,
+    "pushes": 0,
+    "hit_rate": 20.0,
+    "risk_total": 500.0,
+    "profit_total": -50.0,
+    "roi_pct": -10.0
+  }
 }

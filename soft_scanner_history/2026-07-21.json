@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 69,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 41,
+    "n_void": 23,
+    "n_no_data": 5,
+    "wins": 20,
+    "losses": 21,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 48.8,
+    "risk_total": 4909.0,
+    "profit_total": 65.0,
+    "roi_pct": 1.32
   },
   "picks": [
     {
@@ -91,7 +92,9 @@
           "price": 220,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -162,7 +165,9 @@
           "price": -250,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O0.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -233,7 +238,9 @@
           "price": 100,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -318,7 +325,9 @@
           "price": -125,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "player_id not found: Cameron Cauley"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -389,7 +398,9 @@
           "price": 160,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "0423e391e6f8cfd58c7f2f1c72d0aec7",
@@ -442,7 +453,9 @@
           "price": -120,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "0d8a10122998e00420770fa704603388",
@@ -525,7 +538,9 @@
           "price": 110,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -590,7 +605,9 @@
           "price": -140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "0423e391e6f8cfd58c7f2f1c72d0aec7",
@@ -637,7 +654,9 @@
           "price": -105,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "event_id": "0d8a10122998e00420770fa704603388",
@@ -692,7 +711,9 @@
           "price": -105,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -771,7 +792,9 @@
           "price": -175,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -848,7 +871,9 @@
           "price": -177,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "player_id not found: Cameron Cauley"
     },
     {
       "event_id": "267dae014ac02839048da8da0bf226c3",
@@ -925,7 +950,9 @@
           "price": -121,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Jonatan Clase)"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -992,7 +1019,9 @@
           "price": 100,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -1045,7 +1074,9 @@
           "price": 200,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -1104,7 +1135,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "267dae014ac02839048da8da0bf226c3",
@@ -1185,7 +1218,9 @@
           "price": 110,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Hunter Feduccia)"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -1256,7 +1291,9 @@
           "price": 115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -1303,7 +1340,9 @@
           "price": 115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "38b96dae7f6cab01cf931c9faefc2606",
@@ -1384,7 +1423,9 @@
           "price": -122,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -1431,7 +1472,9 @@
           "price": 230,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "aac7942aa7683280dcbfe7dcfc16d44e",
@@ -1502,7 +1545,9 @@
           "price": 135,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=4 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -1569,7 +1614,9 @@
           "price": 300,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -1622,7 +1669,9 @@
           "price": -150,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -1681,7 +1730,9 @@
           "price": 210,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "player_id not found: Cameron Cauley"
     },
     {
       "event_id": "3440c51cbfebc0ac81d574f6052d2eae",
@@ -1740,7 +1791,9 @@
           "price": 130,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -1787,7 +1840,9 @@
           "price": -150,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -1840,7 +1895,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -1905,7 +1962,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -1970,7 +2029,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "player_id not found: Cameron Cauley"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -2025,7 +2086,9 @@
           "price": -135,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -2084,7 +2147,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -2155,7 +2220,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -2202,7 +2269,9 @@
           "price": 201,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -2249,7 +2318,9 @@
           "price": -183,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "aac7942aa7683280dcbfe7dcfc16d44e",
@@ -2320,7 +2391,9 @@
           "price": -190,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=1 vs O0.5"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -2367,7 +2440,9 @@
           "price": 135,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -2426,7 +2501,9 @@
           "price": 130,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -2473,7 +2550,9 @@
           "price": 139,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "aac7942aa7683280dcbfe7dcfc16d44e",
@@ -2532,7 +2611,9 @@
           "price": 120,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "event_id": "0d8a10122998e00420770fa704603388",
@@ -2585,7 +2666,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Edouard Julien)"
     },
     {
       "event_id": "0423e391e6f8cfd58c7f2f1c72d0aec7",
@@ -2638,7 +2721,9 @@
           "price": -176,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "ebe684b6aa76271158a53ba859a81432",
@@ -2685,7 +2770,9 @@
           "price": 200,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "0423e391e6f8cfd58c7f2f1c72d0aec7",
@@ -2750,7 +2837,9 @@
           "price": 101,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -2797,7 +2886,9 @@
           "price": 148,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "38b96dae7f6cab01cf931c9faefc2606",
@@ -2856,7 +2947,9 @@
           "price": 176,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -2915,7 +3008,9 @@
           "price": -185,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -2968,7 +3063,9 @@
           "price": 125,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -3015,7 +3112,9 @@
           "price": 136,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -3076,7 +3175,9 @@
           "price": -135,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "3c82e5f5dfc13cc84376bc1add8c4c06",
@@ -3135,7 +3236,9 @@
           "price": 185,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "299179879cf35ddaecccdd15f48fb177",
@@ -3182,7 +3285,9 @@
           "price": 185,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "4b39d95fa5e27f227c44ec3a8f68aaf4",
@@ -3229,7 +3334,9 @@
           "price": 155,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "ebe684b6aa76271158a53ba859a81432",
@@ -3284,7 +3391,9 @@
           "price": -275,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -3331,7 +3440,9 @@
           "price": 147,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "8a1eca9b5002748c0050289d4c35b045",
@@ -3384,7 +3495,9 @@
           "price": -105,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -3431,7 +3544,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "0d8a10122998e00420770fa704603388",
@@ -3484,7 +3599,9 @@
           "price": 115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=6 vs O2.5"
     },
     {
       "event_id": "a33e389530d74f9495e5d0108d6b038b",
@@ -3531,7 +3648,9 @@
           "price": 240,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Drew Cavanaugh)"
     },
     {
       "event_id": "ebe684b6aa76271158a53ba859a81432",
@@ -3582,7 +3701,9 @@
           "price": -151,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -3637,7 +3758,9 @@
           "price": 142,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "ded163387935cca0e01c3281ff323291",
@@ -3692,7 +3815,9 @@
           "price": -140,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game postponed"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -3739,7 +3864,9 @@
           "price": 154,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "8b96a836e0e20dedb471fa42febff567",
@@ -3794,7 +3921,9 @@
           "price": 209,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "player_id not found: Josh Kuroda-Grauer"
     },
     {
       "event_id": "267dae014ac02839048da8da0bf226c3",
@@ -3841,7 +3970,9 @@
           "price": 105,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "41aa20c582aac0979e875a6e5a86b79b",
@@ -3888,7 +4019,9 @@
           "price": 105,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "0423e391e6f8cfd58c7f2f1c72d0aec7",
@@ -3935,7 +4068,9 @@
           "price": 119,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "aac7942aa7683280dcbfe7dcfc16d44e",
@@ -3982,7 +4117,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O1.5"
     },
     {
       "event_id": "0d8a10122998e00420770fa704603388",
@@ -4029,7 +4166,10 @@
           "price": -150,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=6 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-22T07:44:12.341713-04:00"
 }
