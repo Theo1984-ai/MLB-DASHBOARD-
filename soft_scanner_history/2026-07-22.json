@@ -1,7 +1,7 @@
 {
   "date": "2026-07-22",
-  "snapshot_at": "2026-07-22T14:09:05.158760-04:00",
-  "n_picks": 70,
+  "snapshot_at": "2026-07-22T15:21:19.297409-04:00",
+  "n_picks": 94,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 70,
+    "n_total": 94,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -348,9 +348,9 @@
           -125
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-07-22T10:52:40.269897-04:00",
-      "last_seen_at": "2026-07-22T14:09:05.158630-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
       "scan_history": [
         {
           "t": "2026-07-22T10:52:40.269897-04:00",
@@ -372,6 +372,12 @@
         },
         {
           "t": "2026-07-22T14:09:05.158630-04:00",
+          "edge": 9.04,
+          "price": 115,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
           "edge": 9.04,
           "price": 115,
           "n_books": 3
@@ -2525,16 +2531,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 180,
-      "best_imp_pct": 35.71,
-      "consensus_pct": 39.63,
-      "edge_pp": 9.74,
-      "ev_per_100": 10.98,
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 39.09,
+      "edge_pp": 9.36,
+      "ev_per_100": 11.4,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          180
+          185
         ],
         [
           "betmgm",
@@ -2542,12 +2548,12 @@
         ],
         [
           "fanduel",
-          120
+          125
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-22T13:23:14.729018-04:00",
-      "last_seen_at": "2026-07-22T14:09:05.158630-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
       "scan_history": [
         {
           "t": "2026-07-22T13:23:14.729018-04:00",
@@ -2559,6 +2565,12 @@
           "t": "2026-07-22T14:09:05.158630-04:00",
           "edge": 9.74,
           "price": 180,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 9.36,
+          "price": 185,
           "n_books": 3
         }
       ]
@@ -2638,38 +2650,38 @@
       "selection": "Brett Sullivan",
       "side": "Over",
       "point": 0.5,
-      "best_book": "draftkings",
-      "best_price": -153,
-      "best_imp_pct": 60.47,
-      "consensus_pct": 64.59,
-      "edge_pp": 8.76,
-      "ev_per_100": 10.42,
+      "best_book": "williamhill_us",
+      "best_price": -154,
+      "best_imp_pct": 60.63,
+      "consensus_pct": 64.13,
+      "edge_pp": 10.38,
+      "ev_per_100": 8.88,
       "n_books": 5,
       "all_prices": [
         [
+          "williamhill_us",
+          -154
+        ],
+        [
           "draftkings",
-          -153
+          -155
         ],
         [
           "betmgm",
           -160
         ],
         [
-          "williamhill_us",
-          -170
+          "bovada",
+          -200
         ],
         [
           "fanduel",
-          -220
-        ],
-        [
-          "bovada",
-          -225
+          -245
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-07-22T13:23:14.729018-04:00",
-      "last_seen_at": "2026-07-22T14:09:05.158630-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
       "scan_history": [
         {
           "t": "2026-07-22T13:23:14.729018-04:00",
@@ -2681,6 +2693,12 @@
           "t": "2026-07-22T14:09:05.158630-04:00",
           "edge": 8.76,
           "price": -153,
+          "n_books": 5
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 10.38,
+          "price": -154,
           "n_books": 5
         }
       ]
@@ -3200,9 +3218,9 @@
       "best_book": "betmgm",
       "best_price": 100,
       "best_imp_pct": 50.0,
-      "consensus_pct": 54.72,
-      "edge_pp": 11.54,
-      "ev_per_100": 9.43,
+      "consensus_pct": 54.13,
+      "edge_pp": 10.0,
+      "ev_per_100": 8.25,
       "n_books": 3,
       "all_prices": [
         [
@@ -3211,20 +3229,26 @@
         ],
         [
           "draftkings",
-          -111
+          -110
         ],
         [
           "fanduel",
-          -160
+          -150
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-22T14:09:05.158630-04:00",
-      "last_seen_at": "2026-07-22T14:09:05.158630-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
       "scan_history": [
         {
           "t": "2026-07-22T14:09:05.158630-04:00",
           "edge": 11.54,
+          "price": 100,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 10.0,
           "price": 100,
           "n_books": 3
         }
@@ -3712,6 +3736,1214 @@
           "t": "2026-07-22T14:09:05.158630-04:00",
           "edge": 6.93,
           "price": 120,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 215,
+      "best_imp_pct": 31.75,
+      "consensus_pct": 39.05,
+      "edge_pp": 18.25,
+      "ev_per_100": 23.01,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          215
+        ],
+        [
+          "fanduel",
+          200
+        ],
+        [
+          "williamhill_us",
+          188
+        ],
+        [
+          "bovada",
+          120
+        ],
+        [
+          "betmgm",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 18.25,
+          "price": 215,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "fanduel",
+      "best_price": 220,
+      "best_imp_pct": 31.25,
+      "consensus_pct": 36.71,
+      "edge_pp": 16.37,
+      "ev_per_100": 17.46,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          220
+        ],
+        [
+          "draftkings",
+          220
+        ],
+        [
+          "betmgm",
+          110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 16.37,
+          "price": 220,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 110,
+      "best_imp_pct": 47.62,
+      "consensus_pct": 53.69,
+      "edge_pp": 13.77,
+      "ev_per_100": 12.74,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          110
+        ],
+        [
+          "williamhill_us",
+          104
+        ],
+        [
+          "betmgm",
+          -105
+        ],
+        [
+          "bovada",
+          -145
+        ],
+        [
+          "pinnacle",
+          -159
+        ]
+      ],
+      "n_appearances": 2,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 16.02,
+          "price": 110,
+          "n_books": 3
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 13.77,
+          "price": 110,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 52.12,
+      "edge_pp": 14.86,
+      "ev_per_100": 19.87,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          130
+        ],
+        [
+          "fanduel",
+          -120
+        ],
+        [
+          "betmgm",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 14.86,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Under",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": 119,
+      "best_imp_pct": 45.66,
+      "consensus_pct": 53.33,
+      "edge_pp": 14.34,
+      "ev_per_100": 16.79,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          119
+        ],
+        [
+          "bovada",
+          110
+        ],
+        [
+          "betmgm",
+          -125
+        ],
+        [
+          "williamhill_us",
+          -137
+        ],
+        [
+          "draftkings",
+          -150
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 14.34,
+          "price": 119,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 265,
+      "best_imp_pct": 27.4,
+      "consensus_pct": 36.63,
+      "edge_pp": 14.27,
+      "ev_per_100": 33.69,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          265
+        ],
+        [
+          "bovada",
+          145
+        ],
+        [
+          "betmgm",
+          140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 14.27,
+          "price": 265,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 300,
+      "best_imp_pct": 25.0,
+      "consensus_pct": 30.8,
+      "edge_pp": 14.22,
+      "ev_per_100": 23.18,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          300
+        ],
+        [
+          "draftkings",
+          300
+        ],
+        [
+          "williamhill_us",
+          270
+        ],
+        [
+          "bovada",
+          165
+        ],
+        [
+          "betmgm",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 14.22,
+          "price": 300,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": 230,
+      "best_imp_pct": 30.3,
+      "consensus_pct": 37.99,
+      "edge_pp": 14.14,
+      "ev_per_100": 25.36,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          230
+        ],
+        [
+          "fanduel",
+          155
+        ],
+        [
+          "betmgm",
+          125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 14.14,
+          "price": 230,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -150,
+      "best_imp_pct": 60.0,
+      "consensus_pct": 67.97,
+      "edge_pp": 13.33,
+      "ev_per_100": 19.93,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -150
+        ],
+        [
+          "fanduel",
+          -240
+        ],
+        [
+          "betmgm",
+          -275
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 13.33,
+          "price": -150,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "Luis Garcia Jr.",
+      "team": "WSH",
+      "selection": "Luis Garcia Jr.",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "williamhill_us",
+      "best_price": -250,
+      "best_imp_pct": 71.43,
+      "consensus_pct": 76.35,
+      "edge_pp": 12.57,
+      "ev_per_100": 17.23,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "williamhill_us",
+          -250
+        ],
+        [
+          "draftkings",
+          -260
+        ],
+        [
+          "fanduel",
+          -275
+        ],
+        [
+          "bovada",
+          -420
+        ],
+        [
+          "betmgm",
+          -525
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.57,
+          "price": -250,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 43.44,
+      "edge_pp": 12.53,
+      "ev_per_100": 23.81,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          185
+        ],
+        [
+          "fanduel",
+          110
+        ],
+        [
+          "betmgm",
+          110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.53,
+          "price": 185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 175,
+      "best_imp_pct": 36.36,
+      "consensus_pct": 43.89,
+      "edge_pp": 12.42,
+      "ev_per_100": 20.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          175
+        ],
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.42,
+          "price": 175,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "James Wood",
+      "team": "WSH",
+      "selection": "James Wood",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 240,
+      "best_imp_pct": 29.41,
+      "consensus_pct": 35.15,
+      "edge_pp": 12.25,
+      "ev_per_100": 19.51,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          240
+        ],
+        [
+          "draftkings",
+          230
+        ],
+        [
+          "williamhill_us",
+          198
+        ],
+        [
+          "bovada",
+          145
+        ],
+        [
+          "betmgm",
+          140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.25,
+          "price": 240,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -120,
+      "best_imp_pct": 54.55,
+      "consensus_pct": 62.24,
+      "edge_pp": 12.12,
+      "ev_per_100": 16.93,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -120
+        ],
+        [
+          "fanduel",
+          -190
+        ],
+        [
+          "betmgm",
+          -200
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.12,
+          "price": -120,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 61.31,
+      "edge_pp": 12.03,
+      "ev_per_100": 16.81,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -115
+        ],
+        [
+          "betmgm",
+          -185
+        ],
+        [
+          "fanduel",
+          -190
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 12.03,
+          "price": -115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "James Wood",
+      "team": "WSH",
+      "selection": "James Wood",
+      "side": "Under",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": 114,
+      "best_imp_pct": 46.73,
+      "consensus_pct": 54.38,
+      "edge_pp": 11.6,
+      "ev_per_100": 16.38,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          114
+        ],
+        [
+          "williamhill_us",
+          -127
+        ],
+        [
+          "draftkings",
+          -130
+        ],
+        [
+          "betmgm",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.6,
+          "price": 114,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -245,
+      "best_imp_pct": 71.01,
+      "consensus_pct": 78.48,
+      "edge_pp": 11.59,
+      "ev_per_100": 25.76,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -245
+        ],
+        [
+          "betmgm",
+          -450
+        ],
+        [
+          "fanduel",
+          -475
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.59,
+          "price": -245,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 46.38,
+      "edge_pp": 11.56,
+      "ev_per_100": 13.62,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          145
+        ],
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "pinnacle",
+          101
+        ],
+        [
+          "bovada",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.56,
+          "price": 145,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Under",
+      "point": 1.5,
+      "best_book": "bovada",
+      "best_price": -120,
+      "best_imp_pct": 54.55,
+      "consensus_pct": 60.71,
+      "edge_pp": 11.56,
+      "ev_per_100": 13.55,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "bovada",
+          -120
+        ],
+        [
+          "pinnacle",
+          -134
+        ],
+        [
+          "betmgm",
+          -185
+        ],
+        [
+          "draftkings",
+          -195
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.56,
+          "price": -120,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 45.25,
+      "edge_pp": 11.56,
+      "ev_per_100": 10.86,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          145
+        ],
+        [
+          "fanduel",
+          135
+        ],
+        [
+          "betmgm",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.56,
+          "price": 145,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases",
+      "game": "Nationals @ Rockies",
+      "market": "TB",
+      "player": "James Wood",
+      "team": "WSH",
+      "selection": "James Wood",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -105,
+      "best_imp_pct": 51.22,
+      "consensus_pct": 54.53,
+      "edge_pp": 8.78,
+      "ev_per_100": 6.79,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -105
+        ],
+        [
+          "fanduel",
+          -110
+        ],
+        [
+          "betmgm",
+          -150
+        ]
+      ],
+      "n_appearances": 2,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 11.38,
+          "price": 105,
+          "n_books": 4
+        },
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 8.78,
+          "price": -105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "Hits",
+      "player": "Jose Tena",
+      "team": "WSH",
+      "selection": "Jose Tena",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -190,
+      "best_imp_pct": 65.52,
+      "consensus_pct": 70.24,
+      "edge_pp": 10.95,
+      "ev_per_100": 13.69,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -190
+        ],
+        [
+          "williamhill_us",
+          -190
+        ],
+        [
+          "fanduel",
+          -205
+        ],
+        [
+          "bovada",
+          -325
+        ],
+        [
+          "betmgm",
+          -325
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 10.95,
+          "price": -190,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "James Wood",
+      "team": "WSH",
+      "selection": "James Wood",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 54.55,
+      "edge_pp": 9.55,
+      "ev_per_100": 11.82,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          105
+        ],
+        [
+          "betmgm",
+          -130
+        ],
+        [
+          "fanduel",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 9.55,
+          "price": 105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fcc83e954b9e74964b190cb0e29366c7",
+      "away_team": "Washington Nationals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-07-22T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Nationals @ Rockies",
+      "market": "H+R+R",
+      "player": "Jake McCarthy",
+      "team": "COL",
+      "selection": "Jake McCarthy",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -295,
+      "best_imp_pct": 74.68,
+      "consensus_pct": 80.45,
+      "edge_pp": 8.65,
+      "ev_per_100": 22.78,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -295
+        ],
+        [
+          "fanduel",
+          -500
+        ],
+        [
+          "betmgm",
+          -500
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "last_seen_at": "2026-07-22T15:21:19.297301-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-22T15:21:19.297301-04:00",
+          "edge": 8.65,
+          "price": -295,
           "n_books": 3
         }
       ]
