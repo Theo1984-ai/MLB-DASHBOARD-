@@ -146,7 +146,11 @@ def race_safe_git_pull():
 
 
 def _target_game_date(events, now_et):
+    """See docstring in team_totals_snapshot._target_game_date. Prefers
+    today's ET date if today has any upcoming games (fixes the '8 PM
+    refresh jumps to next day' issue user reported 7/21)."""
     now_utc = datetime.now(tz=timezone.utc)
+    today_str = now_et.strftime("%Y-%m-%d")
     date_counts = {}
     for ev in events:
         try:
@@ -157,8 +161,11 @@ def _target_game_date(events, now_et):
             continue
         d = ct.astimezone(EASTERN).date().strftime("%Y-%m-%d")
         date_counts[d] = date_counts.get(d, 0) + 1
+    # Prefer today if today has any upcoming games
+    if date_counts.get(today_str, 0) > 0:
+        return today_str
     if not date_counts:
-        return now_et.strftime("%Y-%m-%d")
+        return today_str
     return max(date_counts.items(), key=lambda x: x[1])[0]
 
 

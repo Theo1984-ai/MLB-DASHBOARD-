@@ -147,11 +147,20 @@ def _resolve_api_key():
 
 
 def _target_game_date(events, now_et):
-    """Determine which ET date the majority of upcoming events belong to.
-    Used so the 11 PM Monday snapshot saves under Tuesday's file (capturing
-    Tuesday's game lines), not Monday's."""
+    """Determine which ET date this snapshot should track.
+
+    Priority (fixed 7/21 after user reported 8 PM refresh jumping to
+    next day):
+      1. If today (ET) still has ANY upcoming games → return today.
+         Even at 8 PM ET, late West Coast games (Padres/Dodgers/etc.)
+         are still upcoming. User pressing refresh wants today's current
+         state, not tomorrow's opening lines.
+      2. Otherwise (today's slate is fully done) → return the date with
+         the most upcoming games (usually tomorrow).
+    """
     from datetime import timezone as _tz
     now_utc = datetime.now(tz=_tz.utc)
+    today_str = now_et.strftime("%Y-%m-%d")
     date_counts = {}
     for ev in events:
         try:
@@ -159,12 +168,14 @@ def _target_game_date(events, now_et):
         except Exception:
             continue
         if ct <= now_utc:
-            continue   # already started
+            continue
         d = ct.astimezone(EASTERN).date().strftime("%Y-%m-%d")
         date_counts[d] = date_counts.get(d, 0) + 1
+    # Prefer today if today has any upcoming games
+    if date_counts.get(today_str, 0) > 0:
+        return today_str
     if not date_counts:
-        return now_et.strftime("%Y-%m-%d")  # fallback: today
-    # Pick the date with the most upcoming games
+        return today_str
     return max(date_counts.items(), key=lambda x: x[1])[0]
 
 
