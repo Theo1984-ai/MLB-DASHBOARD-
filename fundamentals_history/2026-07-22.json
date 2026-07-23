@@ -15,15 +15,16 @@
   },
   "summary": {
     "n_total": 52,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 48,
+    "n_void": 4,
+    "n_no_data": 0,
+    "wins": 30,
+    "losses": 18,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 62.5,
+    "risk_total": 11809.0,
+    "profit_total": 475.0,
+    "roi_pct": 4.02
   },
   "picks": [
     {
@@ -80,7 +81,9 @@
           "cons": 79.0,
           "edge": 3.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -142,7 +145,9 @@
           "cons": 70.7,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -210,7 +215,9 @@
           "cons": 74.3,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -278,7 +285,9 @@
           "cons": 71.2,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -334,7 +343,9 @@
           "cons": 74.7,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -396,7 +407,9 @@
           "cons": 68.9,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -446,7 +459,9 @@
           "cons": 72.9,
           "edge": 3.6
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Byron Buxton)"
     },
     {
       "stat_key": "hits",
@@ -484,7 +499,9 @@
           "cons": 65.3,
           "edge": 3.6
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Juan Soto)"
     },
     {
       "stat_key": "hits",
@@ -546,7 +563,9 @@
           "cons": 66.6,
           "edge": 6.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -602,7 +621,9 @@
           "cons": 71.6,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -670,7 +691,9 @@
           "cons": 69.5,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -726,7 +749,9 @@
           "cons": 61.4,
           "edge": 4.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "stat_key": "hits",
@@ -794,7 +819,9 @@
           "cons": 64.8,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -856,7 +883,9 @@
           "cons": 68.2,
           "edge": 3.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -906,7 +935,9 @@
           "cons": 62.8,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=1 vs U1.5"
     },
     {
       "stat_key": "ks",
@@ -956,7 +987,9 @@
           "cons": 96.9,
           "edge": 1.7
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=9 vs O2.5"
     },
     {
       "stat_key": "ks",
@@ -1006,7 +1039,9 @@
           "cons": 88.5,
           "edge": 2.8
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=9 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -1074,7 +1109,9 @@
           "cons": 91.0,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -1124,7 +1161,9 @@
           "cons": 74.6,
           "edge": 2.8
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=9 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -1186,7 +1225,9 @@
           "cons": 78.0,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -1224,7 +1265,9 @@
           "cons": 55.7,
           "edge": 2.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=9 vs O5.5"
     },
     {
       "stat_key": "ks",
@@ -1286,7 +1329,9 @@
           "cons": 60.5,
           "edge": 2.6
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O5.5"
     },
     {
       "stat_key": "hr",
@@ -1354,7 +1399,9 @@
           "cons": 33.3,
           "edge": 1.4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1410,7 +1457,9 @@
           "cons": 33.0,
           "edge": 5.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1478,7 +1527,9 @@
           "cons": 32.5,
           "edge": 2.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1540,7 +1591,9 @@
           "cons": 32.8,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1578,7 +1631,9 @@
           "cons": 28.4,
           "edge": 1.6
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Juan Soto)"
     },
     {
       "stat_key": "hr",
@@ -1646,7 +1701,9 @@
           "cons": 26.3,
           "edge": 3.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1702,7 +1759,9 @@
           "cons": 25.8,
           "edge": 5.7
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Byron Buxton)"
     },
     {
       "stat_key": "hr",
@@ -1746,7 +1805,9 @@
           "cons": 23.9,
           "edge": 4.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -1796,7 +1857,9 @@
           "cons": 60.7,
           "edge": 4.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "stat_key": "tb",
@@ -1834,7 +1897,9 @@
           "cons": 62.5,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=1 vs U1.5"
     },
     {
       "stat_key": "ks",
@@ -1878,7 +1943,9 @@
           "cons": 55.5,
           "edge": 3.7
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=9 vs O5.5"
     },
     {
       "stat_key": "hr",
@@ -1934,7 +2001,9 @@
           "cons": 25.8,
           "edge": 7.4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1990,7 +2059,9 @@
           "cons": 23.5,
           "edge": 4.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2028,7 +2099,9 @@
           "cons": 70.8,
           "edge": 2.4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2066,7 +2139,9 @@
           "cons": 70.3,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2110,7 +2185,9 @@
           "cons": 70.5,
           "edge": 2.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -2160,7 +2237,9 @@
           "cons": 31.1,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2204,7 +2283,9 @@
           "cons": 67.3,
           "edge": 5.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2248,7 +2329,9 @@
           "cons": 64.0,
           "edge": 5.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=2 vs U1.5"
     },
     {
       "stat_key": "hits",
@@ -2292,7 +2375,9 @@
           "cons": 67.0,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2330,7 +2415,9 @@
           "cons": 65.4,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2368,7 +2455,9 @@
           "cons": 60.0,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=1 vs U1.5"
     },
     {
       "stat_key": "hits",
@@ -2406,7 +2495,9 @@
           "cons": 75.8,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -2450,7 +2541,9 @@
           "cons": 24.4,
           "edge": 5.4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2488,7 +2581,9 @@
           "cons": 71.8,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2526,7 +2621,9 @@
           "cons": 69.3,
           "edge": 2.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2564,7 +2661,9 @@
           "cons": 61.9,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "stat_key": "tb",
@@ -2602,7 +2701,9 @@
           "cons": 60.6,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "stat_key": "ks",
@@ -2640,7 +2741,9 @@
           "cons": 64.1,
           "edge": 4.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs U6.5"
     },
     {
       "stat_key": "hr",
@@ -2678,7 +2781,10 @@
           "cons": 26.5,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-23T07:47:25.101444-04:00"
 }
