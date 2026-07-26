@@ -88,7 +88,9 @@
           "price": 310,
           "tier": "A"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -141,7 +143,9 @@
           "price": 425,
           "tier": "A"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -187,7 +191,23 @@
           "price": 310,
           "tier": "A"
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-26T07:15:45.095774-04:00",
+  "summary": {
+    "n_total": 3,
+    "n_settled": 3,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 0,
+    "losses": 3,
+    "pushes": 0,
+    "hit_rate": 0.0,
+    "risk_total": 300.0,
+    "profit_total": -300.0,
+    "roi_pct": -100.0
+  }
 }

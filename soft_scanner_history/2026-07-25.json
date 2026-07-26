@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 83,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 71,
+    "n_void": 12,
+    "n_no_data": 0,
+    "wins": 32,
+    "losses": 39,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 45.1,
+    "risk_total": 8659.0,
+    "profit_total": -342.0,
+    "roi_pct": -3.95
   },
   "picks": [
     {
@@ -79,7 +80,9 @@
           "price": -115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "6b06a4bf25ee92a7ac908981664ca759",
@@ -140,7 +143,9 @@
           "price": 104,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "87b76cce3c853cd42c5b4437b091cdc6",
@@ -217,7 +222,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "6b06a4bf25ee92a7ac908981664ca759",
@@ -264,7 +271,9 @@
           "price": 240,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "f1e238320de4aea5750434c876076d20",
@@ -341,7 +350,9 @@
           "price": 125,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O1.5"
     },
     {
       "event_id": "6b06a4bf25ee92a7ac908981664ca759",
@@ -388,7 +399,9 @@
           "price": 125,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -435,7 +448,9 @@
           "price": 128,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Alika Williams)"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -482,7 +497,9 @@
           "price": 175,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -553,7 +570,9 @@
           "price": 200,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O1.5"
     },
     {
       "event_id": "4d0a3e98e89c319342e1597db85fdb41",
@@ -606,7 +625,9 @@
           "price": 118,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -653,7 +674,9 @@
           "price": 125,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Colby Thomas)"
     },
     {
       "event_id": "4d0a3e98e89c319342e1597db85fdb41",
@@ -700,7 +723,9 @@
           "price": -187,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O0.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -777,7 +802,9 @@
           "price": 111,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "event_id": "87b76cce3c853cd42c5b4437b091cdc6",
@@ -832,7 +859,9 @@
           "price": 300,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O1.5"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -887,7 +916,9 @@
           "price": -140,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -942,7 +973,9 @@
           "price": -150,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -1007,7 +1040,9 @@
           "price": 240,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -1078,7 +1113,9 @@
           "price": -222,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O0.5"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -1145,7 +1182,9 @@
           "price": -110,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -1192,7 +1231,9 @@
           "price": -183,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Alika Williams)"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -1247,7 +1288,9 @@
           "price": -138,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Colby Thomas)"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -1294,7 +1337,9 @@
           "price": 200,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "d65c687b0748c456de9fbecd90808fe1",
@@ -1353,7 +1398,9 @@
           "price": 195,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -1424,7 +1471,9 @@
           "price": -208,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Joey Ortiz)"
     },
     {
       "event_id": "4d0a3e98e89c319342e1597db85fdb41",
@@ -1495,7 +1544,9 @@
           "price": -181,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O0.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -1560,7 +1611,9 @@
           "price": 100,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Shea Langeliers)"
     },
     {
       "event_id": "45d79b3c7b013180e77cfe3675a85eb6",
@@ -1625,7 +1678,9 @@
           "price": 100,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -1704,7 +1759,9 @@
           "price": -178,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -1765,7 +1822,9 @@
           "price": -112,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -1830,7 +1889,9 @@
           "price": 112,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Joey Ortiz)"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -1883,7 +1944,9 @@
           "price": -163,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O0.5"
     },
     {
       "event_id": "4d0a3e98e89c319342e1597db85fdb41",
@@ -1938,7 +2001,9 @@
           "price": -141,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -1985,7 +2050,9 @@
           "price": 235,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "cf3dedae37cf6426bfdf0b99237f1ba0",
@@ -2056,7 +2123,9 @@
           "price": 130,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=9 vs O1.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2109,7 +2178,9 @@
           "price": 127,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2164,7 +2235,9 @@
           "price": 240,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O1.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2219,7 +2292,9 @@
           "price": -220,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2266,7 +2341,9 @@
           "price": 142,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Leo Jimenez)"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -2345,7 +2422,9 @@
           "price": -113,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2392,7 +2471,9 @@
           "price": 148,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -2463,7 +2544,9 @@
           "price": -149,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O0.5"
     },
     {
       "event_id": "4d0a3e98e89c319342e1597db85fdb41",
@@ -2510,7 +2593,9 @@
           "price": -108,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -2565,7 +2650,9 @@
           "price": 280,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O1.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -2612,7 +2699,9 @@
           "price": 227,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Leo Jimenez)"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -2671,7 +2760,9 @@
           "price": -130,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O0.5"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -2736,7 +2827,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -2803,7 +2896,9 @@
           "price": -110,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Mickey Moniak)"
     },
     {
       "event_id": "e7cd26360ce2edd30f37cdfc01391fd5",
@@ -2850,7 +2945,9 @@
           "price": 121,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O1.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -2903,7 +3000,9 @@
           "price": 210,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -2962,7 +3061,9 @@
           "price": 265,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O3.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -3027,7 +3128,9 @@
           "price": -126,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O0.5"
     },
     {
       "event_id": "e7cd26360ce2edd30f37cdfc01391fd5",
@@ -3078,7 +3181,9 @@
           "price": -124,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -3131,7 +3236,9 @@
           "price": -135,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Mickey Moniak)"
     },
     {
       "event_id": "45d79b3c7b013180e77cfe3675a85eb6",
@@ -3178,7 +3285,9 @@
           "price": 280,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "event_id": "6b06a4bf25ee92a7ac908981664ca759",
@@ -3229,7 +3338,9 @@
           "price": 147,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=2 vs O1.5"
     },
     {
       "event_id": "6b06a4bf25ee92a7ac908981664ca759",
@@ -3280,7 +3391,9 @@
           "price": 100,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=2 vs U1.5"
     },
     {
       "event_id": "e7cd26360ce2edd30f37cdfc01391fd5",
@@ -3347,7 +3460,9 @@
           "price": 270,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O1.5"
     },
     {
       "event_id": "e7cd26360ce2edd30f37cdfc01391fd5",
@@ -3398,7 +3513,9 @@
           "price": -220,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "event_id": "159efeea2dcd885c7cbe6edfea2f2603",
@@ -3445,7 +3562,9 @@
           "price": 190,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "fbf7e1c3dc649ffbc76604f37419e3d8",
@@ -3504,7 +3623,9 @@
           "price": 148,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3557,7 +3678,9 @@
           "price": 185,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3610,7 +3733,9 @@
           "price": -166,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=1 vs O0.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3671,7 +3796,9 @@
           "price": -138,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -3718,7 +3845,9 @@
           "price": -102,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3771,7 +3900,9 @@
           "price": 139,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -3824,7 +3955,9 @@
           "price": -155,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3871,7 +4004,9 @@
           "price": 270,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O2.5"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -3932,7 +4067,9 @@
           "price": 300,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=1 vs O1.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -3979,7 +4116,9 @@
           "price": 146,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -4026,7 +4165,9 @@
           "price": -249,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -4087,7 +4228,9 @@
           "price": -120,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "6713999ff416bdeecd85c7e84327602b",
@@ -4140,7 +4283,9 @@
           "price": 150,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -4187,7 +4332,9 @@
           "price": 211,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Colby Thomas)"
     },
     {
       "event_id": "6b50126f3d5d20aaeb5339572c025bf3",
@@ -4242,7 +4389,9 @@
           "price": -197,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "event_id": "e7cd26360ce2edd30f37cdfc01391fd5",
@@ -4289,7 +4438,9 @@
           "price": 237,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O2.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -4336,7 +4487,9 @@
           "price": 110,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=5 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -4397,7 +4550,9 @@
           "price": 110,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -4452,7 +4607,9 @@
           "price": -106,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -4499,7 +4656,9 @@
           "price": -210,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=5 vs O0.5"
     },
     {
       "event_id": "7d87987ec48dfc47ee32eab874f92200",
@@ -4546,7 +4705,9 @@
           "price": -127,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -4593,7 +4754,9 @@
           "price": 200,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "ebada13102ac78459b266ff9c6e9d207",
@@ -4640,7 +4803,9 @@
           "price": 286,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "18452193d8715008eccc60bd8b4204aa",
@@ -4687,7 +4852,10 @@
           "price": 250,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-26T07:15:44.741067-04:00"
 }
