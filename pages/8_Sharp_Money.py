@@ -593,6 +593,77 @@ with tab_no:
 
 
 # =============================================================================
+# 🌟 SOLO SHARP PICKS — Sharp Money signals with NO True Prob confluence
+# =============================================================================
+# Backtest surprise: solo Sharp picks (Polymarket sees value that True Prob
+# doesn't) have been the STRONGER tier historically — 63.6% hit, +44.1% ROI
+# vs 52.6% hit, +9.8% ROI for confluence picks. Confluence tends to pull
+# toward chalk favorites (efficient markets); solo Sharp catches mispricing
+# that only Polymarket sharps see.
+
+st.markdown("---")
+st.markdown("### 🌟 Solo Sharp Picks — Polymarket-only signals")
+st.caption(
+    "Sharp Money picks that True Prob does NOT also flag. Counterintuitively, "
+    "these have been the **stronger tier** historically (63.6% hit / +44.1% ROI "
+    "vs 52.6% / +9.8% for confluence). When only Polymarket sees value, that's "
+    "often the real mispricing — no other system has priced it in."
+)
+
+solo = [r for r in filtered if len(r.get("_confluence") or []) == 0]
+# Rank by composite Score so best solo picks show first
+solo_ranked = []
+for r in solo:
+    sharp_depth = (r["yes_bid_depth"] if r["skew_side"] == "YES"
+                   else r["no_bid_depth"])
+    other_depth = (r["no_bid_depth"] if r["skew_side"] == "YES"
+                   else r["yes_bid_depth"])
+    ratio = _depth_ratio(sharp_depth, other_depth)
+    persist = _lookup_persistence(r)
+    n_seen = persist["n"] if persist else 0
+    score = _sharp_score(r, 0, n_seen, ratio)
+    solo_ranked.append((score, ratio, n_seen, r))
+solo_ranked.sort(key=lambda x: -x[0])
+
+if not solo_ranked:
+    st.info(
+        "No solo Sharp picks right now — every current sharp signal also "
+        "appears in True Prob's picks (i.e. all are Confluence). Check the "
+        "Confluence Plays section below."
+    )
+else:
+    solo_rows = []
+    for score, ratio, n_seen, r in solo_ranked[:12]:
+        tier = _sharp_tier(score)
+        solo_rows.append({
+            "Score":      score,
+            "Tier":       tier,
+            "Sharp pick": r.get("sharp_pick", ""),
+            "Game":       r.get("event", "")[:32],
+            "Skew %":     r["skew_strength"],
+            "Depth":      ratio,
+            "Seen":       n_seen or None,
+        })
+    solo_df = pd.DataFrame(solo_rows)
+    st.dataframe(
+        solo_df, use_container_width=True, hide_index=True,
+        column_config={
+            "Score":  st.column_config.NumberColumn(format="%d",
+                help="Composite 0-100 score (confluence weight forced to 0 "
+                     "since these are solo picks — max attainable is 70 pts)."),
+            "Skew %": st.column_config.NumberColumn(format="%.0f%%"),
+            "Depth":  st.column_config.NumberColumn(format="%.1fx"),
+            "Seen":   st.column_config.NumberColumn(format="%d×"),
+        },
+    )
+    st.caption(
+        f"Showing top {min(12, len(solo_ranked))} of {len(solo_ranked)} solo "
+        f"picks (sorted by composite Score descending). Backtest ROI +44.1% "
+        f"on 22 picks — highest of any Sharp Money tier."
+    )
+
+
+# =============================================================================
 # 🎯 CONFLUENCE PLAYS — Sharp Money agrees with True Prob and/or Soft Scanner
 # =============================================================================
 
@@ -601,7 +672,9 @@ st.markdown("### 🎯 Confluence Plays — multiple systems agree")
 st.caption(
     "When the same team / over-under shows up in **Sharp Money** AND in "
     "today's **True Probability** (75%+ consensus) AND/OR **Soft Scanner** "
-    "picks, that's a multi-source signal — much stronger than any one system alone."
+    "picks, that's a multi-source signal. Historically WEAKER than solo "
+    "picks (52.6% hit / +9.8% ROI) because confluence pulls toward efficient "
+    "chalk markets — but still profitable."
 )
 
 
