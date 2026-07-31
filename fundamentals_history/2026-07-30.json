@@ -15,15 +15,16 @@
   },
   "summary": {
     "n_total": 41,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 39,
+    "n_void": 2,
+    "n_no_data": 0,
+    "wins": 16,
+    "losses": 23,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 41.0,
+    "risk_total": 8280.0,
+    "profit_total": -1845.0,
+    "roi_pct": -22.28
   },
   "picks": [
     {
@@ -80,7 +81,9 @@
           "cons": 69.2,
           "edge": 5.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -142,7 +145,9 @@
           "cons": 71.3,
           "edge": 5.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -204,7 +209,9 @@
           "cons": 72.4,
           "edge": 6.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -248,7 +255,9 @@
           "cons": 68.5,
           "edge": 5.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -310,7 +319,9 @@
           "cons": 72.7,
           "edge": 4.8
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -384,7 +395,9 @@
           "cons": 73.4,
           "edge": 2.1
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Shohei Ohtani)"
     },
     {
       "stat_key": "hits",
@@ -446,7 +459,9 @@
           "cons": 74.5,
           "edge": 3.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -520,7 +535,9 @@
           "cons": 66.9,
           "edge": 5.9
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -582,7 +599,9 @@
           "cons": 70.6,
           "edge": 4.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -638,7 +657,9 @@
           "cons": 67.8,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -688,7 +709,9 @@
           "cons": 73.4,
           "edge": 5.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -762,7 +785,9 @@
           "cons": 72.4,
           "edge": 5.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -836,7 +861,9 @@
           "cons": 75.2,
           "edge": 2.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -880,7 +907,9 @@
           "cons": 73.6,
           "edge": 4.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -942,7 +971,9 @@
           "cons": 76.3,
           "edge": 4.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "ks",
@@ -1004,7 +1035,9 @@
           "cons": 83.3,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -1066,7 +1099,9 @@
           "cons": 94.1,
           "edge": 2.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -1110,7 +1145,9 @@
           "cons": 56.5,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs U6.5"
     },
     {
       "stat_key": "ks",
@@ -1172,7 +1209,9 @@
           "cons": 68.0,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=6 vs O5.5"
     },
     {
       "stat_key": "hr",
@@ -1210,7 +1249,9 @@
           "cons": 34.1,
           "edge": 3.3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Shohei Ohtani)"
     },
     {
       "stat_key": "hr",
@@ -1266,7 +1307,9 @@
           "cons": 28.0,
           "edge": 1.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1340,7 +1383,9 @@
           "cons": 26.9,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1396,7 +1441,9 @@
           "cons": 25.2,
           "edge": 5.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1446,7 +1493,9 @@
           "cons": 27.0,
           "edge": 1.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1508,7 +1557,9 @@
           "cons": 24.8,
           "edge": 2.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1552,7 +1603,9 @@
           "cons": 26.2,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1608,7 +1661,9 @@
           "cons": 23.1,
           "edge": 1.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1676,7 +1731,9 @@
           "cons": 22.2,
           "edge": 4.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1732,7 +1789,9 @@
           "cons": 21.5,
           "edge": 1.9
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1794,7 +1853,9 @@
           "cons": 66.8,
           "edge": 6.6
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1838,7 +1899,9 @@
           "cons": 74.8,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1882,7 +1945,9 @@
           "cons": 19.1,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1920,7 +1985,9 @@
           "cons": 73.8,
           "edge": 3.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1958,7 +2025,9 @@
           "cons": 70.6,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2008,7 +2077,9 @@
           "cons": 65.0,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2046,7 +2117,9 @@
           "cons": 65.5,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2084,7 +2157,9 @@
           "cons": 61.0,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=6 vs U1.5"
     },
     {
       "stat_key": "hr",
@@ -2134,7 +2209,9 @@
           "cons": 19.3,
           "edge": 4.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -2184,7 +2261,9 @@
           "cons": 18.3,
           "edge": 3.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2228,7 +2307,9 @@
           "cons": 62.7,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "stat_key": "tb",
@@ -2272,7 +2353,10 @@
           "cons": 60.2,
           "edge": 3.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=1 vs U1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-07-31T07:55:29.349050-04:00"
 }
