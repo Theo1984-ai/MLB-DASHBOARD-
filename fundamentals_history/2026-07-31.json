@@ -1,7 +1,7 @@
 {
   "date": "2026-07-31",
-  "snapshot_at": "2026-07-31T12:48:42.665188-04:00",
-  "n_picks": 42,
+  "snapshot_at": "2026-07-31T13:41:58.759593-04:00",
+  "n_picks": 43,
   "filter": {
     "min_composite": 80,
     "min_consensus_pct": 60,
@@ -11,10 +11,10 @@
   "scanner_stats": {
     "n_games": 15,
     "n_elite_batters": 56,
-    "n_offers": 312
+    "n_offers": 11
   },
   "summary": {
-    "n_total": 42,
+    "n_total": 43,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -1961,6 +1961,44 @@
           "composite": 91.6,
           "cons": 23.7,
           "edge": 1.7
+        }
+      ]
+    },
+    {
+      "stat_key": "hits",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "San Francisco Giants",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-31T21:45:00-04:00",
+      "best_price": -175,
+      "player": "Bryce Eldridge",
+      "batter_id": 805811,
+      "pitcher_id": null,
+      "selection": "Bryce Eldridge Hits* Over 0.5",
+      "market": "Hits*",
+      "game": "Giants @ Padres",
+      "composite": 85.6,
+      "xwoba": 0.358,
+      "hard_hit": null,
+      "barrel": 12.7,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 65.3,
+      "cross_book_pp": 3.0,
+      "edge_pp": 1.6,
+      "best_book": "betmgm",
+      "opp_pitcher": "Bradgley Rodriguez",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-31T13:41:58.759537-04:00",
+      "last_seen_at": "2026-07-31T13:41:58.759537-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-31T13:41:58.759537-04:00",
+          "composite": 85.6,
+          "cons": 65.3,
+          "edge": 3.0
         }
       ]
     }
