@@ -1,7 +1,7 @@
 {
   "date": "2026-07-31",
-  "snapshot_at": "2026-07-31T13:41:58.759593-04:00",
-  "n_picks": 43,
+  "snapshot_at": "2026-07-31T14:22:53.711270-04:00",
+  "n_picks": 44,
   "filter": {
     "min_composite": 80,
     "min_consensus_pct": 60,
@@ -9,12 +9,12 @@
     "top_n": 20
   },
   "scanner_stats": {
-    "n_games": 15,
-    "n_elite_batters": 56,
-    "n_offers": 11
+    "n_games": 14,
+    "n_elite_batters": 54,
+    "n_offers": 31
   },
   "summary": {
-    "n_total": 43,
+    "n_total": 44,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -1990,15 +1990,59 @@
       "best_book": "betmgm",
       "opp_pitcher": "Bradgley Rodriguez",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-07-31T13:41:58.759537-04:00",
-      "last_seen_at": "2026-07-31T13:41:58.759537-04:00",
+      "last_seen_at": "2026-07-31T14:22:53.711217-04:00",
       "scan_history": [
         {
           "t": "2026-07-31T13:41:58.759537-04:00",
           "composite": 85.6,
           "cons": 65.3,
           "edge": 3.0
+        },
+        {
+          "t": "2026-07-31T14:22:53.711217-04:00",
+          "composite": 85.6,
+          "cons": 65.3,
+          "edge": 3.0
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "San Francisco Giants",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-07-31T21:45:00-04:00",
+      "best_price": 440,
+      "player": "Bryce Eldridge",
+      "batter_id": 805811,
+      "pitcher_id": null,
+      "selection": "Bryce Eldridge HR* Over 0.5",
+      "market": "HR*",
+      "game": "Giants @ Padres",
+      "composite": 85.6,
+      "xwoba": 0.358,
+      "hard_hit": null,
+      "barrel": 12.7,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 19.1,
+      "cross_book_pp": 1.7,
+      "edge_pp": 0.6,
+      "best_book": "fanduel",
+      "opp_pitcher": "Bradgley Rodriguez",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-07-31T14:22:53.711217-04:00",
+      "last_seen_at": "2026-07-31T14:22:53.711217-04:00",
+      "scan_history": [
+        {
+          "t": "2026-07-31T14:22:53.711217-04:00",
+          "composite": 85.6,
+          "cons": 19.1,
+          "edge": 1.7
         }
       ]
     }
