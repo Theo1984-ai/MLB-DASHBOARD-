@@ -1,11 +1,58 @@
 {
   "date": "2026-08-01",
-  "snapshot_at": "2026-08-01T14:02:29.202380-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-08-01T15:09:35.848904-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 70.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Home",
+      "point": null,
+      "away_team": "New York Yankees",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-08-02T18:21:00Z",
+      "best_price": 118,
+      "player": null,
+      "selection": "Chicago Cubs ML @ fanduel +118",
+      "market": "Moneyline",
+      "sharp_pick": "Chicago Cubs ML",
+      "game": "New York Yankees vs. Chicago Cubs",
+      "question": "New York Yankees vs. Chicago Cubs",
+      "edge_pp": 6.6,
+      "edge_best_pp": 6.6,
+      "skew_strength": 74.5,
+      "skew_side": "NO",
+      "liquidity": 642340.39,
+      "volume": 92236.01,
+      "yes_bid_depth": 223308,
+      "no_bid_depth": 653137,
+      "depth_ratio": 2.92,
+      "pm_mid": 0.475,
+      "pm_implied_pct": 52.5,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 45.9,
+      "sb_consensus_implied_pct": 45.9,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 225510,
+      "sharp_whale_share": 0.345,
+      "captured_at": "2026-08-01T15:09:35.848904-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-01T15:09:35.848904-04:00",
+      "last_seen_at": "2026-08-01T15:09:35.848904-04:00",
+      "skew_history": [
+        {
+          "t": "2026-08-01T15:09:35.848904-04:00",
+          "skew": 74.5,
+          "mid": 0.475,
+          "edge": 6.6,
+          "ratio": 2.92
+        }
+      ]
+    }
+  ]
 }
