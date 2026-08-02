@@ -1,7 +1,7 @@
 {
   "date": "2026-08-02",
-  "snapshot_at": "2026-08-02T10:21:08.145631-04:00",
-  "n_picks": 30,
+  "snapshot_at": "2026-08-02T12:02:41.938451-04:00",
+  "n_picks": 50,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 30,
+    "n_total": 50,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -37,34 +37,40 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 122,
-      "best_imp_pct": 45.05,
-      "consensus_pct": 50.12,
-      "edge_pp": 11.48,
-      "ev_per_100": 11.26,
+      "best_price": 125,
+      "best_imp_pct": 44.44,
+      "consensus_pct": 49.53,
+      "edge_pp": 12.08,
+      "ev_per_100": 11.44,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          122
+          125
         ],
         [
           "betmgm",
-          105
+          110
         ],
         [
           "fanduel",
           -130
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 11.48,
           "price": 122,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 12.08,
+          "price": 125,
           "n_books": 3
         }
       ]
@@ -235,9 +241,9 @@
       "best_book": "draftkings",
       "best_price": 118,
       "best_imp_pct": 45.87,
-      "consensus_pct": 48.98,
+      "consensus_pct": 49.35,
       "edge_pp": 8.67,
-      "ev_per_100": 6.77,
+      "ev_per_100": 7.57,
       "n_books": 3,
       "all_prices": [
         [
@@ -246,19 +252,25 @@
         ],
         [
           "betmgm",
-          115
+          110
         ],
         [
           "fanduel",
           -120
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
+          "edge": 8.67,
+          "price": 118,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
           "edge": 8.67,
           "price": 118,
           "n_books": 3
@@ -300,12 +312,18 @@
           -220
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
+          "edge": 8.28,
+          "price": -153,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
           "edge": 8.28,
           "price": -153,
           "n_books": 3
@@ -327,16 +345,16 @@
       "side": "Over",
       "point": 2.5,
       "best_book": "fanduel",
-      "best_price": 290,
-      "best_imp_pct": 25.64,
-      "consensus_pct": 29.71,
-      "edge_pp": 8.26,
-      "ev_per_100": 15.86,
+      "best_price": 270,
+      "best_imp_pct": 27.03,
+      "consensus_pct": 30.57,
+      "edge_pp": 8.06,
+      "ev_per_100": 13.1,
       "n_books": 3,
       "all_prices": [
         [
           "fanduel",
-          290
+          270
         ],
         [
           "draftkings",
@@ -344,17 +362,23 @@
         ],
         [
           "betmgm",
-          195
+          185
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 8.26,
           "price": 290,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.06,
+          "price": 270,
           "n_books": 3
         }
       ]
@@ -449,12 +473,18 @@
           -230
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
+          "edge": 8.16,
+          "price": -160,
+          "n_books": 5
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
           "edge": 8.16,
           "price": -160,
           "n_books": 5
@@ -496,12 +526,18 @@
           -145
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
+          "edge": 7.96,
+          "price": -105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
           "edge": 7.96,
           "price": -105,
           "n_books": 3
@@ -574,20 +610,24 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 204,
-      "best_imp_pct": 32.89,
-      "consensus_pct": 37.4,
-      "edge_pp": 7.92,
-      "ev_per_100": 13.71,
-      "n_books": 4,
+      "best_price": 205,
+      "best_imp_pct": 32.79,
+      "consensus_pct": 37.1,
+      "edge_pp": 8.03,
+      "ev_per_100": 13.14,
+      "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          204
+          205
         ],
         [
           "betmgm",
           185
+        ],
+        [
+          "williamhill_us",
+          178
         ],
         [
           "fanduel",
@@ -598,15 +638,21 @@
           145
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.92,
           "price": 204,
           "n_books": 4
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.03,
+          "price": 205,
+          "n_books": 5
         }
       ]
     },
@@ -719,34 +765,40 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -113,
-      "best_imp_pct": 53.05,
-      "consensus_pct": 57.67,
-      "edge_pp": 7.73,
-      "ev_per_100": 9.84,
+      "best_price": -116,
+      "best_imp_pct": 53.7,
+      "consensus_pct": 58.1,
+      "edge_pp": 8.56,
+      "ev_per_100": 9.5,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -113
+          -116
         ],
         [
           "betmgm",
-          -145
+          -140
         ],
         [
           "fanduel",
-          -155
+          -165
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.73,
           "price": -113,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.56,
+          "price": -116,
           "n_books": 3
         }
       ]
@@ -768,9 +820,9 @@
       "best_book": "betmgm",
       "best_price": 165,
       "best_imp_pct": 37.74,
-      "consensus_pct": 40.6,
-      "edge_pp": 7.72,
-      "ev_per_100": 7.59,
+      "consensus_pct": 40.95,
+      "edge_pp": 8.78,
+      "ev_per_100": 8.52,
       "n_books": 3,
       "all_prices": [
         [
@@ -783,16 +835,22 @@
         ],
         [
           "fanduel",
-          120
+          115
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.72,
+          "price": 165,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.78,
           "price": 165,
           "n_books": 3
         }
@@ -1119,34 +1177,40 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 141,
-      "best_imp_pct": 41.49,
-      "consensus_pct": 45.24,
-      "edge_pp": 7.29,
-      "ev_per_100": 9.04,
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 45.09,
+      "edge_pp": 9.18,
+      "ev_per_100": 10.46,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          141
+          145
         ],
         [
           "betmgm",
-          120
+          125
         ],
         [
           "fanduel",
-          105
+          100
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.29,
           "price": 141,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.18,
+          "price": 145,
           "n_books": 3
         }
       ]
@@ -1484,6 +1548,994 @@
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.11,
           "price": -105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Luke Maile",
+      "team": "KC",
+      "selection": "Luke Maile",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -188,
+      "best_imp_pct": 65.28,
+      "consensus_pct": 70.76,
+      "edge_pp": 12.5,
+      "ev_per_100": 15.79,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -188
+        ],
+        [
+          "betmgm",
+          -225
+        ],
+        [
+          "fanduel",
+          -350
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 12.5,
+          "price": -188,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 149,
+      "best_imp_pct": 40.16,
+      "consensus_pct": 45.34,
+      "edge_pp": 12.22,
+      "ev_per_100": 12.9,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          149
+        ],
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "fanduel",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 12.22,
+          "price": 149,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "Luke Maile",
+      "team": "KC",
+      "selection": "Luke Maile",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -146,
+      "best_imp_pct": 59.35,
+      "consensus_pct": 67.2,
+      "edge_pp": 12.08,
+      "ev_per_100": 19.31,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -146
+        ],
+        [
+          "betmgm",
+          -175
+        ],
+        [
+          "williamhill_us",
+          -235
+        ],
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "bovada",
+          -250
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 12.08,
+          "price": -146,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Luke Maile",
+      "team": "KC",
+      "selection": "Luke Maile",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 112,
+      "best_imp_pct": 47.17,
+      "consensus_pct": 51.83,
+      "edge_pp": 11.16,
+      "ev_per_100": 9.89,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          112
+        ],
+        [
+          "betmgm",
+          100
+        ],
+        [
+          "fanduel",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 11.16,
+          "price": 112,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "Luke Maile",
+      "team": "KC",
+      "selection": "Luke Maile",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 168,
+      "best_imp_pct": 37.31,
+      "consensus_pct": 41.38,
+      "edge_pp": 10.31,
+      "ev_per_100": 10.91,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          168
+        ],
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "fanduel",
+          110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 10.31,
+          "price": 168,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -109,
+      "best_imp_pct": 52.15,
+      "consensus_pct": 56.32,
+      "edge_pp": 10.11,
+      "ev_per_100": 8.71,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -109
+        ],
+        [
+          "betmgm",
+          -120
+        ],
+        [
+          "fanduel",
+          -165
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 10.11,
+          "price": -109,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -187,
+      "best_imp_pct": 65.16,
+      "consensus_pct": 70.9,
+      "edge_pp": 9.84,
+      "ev_per_100": 16.47,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -187
+        ],
+        [
+          "betmgm",
+          -210
+        ],
+        [
+          "williamhill_us",
+          -260
+        ],
+        [
+          "fanduel",
+          -290
+        ],
+        [
+          "bovada",
+          -300
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.84,
+          "price": -187,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "Starling Marte",
+      "team": "KC",
+      "selection": "Starling Marte",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 113,
+      "best_imp_pct": 46.95,
+      "consensus_pct": 50.36,
+      "edge_pp": 9.57,
+      "ev_per_100": 7.27,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          113
+        ],
+        [
+          "betmgm",
+          110
+        ],
+        [
+          "fanduel",
+          -130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.57,
+          "price": 113,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 39.09,
+      "edge_pp": 9.36,
+      "ev_per_100": 11.4,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          185
+        ],
+        [
+          "betmgm",
+          165
+        ],
+        [
+          "fanduel",
+          125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.36,
+          "price": 185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -242,
+      "best_imp_pct": 70.76,
+      "consensus_pct": 74.7,
+      "edge_pp": 9.24,
+      "ev_per_100": 13.47,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -242
+        ],
+        [
+          "betmgm",
+          -275
+        ],
+        [
+          "fanduel",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.24,
+          "price": -242,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7cae5f89359f34f8e1b03d1c46f2c3d6",
+      "away_team": "New York Yankees",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-08-02T18:21:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Cubs",
+      "market": "H+R+R",
+      "player": "Amed Rosario",
+      "team": "NYY",
+      "selection": "Amed Rosario",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 45.7,
+      "edge_pp": 9.18,
+      "ev_per_100": 11.98,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          145
+        ],
+        [
+          "draftkings",
+          116
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.18,
+          "price": 145,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "Carter Jensen",
+      "team": "KC",
+      "selection": "Carter Jensen",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 56.49,
+      "edge_pp": 9.16,
+      "ev_per_100": 8.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -110
+        ],
+        [
+          "betmgm",
+          -125
+        ],
+        [
+          "fanduel",
+          -160
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 9.16,
+          "price": -110,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "47af60aedd60c2f453d5618c98f9a180",
+      "away_team": "Chicago White Sox",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-08-02T17:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Rays",
+      "market": "Hits",
+      "player": "Everson Pereira",
+      "team": "CWS",
+      "selection": "Everson Pereira",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 54.42,
+      "edge_pp": 8.85,
+      "ev_per_100": 11.55,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          105
+        ],
+        [
+          "draftkings",
+          -114
+        ],
+        [
+          "williamhill_us",
+          -122
+        ],
+        [
+          "fanduel",
+          -135
+        ],
+        [
+          "bovada",
+          -136
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.85,
+          "price": 105,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "7cae5f89359f34f8e1b03d1c46f2c3d6",
+      "away_team": "New York Yankees",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-08-02T18:21:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Yankees @ Cubs",
+      "market": "TB",
+      "player": "Pete Crow-Armstrong",
+      "team": "CHC",
+      "selection": "Pete Crow-Armstrong",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 147,
+      "best_imp_pct": 40.49,
+      "consensus_pct": 43.36,
+      "edge_pp": 8.29,
+      "ev_per_100": 7.1,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          147
+        ],
+        [
+          "betmgm",
+          145
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.29,
+          "price": 147,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "Brett Sullivan",
+      "team": "COL",
+      "selection": "Brett Sullivan",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 281,
+      "best_imp_pct": 26.25,
+      "consensus_pct": 30.73,
+      "edge_pp": 8.24,
+      "ev_per_100": 17.07,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          281
+        ],
+        [
+          "betmgm",
+          250
+        ],
+        [
+          "williamhill_us",
+          235
+        ],
+        [
+          "fanduel",
+          190
+        ],
+        [
+          "bovada",
+          190
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.24,
+          "price": 281,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "7cae5f89359f34f8e1b03d1c46f2c3d6",
+      "away_team": "New York Yankees",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-08-02T18:21:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Cubs",
+      "market": "Hits",
+      "player": "Austin Wells",
+      "team": "NYY",
+      "selection": "Austin Wells",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 115,
+      "best_imp_pct": 46.51,
+      "consensus_pct": 51.7,
+      "edge_pp": 8.24,
+      "ev_per_100": 11.15,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          115
+        ],
+        [
+          "betmgm",
+          -105
+        ],
+        [
+          "williamhill_us",
+          -106
+        ],
+        [
+          "fanduel",
+          -120
+        ],
+        [
+          "bovada",
+          -121
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.24,
+          "price": 115,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "Edouard Julien",
+      "team": "COL",
+      "selection": "Edouard Julien",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -190,
+      "best_imp_pct": 65.52,
+      "consensus_pct": 70.69,
+      "edge_pp": 8.17,
+      "ev_per_100": 14.99,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -190
+        ],
+        [
+          "draftkings",
+          -219
+        ],
+        [
+          "bovada",
+          -265
+        ],
+        [
+          "fanduel",
+          -270
+        ],
+        [
+          "williamhill_us",
+          -280
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.17,
+          "price": -190,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -135,
+      "best_imp_pct": 57.45,
+      "consensus_pct": 60.72,
+      "edge_pp": 8.07,
+      "ev_per_100": 7.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -135
+        ],
+        [
+          "draftkings",
+          -145
+        ],
+        [
+          "fanduel",
+          -190
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.07,
+          "price": -135,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7cae5f89359f34f8e1b03d1c46f2c3d6",
+      "away_team": "New York Yankees",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-08-02T18:21:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Yankees @ Cubs",
+      "market": "H+R+R",
+      "player": "Amed Rosario",
+      "team": "NYY",
+      "selection": "Amed Rosario",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -185,
+      "best_imp_pct": 64.91,
+      "consensus_pct": 69.22,
+      "edge_pp": 8.06,
+      "ev_per_100": 12.29,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -185
+        ],
+        [
+          "draftkings",
+          -231
+        ],
+        [
+          "fanduel",
+          -270
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.06,
+          "price": -185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "42cc8ab6df88e7bec73eafe4f684cbb1",
+      "away_team": "Miami Marlins",
+      "home_team": "New York Mets",
+      "first_pitch": "2026-08-02T17:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Marlins @ Mets",
+      "market": "TB",
+      "player": "Carson Benge",
+      "team": "NYM",
+      "selection": "Carson Benge",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 160,
+      "best_imp_pct": 38.46,
+      "consensus_pct": 42.82,
+      "edge_pp": 8.05,
+      "ev_per_100": 11.32,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          160
+        ],
+        [
+          "draftkings",
+          130
+        ],
+        [
+          "fanduel",
+          115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T12:02:41.938335-04:00",
+          "edge": 8.05,
+          "price": 160,
           "n_books": 3
         }
       ]
