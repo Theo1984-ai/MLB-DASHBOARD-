@@ -1,7 +1,7 @@
 {
   "date": "2026-08-02",
-  "snapshot_at": "2026-08-02T13:33:51.334862-04:00",
-  "n_picks": 81,
+  "snapshot_at": "2026-08-02T15:10:42.164872-04:00",
+  "n_picks": 95,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 81,
+    "n_total": 95,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -457,23 +457,27 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "betmgm",
-      "best_price": -160,
-      "best_imp_pct": 61.54,
-      "consensus_pct": 66.12,
-      "edge_pp": 8.16,
-      "ev_per_100": 11.92,
-      "n_books": 4,
+      "best_price": -165,
+      "best_imp_pct": 62.26,
+      "consensus_pct": 66.62,
+      "edge_pp": 7.43,
+      "ev_per_100": 11.53,
+      "n_books": 5,
       "all_prices": [
         [
           "betmgm",
-          -160
+          -165
         ],
         [
-          "bovada",
-          -190
+          "draftkings",
+          -191
         ],
         [
           "fanduel",
+          -210
+        ],
+        [
+          "bovada",
           -210
         ],
         [
@@ -481,9 +485,9 @@
           -230
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
@@ -502,6 +506,12 @@
           "edge": 8.16,
           "price": -160,
           "n_books": 4
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.43,
+          "price": -165,
+          "n_books": 5
         }
       ]
     },
@@ -578,40 +588,42 @@
       "selection": "Jac Caglianone",
       "side": "Over",
       "point": 0.5,
-      "best_book": "draftkings",
-      "best_price": 294,
-      "best_imp_pct": 25.38,
-      "consensus_pct": 27.84,
-      "edge_pp": 7.95,
-      "ev_per_100": 9.68,
-      "n_books": 4,
+      "best_book": "pinnacle",
+      "best_price": 298,
+      "best_imp_pct": 25.13,
+      "consensus_pct": 28.79,
+      "edge_pp": 7.13,
+      "ev_per_100": 14.58,
+      "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          294
+          "pinnacle",
+          298
         ],
         [
-          "fanduel",
-          280
+          "williamhill_us",
+          245
         ],
         [
-          "bovada",
-          280
-        ],
-        [
-          "betmgm",
-          200
+          "williamhill_us",
+          210
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T10:21:08.145549-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
           "edge": 7.95,
           "price": 294,
           "n_books": 4
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.13,
+          "price": 298,
+          "n_books": 3
         }
       ]
     },
@@ -1197,29 +1209,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 140,
-      "best_imp_pct": 41.67,
-      "consensus_pct": 45.3,
-      "edge_pp": 7.11,
-      "ev_per_100": 8.72,
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 44.68,
+      "edge_pp": 7.96,
+      "ev_per_100": 9.47,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          140
+          145
         ],
         [
           "betmgm",
-          120
+          125
         ],
         [
           "fanduel",
           105
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T10:21:08.145549-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T10:21:08.145549-04:00",
@@ -1237,6 +1249,12 @@
           "t": "2026-08-02T13:02:52.566292-04:00",
           "edge": 7.11,
           "price": 140,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.96,
+          "price": 145,
           "n_books": 3
         }
       ]
@@ -1592,30 +1610,30 @@
       "selection": "Luke Maile",
       "side": "Over",
       "point": 0.5,
-      "best_book": "draftkings",
-      "best_price": -225,
-      "best_imp_pct": 69.23,
-      "consensus_pct": 72.39,
-      "edge_pp": 8.55,
-      "ev_per_100": 10.25,
+      "best_book": "betmgm",
+      "best_price": -220,
+      "best_imp_pct": 68.75,
+      "consensus_pct": 71.39,
+      "edge_pp": 7.44,
+      "ev_per_100": 8.45,
       "n_books": 3,
       "all_prices": [
+        [
+          "betmgm",
+          -220
+        ],
         [
           "draftkings",
           -225
         ],
         [
-          "betmgm",
-          -235
-        ],
-        [
           "fanduel",
-          -350
+          -320
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1627,6 +1645,12 @@
           "t": "2026-08-02T13:02:52.566292-04:00",
           "edge": 8.55,
           "price": -225,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.44,
+          "price": -220,
           "n_books": 3
         }
       ]
@@ -1646,29 +1670,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 139,
-      "best_imp_pct": 41.84,
-      "consensus_pct": 46.93,
-      "edge_pp": 11.65,
-      "ev_per_100": 12.16,
+      "best_price": 145,
+      "best_imp_pct": 40.82,
+      "consensus_pct": 46.25,
+      "edge_pp": 12.67,
+      "ev_per_100": 13.31,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          139
+          145
         ],
         [
           "betmgm",
-          120
+          125
         ],
         [
           "fanduel",
           -115
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1686,6 +1710,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 11.65,
           "price": 139,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 12.67,
+          "price": 145,
           "n_books": 3
         }
       ]
@@ -1759,30 +1789,30 @@
       "selection": "Luke Maile",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": -103,
-      "best_imp_pct": 50.74,
-      "consensus_pct": 53.71,
-      "edge_pp": 8.44,
-      "ev_per_100": 6.04,
+      "best_book": "betmgm",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 52.08,
+      "edge_pp": 8.67,
+      "ev_per_100": 6.76,
       "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          -103
+          "betmgm",
+          105
         ],
         [
-          "betmgm",
-          -105
+          "draftkings",
+          100
         ],
         [
           "fanduel",
-          -145
+          -135
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1794,6 +1824,12 @@
           "t": "2026-08-02T13:02:52.566292-04:00",
           "edge": 8.44,
           "price": -103,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 8.67,
+          "price": 105,
           "n_books": 3
         }
       ]
@@ -1812,30 +1848,30 @@
       "selection": "Luke Maile",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 152,
-      "best_imp_pct": 39.68,
-      "consensus_pct": 42.43,
-      "edge_pp": 7.94,
-      "ev_per_100": 6.93,
+      "best_book": "betmgm",
+      "best_price": 160,
+      "best_imp_pct": 38.46,
+      "consensus_pct": 41.31,
+      "edge_pp": 6.99,
+      "ev_per_100": 7.39,
       "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          152
+          "betmgm",
+          160
         ],
         [
-          "betmgm",
+          "draftkings",
           150
         ],
         [
           "fanduel",
-          110
+          120
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1847,6 +1883,12 @@
           "t": "2026-08-02T13:02:52.566292-04:00",
           "edge": 7.94,
           "price": 152,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 6.99,
+          "price": 160,
           "n_books": 3
         }
       ]
@@ -1866,29 +1908,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": -111,
-      "best_imp_pct": 52.61,
-      "consensus_pct": 57.04,
-      "edge_pp": 10.36,
-      "ev_per_100": 9.36,
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 56.63,
+      "edge_pp": 10.58,
+      "ev_per_100": 8.92,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -111
+          -110
         ],
         [
           "betmgm",
-          -125
+          -120
         ],
         [
           "fanduel",
           -170
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1906,6 +1948,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 10.36,
           "price": -111,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 10.58,
+          "price": -110,
           "n_books": 3
         }
       ]
@@ -1925,16 +1973,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -194,
-      "best_imp_pct": 65.99,
-      "consensus_pct": 70.65,
-      "edge_pp": 9.01,
-      "ev_per_100": 13.7,
+      "best_price": -180,
+      "best_imp_pct": 64.29,
+      "consensus_pct": 70.31,
+      "edge_pp": 10.71,
+      "ev_per_100": 16.86,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -194
+          -180
         ],
         [
           "betmgm",
@@ -1953,9 +2001,9 @@
           -300
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -1973,6 +2021,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 9.01,
           "price": -194,
+          "n_books": 5
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 10.71,
+          "price": -180,
           "n_books": 5
         }
       ]
@@ -1992,29 +2046,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 105,
-      "best_imp_pct": 48.78,
-      "consensus_pct": 51.68,
-      "edge_pp": 7.74,
-      "ev_per_100": 5.95,
+      "best_price": 110,
+      "best_imp_pct": 47.62,
+      "consensus_pct": 51.06,
+      "edge_pp": 7.94,
+      "ev_per_100": 7.22,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          105
+          110
         ],
         [
           "draftkings",
-          101
+          100
         ],
         [
           "fanduel",
-          -130
+          -125
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:02:52.566292-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -2026,6 +2080,12 @@
           "t": "2026-08-02T13:02:52.566292-04:00",
           "edge": 7.74,
           "price": 105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.94,
+          "price": 110,
           "n_books": 3
         }
       ]
@@ -2045,29 +2105,29 @@
       "side": "Over",
       "point": 2.5,
       "best_book": "draftkings",
-      "best_price": 182,
-      "best_imp_pct": 35.46,
-      "consensus_pct": 40.31,
-      "edge_pp": 9.99,
-      "ev_per_100": 13.66,
+      "best_price": 185,
+      "best_imp_pct": 35.09,
+      "consensus_pct": 39.92,
+      "edge_pp": 10.37,
+      "ev_per_100": 13.77,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          182
+          185
         ],
         [
           "betmgm",
-          150
+          155
         ],
         [
           "fanduel",
           120
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -2085,6 +2145,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 9.99,
           "price": 182,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 10.37,
+          "price": 185,
           "n_books": 3
         }
       ]
@@ -2104,16 +2170,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -242,
-      "best_imp_pct": 70.76,
-      "consensus_pct": 74.7,
-      "edge_pp": 9.24,
-      "ev_per_100": 13.47,
+      "best_price": -240,
+      "best_imp_pct": 70.59,
+      "consensus_pct": 74.64,
+      "edge_pp": 9.41,
+      "ev_per_100": 13.78,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -242
+          -240
         ],
         [
           "betmgm",
@@ -2124,9 +2190,9 @@
           -400
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -2144,6 +2210,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 9.24,
           "price": -242,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 9.41,
+          "price": -240,
           "n_books": 3
         }
       ]
@@ -2371,16 +2443,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 272,
-      "best_imp_pct": 26.88,
-      "consensus_pct": 30.92,
-      "edge_pp": 8.21,
-      "ev_per_100": 15.03,
+      "best_price": 290,
+      "best_imp_pct": 25.64,
+      "consensus_pct": 30.85,
+      "edge_pp": 9.45,
+      "ev_per_100": 20.31,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          272
+          290
         ],
         [
           "betmgm",
@@ -2388,7 +2460,7 @@
         ],
         [
           "williamhill_us",
-          245
+          235
         ],
         [
           "fanduel",
@@ -2399,9 +2471,9 @@
           185
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
@@ -2419,6 +2491,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 8.21,
           "price": 272,
+          "n_books": 5
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 9.45,
+          "price": 290,
           "n_books": 5
         }
       ]
@@ -2495,9 +2573,9 @@
       "best_book": "betmgm",
       "best_price": -190,
       "best_imp_pct": 65.52,
-      "consensus_pct": 70.69,
-      "edge_pp": 8.17,
-      "ev_per_100": 14.99,
+      "consensus_pct": 69.85,
+      "edge_pp": 7.09,
+      "ev_per_100": 12.55,
       "n_books": 5,
       "all_prices": [
         [
@@ -2506,28 +2584,34 @@
         ],
         [
           "draftkings",
-          -219
+          -200
+        ],
+        [
+          "fanduel",
+          -260
+        ],
+        [
+          "williamhill_us",
+          -260
         ],
         [
           "bovada",
           -265
-        ],
-        [
-          "fanduel",
-          -270
-        ],
-        [
-          "williamhill_us",
-          -280
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T12:02:41.938335-04:00",
-      "last_seen_at": "2026-08-02T12:02:41.938335-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T12:02:41.938335-04:00",
           "edge": 8.17,
+          "price": -190,
+          "n_books": 5
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.09,
           "price": -190,
           "n_books": 5
         }
@@ -2762,29 +2846,29 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": 111,
-      "best_imp_pct": 47.39,
-      "consensus_pct": 52.5,
-      "edge_pp": 8.16,
-      "ev_per_100": 10.77,
+      "best_price": 113,
+      "best_imp_pct": 46.95,
+      "consensus_pct": 51.29,
+      "edge_pp": 7.6,
+      "ev_per_100": 9.25,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          111
+          113
         ],
         [
           "betmgm",
-          -120
+          -110
         ],
         [
           "fanduel",
-          -125
+          -120
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-02T13:02:52.566292-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T13:02:52.566292-04:00",
@@ -2796,6 +2880,12 @@
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 8.16,
           "price": 111,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.6,
+          "price": 113,
           "n_books": 3
         }
       ]
@@ -3901,34 +3991,40 @@
       "side": "Over",
       "point": 2.5,
       "best_book": "draftkings",
-      "best_price": 215,
-      "best_imp_pct": 31.75,
-      "consensus_pct": 35.77,
-      "edge_pp": 9.92,
-      "ev_per_100": 12.68,
+      "best_price": 219,
+      "best_imp_pct": 31.35,
+      "consensus_pct": 34.81,
+      "edge_pp": 9.47,
+      "ev_per_100": 11.04,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          215
+          219
         ],
         [
           "fanduel",
-          195
+          210
         ],
         [
           "betmgm",
-          140
+          145
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-02T13:33:51.334735-04:00",
-      "last_seen_at": "2026-08-02T13:33:51.334735-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
       "scan_history": [
         {
           "t": "2026-08-02T13:33:51.334735-04:00",
           "edge": 9.92,
           "price": 215,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 9.47,
+          "price": 219,
           "n_books": 3
         }
       ]
@@ -4224,6 +4320,724 @@
           "edge": 8.4,
           "price": -110,
           "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "436bf68ad25a5637c9bf15c85396514a",
+      "away_team": "San Francisco Giants",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-08-02T20:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Giants @ Padres",
+      "market": "H+R+R",
+      "player": "Drew Gilbert",
+      "team": "SF",
+      "selection": "Drew Gilbert",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -140,
+      "best_imp_pct": 58.33,
+      "consensus_pct": 63.5,
+      "edge_pp": 9.41,
+      "ev_per_100": 12.39,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -140
+        ],
+        [
+          "draftkings",
+          -181
+        ],
+        [
+          "fanduel",
+          -210
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 9.41,
+          "price": -140,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "f30a8fd0e01d631f6eaa1a3533faf544",
+      "away_team": "Detroit Tigers",
+      "home_team": "Athletics",
+      "first_pitch": "2026-08-02T20:06:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Tigers @ Athletics",
+      "market": "Hits",
+      "player": "Alika Williams",
+      "team": "ATH",
+      "selection": "Alika Williams",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -186,
+      "best_imp_pct": 65.03,
+      "consensus_pct": 69.94,
+      "edge_pp": 8.65,
+      "ev_per_100": 14.02,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -186
+        ],
+        [
+          "williamhill_us",
+          -213
+        ],
+        [
+          "fanduel",
+          -270
+        ],
+        [
+          "bovada",
+          -280
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 8.65,
+          "price": -186,
+          "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "76967dffaea1fac3dcec1e9edc62b85f",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-08-02T19:16:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Brewers @ Angels",
+      "market": "H+R+R",
+      "player": "Wade Meckler",
+      "team": "LAA",
+      "selection": "Wade Meckler",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -111,
+      "best_imp_pct": 52.61,
+      "consensus_pct": 56.95,
+      "edge_pp": 8.18,
+      "ev_per_100": 9.16,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -111
+        ],
+        [
+          "betmgm",
+          -135
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 8.18,
+          "price": -111,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Royals @ Rockies",
+      "market": "TB",
+      "player": "John Rave",
+      "team": "KC",
+      "selection": "John Rave",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 46.72,
+      "edge_pp": 7.74,
+      "ev_per_100": 7.45,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "draftkings",
+          120
+        ],
+        [
+          "fanduel",
+          -105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.74,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "436bf68ad25a5637c9bf15c85396514a",
+      "away_team": "San Francisco Giants",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-08-02T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Giants @ Padres",
+      "market": "TB",
+      "player": "Heliot Ramos",
+      "team": "SF",
+      "selection": "Heliot Ramos",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 135,
+      "best_imp_pct": 42.55,
+      "consensus_pct": 45.87,
+      "edge_pp": 7.45,
+      "ev_per_100": 7.79,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "draftkings",
+          122
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.45,
+          "price": 135,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "f30a8fd0e01d631f6eaa1a3533faf544",
+      "away_team": "Detroit Tigers",
+      "home_team": "Athletics",
+      "first_pitch": "2026-08-02T20:06:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Tigers @ Athletics",
+      "market": "Hits",
+      "player": "Jonah Heim",
+      "team": "ATH",
+      "selection": "Jonah Heim",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -220,
+      "best_imp_pct": 68.75,
+      "consensus_pct": 71.94,
+      "edge_pp": 7.44,
+      "ev_per_100": 10.21,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -220
+        ],
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "bovada",
+          -250
+        ],
+        [
+          "draftkings",
+          -256
+        ],
+        [
+          "williamhill_us",
+          -320
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.44,
+          "price": -220,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Royals @ Rockies",
+      "market": "H+R+R",
+      "player": "Edouard Julien",
+      "team": "COL",
+      "selection": "Edouard Julien",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 56.27,
+      "edge_pp": 7.3,
+      "ev_per_100": 5.99,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -115
+        ],
+        [
+          "draftkings",
+          -120
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.3,
+          "price": -115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "76967dffaea1fac3dcec1e9edc62b85f",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-08-02T19:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Angels",
+      "market": "Hits",
+      "player": "Zach Neto",
+      "team": "LAA",
+      "selection": "Zach Neto",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 57.82,
+      "edge_pp": 7.14,
+      "ev_per_100": 9.32,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -115
+        ],
+        [
+          "draftkings",
+          -139
+        ],
+        [
+          "fanduel",
+          -140
+        ],
+        [
+          "bovada",
+          -141
+        ],
+        [
+          "williamhill_us",
+          -154
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.14,
+          "price": -115,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "76967dffaea1fac3dcec1e9edc62b85f",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-08-02T19:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Angels",
+      "market": "Hits",
+      "player": "Cooper Pratt",
+      "team": "MIL",
+      "selection": "Cooper Pratt",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -135,
+      "best_imp_pct": 57.45,
+      "consensus_pct": 61.46,
+      "edge_pp": 7.09,
+      "ev_per_100": 9.44,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -135
+        ],
+        [
+          "draftkings",
+          -156
+        ],
+        [
+          "bovada",
+          -164
+        ],
+        [
+          "fanduel",
+          -165
+        ],
+        [
+          "williamhill_us",
+          -182
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.09,
+          "price": -135,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "Edouard Julien",
+      "team": "COL",
+      "selection": "Edouard Julien",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 280,
+      "best_imp_pct": 26.32,
+      "consensus_pct": 30.23,
+      "edge_pp": 7.02,
+      "ev_per_100": 14.87,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          280
+        ],
+        [
+          "draftkings",
+          265
+        ],
+        [
+          "williamhill_us",
+          225
+        ],
+        [
+          "fanduel",
+          200
+        ],
+        [
+          "bovada",
+          200
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.02,
+          "price": 280,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "76967dffaea1fac3dcec1e9edc62b85f",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-08-02T19:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Angels",
+      "market": "Hits",
+      "player": "Wade Meckler",
+      "team": "LAA",
+      "selection": "Wade Meckler",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 106,
+      "best_imp_pct": 48.54,
+      "consensus_pct": 52.79,
+      "edge_pp": 7.01,
+      "ev_per_100": 8.75,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          106
+        ],
+        [
+          "williamhill_us",
+          -108
+        ],
+        [
+          "betmgm",
+          -110
+        ],
+        [
+          "fanduel",
+          -125
+        ],
+        [
+          "bovada",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 7.01,
+          "price": 106,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "90e23149710c7c8f69e968ca8323f375",
+      "away_team": "Minnesota Twins",
+      "home_team": "Seattle Mariners",
+      "first_pitch": "2026-08-02T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Twins @ Mariners",
+      "market": "TB",
+      "player": "Cal Raleigh",
+      "team": "SEA",
+      "selection": "Cal Raleigh",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 210,
+      "best_imp_pct": 32.26,
+      "consensus_pct": 36.12,
+      "edge_pp": 6.96,
+      "ev_per_100": 11.99,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "draftkings",
+          171
+        ],
+        [
+          "fanduel",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 6.96,
+          "price": 210,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c77232b741072d22e3c49926ff91c383",
+      "away_team": "Kansas City Royals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-08-02T19:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Royals @ Rockies",
+      "market": "Hits",
+      "player": "John Rave",
+      "team": "KC",
+      "selection": "John Rave",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -210,
+      "best_imp_pct": 67.74,
+      "consensus_pct": 71.65,
+      "edge_pp": 6.94,
+      "ev_per_100": 12.12,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -210
+        ],
+        [
+          "draftkings",
+          -245
+        ],
+        [
+          "fanduel",
+          -260
+        ],
+        [
+          "bovada",
+          -265
+        ],
+        [
+          "williamhill_us",
+          -295
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 6.94,
+          "price": -210,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "76967dffaea1fac3dcec1e9edc62b85f",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-08-02T19:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Angels",
+      "market": "Hits",
+      "player": "Denzer Guzman",
+      "team": "LAA",
+      "selection": "Denzer Guzman",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -105,
+      "best_imp_pct": 51.22,
+      "consensus_pct": 55.6,
+      "edge_pp": 6.94,
+      "ev_per_100": 8.97,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -105
+        ],
+        [
+          "draftkings",
+          -125
+        ],
+        [
+          "fanduel",
+          -130
+        ],
+        [
+          "bovada",
+          -130
+        ],
+        [
+          "williamhill_us",
+          -139
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "last_seen_at": "2026-08-02T15:10:42.164710-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-02T15:10:42.164710-04:00",
+          "edge": 6.94,
+          "price": -105,
+          "n_books": 5
         }
       ]
     }
