@@ -1,7 +1,7 @@
 {
   "date": "2026-08-06",
-  "snapshot_at": "2026-08-06T11:03:57.081862-04:00",
-  "n_picks": 39,
+  "snapshot_at": "2026-08-06T20:02:13.563378-04:00",
+  "n_picks": 60,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 39,
+    "n_total": 60,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -255,29 +255,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "betmgm",
-      "best_price": 105,
-      "best_imp_pct": 48.78,
-      "consensus_pct": 52.32,
-      "edge_pp": 8.67,
-      "ev_per_100": 7.26,
+      "best_price": 100,
+      "best_imp_pct": 50.0,
+      "consensus_pct": 53.55,
+      "edge_pp": 9.18,
+      "ev_per_100": 7.09,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          105
+          100
         ],
         [
           "draftkings",
-          -103
+          -106
         ],
         [
           "fanduel",
-          -135
+          -145
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-06T10:11:27.040233-04:00",
-      "last_seen_at": "2026-08-06T11:03:57.081734-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
       "scan_history": [
         {
           "t": "2026-08-06T10:11:27.040233-04:00",
@@ -289,6 +289,12 @@
           "t": "2026-08-06T11:03:57.081734-04:00",
           "edge": 8.67,
           "price": 105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 9.18,
+          "price": 100,
           "n_books": 3
         }
       ]
@@ -785,29 +791,29 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 120,
-      "best_imp_pct": 45.45,
-      "consensus_pct": 47.76,
-      "edge_pp": 6.93,
-      "ev_per_100": 5.08,
+      "best_price": 118,
+      "best_imp_pct": 45.87,
+      "consensus_pct": 48.25,
+      "edge_pp": 6.51,
+      "ev_per_100": 5.2,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          120
+          118
         ],
         [
           "betmgm",
-          120
+          115
         ],
         [
           "fanduel",
           -110
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-08-06T10:11:27.040233-04:00",
-      "last_seen_at": "2026-08-06T11:03:57.081734-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
       "scan_history": [
         {
           "t": "2026-08-06T10:11:27.040233-04:00",
@@ -819,6 +825,12 @@
           "t": "2026-08-06T11:03:57.081734-04:00",
           "edge": 6.93,
           "price": 120,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 6.51,
+          "price": 118,
           "n_books": 3
         }
       ]
@@ -838,34 +850,40 @@
       "side": "Over",
       "point": 2.5,
       "best_book": "betmgm",
-      "best_price": 220,
-      "best_imp_pct": 31.25,
-      "consensus_pct": 34.39,
-      "edge_pp": 7.21,
-      "ev_per_100": 10.03,
+      "best_price": 210,
+      "best_imp_pct": 32.26,
+      "consensus_pct": 35.12,
+      "edge_pp": 6.96,
+      "ev_per_100": 8.88,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          220
+          210
         ],
         [
           "draftkings",
-          199
+          195
         ],
         [
           "fanduel",
-          160
+          155
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-06T10:11:27.040233-04:00",
-      "last_seen_at": "2026-08-06T10:11:27.040233-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
       "scan_history": [
         {
           "t": "2026-08-06T10:11:27.040233-04:00",
           "edge": 7.21,
           "price": 220,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 6.96,
+          "price": 210,
           "n_books": 3
         }
       ]
@@ -1616,35 +1634,41 @@
       "selection": "Lars Nootbaar",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 169,
-      "best_imp_pct": 37.17,
-      "consensus_pct": 41.43,
-      "edge_pp": 8.28,
-      "ev_per_100": 11.45,
+      "best_book": "betmgm",
+      "best_price": 165,
+      "best_imp_pct": 37.74,
+      "consensus_pct": 41.76,
+      "edge_pp": 11.04,
+      "ev_per_100": 10.66,
       "n_books": 3,
       "all_prices": [
         [
-          "draftkings",
-          169
+          "betmgm",
+          165
         ],
         [
-          "betmgm",
-          140
+          "draftkings",
+          158
         ],
         [
           "fanduel",
-          120
+          105
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-06T11:03:57.081734-04:00",
-      "last_seen_at": "2026-08-06T11:03:57.081734-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
       "scan_history": [
         {
           "t": "2026-08-06T11:03:57.081734-04:00",
           "edge": 8.28,
           "price": 169,
+          "n_books": 3
+        },
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 11.04,
+          "price": 165,
           "n_books": 3
         }
       ]
@@ -1859,42 +1883,48 @@
       "selection": "Lars Nootbaar",
       "side": "Over",
       "point": 0.5,
-      "best_book": "draftkings",
+      "best_book": "betmgm",
       "best_price": -175,
       "best_imp_pct": 63.64,
-      "consensus_pct": 68.36,
-      "edge_pp": 6.95,
-      "ev_per_100": 13.0,
+      "consensus_pct": 68.31,
+      "edge_pp": 8.97,
+      "ev_per_100": 12.85,
       "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
+          "betmgm",
           -175
         ],
         [
-          "betmgm",
-          -210
-        ],
-        [
-          "fanduel",
-          -230
-        ],
-        [
-          "bovada",
-          -235
+          "draftkings",
+          -182
         ],
         [
           "williamhill_us",
-          -240
+          -218
+        ],
+        [
+          "fanduel",
+          -260
+        ],
+        [
+          "bovada",
+          -265
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-08-06T11:03:57.081734-04:00",
-      "last_seen_at": "2026-08-06T11:03:57.081734-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
       "scan_history": [
         {
           "t": "2026-08-06T11:03:57.081734-04:00",
           "edge": 6.95,
+          "price": -175,
+          "n_books": 5
+        },
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 8.97,
           "price": -175,
           "n_books": 5
         }
@@ -2042,6 +2072,1041 @@
           "edge": 6.67,
           "price": -150,
           "n_books": 4
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Brooks Lee",
+      "team": "MIN",
+      "selection": "Brooks Lee",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -104,
+      "best_imp_pct": 50.98,
+      "consensus_pct": 58.35,
+      "edge_pp": 19.61,
+      "ev_per_100": 15.04,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -104
+        ],
+        [
+          "draftkings",
+          -115
+        ],
+        [
+          "williamhill_us",
+          -240
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 19.61,
+          "price": -104,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Lars Nootbaar",
+      "team": "AZ",
+      "selection": "Lars Nootbaar",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 100,
+      "best_imp_pct": 50.0,
+      "consensus_pct": 53.57,
+      "edge_pp": 8.33,
+      "ev_per_100": 7.14,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          100
+        ],
+        [
+          "draftkings",
+          -110
+        ],
+        [
+          "fanduel",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 8.33,
+          "price": 100,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Bobby Witt Jr.",
+      "team": "KC",
+      "selection": "Bobby Witt Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": -200,
+      "best_imp_pct": 66.67,
+      "consensus_pct": 70.48,
+      "edge_pp": 6.67,
+      "ev_per_100": 11.43,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -200
+        ],
+        [
+          "draftkings",
+          -250
+        ],
+        [
+          "williamhill_us",
+          -275
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 6.67,
+          "price": -200,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Alan Roden",
+      "team": "MIN",
+      "selection": "Alan Roden",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -136,
+      "best_imp_pct": 57.63,
+      "consensus_pct": 60.86,
+      "edge_pp": 6.53,
+      "ev_per_100": 7.62,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -136
+        ],
+        [
+          "draftkings",
+          -155
+        ],
+        [
+          "williamhill_us",
+          -179
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 6.53,
+          "price": -136,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Ryan Waldschmidt",
+      "team": "AZ",
+      "selection": "Ryan Waldschmidt",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -154,
+      "best_imp_pct": 60.63,
+      "consensus_pct": 64.47,
+      "edge_pp": 6.04,
+      "ev_per_100": 9.74,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -154
+        ],
+        [
+          "fanduel",
+          -195
+        ],
+        [
+          "betmgm",
+          -200
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 6.04,
+          "price": -154,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Tim Tawa",
+      "team": "AZ",
+      "selection": "Tim Tawa",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -140,
+      "best_imp_pct": 58.33,
+      "consensus_pct": 62.33,
+      "edge_pp": 5.95,
+      "ev_per_100": 9.58,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -140
+        ],
+        [
+          "draftkings",
+          -157
+        ],
+        [
+          "bovada",
+          -176
+        ],
+        [
+          "williamhill_us",
+          -179
+        ],
+        [
+          "fanduel",
+          -180
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.95,
+          "price": -140,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Lars Nootbaar",
+      "team": "AZ",
+      "selection": "Lars Nootbaar",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "betmgm",
+      "best_price": 200,
+      "best_imp_pct": 33.33,
+      "consensus_pct": 35.72,
+      "edge_pp": 5.88,
+      "ev_per_100": 7.15,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          200
+        ],
+        [
+          "draftkings",
+          189
+        ],
+        [
+          "fanduel",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.88,
+          "price": 200,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Gabriel Moreno",
+      "team": "AZ",
+      "selection": "Gabriel Moreno",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -238,
+      "best_imp_pct": 70.41,
+      "consensus_pct": 72.18,
+      "edge_pp": 5.78,
+      "ev_per_100": 5.96,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -238
+        ],
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "bovada",
+          -250
+        ],
+        [
+          "betmgm",
+          -250
+        ],
+        [
+          "williamhill_us",
+          -320
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.78,
+          "price": -238,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "TB",
+      "player": "Corbin Carroll",
+      "team": "AZ",
+      "selection": "Corbin Carroll",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 105,
+      "best_imp_pct": 48.78,
+      "consensus_pct": 50.7,
+      "edge_pp": 5.76,
+      "ev_per_100": 3.94,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          105
+        ],
+        [
+          "betmgm",
+          105
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.76,
+          "price": 105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "TB",
+      "player": "Manny Machado",
+      "team": "SD",
+      "selection": "Manny Machado",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 109,
+      "best_imp_pct": 47.85,
+      "consensus_pct": 50.45,
+      "edge_pp": 5.64,
+      "ev_per_100": 5.43,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          109
+        ],
+        [
+          "betmgm",
+          100
+        ],
+        [
+          "fanduel",
+          -115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.64,
+          "price": 109,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Gavin Sheets",
+      "team": "SD",
+      "selection": "Gavin Sheets",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -200,
+      "best_imp_pct": 66.67,
+      "consensus_pct": 68.91,
+      "edge_pp": 5.56,
+      "ev_per_100": 6.73,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -200
+        ],
+        [
+          "draftkings",
+          -211
+        ],
+        [
+          "fanduel",
+          -260
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.56,
+          "price": -200,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "TB",
+      "player": "Xander Bogaerts",
+      "team": "SD",
+      "selection": "Xander Bogaerts",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 150,
+      "best_imp_pct": 40.0,
+      "consensus_pct": 42.61,
+      "edge_pp": 5.45,
+      "ev_per_100": 6.52,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          150
+        ],
+        [
+          "draftkings",
+          136
+        ],
+        [
+          "fanduel",
+          120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.45,
+          "price": 150,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Lars Nootbaar",
+      "team": "AZ",
+      "selection": "Lars Nootbaar",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -275,
+      "best_imp_pct": 73.33,
+      "consensus_pct": 75.38,
+      "edge_pp": 5.39,
+      "ev_per_100": 7.69,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -275
+        ],
+        [
+          "draftkings",
+          -286
+        ],
+        [
+          "fanduel",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.39,
+          "price": -275,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "H+R+R",
+      "player": "Fernando Tatis Jr.",
+      "team": "SD",
+      "selection": "Fernando Tatis Jr.",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "betmgm",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 45.63,
+      "edge_pp": 5.3,
+      "ev_per_100": 4.96,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "draftkings",
+          124
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.3,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Ty France",
+      "team": "SD",
+      "selection": "Ty France",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 220,
+      "best_imp_pct": 31.25,
+      "consensus_pct": 33.07,
+      "edge_pp": 5.11,
+      "ev_per_100": 5.81,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          220
+        ],
+        [
+          "bovada",
+          220
+        ],
+        [
+          "draftkings",
+          207
+        ],
+        [
+          "betmgm",
+          195
+        ],
+        [
+          "williamhill_us",
+          175
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.11,
+          "price": 220,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Fernando Tatis Jr.",
+      "team": "SD",
+      "selection": "Fernando Tatis Jr.",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 180,
+      "best_imp_pct": 35.71,
+      "consensus_pct": 38.31,
+      "edge_pp": 5.1,
+      "ev_per_100": 7.27,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          180
+        ],
+        [
+          "draftkings",
+          170
+        ],
+        [
+          "williamhill_us",
+          169
+        ],
+        [
+          "fanduel",
+          145
+        ],
+        [
+          "bovada",
+          145
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.1,
+          "price": 180,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Luke Keaschall",
+      "team": "MIN",
+      "selection": "Luke Keaschall",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -155,
+      "best_imp_pct": 60.78,
+      "consensus_pct": 63.02,
+      "edge_pp": 5.09,
+      "ev_per_100": 5.7,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -155
+        ],
+        [
+          "fanduel",
+          -166
+        ],
+        [
+          "williamhill_us",
+          -193
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.09,
+          "price": -155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Josh Bell",
+      "team": "MIN",
+      "selection": "Josh Bell",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -125,
+      "best_imp_pct": 55.56,
+      "consensus_pct": 57.94,
+      "edge_pp": 5.07,
+      "ev_per_100": 5.36,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -125
+        ],
+        [
+          "fanduel",
+          -136
+        ],
+        [
+          "williamhill_us",
+          -154
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.07,
+          "price": -125,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Luis Rengifo",
+      "team": "SD",
+      "selection": "Luis Rengifo",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -250,
+      "best_imp_pct": 71.43,
+      "consensus_pct": 74.09,
+      "edge_pp": 5.04,
+      "ev_per_100": 9.31,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -250
+        ],
+        [
+          "draftkings",
+          -273
+        ],
+        [
+          "fanduel",
+          -290
+        ],
+        [
+          "bovada",
+          -300
+        ],
+        [
+          "williamhill_us",
+          -325
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.04,
+          "price": -250,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "7ccb6905d278343fbef656a8d2664d89",
+      "away_team": "Minnesota Twins",
+      "home_team": "Kansas City Royals",
+      "first_pitch": "2026-08-06T23:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Royals",
+      "market": "Hits",
+      "player": "Michael Massey",
+      "team": "KC",
+      "selection": "Michael Massey",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -205,
+      "best_imp_pct": 67.21,
+      "consensus_pct": 69.4,
+      "edge_pp": 5.01,
+      "ev_per_100": 6.66,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -205
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "williamhill_us",
+          -260
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.01,
+          "price": -205,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "ac809bf2f9ff5445c2ded443c4cc7795",
+      "away_team": "San Diego Padres",
+      "home_team": "Arizona Diamondbacks",
+      "first_pitch": "2026-08-07T01:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Padres @ Diamondbacks",
+      "market": "Hits",
+      "player": "Jackson Merrill",
+      "team": "SD",
+      "selection": "Jackson Merrill",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -247,
+      "best_imp_pct": 71.18,
+      "consensus_pct": 73.09,
+      "edge_pp": 5.01,
+      "ev_per_100": 6.63,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -247
+        ],
+        [
+          "betmgm",
+          -250
+        ],
+        [
+          "fanduel",
+          -270
+        ],
+        [
+          "bovada",
+          -280
+        ],
+        [
+          "williamhill_us",
+          -320
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "last_seen_at": "2026-08-06T20:02:13.563271-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-06T20:02:13.563271-04:00",
+          "edge": 5.01,
+          "price": -247,
+          "n_books": 5
         }
       ]
     }
