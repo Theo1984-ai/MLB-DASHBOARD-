@@ -1,9 +1,27 @@
 {
   "date": "2026-08-07",
-  "saved_at": "2026-08-07T08:51:47.832901-04:00",
-  "top_n": 10,
+  "saved_at": "2026-08-07T10:04:05.168403-04:00",
+  "top_n": 8,
+  "strategy": "fundamentals_hr_v3_edge2plus",
+  "filter": {
+    "sweet_composite": [
+      88,
+      92
+    ],
+    "broad_composite": [
+      85,
+      94
+    ],
+    "min_cross_book_pp": 1.5,
+    "min_consensus_pct": 20.0,
+    "min_edge_pp": 2.0,
+    "price_filter": "none (v2)"
+  },
   "n_games": 15,
   "n_total": 1,
+  "n_a_plus": 0,
+  "n_a": 1,
+  "n_picks": 2,
   "picks": [
     {
       "stat_key": "hr",
@@ -47,6 +65,52 @@
           "comp": 93.7,
           "cons": 25.9,
           "price": 320,
+          "tier": "A"
+        }
+      ]
+    },
+    {
+      "stat_key": "hr",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Atlanta Braves",
+      "home_team": "New York Yankees",
+      "first_pitch": "2026-08-07T19:05:00-04:00",
+      "best_price": 360,
+      "player": "Luis Garc\u00eda Jr.",
+      "batter": "Luis Garc\u00eda Jr.",
+      "batter_id": 671277,
+      "game_pk": 823515,
+      "team": null,
+      "matchup": null,
+      "game": null,
+      "vs_sp": "Tyler Mahle",
+      "park": null,
+      "best_odds": 360,
+      "best_book": "fanduel",
+      "composite": 86.2,
+      "xwoba": 0.355,
+      "hard_hit": null,
+      "barrel": 12.3,
+      "consensus_pct": 23.7,
+      "cross_book_pp": 4.6,
+      "edge_pp": 2.0,
+      "consensus_implied_pct": 23.7,
+      "implied_pct": 23.7,
+      "n_books": 4,
+      "model_p": null,
+      "model_p_pct": null,
+      "confidence": 86,
+      "confidence_tier": "A",
+      "n_appearances": 1,
+      "first_seen_at": "2026-08-07T10:04:05.168364-04:00",
+      "last_seen_at": "2026-08-07T10:04:05.168364-04:00",
+      "scan_history": [
+        {
+          "t": "2026-08-07T10:04:05.168364-04:00",
+          "comp": 86.2,
+          "cons": 23.7,
+          "price": 360,
           "tier": "A"
         }
       ]
