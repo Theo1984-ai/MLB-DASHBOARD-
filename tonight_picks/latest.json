@@ -1,84 +1,320 @@
 {
-  "date": "2026-08-08",
-  "generated_at": "2026-08-08 05:16 PM EDT",
+  "date": "2026-08-09",
+  "generated_at": "2026-08-09 02:22 PM EDT",
   "analyst": "Auto-scanner",
-  "intro": "🔒 STRICT FILTER: 3 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
-  "concentration_plays": [],
+  "intro": "🔒 STRICT FILTER: 35 MLB + 0 NBA Tier A picks (5+ books, $10+ EV). Tightened 5/24 after 8-day analysis showed loose filters (3+ books, $5+ EV) underperformed. Fewer picks per night, but each one has near-total book consensus. ⚠️ Many MLB games haven't posted props yet — re-scan later.",
+  "concentration_plays": [
+    {
+      "player": "Ian Happ",
+      "game": "Cubs @ Royals",
+      "book": "betmgm (1/3 picks)",
+      "n_picks": 3,
+      "picks": [
+        {
+          "market": "Hits",
+          "side": "Over",
+          "line": 1.5,
+          "price": 240,
+          "book": "betmgm",
+          "ev": 73.14
+        },
+        {
+          "market": "TB",
+          "side": "Over",
+          "line": 1.5,
+          "price": 109,
+          "book": "pinnacle",
+          "ev": 19.16
+        },
+        {
+          "market": "TB",
+          "side": "Under",
+          "line": 1.5,
+          "price": 130,
+          "book": "draftkings",
+          "ev": 15.22
+        }
+      ]
+    },
+    {
+      "player": "Pete Crow-Armstrong",
+      "game": "Cubs @ Royals",
+      "book": "draftkings (2/3 picks)",
+      "n_picks": 3,
+      "picks": [
+        {
+          "market": "Hits",
+          "side": "Over",
+          "line": 1.5,
+          "price": 215,
+          "book": "draftkings",
+          "ev": 21.19
+        },
+        {
+          "market": "Hits",
+          "side": "Over",
+          "line": 0.5,
+          "price": -260,
+          "book": "draftkings",
+          "ev": 18.07
+        },
+        {
+          "market": "TB",
+          "side": "Under",
+          "line": 1.5,
+          "price": 112,
+          "book": "pinnacle",
+          "ev": 10.6
+        }
+      ]
+    }
+  ],
   "top_picks": [
     {
-      "player": "CJ Abrams",
-      "game": "Reds @ Nationals",
+      "player": "Ian Happ",
+      "game": "Cubs @ Royals",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 272,
-      "book": "draftkings",
-      "ev": 12.15,
-      "fair_pct": 30.1
+      "price": 240,
+      "book": "betmgm",
+      "ev": 73.14,
+      "fair_pct": 50.9
     },
     {
-      "player": "Jonathan Aranda",
-      "game": "Rays @ Mariners",
+      "player": "Jose Ramirez",
+      "game": "Guardians @ Sox",
       "market": "Hits",
       "side": "Over",
       "line": 1.5,
-      "price": 276,
-      "book": "draftkings",
-      "ev": 11.61,
-      "fair_pct": 29.7
+      "price": 210,
+      "book": "betmgm",
+      "ev": 68.19,
+      "fair_pct": 54.3
     },
     {
-      "player": "CJ Abrams",
-      "game": "Reds @ Nationals",
+      "player": "Steven Kwan",
+      "game": "Guardians @ Sox",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 200,
+      "book": "bovada",
+      "ev": 67.65,
+      "fair_pct": 55.9
+    },
+    {
+      "player": "Jackson Chourio",
+      "game": "Twins @ Brewers",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 195,
+      "book": "bovada",
+      "ev": 59.07,
+      "fair_pct": 53.9
+    },
+    {
+      "player": "Michael Busch",
+      "game": "Cubs @ Royals",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 170,
+      "book": "bovada",
+      "ev": 56.1,
+      "fair_pct": 57.8
+    },
+    {
+      "player": "Alex Bregman",
+      "game": "Cubs @ Royals",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 175,
+      "book": "betmgm",
+      "ev": 54.13,
+      "fair_pct": 56.0
+    },
+    {
+      "player": "Pete Crow-Armstrong",
+      "game": "Cubs @ Royals",
+      "market": "Hits",
+      "side": "Over",
+      "line": 1.5,
+      "price": 215,
+      "book": "draftkings",
+      "ev": 21.19,
+      "fair_pct": 38.5
+    },
+    {
+      "player": "Ian Happ",
+      "game": "Cubs @ Royals",
+      "market": "TB",
+      "side": "Over",
+      "line": 1.5,
+      "price": 109,
+      "book": "pinnacle",
+      "ev": 19.16,
+      "fair_pct": 57.0
+    },
+    {
+      "player": "Trevor Larnach",
+      "game": "Twins @ Brewers",
       "market": "Hits",
       "side": "Over",
       "line": 0.5,
-      "price": -200,
-      "book": "betmgm",
-      "ev": 10.14,
-      "fair_pct": 70.0
+      "price": 165,
+      "book": "draftkings",
+      "ev": 18.14,
+      "fair_pct": 44.6
+    },
+    {
+      "player": "Pete Crow-Armstrong",
+      "game": "Cubs @ Royals",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -260,
+      "book": "draftkings",
+      "ev": 18.07,
+      "fair_pct": 77.2
     }
   ],
   "bet_card": {
     "💎 Max Conviction (2u each)": [
       {
         "stake": "2u",
-        "description": "CJ Abrams Hits Over 1.5",
-        "price": 272,
-        "book": "draftkings"
-      },
-      {
-        "stake": "2u",
-        "description": "Jonathan Aranda Hits Over 1.5",
-        "price": 276,
-        "book": "draftkings"
-      },
-      {
-        "stake": "2u",
-        "description": "CJ Abrams Hits Over 0.5",
-        "price": -200,
+        "description": "Ian Happ Hits Over 1.5",
+        "price": 240,
         "book": "betmgm"
+      },
+      {
+        "stake": "2u",
+        "description": "Jose Ramirez Hits Over 1.5",
+        "price": 210,
+        "book": "betmgm"
+      },
+      {
+        "stake": "2u",
+        "description": "Steven Kwan Hits Over 1.5",
+        "price": 200,
+        "book": "bovada"
+      }
+    ],
+    "🎲 Tier 2 (1u each)": [
+      {
+        "stake": "1u",
+        "description": "Jackson Chourio Hits Over 1.5",
+        "price": 195,
+        "book": "bovada"
+      },
+      {
+        "stake": "1u",
+        "description": "Michael Busch Hits Over 1.5",
+        "price": 170,
+        "book": "bovada"
+      },
+      {
+        "stake": "1u",
+        "description": "Alex Bregman Hits Over 1.5",
+        "price": 175,
+        "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Pete Crow-Armstrong Hits Over 1.5",
+        "price": 215,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Ian Happ TB Over 1.5",
+        "price": 109,
+        "book": "pinnacle"
       }
     ],
     "🛡️ Safe Locks (1u each)": [
       {
         "stake": "1u",
-        "description": "CJ Abrams Hits Over 0.5",
-        "price": -200,
+        "description": "Pete Crow-Armstrong Hits Over 0.5",
+        "price": -260,
+        "book": "draftkings"
+      },
+      {
+        "stake": "1u",
+        "description": "Dansby Swanson Hits Over 0.5",
+        "price": -220,
         "book": "betmgm"
+      },
+      {
+        "stake": "1u",
+        "description": "Michael Conforto Hits Over 0.5",
+        "price": -150,
+        "book": "draftkings"
       }
     ]
   },
   "safe_locks": [
     {
-      "player": "CJ Abrams",
+      "player": "Pete Crow-Armstrong",
       "market": "Hits",
       "side": "Over",
       "line": 0.5,
-      "price": -200,
+      "price": -260,
+      "book": "draftkings",
+      "fair_pct": 77.2,
+      "ev": 18.07
+    },
+    {
+      "player": "Dansby Swanson",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -220,
       "book": "betmgm",
-      "fair_pct": 70.0,
-      "ev": 10.14
+      "fair_pct": 73.9,
+      "ev": 16.62
+    },
+    {
+      "player": "Michael Conforto",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -150,
+      "book": "draftkings",
+      "fair_pct": 65.6,
+      "ev": 13.97
+    },
+    {
+      "player": "Ketel Marte",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -229,
+      "book": "draftkings",
+      "fair_pct": 73.7,
+      "ev": 13.63
+    },
+    {
+      "player": "Nico Hoerner",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -225,
+      "book": "draftkings",
+      "fair_pct": 73.0,
+      "ev": 12.35
+    },
+    {
+      "player": "Liam Hicks",
+      "market": "Hits",
+      "side": "Over",
+      "line": 0.5,
+      "price": -185,
+      "book": "betmgm",
+      "fair_pct": 68.9,
+      "ev": 11.43
     }
   ],
   "nba_game": "No NBA game on the slate",
@@ -88,15 +324,14 @@
     "⛔ Single-book longshots at +1500+ (stale pricing trap)",
     "⛔ Stacking 4+ same-game props (correlation traps)",
     "⚠️ FanDuel HR picks underperformed in 8-day sample — sanity-check before betting",
-    "⏰ 13 MLB games still lack props — re-scan later",
-    "ℹ️ Strict filter produced few picks tonight — this is normal. Quality > quantity."
+    "⏰ 8 MLB games still lack props — re-scan later"
   ],
   "strategy_notes": [
-    "🤖 Scanned at 05:16 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
+    "🤖 Scanned at 02:22 PM EDT with TIGHTENED filter (5+ books, $10+ EV)",
     "💎 Singles only — no parlays",
-    "🎯 0 picks have $15+ EV",
+    "🎯 16 picks have $15+ EV",
     "📊 8-day data: BetMGM picks profitable, FanDuel picks lost money. Watch book.",
     "📱 Bookmark this page for daily access",
-    "🌟 Pick of the night: CJ Abrams Hits Over 1.5 @ +272 (draftkings) = $+12.15 EV"
+    "🌟 Pick of the night: Ian Happ Hits Over 1.5 @ +240 (betmgm) = $+73.14 EV"
   ]
 }
