@@ -29,7 +29,9 @@
       "away_team": "Los Angeles Dodgers",
       "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-08-08T20:10:00-04:00",
-      "best_price": -170
+      "best_price": -170,
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     },
     {
       "batter": "Willson Contreras",
@@ -54,7 +56,9 @@
       "away_team": "Athletics",
       "home_team": "Boston Red Sox",
       "first_pitch": "2026-08-08T16:10:00-04:00",
-      "best_price": -165
+      "best_price": -165,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Bryce Harper",
@@ -79,7 +83,9 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-08-08T18:05:00-04:00",
-      "best_price": -160
+      "best_price": -160,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Wilyer Abreu",
@@ -104,7 +110,9 @@
       "away_team": "Athletics",
       "home_team": "Boston Red Sox",
       "first_pitch": "2026-08-08T16:10:00-04:00",
-      "best_price": -155
+      "best_price": -155,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Wilyer Abreu)"
     },
     {
       "batter": "Luis Arraez",
@@ -129,7 +137,9 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-08-08T18:05:00-04:00",
-      "best_price": -165
+      "best_price": -165,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "batter": "Seiya Suzuki",
@@ -154,7 +164,23 @@
       "away_team": "Chicago Cubs",
       "home_team": "Kansas City Royals",
       "first_pitch": "2026-08-08T19:10:00-04:00",
-      "best_price": -163
+      "best_price": -163,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-08-09T06:27:45.731225-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 3,
+    "losses": 2,
+    "pushes": 0,
+    "hit_rate": 60.0,
+    "risk_total": 823.0,
+    "profit_total": -28.0,
+    "roi_pct": -3.4
+  }
 }
