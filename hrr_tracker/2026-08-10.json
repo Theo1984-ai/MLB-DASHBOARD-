@@ -29,7 +29,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-08-10T21:40:00-04:00",
-      "best_price": -162
+      "best_price": -162,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Gabriel Moreno",
@@ -54,7 +56,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-08-10T21:40:00-04:00",
-      "best_price": -160
+      "best_price": -160,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "batter": "Luis Arraez",
@@ -79,7 +83,9 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "St. Louis Cardinals",
       "first_pitch": "2026-08-10T19:45:00-04:00",
-      "best_price": -162
+      "best_price": -162,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "batter": "Yordan Alvarez",
@@ -104,7 +110,9 @@
       "away_team": "Houston Astros",
       "home_team": "San Francisco Giants",
       "first_pitch": "2026-08-10T21:45:00-04:00",
-      "best_price": -169
+      "best_price": -169,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Trea Turner",
@@ -129,7 +137,9 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "St. Louis Cardinals",
       "first_pitch": "2026-08-10T19:45:00-04:00",
-      "best_price": -164
+      "best_price": -164,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Trea Turner)"
     },
     {
       "batter": "Jonathan Aranda",
@@ -154,7 +164,23 @@
       "away_team": "Tampa Bay Rays",
       "home_team": "Athletics",
       "first_pitch": "2026-08-10T21:40:00-04:00",
-      "best_price": -155
+      "best_price": -155,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-08-11T06:45:07.012072-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 4,
+    "losses": 1,
+    "pushes": 0,
+    "hit_rate": 80.0,
+    "risk_total": 808.0,
+    "profit_total": 238.0,
+    "roi_pct": 29.46
+  }
 }
