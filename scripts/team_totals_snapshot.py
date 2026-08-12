@@ -45,7 +45,9 @@ if ROOT not in sys.path:
 
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
-BOOK = "draftkings"
+BOOK = "draftkings"   # primary book (kept for backwards compat)
+BOOKS = "draftkings,fanduel,betmgm"   # 8/9: multi-book to distinguish
+                                      # consensus moves from DK-only moves
 MARKET = "team_totals"
 
 
@@ -61,51 +63,34 @@ def _fetch_events(api_key):
 def _fetch_team_totals(api_key, event_id):
     url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events/{event_id}/odds"
            f"?apiKey={api_key}&regions=us&markets={MARKET}"
-           f"&bookmakers={BOOK}&oddsFormat=american")
+           f"&bookmakers={BOOKS}&oddsFormat=american")
     try:
         return json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
     except Exception:
         return {}
 
 
-def _parse_game(event):
-    """Extract team-totals for the DK book. Returns dict or None if no data."""
-    away = event.get("away_team")
-    home = event.get("home_team")
-    if not away or not home:
-        return None
-    dk = None
-    for bm in event.get("bookmakers", []):
-        if bm.get("key") == BOOK:
-            dk = bm
-            break
-    if not dk:
-        return None
-    # team_totals market outcomes: name="Over"/"Under", description=team name
-    # e.g. {name: "Over", description: "Cleveland Guardians", point: 3.5, price: -110}
+def _extract_book(bookmaker, away_team, home_team):
+    """Extract team-totals for one book. Returns
+       {"away": {line, over_price, under_price}, "home": {...}} or None."""
     away_over = away_under = home_over = home_under = None
-    for m in dk.get("markets", []):
+    for m in bookmaker.get("markets", []):
         if m.get("key") != MARKET:
             continue
         for o in m.get("outcomes", []):
-            side = (o.get("name") or "").lower()   # "over" / "under"
-            team = o.get("description")            # team name
+            side = (o.get("name") or "").lower()
+            team = o.get("description")
             point = o.get("point")
             price = o.get("price")
-            if team == away:
+            if team == away_team:
                 if side == "over":  away_over = (point, price)
                 elif side == "under": away_under = (point, price)
-            elif team == home:
+            elif team == home_team:
                 if side == "over":  home_over = (point, price)
                 elif side == "under": home_under = (point, price)
-    # Skip games where DK hasn't posted lines yet
     if not (away_over or away_under or home_over or home_under):
         return None
     return {
-        "game":        f"{away} @ {home}",
-        "away_team":   away,
-        "home_team":   home,
-        "first_pitch": event.get("commence_time"),
         "away": {
             "line":        away_over[0] if away_over else (away_under[0] if away_under else None),
             "over_price":  away_over[1] if away_over else None,
@@ -116,6 +101,70 @@ def _parse_game(event):
             "over_price":  home_over[1] if home_over else None,
             "under_price": home_under[1] if home_under else None,
         },
+    }
+
+
+def _parse_game(event):
+    """Extract team-totals for all 3 books. Returns dict or None if no data."""
+    away = event.get("away_team")
+    home = event.get("home_team")
+    if not away or not home:
+        return None
+    # Collect all 3 books
+    per_book = {}
+    for bm in event.get("bookmakers", []):
+        key = bm.get("key")
+        if key not in ("draftkings", "fanduel", "betmgm"):
+            continue
+        parsed = _extract_book(bm, away, home)
+        if parsed:
+            per_book[key] = parsed
+    if not per_book:
+        return None
+    # Legacy fields — DK-primary (kept for backwards compat with old page code)
+    dk = per_book.get("draftkings") or next(iter(per_book.values()))
+    away_over = away_under = home_over = home_under = None
+    # (Also re-parse DK explicitly for the legacy top-level fields since
+    # older snapshots and the page still read them.)
+    if per_book.get("draftkings"):
+        legacy_away = per_book["draftkings"]["away"]
+        legacy_home = per_book["draftkings"]["home"]
+        away_over = (legacy_away["line"], legacy_away["over_price"])
+        away_under = (legacy_away["line"], legacy_away["under_price"])
+        home_over = (legacy_home["line"], legacy_home["over_price"])
+        home_under = (legacy_home["line"], legacy_home["under_price"])
+    # Fallback: if DK not present but FD/MGM is, use one of those for legacy
+    if not per_book.get("draftkings"):
+        fallback = next(iter(per_book.values()))
+        legacy_away = fallback["away"]
+        legacy_home = fallback["home"]
+        away_over = (legacy_away["line"], legacy_away["over_price"])
+        away_under = (legacy_away["line"], legacy_away["under_price"])
+        home_over = (legacy_home["line"], legacy_home["over_price"])
+        home_under = (legacy_home["line"], legacy_home["under_price"])
+    # Skip games where DK hasn't posted lines yet
+    if not (away_over or away_under or home_over or home_under):
+        return None
+    return {
+        "game":        f"{away} @ {home}",
+        "away_team":   away,
+        "home_team":   home,
+        "first_pitch": event.get("commence_time"),
+        # Legacy top-level fields (DK-primary, or first available book)
+        "away": {
+            "line":        away_over[0] if away_over else (away_under[0] if away_under else None),
+            "over_price":  away_over[1] if away_over else None,
+            "under_price": away_under[1] if away_under else None,
+        },
+        "home": {
+            "line":        home_over[0] if home_over else (home_under[0] if home_under else None),
+            "over_price":  home_over[1] if home_over else None,
+            "under_price": home_under[1] if home_under else None,
+        },
+        # New multi-book field (8/9) — per-book breakdown so page can
+        # distinguish consensus moves (all books) from DK-only moves
+        "books": per_book,
+        "n_books": len(per_book),
     }
 
 

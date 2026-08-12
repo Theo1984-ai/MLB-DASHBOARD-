@@ -30,8 +30,11 @@ HISTORY_DIR = os.path.join(ROOT, "team_totals_history")
 st.set_page_config(page_title="Line Movement", page_icon="📈", layout="wide")
 st.title("📈 Team Totals — Line Movement")
 st.caption(
-    "DraftKings team-total snapshots. **7 AM ET** captures opening lines "
-    "for today's games; **12 PM ET** captures the pre-first-pitch state. "
+    "DraftKings team-total snapshots + FanDuel and BetMGM comparisons. "
+    "**7 AM ET** captures opening lines for today's games; **12 PM ET** "
+    "captures the pre-first-pitch state. The **Consensus** column flags "
+    "🟢 consensus moves (all books moved same direction ≥0.5 runs — likely "
+    "sharp signal) vs ⚠️ DK-only moves (book exposure adjustment, fadeable). "
     "Use the 🔄 button below to take a fresh snapshot on demand."
 )
 
@@ -218,6 +221,45 @@ def _emoji(dl, dp):
     return ""
 
 
+def _consensus_tag(open_game, curr_game, side):
+    """8/9: distinguish consensus moves (all books moved together) from
+    DK-specific moves (probably book-exposure adjustment, not sharp signal).
+
+    Returns:
+      "🟢 consensus" — 2+ books moved same direction ≥0.5 runs
+      "⚠️ DK only"  — DK moved but FD/MGM stayed put
+      "" — no meaningful move OR multi-book data unavailable
+    """
+    o_books = (open_game or {}).get("books") or {}
+    c_books = (curr_game or {}).get("books") or {}
+    # Need at least 2 books in both open & current to compare
+    common = set(o_books.keys()) & set(c_books.keys())
+    if len(common) < 2:
+        return ""
+    # Compute Δ line per book
+    deltas = {}
+    for b in common:
+        o = (o_books[b].get(side) or {}).get("line")
+        c = (c_books[b].get(side) or {}).get("line")
+        if o is not None and c is not None:
+            deltas[b] = c - o
+    if not deltas:
+        return ""
+    # Any book move ≥0.5?
+    big_movers = {b: d for b, d in deltas.items() if abs(d) >= 0.5}
+    if not big_movers:
+        return ""
+    # If DK moved but others didn't → DK-only
+    if "draftkings" in big_movers and len(big_movers) == 1:
+        return "⚠️ DK only"
+    # If 2+ books moved same direction ≥0.5 → consensus
+    same_dir = all(d > 0 for d in big_movers.values()) or all(d < 0 for d in big_movers.values())
+    if len(big_movers) >= 2 and same_dir:
+        return "🟢 consensus"
+    # 2+ moved but different directions — mixed
+    return "🟡 mixed"
+
+
 rows = []
 for game in all_games:
     o = opening_map.get(game, {})
@@ -232,12 +274,14 @@ for game in all_games:
         dl_a = c_away["line"] - o_away["line"]
     dp_a_over = _delta_price(o_away.get("over_price"), c_away.get("over_price"))
     dp_a_under = _delta_price(o_away.get("under_price"), c_away.get("under_price"))
+    consensus_a = _consensus_tag(o, c, "away")
     rows.append({
         "Game":    game,
         "Team":    (c.get("away_team") or o.get("away_team") or "?"),
         "Open":    o_away.get("line"),
         "Current": c_away.get("line"),
         "Δ Line":  dl_a,
+        "Consensus":     consensus_a,
         "Over Open":     o_away.get("over_price"),
         "Over Current":  c_away.get("over_price"),
         "Δ Over":        dp_a_over,
@@ -252,12 +296,14 @@ for game in all_games:
         dl_h = c_home["line"] - o_home["line"]
     dp_h_over = _delta_price(o_home.get("over_price"), c_home.get("over_price"))
     dp_h_under = _delta_price(o_home.get("under_price"), c_home.get("under_price"))
+    consensus_h = _consensus_tag(o, c, "home")
     rows.append({
         "Game":    game,
         "Team":    (c.get("home_team") or o.get("home_team") or "?"),
         "Open":    o_home.get("line"),
         "Current": c_home.get("line"),
         "Δ Line":  dl_h,
+        "Consensus":     consensus_h,
         "Over Open":     o_home.get("over_price"),
         "Over Current":  c_home.get("over_price"),
         "Δ Over":        dp_h_over,
