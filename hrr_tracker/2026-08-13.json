@@ -29,7 +29,9 @@
       "away_team": "Chicago Cubs",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-08-13T16:05:00-04:00",
-      "best_price": -162
+      "best_price": -162,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "batter": "Luis Arraez",
@@ -54,7 +56,9 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "Minnesota Twins",
       "first_pitch": "2026-08-13T19:30:00-04:00",
-      "best_price": -126
+      "best_price": -126,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Shohei Ohtani",
@@ -79,7 +83,23 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Los Angeles Dodgers",
       "first_pitch": "2026-08-13T22:10:00-04:00",
-      "best_price": -135
+      "best_price": -135,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-08-14T06:53:38.885441-04:00",
+  "summary": {
+    "n_total": 3,
+    "n_settled": 3,
+    "n_void": 0,
+    "n_no_data": 0,
+    "wins": 1,
+    "losses": 2,
+    "pushes": 0,
+    "hit_rate": 33.3,
+    "risk_total": 423.0,
+    "profit_total": -197.0,
+    "roi_pct": -46.57
+  }
 }
