@@ -29,7 +29,9 @@
       "away_team": "Kansas City Royals",
       "home_team": "Los Angeles Angels",
       "first_pitch": "2026-08-16T16:07:00-04:00",
-      "best_price": -155
+      "best_price": -155,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Tyler Soderstrom",
@@ -54,7 +56,9 @@
       "away_team": "Texas Rangers",
       "home_team": "Athletics",
       "first_pitch": "2026-08-16T16:05:00-04:00",
-      "best_price": -115
+      "best_price": -115,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Tyler Soderstrom)"
     },
     {
       "batter": "Wyatt Langford",
@@ -79,7 +83,9 @@
       "away_team": "Texas Rangers",
       "home_team": "Athletics",
       "first_pitch": "2026-08-16T16:05:00-04:00",
-      "best_price": -165
+      "best_price": -165,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Otto Lopez",
@@ -104,7 +110,9 @@
       "away_team": "Miami Marlins",
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-08-16T13:40:00-04:00",
-      "best_price": -163
+      "best_price": -163,
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     },
     {
       "batter": "Luis Arraez",
@@ -129,7 +137,9 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "Minnesota Twins",
       "first_pitch": "2026-08-16T14:10:00-04:00",
-      "best_price": -156
+      "best_price": -156,
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     },
     {
       "batter": "Pete Crow-Armstrong",
@@ -154,7 +164,23 @@
       "away_team": "St. Louis Cardinals",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-08-16T15:15:00-04:00",
-      "best_price": -160
+      "best_price": -160,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-08-17T06:25:50.656337-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 4,
+    "losses": 1,
+    "pushes": 0,
+    "hit_rate": 80.0,
+    "risk_total": 799.0,
+    "profit_total": 235.0,
+    "roi_pct": 29.41
+  }
 }
