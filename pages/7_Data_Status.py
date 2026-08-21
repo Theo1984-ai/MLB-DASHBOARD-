@@ -3,6 +3,10 @@ Data Status — health + results dashboard for every saved data feed.
 
 Cleaned-up version: lead with today's results, hide deep history behind
 expanders, single status strip up top instead of repeated metric grids.
+
+Redeploy trigger: 2026-08-20 (Streamlit Cloud was stuck showing 08-18
+data because auto-redeploy skips data-only commits — this comment change
+forces a full rebuild that pulls fresh JSON files from the repo.)
 """
 import json
 import os
