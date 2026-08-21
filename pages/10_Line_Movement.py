@@ -30,12 +30,13 @@ HISTORY_DIR = os.path.join(ROOT, "team_totals_history")
 st.set_page_config(page_title="Line Movement", page_icon="📈", layout="wide")
 st.title("📈 Team Totals — Line Movement")
 st.caption(
-    "DraftKings team-total snapshots + FanDuel and BetMGM comparisons. "
-    "**7 AM ET** captures opening lines for today's games; **12 PM ET** "
-    "captures the pre-first-pitch state. The **Consensus** column flags "
-    "🟢 consensus moves (all books moved same direction ≥0.5 runs — likely "
-    "sharp signal) vs ⚠️ DK-only moves (book exposure adjustment, fadeable). "
-    "Use the 🔄 button below to take a fresh snapshot on demand."
+    "DraftKings team-total snapshots + comparison against **FanDuel, "
+    "BetMGM, Bovada, and Caesars**. **7 AM ET** captures opening lines; "
+    "**12 PM ET** captures pre-first-pitch state. The **Consensus** column "
+    "flags 🟢🟢 strong consensus (3+ books agree) / 🟢 consensus (2 books) — "
+    "follow these, likely sharp money. ⚠️ DK-only (only DK moved) — fadeable, "
+    "book exposure adjustment. Use the 🔄 button below to take a fresh "
+    "snapshot on demand."
 )
 
 
@@ -222,21 +223,27 @@ def _emoji(dl, dp):
 
 
 def _consensus_tag(open_game, curr_game, side):
-    """8/9: distinguish consensus moves (all books moved together) from
-    DK-specific moves (probably book-exposure adjustment, not sharp signal).
+    """Distinguish consensus moves (sharp signal, follow it) from
+    book-specific moves (exposure adjustment, fadeable).
+
+    8/9: original 3-book logic (DK/FD/MGM), required 2+ books.
+    8/20: expanded to 5 books (added Bovada + Caesars). Tightened
+          consensus threshold from 2+ to 3+ books since more books
+          available means "just 2" is a weaker signal.
 
     Returns:
-      "🟢 consensus" — 2+ books moved same direction ≥0.5 runs
-      "⚠️ DK only"  — DK moved but FD/MGM stayed put
-      "" — no meaningful move OR multi-book data unavailable
+      "🟢🟢 strong consensus" — 3+ books moved same direction ≥0.5
+      "🟢 consensus"          — 2 books moved same direction ≥0.5
+      "⚠️ DK only"            — only DK moved
+      "⚠️ single book"        — 1 non-DK book moved alone
+      "🟡 mixed"               — books moved different directions
+      ""                       — no meaningful move OR no multi-book data
     """
     o_books = (open_game or {}).get("books") or {}
     c_books = (curr_game or {}).get("books") or {}
-    # Need at least 2 books in both open & current to compare
     common = set(o_books.keys()) & set(c_books.keys())
     if len(common) < 2:
         return ""
-    # Compute Δ line per book
     deltas = {}
     for b in common:
         o = (o_books[b].get(side) or {}).get("line")
@@ -245,19 +252,20 @@ def _consensus_tag(open_game, curr_game, side):
             deltas[b] = c - o
     if not deltas:
         return ""
-    # Any book move ≥0.5?
     big_movers = {b: d for b, d in deltas.items() if abs(d) >= 0.5}
     if not big_movers:
         return ""
-    # If DK moved but others didn't → DK-only
-    if "draftkings" in big_movers and len(big_movers) == 1:
-        return "⚠️ DK only"
-    # If 2+ books moved same direction ≥0.5 → consensus
+    # Single-book move
+    if len(big_movers) == 1:
+        return "⚠️ DK only" if "draftkings" in big_movers else "⚠️ single book"
+    # 2+ book move — check direction agreement
     same_dir = all(d > 0 for d in big_movers.values()) or all(d < 0 for d in big_movers.values())
-    if len(big_movers) >= 2 and same_dir:
-        return "🟢 consensus"
-    # 2+ moved but different directions — mixed
-    return "🟡 mixed"
+    if not same_dir:
+        return "🟡 mixed"
+    # 3+ books agreeing = strong consensus, 2 books = normal consensus
+    if len(big_movers) >= 3:
+        return "🟢🟢 strong consensus"
+    return "🟢 consensus"
 
 
 rows = []

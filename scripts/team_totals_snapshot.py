@@ -46,8 +46,12 @@ if ROOT not in sys.path:
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 BOOK = "draftkings"   # primary book (kept for backwards compat)
-BOOKS = "draftkings,fanduel,betmgm"   # 8/9: multi-book to distinguish
-                                      # consensus moves from DK-only moves
+BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us"
+# 8/9: multi-book to distinguish consensus moves from DK-only moves.
+# 8/20: added bovada + williamhill_us (Caesars) after coverage test showed
+# Bovada matches DK/FD at 67% and Caesars covers 50%. BetMGM was at 0%
+# today but kept in list in case it returns. With 5 books we can require
+# 3+ agreeing for stronger "consensus" signal.
 MARKET = "team_totals"
 
 
@@ -114,7 +118,7 @@ def _parse_game(event):
     per_book = {}
     for bm in event.get("bookmakers", []):
         key = bm.get("key")
-        if key not in ("draftkings", "fanduel", "betmgm"):
+        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us"):
             continue
         parsed = _extract_book(bm, away, home)
         if parsed:
