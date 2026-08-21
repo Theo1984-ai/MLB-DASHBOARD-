@@ -3,10 +3,6 @@ Data Status — health + results dashboard for every saved data feed.
 
 Cleaned-up version: lead with today's results, hide deep history behind
 expanders, single status strip up top instead of repeated metric grids.
-
-Redeploy trigger: 2026-08-20 (Streamlit Cloud was stuck showing 08-18
-data because auto-redeploy skips data-only commits — this comment change
-forces a full rebuild that pulls fresh JSON files from the repo.)
 """
 import json
 import os
@@ -265,34 +261,6 @@ def load_files(dirname, pick_filter=None):
 all_data = {t["name"]: load_files(t["dir"], pick_filter=t.get("pick_filter"))
             for t in TRACKERS}
 today_et = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
-
-# --- Deploy diagnostic banner (temporary) ---------------------------------
-# If Data Status shows stale tracker dates, use this to confirm Streamlit
-# Cloud actually pulled the latest code and data during redeploy.
-_debug_marker = "DEPLOY-2026-08-20-B"   # bumped each debug commit
-try:
-    import subprocess as _sp
-    _sha = _sp.run(["git","rev-parse","--short","HEAD"], cwd=ROOT,
-                   capture_output=True, text=True, timeout=3).stdout.strip()
-except Exception:
-    _sha = "unknown"
-
-# What's the newest tracker file on disk right now?
-_newest_files = {}
-for _t in TRACKERS:
-    _dp = os.path.join(ROOT, _t["dir"])
-    if os.path.isdir(_dp):
-        _jsons = sorted([f for f in os.listdir(_dp) if f.endswith(".json")])
-        if _jsons:
-            _newest_files[_t["name"]] = _jsons[-1][:-5]
-
-_newest_str = " · ".join(f"{k}={v}" for k, v in _newest_files.items())
-st.info(
-    f"🛠 **Deploy check**  ·  marker: `{_debug_marker}`  ·  "
-    f"commit: `{_sha}`  ·  today: `{today_et}`  \n"
-    f"Newest file per tracker on this Streamlit instance: {_newest_str}",
-    icon="🛠",
-)
 
 
 def fmt_line(x):
