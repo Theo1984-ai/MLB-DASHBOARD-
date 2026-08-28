@@ -1,0 +1,70 @@
+name: Sharp Money Snapshot (3x daily)
+
+on:
+  schedule:
+    # 3 scheduled fires per day so confluence (3+ appearances) can trigger
+    # same-day. Sharp Money signals are fleeting — different scans catch
+    # different plays. 5-min backups because GitHub Actions cron routinely
+    # misses primary fires; the script's append-with-persistence pattern
+    # handles multiple fires gracefully (increments n_appearances).
+    #
+    # Cron is UTC. During EDT (Mar-Nov, most of MLB season):
+    #   7 AM ET  = 11:00 UTC  (opening scan)
+    #   11 AM ET = 15:00 UTC  (mid-morning)
+    #   1 PM ET  = 17:00 UTC  (pre-first-pitch)
+    - cron: '0 11 * * *'   # 7 AM ET (EDT) — primary
+    - cron: '5 11 * * *'   # 7:05 AM ET (EDT) — backup
+    - cron: '0 15 * * *'   # 11 AM ET (EDT) — primary
+    - cron: '5 15 * * *'   # 11:05 AM ET (EDT) — backup
+    - cron: '0 17 * * *'   # 1 PM ET (EDT) — primary
+    - cron: '5 17 * * *'   # 1:05 PM ET (EDT) — backup
+  workflow_dispatch:
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Configure git
+        run: |
+          git config user.name "Sharp Money Bot"
+          git config user.email "bot@noreply.github.com"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install tzdata
+
+      - name: Run sharp money snapshot
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          GITHUB_ACTIONS: 'true'
+        run: |
+          python scripts/sharp_money_snapshot.py
+
+      - name: Commit + push
+        run: |
+          git add sharp_money_history/
+          if git diff --staged --quiet; then
+            echo "No changes to commit (no new picks or unchanged)"
+          else
+            git commit -m "Sharp money snapshot $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push origin main && break
+              echo "Push attempt $i failed, retrying..."
+              sleep 5
+            done
+          fi

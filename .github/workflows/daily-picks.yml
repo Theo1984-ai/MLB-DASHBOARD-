@@ -1,14 +1,15 @@
 name: Daily Picks Auto-Update
 
 on:
-  schedule:
-    # Runs at 4:00 PM ET = 20:00 UTC (EDT) / 21:00 UTC (EST)
-    # Cron is UTC. We schedule both to cover summer + winter.
-    - cron: '0 20 * * *'   # 4 PM ET in EDT (summer)
-    - cron: '0 21 * * *'   # 4 PM ET in EST (winter — runs an hour later in summer)
-    # Bonus mid-afternoon refresh in case books are slow
-    - cron: '0 18 * * *'   # 2 PM ET in EDT
-  workflow_dispatch:        # Allow manual trigger from GitHub UI
+  # DISABLED 2026-08-27 — API downgraded to 20k/mo. All automated scans
+  # off except team totals. Re-enable by uncommenting the schedule block
+  # below when you upgrade back. workflow_dispatch stays on so you can
+  # still trigger a run manually from the GitHub UI when needed.
+  # schedule:
+  #   - cron: '0 20 * * *'   # 4 PM ET in EDT
+  #   - cron: '0 21 * * *'   # 4 PM ET in EST
+  #   - cron: '0 18 * * *'   # 2 PM ET in EDT
+  workflow_dispatch:        # Manual trigger only
 
 jobs:
   update-picks:

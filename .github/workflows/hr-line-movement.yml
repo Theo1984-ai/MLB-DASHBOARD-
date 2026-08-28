@@ -1,15 +1,15 @@
 name: HR Line Movement Snapshot (7 AM + 12 PM ET)
 
 on:
-  schedule:
-    # Same schedule as team totals (moved from 11 PM to 7 AM on 7/21):
-    #   7 AM ET  (EDT) = 11:00 UTC — opening snapshot (DK usually posted)
-    #   12 PM ET (EDT) = 16:00 UTC — pre-first-pitch check
-    # 5-min backup entries; script's freshness guard skips duplicates.
-    - cron: '0 11 * * *'   # 7 AM ET primary
-    - cron: '5 11 * * *'   # 7:05 AM ET backup
-    - cron: '0 16 * * *'   # 12 PM ET primary
-    - cron: '5 16 * * *'   # 12:05 PM ET backup
+  # DISABLED 2026-08-27 — API downgraded to 20k/mo. All automated scans
+  # off except team totals. Re-enable by uncommenting the schedule block
+  # below when you upgrade back. workflow_dispatch stays on so you can
+  # still trigger a run manually from the GitHub UI when needed.
+  # schedule:
+  #   - cron: '0 11 * * *'   # 7 AM ET primary
+  #   - cron: '5 11 * * *'   # 7:05 AM ET backup
+  #   - cron: '0 16 * * *'   # 12 PM ET primary
+  #   - cron: '5 16 * * *'   # 12:05 PM ET backup
   workflow_dispatch:
 
 jobs:
