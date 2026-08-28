@@ -222,6 +222,65 @@ def _emoji(dl, dp):
     return ""
 
 
+def _rlm_side(dl, dp_over, dp_under, threshold_price=15):
+    """Detect Reverse Line Movement (RLM).
+
+    RLM is the sharpest signal in sports betting: the line moves in a
+    direction that DOESN'T match where sharp money is really going.
+
+    Logic:
+      Line moved UP ≥0.5 (books shedding Over exposure) BUT the Over
+        price got cheaper by ≥15 cents afterward → the Over action dried
+        up post-move. Sharps are quietly loading Under. Fade to Under.
+
+      Line moved DOWN ≥0.5 (books shedding Under exposure) BUT the Under
+        price got cheaper by ≥15 cents afterward → mirror image. Fade to Over.
+
+    Returns 'Under', 'Over', or None.
+    """
+    if dl is None or abs(dl) < 0.5:
+        return None
+    if dl > 0 and dp_over is not None and dp_over >= threshold_price:
+        return "Under"
+    if dl < 0 and dp_under is not None and dp_under >= threshold_price:
+        return "Over"
+    return None
+
+
+def _recommendation(consensus_tag, dl, dp_over, dp_under):
+    """Return an actionable play recommendation, or '' if none.
+
+    Priority (sharpest first):
+      1. RLM       — line + price disagreement, fade signal
+      2. Consensus — 2+ books agree, follow the market
+      3. DK-only   — backtest-proven fade (59.2% hit / +13% ROI on 8/20 sample)
+    """
+    dl = dl or 0
+    dp_over = dp_over or 0
+    dp_under = dp_under or 0
+
+    # 1. RLM trumps everything
+    rlm = _rlm_side(dl, dp_over, dp_under)
+    if rlm:
+        return f"🔄 {rlm} (RLM)"
+
+    # 2. Consensus follow
+    if "consensus" in consensus_tag:
+        if dl >= 0.5:
+            return "🎯 Over (consensus)"
+        if dl <= -0.5:
+            return "🎯 Under (consensus)"
+
+    # 3. DK-only fade — backtest-validated
+    if "DK only" in consensus_tag:
+        if dl >= 0.5:
+            return "↩️ Under (fade DK)"
+        if dl <= -0.5:
+            return "↩️ Over (fade DK)"
+
+    return ""
+
+
 def _consensus_tag(open_game, curr_game, side):
     """Distinguish consensus moves (sharp signal, follow it) from
     book-specific moves (exposure adjustment, fadeable).
@@ -283,6 +342,7 @@ for game in all_games:
     dp_a_over = _delta_price(o_away.get("over_price"), c_away.get("over_price"))
     dp_a_under = _delta_price(o_away.get("under_price"), c_away.get("under_price"))
     consensus_a = _consensus_tag(o, c, "away")
+    rec_a = _recommendation(consensus_a, dl_a, dp_a_over, dp_a_under)
     rows.append({
         "Game":    game,
         "Team":    (c.get("away_team") or o.get("away_team") or "?"),
@@ -290,6 +350,7 @@ for game in all_games:
         "Current": c_away.get("line"),
         "Δ Line":  dl_a,
         "Consensus":     consensus_a,
+        "🎯 Rec":         rec_a,
         "Over Open":     o_away.get("over_price"),
         "Over Current":  c_away.get("over_price"),
         "Δ Over":        dp_a_over,
@@ -305,6 +366,7 @@ for game in all_games:
     dp_h_over = _delta_price(o_home.get("over_price"), c_home.get("over_price"))
     dp_h_under = _delta_price(o_home.get("under_price"), c_home.get("under_price"))
     consensus_h = _consensus_tag(o, c, "home")
+    rec_h = _recommendation(consensus_h, dl_h, dp_h_over, dp_h_under)
     rows.append({
         "Game":    game,
         "Team":    (c.get("home_team") or o.get("home_team") or "?"),
@@ -312,6 +374,7 @@ for game in all_games:
         "Current": c_home.get("line"),
         "Δ Line":  dl_h,
         "Consensus":     consensus_h,
+        "🎯 Rec":         rec_h,
         "Over Open":     o_home.get("over_price"),
         "Over Current":  c_home.get("over_price"),
         "Δ Over":        dp_h_over,
@@ -322,6 +385,41 @@ for game in all_games:
     })
 
 df = pd.DataFrame(rows)
+
+# ---------- Top plays quick view ----------
+# Surface the actionable recommendations at the top so you don't have to
+# scan the whole table. Sorted by signal strength: RLM > consensus > fade.
+if not df.empty:
+    plays = df[df["🎯 Rec"] != ""].copy()
+    if not plays.empty:
+        def _rank(r):
+            if r.startswith("🔄"): return 0    # RLM — sharpest
+            if r.startswith("🎯"): return 1    # Consensus follow
+            if r.startswith("↩️"): return 2    # DK-only fade
+            return 9
+        plays["_rank"] = plays["🎯 Rec"].map(_rank)
+        plays = plays.sort_values(["_rank", "Δ Line"], ascending=[True, False])
+        st.markdown("### 🎯 Today's actionable plays")
+        st.caption(
+            "🔄 **RLM** = line and price disagree (sharpest signal, fade) · "
+            "🎯 **Consensus** = 2+ books agree (follow the move) · "
+            "↩️ **Fade DK** = DK-only mover (backtest hit 59.2% at +13% ROI)"
+        )
+        st.dataframe(
+            plays[["Team", "Open", "Current", "Δ Line", "Consensus", "🎯 Rec",
+                   "Over Current", "Under Current"]],
+            use_container_width=True, hide_index=True,
+            column_config={
+                "Open":          st.column_config.NumberColumn(format="%.1f"),
+                "Current":       st.column_config.NumberColumn(format="%.1f"),
+                "Δ Line":        st.column_config.NumberColumn(format="%+.1f"),
+                "Over Current":  st.column_config.NumberColumn(format="%+d"),
+                "Under Current": st.column_config.NumberColumn(format="%+d"),
+            },
+        )
+    else:
+        st.info("🎯 No actionable plays yet — waiting for meaningful line movement.")
+    st.divider()
 
 # Filter controls
 fc1, fc2 = st.columns([1, 4])
