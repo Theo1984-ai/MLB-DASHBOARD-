@@ -222,45 +222,107 @@ def _emoji(dl, dp):
     return ""
 
 
-def _rlm_side(dl, dp_over, dp_under, threshold_price=15):
-    """Detect Reverse Line Movement (RLM).
+SANE_LINE_MIN = 2.0     # MLB team totals rarely below 2
+SANE_LINE_MAX = 6.5     # rarely above 6.5; anything higher is bad data
 
-    RLM is the sharpest signal in sports betting: the line moves in a
-    direction that DOESN'T match where sharp money is really going.
 
-    Logic:
-      Line moved UP ≥0.5 (books shedding Over exposure) BUT the Over
-        price got cheaper by ≥15 cents afterward → the Over action dried
-        up post-move. Sharps are quietly loading Under. Fade to Under.
+def _rlm_check(open_game, curr_game, side, price_threshold=15):
+    """Detect true Reverse Line Movement using an ANCHOR-BOOK method.
 
-      Line moved DOWN ≥0.5 (books shedding Under exposure) BUT the Under
-        price got cheaper by ≥15 cents afterward → mirror image. Fade to Over.
+    v1 of this check (commit 7b4deddf) was flawed: it compared the Over
+    price at line=3.5 against the Over price at line=4.5, which are
+    different products. A cheaper Over at the higher line is normal and
+    doesn't imply Under money.
+
+    v2 (this): find at least one book that DIDN'T move its line between
+    snapshots. That book's prices at the STABLE line reveal real money
+    flow uncontaminated by the line shift. Then compare against what
+    the majority of other books did:
+
+      Majority moved line UP + anchor's Under price got 15+ cents JUICIER
+        → Under money still coming in even at the old line → RLM says
+        fade the majority Over move, bet Under.
+
+      Majority moved line DOWN + anchor's Over price got 15+ cents JUICIER
+        → mirror image → RLM says bet Over.
+
+    Books with obviously bad data (line outside 2.0-6.5, typical for MLB
+    team totals) are filtered out — Caesars occasionally returns game
+    totals labeled as team totals.
 
     Returns 'Under', 'Over', or None.
     """
-    if dl is None or abs(dl) < 0.5:
+    o_books = (open_game or {}).get("books") or {}
+    c_books = (curr_game or {}).get("books") or {}
+    common = set(o_books.keys()) & set(c_books.keys())
+    if len(common) < 2:
         return None
-    if dl > 0 and dp_over is not None and dp_over >= threshold_price:
-        return "Under"
-    if dl < 0 and dp_under is not None and dp_under >= threshold_price:
-        return "Over"
+
+    # Collect line deltas, filtering out books with sanity-check failures
+    line_deltas = {}
+    for b in common:
+        o_line = (o_books[b].get(side) or {}).get("line")
+        c_line = (c_books[b].get(side) or {}).get("line")
+        if o_line is None or c_line is None:
+            continue
+        if not (SANE_LINE_MIN <= o_line <= SANE_LINE_MAX):
+            continue
+        if not (SANE_LINE_MIN <= c_line <= SANE_LINE_MAX):
+            continue
+        line_deltas[b] = c_line - o_line
+
+    if len(line_deltas) < 2:
+        return None
+
+    # Determine majority direction from books that MOVED
+    up_movers = sum(1 for d in line_deltas.values() if d >= 0.5)
+    down_movers = sum(1 for d in line_deltas.values() if d <= -0.5)
+    if up_movers + down_movers < 2:
+        return None
+    majority = "up" if up_movers > down_movers else ("down" if down_movers > up_movers else None)
+    if majority is None:
+        return None
+
+    # Find anchor books — those whose line didn't move
+    anchors = [b for b, d in line_deltas.items() if abs(d) < 0.5]
+    if not anchors:
+        return None
+
+    # Check anchor price shifts for RLM signal
+    for b in anchors:
+        o_side_data = o_books[b].get(side) or {}
+        c_side_data = c_books[b].get(side) or {}
+        if majority == "up":
+            o_u = o_side_data.get("under_price")
+            c_u = c_side_data.get("under_price")
+            if o_u is not None and c_u is not None:
+                d_under = c_u - o_u
+                # Under got 15+ cents more juicy (more negative American)
+                if d_under <= -price_threshold:
+                    return "Under"
+        else:  # majority == "down"
+            o_o = o_side_data.get("over_price")
+            c_o = c_side_data.get("over_price")
+            if o_o is not None and c_o is not None:
+                d_over = c_o - o_o
+                if d_over <= -price_threshold:
+                    return "Over"
+
     return None
 
 
-def _recommendation(consensus_tag, dl, dp_over, dp_under):
+def _recommendation(open_game, curr_game, side, consensus_tag, dl):
     """Return an actionable play recommendation, or '' if none.
 
     Priority (sharpest first):
-      1. RLM       — line + price disagreement, fade signal
-      2. Consensus — 2+ books agree, follow the market
+      1. RLM       — anchor-book price flow opposite to majority line move
+      2. Consensus — 2+ books agree, follow the move
       3. DK-only   — backtest-proven fade (59.2% hit / +13% ROI on 8/20 sample)
     """
     dl = dl or 0
-    dp_over = dp_over or 0
-    dp_under = dp_under or 0
 
-    # 1. RLM trumps everything
-    rlm = _rlm_side(dl, dp_over, dp_under)
+    # 1. RLM (uses anchor-book method)
+    rlm = _rlm_check(open_game, curr_game, side)
     if rlm:
         return f"🔄 {rlm} (RLM)"
 
@@ -342,7 +404,7 @@ for game in all_games:
     dp_a_over = _delta_price(o_away.get("over_price"), c_away.get("over_price"))
     dp_a_under = _delta_price(o_away.get("under_price"), c_away.get("under_price"))
     consensus_a = _consensus_tag(o, c, "away")
-    rec_a = _recommendation(consensus_a, dl_a, dp_a_over, dp_a_under)
+    rec_a = _recommendation(o, c, "away", consensus_a, dl_a)
     rows.append({
         "Game":    game,
         "Team":    (c.get("away_team") or o.get("away_team") or "?"),
@@ -366,7 +428,7 @@ for game in all_games:
     dp_h_over = _delta_price(o_home.get("over_price"), c_home.get("over_price"))
     dp_h_under = _delta_price(o_home.get("under_price"), c_home.get("under_price"))
     consensus_h = _consensus_tag(o, c, "home")
-    rec_h = _recommendation(consensus_h, dl_h, dp_h_over, dp_h_under)
+    rec_h = _recommendation(o, c, "home", consensus_h, dl_h)
     rows.append({
         "Game":    game,
         "Team":    (c.get("home_team") or o.get("home_team") or "?"),
