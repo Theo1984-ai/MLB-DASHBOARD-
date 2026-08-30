@@ -6,10 +6,13 @@ scripts/team_totals_snapshot.py running hourly 11 AM - 10 PM ET).
 
 Shows for each team:
   - Opening line + price (11 AM snapshot)
-  - Current line + price (latest snapshot)
+  - Current line + price (latest snapshot per game — preserves plays past first pitch)
   - Δ line (movement in runs)
   - Δ price (movement in cents)
 Highlights meaningful moves (≥0.5 runs or ≥20 cents).
+
+Deploy nudge: v2026-08-29c (Streamlit Cloud sometimes skips redeploy on
+small code changes; harmless docstring tweak forces a fresh container).
 """
 import json
 import os
