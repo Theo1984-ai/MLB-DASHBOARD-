@@ -30,6 +30,102 @@ if ROOT not in sys.path:
 EASTERN = ZoneInfo("America/New_York")
 HISTORY_DIR = os.path.join(ROOT, "team_totals_history")
 
+
+# ---------- Team-total settlement helpers ----------
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _fetch_mlb_schedule(date_str):
+    """MLB Stats API schedule for `date_str` (YYYY-MM-DD) with team names,
+    per-team runs, and game status. Cached 5 min. Returns list of dicts:
+      {away_team, home_team, away_runs, home_runs, status_code}
+    """
+    import ssl as _ssl
+    import urllib.request
+    ctx = _ssl._create_unverified_context()
+    url = (f"https://statsapi.mlb.com/api/v1/schedule?sportId=1"
+           f"&date={date_str}&hydrate=team,linescore")
+    try:
+        raw = urllib.request.urlopen(url, timeout=15, context=ctx).read()
+        d = json.loads(raw)
+    except Exception:
+        return []
+    out = []
+    for day in d.get("dates", []):
+        for g in day.get("games", []):
+            try:
+                away = g["teams"]["away"]["team"]["name"]
+                home = g["teams"]["home"]["team"]["name"]
+                a_runs = g["teams"]["away"].get("score")
+                h_runs = g["teams"]["home"].get("score")
+                status = g.get("status", {}).get("statusCode", "S")
+                out.append({
+                    "away_team": away, "home_team": home,
+                    "away_runs": a_runs, "home_runs": h_runs,
+                    "status_code": status,
+                })
+            except (KeyError, TypeError):
+                continue
+    return out
+
+
+def _grade_play(sched, away_team, home_team, bet_team, bet_side, bet_line):
+    """Grade one team-totals play. Returns (label, team_runs).
+      label ∈ {"✅ WIN", "❌ LOSS", "➖ PUSH", "⏳ Live", "⏳ Pending", "—"}
+    """
+    if not sched or not bet_team or bet_side not in ("Over", "Under") or bet_line is None:
+        return ("—", None)
+    # Match by exact name first, fall back to last-word match
+    def _last(s): return (s or "").split()[-1].lower()
+    game = None
+    for g in sched:
+        if g["away_team"] == away_team and g["home_team"] == home_team:
+            game = g; break
+    if not game:
+        for g in sched:
+            if (_last(g["away_team"]) == _last(away_team)
+                    and _last(g["home_team"]) == _last(home_team)):
+                game = g; break
+    if not game:
+        return ("—", None)
+    # Which team's runs are we settling?
+    if _last(bet_team) == _last(game["away_team"]):
+        team_runs = game["away_runs"]
+    elif _last(bet_team) == _last(game["home_team"]):
+        team_runs = game["home_runs"]
+    else:
+        return ("—", None)
+    status = game.get("status_code", "S")
+    if status in ("I", "P", "PW", "IR"):     # in-progress states
+        return ("⏳ Live", team_runs)
+    if status not in ("F", "FT", "FR", "O"):  # not final yet
+        return ("⏳ Pending", team_runs)
+    if team_runs is None:
+        return ("—", None)
+    # Team-total grading: whole-number line = possible push, else clean WIN/LOSS
+    diff = team_runs - bet_line
+    is_whole = abs(bet_line - round(bet_line)) < 0.001
+    if is_whole and diff == 0:
+        return ("➖ PUSH", team_runs)
+    if bet_side == "Over":
+        return ("✅ WIN", team_runs) if diff > 0 else ("❌ LOSS", team_runs)
+    else:  # Under
+        return ("✅ WIN", team_runs) if diff < 0 else ("❌ LOSS", team_runs)
+
+
+def _parse_rec_side(rec_str):
+    """Extract 'Over' or 'Under' from a rec string like '🎯 Over (consensus)'."""
+    if not rec_str:
+        return None
+    if " Over " in f" {rec_str} " or rec_str.endswith(" Over"):
+        return "Over"
+    if " Under " in f" {rec_str} " or rec_str.endswith(" Under"):
+        return "Under"
+    # Fallback: look for 'Over' or 'Under' as substring
+    if "Over" in rec_str: return "Over"
+    if "Under" in rec_str: return "Under"
+    return None
+
+
 st.set_page_config(page_title="Line Movement", page_icon="📈", layout="wide")
 st.title("📈 Team Totals — Line Movement")
 st.caption(
@@ -476,15 +572,39 @@ if not df.empty:
             return 9
         plays["_rank"] = plays["🎯 Rec"].map(_rank)
         plays = plays.sort_values(["_rank", "Δ Line"], ascending=[True, False])
+
+        # Grade each play against MLB Stats API results for the selected date.
+        # Fetch the schedule once, then look up per-team runs and settle.
+        sched = _fetch_mlb_schedule(sel_date)
+        results = []
+        team_runs_list = []
+        for _, r in plays.iterrows():
+            # Split "Away @ Home" from Game
+            game_str = r.get("Game", "")
+            if " @ " in game_str:
+                away_full, home_full = game_str.split(" @ ", 1)
+            else:
+                away_full = home_full = ""
+            bet_side = _parse_rec_side(r["🎯 Rec"])
+            bet_team = r.get("Team", "")
+            bet_line = r.get("Current")   # settle against the current/close line
+            label, team_runs = _grade_play(sched, away_full, home_full,
+                                           bet_team, bet_side, bet_line)
+            results.append(label)
+            team_runs_list.append(team_runs)
+        plays["Result"] = results
+        plays["Team runs"] = team_runs_list
+
         st.markdown("### 🎯 Today's actionable plays")
         st.caption(
             "🔄 **RLM** = line and price disagree (sharpest signal, fade) · "
             "🎯 **Consensus** = 2+ books agree (follow the move) · "
-            "↩️ **Fade DK** = DK-only mover (backtest hit 59.2% at +13% ROI)"
+            "↩️ **Fade DK** = DK-only mover (backtest hit 59.2% at +13% ROI) · "
+            "**Result** grades each play against MLB Stats API once games finish."
         )
         st.dataframe(
             plays[["Team", "Open", "Current", "Δ Line", "Consensus", "🎯 Rec",
-                   "Over Current", "Under Current"]],
+                   "Over Current", "Under Current", "Team runs", "Result"]],
             use_container_width=True, hide_index=True,
             column_config={
                 "Open":          st.column_config.NumberColumn(format="%.1f"),
@@ -492,8 +612,23 @@ if not df.empty:
                 "Δ Line":        st.column_config.NumberColumn(format="%+.1f"),
                 "Over Current":  st.column_config.NumberColumn(format="%+d"),
                 "Under Current": st.column_config.NumberColumn(format="%+d"),
+                "Team runs":     st.column_config.NumberColumn(format="%d"),
             },
         )
+
+        # Little summary strip: record for the day so far
+        wins = sum(1 for x in results if x == "✅ WIN")
+        losses = sum(1 for x in results if x == "❌ LOSS")
+        pushes = sum(1 for x in results if x == "➖ PUSH")
+        pending = sum(1 for x in results if x in ("⏳ Live", "⏳ Pending"))
+        if wins + losses + pushes > 0:
+            settled = wins + losses + pushes
+            hit_rate = (wins / (wins + losses) * 100) if (wins + losses) else 0
+            st.caption(
+                f"📊 **{sel_date} record:** {wins}-{losses}"
+                + (f"-{pushes}" if pushes else "")
+                + f" ({hit_rate:.0f}% hit) · {pending} still pending"
+            )
     else:
         st.info("🎯 No actionable plays yet — waiting for meaningful line movement.")
     st.divider()
