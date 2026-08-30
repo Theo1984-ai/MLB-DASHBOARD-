@@ -348,7 +348,7 @@ def _sharp_score(row, n_confluence, n_appearances, ratio):
       Confluence (0-30): matching True Prob or Soft Scanner is the strongest
                          single edge — 2+ system agreement historically
                          >2x hit rate vs solo Sharp Money
-      Persistence (0-20): 3+ scans = confirmed conviction, 2 = emerging
+      Persistence (0-20): 2+ scans = confirmed conviction (lowered 8/28)
       Depth ratio (0-20): 10x+ historically 70% hit, 5-10x 67%, 2-5x 52%
       Skew (0-15): 80-90% is the sweet spot (80% hit / +57% ROI in backtest)
       Edge_pp (0-15): 5-8pp OR 20+pp reward, 8-12pp weak (backtest dip)
@@ -363,8 +363,11 @@ def _sharp_score(row, n_confluence, n_appearances, ratio):
     elif n_confluence == 1: score += 18
 
     # Persistence
-    if n_appearances >= 3:   score += 20
-    elif n_appearances == 2: score += 12
+    # 8/28: lowered "full-points" threshold from 3+ to 2+ appearances so
+    # confluence-tier persistence triggers a day sooner (with only 3
+    # sharp money fires/day, n≥3 required a signal to survive all 3 fires).
+    # n=2 = signal survived at least one refresh, still meaningful.
+    if n_appearances >= 2:   score += 20
     elif n_appearances == 1: score += 4
 
     # Depth ratio

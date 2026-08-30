@@ -24,9 +24,14 @@ from scripts.sportsbook_matcher import match_signals       # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 
-# Same threshold as the page's "Top Actionable Plays" section
+# Filter thresholds for what gets SAVED to the daily snapshot.
+# 8/28: lowered MIN_SKEW from 70 → 60 to fix "confluence never triggers"
+# problem. At 70% only 2 of 25 Polymarket rows/day passed → daily snapshot
+# saved 0-1 picks. At 60% we get ~8 rows/day, giving persistence tracking
+# and cross-model confluence real input to work with. Matches the page's
+# default slider value.
 MIN_EDGE_PP = 3.0
-MIN_SKEW = 70.0
+MIN_SKEW = 60.0
 MIN_LIQUIDITY = 10000
 
 
