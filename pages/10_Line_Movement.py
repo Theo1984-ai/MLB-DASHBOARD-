@@ -190,9 +190,21 @@ st.divider()
 # ---------- Build the delta table ----------
 
 opening = first_populated_snap.get("games", [])
-current = snapshots[-1].get("games", [])
 opening_map = {g["game"]: g for g in opening}
-current_map = {g["game"]: g for g in current}
+
+# Build current_map per-game (not per-snapshot). For each game, take the
+# LATEST snapshot that contained it. This preserves plays past first
+# pitch: the snapshot script filters out already-started games from new
+# fires, so `snapshots[-1]` alone would silently drop late-day plays
+# once a post-first-pitch snapshot lands. Walking newest-to-oldest and
+# taking each game's most recent capture guarantees a play stays in the
+# actionable list from the moment it's flagged through end of day.
+current_map = {}
+for snap in reversed(snapshots):
+    for g in snap.get("games", []):
+        if g["game"] not in current_map:
+            current_map[g["game"]] = g
+current = list(current_map.values())
 
 # Sort games by first-pitch time (earliest first). Fall back to game name
 # for ties or games without a first_pitch. Prefer the current snapshot's
