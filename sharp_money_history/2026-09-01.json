@@ -1,11 +1,58 @@
 {
   "date": "2026-09-01",
-  "snapshot_at": "2026-09-01T13:01:31.999562-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-09-01T14:01:54.738600-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 60.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Home",
+      "point": null,
+      "away_team": "Athletics",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-09-02T18:36:00Z",
+      "best_price": -154,
+      "player": null,
+      "selection": "Texas Rangers ML @ fanduel -154",
+      "market": "Moneyline",
+      "sharp_pick": "Texas Rangers ML",
+      "game": "Athletics vs. Texas Rangers",
+      "question": "Athletics vs. Texas Rangers",
+      "edge_pp": 5.9,
+      "edge_best_pp": 5.9,
+      "skew_strength": 68.3,
+      "skew_side": "NO",
+      "liquidity": 414548.19,
+      "volume": 11037.85,
+      "yes_bid_depth": 234732,
+      "no_bid_depth": 506406,
+      "depth_ratio": 2.16,
+      "pm_mid": 0.335,
+      "pm_implied_pct": 66.5,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 60.6,
+      "sb_consensus_implied_pct": 60.6,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 204664,
+      "sharp_whale_share": 0.404,
+      "captured_at": "2026-09-01T14:01:54.738600-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-01T14:01:54.738600-04:00",
+      "last_seen_at": "2026-09-01T14:01:54.738600-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-01T14:01:54.738600-04:00",
+          "skew": 68.3,
+          "mid": 0.335,
+          "edge": 5.9,
+          "ratio": 2.16
+        }
+      ]
+    }
+  ]
 }
