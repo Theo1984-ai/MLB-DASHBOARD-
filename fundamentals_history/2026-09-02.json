@@ -1,7 +1,7 @@
 {
   "date": "2026-09-02",
-  "snapshot_at": "2026-09-02T10:02:14.395813-04:00",
-  "n_picks": 33,
+  "snapshot_at": "2026-09-02T10:50:54.931678-04:00",
+  "n_picks": 35,
   "filter": {
     "min_composite": 80,
     "min_consensus_pct": 60,
@@ -10,11 +10,11 @@
   },
   "scanner_stats": {
     "n_games": 14,
-    "n_elite_batters": 59,
-    "n_offers": 553
+    "n_elite_batters": 60,
+    "n_offers": 576
   },
   "summary": {
-    "n_total": 33,
+    "n_total": 35,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -52,12 +52,18 @@
       "best_book": "betmgm",
       "opp_pitcher": "Reid Detmers",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
+          "composite": 94.4,
+          "cons": 67.6,
+          "edge": 7.4
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
           "composite": 94.4,
           "cons": 67.6,
           "edge": 7.4
@@ -71,7 +77,7 @@
       "away_team": "New York Mets",
       "home_team": "Tampa Bay Rays",
       "first_pitch": "2026-09-02T18:40:00-04:00",
-      "best_price": -174,
+      "best_price": -177,
       "player": "Juan Soto",
       "batter_id": 665742,
       "pitcher_id": null,
@@ -84,21 +90,27 @@
       "barrel": 14.4,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 67.1,
-      "cross_book_pp": 6.2,
-      "edge_pp": 3.6,
+      "consensus_pct": 66.7,
+      "cross_book_pp": 5.8,
+      "edge_pp": 2.8,
       "best_book": "draftkings",
       "opp_pitcher": "Griffin Jax",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 97.4,
           "cons": 67.1,
           "edge": 6.2
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 97.4,
+          "cons": 66.7,
+          "edge": 5.8
         }
       ]
     },
@@ -122,20 +134,26 @@
       "barrel": 14.2,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 71.0,
+      "consensus_pct": 70.8,
       "cross_book_pp": 5.9,
-      "edge_pp": 2.2,
+      "edge_pp": 2.0,
       "best_book": "betmgm",
       "opp_pitcher": "Eury P\u00e9rez",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 92.9,
           "cons": 71.0,
+          "edge": 5.9
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 92.9,
+          "cons": 70.8,
           "edge": 5.9
         }
       ]
@@ -160,20 +178,26 @@
       "barrel": 12.3,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 72.1,
+      "consensus_pct": 72.6,
       "cross_book_pp": 7.4,
-      "edge_pp": 3.4,
+      "edge_pp": 3.8,
       "best_book": "betmgm",
       "opp_pitcher": "Bryce Miller",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 83.1,
           "cons": 72.1,
+          "edge": 7.4
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 83.1,
+          "cons": 72.6,
           "edge": 7.4
         }
       ]
@@ -198,20 +222,26 @@
       "barrel": 12.9,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 72.0,
+      "consensus_pct": 72.1,
       "cross_book_pp": 5.6,
-      "edge_pp": 1.4,
+      "edge_pp": 1.5,
       "best_book": "fanduel",
       "opp_pitcher": "Justin Hagenman",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.9,
           "cons": 72.0,
+          "edge": 5.6
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.9,
+          "cons": 72.1,
           "edge": 5.6
         }
       ]
@@ -238,16 +268,22 @@
       "k_per_9": null,
       "consensus_pct": 80.7,
       "cross_book_pp": 3.0,
-      "edge_pp": 1.6,
+      "edge_pp": 1.5,
       "best_book": "fanduel",
       "opp_pitcher": "Tomoyuki Sugano",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
+          "composite": 95.6,
+          "cons": 80.7,
+          "edge": 3.0
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
           "composite": 95.6,
           "cons": 80.7,
           "edge": 3.0
@@ -274,20 +310,26 @@
       "barrel": 13.9,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 66.8,
+      "consensus_pct": 67.3,
       "cross_book_pp": 5.6,
-      "edge_pp": 3.2,
+      "edge_pp": 3.7,
       "best_book": "betmgm",
       "opp_pitcher": "Hayden Wesneski",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 95.7,
           "cons": 66.8,
+          "edge": 5.6
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 95.7,
+          "cons": 67.3,
           "edge": 5.6
         }
       ]
@@ -299,7 +341,7 @@
       "away_team": "San Diego Padres",
       "home_team": "Cincinnati Reds",
       "first_pitch": "2026-09-02T12:40:00-04:00",
-      "best_price": -220,
+      "best_price": -219,
       "player": "Elly De La Cruz",
       "batter_id": 682829,
       "pitcher_id": null,
@@ -312,21 +354,27 @@
       "barrel": 13.6,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 70.6,
-      "cross_book_pp": 5.9,
+      "consensus_pct": 70.5,
+      "cross_book_pp": 6.0,
       "edge_pp": 1.9,
-      "best_book": "fanduel",
+      "best_book": "draftkings",
       "opp_pitcher": "Casey Mize",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 88.4,
           "cons": 70.6,
           "edge": 5.9
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 88.4,
+          "cons": 70.5,
+          "edge": 6.0
         }
       ]
     },
@@ -350,21 +398,27 @@
       "barrel": 12.7,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 75.6,
-      "cross_book_pp": 4.4,
-      "edge_pp": 2.3,
+      "consensus_pct": 75.5,
+      "cross_book_pp": 3.9,
+      "edge_pp": 2.2,
       "best_book": "betmgm",
       "opp_pitcher": "Brad Lord",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.5,
           "cons": 75.6,
           "edge": 4.4
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.5,
+          "cons": 75.5,
+          "edge": 3.9
         }
       ]
     },
@@ -388,20 +442,26 @@
       "barrel": 10.2,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 68.6,
+      "consensus_pct": 68.8,
       "cross_book_pp": 7.8,
-      "edge_pp": 5.0,
+      "edge_pp": 5.1,
       "best_book": "betmgm",
       "opp_pitcher": "Jacob Lopez",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 80.5,
           "cons": 68.6,
+          "edge": 7.8
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 80.5,
+          "cons": 68.8,
           "edge": 7.8
         }
       ]
@@ -432,12 +492,18 @@
       "best_book": "fanduel",
       "opp_pitcher": "Davis Martin",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
+          "composite": 99.3,
+          "cons": 73.0,
+          "edge": 3.3
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
           "composite": 99.3,
           "cons": 73.0,
           "edge": 3.3
@@ -464,20 +530,26 @@
       "barrel": 13.5,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 65.6,
+      "consensus_pct": 65.4,
       "cross_book_pp": 6.3,
-      "edge_pp": 3.3,
+      "edge_pp": 3.1,
       "best_book": "betmgm",
       "opp_pitcher": "David Peterson",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.1,
           "cons": 65.6,
+          "edge": 6.3
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.1,
+          "cons": 65.4,
           "edge": 6.3
         }
       ]
@@ -502,20 +574,26 @@
       "barrel": 13.1,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 72.3,
+      "consensus_pct": 72.2,
       "cross_book_pp": 5.0,
-      "edge_pp": 1.7,
+      "edge_pp": 1.6,
       "best_book": "fanduel",
       "opp_pitcher": "Casey Mize",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 86.4,
           "cons": 72.3,
+          "edge": 5.0
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 86.4,
+          "cons": 72.2,
           "edge": 5.0
         }
       ]
@@ -540,20 +618,26 @@
       "barrel": 12.7,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 77.6,
+      "consensus_pct": 77.7,
       "cross_book_pp": 3.1,
       "edge_pp": 1.2,
       "best_book": "betmgm",
       "opp_pitcher": "Brandon Williamson",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.2,
           "cons": 77.6,
+          "edge": 3.1
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.2,
+          "cons": 77.7,
           "edge": 3.1
         }
       ]
@@ -603,7 +687,7 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Cleveland Guardians",
       "first_pitch": "2026-09-02T18:40:00-04:00",
-      "best_price": -1180,
+      "best_price": -1100,
       "player": "Dylan Cease",
       "batter_id": null,
       "pitcher_id": 656302,
@@ -616,21 +700,27 @@
       "barrel": null,
       "xwoba_against": 0.254,
       "k_per_9": 12.99,
-      "consensus_pct": 94.4,
-      "cross_book_pp": 3.5,
-      "edge_pp": 2.2,
+      "consensus_pct": 94.2,
+      "cross_book_pp": 4.0,
+      "edge_pp": 2.5,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Cleveland Guardians",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 97.5,
           "cons": 94.4,
           "edge": 3.5
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 97.5,
+          "cons": 94.2,
+          "edge": 4.0
         }
       ]
     },
@@ -641,7 +731,7 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Cleveland Guardians",
       "first_pitch": "2026-09-02T18:40:00-04:00",
-      "best_price": -461,
+      "best_price": -439,
       "player": "Dylan Cease",
       "batter_id": null,
       "pitcher_id": 656302,
@@ -654,21 +744,27 @@
       "barrel": null,
       "xwoba_against": 0.254,
       "k_per_9": 12.99,
-      "consensus_pct": 84.8,
-      "cross_book_pp": 4.5,
-      "edge_pp": 2.6,
+      "consensus_pct": 84.2,
+      "cross_book_pp": 5.2,
+      "edge_pp": 2.8,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Cleveland Guardians",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 97.5,
           "cons": 84.8,
           "edge": 4.5
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 97.5,
+          "cons": 84.2,
+          "edge": 5.2
         }
       ]
     },
@@ -679,7 +775,7 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-09-02T19:40:00-04:00",
-      "best_price": -1320,
+      "best_price": -1380,
       "player": "Jacob Misiorowski",
       "batter_id": null,
       "pitcher_id": 694819,
@@ -692,21 +788,27 @@
       "barrel": null,
       "xwoba_against": 0.22,
       "k_per_9": 13.23,
-      "consensus_pct": 94.5,
-      "cross_book_pp": 2.3,
-      "edge_pp": 1.5,
+      "consensus_pct": 94.6,
+      "cross_book_pp": 2.0,
+      "edge_pp": 1.3,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Chicago Cubs",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 99.7,
           "cons": 94.5,
           "edge": 2.3
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 99.7,
+          "cons": 94.6,
+          "edge": 2.0
         }
       ]
     },
@@ -717,7 +819,7 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-09-02T19:40:00-04:00",
-      "best_price": -527,
+      "best_price": -543,
       "player": "Jacob Misiorowski",
       "batter_id": null,
       "pitcher_id": 694819,
@@ -730,20 +832,26 @@
       "barrel": null,
       "xwoba_against": 0.22,
       "k_per_9": 13.23,
-      "consensus_pct": 85.8,
+      "consensus_pct": 85.9,
       "cross_book_pp": 2.6,
-      "edge_pp": 1.7,
+      "edge_pp": 1.5,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Chicago Cubs",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 99.7,
           "cons": 85.8,
+          "edge": 2.6
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 99.7,
+          "cons": 85.9,
           "edge": 2.6
         }
       ]
@@ -755,7 +863,7 @@
       "away_team": "New York Yankees",
       "home_team": "Los Angeles Angels",
       "first_pitch": "2026-09-02T21:38:00-04:00",
-      "best_price": -550,
+      "best_price": -500,
       "player": "Reid Detmers",
       "batter_id": null,
       "pitcher_id": 672282,
@@ -768,21 +876,27 @@
       "barrel": null,
       "xwoba_against": 0.284,
       "k_per_9": 10.1,
-      "consensus_pct": 88.0,
-      "cross_book_pp": 6.3,
+      "consensus_pct": 86.8,
+      "cross_book_pp": 7.6,
       "edge_pp": 3.4,
       "best_book": "betmgm",
       "opp_pitcher": null,
       "opp_team": "New York Yankees",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 69.2,
           "cons": 88.0,
           "edge": 6.3
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 69.2,
+          "cons": 86.8,
+          "edge": 7.6
         }
       ]
     },
@@ -793,7 +907,7 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Cleveland Guardians",
       "first_pitch": "2026-09-02T18:40:00-04:00",
-      "best_price": -211,
+      "best_price": -201,
       "player": "Dylan Cease",
       "batter_id": null,
       "pitcher_id": 656302,
@@ -806,21 +920,27 @@
       "barrel": null,
       "xwoba_against": 0.254,
       "k_per_9": 12.99,
-      "consensus_pct": 70.2,
-      "cross_book_pp": 4.4,
-      "edge_pp": 2.3,
+      "consensus_pct": 69.6,
+      "cross_book_pp": 5.4,
+      "edge_pp": 2.8,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Cleveland Guardians",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 97.5,
           "cons": 70.2,
           "edge": 4.4
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 97.5,
+          "cons": 69.6,
+          "edge": 5.4
         }
       ]
     },
@@ -850,12 +970,18 @@
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Los Angeles Angels",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
+          "composite": 81.1,
+          "cons": 95.8,
+          "edge": 1.8
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
           "composite": 81.1,
           "cons": 95.8,
           "edge": 1.8
@@ -869,7 +995,7 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-09-02T19:40:00-04:00",
-      "best_price": -246,
+      "best_price": -253,
       "player": "Jacob Misiorowski",
       "batter_id": null,
       "pitcher_id": 694819,
@@ -882,21 +1008,27 @@
       "barrel": null,
       "xwoba_against": 0.22,
       "k_per_9": 13.23,
-      "consensus_pct": 72.8,
-      "cross_book_pp": 2.6,
-      "edge_pp": 1.7,
+      "consensus_pct": 73.1,
+      "cross_book_pp": 2.7,
+      "edge_pp": 1.4,
       "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "Chicago Cubs",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 99.7,
           "cons": 72.8,
           "edge": 2.6
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 99.7,
+          "cons": 73.1,
+          "edge": 2.7
         }
       ]
     },
@@ -945,7 +1077,7 @@
       "away_team": "New York Yankees",
       "home_team": "Los Angeles Angels",
       "first_pitch": "2026-09-02T21:38:00-04:00",
-      "best_price": -275,
+      "best_price": -245,
       "player": "Reid Detmers",
       "batter_id": null,
       "pitcher_id": 672282,
@@ -958,21 +1090,27 @@
       "barrel": null,
       "xwoba_against": 0.284,
       "k_per_9": 10.1,
-      "consensus_pct": 76.0,
-      "cross_book_pp": 6.7,
+      "consensus_pct": 73.7,
+      "cross_book_pp": 9.0,
       "edge_pp": 2.7,
-      "best_book": "betmgm",
+      "best_book": "draftkings",
       "opp_pitcher": null,
       "opp_team": "New York Yankees",
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 69.2,
           "cons": 76.0,
           "edge": 6.7
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 69.2,
+          "cons": 73.7,
+          "edge": 9.0
         }
       ]
     },
@@ -983,7 +1121,7 @@
       "away_team": "Baltimore Orioles",
       "home_team": "Colorado Rockies",
       "first_pitch": "2026-09-02T15:10:00-04:00",
-      "best_price": 257,
+      "best_price": 259,
       "player": "Pete Alonso",
       "batter_id": 624413,
       "pitcher_id": null,
@@ -997,20 +1135,26 @@
       "xwoba_against": null,
       "k_per_9": null,
       "consensus_pct": 30.1,
-      "cross_book_pp": 6.5,
-      "edge_pp": 2.1,
+      "cross_book_pp": 6.6,
+      "edge_pp": 2.2,
       "best_book": "draftkings",
       "opp_pitcher": "Tomoyuki Sugano",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 95.6,
           "cons": 30.1,
           "edge": 6.5
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 95.6,
+          "cons": 30.1,
+          "edge": 6.6
         }
       ]
     },
@@ -1021,7 +1165,7 @@
       "away_team": "St. Louis Cardinals",
       "home_team": "Los Angeles Dodgers",
       "first_pitch": "2026-09-02T22:10:00-04:00",
-      "best_price": 295,
+      "best_price": 300,
       "player": "Shohei Ohtani",
       "batter_id": 660271,
       "pitcher_id": null,
@@ -1034,21 +1178,27 @@
       "barrel": 15.7,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 25.7,
-      "cross_book_pp": 1.0,
+      "consensus_pct": 25.4,
+      "cross_book_pp": 1.3,
       "edge_pp": 0.4,
-      "best_book": "draftkings",
+      "best_book": "fanduel",
       "opp_pitcher": "TBD",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 97.9,
           "cons": 25.7,
           "edge": 1.0
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 97.9,
+          "cons": 25.4,
+          "edge": 1.3
         }
       ]
     },
@@ -1072,20 +1222,26 @@
       "barrel": 12.9,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 26.4,
+      "consensus_pct": 26.3,
       "cross_book_pp": 4.4,
-      "edge_pp": 1.4,
+      "edge_pp": 1.3,
       "best_book": "fanduel",
       "opp_pitcher": "Justin Hagenman",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.9,
           "cons": 26.4,
+          "edge": 4.4
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.9,
+          "cons": 26.3,
           "edge": 4.4
         }
       ]
@@ -1097,7 +1253,7 @@
       "away_team": "Philadelphia Phillies",
       "home_team": "Arizona Diamondbacks",
       "first_pitch": "2026-09-02T15:40:00-04:00",
-      "best_price": 310,
+      "best_price": 327,
       "player": "Kyle Schwarber",
       "batter_id": 656941,
       "pitcher_id": null,
@@ -1110,21 +1266,27 @@
       "barrel": 16.9,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 25.5,
-      "cross_book_pp": 4.2,
-      "edge_pp": 1.1,
-      "best_book": "fanduel",
+      "consensus_pct": 25.2,
+      "cross_book_pp": 5.2,
+      "edge_pp": 1.8,
+      "best_book": "draftkings",
       "opp_pitcher": "Taylor Clarke",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 94.1,
           "cons": 25.5,
           "edge": 4.2
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 94.1,
+          "cons": 25.2,
+          "edge": 5.2
         }
       ]
     },
@@ -1135,7 +1297,7 @@
       "away_team": "Atlanta Braves",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-09-02T13:05:00-04:00",
-      "best_price": 326,
+      "best_price": 323,
       "player": "Matt Olson",
       "batter_id": 621566,
       "pitcher_id": null,
@@ -1148,21 +1310,27 @@
       "barrel": 15.1,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 24.9,
-      "cross_book_pp": 5.1,
-      "edge_pp": 1.4,
+      "consensus_pct": 25.0,
+      "cross_book_pp": 4.9,
+      "edge_pp": 1.3,
       "best_book": "draftkings",
       "opp_pitcher": "Brad Lord",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 93.9,
           "cons": 24.9,
           "edge": 5.1
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 93.9,
+          "cons": 25.0,
+          "edge": 4.9
         }
       ]
     },
@@ -1186,21 +1354,27 @@
       "barrel": 12.7,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 25.1,
-      "cross_book_pp": 7.0,
+      "consensus_pct": 25.0,
+      "cross_book_pp": 6.2,
       "edge_pp": 1.8,
       "best_book": "fanduel",
       "opp_pitcher": "Brandon Williamson",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 90.2,
           "cons": 25.1,
           "edge": 7.0
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 90.2,
+          "cons": 25.0,
+          "edge": 6.2
         }
       ]
     },
@@ -1211,7 +1385,7 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-09-02T19:40:00-04:00",
-      "best_price": 332,
+      "best_price": 346,
       "player": "Pete Crow-Armstrong",
       "batter_id": 691718,
       "pitcher_id": null,
@@ -1224,21 +1398,27 @@
       "barrel": 13.0,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 24.8,
-      "cross_book_pp": 6.3,
-      "edge_pp": 1.6,
+      "consensus_pct": 24.3,
+      "cross_book_pp": 7.0,
+      "edge_pp": 1.9,
       "best_book": "draftkings",
       "opp_pitcher": "Jacob Misiorowski",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 91.1,
           "cons": 24.8,
           "edge": 6.3
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 91.1,
+          "cons": 24.3,
+          "edge": 7.0
         }
       ]
     },
@@ -1249,7 +1429,7 @@
       "away_team": "Chicago White Sox",
       "home_team": "Houston Astros",
       "first_pitch": "2026-09-02T20:10:00-04:00",
-      "best_price": 330,
+      "best_price": 340,
       "player": "Munetaka Murakami",
       "batter_id": 808959,
       "pitcher_id": null,
@@ -1262,21 +1442,103 @@
       "barrel": 19.4,
       "xwoba_against": null,
       "k_per_9": null,
-      "consensus_pct": 24.4,
-      "cross_book_pp": 4.5,
-      "edge_pp": 1.2,
+      "consensus_pct": 24.2,
+      "cross_book_pp": 5.1,
+      "edge_pp": 1.4,
       "best_book": "fanduel",
       "opp_pitcher": "Hayden Wesneski",
       "opp_team": null,
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-02T10:02:14.395746-04:00",
-      "last_seen_at": "2026-09-02T10:02:14.395746-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
       "scan_history": [
         {
           "t": "2026-09-02T10:02:14.395746-04:00",
           "composite": 92.0,
           "cons": 24.4,
           "edge": 4.5
+        },
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 92.0,
+          "cons": 24.2,
+          "edge": 5.1
+        }
+      ]
+    },
+    {
+      "stat_key": "hits",
+      "side": "Over",
+      "point": 0.5,
+      "away_team": "Atlanta Braves",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-09-02T13:05:00-04:00",
+      "best_price": -203,
+      "player": "James Wood",
+      "batter_id": 695578,
+      "pitcher_id": null,
+      "selection": "James Wood Hits* Over 0.5",
+      "market": "Hits*",
+      "game": "Braves @ Nationals",
+      "composite": 99.5,
+      "xwoba": 0.419,
+      "hard_hit": null,
+      "barrel": 20.8,
+      "xwoba_against": null,
+      "k_per_9": null,
+      "consensus_pct": 70.7,
+      "cross_book_pp": 6.3,
+      "edge_pp": 3.7,
+      "best_book": "draftkings",
+      "opp_pitcher": "Grant Holmes",
+      "opp_team": null,
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-02T10:50:54.931561-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 99.5,
+          "cons": 70.7,
+          "edge": 6.3
+        }
+      ]
+    },
+    {
+      "stat_key": "ks",
+      "side": "Over",
+      "point": 3.5,
+      "away_team": "New York Yankees",
+      "home_team": "Los Angeles Angels",
+      "first_pitch": "2026-09-02T21:38:00-04:00",
+      "best_price": -1500,
+      "player": "Reid Detmers",
+      "batter_id": null,
+      "pitcher_id": 672282,
+      "selection": "Reid Detmers K's* Over 3.5",
+      "market": "K's*",
+      "game": "Yankees @ Angels",
+      "composite": 69.2,
+      "xwoba": null,
+      "hard_hit": null,
+      "barrel": null,
+      "xwoba_against": 0.284,
+      "k_per_9": 10.1,
+      "consensus_pct": 95.8,
+      "cross_book_pp": 3.8,
+      "edge_pp": 2.1,
+      "best_book": "draftkings",
+      "opp_pitcher": null,
+      "opp_team": "New York Yankees",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-02T10:50:54.931561-04:00",
+      "last_seen_at": "2026-09-02T10:50:54.931561-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-02T10:50:54.931561-04:00",
+          "composite": 69.2,
+          "cons": 95.8,
+          "edge": 3.8
         }
       ]
     }
