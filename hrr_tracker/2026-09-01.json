@@ -29,7 +29,9 @@
       "away_team": "Baltimore Orioles",
       "home_team": "Colorado Rockies",
       "first_pitch": "2026-09-01T20:40:00-04:00",
-      "best_price": -155
+      "best_price": -155,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "batter": "Michael Harris II",
@@ -54,7 +56,9 @@
       "away_team": "Atlanta Braves",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-09-01T18:45:00-04:00",
-      "best_price": -160
+      "best_price": -160,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "batter": "Jackson Chourio",
@@ -79,7 +83,9 @@
       "away_team": "Milwaukee Brewers",
       "home_team": "Chicago Cubs",
       "first_pitch": "2026-09-01T19:40:00-04:00",
-      "best_price": -178
+      "best_price": -178,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     },
     {
       "batter": "Coby Mayo",
@@ -104,7 +110,9 @@
       "away_team": "Baltimore Orioles",
       "home_team": "Colorado Rockies",
       "first_pitch": "2026-09-01T20:40:00-04:00",
-      "best_price": -110
+      "best_price": -110,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Coby Mayo)"
     },
     {
       "batter": "Ronald Acu\u00f1a Jr.",
@@ -129,7 +137,9 @@
       "away_team": "Atlanta Braves",
       "home_team": "Washington Nationals",
       "first_pitch": "2026-09-01T18:45:00-04:00",
-      "best_price": -173
+      "best_price": -173,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Kyle Stowers",
@@ -154,7 +164,23 @@
       "away_team": "Miami Marlins",
       "home_team": "Kansas City Royals",
       "first_pitch": "2026-09-01T19:40:00-04:00",
-      "best_price": -168
+      "best_price": -168,
+      "result": "WIN",
+      "settle_detail": "hrr=3 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-02T10:01:16.397916-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 3,
+    "losses": 2,
+    "pushes": 0,
+    "hit_rate": 60.0,
+    "risk_total": 834.0,
+    "profit_total": -28.0,
+    "roi_pct": -3.36
+  }
 }
