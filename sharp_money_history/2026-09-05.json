@@ -1,11 +1,58 @@
 {
   "date": "2026-09-05",
-  "snapshot_at": "2026-09-05T13:13:54.601476-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-09-05T14:50:43.544102-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 60.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Home",
+      "point": null,
+      "away_team": "New York Yankees",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-09-06T20:10:00Z",
+      "best_price": -102,
+      "player": null,
+      "selection": "San Diego Padres ML @ fanduel -102",
+      "market": "Moneyline",
+      "sharp_pick": "San Diego Padres ML",
+      "game": "New York Yankees vs. San Diego Padres",
+      "question": "New York Yankees vs. San Diego Padres",
+      "edge_pp": 3.5,
+      "edge_best_pp": 4.0,
+      "skew_strength": 80.4,
+      "skew_side": "NO",
+      "liquidity": 333002.08,
+      "volume": 115648.52,
+      "yes_bid_depth": 122544,
+      "no_bid_depth": 501618,
+      "depth_ratio": 4.09,
+      "pm_mid": 0.455,
+      "pm_implied_pct": 54.49999999999999,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 50.5,
+      "sb_consensus_implied_pct": 51.0,
+      "sb_n_books": 4,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 279712,
+      "sharp_whale_share": 0.558,
+      "captured_at": "2026-09-05T14:50:43.544102-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T14:50:43.544102-04:00",
+      "last_seen_at": "2026-09-05T14:50:43.544102-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-05T14:50:43.544102-04:00",
+          "skew": 80.4,
+          "mid": 0.455,
+          "edge": 3.5,
+          "ratio": 4.09
+        }
+      ]
+    }
+  ]
 }
