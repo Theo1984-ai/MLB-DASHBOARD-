@@ -1,0 +1,1516 @@
+{
+  "date": "2026-09-05",
+  "snapshot_at": "2026-09-05T10:44:33.014752-04:00",
+  "n_picks": 30,
+  "filter": {
+    "min_edge_pp": 5.0,
+    "min_books": 3,
+    "min_price": -300,
+    "max_price": 300,
+    "top_n": 30
+  },
+  "summary": {
+    "n_total": 30,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "a8a56ccf8ee0c53a32d197ae5ffa812c",
+      "away_team": "Minnesota Twins",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-09-05T23:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Twins @ Sox",
+      "market": "TB",
+      "player": "Kyle Teel",
+      "team": "CWS",
+      "selection": "Kyle Teel",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 270,
+      "best_imp_pct": 27.03,
+      "consensus_pct": 34.11,
+      "edge_pp": 12.19,
+      "ev_per_100": 26.22,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          270
+        ],
+        [
+          "draftkings",
+          177
+        ],
+        [
+          "fanduel",
+          155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 12.19,
+          "price": 270,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fdff6c89acb4de39265f17044023a88c",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-09-06T00:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Cardinals @ Rockies",
+      "market": "TB",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 48.66,
+      "edge_pp": 12.08,
+      "ev_per_100": 11.92,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          130
+        ],
+        [
+          "draftkings",
+          113
+        ],
+        [
+          "fanduel",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 12.08,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Angels @ Pirates",
+      "market": "Hits",
+      "player": "Moises Ballesteros",
+      "team": "LAA",
+      "selection": "Moises Ballesteros",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -140,
+      "best_imp_pct": 58.33,
+      "consensus_pct": 65.81,
+      "edge_pp": 10.9,
+      "ev_per_100": 17.94,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -140
+        ],
+        [
+          "draftkings",
+          -190
+        ],
+        [
+          "williamhill_us",
+          -205
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "bovada",
+          -225
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.9,
+          "price": -140,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Angels @ Pirates",
+      "market": "H+R+R",
+      "player": "Moises Ballesteros",
+      "team": "LAA",
+      "selection": "Moises Ballesteros",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 140,
+      "best_imp_pct": 41.67,
+      "consensus_pct": 47.15,
+      "edge_pp": 10.71,
+      "ev_per_100": 13.15,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          140
+        ],
+        [
+          "draftkings",
+          111
+        ],
+        [
+          "fanduel",
+          -110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.71,
+          "price": 140,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fdff6c89acb4de39265f17044023a88c",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-09-06T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Cardinals @ Rockies",
+      "market": "H+R+R",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 57.54,
+      "edge_pp": 10.58,
+      "ev_per_100": 10.83,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -110
+        ],
+        [
+          "draftkings",
+          -134
+        ],
+        [
+          "fanduel",
+          -170
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.58,
+          "price": -110,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fb7185d28470aa6f3e7aba955423c36f",
+      "away_team": "Boston Red Sox",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-09-05T23:06:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Sox @ Orioles",
+      "market": "TB",
+      "player": "Trevor Story",
+      "team": "BOS",
+      "selection": "Trevor Story",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 195,
+      "best_imp_pct": 33.9,
+      "consensus_pct": 38.32,
+      "edge_pp": 10.55,
+      "ev_per_100": 13.06,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          195
+        ],
+        [
+          "draftkings",
+          173
+        ],
+        [
+          "fanduel",
+          125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.55,
+          "price": 195,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fdff6c89acb4de39265f17044023a88c",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-09-06T00:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Cardinals @ Rockies",
+      "market": "Hits",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -190,
+      "best_imp_pct": 65.52,
+      "consensus_pct": 71.83,
+      "edge_pp": 10.39,
+      "ev_per_100": 18.3,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -190
+        ],
+        [
+          "draftkings",
+          -239
+        ],
+        [
+          "williamhill_us",
+          -260
+        ],
+        [
+          "fanduel",
+          -300
+        ],
+        [
+          "bovada",
+          -315
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.39,
+          "price": -190,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Angels @ Pirates",
+      "market": "TB",
+      "player": "Brandon Lowe",
+      "team": "PIT",
+      "selection": "Brandon Lowe",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 175,
+      "best_imp_pct": 36.36,
+      "consensus_pct": 41.23,
+      "edge_pp": 10.15,
+      "ev_per_100": 13.38,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          175
+        ],
+        [
+          "draftkings",
+          145
+        ],
+        [
+          "fanduel",
+          115
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.15,
+          "price": 175,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Angels @ Pirates",
+      "market": "TB",
+      "player": "Moises Ballesteros",
+      "team": "LAA",
+      "selection": "Moises Ballesteros",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 200,
+      "best_imp_pct": 33.33,
+      "consensus_pct": 38.83,
+      "edge_pp": 10.14,
+      "ev_per_100": 16.49,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          200
+        ],
+        [
+          "draftkings",
+          152
+        ],
+        [
+          "fanduel",
+          130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.14,
+          "price": 200,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fdff6c89acb4de39265f17044023a88c",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-09-06T00:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Cardinals @ Rockies",
+      "market": "Hits",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 280,
+      "best_imp_pct": 26.32,
+      "consensus_pct": 32.02,
+      "edge_pp": 10.05,
+      "ev_per_100": 21.69,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          280
+        ],
+        [
+          "draftkings",
+          230
+        ],
+        [
+          "williamhill_us",
+          225
+        ],
+        [
+          "fanduel",
+          175
+        ],
+        [
+          "bovada",
+          175
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.05,
+          "price": 280,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Angels @ Pirates",
+      "market": "Hits",
+      "player": "Brandon Lowe",
+      "team": "PIT",
+      "selection": "Brandon Lowe",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -145,
+      "best_imp_pct": 59.18,
+      "consensus_pct": 65.97,
+      "edge_pp": 10.05,
+      "ev_per_100": 16.62,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -145
+        ],
+        [
+          "draftkings",
+          -186
+        ],
+        [
+          "williamhill_us",
+          -209
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "bovada",
+          -225
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.05,
+          "price": -145,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "c3af289a1433ac426961691deab41154",
+      "away_team": "Chicago Cubs",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-05T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Cubs @ Marlins",
+      "market": "TB",
+      "player": "Heriberto Hernandez",
+      "team": null,
+      "selection": "Heriberto Hernandez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 150,
+      "best_imp_pct": 40.0,
+      "consensus_pct": 43.95,
+      "edge_pp": 10.0,
+      "ev_per_100": 9.87,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          150
+        ],
+        [
+          "draftkings",
+          139
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 10.0,
+          "price": 150,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Angels @ Pirates",
+      "market": "Hits",
+      "player": "Oswald Peraza",
+      "team": "LAA",
+      "selection": "Oswald Peraza",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -120,
+      "best_imp_pct": 54.55,
+      "consensus_pct": 60.79,
+      "edge_pp": 9.74,
+      "ev_per_100": 13.73,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -120
+        ],
+        [
+          "draftkings",
+          -152
+        ],
+        [
+          "williamhill_us",
+          -154
+        ],
+        [
+          "bovada",
+          -179
+        ],
+        [
+          "fanduel",
+          -180
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 9.74,
+          "price": -120,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "add942d9a7eebd81c252d596832ff941",
+      "away_team": "Tampa Bay Rays",
+      "home_team": "Texas Rangers",
+      "first_pitch": "2026-09-05T23:06:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Rays @ Rangers",
+      "market": "TB",
+      "player": "Brandon Nimmo",
+      "team": "TEX",
+      "selection": "Brandon Nimmo",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 180,
+      "best_imp_pct": 35.71,
+      "consensus_pct": 39.93,
+      "edge_pp": 9.74,
+      "ev_per_100": 11.79,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          180
+        ],
+        [
+          "draftkings",
+          159
+        ],
+        [
+          "fanduel",
+          120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 9.74,
+          "price": 180,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c3af289a1433ac426961691deab41154",
+      "away_team": "Chicago Cubs",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-05T20:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Cubs @ Marlins",
+      "market": "TB",
+      "player": "Otto Lopez",
+      "team": "MIA",
+      "selection": "Otto Lopez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 44.15,
+      "edge_pp": 9.56,
+      "ev_per_100": 12.57,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "draftkings",
+          125
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 9.56,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Angels @ Pirates",
+      "market": "TB",
+      "player": "Oneil Cruz",
+      "team": "PIT",
+      "selection": "Oneil Cruz",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 44.02,
+      "edge_pp": 9.56,
+      "ev_per_100": 12.24,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "draftkings",
+          127
+        ],
+        [
+          "fanduel",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 9.56,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c3af289a1433ac426961691deab41154",
+      "away_team": "Chicago Cubs",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-05T20:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Cubs @ Marlins",
+      "market": "Hits",
+      "player": "Javier Sanoja",
+      "team": "MIA",
+      "selection": "Javier Sanoja",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -165,
+      "best_imp_pct": 62.26,
+      "consensus_pct": 68.06,
+      "edge_pp": 8.75,
+      "ev_per_100": 15.36,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -165
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "draftkings",
+          -223
+        ],
+        [
+          "bovada",
+          -225
+        ],
+        [
+          "williamhill_us",
+          -245
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.75,
+          "price": -165,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "a8a56ccf8ee0c53a32d197ae5ffa812c",
+      "away_team": "Minnesota Twins",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-09-05T23:11:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Twins @ Sox",
+      "market": "TB",
+      "player": "Royce Lewis",
+      "team": "MIN",
+      "selection": "Royce Lewis",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 135,
+      "best_imp_pct": 42.55,
+      "consensus_pct": 46.34,
+      "edge_pp": 8.67,
+      "ev_per_100": 8.9,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          135
+        ],
+        [
+          "draftkings",
+          121
+        ],
+        [
+          "fanduel",
+          -105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.67,
+          "price": 135,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fdff6c89acb4de39265f17044023a88c",
+      "away_team": "St. Louis Cardinals",
+      "home_team": "Colorado Rockies",
+      "first_pitch": "2026-09-06T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Cardinals @ Rockies",
+      "market": "H+R+R",
+      "player": "Mickey Moniak",
+      "team": "COL",
+      "selection": "Mickey Moniak",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -250,
+      "best_imp_pct": 71.43,
+      "consensus_pct": 75.58,
+      "edge_pp": 8.57,
+      "ev_per_100": 14.53,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -250
+        ],
+        [
+          "draftkings",
+          -305
+        ],
+        [
+          "fanduel",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.57,
+          "price": -250,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "fb7185d28470aa6f3e7aba955423c36f",
+      "away_team": "Boston Red Sox",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-09-05T23:06:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Sox @ Orioles",
+      "market": "Hits",
+      "player": "Trevor Story",
+      "team": "BOS",
+      "selection": "Trevor Story",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -155,
+      "best_imp_pct": 60.78,
+      "consensus_pct": 65.5,
+      "edge_pp": 8.45,
+      "ev_per_100": 12.03,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -155
+        ],
+        [
+          "draftkings",
+          -160
+        ],
+        [
+          "williamhill_us",
+          -205
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "bovada",
+          -225
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.45,
+          "price": -155,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "a8a56ccf8ee0c53a32d197ae5ffa812c",
+      "away_team": "Minnesota Twins",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-09-05T23:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Twins @ Sox",
+      "market": "Hits",
+      "player": "Miguel Vargas",
+      "team": "CWS",
+      "selection": "Miguel Vargas",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -185,
+      "best_imp_pct": 64.91,
+      "consensus_pct": 69.28,
+      "edge_pp": 8.42,
+      "ev_per_100": 12.43,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -185
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "bovada",
+          -225
+        ],
+        [
+          "draftkings",
+          -235
+        ],
+        [
+          "williamhill_us",
+          -275
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.42,
+          "price": -185,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "a8a56ccf8ee0c53a32d197ae5ffa812c",
+      "away_team": "Minnesota Twins",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-09-05T23:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Twins @ Sox",
+      "market": "H+R+R",
+      "player": "Kyle Teel",
+      "team": "CWS",
+      "selection": "Kyle Teel",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 155,
+      "best_imp_pct": 39.22,
+      "consensus_pct": 44.1,
+      "edge_pp": 8.4,
+      "ev_per_100": 12.45,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          155
+        ],
+        [
+          "draftkings",
+          120
+        ],
+        [
+          "fanduel",
+          110
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.4,
+          "price": 155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c3af289a1433ac426961691deab41154",
+      "away_team": "Chicago Cubs",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-05T20:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Cubs @ Marlins",
+      "market": "H+R+R",
+      "player": "Otto Lopez",
+      "team": "MIA",
+      "selection": "Otto Lopez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 100,
+      "best_imp_pct": 50.0,
+      "consensus_pct": 54.36,
+      "edge_pp": 8.33,
+      "ev_per_100": 8.72,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          100
+        ],
+        [
+          "draftkings",
+          -121
+        ],
+        [
+          "fanduel",
+          -140
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.33,
+          "price": 100,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Angels @ Pirates",
+      "market": "Hits",
+      "player": "Jared Triolo",
+      "team": "PIT",
+      "selection": "Jared Triolo",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -160,
+      "best_imp_pct": 61.54,
+      "consensus_pct": 66.91,
+      "edge_pp": 8.16,
+      "ev_per_100": 13.97,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -160
+        ],
+        [
+          "fanduel",
+          -210
+        ],
+        [
+          "bovada",
+          -210
+        ],
+        [
+          "draftkings",
+          -211
+        ],
+        [
+          "williamhill_us",
+          -230
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.16,
+          "price": -160,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Angels @ Pirates",
+      "market": "TB",
+      "player": "Esmerlyn Valdez",
+      "team": "PIT",
+      "selection": "Esmerlyn Valdez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 175,
+      "best_imp_pct": 36.36,
+      "consensus_pct": 39.86,
+      "edge_pp": 8.08,
+      "ev_per_100": 9.6,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          175
+        ],
+        [
+          "draftkings",
+          158
+        ],
+        [
+          "fanduel",
+          125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.08,
+          "price": 175,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Angels @ Pirates",
+      "market": "H+R+R",
+      "player": "Moises Ballesteros",
+      "team": "LAA",
+      "selection": "Moises Ballesteros",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -185,
+      "best_imp_pct": 64.91,
+      "consensus_pct": 69.13,
+      "edge_pp": 8.06,
+      "ev_per_100": 12.03,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -185
+        ],
+        [
+          "draftkings",
+          -228
+        ],
+        [
+          "fanduel",
+          -270
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.06,
+          "price": -185,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "c5179877e1918c6fb96b0d90a77e9ef9",
+      "away_team": "New York Yankees",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-09-05T23:16:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Yankees @ Padres",
+      "market": "Hits",
+      "player": "Ben Rice",
+      "team": "NYY",
+      "selection": "Ben Rice",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -150,
+      "best_imp_pct": 60.0,
+      "consensus_pct": 64.1,
+      "edge_pp": 8.05,
+      "ev_per_100": 10.26,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -150
+        ],
+        [
+          "draftkings",
+          -178
+        ],
+        [
+          "bovada",
+          -179
+        ],
+        [
+          "fanduel",
+          -180
+        ],
+        [
+          "williamhill_us",
+          -213
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.05,
+          "price": -150,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Angels @ Pirates",
+      "market": "H+R+R",
+      "player": "Brandon Lowe",
+      "team": "PIT",
+      "selection": "Brandon Lowe",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 115,
+      "best_imp_pct": 46.51,
+      "consensus_pct": 50.68,
+      "edge_pp": 8.03,
+      "ev_per_100": 8.96,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          115
+        ],
+        [
+          "draftkings",
+          -104
+        ],
+        [
+          "fanduel",
+          -120
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 8.03,
+          "price": 115,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Angels @ Pirates",
+      "market": "H+R+R",
+      "player": "Oswald Peraza",
+      "team": "LAA",
+      "selection": "Oswald Peraza",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -155,
+      "best_imp_pct": 60.78,
+      "consensus_pct": 64.48,
+      "edge_pp": 7.97,
+      "ev_per_100": 9.42,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          -155
+        ],
+        [
+          "draftkings",
+          -177
+        ],
+        [
+          "fanduel",
+          -220
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 7.97,
+          "price": -155,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "56ed4ca39605247d3e4d3168064bb5cc",
+      "away_team": "Los Angeles Angels",
+      "home_team": "Pittsburgh Pirates",
+      "first_pitch": "2026-09-05T22:41:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Angels @ Pirates",
+      "market": "H+R+R",
+      "player": "Rafael Flores",
+      "team": null,
+      "selection": "Rafael Flores",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -186,
+      "best_imp_pct": 65.03,
+      "consensus_pct": 68.92,
+      "edge_pp": 7.94,
+      "ev_per_100": 11.11,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -186
+        ],
+        [
+          "betmgm",
+          -220
+        ],
+        [
+          "fanduel",
+          -270
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "last_seen_at": "2026-09-05T10:44:33.014668-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-05T10:44:33.014668-04:00",
+          "edge": 7.94,
+          "price": -186,
+          "n_books": 3
+        }
+      ]
+    }
+  ]
+}
