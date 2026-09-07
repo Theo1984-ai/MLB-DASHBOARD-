@@ -15,15 +15,16 @@
   },
   "summary": {
     "n_total": 33,
-    "n_settled": 0,
+    "n_settled": 33,
     "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_no_data": 0,
+    "wins": 17,
+    "losses": 16,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 51.5,
+    "risk_total": 9495.0,
+    "profit_total": -1578.0,
+    "roi_pct": -16.62
   },
   "picks": [
     {
@@ -62,7 +63,9 @@
           "cons": 66.4,
           "edge": 7.7
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -100,7 +103,9 @@
           "cons": 70.8,
           "edge": 7.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -138,7 +143,9 @@
           "cons": 69.2,
           "edge": 6.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -176,7 +183,9 @@
           "cons": 82.5,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -214,7 +223,9 @@
           "cons": 74.0,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -252,7 +263,9 @@
           "cons": 67.6,
           "edge": 4.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -290,7 +303,9 @@
           "cons": 65.5,
           "edge": 5.8
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -328,7 +343,9 @@
           "cons": 66.3,
           "edge": 6.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -366,7 +383,9 @@
           "cons": 72.4,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -404,7 +423,9 @@
           "cons": 69.6,
           "edge": 4.9
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -442,7 +463,9 @@
           "cons": 71.3,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -480,7 +503,9 @@
           "cons": 73.5,
           "edge": 3.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -518,7 +543,9 @@
           "cons": 67.6,
           "edge": 4.5
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -556,7 +583,9 @@
           "cons": 70.2,
           "edge": 4.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -594,7 +623,9 @@
           "cons": 66.6,
           "edge": 5.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "ks",
@@ -632,7 +663,9 @@
           "cons": 89.4,
           "edge": 6.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -670,7 +703,9 @@
           "cons": 88.7,
           "edge": 6.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -708,7 +743,9 @@
           "cons": 87.2,
           "edge": 5.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=11 vs O5.5"
     },
     {
       "stat_key": "ks",
@@ -746,7 +783,9 @@
           "cons": 89.2,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=12 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -784,7 +823,9 @@
           "cons": 77.1,
           "edge": 6.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O5.5"
     },
     {
       "stat_key": "ks",
@@ -822,7 +863,9 @@
           "cons": 95.3,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=11 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -860,7 +903,9 @@
           "cons": 77.1,
           "edge": 4.6
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=12 vs O5.5"
     },
     {
       "stat_key": "ks",
@@ -898,7 +943,9 @@
           "cons": 61.6,
           "edge": 7.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O6.5"
     },
     {
       "stat_key": "ks",
@@ -936,7 +983,9 @@
           "cons": 74.9,
           "edge": 4.8
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -974,7 +1023,9 @@
           "cons": 75.6,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=11 vs O6.5"
     },
     {
       "stat_key": "hr",
@@ -1012,7 +1063,9 @@
           "cons": 29.2,
           "edge": 2.6
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hr=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1050,7 +1103,9 @@
           "cons": 27.9,
           "edge": 5.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1088,7 +1143,9 @@
           "cons": 26.5,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1126,7 +1183,9 @@
           "cons": 27.4,
           "edge": 3.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1164,7 +1223,9 @@
           "cons": 24.4,
           "edge": 2.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1202,7 +1263,9 @@
           "cons": 21.7,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1240,7 +1303,9 @@
           "cons": 21.9,
           "edge": 5.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1278,7 +1343,10 @@
           "cons": 21.9,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-07T11:27:02.043209-04:00"
 }
