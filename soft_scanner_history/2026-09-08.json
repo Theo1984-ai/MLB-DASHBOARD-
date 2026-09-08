@@ -1,7 +1,7 @@
 {
   "date": "2026-09-08",
-  "snapshot_at": "2026-09-08T10:03:54.675421-04:00",
-  "n_picks": 30,
+  "snapshot_at": "2026-09-08T10:50:13.044813-04:00",
+  "n_picks": 34,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 30,
+    "n_total": 34,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -39,9 +39,9 @@
       "best_book": "betmgm",
       "best_price": 155,
       "best_imp_pct": 39.22,
-      "consensus_pct": 44.75,
+      "consensus_pct": 44.69,
       "edge_pp": 15.33,
-      "ev_per_100": 14.11,
+      "ev_per_100": 13.97,
       "n_books": 3,
       "all_prices": [
         [
@@ -50,19 +50,25 @@
         ],
         [
           "draftkings",
-          147
+          148
         ],
         [
           "fanduel",
           -120
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 15.33,
+          "price": 155,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 15.33,
           "price": 155,
           "n_books": 3
@@ -86,9 +92,9 @@
       "best_book": "williamhill_us",
       "best_price": -173,
       "best_imp_pct": 63.37,
-      "consensus_pct": 68.84,
+      "consensus_pct": 68.72,
       "edge_pp": 12.53,
-      "ev_per_100": 14.94,
+      "ev_per_100": 14.6,
       "n_books": 5,
       "all_prices": [
         [
@@ -105,19 +111,25 @@
         ],
         [
           "fanduel",
-          -310
+          -300
         ],
         [
           "bovada",
           -315
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 12.53,
+          "price": -173,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 12.53,
           "price": -173,
           "n_books": 5
@@ -141,9 +153,9 @@
       "best_book": "betmgm",
       "best_price": 105,
       "best_imp_pct": 48.78,
-      "consensus_pct": 53.35,
+      "consensus_pct": 53.19,
       "edge_pp": 12.0,
-      "ev_per_100": 9.37,
+      "ev_per_100": 9.04,
       "n_books": 3,
       "all_prices": [
         [
@@ -152,19 +164,25 @@
         ],
         [
           "draftkings",
-          -102
+          100
         ],
         [
           "fanduel",
           -155
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 12.0,
+          "price": 105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 12.0,
           "price": 105,
           "n_books": 3
@@ -188,9 +206,9 @@
       "best_book": "betmgm",
       "best_price": 165,
       "best_imp_pct": 37.74,
-      "consensus_pct": 42.5,
+      "consensus_pct": 42.28,
       "edge_pp": 11.04,
-      "ev_per_100": 12.62,
+      "ev_per_100": 12.04,
       "n_books": 3,
       "all_prices": [
         [
@@ -199,19 +217,25 @@
         ],
         [
           "draftkings",
-          144
+          148
         ],
         [
           "fanduel",
           105
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 11.04,
+          "price": 165,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 11.04,
           "price": 165,
           "n_books": 3
@@ -253,12 +277,18 @@
           -165
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 11.04,
+          "price": -105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 11.04,
           "price": -105,
           "n_books": 3
@@ -280,16 +310,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -246,
-      "best_imp_pct": 71.1,
-      "consensus_pct": 74.49,
-      "edge_pp": 9.85,
-      "ev_per_100": 11.75,
+      "best_price": -244,
+      "best_imp_pct": 70.93,
+      "consensus_pct": 74.44,
+      "edge_pp": 10.02,
+      "ev_per_100": 12.06,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -246
+          -244
         ],
         [
           "betmgm",
@@ -300,14 +330,20 @@
           -425
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 9.85,
           "price": -246,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 10.02,
+          "price": -244,
           "n_books": 3
         }
       ]
@@ -347,12 +383,18 @@
           130
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 9.58,
+          "price": 195,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 9.58,
           "price": 195,
           "n_books": 3
@@ -376,9 +418,9 @@
       "best_book": "betmgm",
       "best_price": 175,
       "best_imp_pct": 36.36,
-      "consensus_pct": 40.45,
-      "edge_pp": 9.09,
-      "ev_per_100": 11.23,
+      "consensus_pct": 39.86,
+      "edge_pp": 8.08,
+      "ev_per_100": 9.6,
       "n_books": 3,
       "all_prices": [
         [
@@ -387,20 +429,26 @@
         ],
         [
           "draftkings",
-          153
+          158
         ],
         [
           "fanduel",
-          120
+          125
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 9.09,
+          "price": 175,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 8.08,
           "price": 175,
           "n_books": 3
         }
@@ -423,9 +471,9 @@
       "best_book": "draftkings",
       "best_price": -170,
       "best_imp_pct": 62.96,
-      "consensus_pct": 68.33,
+      "consensus_pct": 68.03,
       "edge_pp": 8.47,
-      "ev_per_100": 14.48,
+      "ev_per_100": 13.68,
       "n_books": 3,
       "all_prices": [
         [
@@ -434,19 +482,25 @@
         ],
         [
           "fanduel",
-          -240
+          -230
         ],
         [
           "betmgm",
           -250
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 8.47,
+          "price": -170,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 8.47,
           "price": -170,
           "n_books": 3
@@ -496,12 +550,18 @@
           -200
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 8.33,
+          "price": -140,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 8.33,
           "price": -140,
           "n_books": 5
@@ -551,12 +611,18 @@
           -240
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 8.32,
+          "price": -165,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 8.32,
           "price": -165,
           "n_books": 5
@@ -580,9 +646,9 @@
       "best_book": "betmgm",
       "best_price": -115,
       "best_imp_pct": 53.49,
-      "consensus_pct": 57.82,
+      "consensus_pct": 57.78,
       "edge_pp": 8.05,
-      "ev_per_100": 9.3,
+      "ev_per_100": 9.22,
       "n_books": 5,
       "all_prices": [
         [
@@ -591,7 +657,7 @@
         ],
         [
           "draftkings",
-          -128
+          -127
         ],
         [
           "williamhill_us",
@@ -606,12 +672,18 @@
           -160
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 8.05,
+          "price": -115,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 8.05,
           "price": -115,
           "n_books": 5
@@ -653,12 +725,18 @@
           -230
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 8.01,
+          "price": -161,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 8.01,
           "price": -161,
           "n_books": 3
@@ -708,12 +786,18 @@
           135
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.95,
+          "price": 189,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.95,
           "price": 189,
           "n_books": 5
@@ -755,12 +839,18 @@
           160
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.79,
+          "price": 226,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.79,
           "price": 226,
           "n_books": 3
@@ -802,12 +892,18 @@
           140
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.77,
+          "price": 195,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.77,
           "price": 195,
           "n_books": 3
@@ -831,9 +927,9 @@
       "best_book": "betmgm",
       "best_price": -150,
       "best_imp_pct": 60.0,
-      "consensus_pct": 62.89,
-      "edge_pp": 7.74,
-      "ev_per_100": 7.23,
+      "consensus_pct": 63.43,
+      "edge_pp": 8.75,
+      "ev_per_100": 8.57,
       "n_books": 3,
       "all_prices": [
         [
@@ -842,20 +938,26 @@
         ],
         [
           "draftkings",
-          -156
+          -160
         ],
         [
           "fanduel",
-          -210
+          -220
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 7.74,
+          "price": -150,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 8.75,
           "price": -150,
           "n_books": 3
         }
@@ -878,9 +980,9 @@
       "best_book": "betmgm",
       "best_price": -160,
       "best_imp_pct": 61.54,
-      "consensus_pct": 65.62,
+      "consensus_pct": 65.51,
       "edge_pp": 7.69,
-      "ev_per_100": 10.6,
+      "ev_per_100": 10.34,
       "n_books": 5,
       "all_prices": [
         [
@@ -893,7 +995,7 @@
         ],
         [
           "draftkings",
-          -184
+          -180
         ],
         [
           "fanduel",
@@ -904,12 +1006,18 @@
           -225
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.69,
+          "price": -160,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.69,
           "price": -160,
           "n_books": 5
@@ -951,12 +1059,18 @@
           110
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.62,
+          "price": 150,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.62,
           "price": 150,
           "n_books": 3
@@ -980,9 +1094,9 @@
       "best_book": "betmgm",
       "best_price": 200,
       "best_imp_pct": 33.33,
-      "consensus_pct": 36.88,
-      "edge_pp": 7.48,
-      "ev_per_100": 10.65,
+      "consensus_pct": 37.48,
+      "edge_pp": 8.33,
+      "ev_per_100": 12.45,
       "n_books": 3,
       "all_prices": [
         [
@@ -991,20 +1105,26 @@
         ],
         [
           "draftkings",
-          174
+          167
         ],
         [
           "fanduel",
-          145
+          140
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 7.48,
+          "price": 200,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 8.33,
           "price": 200,
           "n_books": 3
         }
@@ -1027,9 +1147,9 @@
       "best_book": "draftkings",
       "best_price": -118,
       "best_imp_pct": 54.13,
-      "consensus_pct": 58.82,
+      "consensus_pct": 58.28,
       "edge_pp": 7.41,
-      "ev_per_100": 10.22,
+      "ev_per_100": 9.06,
       "n_books": 3,
       "all_prices": [
         [
@@ -1038,19 +1158,25 @@
         ],
         [
           "fanduel",
-          -155
+          -145
         ],
         [
           "betmgm",
           -160
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.41,
+          "price": -118,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.41,
           "price": -118,
           "n_books": 3
@@ -1074,9 +1200,9 @@
       "best_book": "betmgm",
       "best_price": 155,
       "best_imp_pct": 39.22,
-      "consensus_pct": 42.18,
-      "edge_pp": 7.3,
-      "ev_per_100": 7.56,
+      "consensus_pct": 42.66,
+      "edge_pp": 8.4,
+      "ev_per_100": 8.79,
       "n_books": 3,
       "all_prices": [
         [
@@ -1085,20 +1211,26 @@
         ],
         [
           "draftkings",
-          145
+          143
         ],
         [
           "fanduel",
-          115
+          110
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 7.3,
+          "price": 155,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 8.4,
           "price": 155,
           "n_books": 3
         }
@@ -1194,12 +1326,18 @@
           -250
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.27,
+          "price": -179,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.27,
           "price": -179,
           "n_books": 3
@@ -1241,12 +1379,18 @@
           210
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.26,
+          "price": 300,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.26,
           "price": 300,
           "n_books": 3
@@ -1270,9 +1414,9 @@
       "best_book": "draftkings",
       "best_price": 113,
       "best_imp_pct": 46.95,
-      "consensus_pct": 51.14,
+      "consensus_pct": 50.17,
       "edge_pp": 7.18,
-      "ev_per_100": 8.92,
+      "ev_per_100": 6.85,
       "n_books": 5,
       "all_prices": [
         [
@@ -1280,28 +1424,34 @@
           113
         ],
         [
+          "williamhill_us",
+          101
+        ],
+        [
           "fanduel",
-          -105
+          100
         ],
         [
           "bovada",
-          -106
-        ],
-        [
-          "williamhill_us",
-          -108
+          100
         ],
         [
           "betmgm",
           -118
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
+          "edge": 7.18,
+          "price": 113,
+          "n_books": 5
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
           "edge": 7.18,
           "price": 113,
           "n_books": 5
@@ -1323,16 +1473,16 @@
       "side": "Over",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": 140,
-      "best_imp_pct": 41.67,
-      "consensus_pct": 44.64,
-      "edge_pp": 7.11,
-      "ev_per_100": 7.14,
+      "best_price": 135,
+      "best_imp_pct": 42.55,
+      "consensus_pct": 45.34,
+      "edge_pp": 7.45,
+      "ev_per_100": 6.56,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          140
+          135
         ],
         [
           "betmgm",
@@ -1340,17 +1490,23 @@
         ],
         [
           "fanduel",
-          105
+          100
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-09-08T10:03:54.675338-04:00",
-      "last_seen_at": "2026-09-08T10:03:54.675338-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
       "scan_history": [
         {
           "t": "2026-09-08T10:03:54.675338-04:00",
           "edge": 7.11,
           "price": 140,
+          "n_books": 3
+        },
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 7.45,
+          "price": 135,
           "n_books": 3
         }
       ]
@@ -1493,6 +1649,202 @@
           "edge": 6.95,
           "price": -175,
           "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "73c13ede933eb472cc249b925289fd11",
+      "away_team": "New York Mets",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-08T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Mets @ Marlins",
+      "market": "TB",
+      "player": "Francisco Lindor",
+      "team": "NYM",
+      "selection": "Francisco Lindor",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 136,
+      "best_imp_pct": 42.37,
+      "consensus_pct": 45.61,
+      "edge_pp": 7.63,
+      "ev_per_100": 7.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          136
+        ],
+        [
+          "betmgm",
+          125
+        ],
+        [
+          "fanduel",
+          100
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 7.63,
+          "price": 136,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "73c13ede933eb472cc249b925289fd11",
+      "away_team": "New York Mets",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-08T22:41:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Mets @ Marlins",
+      "market": "TB",
+      "player": "Francisco Alvarez",
+      "team": "NYM",
+      "selection": "Francisco Alvarez",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 231,
+      "best_imp_pct": 30.21,
+      "consensus_pct": 33.07,
+      "edge_pp": 7.52,
+      "ev_per_100": 9.45,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          231
+        ],
+        [
+          "betmgm",
+          220
+        ],
+        [
+          "fanduel",
+          165
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 7.52,
+          "price": 231,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "f01c292dd868a51b739e2283164a5e94",
+      "away_team": "Cincinnati Reds",
+      "home_team": "Los Angeles Dodgers",
+      "first_pitch": "2026-09-09T02:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Reds @ Dodgers",
+      "market": "H+R+R",
+      "player": "Tyler Stephenson",
+      "team": "CIN",
+      "selection": "Tyler Stephenson",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 177,
+      "best_imp_pct": 36.1,
+      "consensus_pct": 38.87,
+      "edge_pp": 7.38,
+      "ev_per_100": 7.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          177
+        ],
+        [
+          "fanduel",
+          170
+        ],
+        [
+          "betmgm",
+          130
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 7.38,
+          "price": 177,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "73c13ede933eb472cc249b925289fd11",
+      "away_team": "New York Mets",
+      "home_team": "Miami Marlins",
+      "first_pitch": "2026-09-08T22:41:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Mets @ Marlins",
+      "market": "Hits",
+      "player": "Francisco Alvarez",
+      "team": "NYM",
+      "selection": "Francisco Alvarez",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 57.28,
+      "edge_pp": 7.3,
+      "ev_per_100": 8.15,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -115
+        ],
+        [
+          "betmgm",
+          -125
+        ],
+        [
+          "williamhill_us",
+          -127
+        ],
+        [
+          "bovada",
+          -154
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "last_seen_at": "2026-09-08T10:50:13.044675-04:00",
+      "scan_history": [
+        {
+          "t": "2026-09-08T10:50:13.044675-04:00",
+          "edge": 7.3,
+          "price": -115,
+          "n_books": 5
         }
       ]
     }
