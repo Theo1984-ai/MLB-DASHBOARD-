@@ -29,7 +29,9 @@
       "away_team": "Toronto Blue Jays",
       "home_team": "Athletics",
       "first_pitch": "2026-09-08T21:40:00-04:00",
-      "best_price": -170
+      "best_price": -170,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Ben Rice",
@@ -54,7 +56,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "New York Yankees",
       "first_pitch": "2026-09-08T19:05:00-04:00",
-      "best_price": -165
+      "best_price": -165,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Fernando Tatis Jr.",
@@ -79,7 +83,9 @@
       "away_team": "Washington Nationals",
       "home_team": "San Diego Padres",
       "first_pitch": "2026-09-08T21:40:00-04:00",
-      "best_price": -164
+      "best_price": -164,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Yandy D\u00edaz",
@@ -104,7 +110,9 @@
       "away_team": "Tampa Bay Rays",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-09-08T19:15:00-04:00",
-      "best_price": -165
+      "best_price": -165,
+      "result": "WIN",
+      "settle_detail": "hrr=5 vs O1.5"
     },
     {
       "batter": "Shohei Ohtani",
@@ -129,7 +137,9 @@
       "away_team": "Cincinnati Reds",
       "home_team": "Los Angeles Dodgers",
       "first_pitch": "2026-09-08T22:10:00-04:00",
-      "best_price": -160
+      "best_price": -160,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Shohei Ohtani)"
     },
     {
       "batter": "Bobby Witt Jr.",
@@ -154,7 +164,23 @@
       "away_team": "Arizona Diamondbacks",
       "home_team": "Kansas City Royals",
       "first_pitch": "2026-09-08T19:40:00-04:00",
-      "best_price": -157
+      "best_price": -157,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-09T10:05:59.908642-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 1,
+    "losses": 4,
+    "pushes": 0,
+    "hit_rate": 20.0,
+    "risk_total": 821.0,
+    "profit_total": -556.0,
+    "roi_pct": -67.72
+  }
 }
