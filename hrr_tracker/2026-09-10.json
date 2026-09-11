@@ -29,7 +29,9 @@
       "away_team": "Tampa Bay Rays",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-09-10T12:15:00-04:00",
-      "best_price": -170
+      "best_price": -170,
+      "result": "LOSS",
+      "settle_detail": "hrr=1 vs O1.5"
     },
     {
       "batter": "Ben Rice",
@@ -54,7 +56,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "New York Yankees",
       "first_pitch": "2026-09-10T19:05:00-04:00",
-      "best_price": -168
+      "best_price": -168,
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O1.5"
     },
     {
       "batter": "Luis Garc\u00eda Jr.",
@@ -79,7 +83,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "New York Yankees",
       "first_pitch": "2026-09-10T19:05:00-04:00",
-      "best_price": -156
+      "best_price": -156,
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "batter": "Aaron Judge",
@@ -104,7 +110,9 @@
       "away_team": "Colorado Rockies",
       "home_team": "New York Yankees",
       "first_pitch": "2026-09-10T19:05:00-04:00",
-      "best_price": -150
+      "best_price": -150,
+      "result": "VOID",
+      "settle_detail": "batter did not play (Aaron Judge)"
     },
     {
       "batter": "Junior Caminero",
@@ -129,7 +137,9 @@
       "away_team": "Tampa Bay Rays",
       "home_team": "Atlanta Braves",
       "first_pitch": "2026-09-10T12:15:00-04:00",
-      "best_price": -141
+      "best_price": -141,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "batter": "Kyle Schwarber",
@@ -154,7 +164,23 @@
       "away_team": "Houston Astros",
       "home_team": "Philadelphia Phillies",
       "first_pitch": "2026-09-10T13:05:00-04:00",
-      "best_price": -140
+      "best_price": -140,
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-11T09:59:33.640114-04:00",
+  "summary": {
+    "n_total": 6,
+    "n_settled": 5,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 3,
+    "pushes": 0,
+    "hit_rate": 40.0,
+    "risk_total": 775.0,
+    "profit_total": -251.0,
+    "roi_pct": -32.39
+  }
 }
