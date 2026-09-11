@@ -1,11 +1,58 @@
 {
   "date": "2026-09-11",
-  "snapshot_at": "2026-09-11T13:58:06.025711-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-09-11T14:18:11.232886-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 60.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Home",
+      "point": null,
+      "away_team": "Pittsburgh Pirates",
+      "home_team": "Chicago Cubs",
+      "first_pitch": "2026-09-12T18:21:00Z",
+      "best_price": -122,
+      "player": null,
+      "selection": "Chicago Cubs ML @ fanduel -122",
+      "market": "Moneyline",
+      "sharp_pick": "Chicago Cubs ML",
+      "game": "Pittsburgh Pirates vs. Chicago Cubs",
+      "question": "Pittsburgh Pirates vs. Chicago Cubs",
+      "edge_pp": 9.5,
+      "edge_best_pp": 9.5,
+      "skew_strength": 67.5,
+      "skew_side": "NO",
+      "liquidity": 305725.9,
+      "volume": 323929.1,
+      "yes_bid_depth": 130368,
+      "no_bid_depth": 270171,
+      "depth_ratio": 2.07,
+      "pm_mid": 0.355,
+      "pm_implied_pct": 64.5,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 55.0,
+      "sb_consensus_implied_pct": 55.0,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 93863,
+      "sharp_whale_share": 0.347,
+      "captured_at": "2026-09-11T14:18:11.232886-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-11T14:18:11.232886-04:00",
+      "last_seen_at": "2026-09-11T14:18:11.232886-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-11T14:18:11.232886-04:00",
+          "skew": 67.5,
+          "mid": 0.355,
+          "edge": 9.5,
+          "ratio": 2.07
+        }
+      ]
+    }
+  ]
 }
