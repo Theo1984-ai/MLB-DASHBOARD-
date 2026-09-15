@@ -59,18 +59,21 @@ def _consensus(values):
 
 
 def _juice_sharp_side(outcomes):
-    """Given [{'name': ..., 'price': ..., 'point': ...}], return side with cheaper juice."""
+    """Return the side where sharp money went (the expensive side).
+
+    When sharps hammer one side, books move that side's price up (-110 → -130)
+    and sweeten the other side (+110) to attract balancing bets.
+    The EXPENSIVE side (-130) is where sharp money is.
+    """
     if len(outcomes) < 2:
         return None, None
     prices = [(o.get("name", ""), o.get("price", 0), o.get("point")) for o in outcomes]
-    # Lower absolute price on one side = book is taking sharp action on that side
-    # (they lower the price to discourage more bets = sharp money already came in)
     sorted_p = sorted(prices, key=lambda x: abs(x[1]))
-    cheap_side = sorted_p[0]
-    expensive_side = sorted_p[-1]
+    cheap_side     = sorted_p[0]   # book wants bets here to balance
+    expensive_side = sorted_p[-1]  # sharp money came in here
     imbalance = abs(expensive_side[1]) - abs(cheap_side[1])
     if imbalance >= JUICE_IMBALANCE_THRESHOLD:
-        return cheap_side[0], imbalance
+        return expensive_side[0], imbalance  # sharp side is the expensive one
     return None, None
 
 
@@ -169,7 +172,7 @@ def scan(api_key):
                         "first_pitch": fp,
                         "signal":      "💧 Juice imbalance",
                         "sharp_pick":  f"{side} spread",
-                        "detail":      f"{BOOK_LABELS.get(bk, bk)} has {side} side {imbalance} cents cheaper",
+                        "detail":      f"{BOOK_LABELS.get(bk, bk)}: {side} is the expensive side ({imbalance} cent gap) — sharps bet this",
                         "strength":    round(imbalance, 0),
                         "book":        BOOK_LABELS.get(bk, bk),
                         "market":      "Spread",
@@ -212,7 +215,7 @@ def scan(api_key):
                         "first_pitch": fp,
                         "signal":      "💧 Juice imbalance",
                         "sharp_pick":  f"{side} total",
-                        "detail":      f"{BOOK_LABELS.get(bk, bk)} has {side} side {imbalance} cents cheaper",
+                        "detail":      f"{BOOK_LABELS.get(bk, bk)}: {side} is the expensive side ({imbalance} cent gap) — sharps bet this",
                         "strength":    round(imbalance, 0),
                         "book":        BOOK_LABELS.get(bk, bk),
                         "market":      "Total",
