@@ -1,10 +1,13 @@
 """
-🏈💰 CFB Sharp Money — Polymarket order-book depth scanner.
-Mirrors NFL Sharp Money but for college football.
+🏈💰 CFB Sharp Money — Sportsbook line comparison.
+
+Detects sharp signals by comparing lines across DK, FD, BetMGM, Caesars, Bovada, BetOnline:
+  🔴 Off-market line  = one book significantly differs from consensus (sharps already moved it)
+  ⚡ Steam move       = DK+FD have moved but lag books haven't caught up
+  💧 Juice imbalance  = book pricing one side cheaper = taking sharp action on that side
 """
-import json
-import sys
 import os
+import sys
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -18,39 +21,49 @@ if ROOT not in sys.path:
 EASTERN = ZoneInfo("America/New_York")
 
 st.set_page_config(page_title="CFB Sharp Money", page_icon="🏈", layout="wide")
-st.title("🏈💰 CFB Sharp Money — Polymarket")
+st.title("🏈💰 CFB Sharp Money")
 st.caption(
-    "College football Polymarket order-book depth scanner. "
-    "Heavy bid skew on one side = where limit-order books want to bet = sharp signal.  \n"
-    "**Skew strength** = % of near-mid liquidity on the sharp side. "
-    "**Whale share** > 50% means one large order is driving the skew (less reliable)."
+    "Detects sharp money signals by comparing lines across **DraftKings, FanDuel, BetMGM, Caesars, Bovada, BetOnline**.  \n"
+    "🔴 **Off-market** = one book differs significantly from consensus (sharps already moved it) · "
+    "⚡ **Steam** = DK+FD moved, lag books haven't caught up · "
+    "💧 **Juice imbalance** = one side priced cheaper = book taking sharp action on that side."
 )
 
 
+def _resolve_secret(name):
+    try:
+        if name in st.secrets:
+            return st.secrets[name]
+    except Exception:
+        pass
+    return os.environ.get(name)
+
+
+ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
+if not ODDS_KEY:
+    st.error("Missing `THE_ODDS_API_KEY` in secrets.")
+    st.stop()
+
+
 @st.cache_data(ttl=180, show_spinner=False)
-def _run_scan(min_vol, min_liq, top_n):
-    from scripts.cfb_polymarket_sharp import scan
-    return scan(min_volume=min_vol, min_liquidity=min_liq, top_n=top_n)
+def _run_scan(api_key):
+    from scripts.cfb_sharp_scanner import scan
+    return scan(api_key)
 
 
-# Controls
-cc1, cc2, cc3, cc4 = st.columns([1, 1, 1, 2])
-with cc1:
+rc1, rc2 = st.columns([1, 5])
+with rc1:
     refresh = st.button("🔄 Refresh", type="primary", use_container_width=True)
-with cc2:
-    min_vol = st.number_input("Min volume ($)", value=200, step=100)
-with cc3:
-    min_liq = st.number_input("Min liquidity ($)", value=10000, step=1000)
-with cc4:
-    top_n = st.slider("Max markets to scan", 10, 50, 30)
+with rc2:
+    st.caption("Live comparison across 6 sharp books · Cache TTL: 3 min")
 
 if refresh:
     st.cache_data.clear()
     st.rerun()
 
-with st.spinner("Scanning CFB Polymarket order books..."):
+with st.spinner("Comparing CFB lines across sportsbooks..."):
     try:
-        rows, debug = _run_scan(min_vol, min_liq, top_n)
+        plays = _run_scan(ODDS_KEY)
     except Exception as e:
         import traceback
         st.error(f"Scan failed: {e}")
@@ -58,14 +71,10 @@ with st.spinner("Scanning CFB Polymarket order books..."):
             st.code(traceback.format_exc()[:2000])
         st.stop()
 
-with st.expander("📊 Scan stats", expanded=False):
-    st.json(debug)
-
-if not rows:
-    st.warning(
-        "No CFB markets found with sufficient liquidity. "
-        "Polymarket CFB coverage is lighter than NFL — check back closer to game day, "
-        "or lower the Min volume / Min liquidity thresholds."
+if not plays:
+    st.info(
+        "No sharp signals detected right now. This is normal early in the week before "
+        "books post CFB lines (typically Monday/Tuesday). Check back once lines are up."
     )
     st.stop()
 
@@ -81,47 +90,53 @@ def _kickoff(iso):
         return iso
 
 
-def _score(r):
-    depth_ratio = r["yes_bid_depth"] / max(r["no_bid_depth"], 1)
-    skew_pts = (r["skew_strength"] - 50) * 0.4
-    vol_pts  = min(r["volume"] / 5000 * 20, 20)
-    whale_pen = -25 if r["sharp_whale_share"] > 0.6 else (-10 if r["sharp_whale_share"] > 0.4 else 0)
-    depth_pts = min((depth_ratio - 1) * 15, 30) if depth_ratio > 1 else max((depth_ratio - 1) * 15, -30)
-    return round(depth_pts + skew_pts + vol_pts + whale_pen, 1)
+df = pd.DataFrame(plays)
+df["Kickoff"]     = df["first_pitch"].apply(_kickoff)
+df["Signal"]      = df["signal"]
+df["Sharp Pick"]  = df["sharp_pick"]
+df["Detail"]      = df["detail"]
+df["Strength"]    = df["strength"]
+df["Market"]      = df["market"]
 
+DISPLAY = ["Signal", "Kickoff", "Sharp Pick", "Market", "Detail", "Strength"]
 
-df = pd.DataFrame(rows)
-df["Kickoff"]      = df["game_start"].apply(_kickoff)
-df["Sharp Score"]  = df.apply(_score, axis=1)
-df["Sharp Pick"]   = df["sharp_pick"]
-df["Skew %"]       = df["skew_strength"]
-df["Volume"]       = df["volume"].apply(lambda x: f"${x:,.0f}")
-df["Liquidity"]    = df["liquidity"].apply(lambda x: f"${x:,.0f}")
-df["Whale Share"]  = df["sharp_whale_share"].apply(lambda x: f"{x:.0%}")
-df["Category"]     = df["category"]
-df["YES depth"]    = df["yes_bid_depth"].apply(lambda x: f"${x:,}")
-df["NO depth"]     = df["no_bid_depth"].apply(lambda x: f"${x:,}")
-df["Mid"]          = df["mid"].apply(lambda x: f"{x:.2f}")
+# Tabs by signal type
+off_mkt  = df[df["Signal"].str.contains("Off-market")]
+steam    = df[df["Signal"].str.contains("Steam")]
+juice    = df[df["Signal"].str.contains("Juice")]
 
-df = df.sort_values("Sharp Score", ascending=False)
-
-DISPLAY = ["Sharp Score", "Kickoff", "Sharp Pick", "Category",
-           "Skew %", "Volume", "Liquidity", "Whale Share", "YES depth", "NO depth", "Mid"]
-
-t_all, t_yes, t_no = st.tabs([
+t1, t2, t3, t4 = st.tabs([
     f"📋 All ({len(df)})",
-    f"✅ YES heavy ({(df['skew_side']=='YES').sum()})",
-    f"❌ NO heavy ({(df['skew_side']=='NO').sum()})",
+    f"🔴 Off-market ({len(off_mkt)})",
+    f"⚡ Steam ({len(steam)})",
+    f"💧 Juice ({len(juice)})",
 ])
-with t_all:
-    st.dataframe(df[DISPLAY], use_container_width=True, hide_index=True)
-with t_yes:
-    st.dataframe(df[df["skew_side"] == "YES"][DISPLAY], use_container_width=True, hide_index=True)
-with t_no:
-    st.dataframe(df[df["skew_side"] == "NO"][DISPLAY], use_container_width=True, hide_index=True)
+
+COL_CFG = {
+    "Strength": st.column_config.NumberColumn(format="%.1f"),
+}
+
+with t1:
+    st.dataframe(df[DISPLAY], use_container_width=True, hide_index=True, column_config=COL_CFG)
+with t2:
+    if off_mkt.empty:
+        st.info("No off-market lines detected.")
+    else:
+        st.dataframe(off_mkt[DISPLAY], use_container_width=True, hide_index=True, column_config=COL_CFG)
+with t3:
+    if steam.empty:
+        st.info("No steam moves detected.")
+    else:
+        st.dataframe(steam[DISPLAY], use_container_width=True, hide_index=True, column_config=COL_CFG)
+with t4:
+    if juice.empty:
+        st.info("No juice imbalances detected.")
+    else:
+        st.dataframe(juice[DISPLAY], use_container_width=True, hide_index=True, column_config=COL_CFG)
 
 st.divider()
 st.caption(
     f"Last scan: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}  •  "
-    f"{len(rows)} markets with order-book data  •  Cache TTL: 3 min"
+    f"{len(plays)} sharp signals across {df['game'].nunique()} games  •  "
+    f"Books: DK · FD · BetMGM · Caesars · Bovada · BetOnline"
 )
