@@ -50,7 +50,7 @@ if not ODDS_KEY:
 def _fetch(api_key: str):
     url = (
         f"https://api.the-odds-api.com/v4/sports/{SPORT}/odds"
-        f"?apiKey={api_key}&regions=us&markets={MARKET}"
+        f"?apiKey={api_key}&markets={MARKET}"
         f"&bookmakers={BOOKS}&oddsFormat=american"
     )
     try:
