@@ -53,18 +53,17 @@ if not ODDS_KEY:
 
 # ---------- Controls ----------
 
-cc1, cc2, cc3, cc4 = st.columns([1, 1, 1, 2])
+cc1, cc2, cc3 = st.columns([1, 1, 2])
 with cc1:
     refresh = st.button("🔄 Refresh", type="primary", use_container_width=True)
 with cc2:
-    min_books = st.number_input("Min books", min_value=1, max_value=6, value=1,
-                                help="Minimum number of books pricing the prop")
-with cc3:
     value_only = st.toggle("💎 Value only", value=False,
                            help="Show only plays where best price beats consensus by 3+ pts")
-with cc4:
+with cc3:
     game_filter = st.text_input("Filter by team", placeholder="e.g. Chiefs, Mahomes",
                                 help="Case-insensitive substring match on player or game")
+
+min_books = 1  # always show all props
 
 if refresh:
     st.cache_data.clear()
