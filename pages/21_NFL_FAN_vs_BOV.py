@@ -169,16 +169,24 @@ for ev in data:
             "_flag":     (diff is not None and diff >= 0.5),
         })
 
+with st.expander("🔍 Diagnostic — raw API response (first 3 games)"):
+    st.write(f"Events fetched: {len(data)}")
+    for ev in data[:3]:
+        st.write(f"**{ev.get('away_team')} @ {ev.get('home_team')}**")
+        bms = ev.get("bookmakers", [])
+        if not bms:
+            st.write("  _(no bookmakers returned)_")
+        for bm in bms:
+            mkts = [m.get("key") for m in bm.get("markets", [])]
+            outcomes_sample = []
+            for m in bm.get("markets", []):
+                for o in m.get("outcomes", [])[:2]:
+                    outcomes_sample.append(o)
+            st.write(f"  - `{bm.get('key')}`: markets={mkts}")
+            if outcomes_sample:
+                st.json(outcomes_sample[:2])
+
 if not rows:
-    st.warning("No team total lines from Fanatics or Bovada right now — props may not be posted yet.")
-    with st.expander("🔍 Diagnostic info"):
-        st.write(f"Events fetched: {len(data)}")
-        for ev in data[:3]:
-            st.write(f"**{ev.get('away_team')} @ {ev.get('home_team')}**")
-            for bm in ev.get("bookmakers", []):
-                mkts = [m.get("key") for m in bm.get("markets", [])]
-                st.write(f"  - {bm.get('key')}: markets = {mkts}")
-    st.stop()
 
 df = pd.DataFrame(rows)
 
