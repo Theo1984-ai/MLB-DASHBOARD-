@@ -22,7 +22,7 @@ if ROOT not in sys.path:
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 SPORT = "americanfootball_nfl"
-BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us"
+BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us,fanatics"
 MARKET = "team_totals"
 HISTORY_DIR = os.path.join(ROOT, "nfl_team_totals_history")
 
@@ -86,7 +86,7 @@ def _parse_game(event):
     per_book = {}
     for bm in event.get("bookmakers", []):
         key = bm.get("key")
-        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us"):
+        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us", "fanatics"):
             continue
         parsed = _extract_book(bm, away, home)
         if parsed:

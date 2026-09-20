@@ -25,7 +25,7 @@ HISTORY_DIR = os.path.join(ROOT, "nfl_team_totals_history")
 st.set_page_config(page_title="NFL Line Movement", page_icon="📈", layout="wide")
 st.title("📈 NFL Team Totals — Line Movement")
 st.caption(
-    "DraftKings team-total snapshots vs **FanDuel, BetMGM, Bovada, Caesars** "
+    "DraftKings team-total snapshots vs **FanDuel, BetMGM, Bovada, Caesars, Fanatics** "
     "for the entire week — Thursday Night, Sunday slate, Monday Night all in one view.  \n"
     "**Consensus** 🟢🟢 = 3+ books agree (follow) · 🟢 = 2 books · "
     "⚠️ DK only = single-book move (fade) · 🔄 RLM = sharpest signal.  \n"
@@ -517,7 +517,7 @@ if game_options:
 
 st.divider()
 st.caption(
-    f"Books: DraftKings · FanDuel · BetMGM · Bovada · Caesars  ·  "
+    f"Books: DraftKings · FanDuel · BetMGM · Bovada · Caesars · Fanatics  ·  "
     f"Market: NFL team totals  ·  "
     f"{payload.get('n_snapshots', len(snapshots))} snapshots this week  ·  "
     f"On-demand only — no auto-cron."

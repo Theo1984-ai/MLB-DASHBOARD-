@@ -122,7 +122,7 @@ st.set_page_config(page_title="CFB Line Movement", page_icon="🏈", layout="wid
 st.title("🏈📈 CFB Team Totals — Line Movement")
 st.caption(
     "DraftKings CFB team-total snapshots + comparison against **FanDuel, "
-    "BetMGM, Bovada, and Caesars**. One file per week — all games in one view.  \n"
+    "BetMGM, Bovada, Caesars, and Fanatics**. One file per week — all games in one view.  \n"
     "**Consensus** 🟢🟢 strong (3+ books agree) · 🟢 consensus (2 books) · "
     "⚠️ DK only = single-book move (fadeable) · 🔄 RLM = sharpest signal.  \n"
     "No auto-cron — hit **🔄 Take snapshot now** on demand."
@@ -568,7 +568,7 @@ if game_options:
 
 st.divider()
 st.caption(
-    f"Books: DraftKings · FanDuel · BetMGM · Bovada · Caesars  ·  "
+    f"Books: DraftKings · FanDuel · BetMGM · Bovada · Caesars · Fanatics  ·  "
     f"Market: CFB team totals  ·  "
     f"{payload.get('n_snapshots', len(snapshots))} snapshots this week  ·  "
     f"On-demand only — no auto-cron."
