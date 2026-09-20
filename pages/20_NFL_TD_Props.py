@@ -57,7 +57,7 @@ cc1, cc2, cc3, cc4 = st.columns([1, 1, 1, 2])
 with cc1:
     refresh = st.button("🔄 Refresh", type="primary", use_container_width=True)
 with cc2:
-    min_books = st.number_input("Min books", min_value=1, max_value=6, value=2,
+    min_books = st.number_input("Min books", min_value=1, max_value=6, value=1,
                                 help="Minimum number of books pricing the prop")
 with cc3:
     value_only = st.toggle("💎 Value only", value=False,
