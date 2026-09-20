@@ -171,6 +171,13 @@ for ev in data:
 
 if not rows:
     st.warning("No team total lines from Fanatics or Bovada right now — props may not be posted yet.")
+    with st.expander("🔍 Diagnostic info"):
+        st.write(f"Events fetched: {len(data)}")
+        for ev in data[:3]:
+            st.write(f"**{ev.get('away_team')} @ {ev.get('home_team')}**")
+            for bm in ev.get("bookmakers", []):
+                mkts = [m.get("key") for m in bm.get("markets", [])]
+                st.write(f"  - {bm.get('key')}: markets = {mkts}")
     st.stop()
 
 df = pd.DataFrame(rows)
