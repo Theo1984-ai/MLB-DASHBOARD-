@@ -26,8 +26,8 @@ EASTERN = ZoneInfo("America/New_York")
 st.set_page_config(page_title="NFL TD Props", page_icon="🏈", layout="wide")
 st.title("🏈🎯 NFL TD Props — Scorer Board")
 st.caption(
-    "All players priced for **Anytime TD**, **First TD**, **Last TD**, and "
-    "**Pass TDs** (O/U).  Sourced from DK · FD · MGM · CZR · BOV · PIN.  \n"
+    "All players priced for **Anytime TD**, **First TD**, and **Last TD**.  "
+    "Sourced from DK · FD · MGM · CZR · BOV · PIN.  \n"
     "**Consensus %** = average true probability across all priced books.  "
     "**💎 Value** = best available price beats consensus by 3+ pts.  "
     "**⚡ Sharp** = DK/FD have player 5+ pts higher than lag books (sharp steam)."
@@ -97,7 +97,6 @@ if not rows:
             "Events on API":        dbg.get("n_events", 0),
             "Upcoming games":       dbg.get("n_upcoming", 0),
             "Games w/ scorer props":dbg.get("n_with_scorer_props", 0),
-            "Games w/ pass props":  dbg.get("n_with_pass_props", 0),
             "Markets seen":         dbg.get("markets_seen", []),
             "Outcomes parsed":      dbg.get("outcomes_parsed", 0),
             "Errors":               dbg.get("errors", []),
@@ -129,16 +128,14 @@ if game_filter.strip():
 anytime  = [r for r in filtered if r["market"] == "Anytime TD"]
 first_td = [r for r in filtered if r["market"] == "First TD"]
 last_td  = [r for r in filtered if r["market"] == "Last TD"]
-pass_tds = [r for r in filtered if r["market"] == "Pass TDs"]
 
-st.markdown(f"### 🏈 {len(filtered)} TD props across {len({r['game'] for r in filtered})} games")
+st.markdown(f"### 🏈 {len(filtered)} TD scorer props across {len({r['game'] for r in filtered})} games")
 
 # Tabs
-t1, t2, t3, t4 = st.tabs([
+t1, t2, t3 = st.tabs([
     f"🏃 Anytime TD ({len(anytime)})",
     f"🥇 First TD ({len(first_td)})",
     f"🏆 Last TD ({len(last_td)})",
-    f"📊 Pass TDs ({len(pass_tds)})",
 ])
 
 BOOK_COLS  = ["DK", "FD", "MGM", "CZR", "BOV", "PIN"]
@@ -174,9 +171,6 @@ def _build_df(subset):
             "Game":        r["game"],
             "Kickoff":     _kickoff(r["first_pitch"]),
         }
-        if r["market"] == "Pass TDs":
-            row["Side"] = r["side"]
-            row["Line"] = r.get("point")
         for b, pc in zip(BOOK_COLS, PRICE_COLS):
             row[b] = r.get(pc)
         row.update({
@@ -191,12 +185,11 @@ def _build_df(subset):
     return pd.DataFrame(df_rows)
 
 
-def _render(subset, pass_td=False):
+def _render(subset):
     if not subset:
         st.info("No props in this bucket with current filters.")
         return
 
-    # Summary bar
     n_value = sum(1 for r in subset if r["value_edge"] >= 3.0)
     n_sharp = sum(1 for r in subset if r["sharp_gap"] >= 5.0)
     games   = sorted({r["game"] for r in subset})
@@ -205,7 +198,6 @@ def _render(subset, pass_td=False):
     m2.metric("💎 Value plays", n_value)
     m3.metric("⚡ Sharp plays", n_sharp)
 
-    # Game filter inside tab
     game_sel = st.multiselect("Filter by game", options=games, default=[],
                                key=f"game_{subset[0]['market']}")
     show = [r for r in subset if (not game_sel or r["game"] in game_sel)]
@@ -215,13 +207,7 @@ def _render(subset, pass_td=False):
         st.info("No results.")
         return
 
-    cfg = dict(COL_CFG)
-    if not pass_td and "Side" in df.columns:
-        df = df.drop(columns=["Side", "Line"], errors="ignore")
-    if pass_td:
-        cfg["Line"] = st.column_config.NumberColumn(format="%.1f")
-
-    st.dataframe(df, use_container_width=True, hide_index=True, column_config=cfg)
+    st.dataframe(df, use_container_width=True, hide_index=True, column_config=COL_CFG)
 
     # Top 5 expander — most likely scorers with full price comparison
     st.markdown("##### 🔍 Highest probability — all book prices")
@@ -253,9 +239,6 @@ with t2:
 
 with t3:
     _render(last_td)
-
-with t4:
-    _render(pass_tds, pass_td=True)
 
 
 # ---------- Cross-market view for top scorers ----------

@@ -16,16 +16,13 @@ _SSL = _ssl_compat._create_unverified_context()
 SHARP_LEADS  = {"draftkings", "fanduel"}
 SHARP_BOOKS  = "draftkings,fanduel,betmgm,williamhill_us,bovada,pinnacle"
 
-# Try these market groups; each is fetched in a separate per-event call
-# so one bad market key won't kill the whole scan
+# TD scorer markets only
 SCORER_MARKETS = "player_anytime_td,player_first_td,player_last_td"
-PASSING_MARKETS = "player_pass_tds"
 
 MARKET_LABELS = {
     "player_anytime_td": "Anytime TD",
     "player_first_td":   "First TD",
     "player_last_td":    "Last TD",
-    "player_pass_tds":   "Pass TDs",
 }
 
 BOOK_SHORT = {
@@ -125,7 +122,6 @@ def scan(api_key: str, sport: str = "americanfootball_nfl") -> tuple[list[dict],
         "n_events": 0,
         "n_upcoming": 0,
         "n_with_scorer_props": 0,
-        "n_with_pass_props": 0,
         "markets_seen": set(),
         "outcomes_parsed": 0,
         "errors": [],
@@ -171,14 +167,6 @@ def scan(api_key: str, sport: str = "americanfootball_nfl") -> tuple[list[dict],
         elif scorer_data.get("bookmakers"):
             debug["n_with_scorer_props"] += 1
             _parse_outcomes(scorer_data, by_key, debug)
-
-        # Passing TD O/U
-        pass_data = _fetch_props(api_key, sport, eid, PASSING_MARKETS)
-        if "_error" in pass_data:
-            debug["errors"].append(f"{game_label} pass_tds: {pass_data['_error']}")
-        elif pass_data.get("bookmakers"):
-            debug["n_with_pass_props"] += 1
-            _parse_outcomes(pass_data, by_key, debug)
 
         for (mk, player, side, point), book_prices in by_key.items():
             prices_list = list(book_prices.items())
