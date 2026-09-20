@@ -24,44 +24,44 @@ HISTORY_DIR = os.path.join(ROOT, "cfb_team_totals_history")
 
 # ---------- ESPN grading helpers ----------
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=120, show_spinner=False)
 def _fetch_cfb_schedule(week_key):
-    """ESPN CFB scoreboard for Saturday (and nearby days) of the given week."""
+    """ESPN CFB scoreboard for Thu–Sun of the given week (all CFB game days)."""
     import ssl as _ssl
     import urllib.request
     ctx = _ssl._create_unverified_context()
-    # Monday + 5 = Saturday; fetch Sat as main CFB day
     week_start = datetime.strptime(week_key, "%Y-%m-%d")
-    saturday = week_start + timedelta(days=5)
-    date_espn = saturday.strftime("%Y%m%d")
-    url = (f"https://site.api.espn.com/apis/site/v2/sports/football/"
-           f"college-football/scoreboard?dates={date_espn}&limit=200")
-    try:
-        raw = urllib.request.urlopen(url, timeout=15, context=ctx).read()
-        d = json.loads(raw)
-    except Exception:
-        return []
     out = []
-    for ev in d.get("events", []):
+    for day_offset in (3, 4, 5, 6):  # Thu, Fri, Sat, Sun
+        day = week_start + timedelta(days=day_offset)
+        date_espn = day.strftime("%Y%m%d")
+        url = (f"https://site.api.espn.com/apis/site/v2/sports/football/"
+               f"college-football/scoreboard?dates={date_espn}&limit=200")
         try:
-            comps = ev.get("competitions", [{}])[0]
-            competitors = comps.get("competitors", [])
-            status_id = str(comps.get("status", {}).get("type", {}).get("id", ""))
-            home_data = next((c for c in competitors if c.get("homeAway") == "home"), {})
-            away_data = next((c for c in competitors if c.get("homeAway") == "away"), {})
-            home_team = home_data.get("team", {}).get("displayName", "")
-            away_team = away_data.get("team", {}).get("displayName", "")
-            home_score = home_data.get("score")
-            away_score = away_data.get("score")
-            out.append({
-                "away_team":   away_team,
-                "home_team":   home_team,
-                "away_runs":   int(away_score) if away_score is not None else None,
-                "home_runs":   int(home_score) if home_score is not None else None,
-                "status_code": status_id,  # "1"=pre, "2"=live, "3"=final
-            })
+            raw = urllib.request.urlopen(url, timeout=15, context=ctx).read()
+            d = json.loads(raw)
         except Exception:
             continue
+        for ev in d.get("events", []):
+            try:
+                comps = ev.get("competitions", [{}])[0]
+                competitors = comps.get("competitors", [])
+                status_id = str(comps.get("status", {}).get("type", {}).get("id", ""))
+                home_data = next((c for c in competitors if c.get("homeAway") == "home"), {})
+                away_data = next((c for c in competitors if c.get("homeAway") == "away"), {})
+                home_team = home_data.get("team", {}).get("displayName", "")
+                away_team = away_data.get("team", {}).get("displayName", "")
+                home_score = home_data.get("score")
+                away_score = away_data.get("score")
+                out.append({
+                    "away_team":   away_team,
+                    "home_team":   home_team,
+                    "away_runs":   int(away_score) if away_score is not None else None,
+                    "home_runs":   int(home_score) if home_score is not None else None,
+                    "status_code": status_id,  # "1"=pre, "2"=live, "3"=final
+                })
+            except Exception:
+                continue
     return out
 
 
