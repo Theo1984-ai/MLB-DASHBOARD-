@@ -187,6 +187,8 @@ with st.expander("🔍 Diagnostic — raw API response (first 3 games)"):
                 st.json(outcomes_sample[:2])
 
 if not rows:
+    st.warning("No team total lines from Fanatics or Bovada right now — props may not be posted yet.")
+    st.stop()
 
 df = pd.DataFrame(rows)
 
