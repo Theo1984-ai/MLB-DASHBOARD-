@@ -79,7 +79,7 @@ def _cached_scan(api_key):
 
 with st.spinner("Scanning NFL TD props..."):
     try:
-        rows = _cached_scan(ODDS_KEY)
+        rows, dbg = _cached_scan(ODDS_KEY)
     except Exception as e:
         import traceback
         st.error(f"Scan failed: {e}")
@@ -89,9 +89,19 @@ with st.spinner("Scanning NFL TD props..."):
 
 if not rows:
     st.warning(
-        "No NFL TD props found right now — lines may not be posted yet "
-        "(typically available Tuesday/Wednesday before game week). Check back later."
+        "No NFL TD props found right now — books may not have posted props yet "
+        "(typically available by Thursday/Friday before game week)."
     )
+    with st.expander("🔍 Diagnostic info"):
+        st.write({
+            "Events on API":        dbg.get("n_events", 0),
+            "Upcoming games":       dbg.get("n_upcoming", 0),
+            "Games w/ scorer props":dbg.get("n_with_scorer_props", 0),
+            "Games w/ pass props":  dbg.get("n_with_pass_props", 0),
+            "Markets seen":         dbg.get("markets_seen", []),
+            "Outcomes parsed":      dbg.get("outcomes_parsed", 0),
+            "Errors":               dbg.get("errors", []),
+        })
     st.stop()
 
 
