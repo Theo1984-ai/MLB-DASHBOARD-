@@ -46,17 +46,42 @@ if not ODDS_KEY:
 
 # ---------- Fetch ----------
 
-@st.cache_data(ttl=120, show_spinner="Fetching Fanatics & Bovada team totals...")
-def _fetch(api_key: str):
+def _get_events(api_key: str):
+    url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events?apiKey={api_key}"
+    return json.loads(urllib.request.urlopen(url, timeout=20, context=_SSL).read())
+
+
+def _get_event_odds(api_key: str, event_id: str):
     url = (
-        f"https://api.the-odds-api.com/v4/sports/{SPORT}/odds"
+        f"https://api.the-odds-api.com/v4/sports/{SPORT}/events/{event_id}/odds"
         f"?apiKey={api_key}&markets={MARKET}"
         f"&bookmakers={BOOKS}&oddsFormat=american"
     )
+    return json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
+
+
+@st.cache_data(ttl=120, show_spinner="Fetching Fanatics & Bovada team totals...")
+def _fetch(api_key: str):
     try:
-        return json.loads(urllib.request.urlopen(url, timeout=20, context=_SSL).read())
+        events = _get_events(api_key)
     except Exception as e:
         return {"_error": str(e)}
+
+    now_utc = datetime.now(tz=timezone.utc)
+    results = []
+    for ev in events:
+        try:
+            ct = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00"))
+            if (ct - now_utc).total_seconds() < -7200:
+                continue
+        except Exception:
+            pass
+        try:
+            odds = _get_event_odds(api_key, ev["id"])
+            results.append(odds)
+        except Exception:
+            pass
+    return results
 
 
 if st.button("🔄 Refresh", type="primary"):
@@ -76,8 +101,6 @@ if not data:
 
 
 # ---------- Parse ----------
-
-now_utc = datetime.now(tz=timezone.utc)
 
 def _parse_book(bookmakers, book_key, away_team, home_team):
     """Return {team: {line, over_price, under_price}} for one book."""
@@ -116,13 +139,6 @@ def _fmt_time(iso):
 rows = []
 for ev in data:
     ct_str = ev.get("commence_time", "")
-    try:
-        ct = datetime.fromisoformat(ct_str.replace("Z", "+00:00"))
-        if (ct - now_utc).total_seconds() < -7200:  # skip games finished 2h+ ago
-            continue
-    except Exception:
-        pass
-
     away = ev.get("away_team", "?")
     home = ev.get("home_team", "?")
     bms  = ev.get("bookmakers", [])
