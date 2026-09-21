@@ -211,6 +211,9 @@ display["BOL Over"]  = display["BOL Over"].apply(_fmt_price)
 display["BOL Under"] = display["BOL Under"].apply(_fmt_price)
 display["Diff"]      = display["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
 
+display["FD Line"]  = display["FD Line"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
+display["BOL Line"] = display["BOL Line"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
+
 show_cols = ["Status", "Kickoff", "Game", "Team",
              "FD Line", "FD Over", "FD Under",
              "BOL Line", "BOL Over", "BOL Under",
@@ -219,10 +222,6 @@ st.dataframe(
     display[show_cols],
     use_container_width=True,
     hide_index=True,
-    column_config={
-        "FD Line":  st.column_config.NumberColumn(format="%.1f"),
-        "BOL Line": st.column_config.NumberColumn(format="%.1f"),
-    },
 )
 
 # ---------- Discrepancies ----------
@@ -238,10 +237,6 @@ if not disc.empty:
               "FD Over", "FD Under", "BOL Over", "BOL Under"]],
         use_container_width=True,
         hide_index=True,
-        column_config={
-            "FD Line":  st.column_config.NumberColumn(format="%.1f"),
-            "BOL Line": st.column_config.NumberColumn(format="%.1f"),
-        },
     )
 
 st.divider()
