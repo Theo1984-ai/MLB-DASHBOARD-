@@ -1,8 +1,8 @@
 """
-🏈📊 NFL Team Totals — Fanatics vs Bovada
+📊 NFL Team Totals — FanDuel
 
-Live side-by-side comparison of every NFL team total line from
-Fanatics and Bovada.  Highlights when the two books disagree.
+Live FanDuel team total lines for every NFL game this week.
+FanDuel is the only book posting team totals via The Odds API.
 """
 import json
 import os
@@ -15,18 +15,15 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import streamlit as st
 
-EASTERN   = ZoneInfo("America/New_York")
-_SSL      = _ssl._create_unverified_context()
-SPORT     = "americanfootball_nfl"
-MARKET    = "team_totals"
-BOOKS     = "fanatics,bovada"
+EASTERN = ZoneInfo("America/New_York")
+_SSL    = _ssl._create_unverified_context()
+SPORT   = "americanfootball_nfl"
+MARKET  = "team_totals"
+BOOKS   = "fanduel"
 
-st.set_page_config(page_title="NFL FAN vs BOV", page_icon="📊", layout="wide")
-st.title("📊 NFL Team Totals — Fanatics vs Bovada")
-st.caption(
-    "Live team total lines from **Fanatics** and **Bovada** side by side.  \n"
-    "🔴 = lines differ by 0.5+  ·  Hit **🔄 Refresh** to pull latest."
-)
+st.set_page_config(page_title="NFL Team Totals", page_icon="📊", layout="wide")
+st.title("📊 NFL Team Totals — FanDuel")
+st.caption("FanDuel team total lines for every NFL game this week. Hit **🔄 Refresh** to pull latest.")
 
 
 def _resolve_secret(name):
@@ -46,22 +43,21 @@ if not ODDS_KEY:
 
 # ---------- Fetch ----------
 
-def _get_events(api_key: str):
+def _get_events(api_key):
     url = f"https://api.the-odds-api.com/v4/sports/{SPORT}/events?apiKey={api_key}"
     return json.loads(urllib.request.urlopen(url, timeout=20, context=_SSL).read())
 
 
-def _get_event_odds(api_key: str, event_id: str):
+def _get_event_odds(api_key, event_id):
     url = (
         f"https://api.the-odds-api.com/v4/sports/{SPORT}/events/{event_id}/odds"
-        f"?apiKey={api_key}&markets={MARKET}"
-        f"&bookmakers={BOOKS}&oddsFormat=american"
+        f"?apiKey={api_key}&markets={MARKET}&bookmakers={BOOKS}&oddsFormat=american"
     )
     return json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
 
 
-@st.cache_data(ttl=120, show_spinner="Fetching Fanatics & Bovada team totals...")
-def _fetch(api_key: str):
+@st.cache_data(ttl=120, show_spinner="Fetching FanDuel team totals...")
+def _fetch(api_key):
     try:
         events = _get_events(api_key)
     except Exception as e:
@@ -77,8 +73,7 @@ def _fetch(api_key: str):
         except Exception:
             pass
         try:
-            odds = _get_event_odds(api_key, ev["id"])
-            results.append(odds)
+            results.append(_get_event_odds(api_key, ev["id"]))
         except Exception:
             pass
     return results
@@ -96,36 +91,11 @@ if isinstance(data, dict) and "_error" in data:
     st.stop()
 
 if not data:
-    st.warning("No NFL games found right now.")
+    st.warning("No NFL games found.")
     st.stop()
 
 
 # ---------- Parse ----------
-
-def _parse_book(bookmakers, book_key, away_team, home_team):
-    """Return {team: {line, over_price, under_price}} for one book."""
-    result = {}
-    for bm in bookmakers:
-        if bm.get("key") != book_key:
-            continue
-        for mkt in bm.get("markets", []):
-            if mkt.get("key") != MARKET:
-                continue
-            for o in mkt.get("outcomes", []):
-                team  = o.get("description", "")
-                side  = (o.get("name") or "").lower()
-                point = o.get("point")
-                price = o.get("price")
-                if team not in result:
-                    result[team] = {"line": None, "over": None, "under": None}
-                if point is not None:
-                    result[team]["line"] = point
-                if side == "over"  and price is not None:
-                    result[team]["over"] = int(price)
-                if side == "under" and price is not None:
-                    result[team]["under"] = int(price)
-    return result
-
 
 def _fmt_time(iso):
     try:
@@ -136,142 +106,85 @@ def _fmt_time(iso):
         return iso
 
 
+def _fmt_price(p):
+    if p is None:
+        return "—"
+    return f"+{int(p)}" if p > 0 else str(int(p))
+
+
 rows = []
 for ev in data:
+    away   = ev.get("away_team", "?")
+    home   = ev.get("home_team", "?")
     ct_str = ev.get("commence_time", "")
-    away = ev.get("away_team", "?")
-    home = ev.get("home_team", "?")
-    bms  = ev.get("bookmakers", [])
+    kickoff = _fmt_time(ct_str)
 
-    fan = _parse_book(bms, "fanatics", away, home)
-    bov = _parse_book(bms, "bovada",   away, home)
+    team_data = {}
+    for bm in ev.get("bookmakers", []):
+        if bm.get("key") != "fanduel":
+            continue
+        for mkt in bm.get("markets", []):
+            if mkt.get("key") != MARKET:
+                continue
+            for o in mkt.get("outcomes", []):
+                team  = o.get("description", "")
+                side  = (o.get("name") or "").lower()
+                point = o.get("point")
+                price = o.get("price")
+                if team not in team_data:
+                    team_data[team] = {"line": None, "over": None, "under": None}
+                if point is not None:
+                    team_data[team]["line"] = point
+                if side == "over"  and price is not None:
+                    team_data[team]["over"] = price
+                if side == "under" and price is not None:
+                    team_data[team]["under"] = price
 
     for team in (away, home):
-        f = fan.get(team, {})
-        b = bov.get(team, {})
-        f_line = f.get("line")
-        b_line = b.get("line")
-        diff   = round(abs(f_line - b_line), 1) if (f_line is not None and b_line is not None) else None
+        td = team_data.get(team, {})
         rows.append({
-            "Game":      f"{away} @ {home}",
-            "Kickoff":   _fmt_time(ct_str),
-            "Team":      team,
-            # Fanatics
-            "FAN Line":  f_line,
-            "FAN Over":  f.get("over"),
-            "FAN Under": f.get("under"),
-            # Bovada
-            "BOV Line":  b_line,
-            "BOV Over":  b.get("over"),
-            "BOV Under": b.get("under"),
-            # Diff
-            "Diff":      diff,
-            "_flag":     (diff is not None and diff >= 0.5),
+            "Kickoff": kickoff,
+            "Game":    f"{away} @ {home}",
+            "Team":    team,
+            "Line":    td.get("line"),
+            "Over":    td.get("over"),
+            "Under":   td.get("under"),
+            "_has":    td.get("line") is not None,
         })
 
-with st.expander("🔍 Diagnostic — raw API response (first 3 games)"):
-    st.write(f"Events fetched: {len(data)}")
-    for ev in data[:3]:
-        st.write(f"**{ev.get('away_team')} @ {ev.get('home_team')}**")
-        bms = ev.get("bookmakers", [])
-        if not bms:
-            st.write("  _(no bookmakers returned)_")
-        for bm in bms:
-            mkts = [m.get("key") for m in bm.get("markets", [])]
-            outcomes_sample = []
-            for m in bm.get("markets", []):
-                for o in m.get("outcomes", [])[:2]:
-                    outcomes_sample.append(o)
-            st.write(f"  - `{bm.get('key')}`: markets={mkts}")
-            if outcomes_sample:
-                st.json(outcomes_sample[:2])
+df = pd.DataFrame(rows)
+has_data = df[df["_has"]]
 
-if not rows:
-    st.warning("No team total lines from Fanatics or Bovada right now — props may not be posted yet.")
+if has_data.empty:
+    st.warning("FanDuel hasn't posted team totals yet — check back closer to game time.")
     st.stop()
 
-df = pd.DataFrame(rows)
+# ---------- Display ----------
 
-# ---------- Summary ----------
+games_with_lines = has_data["Game"].nunique()
+teams_with_lines = len(has_data)
 
-total_teams  = len(df)
-have_fan     = df["FAN Line"].notna().sum()
-have_bov     = df["BOV Line"].notna().sum()
-discrepancies = df["_flag"].sum()
-
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Teams priced",    total_teams)
-c2.metric("Fanatics lines",  int(have_fan))
-c3.metric("Bovada lines",    int(have_bov))
-c4.metric("🔴 Discrepancies (0.5+)", int(discrepancies))
+c1, c2 = st.columns(2)
+c1.metric("Games with team totals", games_with_lines)
+c2.metric("Team lines posted",       teams_with_lines)
 
 st.divider()
 
-# ---------- Two-column layout ----------
+display = has_data[["Kickoff", "Game", "Team", "Line", "Over", "Under"]].copy()
+display["Over"]  = display["Over"].apply(_fmt_price)
+display["Under"] = display["Under"].apply(_fmt_price)
 
-col_fan, col_bov = st.columns(2)
-
-with col_fan:
-    st.subheader("🟣 Fanatics")
-    fan_df = df[df["FAN Line"].notna()][["Game", "Kickoff", "Team", "FAN Line", "FAN Over", "FAN Under", "Diff"]].copy()
-    fan_df = fan_df.rename(columns={"FAN Line": "Line", "FAN Over": "Over", "FAN Under": "Under"})
-    st.dataframe(
-        fan_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "Line":  st.column_config.NumberColumn(format="%.1f"),
-            "Over":  st.column_config.NumberColumn(format="%+d"),
-            "Under": st.column_config.NumberColumn(format="%+d"),
-            "Diff":  st.column_config.NumberColumn(format="%.1f"),
-        },
-    )
-
-with col_bov:
-    st.subheader("🟠 Bovada")
-    bov_df = df[df["BOV Line"].notna()][["Game", "Kickoff", "Team", "BOV Line", "BOV Over", "BOV Under", "Diff"]].copy()
-    bov_df = bov_df.rename(columns={"BOV Line": "Line", "BOV Over": "Over", "BOV Under": "Under"})
-    st.dataframe(
-        bov_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "Line":  st.column_config.NumberColumn(format="%.1f"),
-            "Over":  st.column_config.NumberColumn(format="%+d"),
-            "Under": st.column_config.NumberColumn(format="%+d"),
-            "Diff":  st.column_config.NumberColumn(format="%.1f"),
-        },
-    )
-
-# ---------- Discrepancies callout ----------
-
-if discrepancies > 0:
-    st.divider()
-    st.subheader("🔴 Line discrepancies (0.5+ difference)")
-    st.caption("These teams have a meaningful gap between Fanatics and Bovada — one book is behind the other.")
-    disc_df = df[df["_flag"]][
-        ["Game", "Kickoff", "Team", "FAN Line", "BOV Line", "Diff",
-         "FAN Over", "FAN Under", "BOV Over", "BOV Under"]
-    ].copy()
-    disc_df = disc_df.sort_values("Diff", ascending=False)
-    st.dataframe(
-        disc_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "FAN Line": st.column_config.NumberColumn(format="%.1f"),
-            "BOV Line": st.column_config.NumberColumn(format="%.1f"),
-            "Diff":     st.column_config.NumberColumn(format="%.1f"),
-            "FAN Over":  st.column_config.NumberColumn(format="%+d"),
-            "FAN Under": st.column_config.NumberColumn(format="%+d"),
-            "BOV Over":  st.column_config.NumberColumn(format="%+d"),
-            "BOV Under": st.column_config.NumberColumn(format="%+d"),
-        },
-    )
+st.dataframe(
+    display,
+    use_container_width=True,
+    hide_index=True,
+    column_config={
+        "Line": st.column_config.NumberColumn(format="%.1f"),
+    },
+)
 
 st.divider()
 st.caption(
-    f"Source: The Odds API  ·  "
-    f"Last refresh: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')}  ·  "
-    f"Cache TTL: 2 min  ·  Market: NFL team totals"
+    f"Source: The Odds API · FanDuel only · "
+    f"Last refresh: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')} · Cache TTL: 2 min"
 )
