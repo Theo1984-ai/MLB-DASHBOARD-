@@ -1,8 +1,8 @@
 """
-📊 NFL Team Totals — FanDuel
+📊 NFL Team Totals — FanDuel vs BetOnline
 
-Live FanDuel team total lines for every NFL game this week.
-FanDuel is the only book posting team totals via The Odds API.
+Side-by-side comparison of NFL team total lines from FanDuel (US sharp book)
+and BetOnline (offshore book). Line discrepancies signal sharp action.
 """
 import json
 import os
@@ -19,11 +19,14 @@ EASTERN = ZoneInfo("America/New_York")
 _SSL    = _ssl._create_unverified_context()
 SPORT   = "americanfootball_nfl"
 MARKET  = "team_totals"
-BOOKS   = "fanduel"
+BOOKS   = "fanduel,betonlineag"
 
 st.set_page_config(page_title="NFL Team Totals", page_icon="📊", layout="wide")
-st.title("📊 NFL Team Totals — FanDuel")
-st.caption("FanDuel team total lines for every NFL game this week. Hit **🔄 Refresh** to pull latest.")
+st.title("📊 NFL Team Totals — FanDuel vs BetOnline")
+st.caption(
+    "**FanDuel** (US sharp book) vs **BetOnline** (offshore) team total lines side by side.  \n"
+    "🔴 = lines differ by 0.5+ · Hit **🔄 Refresh** to pull latest."
+)
 
 
 def _resolve_secret(name):
@@ -56,7 +59,7 @@ def _get_event_odds(api_key, event_id):
     return json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
 
 
-@st.cache_data(ttl=120, show_spinner="Fetching FanDuel team totals...")
+@st.cache_data(ttl=120, show_spinner="Fetching FanDuel & BetOnline team totals...")
 def _fetch(api_key):
     try:
         events = _get_events(api_key)
@@ -106,22 +109,10 @@ def _fmt_time(iso):
         return iso
 
 
-def _fmt_price(p):
-    if p is None:
-        return "—"
-    return f"+{int(p)}" if p > 0 else str(int(p))
-
-
-rows = []
-for ev in data:
-    away   = ev.get("away_team", "?")
-    home   = ev.get("home_team", "?")
-    ct_str = ev.get("commence_time", "")
-    kickoff = _fmt_time(ct_str)
-
-    team_data = {}
-    for bm in ev.get("bookmakers", []):
-        if bm.get("key") != "fanduel":
+def _parse_book(bookmakers, book_key):
+    result = {}
+    for bm in bookmakers:
+        if bm.get("key") != book_key:
             continue
         for mkt in bm.get("markets", []):
             if mkt.get("key") != MARKET:
@@ -131,60 +122,121 @@ for ev in data:
                 side  = (o.get("name") or "").lower()
                 point = o.get("point")
                 price = o.get("price")
-                if team not in team_data:
-                    team_data[team] = {"line": None, "over": None, "under": None}
+                if team not in result:
+                    result[team] = {"line": None, "over": None, "under": None}
                 if point is not None:
-                    team_data[team]["line"] = point
+                    result[team]["line"] = point
                 if side == "over"  and price is not None:
-                    team_data[team]["over"] = price
+                    result[team]["over"] = int(price)
                 if side == "under" and price is not None:
-                    team_data[team]["under"] = price
+                    result[team]["under"] = int(price)
+    return result
+
+
+def _fmt_price(p):
+    if p is None:
+        return "—"
+    return f"+{int(p)}" if p > 0 else str(int(p))
+
+
+rows = []
+for ev in data:
+    away    = ev.get("away_team", "?")
+    home    = ev.get("home_team", "?")
+    ct_str  = ev.get("commence_time", "")
+    kickoff = _fmt_time(ct_str)
+    bms     = ev.get("bookmakers", [])
+
+    fd  = _parse_book(bms, "fanduel")
+    bol = _parse_book(bms, "betonlineag")
 
     for team in (away, home):
-        td = team_data.get(team, {})
+        f = fd.get(team, {})
+        b = bol.get(team, {})
+        f_line = f.get("line")
+        b_line = b.get("line")
+        diff   = round(abs(f_line - b_line), 1) if (f_line is not None and b_line is not None) else None
         rows.append({
-            "Kickoff": kickoff,
-            "Game":    f"{away} @ {home}",
-            "Team":    team,
-            "Line":    td.get("line"),
-            "Over":    td.get("over"),
-            "Under":   td.get("under"),
-            "_has":    td.get("line") is not None,
+            "Kickoff":   kickoff,
+            "Game":      f"{away} @ {home}",
+            "Team":      team,
+            "FD Line":   f_line,
+            "FD Over":   f.get("over"),
+            "FD Under":  f.get("under"),
+            "BOL Line":  b_line,
+            "BOL Over":  b.get("over"),
+            "BOL Under": b.get("under"),
+            "Diff":      diff,
+            "_flag":     (diff is not None and diff >= 0.5),
+            "_has":      (f_line is not None or b_line is not None),
         })
 
 df = pd.DataFrame(rows)
-has_data = df[df["_has"]]
+df_has = df[df["_has"]]
 
-if has_data.empty:
-    st.warning("FanDuel hasn't posted team totals yet — check back closer to game time.")
+if df_has.empty:
+    st.warning("No team total lines posted yet — check back closer to game time.")
     st.stop()
 
-# ---------- Display ----------
+# ---------- Summary ----------
 
-games_with_lines = has_data["Game"].nunique()
-teams_with_lines = len(has_data)
-
-c1, c2 = st.columns(2)
-c1.metric("Games with team totals", games_with_lines)
-c2.metric("Team lines posted",       teams_with_lines)
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Games",              df_has["Game"].nunique())
+c2.metric("FanDuel lines",      int(df_has["FD Line"].notna().sum()))
+c3.metric("BetOnline lines",    int(df_has["BOL Line"].notna().sum()))
+c4.metric("🔴 Discrepancies",  int(df["_flag"].sum()))
 
 st.divider()
 
-display = has_data[["Kickoff", "Game", "Team", "Line", "Over", "Under"]].copy()
-display["Over"]  = display["Over"].apply(_fmt_price)
-display["Under"] = display["Under"].apply(_fmt_price)
+# ---------- Two-column layout ----------
 
-st.dataframe(
-    display,
-    use_container_width=True,
-    hide_index=True,
-    column_config={
-        "Line": st.column_config.NumberColumn(format="%.1f"),
-    },
-)
+col_fd, col_bol = st.columns(2)
+
+with col_fd:
+    st.subheader("🟣 FanDuel")
+    fd_df = df_has[df_has["FD Line"].notna()][
+        ["Kickoff", "Game", "Team", "FD Line", "FD Over", "FD Under", "Diff"]
+    ].copy()
+    fd_df["FD Over"]  = fd_df["FD Over"].apply(_fmt_price)
+    fd_df["FD Under"] = fd_df["FD Under"].apply(_fmt_price)
+    fd_df["Diff"]     = fd_df["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
+    fd_df = fd_df.rename(columns={"FD Line": "Line", "FD Over": "Over", "FD Under": "Under"})
+    st.dataframe(fd_df, use_container_width=True, hide_index=True,
+                 column_config={"Line": st.column_config.NumberColumn(format="%.1f")})
+
+with col_bol:
+    st.subheader("🟠 BetOnline")
+    bol_df = df_has[df_has["BOL Line"].notna()][
+        ["Kickoff", "Game", "Team", "BOL Line", "BOL Over", "BOL Under", "Diff"]
+    ].copy()
+    bol_df["BOL Over"]  = bol_df["BOL Over"].apply(_fmt_price)
+    bol_df["BOL Under"] = bol_df["BOL Under"].apply(_fmt_price)
+    bol_df["Diff"]      = bol_df["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
+    bol_df = bol_df.rename(columns={"BOL Line": "Line", "BOL Over": "Over", "BOL Under": "Under"})
+    st.dataframe(bol_df, use_container_width=True, hide_index=True,
+                 column_config={"Line": st.column_config.NumberColumn(format="%.1f")})
+
+# ---------- Discrepancies ----------
+
+disc = df[df["_flag"]].sort_values("Diff", ascending=False)
+if not disc.empty:
+    st.divider()
+    st.subheader("🔴 Line discrepancies (0.5+ difference)")
+    st.caption("One book is behind the other — potential sharp signal.")
+    show = disc[["Kickoff", "Game", "Team", "FD Line", "BOL Line", "Diff",
+                 "FD Over", "FD Under", "BOL Over", "BOL Under"]].copy()
+    show["FD Over"]   = show["FD Over"].apply(_fmt_price)
+    show["FD Under"]  = show["FD Under"].apply(_fmt_price)
+    show["BOL Over"]  = show["BOL Over"].apply(_fmt_price)
+    show["BOL Under"] = show["BOL Under"].apply(_fmt_price)
+    st.dataframe(show, use_container_width=True, hide_index=True,
+                 column_config={
+                     "FD Line":  st.column_config.NumberColumn(format="%.1f"),
+                     "BOL Line": st.column_config.NumberColumn(format="%.1f"),
+                 })
 
 st.divider()
 st.caption(
-    f"Source: The Odds API · FanDuel only · "
+    f"Source: The Odds API · FanDuel (US) vs BetOnline (offshore) · "
     f"Last refresh: {datetime.now(tz=EASTERN).strftime('%I:%M:%S %p %Z')} · Cache TTL: 2 min"
 )
