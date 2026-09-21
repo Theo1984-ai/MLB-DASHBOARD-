@@ -139,9 +139,6 @@ now_utc = datetime.now(tz=timezone.utc)
 rows = []
 for g in current_map.values():
     kick_ts = _parse_ts(g.get("first_pitch", ""))
-    # Skip games finished more than 4 hours ago
-    if kick_ts and (now_utc - kick_ts).total_seconds() > 4 * 3600:
-        continue
 
     books = g.get("books", {})
     fd  = books.get("fanduel",    {})
