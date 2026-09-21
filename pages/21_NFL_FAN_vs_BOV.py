@@ -188,47 +188,38 @@ c4.metric("🔴 Discrepancies",  int(df["_flag"].sum()))
 
 st.divider()
 
-# ---------- Two-column layout ----------
+# ---------- Combined table ----------
 
-col_fd, col_bol = st.columns(2)
+combined = df_has.copy()
+combined["FD Over"]   = combined["FD Over"].apply(_fmt_price)
+combined["FD Under"]  = combined["FD Under"].apply(_fmt_price)
+combined["BOL Over"]  = combined["BOL Over"].apply(_fmt_price)
+combined["BOL Under"] = combined["BOL Under"].apply(_fmt_price)
+combined["Diff"]      = combined["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
 
-with col_fd:
-    st.subheader("🟣 FanDuel")
-    fd_df = df_has[df_has["FD Line"].notna()][
-        ["Kickoff", "Game", "Team", "FD Line", "FD Over", "FD Under", "Diff"]
-    ].copy()
-    fd_df["FD Over"]  = fd_df["FD Over"].apply(_fmt_price)
-    fd_df["FD Under"] = fd_df["FD Under"].apply(_fmt_price)
-    fd_df["Diff"]     = fd_df["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
-    fd_df = fd_df.rename(columns={"FD Line": "Line", "FD Over": "Over", "FD Under": "Under"})
-    st.dataframe(fd_df, use_container_width=True, hide_index=True,
-                 column_config={"Line": st.column_config.NumberColumn(format="%.1f")})
-
-with col_bol:
-    st.subheader("🟠 BetOnline")
-    bol_df = df_has[df_has["BOL Line"].notna()][
-        ["Kickoff", "Game", "Team", "BOL Line", "BOL Over", "BOL Under", "Diff"]
-    ].copy()
-    bol_df["BOL Over"]  = bol_df["BOL Over"].apply(_fmt_price)
-    bol_df["BOL Under"] = bol_df["BOL Under"].apply(_fmt_price)
-    bol_df["Diff"]      = bol_df["Diff"].apply(lambda x: f"{x:.1f}" if x is not None else "—")
-    bol_df = bol_df.rename(columns={"BOL Line": "Line", "BOL Over": "Over", "BOL Under": "Under"})
-    st.dataframe(bol_df, use_container_width=True, hide_index=True,
-                 column_config={"Line": st.column_config.NumberColumn(format="%.1f")})
+show_cols = ["Kickoff", "Game", "Team",
+             "FD Line", "FD Over", "FD Under",
+             "BOL Line", "BOL Over", "BOL Under",
+             "Diff"]
+st.dataframe(
+    combined[show_cols],
+    use_container_width=True,
+    hide_index=True,
+    column_config={
+        "FD Line":  st.column_config.NumberColumn(format="%.1f"),
+        "BOL Line": st.column_config.NumberColumn(format="%.1f"),
+    },
+)
 
 # ---------- Discrepancies ----------
 
-disc = df[df["_flag"]].sort_values("Diff", ascending=False)
+disc = combined[combined["_flag"]].sort_values("Diff", ascending=False)
 if not disc.empty:
     st.divider()
     st.subheader("🔴 Line discrepancies (0.5+ difference)")
     st.caption("One book is behind the other — potential sharp signal.")
     show = disc[["Kickoff", "Game", "Team", "FD Line", "BOL Line", "Diff",
-                 "FD Over", "FD Under", "BOL Over", "BOL Under"]].copy()
-    show["FD Over"]   = show["FD Over"].apply(_fmt_price)
-    show["FD Under"]  = show["FD Under"].apply(_fmt_price)
-    show["BOL Over"]  = show["BOL Over"].apply(_fmt_price)
-    show["BOL Under"] = show["BOL Under"].apply(_fmt_price)
+                 "FD Over", "FD Under", "BOL Over", "BOL Under"]]
     st.dataframe(show, use_container_width=True, hide_index=True,
                  column_config={
                      "FD Line":  st.column_config.NumberColumn(format="%.1f"),
