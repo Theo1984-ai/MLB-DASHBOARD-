@@ -137,7 +137,7 @@ def main(force=False, min_gap_min=30):
     # Week window: this Monday 00:00 ET → next Monday 00:00 ET
     mon = week_monday(now)
     week_start = mon
-    week_end   = mon + timedelta(days=7)
+    week_end   = mon + timedelta(days=8)  # through Monday night (MNF)
 
     week_key  = mon.strftime("%Y-%m-%d")
     out_path  = os.path.join(HISTORY_DIR, f"week_{week_key}.json")
