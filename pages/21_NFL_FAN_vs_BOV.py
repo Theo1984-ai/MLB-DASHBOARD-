@@ -130,9 +130,12 @@ def _fmt_time(iso):
 
 
 def _fmt_price(p):
-    if p is None:
+    try:
+        if p is None or (p != p):  # None or NaN
+            return "—"
+        return f"+{int(p)}" if p > 0 else str(int(p))
+    except Exception:
         return "—"
-    return f"+{int(p)}" if p > 0 else str(int(p))
 
 
 now_utc = datetime.now(tz=timezone.utc)
