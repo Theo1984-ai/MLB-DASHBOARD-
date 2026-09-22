@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 9,
-    "n_settled": 0,
+    "n_settled": 9,
     "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_no_data": 0,
+    "wins": 7,
+    "losses": 2,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 77.8,
+    "risk_total": 3181.0,
+    "profit_total": 49.0,
+    "roi_pct": 1.54
   },
   "picks": [
     {
@@ -81,7 +82,9 @@
           "ev": 7.05,
           "price": -400
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=4 vs O2.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -142,7 +145,9 @@
           "ev": 11.72,
           "price": -375
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O2.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -207,7 +212,9 @@
           "ev": 5.23,
           "price": -388
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=-1 vs -2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -262,7 +269,9 @@
           "ev": 6.43,
           "price": -390
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+7 vs -2.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -317,7 +326,9 @@
           "ev": 5.7,
           "price": -351
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "total=7 vs U10.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -372,7 +383,9 @@
           "ev": 6.19,
           "price": -351
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "total=11 vs O5.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -427,7 +440,9 @@
           "ev": 6.43,
           "price": -330
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+1 vs -2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -488,7 +503,9 @@
           "ev": 6.25,
           "price": -320
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=4 vs O2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -553,7 +570,10 @@
           "ev": 7.17,
           "price": -276
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-7 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-22T10:18:08.579009-04:00"
 }

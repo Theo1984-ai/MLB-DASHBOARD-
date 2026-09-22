@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 38,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 37,
+    "n_void": 1,
+    "n_no_data": 0,
+    "wins": 13,
+    "losses": 24,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 35.1,
+    "risk_total": 4780.0,
+    "profit_total": -1107.0,
+    "roi_pct": -23.16
   },
   "picks": [
     {
@@ -79,7 +80,9 @@
           "price": 115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -138,7 +141,9 @@
           "price": 230,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -201,7 +206,9 @@
           "price": -143,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -260,7 +267,9 @@
           "price": -155,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -323,7 +332,9 @@
           "price": -185,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -382,7 +393,9 @@
           "price": -115,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -441,7 +454,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -500,7 +515,9 @@
           "price": 127,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -559,7 +576,9 @@
           "price": -155,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -618,7 +637,9 @@
           "price": -175,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -677,7 +698,9 @@
           "price": 185,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=4 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -736,7 +759,9 @@
           "price": -195,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -797,7 +822,9 @@
           "price": 280,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Josh Bell)"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -844,7 +871,9 @@
           "price": 300,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=3 vs O2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -897,7 +926,9 @@
           "price": -110,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=4 vs O1.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -956,7 +987,9 @@
           "price": 201,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1015,7 +1048,9 @@
           "price": 108,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=5 vs O1.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -1068,7 +1103,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O1.5"
     },
     {
       "event_id": "198233ed5390fadb40e84cac794551ab",
@@ -1121,7 +1158,9 @@
           "price": -186,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1168,7 +1207,9 @@
           "price": -175,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=6 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1227,7 +1268,9 @@
           "price": 191,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -1286,7 +1329,9 @@
           "price": 199,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1349,7 +1394,9 @@
           "price": 240,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1406,7 +1453,9 @@
           "price": -220,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1453,7 +1502,9 @@
           "price": 133,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1506,7 +1557,9 @@
           "price": 155,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=1 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1553,7 +1606,9 @@
           "price": 220,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1600,7 +1655,9 @@
           "price": -222,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=5 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1653,7 +1710,9 @@
           "price": 256,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O2.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1706,7 +1765,9 @@
           "price": -153,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=2 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1753,7 +1814,9 @@
           "price": 140,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hrr=6 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1800,7 +1863,9 @@
           "price": 165,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "tb=0 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1847,7 +1912,9 @@
           "price": -211,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hrr=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1898,7 +1965,9 @@
           "price": -140,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1945,7 +2014,9 @@
           "price": 230,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=6 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -1996,7 +2067,9 @@
           "price": 300,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O1.5"
     },
     {
       "event_id": "3e7090629723a062facffeca147d8c9d",
@@ -2047,7 +2120,9 @@
           "price": -125,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "event_id": "7294e99a67c70c66b6edecf9841d4f03",
@@ -2098,7 +2173,10 @@
           "price": -115,
           "n_books": 4
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-22T10:18:11.656258-04:00"
 }
