@@ -1,11 +1,58 @@
 {
   "date": "2026-09-23",
-  "snapshot_at": "2026-09-23T10:37:42.441790-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-09-23T11:14:28.760053-04:00",
+  "n_picks": 1,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 60.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "total",
+      "side": "Under",
+      "point": 7.5,
+      "away_team": "Toronto Blue Jays",
+      "home_team": "Baltimore Orioles",
+      "first_pitch": "2026-09-23T22:36:00Z",
+      "best_price": 105,
+      "player": null,
+      "selection": "Under 7.5 (Jays @ Orioles) @ bovada +105",
+      "market": "Total",
+      "sharp_pick": "UNDER 7.5 (Jays @ Orioles)",
+      "game": "Toronto Blue Jays vs. Baltimore Orioles",
+      "question": "Toronto Blue Jays vs. Baltimore Orioles: O/U 7.5",
+      "edge_pp": 5.7,
+      "edge_best_pp": 5.7,
+      "skew_strength": 63.1,
+      "skew_side": "NO",
+      "liquidity": 154110.65,
+      "volume": 173172.21,
+      "yes_bid_depth": 73695,
+      "no_bid_depth": 126283,
+      "depth_ratio": 1.71,
+      "pm_mid": 0.455,
+      "pm_implied_pct": 54.49999999999999,
+      "sb_book": "bovada",
+      "sb_implied_pct": 48.8,
+      "sb_consensus_implied_pct": 48.8,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 103455,
+      "sharp_whale_share": 0.819,
+      "captured_at": "2026-09-23T11:14:28.760053-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-23T11:14:28.760053-04:00",
+      "last_seen_at": "2026-09-23T11:14:28.760053-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-23T11:14:28.760053-04:00",
+          "skew": 63.1,
+          "mid": 0.455,
+          "edge": 5.7,
+          "ratio": 1.71
+        }
+      ]
+    }
+  ]
 }
