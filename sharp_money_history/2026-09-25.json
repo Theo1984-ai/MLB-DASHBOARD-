@@ -1,11 +1,104 @@
 {
   "date": "2026-09-25",
-  "snapshot_at": "2026-09-25T13:36:52.902671-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-09-25T14:59:33.915494-04:00",
+  "n_picks": 2,
   "filter": {
     "min_edge_pp": 3.0,
     "min_skew_pct": 60.0,
     "min_liquidity": 10000
   },
-  "picks": []
+  "picks": [
+    {
+      "stat_key": "h2h",
+      "side": "Away",
+      "point": null,
+      "away_team": "Los Angeles Angels",
+      "home_team": "Seattle Mariners",
+      "first_pitch": "2026-09-27T01:41:00Z",
+      "best_price": 166,
+      "player": null,
+      "selection": "Los Angeles Angels ML @ fanduel +166",
+      "market": "Moneyline",
+      "sharp_pick": "Los Angeles Angels ML",
+      "game": "Los Angeles Angels vs. Seattle Mariners",
+      "question": "Los Angeles Angels vs. Seattle Mariners",
+      "edge_pp": 9.9,
+      "edge_best_pp": 9.9,
+      "skew_strength": 61.9,
+      "skew_side": "YES",
+      "liquidity": 349015.35,
+      "volume": 12806.01,
+      "yes_bid_depth": 414394,
+      "no_bid_depth": 254590,
+      "depth_ratio": 1.63,
+      "pm_mid": 0.475,
+      "pm_implied_pct": 47.5,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 37.6,
+      "sb_consensus_implied_pct": 37.6,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 224834,
+      "sharp_whale_share": 0.543,
+      "captured_at": "2026-09-25T14:59:33.915494-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-25T14:59:33.915494-04:00",
+      "last_seen_at": "2026-09-25T14:59:33.915494-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-25T14:59:33.915494-04:00",
+          "skew": 61.9,
+          "mid": 0.475,
+          "edge": 9.9,
+          "ratio": 1.63
+        }
+      ]
+    },
+    {
+      "stat_key": "h2h",
+      "side": "Home",
+      "point": null,
+      "away_team": "New York Mets",
+      "home_team": "Washington Nationals",
+      "first_pitch": "2026-09-26T20:06:00Z",
+      "best_price": 116,
+      "player": null,
+      "selection": "Washington Nationals ML @ fanduel +116",
+      "market": "Moneyline",
+      "sharp_pick": "Washington Nationals ML",
+      "game": "New York Mets vs. Washington Nationals",
+      "question": "New York Mets vs. Washington Nationals",
+      "edge_pp": 4.2,
+      "edge_best_pp": 4.2,
+      "skew_strength": 74.4,
+      "skew_side": "NO",
+      "liquidity": 338388.15,
+      "volume": 21975.13,
+      "yes_bid_depth": 166063,
+      "no_bid_depth": 483791,
+      "depth_ratio": 2.91,
+      "pm_mid": 0.495,
+      "pm_implied_pct": 50.5,
+      "sb_book": "fanduel",
+      "sb_implied_pct": 46.3,
+      "sb_consensus_implied_pct": 46.3,
+      "sb_n_books": 1,
+      "sharp_n_bids": 5,
+      "sharp_largest_bid": 265451,
+      "sharp_whale_share": 0.549,
+      "captured_at": "2026-09-25T14:59:33.915494-04:00",
+      "n_appearances": 1,
+      "first_seen_at": "2026-09-25T14:59:33.915494-04:00",
+      "last_seen_at": "2026-09-25T14:59:33.915494-04:00",
+      "skew_history": [
+        {
+          "t": "2026-09-25T14:59:33.915494-04:00",
+          "skew": 74.4,
+          "mid": 0.495,
+          "edge": 4.2,
+          "ratio": 2.91
+        }
+      ]
+    }
+  ]
 }
