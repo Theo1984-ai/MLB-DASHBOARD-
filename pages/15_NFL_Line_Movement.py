@@ -45,6 +45,28 @@ def _resolve_secret(name):
 ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
 
 
+# ---------- Scores ----------
+
+@st.cache_data(ttl=60, show_spinner=False)
+def _fetch_scores(api_key, sport):
+    """Returns {team_name: score_string} — that team's own points only."""
+    url = (f"https://api.the-odds-api.com/v4/sports/{sport}/scores"
+           f"?apiKey={api_key}&daysFrom=3")
+    try:
+        data = json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
+        score_map = {}
+        for ev in data:
+            completed = ev.get("completed", False)
+            for s in (ev.get("scores") or []):
+                team  = s.get("name")
+                score = s.get("score")
+                if team and score is not None:
+                    score_map[team] = f"{score} F" if completed else str(score)
+        return score_map
+    except Exception:
+        return {}
+
+
 # ---------- Shared helpers ----------
 
 def _week_monday(dt_et):
@@ -452,6 +474,13 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
 
     df = pd.DataFrame(rows)
 
+    # ---- Fetch live/final scores ----
+    sport_key = "americanfootball_nfl" if sport_label == "NFL" else "americanfootball_ncaaf"
+    scores = _fetch_scores(ODDS_KEY, sport_key) if ODDS_KEY else {}
+    if not df.empty:
+        df.insert(df.columns.get_loc("Team") + 1, "Score",
+                  df["Team"].apply(lambda t: scores.get(t, "—")))
+
     # ---- Line discrepancies (2.0+ pts movement) ----
     st.subheader("🔴 Big Line Movers (2.0+ pts)")
     st.caption("Teams whose line has shifted 2+ pts from open to current — always visible all week.")
@@ -462,7 +491,7 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
             st.info("No 2.0+ pt line moves yet. Hit **🔄 Take snapshot now** to capture more data.")
         else:
             st.dataframe(
-                big_movers[["Kickoff","Game","Team","Open","Current","Δ Line","Consensus","🎯 Rec",
+                big_movers[["Kickoff","Game","Team","Score","Open","Current","Δ Line","Consensus","🎯 Rec",
                              "Over Current","Under Current"]],
                 use_container_width=True, hide_index=True, column_config=COL_CFG,
             )
@@ -508,7 +537,7 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
                 "**Result** grades via ESPN once games finish."
             )
             st.dataframe(
-                plays[["Kickoff","Team","Open","Current","Δ Line","Consensus","🎯 Rec",
+                plays[["Kickoff","Team","Score","Open","Current","Δ Line","Consensus","🎯 Rec",
                         "Over Current","Under Current","Team pts","Result"]],
                 use_container_width=True, hide_index=True, column_config=COL_CFG,
             )
