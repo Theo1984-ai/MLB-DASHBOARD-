@@ -23,7 +23,7 @@ st.set_page_config(page_title="Team Totals FD vs BOL", page_icon="📊", layout=
 st.title("📊 Team Totals — FanDuel vs BetOnline")
 st.caption(
     "**FanDuel** (US) vs **BetOnline** (offshore) · Pre-game lines only — frozen at last snapshot before kickoff.  \n"
-    "🔴 = lines differ by 0.5+ · Hit **🔄 Refresh** to capture a new snapshot."
+    "🔴 = lines differ by 2.0+ · Hit **🔄 Refresh** to capture a new snapshot."
 )
 
 
@@ -197,7 +197,7 @@ def _render(history_dir, sport_label):
                 "BOL Over":  bol_side.get("over_price"),
                 "BOL Under": bol_side.get("under_price"),
                 "Diff":      diff,
-                "_flag":     (diff is not None and diff >= 0.5),
+                "_flag":     (diff is not None and diff >= 2.0),
                 "_has":      (fd_line is not None or bol_line is not None),
             })
 
@@ -233,10 +233,10 @@ def _render(history_dir, sport_label):
 
     # ── Discrepancies always on top ──────────────────────────────────────
     disc = display[display["_flag"]].sort_values("Diff", ascending=False)
-    st.subheader("🔴 Line Discrepancies (0.5+ pts)")
+    st.subheader("🔴 Line Discrepancies (2.0+ pts)")
     st.caption("Frozen at last pre-game snapshot — stays visible all week even after games start/end.")
     if disc.empty:
-        st.info("No discrepancies of 0.5+ pts found yet. Hit **🔄 Refresh** to capture a new snapshot.")
+        st.info("No discrepancies of 2.0+ pts found yet. Hit **🔄 Refresh** to capture a new snapshot.")
     else:
         st.dataframe(
             disc[["Status", "Kickoff", "Score", "Game", "Team",
