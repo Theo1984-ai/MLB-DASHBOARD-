@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import ssl as _ssl
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -39,6 +40,36 @@ ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
 if not ODDS_KEY:
     st.error("Missing `THE_ODDS_API_KEY` in secrets.")
     st.stop()
+
+
+# ---------- Scores ----------
+
+@st.cache_data(ttl=60, show_spinner=False)
+def _fetch_scores(api_key, sport):
+    url = (f"https://api.the-odds-api.com/v4/sports/{sport}/scores"
+           f"?apiKey={api_key}&daysFrom=3")
+    try:
+        data = json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
+        score_map = {}
+        for ev in data:
+            away = ev.get("away_team", "")
+            home = ev.get("home_team", "")
+            key  = f"{away} @ {home}"
+            scores = ev.get("scores") or []
+            score_by_team = {s["name"]: s["score"] for s in scores if s.get("score") is not None}
+            away_sc = score_by_team.get(away)
+            home_sc = score_by_team.get(home)
+            completed = ev.get("completed", False)
+            if away_sc is not None and home_sc is not None:
+                label = f"{away_sc}-{home_sc}"
+                if completed:
+                    label += " F"
+                score_map[key] = label
+            else:
+                score_map[key] = None
+        return score_map
+    except Exception:
+        return {}
 
 
 # ---------- Helpers ----------
@@ -115,7 +146,9 @@ def _load_snapshot(history_dir, extra_days=0):
 # ---------- Render tab ----------
 
 def _render(history_dir, sport_label):
-    data, _ = _load_snapshot(history_dir)
+    sport_key = "americanfootball_nfl" if sport_label == "NFL" else "americanfootball_ncaaf"
+    scores    = _fetch_scores(ODDS_KEY, sport_key)
+    data, _   = _load_snapshot(history_dir)
 
     if data is None:
         st.warning(f"No {sport_label} snapshot yet — hit **🔄 Refresh**.")
@@ -153,6 +186,7 @@ def _render(history_dir, sport_label):
         started = kick_ts and now_utc >= kick_ts
         status  = "🔴 Live" if started else "🟢 Pre"
 
+        game_score = scores.get(game, "—") or "—"
         for side, team in (("away", away), ("home", home)):
             fd_side  = fd.get(side,  {})
             bol_side = bol.get(side, {})
@@ -162,6 +196,7 @@ def _render(history_dir, sport_label):
             rows.append({
                 "Status":    status,
                 "Kickoff":   kickoff,
+                "Score":     game_score,
                 "Game":      game,
                 "Team":      team,
                 "FD Line":   fd_line,
@@ -213,7 +248,7 @@ def _render(history_dir, sport_label):
         st.info("No discrepancies of 0.5+ pts found yet. Hit **🔄 Refresh** to capture a new snapshot.")
     else:
         st.dataframe(
-            disc[["Status", "Kickoff", "Game", "Team",
+            disc[["Status", "Kickoff", "Score", "Game", "Team",
                   "FD Line", "BOL Line", "Diff",
                   "FD Over", "FD Under", "BOL Over", "BOL Under"]],
             use_container_width=True, hide_index=True,
@@ -223,7 +258,7 @@ def _render(history_dir, sport_label):
 
     # ── Full line table ───────────────────────────────────────────────────
     st.subheader(f"📋 All {sport_label} Team Totals This Week")
-    show_cols = ["Status", "Kickoff", "Game", "Team",
+    show_cols = ["Status", "Kickoff", "Score", "Game", "Team",
                  "FD Line", "FD Over", "FD Under",
                  "BOL Line", "BOL Over", "BOL Under", "Diff"]
     st.dataframe(display[show_cols], use_container_width=True, hide_index=True)
