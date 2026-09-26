@@ -507,26 +507,10 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
         df.insert(df.columns.get_loc("Team") + 1, "Score",
                   df["Team"].apply(lambda t: scores.get(t, "—")))
 
-    # ---- Override Current/Δ Line with real-time API for live games ----
-    # A game is "live" when the score exists but isn't marked Final ("F").
-    if not df.empty and ODDS_KEY:
-        live_lines = _fetch_live_lines(ODDS_KEY, sport_key)
-        if live_lines:
-            for idx, row in df.iterrows():
-                score_str = scores.get(row["Team"], "—")
-                is_live = score_str != "—" and not score_str.endswith(" F")
-                if not is_live:
-                    continue
-                live_line = live_lines.get(row["Team"])
-                if live_line is None:
-                    continue
-                open_line = row["Open"]
-                df.at[idx, "Current"] = live_line
-                df.at[idx, "Δ Line"] = round(live_line - open_line, 1) if open_line is not None else None
 
     # ---- Line discrepancies (2.0+ pts movement) ----
     st.subheader("🔴 Big Line Movers (2.0+ pts)")
-    st.caption("Teams whose line has shifted 2+ pts from open. **Live games use real-time DK lines** (refreshes every 60 s) — line moves with scoring.")
+    st.caption("Teams whose line has shifted 2+ pts from open to last pre-game snapshot — frozen once the game starts.")
     if not df.empty:
         big_movers = df[df["Δ Line"].abs() >= 2.0].copy()
         big_movers = big_movers.sort_values("Δ Line", key=lambda s: s.abs(), ascending=False)
