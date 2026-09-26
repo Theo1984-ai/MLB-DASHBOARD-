@@ -205,23 +205,28 @@ def _render(history_dir, sport_label):
     display["BOL Line"] = display["BOL Line"].apply(_fmt_line)
     display["Diff"]     = display["Diff"].apply(lambda x: f"{x:.1f}" if x is not None and x == x else "—")
 
-    show_cols = ["Status", "Kickoff", "Game", "Team",
-                 "FD Line", "FD Over", "FD Under",
-                 "BOL Line", "BOL Over", "BOL Under", "Diff"]
-    st.dataframe(display[show_cols], use_container_width=True, hide_index=True)
-
-    # Discrepancies
+    # ── Discrepancies always on top ──────────────────────────────────────
     disc = display[display["_flag"]].sort_values("Diff", ascending=False)
-    if not disc.empty:
-        st.divider()
-        st.subheader("🔴 Line discrepancies (0.5+ difference)")
-        st.caption("One book is behind the other — potential sharp signal.")
+    st.subheader("🔴 Line Discrepancies (0.5+ pts)")
+    st.caption("Frozen at last pre-game snapshot — stays visible all week even after games start/end.")
+    if disc.empty:
+        st.info("No discrepancies of 0.5+ pts found yet. Hit **🔄 Refresh** to capture a new snapshot.")
+    else:
         st.dataframe(
             disc[["Status", "Kickoff", "Game", "Team",
                   "FD Line", "BOL Line", "Diff",
                   "FD Over", "FD Under", "BOL Over", "BOL Under"]],
             use_container_width=True, hide_index=True,
         )
+
+    st.divider()
+
+    # ── Full line table ───────────────────────────────────────────────────
+    st.subheader(f"📋 All {sport_label} Team Totals This Week")
+    show_cols = ["Status", "Kickoff", "Game", "Team",
+                 "FD Line", "FD Over", "FD Under",
+                 "BOL Line", "BOL Over", "BOL Under", "Diff"]
+    st.dataframe(display[show_cols], use_container_width=True, hide_index=True)
 
     st.divider()
     st.caption(
