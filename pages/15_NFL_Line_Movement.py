@@ -45,7 +45,7 @@ def _resolve_secret(name):
 ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
 
 
-# ---------- Scores ----------
+# ---------- Scores + live lines ----------
 
 @st.cache_data(ttl=60, show_spinner=False)
 def _fetch_scores(api_key, sport):
@@ -63,6 +63,32 @@ def _fetch_scores(api_key, sport):
                 if team and score is not None:
                     score_map[team] = f"{score} F" if completed else str(score)
         return score_map
+    except Exception:
+        return {}
+
+
+@st.cache_data(ttl=60, show_spinner=False)
+def _fetch_live_lines(api_key, sport):
+    """Returns {team_name: current_dk_line} — real-time DraftKings team totals."""
+    url = (f"https://api.the-odds-api.com/v4/sports/{sport}/odds"
+           f"?apiKey={api_key}&regions=us&markets=team_totals"
+           f"&bookmakers=draftkings&oddsFormat=american")
+    try:
+        data = json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
+        line_map = {}
+        for game in data:
+            for bk in game.get("bookmakers", []):
+                if bk.get("key") != "draftkings":
+                    continue
+                for mkt in bk.get("markets", []):
+                    if mkt.get("key") != "team_totals":
+                        continue
+                    for o in mkt.get("outcomes", []):
+                        if (o.get("name") or "").lower() == "over" and o.get("point") is not None:
+                            team = o.get("description", "")
+                            if team:
+                                line_map[team] = o["point"]
+        return line_map
     except Exception:
         return {}
 
@@ -481,9 +507,26 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
         df.insert(df.columns.get_loc("Team") + 1, "Score",
                   df["Team"].apply(lambda t: scores.get(t, "—")))
 
+    # ---- Override Current/Δ Line with real-time API for live games ----
+    # A game is "live" when the score exists but isn't marked Final ("F").
+    if not df.empty and ODDS_KEY:
+        live_lines = _fetch_live_lines(ODDS_KEY, sport_key)
+        if live_lines:
+            for idx, row in df.iterrows():
+                score_str = scores.get(row["Team"], "—")
+                is_live = score_str != "—" and not score_str.endswith(" F")
+                if not is_live:
+                    continue
+                live_line = live_lines.get(row["Team"])
+                if live_line is None:
+                    continue
+                open_line = row["Open"]
+                df.at[idx, "Current"] = live_line
+                df.at[idx, "Δ Line"] = round(live_line - open_line, 1) if open_line is not None else None
+
     # ---- Line discrepancies (2.0+ pts movement) ----
     st.subheader("🔴 Big Line Movers (2.0+ pts)")
-    st.caption("Teams whose line has shifted 2+ pts from open to current — always visible all week.")
+    st.caption("Teams whose line has shifted 2+ pts from open. **Live games use real-time DK lines** (refreshes every 60 s) — line moves with scoring.")
     if not df.empty:
         big_movers = df[df["Δ Line"].abs() >= 2.0].copy()
         big_movers = big_movers.sort_values("Δ Line", key=lambda s: s.abs(), ascending=False)
