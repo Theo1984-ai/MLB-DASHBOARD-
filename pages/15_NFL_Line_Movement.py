@@ -452,6 +452,24 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
 
     df = pd.DataFrame(rows)
 
+    # ---- Line discrepancies (2.0+ pts movement) ----
+    st.subheader("🔴 Big Line Movers (2.0+ pts)")
+    st.caption("Teams whose line has shifted 2+ pts from open to current — always visible all week.")
+    if not df.empty:
+        big_movers = df[df["Δ Line"].abs() >= 2.0].copy()
+        big_movers = big_movers.sort_values("Δ Line", key=lambda s: s.abs(), ascending=False)
+        if big_movers.empty:
+            st.info("No 2.0+ pt line moves yet. Hit **🔄 Take snapshot now** to capture more data.")
+        else:
+            st.dataframe(
+                big_movers[["Kickoff","Game","Team","Open","Current","Δ Line","Consensus","🎯 Rec",
+                             "Over Current","Under Current"]],
+                use_container_width=True, hide_index=True, column_config=COL_CFG,
+            )
+    else:
+        st.info("No snapshot data yet.")
+    st.divider()
+
     # ---- Fetch schedule for grading ----
     if sport_label == "NFL":
         sched = _fetch_nfl_scores()
