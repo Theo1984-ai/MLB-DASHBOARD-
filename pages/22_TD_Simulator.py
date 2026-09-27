@@ -253,17 +253,23 @@ for i, ev in enumerate(upcoming):
         edge       = round(model_prob - best_impl, 4) if best_impl is not None else None
 
         all_rows.append({
-            "Game":       label,
-            "Player":     sim["name"],
-            "Team":       sim["team"],
-            "Pos":        sim["position"],
-            "Model %":    round(model_prob * 100, 1),
-            "Book %":     round(best_impl * 100, 1) if best_impl is not None else None,
-            "Edge %":     round(edge * 100, 1)       if edge      is not None else None,
-            "Best Price": best_price,
-            "Season TDs": int(sim["total_tds"]),
-            "Games":      int(sim["games"]),
-            "_edge":      edge if edge is not None else -999,
+            "Game":        label,
+            "Player":      sim["name"],
+            "Team":        sim["team"],
+            "Pos":         sim["position"],
+            "Model %":     round(model_prob * 100, 1),
+            "Book %":      round(best_impl * 100, 1) if best_impl is not None else None,
+            "Edge %":      round(edge * 100, 1)       if edge      is not None else None,
+            "Best Price":  best_price,
+            "Season TDs":  int(sim["total_tds"]),
+            "Games":       int(sim["games"]),
+            # red zone / opportunity signals
+            "Carries/G":   sim.get("carries_per_game"),
+            "RushTD%":     round(sim.get("rush_td_rate", 0) * 100, 1),
+            "Tgt Share":   round(sim.get("target_share", 0) * 100, 1),
+            "WOPR":        sim.get("wopr"),
+            "RecvTD%":     round(sim.get("recv_td_rate", 0) * 100, 1),
+            "_edge":       edge if edge is not None else -999,
         })
 
     prop_progress.progress((i + 1) / len(upcoming))
@@ -320,7 +326,8 @@ display["Book %"]     = display["Book %"].apply(lambda x: _fmt_pct(x))
 display["Edge %"]     = display["Edge %"].apply(lambda x: _fmt_pct(x, sign=True))
 display["Model %"]    = display["Model %"].apply(lambda x: _fmt_pct(x))
 
-display = display[["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price","Season TDs","Games"]]
+display = display[["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price",
+                   "Season TDs","Games","Carries/G","RushTD%","Tgt Share","WOPR","RecvTD%"]]
 
 st.dataframe(display, use_container_width=True, hide_index=True)
 
