@@ -95,6 +95,9 @@ def _get_td_props(api_key, event_id):
                 for o in mkt.get("outcomes", []):
                     desc   = o.get("description", "") or ""
                     name   = o.get("name", "") or ""
+                    # skip the "No" side — only price the Yes/scorer side
+                    if name.lower() == "no":
+                        continue
                     player = desc if desc and desc.lower() not in ("yes","no","") else name
                     if not player or player.lower() in ("yes","no",""):
                         continue
