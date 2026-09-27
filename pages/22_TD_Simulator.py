@@ -114,17 +114,25 @@ def _get_td_props(api_key, event_id):
         pass
 
     from scripts.td_props_scanner import BOOK_SHORT
+    # Liquid/mainstream books — more reliable prices than thin offshore books
+    LIQUID_BOOKS = {"draftkings", "fanduel", "betmgm", "caesars", "pointsbetus", "betrivers", "williamhill_us"}
     for v in results.values():
-        if v["prices"]:
-            best_bk  = max(v["book_prices"], key=lambda b: v["book_prices"][b])
-            v["best_price"] = v["book_prices"][best_bk]
+        bp = v["book_prices"]
+        v["n_books"] = len(bp)
+        if bp:
+            # Prefer best price among liquid books; fall back to best across all
+            liquid_bp = {b: p for b, p in bp.items() if b in LIQUID_BOOKS}
+            best_pool = liquid_bp if liquid_bp else bp
+            best_bk   = max(best_pool, key=lambda b: best_pool[b])
+            v["best_price"] = best_pool[best_bk]
             v["best_book"]  = BOOK_SHORT.get(best_bk, best_bk.upper())
             implied = [abs(p)/(abs(p)+100) if p < 0 else 100/(p+100) for p in v["prices"]]
             v["consensus_prob"] = sum(implied) / len(implied)
-            bp = v["best_price"]
-            v["best_implied"] = abs(bp)/(abs(bp)+100) if bp < 0 else 100/(bp+100)
+            bprice = v["best_price"]
+            v["best_implied"] = abs(bprice)/(abs(bprice)+100) if bprice < 0 else 100/(bprice+100)
         else:
             v["best_price"] = v["consensus_prob"] = v["best_implied"] = v["best_book"] = None
+            v["n_books"] = 0
     return results
 
 
@@ -259,6 +267,7 @@ for i, ev in enumerate(upcoming):
         best_impl  = prop["best_implied"] if prop else None
         best_book  = prop["best_book"]    if prop else None
         book_px    = prop.get("book_prices", {}) if prop else {}
+        n_books    = prop.get("n_books", 0)       if prop else 0
         model_prob = sim["model_prob"]
         edge       = round(model_prob - best_impl, 4) if best_impl is not None else None
 
@@ -273,6 +282,7 @@ for i, ev in enumerate(upcoming):
             "Edge %":      round(edge * 100, 1)       if edge      is not None else None,
             "Best Price":  best_price,
             "Best Book":   best_book,
+            "# Books":     n_books if n_books > 0 else None,
             # per-book prices
             **{BOOK_SHORT.get(bk, bk.upper()): px for bk, px in book_px.items()},
             "Season TDs":  int(sim["total_tds"]),
@@ -303,6 +313,9 @@ with st.sidebar:
     all_pos    = sorted(df["Pos"].unique().tolist())
     pos_filter = st.multiselect("Position", all_pos, default=all_pos)
     min_model  = st.slider("Min model prob %", 0, 60, 5)
+    min_books  = st.slider("Min books for price", 1, 5, 1,
+                           help="Filter to players priced by at least N books. "
+                                "Use 2+ to hide thin/offshore-only lines.")
     value_only = st.toggle("Value bets only (Edge > 0)", value=False)
     sort_by    = st.radio("Sort by", ["Model % (most likely)", "Edge % (best value)"], index=0)
     st.divider()
@@ -314,6 +327,8 @@ if pos_filter:
 df = df[df["Model %"] >= min_model]
 if value_only:
     df = df[df["_edge"] > 0]
+if min_books > 1:
+    df = df[(df["# Books"].notna()) & (df["# Books"] >= min_books)]
 if game_filter:
     df = df[df["Game"].isin(game_filter)]
 if "Edge" in sort_by:
@@ -344,9 +359,13 @@ display["Best Price"] = display["Best Price"].apply(_fmt_price)
 display["Book %"]     = display["Book %"].apply(lambda x: _fmt_pct(x))
 display["Edge %"]     = display["Edge %"].apply(lambda x: _fmt_pct(x, sign=True))
 display["Model %"]    = display["Model %"].apply(lambda x: _fmt_pct(x))
+display["# Books"]    = display["# Books"].apply(lambda x: int(x) if x is not None and x == x else "—")
 
 BOOK_COLS_SIM = ["DK", "FD", "MGM", "CZR", "BOV", "PIN"]
-show_cols = ["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price","Best Book"]
+for _bc in BOOK_COLS_SIM:
+    if _bc in display.columns:
+        display[_bc] = display[_bc].apply(_fmt_price)
+show_cols = ["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price","Best Book","# Books"]
 show_cols += [c for c in BOOK_COLS_SIM if c in display.columns]
 show_cols += ["Season TDs","Games","Carries/G","RushTD%","Tgt Share","WOPR","RecvTD%"]
 display = display[[c for c in show_cols if c in display.columns]]
