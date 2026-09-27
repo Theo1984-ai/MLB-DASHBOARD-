@@ -89,6 +89,7 @@ def _get_td_props(api_key, event_id):
     try:
         data = json.loads(urllib.request.urlopen(url, timeout=15, context=_SSL).read())
         for bm in data.get("bookmakers", []):
+            bk = bm.get("key", "")
             for mkt in bm.get("markets", []):
                 if mkt.get("key") != "player_anytime_td":
                     continue
@@ -106,20 +107,24 @@ def _get_td_props(api_key, event_id):
                         continue
                     pk = player.lower()
                     if pk not in results:
-                        results[pk] = {"name": player, "prices": []}
+                        results[pk] = {"name": player, "prices": [], "book_prices": {}}
                     results[pk]["prices"].append(price)
+                    results[pk]["book_prices"][bk] = price
     except Exception:
         pass
 
+    from scripts.td_props_scanner import BOOK_SHORT
     for v in results.values():
         if v["prices"]:
-            v["best_price"] = max(v["prices"])
+            best_bk  = max(v["book_prices"], key=lambda b: v["book_prices"][b])
+            v["best_price"] = v["book_prices"][best_bk]
+            v["best_book"]  = BOOK_SHORT.get(best_bk, best_bk.upper())
             implied = [abs(p)/(abs(p)+100) if p < 0 else 100/(p+100) for p in v["prices"]]
             v["consensus_prob"] = sum(implied) / len(implied)
             bp = v["best_price"]
             v["best_implied"] = abs(bp)/(abs(bp)+100) if bp < 0 else 100/(bp+100)
         else:
-            v["best_price"] = v["consensus_prob"] = v["best_implied"] = None
+            v["best_price"] = v["consensus_prob"] = v["best_implied"] = v["best_book"] = None
     return results
 
 
@@ -252,9 +257,12 @@ for i, ev in enumerate(upcoming):
         prop       = _match(sim["name"], props)
         best_price = prop["best_price"]   if prop else None
         best_impl  = prop["best_implied"] if prop else None
+        best_book  = prop["best_book"]    if prop else None
+        book_px    = prop.get("book_prices", {}) if prop else {}
         model_prob = sim["model_prob"]
         edge       = round(model_prob - best_impl, 4) if best_impl is not None else None
 
+        from scripts.td_props_scanner import BOOK_SHORT
         all_rows.append({
             "Game":        label,
             "Player":      sim["name"],
@@ -264,6 +272,9 @@ for i, ev in enumerate(upcoming):
             "Book %":      round(best_impl * 100, 1) if best_impl is not None else None,
             "Edge %":      round(edge * 100, 1)       if edge      is not None else None,
             "Best Price":  best_price,
+            "Best Book":   best_book,
+            # per-book prices
+            **{BOOK_SHORT.get(bk, bk.upper()): px for bk, px in book_px.items()},
             "Season TDs":  int(sim["total_tds"]),
             "Games":       int(sim["games"]),
             # red zone / opportunity signals
@@ -334,8 +345,11 @@ display["Book %"]     = display["Book %"].apply(lambda x: _fmt_pct(x))
 display["Edge %"]     = display["Edge %"].apply(lambda x: _fmt_pct(x, sign=True))
 display["Model %"]    = display["Model %"].apply(lambda x: _fmt_pct(x))
 
-display = display[["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price",
-                   "Season TDs","Games","Carries/G","RushTD%","Tgt Share","WOPR","RecvTD%"]]
+BOOK_COLS_SIM = ["DK", "FD", "MGM", "CZR", "BOV", "PIN"]
+show_cols = ["Player","Team","Pos","Game","Model %","Book %","Edge %","Best Price","Best Book"]
+show_cols += [c for c in BOOK_COLS_SIM if c in display.columns]
+show_cols += ["Season TDs","Games","Carries/G","RushTD%","Tgt Share","WOPR","RecvTD%"]
+display = display[[c for c in show_cols if c in display.columns]]
 
 st.dataframe(display, use_container_width=True, hide_index=True)
 
