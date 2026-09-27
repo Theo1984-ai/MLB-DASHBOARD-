@@ -280,7 +280,7 @@ if not all_rows:
     st.warning("No simulation results. Try refreshing.")
     st.stop()
 
-df = pd.DataFrame(all_rows).sort_values("_edge", ascending=False).reset_index(drop=True)
+df = pd.DataFrame(all_rows).sort_values("Model %", ascending=False).reset_index(drop=True)
 
 # ---------- Sidebar filters ----------
 
@@ -290,6 +290,7 @@ with st.sidebar:
     pos_filter = st.multiselect("Position", all_pos, default=all_pos)
     min_model  = st.slider("Min model prob %", 0, 60, 5)
     value_only = st.toggle("Value bets only (Edge > 0)", value=False)
+    sort_by    = st.radio("Sort by", ["Model % (most likely)", "Edge % (best value)"], index=0)
     st.divider()
     all_games  = df["Game"].unique().tolist()
     game_filter = st.multiselect("Filter by game", all_games, default=[])
@@ -301,6 +302,10 @@ if value_only:
     df = df[df["_edge"] > 0]
 if game_filter:
     df = df[df["Game"].isin(game_filter)]
+if "Edge" in sort_by:
+    df = df.sort_values("_edge", ascending=False)
+else:
+    df = df.sort_values("Model %", ascending=False)
 
 # ---------- Summary ----------
 
