@@ -74,8 +74,8 @@
           "ratio": 1.6
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Scheduled"
+      "result": "LOSS",
+      "settle_detail": "4-8"
     },
     {
       "stat_key": "h2h",
@@ -143,22 +143,22 @@
           "ratio": 2.53
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=In Progress"
+      "result": "LOSS",
+      "settle_detail": "7-1"
     }
   ],
-  "settled_at": "2026-09-26T12:48:09.015956-04:00",
+  "settled_at": "2026-09-27T10:57:21.595820-04:00",
   "summary": {
     "n_total": 2,
-    "n_settled": 0,
+    "n_settled": 2,
     "n_void": 0,
-    "n_no_data": 2,
+    "n_no_data": 0,
     "wins": 0,
-    "losses": 0,
+    "losses": 2,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 0.0,
+    "risk_total": 200.0,
+    "profit_total": -200.0,
+    "roi_pct": -100.0
   }
 }
