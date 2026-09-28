@@ -15,15 +15,16 @@
   },
   "summary": {
     "n_total": 49,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 39,
+    "n_void": 10,
+    "n_no_data": 0,
+    "wins": 19,
+    "losses": 20,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 48.7,
+    "risk_total": 11161.0,
+    "profit_total": -1020.0,
+    "roi_pct": -9.14
   },
   "picks": [
     {
@@ -68,7 +69,9 @@
           "cons": 69.9,
           "edge": 6.9
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Ronald Acu\u00f1a Jr.)"
     },
     {
       "stat_key": "hits",
@@ -112,7 +115,9 @@
           "cons": 72.5,
           "edge": 5.4
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Fernando Tatis Jr.)"
     },
     {
       "stat_key": "hits",
@@ -168,7 +173,9 @@
           "cons": 73.7,
           "edge": 4.8
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -224,7 +231,9 @@
           "cons": 76.4,
           "edge": 4.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -280,7 +289,9 @@
           "cons": 66.4,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Oneil Cruz)"
     },
     {
       "stat_key": "hits",
@@ -324,7 +335,9 @@
           "cons": 73.7,
           "edge": 3.4
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Miguel Vargas)"
     },
     {
       "stat_key": "hits",
@@ -380,7 +393,9 @@
           "cons": 71.1,
           "edge": 3.9
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -424,7 +439,9 @@
           "cons": 72.9,
           "edge": 3.3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Drake Baldwin)"
     },
     {
       "stat_key": "hits",
@@ -480,7 +497,9 @@
           "cons": 66.4,
           "edge": 7.7
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -530,7 +549,9 @@
           "cons": 68.8,
           "edge": 2.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -580,7 +601,9 @@
           "cons": 63.5,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -624,7 +647,9 @@
           "cons": 66.4,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -674,7 +699,9 @@
           "cons": 64.4,
           "edge": 3.7
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game cancelled"
     },
     {
       "stat_key": "tb",
@@ -724,7 +751,9 @@
           "cons": 63.1,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=0 vs U1.5"
     },
     {
       "stat_key": "hits",
@@ -780,7 +809,9 @@
           "cons": 71.8,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=2 vs O0.5"
     },
     {
       "stat_key": "ks",
@@ -836,7 +867,9 @@
           "cons": 90.6,
           "edge": 10.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -892,7 +925,9 @@
           "cons": 81.4,
           "edge": 11.7
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -948,7 +983,9 @@
           "cons": 68.1,
           "edge": 11.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=5 vs O5.5"
     },
     {
       "stat_key": "ks",
@@ -1004,7 +1041,9 @@
           "cons": 90.8,
           "edge": 6.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -1060,7 +1099,9 @@
           "cons": 92.1,
           "edge": 2.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O3.5"
     },
     {
       "stat_key": "ks",
@@ -1116,7 +1157,9 @@
           "cons": 75.5,
           "edge": 7.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=2 vs O2.5"
     },
     {
       "stat_key": "ks",
@@ -1172,7 +1215,9 @@
           "cons": 79.3,
           "edge": 3.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -1228,7 +1273,9 @@
           "cons": 77.2,
           "edge": 6.5
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O4.5"
     },
     {
       "stat_key": "ks",
@@ -1278,7 +1325,9 @@
           "cons": 97.2,
           "edge": 2.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "ks=5 vs O2.5"
     },
     {
       "stat_key": "ks",
@@ -1334,7 +1383,9 @@
           "cons": 61.9,
           "edge": 8.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=5 vs O5.5"
     },
     {
       "stat_key": "hr",
@@ -1390,7 +1441,9 @@
           "cons": 30.7,
           "edge": 3.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1446,7 +1499,9 @@
           "cons": 30.4,
           "edge": 3.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1502,7 +1557,9 @@
           "cons": 25.1,
           "edge": 4.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1558,7 +1615,9 @@
           "cons": 26.9,
           "edge": 1.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1608,7 +1667,9 @@
           "cons": 25.9,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -1664,7 +1725,9 @@
           "cons": 23.4,
           "edge": 1.1
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Oneil Cruz)"
     },
     {
       "stat_key": "hr",
@@ -1708,7 +1771,9 @@
           "cons": 22.1,
           "edge": 5.9
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Miguel Vargas)"
     },
     {
       "stat_key": "hr",
@@ -1746,7 +1811,9 @@
           "cons": 21.3,
           "edge": 1.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1790,7 +1857,9 @@
           "cons": 68.4,
           "edge": 3.5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "game cancelled"
     },
     {
       "stat_key": "hr",
@@ -1834,7 +1903,9 @@
           "cons": 20.9,
           "edge": 2.7
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1872,7 +1943,9 @@
           "cons": 77.7,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1916,7 +1989,9 @@
           "cons": 65.8,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1960,7 +2035,9 @@
           "cons": 71.8,
           "edge": 4.0
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -1998,7 +2075,9 @@
           "cons": 71.9,
           "edge": 2.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "ks",
@@ -2036,7 +2115,9 @@
           "cons": 60.1,
           "edge": 4.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "ks=5 vs O5.5"
     },
     {
       "stat_key": "hr",
@@ -2080,7 +2161,9 @@
           "cons": 22.2,
           "edge": 1.6
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -2118,7 +2201,9 @@
           "cons": 22.1,
           "edge": 3.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2156,7 +2241,9 @@
           "cons": 65.0,
           "edge": 5.1
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hits=0 vs O0.5"
     },
     {
       "stat_key": "hits",
@@ -2194,7 +2281,9 @@
           "cons": 74.6,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=3 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2232,7 +2321,9 @@
           "cons": 66.4,
           "edge": 4.0
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "tb=1 vs U1.5"
     },
     {
       "stat_key": "hits",
@@ -2270,7 +2361,9 @@
           "cons": 61.5,
           "edge": 3.2
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "tb",
@@ -2308,7 +2401,9 @@
           "cons": 61.5,
           "edge": 3.0
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Oneil Cruz)"
     },
     {
       "stat_key": "hits",
@@ -2346,7 +2441,9 @@
           "cons": 67.2,
           "edge": 2.4
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "hits=1 vs O0.5"
     },
     {
       "stat_key": "hr",
@@ -2384,7 +2481,10 @@
           "cons": 21.4,
           "edge": 1.3
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "hr=0 vs O0.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-28T13:55:51.155957-04:00"
 }
