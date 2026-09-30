@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 9,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 4,
+    "n_void": 5,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 2,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 50.0,
+    "risk_total": 1311.0,
+    "profit_total": -458.0,
+    "roi_pct": -34.94
   },
   "picks": [
     {
@@ -87,7 +88,9 @@
           "ev": 20.84,
           "price": -375
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Chris Sale)"
     },
     {
       "event_id": "98adc841e3aababc93878e3cf743a2d4",
@@ -158,7 +161,9 @@
           "ev": 17.74,
           "price": -260
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Matthew Boyd)"
     },
     {
       "event_id": "08d9219713246e3edff39b4f549085d8",
@@ -229,7 +234,9 @@
           "ev": 8.21,
           "price": -336
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+2 vs -1.5"
     },
     {
       "event_id": "4cb76cceb16eb603c683038d132f4642",
@@ -300,7 +307,9 @@
           "ev": 17.36,
           "price": -296
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Cam Schlittler)"
     },
     {
       "event_id": "98adc841e3aababc93878e3cf743a2d4",
@@ -371,7 +380,9 @@
           "ev": 4.68,
           "price": -325
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-8 vs -2.5"
     },
     {
       "event_id": "4cb76cceb16eb603c683038d132f4642",
@@ -442,7 +453,9 @@
           "ev": 5.91,
           "price": -347
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-9 vs -2.5"
     },
     {
       "event_id": "98adc841e3aababc93878e3cf743a2d4",
@@ -495,7 +508,9 @@
           "ev": 18.41,
           "price": -250
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Michael King)"
     },
     {
       "event_id": "4cb76cceb16eb603c683038d132f4642",
@@ -566,7 +581,9 @@
           "ev": 8.33,
           "price": -275
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Payton Tolle)"
     },
     {
       "event_id": "3a08d35ecf12b54dc25f5912ccecf222",
@@ -637,7 +654,10 @@
           "ev": 4.5,
           "price": -302
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+3 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-09-30T09:00:05.136529-04:00"
 }
