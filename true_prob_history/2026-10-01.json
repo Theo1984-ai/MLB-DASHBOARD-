@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-01",
+  "snapshot_at": "2026-10-01T09:00:22.181922-04:00",
+  "n_picks": 1,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 1,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "game": "Phillies @ Braves",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Atlanta Braves +2.5",
+      "player": "Atlanta Braves",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -300,
+      "true_prob_pct": 75.85,
+      "ev_per_100": 3.4,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -300
+        ],
+        [
+          "pinnacle",
+          -307
+        ],
+        [
+          "fanduel",
+          -310
+        ],
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "bovada",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T09:00:22.181851-04:00",
+      "last_seen_at": "2026-10-01T09:00:22.181851-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T09:00:22.181851-04:00",
+          "tp": 75.85,
+          "ev": 3.4,
+          "price": -300
+        }
+      ]
+    }
+  ]
+}

@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 9,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 4,
+    "n_void": 5,
+    "n_no_data": 0,
+    "wins": 2,
+    "losses": 2,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 50.0,
+    "risk_total": 1218.0,
+    "profit_total": -434.0,
+    "roi_pct": -35.63
   },
   "picks": [
     {
@@ -85,7 +86,9 @@
           "ev": 12.59,
           "price": -325
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Cristopher Sanchez)"
     },
     {
       "event_id": "766096a9312f4528ba2e8b59fe9550fd",
@@ -150,7 +153,9 @@
           "ev": 18.54,
           "price": -326
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Sean Burke)"
     },
     {
       "event_id": "766096a9312f4528ba2e8b59fe9550fd",
@@ -215,7 +220,9 @@
           "ev": 14.0,
           "price": -360
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Hunter Brown)"
     },
     {
       "event_id": "66c0c13a06424600557af241371043fc",
@@ -280,7 +287,9 @@
           "ev": 11.46,
           "price": -295
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Nick Pivetta)"
     },
     {
       "event_id": "110c5c1a6de988c7066e2f291be8d7ff",
@@ -339,7 +348,9 @@
           "ev": 4.03,
           "price": -340
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-7 vs -2.5"
     },
     {
       "event_id": "66c0c13a06424600557af241371043fc",
@@ -404,7 +415,9 @@
           "ev": 4.06,
           "price": -300
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-3 vs -2.5"
     },
     {
       "event_id": "9e23239e0075a017225697fa3bcd88b3",
@@ -469,7 +482,9 @@
           "ev": 4.38,
           "price": -300
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=-1 vs -2.5"
     },
     {
       "event_id": "66c0c13a06424600557af241371043fc",
@@ -534,7 +549,9 @@
           "ev": 9.27,
           "price": -275
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Fernando Tatis Jr.)"
     },
     {
       "event_id": "766096a9312f4528ba2e8b59fe9550fd",
@@ -593,7 +610,10 @@
           "ev": 3.16,
           "price": -291
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+4 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-01T09:00:05.210038-04:00"
 }
