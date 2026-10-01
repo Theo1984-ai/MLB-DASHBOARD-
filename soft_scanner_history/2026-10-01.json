@@ -1,7 +1,7 @@
 {
   "date": "2026-10-01",
-  "snapshot_at": "2026-10-01T09:00:22.893420-04:00",
-  "n_picks": 13,
+  "snapshot_at": "2026-10-01T12:50:01.723238-04:00",
+  "n_picks": 20,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 13,
+    "n_total": 20,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -177,25 +177,25 @@
       "selection": "Michael Harris II",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 249,
-      "best_imp_pct": 28.65,
-      "consensus_pct": 31.18,
-      "edge_pp": 5.71,
-      "ev_per_100": 8.81,
+      "best_book": "fanduel",
+      "best_price": 280,
+      "best_imp_pct": 26.32,
+      "consensus_pct": 29.45,
+      "edge_pp": 7.24,
+      "ev_per_100": 11.92,
       "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          249
-        ],
-        [
           "fanduel",
-          230
+          280
         ],
         [
           "bovada",
-          230
+          280
+        ],
+        [
+          "draftkings",
+          247
         ],
         [
           "betmgm",
@@ -203,17 +203,23 @@
         ],
         [
           "williamhill_us",
-          191
+          198
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-01T09:00:22.893295-04:00",
-      "last_seen_at": "2026-10-01T09:00:22.893295-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
       "scan_history": [
         {
           "t": "2026-10-01T09:00:22.893295-04:00",
           "edge": 5.71,
           "price": 249,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 7.24,
+          "price": 280,
           "n_books": 5
         }
       ]
@@ -284,34 +290,40 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "draftkings",
-      "best_price": -192,
-      "best_imp_pct": 65.75,
-      "consensus_pct": 68.96,
-      "edge_pp": 5.68,
-      "ev_per_100": 9.36,
+      "best_price": -174,
+      "best_imp_pct": 63.5,
+      "consensus_pct": 68.19,
+      "edge_pp": 9.83,
+      "ev_per_100": 12.85,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -192
+          -174
         ],
         [
           "fanduel",
-          -230
+          -210
         ],
         [
           "betmgm",
-          -250
+          -275
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-01T09:00:22.893295-04:00",
-      "last_seen_at": "2026-10-01T09:00:22.893295-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
       "scan_history": [
         {
           "t": "2026-10-01T09:00:22.893295-04:00",
           "edge": 5.68,
           "price": -192,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 9.83,
+          "price": -174,
           "n_books": 3
         }
       ]
@@ -612,25 +624,25 @@
       "selection": "Drake Baldwin",
       "side": "Over",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": 242,
-      "best_imp_pct": 29.24,
-      "consensus_pct": 31.51,
-      "edge_pp": 5.12,
-      "ev_per_100": 7.76,
+      "best_book": "fanduel",
+      "best_price": 260,
+      "best_imp_pct": 27.78,
+      "consensus_pct": 30.69,
+      "edge_pp": 6.59,
+      "ev_per_100": 10.49,
       "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          242
-        ],
-        [
           "fanduel",
-          230
+          260
         ],
         [
           "bovada",
-          230
+          260
+        ],
+        [
+          "draftkings",
+          231
         ],
         [
           "betmgm",
@@ -641,15 +653,358 @@
           191
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-01T09:00:22.893295-04:00",
-      "last_seen_at": "2026-10-01T09:00:22.893295-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
       "scan_history": [
         {
           "t": "2026-10-01T09:00:22.893295-04:00",
           "edge": 5.12,
           "price": 242,
           "n_books": 5
+        },
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 6.59,
+          "price": 260,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Brandon Marsh",
+      "team": "PHI",
+      "selection": "Brandon Marsh",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 136,
+      "best_imp_pct": 42.37,
+      "consensus_pct": 46.35,
+      "edge_pp": 8.85,
+      "ev_per_100": 9.38,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          136
+        ],
+        [
+          "fanduel",
+          120
+        ],
+        [
+          "betmgm",
+          -105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 8.85,
+          "price": 136,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Brandon Marsh",
+      "team": "PHI",
+      "selection": "Brandon Marsh",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": 273,
+      "best_imp_pct": 26.81,
+      "consensus_pct": 29.57,
+      "edge_pp": 6.52,
+      "ev_per_100": 10.3,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          273
+        ],
+        [
+          "fanduel",
+          250
+        ],
+        [
+          "betmgm",
+          200
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 6.52,
+          "price": 273,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Bryce Harper",
+      "team": "PHI",
+      "selection": "Bryce Harper",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": -105,
+      "best_imp_pct": 51.22,
+      "consensus_pct": 53.76,
+      "edge_pp": 6.23,
+      "ev_per_100": 5.2,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -105
+        ],
+        [
+          "draftkings",
+          -111
+        ],
+        [
+          "betmgm",
+          -135
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 6.23,
+          "price": -105,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Bryce Harper",
+      "team": "PHI",
+      "selection": "Bryce Harper",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -270,
+      "best_imp_pct": 72.97,
+      "consensus_pct": 75.13,
+      "edge_pp": 5.97,
+      "ev_per_100": 7.99,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -270
+        ],
+        [
+          "draftkings",
+          -277
+        ],
+        [
+          "betmgm",
+          -375
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 5.97,
+          "price": -270,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Michael Harris II",
+      "team": "ATL",
+      "selection": "Michael Harris II",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 100,
+      "best_imp_pct": 50.0,
+      "consensus_pct": 52.57,
+      "edge_pp": 5.56,
+      "ev_per_100": 5.14,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          100
+        ],
+        [
+          "draftkings",
+          -109
+        ],
+        [
+          "betmgm",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 5.56,
+          "price": 100,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Phillies @ Braves",
+      "market": "Hits",
+      "player": "Alec Bohm",
+      "team": "PHI",
+      "selection": "Alec Bohm",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 240,
+      "best_imp_pct": 29.41,
+      "consensus_pct": 31.57,
+      "edge_pp": 5.31,
+      "ev_per_100": 7.34,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          240
+        ],
+        [
+          "bovada",
+          240
+        ],
+        [
+          "draftkings",
+          212
+        ],
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "williamhill_us",
+          188
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 5.31,
+          "price": 240,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Phillies @ Braves",
+      "market": "H+R+R",
+      "player": "Michael Harris II",
+      "team": "ATL",
+      "selection": "Michael Harris II",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "fanduel",
+      "best_price": -250,
+      "best_imp_pct": 71.43,
+      "consensus_pct": 73.62,
+      "edge_pp": 5.04,
+      "ev_per_100": 7.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "draftkings",
+          -270
+        ],
+        [
+          "betmgm",
+          -325
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.723188-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.723188-04:00",
+          "edge": 5.04,
+          "price": -250,
+          "n_books": 3
         }
       ]
     }

@@ -1,7 +1,7 @@
 {
   "date": "2026-10-01",
-  "snapshot_at": "2026-10-01T09:00:22.181922-04:00",
-  "n_picks": 1,
+  "snapshot_at": "2026-10-01T12:50:01.312120-04:00",
+  "n_picks": 3,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 1,
+    "n_total": 3,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -36,23 +36,15 @@
       "player": "Atlanta Braves",
       "side": "Home",
       "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -300,
-      "true_prob_pct": 75.85,
-      "ev_per_100": 3.4,
+      "best_book": "pinnacle",
+      "best_price": -309,
+      "true_prob_pct": 76.61,
+      "ev_per_100": 4.33,
       "n_books": 5,
       "all_prices": [
         [
-          "draftkings",
-          -300
-        ],
-        [
           "pinnacle",
-          -307
-        ],
-        [
-          "fanduel",
-          -310
+          -309
         ],
         [
           "betmgm",
@@ -61,17 +53,137 @@
         [
           "bovada",
           -330
+        ],
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "fanduel",
+          -340
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-01T09:00:22.181851-04:00",
-      "last_seen_at": "2026-10-01T09:00:22.181851-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.312071-04:00",
       "scan_history": [
         {
           "t": "2026-10-01T09:00:22.181851-04:00",
           "tp": 75.85,
           "ev": 3.4,
           "price": -300
+        },
+        {
+          "t": "2026-10-01T12:50:01.312071-04:00",
+          "tp": 76.61,
+          "ev": 4.33,
+          "price": -309
+        }
+      ]
+    },
+    {
+      "event_id": "cb4d07dc15440acf3d9ebe1ad41756c1",
+      "game": "Yankees @ Rays",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-03T22:31:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Yankees +2.5",
+      "player": "New York Yankees",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -343,
+      "true_prob_pct": 78.28,
+      "ev_per_100": 3.79,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          -343
+        ],
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "bovada",
+          -360
+        ],
+        [
+          "draftkings",
+          -362
+        ],
+        [
+          "fanduel",
+          -390
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.312071-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.312071-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.312071-04:00",
+          "tp": 78.28,
+          "ev": 3.79,
+          "price": -343
+        }
+      ]
+    },
+    {
+      "event_id": "5524c44b05e28aa899909c9e001184ec",
+      "game": "Phillies @ Braves",
+      "away_team": "Philadelphia Phillies",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-02T00:11:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Aaron Nola",
+      "player": "Aaron Nola",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "bovada",
+      "best_price": -310,
+      "true_prob_pct": 78.0,
+      "ev_per_100": 9.8,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "bovada",
+          -310
+        ],
+        [
+          "draftkings",
+          -314
+        ],
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "fanduel",
+          -390
+        ],
+        [
+          "williamhill_us",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-01T12:50:01.312071-04:00",
+      "last_seen_at": "2026-10-01T12:50:01.312071-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-01T12:50:01.312071-04:00",
+          "tp": 78.0,
+          "ev": 9.8,
+          "price": -310
         }
       ]
     }
