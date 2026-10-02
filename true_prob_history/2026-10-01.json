@@ -10,17 +10,17 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 1,
-    "n_settled": 1,
+    "n_total": 3,
+    "n_settled": 2,
     "n_void": 0,
-    "n_no_data": 0,
-    "wins": 1,
+    "n_no_data": 1,
+    "wins": 2,
     "losses": 0,
     "pushes": 0,
     "hit_rate": 100.0,
-    "risk_total": 300.0,
-    "profit_total": 100.0,
-    "roi_pct": 33.33
+    "risk_total": 615.0,
+    "profit_total": 200.0,
+    "roi_pct": 32.52
   },
   "picks": [
     {
@@ -86,7 +86,9 @@
           "ev": 4.99,
           "price": -305
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+4 vs -2.5"
     },
     {
       "event_id": "cb4d07dc15440acf3d9ebe1ad41756c1",
@@ -145,7 +147,9 @@
           "ev": 3.79,
           "price": -343
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "5524c44b05e28aa899909c9e001184ec",
@@ -209,5 +213,5 @@
       "settle_detail": "margin=+4 vs -2.5"
     }
   ],
-  "settled_at": "2026-10-02T09:00:03.745256-04:00"
+  "settled_at": "2026-10-02T12:03:17.741006-04:00"
 }
