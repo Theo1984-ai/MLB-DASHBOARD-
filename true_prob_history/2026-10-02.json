@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-02",
+  "snapshot_at": "2026-10-02T09:00:15.008618-04:00",
+  "n_picks": 2,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 2,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "cb4d07dc15440acf3d9ebe1ad41756c1",
+      "game": "Yankees @ Rays",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-03T22:31:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Yankees +2.5",
+      "player": "New York Yankees",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -344,
+      "true_prob_pct": 78.16,
+      "ev_per_100": 3.01,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          -344
+        ],
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "bovada",
+          -360
+        ],
+        [
+          "draftkings",
+          -366
+        ],
+        [
+          "fanduel",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-02T09:00:15.008580-04:00",
+      "last_seen_at": "2026-10-02T09:00:15.008580-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-02T09:00:15.008580-04:00",
+          "tp": 78.16,
+          "ev": 3.01,
+          "price": -344
+        }
+      ]
+    },
+    {
+      "event_id": "347a2e725dd11a54a1d964eae3d04dd2",
+      "game": "Padres @ Brewers",
+      "away_team": "San Diego Padres",
+      "home_team": "Milwaukee Brewers",
+      "first_pitch": "2026-10-04T00:30:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Jacob Misiorowski",
+      "player": "Jacob Misiorowski",
+      "side": "Over",
+      "point": 6.5,
+      "best_book": "betmgm",
+      "best_price": -275,
+      "true_prob_pct": 77.59,
+      "ev_per_100": 15.95,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -275
+        ],
+        [
+          "draftkings",
+          -339
+        ],
+        [
+          "williamhill_us",
+          -345
+        ],
+        [
+          "bovada",
+          -370
+        ],
+        [
+          "fanduel",
+          -430
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-02T09:00:15.008580-04:00",
+      "last_seen_at": "2026-10-02T09:00:15.008580-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-02T09:00:15.008580-04:00",
+          "tp": 77.59,
+          "ev": 15.95,
+          "price": -275
+        }
+      ]
+    }
+  ]
+}

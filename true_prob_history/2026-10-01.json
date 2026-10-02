@@ -10,16 +10,17 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 3,
-    "n_settled": 0,
+    "n_total": 1,
+    "n_settled": 1,
     "n_void": 0,
-    "wins": 0,
+    "n_no_data": 0,
+    "wins": 1,
     "losses": 0,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 100.0,
+    "risk_total": 300.0,
+    "profit_total": 100.0,
+    "roi_pct": 33.33
   },
   "picks": [
     {
@@ -203,7 +204,10 @@
           "ev": 10.69,
           "price": -310
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+4 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-02T09:00:03.745256-04:00"
 }
