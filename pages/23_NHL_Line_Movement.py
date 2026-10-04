@@ -46,7 +46,9 @@ def _fetch_live_scores(date_str):
     """Pull live NHL scores from the official NHL API (free, no key needed)."""
     try:
         url = f"https://api-web.nhle.com/v1/score/{date_str}"
-        data = json.loads(urllib.request.urlopen(url, timeout=10, context=_SSL).read())
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0",
+                                                    "Accept": "application/json"})
+        data = json.loads(urllib.request.urlopen(req, timeout=10, context=_SSL).read())
     except Exception:
         return {}
 
