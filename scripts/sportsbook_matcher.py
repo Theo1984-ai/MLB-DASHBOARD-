@@ -34,9 +34,9 @@ def _norm_team(name):
     return n
 
 
-def fetch_game_lines(api_key):
-    """Pull h2h / spreads / totals across all MLB games at the 5 sharp books."""
-    url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
+def fetch_game_lines(api_key, sport="baseball_mlb"):
+    """Pull h2h / spreads / totals for the given sport at the 5 sharp books."""
+    url = (f"https://api.the-odds-api.com/v4/sports/{sport}/odds"
            f"?apiKey={api_key}&regions=us&markets=h2h,spreads,totals"
            f"&bookmakers={SHARP_BOOKS}&oddsFormat=american")
     try:
@@ -90,9 +90,9 @@ def _consensus_implied_pct(all_prices):
     return (round(med * 100, 1), n)
 
 
-def match_signals(polymarket_rows, api_key):
+def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
     """For each Polymarket row, find matching sportsbook line + edge."""
-    games = fetch_game_lines(api_key)
+    games = fetch_game_lines(api_key, sport)
 
     # Index games by normalized team pair
     game_by_pair = {}
