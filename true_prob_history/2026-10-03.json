@@ -10,17 +10,17 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 8,
-    "n_settled": 3,
-    "n_void": 5,
+    "n_total": 11,
+    "n_settled": 5,
+    "n_void": 6,
     "n_no_data": 0,
-    "wins": 3,
+    "wins": 5,
     "losses": 0,
     "pushes": 0,
     "hit_rate": 100.0,
-    "risk_total": 996.0,
-    "profit_total": 300.0,
-    "roi_pct": 30.12
+    "risk_total": 1651.0,
+    "profit_total": 500.0,
+    "roi_pct": 30.28
   },
   "picks": [
     {
@@ -579,7 +579,9 @@
           "ev": 5.78,
           "price": -296
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+3 vs -2.5"
     },
     {
       "event_id": "1632ced04d65127cf6172d3a2c2e2d16",
@@ -638,7 +640,9 @@
           "ev": 4.95,
           "price": -360
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+2 vs -1.5"
     },
     {
       "event_id": "1632ced04d65127cf6172d3a2c2e2d16",
@@ -697,7 +701,9 @@
           "ev": 5.78,
           "price": -295
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Tarik Skubal)"
     },
     {
       "event_id": "5d13b613a334039f0694d8c95af28728",
@@ -757,5 +763,5 @@
       "settle_detail": "margin=+3 vs -2.5"
     }
   ],
-  "settled_at": "2026-10-04T09:00:15.320874-04:00"
+  "settled_at": "2026-10-04T11:05:45.895311-04:00"
 }
