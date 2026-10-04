@@ -154,9 +154,21 @@ def main(force=False, min_gap_min=30):
         except Exception:
             pass
 
+    from datetime import timezone
+    now_utc = now.astimezone(timezone.utc)
+
     events = _fetch_events(api_key)
     games = []
     for ev in events:
+        # Skip games that have already started — freeze pre-game lines in history
+        commence = ev.get("commence_time", "")
+        if commence:
+            try:
+                gt = datetime.fromisoformat(commence.replace("Z", "+00:00"))
+                if gt <= now_utc:
+                    continue
+            except Exception:
+                pass
         data = _fetch_team_totals(api_key, ev["id"])
         g = _parse_game({**ev, "bookmakers": data.get("bookmakers", [])})
         if g:
