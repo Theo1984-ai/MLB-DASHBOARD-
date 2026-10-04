@@ -95,8 +95,8 @@ def _parse_game(event):
             per_book[key] = parsed
     if not per_book:
         return None
-    # Caesars is primary — Fanatics posts non-standard (alt/period) lines for NHL
-    anchor_priority = ("williamhill_us", "betmgm", "fanduel", "pointsbetus",
+    # FanDuel is primary — Caesars/MGM/Fanatics used as fallback
+    anchor_priority = ("fanduel", "pointsbetus", "williamhill_us", "betmgm",
                        "fanatics", "draftkings", "bovada")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
@@ -172,7 +172,7 @@ def main(force=False, min_gap_min=30):
     payload = {
         "date":        today,
         "sport":       SPORT,
-        "book":        "caesars",  # Caesars/WH is primary — Fanatics posts non-standard lines
+        "book":        "fanduel",
         "market":      MARKET,
         "n_snapshots": len(snapshots),
         "snapshots":   snapshots,
