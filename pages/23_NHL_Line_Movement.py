@@ -9,12 +9,72 @@ Mirrors 10_Line_Movement.py (MLB) exactly, adapted for NHL:
 """
 import json
 import os
+import ssl as _ssl
 import sys
+import urllib.request
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 import streamlit as st
+
+_SSL = _ssl._create_unverified_context()
+
+# NHL team abbreviation → full name (matches Odds API naming)
+_NHL_ABBREV = {
+    "ANA": "Anaheim Ducks",    "BOS": "Boston Bruins",
+    "BUF": "Buffalo Sabres",   "CGY": "Calgary Flames",
+    "CAR": "Carolina Hurricanes", "CHI": "Chicago Blackhawks",
+    "COL": "Colorado Avalanche",  "CBJ": "Columbus Blue Jackets",
+    "DAL": "Dallas Stars",     "DET": "Detroit Red Wings",
+    "EDM": "Edmonton Oilers",  "FLA": "Florida Panthers",
+    "LAK": "Los Angeles Kings","MIN": "Minnesota Wild",
+    "MTL": "Montréal Canadiens", "NSH": "Nashville Predators",
+    "NJD": "New Jersey Devils","NYI": "New York Islanders",
+    "NYR": "New York Rangers", "OTT": "Ottawa Senators",
+    "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins",
+    "SEA": "Seattle Kraken",   "SJS": "San Jose Sharks",
+    "STL": "St. Louis Blues",  "TBL": "Tampa Bay Lightning",
+    "TOR": "Toronto Maple Leafs", "UTA": "Utah Mammoth",
+    "VAN": "Vancouver Canucks","VGK": "Vegas Golden Knights",
+    "WSH": "Washington Capitals", "WPG": "Winnipeg Jets",
+}
+
+
+@st.cache_data(ttl=60, show_spinner=False)
+def _fetch_live_scores(date_str):
+    """Pull live NHL scores from the official NHL API (free, no key needed)."""
+    try:
+        url = f"https://api-web.nhle.com/v1/score/{date_str}"
+        data = json.loads(urllib.request.urlopen(url, timeout=10, context=_SSL).read())
+    except Exception:
+        return {}
+
+    scores = {}
+    for g in data.get("games", []):
+        away_abbr = g.get("awayTeam", {}).get("abbrev", "")
+        home_abbr = g.get("homeTeam", {}).get("abbrev", "")
+        away_name = _NHL_ABBREV.get(away_abbr, away_abbr)
+        home_name = _NHL_ABBREV.get(home_abbr, home_abbr)
+        away_score = g.get("awayTeam", {}).get("score", "")
+        home_score = g.get("homeTeam", {}).get("score", "")
+        state = g.get("gameState", "")
+        period = g.get("period", "")
+        clock = (g.get("clock") or {}).get("timeRemaining", "")
+        in_int = (g.get("clock") or {}).get("inIntermission", False)
+
+        if state in ("FUT", "PRE"):
+            label = "–"
+        elif state in ("FINAL", "OFF", "OVER"):
+            label = f"F  {away_score}–{home_score}"
+        elif in_int:
+            label = f"INT  {away_score}–{home_score}"
+        else:
+            label = f"P{period} {clock}  {away_score}–{home_score}"
+
+        game_key = f"{away_name} @ {home_name}"
+        scores[game_key] = label
+    return scores
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
@@ -278,9 +338,9 @@ def _recommendation(open_game, curr_game, side, consensus_tag, dl):
             return "🎯 Under (consensus)"
     if "DK only" in consensus_tag:
         if dl >= 0.25:
-            return "↩️ Under (fade DK)"
+            return "↩️ Under (fade FD)"
         if dl <= -0.25:
-            return "↩️ Over (fade DK)"
+            return "↩️ Over (fade FD)"
     return ""
 
 
@@ -342,13 +402,17 @@ if not df.empty:
         st.caption(
             "🔄 **RLM** = line and price disagree (sharpest) · "
             "🎯 **Consensus** = 2+ books agree (follow the move) · "
-            "↩️ **Fade DK** = DK-only mover"
+            "↩️ **Fade FD** = FD-only mover · "
+            "Score refreshes every 60s"
         )
+        live_scores = _fetch_live_scores(sel_date)
+        plays["Score"] = plays["Game"].map(lambda g: live_scores.get(g, "–"))
         st.dataframe(
-            plays[["Team", "Open", "Current", "Δ Line", "Consensus", "🎯 Rec",
+            plays[["Score", "Team", "Open", "Current", "Δ Line", "Consensus", "🎯 Rec",
                    "Over Current", "Under Current"]],
             use_container_width=True, hide_index=True,
             column_config={
+                "Score":         st.column_config.TextColumn("🏒 Score"),
                 "Open":          st.column_config.NumberColumn(format="%.2f"),
                 "Current":       st.column_config.NumberColumn(format="%.2f"),
                 "Δ Line":        st.column_config.NumberColumn(format="%+.2f"),
