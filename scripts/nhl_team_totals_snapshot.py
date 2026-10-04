@@ -23,7 +23,7 @@ if ROOT not in sys.path:
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 SPORT = "icehockey_nhl"
-BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us"
+BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us,fanatics,pointsbetus"
 MARKET = "team_totals"
 HISTORY_DIR = os.path.join(ROOT, "nhl_team_totals_history")
 
@@ -87,15 +87,17 @@ def _parse_game(event):
     per_book = {}
     for bm in event.get("bookmakers", []):
         key = bm.get("key")
-        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us"):
+        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us",
+                       "fanatics", "pointsbetus"):
             continue
         parsed = _extract_book(bm, away, home)
         if parsed:
             per_book[key] = parsed
     if not per_book:
         return None
-    # FanDuel is primary — DK team_totals not available via Odds API for NHL
-    anchor_priority = ("fanduel", "betmgm", "williamhill_us", "draftkings", "bovada")
+    # FanDuel is primary — DK/BOV team_totals not available via Odds API for NHL
+    anchor_priority = ("fanduel", "betmgm", "williamhill_us", "fanatics",
+                       "pointsbetus", "draftkings", "bovada")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
     return {
