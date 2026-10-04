@@ -94,8 +94,8 @@ def _parse_game(event):
             per_book[key] = parsed
     if not per_book:
         return None
-    # DraftKings rarely carries NHL team totals; prefer FD → MGM → WH → any
-    anchor_priority = ("fanduel", "betmgm", "williamhill_us", "draftkings", "bovada")
+    # DK is preferred; fall back to FD → MGM → WH → BOV if DK line not posted yet
+    anchor_priority = ("draftkings", "fanduel", "betmgm", "williamhill_us", "bovada")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
     return {
@@ -170,7 +170,7 @@ def main(force=False, min_gap_min=30):
     payload = {
         "date":        today,
         "sport":       SPORT,
-        "book":        "fanduel",   # FD is primary NHL team-totals book; DK rarely carries this market
+        "book":        "draftkings",  # DK is primary; FD/MGM/WH used as fallback if DK line not yet posted
         "market":      MARKET,
         "n_snapshots": len(snapshots),
         "snapshots":   snapshots,
