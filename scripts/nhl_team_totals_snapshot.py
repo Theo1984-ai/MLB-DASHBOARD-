@@ -95,9 +95,9 @@ def _parse_game(event):
             per_book[key] = parsed
     if not per_book:
         return None
-    # Fanatics is primary — consistently returns NHL team_totals via Odds API
-    anchor_priority = ("fanatics", "fanduel", "betmgm", "williamhill_us",
-                       "pointsbetus", "draftkings", "bovada")
+    # Caesars is primary — Fanatics posts non-standard (alt/period) lines for NHL
+    anchor_priority = ("williamhill_us", "betmgm", "fanduel", "pointsbetus",
+                       "fanatics", "draftkings", "bovada")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
     return {
@@ -172,7 +172,7 @@ def main(force=False, min_gap_min=30):
     payload = {
         "date":        today,
         "sport":       SPORT,
-        "book":        "fanatics",  # Fanatics is primary anchor for NHL team_totals
+        "book":        "caesars",  # Caesars/WH is primary — Fanatics posts non-standard lines
         "market":      MARKET,
         "n_snapshots": len(snapshots),
         "snapshots":   snapshots,

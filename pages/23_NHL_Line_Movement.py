@@ -44,7 +44,7 @@ REPO  = "MLB-DASHBOARD-"
 st.set_page_config(page_title="NHL Line Movement", page_icon="🏒", layout="wide")
 st.title("🏒 NHL Team Totals — Line Movement")
 st.caption(
-    "Fanatics NHL team-total snapshots (anchor) + comparison against FanDuel, BetMGM, and Caesars. "
+    "Caesars NHL team-total snapshots (anchor) + comparison against BetMGM, FanDuel, and Fanatics. "
     "**Consensus** = 🟢🟢 3+ books agree / 🟢 2 books agree — follow these.  \n"
     "**0.25+ goal moves are highlighted. Hit 🔄 to take a fresh snapshot.**"
 )
@@ -257,7 +257,7 @@ def _consensus_tag(open_game, curr_game, side):
     if not big_movers:
         return ""
     if len(big_movers) == 1:
-        return "⚠️ Fanatics only" if "fanatics" in big_movers else "⚠️ single book"
+        return "⚠️ Caesars only" if "williamhill_us" in big_movers else "⚠️ single book"
     same_dir = all(d > 0 for d in big_movers.values()) or all(d < 0 for d in big_movers.values())
     if not same_dir:
         return "🟡 mixed"
