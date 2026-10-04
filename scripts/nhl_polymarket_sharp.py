@@ -217,21 +217,19 @@ def scan(min_volume=500, min_liquidity=10000, top_n=50):
         parsed   = parse_market_for_match(title, m["_slug"])
         parsed["match_type"] = parsed.get("market_type")
 
-        tokens = m.get("tokens") or m.get("outcomes") or []
-        if len(tokens) < 2:
-            ops = _parse_op(m)
-            yes_price = float(ops[0]) if ops else 0.5
-            no_price  = 1.0 - yes_price
-            tokens = [{"token_id": m.get("clobTokenIds", ["", ""])[0] if m.get("clobTokenIds") else "",
-                        "outcome": "Yes"},
-                       {"token_id": m.get("clobTokenIds", ["", ""])[1] if m.get("clobTokenIds") and len(m.get("clobTokenIds",[]))>1 else "",
-                        "outcome": "No"}]
+        # Gamma API stores clobTokenIds as a JSON string: '["id1","id2"]'
+        # index 0 = Yes token, index 1 = No token (Polymarket convention)
+        raw_ids = m.get("clobTokenIds", "[]")
+        try:
+            cid_list = json.loads(raw_ids) if isinstance(raw_ids, str) else (raw_ids or [])
+        except Exception:
+            cid_list = []
 
-        yes_tok = next((t for t in tokens if str(t.get("outcome","")).lower() == "yes"), tokens[0] if tokens else {})
-        no_tok  = next((t for t in tokens if str(t.get("outcome","")).lower() == "no"),  tokens[1] if len(tokens)>1 else {})
+        if len(cid_list) < 2:
+            continue
 
-        yes_id = yes_tok.get("token_id", "")
-        no_id  = no_tok.get("token_id",  "")
+        yes_id = str(cid_list[0])
+        no_id  = str(cid_list[1])
         if not yes_id or not no_id:
             continue
 
