@@ -94,14 +94,18 @@ def _parse_game(event):
             per_book[key] = parsed
     if not per_book:
         return None
-    dk = per_book.get("draftkings") or next(iter(per_book.values()))
+    # DraftKings rarely carries NHL team totals; prefer FD → MGM → WH → any
+    anchor_priority = ("fanduel", "betmgm", "williamhill_us", "draftkings", "bovada")
+    anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
+    anchor = per_book[anchor_key]
     return {
         "game":        f"{away} @ {home}",
         "away_team":   away,
         "home_team":   home,
         "first_pitch": event.get("commence_time"),
-        "away":        dk["away"],
-        "home":        dk["home"],
+        "away":        anchor["away"],
+        "home":        anchor["home"],
+        "anchor_book": anchor_key,
         "books":       per_book,
         "n_books":     len(per_book),
     }
@@ -166,7 +170,7 @@ def main(force=False, min_gap_min=30):
     payload = {
         "date":        today,
         "sport":       SPORT,
-        "book":        "draftkings",
+        "book":        "fanduel",   # FD is primary NHL team-totals book; DK rarely carries this market
         "market":      MARKET,
         "n_snapshots": len(snapshots),
         "snapshots":   snapshots,
