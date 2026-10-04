@@ -66,16 +66,19 @@ def _fetch_live_scores(date_str):
         in_int = (g.get("clock") or {}).get("inIntermission", False)
 
         if state in ("FUT", "PRE"):
-            label = "–"
+            away_label = home_label = "–"
         elif state in ("FINAL", "OFF", "OVER"):
-            label = f"F  {away_score}–{home_score}"
+            away_label = f"{away_score} F"
+            home_label = f"{home_score} F"
         elif in_int:
-            label = f"INT  {away_score}–{home_score}"
+            away_label = f"{away_score} INT"
+            home_label = f"{home_score} INT"
         else:
-            label = f"P{period} {clock}  {away_score}–{home_score}"
+            away_label = f"{away_score} (P{period})"
+            home_label = f"{home_score} (P{period})"
 
-        game_key = f"{away_name} @ {home_name}"
-        scores[game_key] = label
+        scores[away_name] = away_label
+        scores[home_name] = home_label
     return scores
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -408,7 +411,7 @@ if not df.empty:
             "Score refreshes every 60s"
         )
         live_scores = _fetch_live_scores(sel_date)
-        plays["Score"] = plays["Game"].map(lambda g: live_scores.get(g, "–"))
+        plays["Score"] = plays["Team"].map(lambda t: live_scores.get(t, "–"))
         st.dataframe(
             plays[["Score", "Team", "Open", "Current", "Δ Line", "Consensus", "🎯 Rec",
                    "Over Current", "Under Current"]],
