@@ -95,8 +95,8 @@ def _parse_game(event):
             per_book[key] = parsed
     if not per_book:
         return None
-    # FanDuel is primary — DK/BOV team_totals not available via Odds API for NHL
-    anchor_priority = ("fanduel", "betmgm", "williamhill_us", "fanatics",
+    # Fanatics is primary — consistently returns NHL team_totals via Odds API
+    anchor_priority = ("fanatics", "fanduel", "betmgm", "williamhill_us",
                        "pointsbetus", "draftkings", "bovada")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
@@ -172,7 +172,7 @@ def main(force=False, min_gap_min=30):
     payload = {
         "date":        today,
         "sport":       SPORT,
-        "book":        "fanduel",  # FD is primary; DK team_totals not in Odds API for NHL
+        "book":        "fanatics",  # Fanatics is primary anchor for NHL team_totals
         "market":      MARKET,
         "n_snapshots": len(snapshots),
         "snapshots":   snapshots,
