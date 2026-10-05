@@ -1,7 +1,7 @@
 {
   "date": "2026-10-05",
-  "snapshot_at": "2026-10-05T09:00:21.222869-04:00",
-  "n_picks": 6,
+  "snapshot_at": "2026-10-05T15:00:33.774031-04:00",
+  "n_picks": 11,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 6,
+    "n_total": 11,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -37,41 +37,47 @@
       "side": "Over",
       "point": 3.5,
       "best_book": "betmgm",
-      "best_price": -400,
-      "true_prob_pct": 82.26,
-      "ev_per_100": 11.32,
+      "best_price": -325,
+      "true_prob_pct": 80.89,
+      "ev_per_100": 18.76,
       "n_books": 5,
       "all_prices": [
         [
           "betmgm",
-          -400
+          -325
         ],
         [
           "draftkings",
-          -432
+          -377
         ],
         [
           "williamhill_us",
-          -460
-        ],
-        [
-          "fanduel",
-          -520
+          -420
         ],
         [
           "bovada",
-          -529
+          -526
+        ],
+        [
+          "fanduel",
+          -530
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 82.26,
           "ev": 11.32,
           "price": -400
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 80.89,
+          "ev": 18.76,
+          "price": -325
         }
       ]
     },
@@ -91,8 +97,8 @@
       "point": 2.5,
       "best_book": "betmgm",
       "best_price": -350,
-      "true_prob_pct": 78.74,
-      "ev_per_100": 4.34,
+      "true_prob_pct": 78.87,
+      "ev_per_100": 4.92,
       "n_books": 5,
       "all_prices": [
         [
@@ -101,29 +107,35 @@
         ],
         [
           "draftkings",
-          -357
+          -362
         ],
         [
           "pinnacle",
-          -360
+          -368
         ],
         [
           "bovada",
-          -380
+          -390
         ],
         [
           "fanduel",
-          -410
+          -400
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 78.74,
           "ev": 4.34,
+          "price": -350
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 78.87,
+          "ev": 4.92,
           "price": -350
         }
       ]
@@ -143,41 +155,47 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "pinnacle",
-      "best_price": -324,
-      "true_prob_pct": 77.16,
-      "ev_per_100": 3.17,
+      "best_price": -329,
+      "true_prob_pct": 78.02,
+      "ev_per_100": 5.72,
       "n_books": 5,
       "all_prices": [
         [
           "pinnacle",
-          -324
-        ],
-        [
-          "betmgm",
-          -325
-        ],
-        [
-          "bovada",
-          -340
+          -329
         ],
         [
           "fanduel",
           -350
         ],
         [
+          "bovada",
+          -350
+        ],
+        [
           "draftkings",
           -352
+        ],
+        [
+          "betmgm",
+          -400
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 77.16,
           "ev": 3.17,
           "price": -324
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 78.02,
+          "ev": 5.72,
+          "price": -329
         }
       ]
     },
@@ -196,14 +214,14 @@
       "side": "Over",
       "point": 5.5,
       "best_book": "draftkings",
-      "best_price": -285,
-      "true_prob_pct": 76.87,
-      "ev_per_100": 10.96,
+      "best_price": -268,
+      "true_prob_pct": 75.71,
+      "ev_per_100": 10.6,
       "n_books": 5,
       "all_prices": [
         [
           "draftkings",
-          -285
+          -268
         ],
         [
           "betmgm",
@@ -211,26 +229,32 @@
         ],
         [
           "williamhill_us",
-          -325
+          -295
         ],
         [
           "fanduel",
-          -390
+          -330
         ],
         [
           "bovada",
           -390
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 76.87,
           "ev": 10.96,
           "price": -285
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 75.71,
+          "ev": 10.6,
+          "price": -268
         }
       ]
     },
@@ -249,18 +273,18 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "pinnacle",
-      "best_price": -303,
-      "true_prob_pct": 76.08,
-      "ev_per_100": 3.58,
+      "best_price": -297,
+      "true_prob_pct": 76.07,
+      "ev_per_100": 5.0,
       "n_books": 5,
       "all_prices": [
         [
           "pinnacle",
-          -303
+          -297
         ],
         [
           "draftkings",
-          -313
+          -319
         ],
         [
           "bovada",
@@ -275,15 +299,21 @@
           -330
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 76.08,
           "ev": 3.58,
           "price": -303
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 76.07,
+          "ev": 5.0,
+          "price": -297
         }
       ]
     },
@@ -302,41 +332,308 @@
       "side": "Away",
       "point": 1.5,
       "best_book": "pinnacle",
-      "best_price": -286,
-      "true_prob_pct": 76.01,
-      "ev_per_100": 7.4,
+      "best_price": -284,
+      "true_prob_pct": 75.52,
+      "ev_per_100": 6.0,
       "n_books": 5,
       "all_prices": [
         [
           "pinnacle",
-          -286
+          -284
+        ],
+        [
+          "betmgm",
+          -300
         ],
         [
           "bovada",
           -300
         ],
         [
-          "betmgm",
-          -325
+          "fanduel",
+          -330
         ],
         [
           "draftkings",
-          -339
-        ],
-        [
-          "fanduel",
-          -340
+          -333
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-05T09:00:21.222762-04:00",
-      "last_seen_at": "2026-10-05T09:00:21.222762-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
       "scan_history": [
         {
           "t": "2026-10-05T09:00:21.222762-04:00",
           "tp": 76.01,
           "ev": 7.4,
           "price": -286
+        },
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 75.52,
+          "ev": 6.0,
+          "price": -284
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "game": "Brewers @ Padres",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Nick Pivetta",
+      "player": "Nick Pivetta",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -397,
+      "true_prob_pct": 83.68,
+      "ev_per_100": 18.88,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          -397
+        ],
+        [
+          "bovada",
+          -415
+        ],
+        [
+          "betmgm",
+          -550
+        ],
+        [
+          "williamhill_us",
+          -590
+        ],
+        [
+          "fanduel",
+          -720
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 83.68,
+          "ev": 18.88,
+          "price": -397
+        }
+      ]
+    },
+    {
+      "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
+      "game": "Dodgers @ Braves",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-06T22:00:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Yoshinobu Yamamoto",
+      "player": "Yoshinobu Yamamoto",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "betmgm",
+      "best_price": -375,
+      "true_prob_pct": 82.08,
+      "ev_per_100": 14.86,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "williamhill_us",
+          -440
+        ],
+        [
+          "draftkings",
+          -446
+        ],
+        [
+          "bovada",
+          -480
+        ],
+        [
+          "fanduel",
+          -590
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 82.08,
+          "ev": 14.86,
+          "price": -375
+        }
+      ]
+    },
+    {
+      "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
+      "game": "Dodgers @ Braves",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-06T22:00:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Chris Sale",
+      "player": "Chris Sale",
+      "side": "Over",
+      "point": 5.5,
+      "best_book": "betmgm",
+      "best_price": -350,
+      "true_prob_pct": 78.84,
+      "ev_per_100": 4.76,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "draftkings",
+          -354
+        ],
+        [
+          "bovada",
+          -355
+        ],
+        [
+          "williamhill_us",
+          -360
+        ],
+        [
+          "fanduel",
+          -460
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 78.84,
+          "ev": 4.76,
+          "price": -350
+        }
+      ]
+    },
+    {
+      "event_id": "4be245ad03895bcafcdc42d7d926b675",
+      "game": "Yankees @ Rays",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-06T00:00:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5 (Yankees @ Rays)",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "draftkings",
+      "best_price": -319,
+      "true_prob_pct": 77.49,
+      "ev_per_100": 5.67,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -319
+        ],
+        [
+          "fanduel",
+          -350
+        ],
+        [
+          "betmgm",
+          -350
+        ],
+        [
+          "bovada",
+          -360
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 77.49,
+          "ev": 5.67,
+          "price": -319
+        }
+      ]
+    },
+    {
+      "event_id": "4be245ad03895bcafcdc42d7d926b675",
+      "game": "Yankees @ Rays",
+      "away_team": "New York Yankees",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-06T00:00:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Tampa Bay Rays +2.5",
+      "player": "Tampa Bay Rays",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -302,
+      "true_prob_pct": 76.09,
+      "ev_per_100": 3.87,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          -302
+        ],
+        [
+          "draftkings",
+          -315
+        ],
+        [
+          "bovada",
+          -320
+        ],
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "fanduel",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "last_seen_at": "2026-10-05T15:00:33.773963-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-05T15:00:33.773963-04:00",
+          "tp": 76.09,
+          "ev": 3.87,
+          "price": -302
         }
       ]
     }
