@@ -316,10 +316,17 @@ def _build_df(subset, market):
     is_goals = market == "Goals"
     df_rows = []
     for r in subset:
+        if market == "Goals" and r["line"] == 0.5:
+            line_label = "ATG (0.5G)"
+        elif market == "Goals":
+            line_label = f"Goals O/U {r['line']}"
+        else:
+            line_label = f"SOG O/U {r['line']}"
+
         row = {
             "":              _flags(r),
             "Player":        r["player"],
-            "Line":          f"O/U {r['line']}",
+            "Line":          line_label,
             "Game":          r["game"],
             "Kickoff":       _kickoff(r["first_pitch"]),
             "No-Vig Over %": r.get("nv_over_pct"),
