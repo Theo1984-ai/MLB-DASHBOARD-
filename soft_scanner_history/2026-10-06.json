@@ -1,7 +1,7 @@
 {
   "date": "2026-10-06",
-  "snapshot_at": "2026-10-06T13:00:08.952202-04:00",
-  "n_picks": 16,
+  "snapshot_at": "2026-10-06T14:01:27.770104-04:00",
+  "n_picks": 21,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 16,
+    "n_total": 21,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -37,29 +37,29 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "betmgm",
-      "best_price": -105,
-      "best_imp_pct": 51.22,
-      "consensus_pct": 55.04,
-      "edge_pp": 7.11,
-      "ev_per_100": 7.82,
+      "best_price": -110,
+      "best_imp_pct": 52.38,
+      "consensus_pct": 55.36,
+      "edge_pp": 5.95,
+      "ev_per_100": 6.25,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          -105
+          -110
         ],
         [
           "draftkings",
-          -125
+          -124
         ],
         [
           "fanduel",
           -140
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -71,6 +71,12 @@
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 7.11,
           "price": -105,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.95,
+          "price": -110,
           "n_books": 3
         }
       ]
@@ -143,16 +149,16 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "betmgm",
-      "best_price": 100,
-      "best_imp_pct": 50.0,
-      "consensus_pct": 54.23,
-      "edge_pp": 7.08,
-      "ev_per_100": 8.45,
+      "best_price": -105,
+      "best_imp_pct": 51.22,
+      "consensus_pct": 54.47,
+      "edge_pp": 5.86,
+      "ev_per_100": 6.66,
       "n_books": 5,
       "all_prices": [
         [
           "betmgm",
-          100
+          -105
         ],
         [
           "fanduel",
@@ -171,9 +177,9 @@
           -133
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -185,6 +191,12 @@
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 7.08,
           "price": 100,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.86,
+          "price": -105,
           "n_books": 5
         }
       ]
@@ -203,21 +215,21 @@
       "selection": "Fernando Tatis Jr.",
       "side": "Over",
       "point": 1.5,
-      "best_book": "betmgm",
-      "best_price": 120,
-      "best_imp_pct": 45.45,
-      "consensus_pct": 48.95,
-      "edge_pp": 5.76,
-      "ev_per_100": 7.69,
+      "best_book": "pinnacle",
+      "best_price": 118,
+      "best_imp_pct": 45.87,
+      "consensus_pct": 49.38,
+      "edge_pp": 5.35,
+      "ev_per_100": 7.65,
       "n_books": 5,
       "all_prices": [
         [
-          "betmgm",
-          120
-        ],
-        [
           "pinnacle",
           118
+        ],
+        [
+          "betmgm",
+          110
         ],
         [
           "draftkings",
@@ -232,9 +244,9 @@
           -105
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -246,6 +258,12 @@
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 5.76,
           "price": 120,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.35,
+          "price": 118,
           "n_books": 5
         }
       ]
@@ -267,9 +285,9 @@
       "best_book": "fanduel",
       "best_price": 300,
       "best_imp_pct": 25.0,
-      "consensus_pct": 27.32,
-      "edge_pp": 5.3,
-      "ev_per_100": 9.26,
+      "consensus_pct": 27.44,
+      "edge_pp": 5.77,
+      "ev_per_100": 9.76,
       "n_books": 5,
       "all_prices": [
         [
@@ -282,7 +300,7 @@
         ],
         [
           "draftkings",
-          261
+          259
         ],
         [
           "betmgm",
@@ -290,12 +308,12 @@
         ],
         [
           "williamhill_us",
-          230
+          225
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -306,6 +324,12 @@
         {
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 5.3,
+          "price": 300,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.77,
           "price": 300,
           "n_books": 5
         }
@@ -568,12 +592,18 @@
           -121
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T13:00:08.952123-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T13:00:08.952123-04:00",
+          "edge": 5.97,
+          "price": 105,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
           "edge": 5.97,
           "price": 105,
           "n_books": 5
@@ -754,9 +784,9 @@
       "best_book": "betmgm",
       "best_price": 260,
       "best_imp_pct": 27.78,
-      "consensus_pct": 31.05,
-      "edge_pp": 5.33,
-      "ev_per_100": 11.78,
+      "consensus_pct": 31.41,
+      "edge_pp": 5.56,
+      "ev_per_100": 13.07,
       "n_books": 3,
       "all_prices": [
         [
@@ -764,21 +794,27 @@
           260
         ],
         [
-          "fanduel",
-          210
-        ],
-        [
           "draftkings",
           202
+        ],
+        [
+          "fanduel",
+          200
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T13:00:08.952123-04:00",
-      "last_seen_at": "2026-10-06T13:00:08.952123-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 5.33,
+          "price": 260,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.56,
           "price": 260,
           "n_books": 3
         }
@@ -890,6 +926,257 @@
           "t": "2026-10-06T13:00:08.952123-04:00",
           "edge": 5.23,
           "price": 270,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Brewers @ Padres",
+      "market": "H+R+R",
+      "player": "Dustin Harris",
+      "team": "SD",
+      "selection": "Dustin Harris",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": -194,
+      "best_imp_pct": 65.99,
+      "consensus_pct": 68.72,
+      "edge_pp": 5.44,
+      "ev_per_100": 8.04,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -194
+        ],
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "betmgm",
+          -250
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.44,
+          "price": -194,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Padres",
+      "market": "Hits",
+      "player": "Jake Bauers",
+      "team": "MIL",
+      "selection": "Jake Bauers",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "betmgm",
+      "best_price": -115,
+      "best_imp_pct": 53.49,
+      "consensus_pct": 56.93,
+      "edge_pp": 5.36,
+      "ev_per_100": 7.41,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -115
+        ],
+        [
+          "williamhill_us",
+          -134
+        ],
+        [
+          "fanduel",
+          -135
+        ],
+        [
+          "bovada",
+          -136
+        ],
+        [
+          "draftkings",
+          -143
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.36,
+          "price": -115,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Brewers @ Padres",
+      "market": "H+R+R",
+      "player": "Dustin Harris",
+      "team": "SD",
+      "selection": "Dustin Harris",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 130,
+      "best_imp_pct": 43.48,
+      "consensus_pct": 45.9,
+      "edge_pp": 5.3,
+      "ev_per_100": 5.58,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          130
+        ],
+        [
+          "fanduel",
+          120
+        ],
+        [
+          "betmgm",
+          105
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.3,
+          "price": 130,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "stat_key": "tb",
+      "market_key": "batter_total_bases_alternate",
+      "game": "Brewers @ Padres",
+      "market": "TB",
+      "player": "Jake Bauers",
+      "team": "MIL",
+      "selection": "Jake Bauers",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": 210,
+      "best_imp_pct": 32.26,
+      "consensus_pct": 35.58,
+      "edge_pp": 5.2,
+      "ev_per_100": 10.31,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "betmgm",
+          210
+        ],
+        [
+          "fanduel",
+          170
+        ],
+        [
+          "draftkings",
+          167
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.2,
+          "price": 210,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "San Diego Padres",
+      "first_pitch": "2026-10-07T01:30:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Brewers @ Padres",
+      "market": "Hits",
+      "player": "Jackson Chourio",
+      "team": "MIL",
+      "selection": "Jackson Chourio",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "fanduel",
+      "best_price": 260,
+      "best_imp_pct": 27.78,
+      "consensus_pct": 30.21,
+      "edge_pp": 5.01,
+      "ev_per_100": 8.75,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "fanduel",
+          260
+        ],
+        [
+          "bovada",
+          260
+        ],
+        [
+          "betmgm",
+          220
+        ],
+        [
+          "draftkings",
+          218
+        ],
+        [
+          "williamhill_us",
+          205
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.01,
+          "price": 260,
           "n_books": 5
         }
       ]
