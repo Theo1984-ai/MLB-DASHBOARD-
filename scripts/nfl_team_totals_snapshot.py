@@ -177,9 +177,11 @@ def main(force=False, min_gap_min=30):
         except Exception:
             continue
         ct_et = ct.astimezone(EASTERN)
-        # Include games within this week window (upcoming or very recently started)
+        # Only include games within this week that haven't started yet
         if not (week_start <= ct_et < week_end):
             continue
+        if ct <= now_utc:
+            continue  # game started — freeze pre-game line in history
         data   = _fetch_team_totals(api_key, ev["id"])
         parsed = _parse_game(data) if data else None
         if parsed:

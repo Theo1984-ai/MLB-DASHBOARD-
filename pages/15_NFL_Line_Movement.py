@@ -439,11 +439,28 @@ def _render_lm(history_dir, sport_label, sane_min, sane_max, snapshot_mod):
     # ---- Build opening / current maps ----
     opening_map = {g["game"]: g for g in first_snap.get("games", [])}
 
+    from datetime import timezone as _tz
     current_map = {}
     for snap in reversed(snapshots):
+        snap_ts_str = snap.get("captured_at", "")
         for g in snap.get("games", []):
-            if g["game"] not in current_map:
-                current_map[g["game"]] = g
+            if g["game"] in current_map:
+                continue
+            # Skip snapshots taken after the game started (freeze pre-game lines)
+            fp = g.get("first_pitch", "")
+            if fp and snap_ts_str:
+                try:
+                    game_start = datetime.fromisoformat(fp.replace("Z", "+00:00"))
+                    if game_start.tzinfo is None:
+                        game_start = game_start.replace(tzinfo=_tz.utc)
+                    snap_time = datetime.fromisoformat(snap_ts_str)
+                    if snap_time.tzinfo is None:
+                        snap_time = snap_time.replace(tzinfo=_tz.utc)
+                    if snap_time >= game_start:
+                        continue
+                except Exception:
+                    pass
+            current_map[g["game"]] = g
 
     def _fp_sort(game_name):
         g = current_map.get(game_name) or opening_map.get(game_name) or {}
