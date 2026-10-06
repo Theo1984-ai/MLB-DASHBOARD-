@@ -47,8 +47,24 @@ def _fetch_team_totals(api_key, event_id):
         return {}
 
 
+_SANE_PT_MIN = 1.5   # NHL team total floor — alt lines go lower
+_SANE_PT_MAX = 5.0   # NHL team total ceiling
+_MAX_PRICE   = 220   # main-market odds rarely exceed ±220; alt lines are more extreme
+
+def _best_outcome(candidates):
+    """From a list of (point, price) tuples pick the one closest to even money
+    within the sane point range. Returns None if nothing survives the filters."""
+    valid = [(pt, pr) for pt, pr in candidates
+             if pt is not None and pr is not None
+             and _SANE_PT_MIN <= pt <= _SANE_PT_MAX
+             and abs(pr) <= _MAX_PRICE]
+    if not valid:
+        return None
+    return min(valid, key=lambda x: abs(x[1]))  # closest to 0 = most even-money
+
+
 def _extract_book(bookmaker, away_team, home_team):
-    away_over = away_under = home_over = home_under = None
+    away_overs = []; away_unders = []; home_overs = []; home_unders = []
     for m in bookmaker.get("markets", []):
         if m.get("key") != MARKET:
             continue
@@ -58,12 +74,19 @@ def _extract_book(bookmaker, away_team, home_team):
             point = o.get("point")
             price = o.get("price")
             if team == away_team:
-                if side == "over":    away_over  = (point, price)
-                elif side == "under": away_under = (point, price)
+                if side == "over":    away_overs.append((point, price))
+                elif side == "under": away_unders.append((point, price))
             elif team == home_team:
-                if side == "over":    home_over  = (point, price)
-                elif side == "under": home_under = (point, price)
-    if not (away_over or away_under or home_over or home_under):
+                if side == "over":    home_overs.append((point, price))
+                elif side == "under": home_unders.append((point, price))
+
+    away_over  = _best_outcome(away_overs)
+    away_under = _best_outcome(away_unders)
+    home_over  = _best_outcome(home_overs)
+    home_under = _best_outcome(home_unders)
+
+    # Require valid lines for BOTH teams — partial data (one team only) is unusable
+    if not (away_over or away_under) or not (home_over or home_under):
         return None
     return {
         "away": {
