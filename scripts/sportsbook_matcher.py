@@ -34,6 +34,25 @@ def _norm_team(name):
     return n
 
 
+def _last_word(norm_name):
+    """Return the last word (nickname) of a normalized team name.
+    'winnipeg jets' -> 'jets'; 'jets' -> 'jets'; 'maple leafs' -> 'leafs'."""
+    parts = norm_name.split()
+    return parts[-1] if parts else ""
+
+
+def _team_matches(name_a, name_b):
+    """True if name_a and name_b refer to the same team.
+    Handles full names ('Winnipeg Jets') and short names ('Jets') interchangeably."""
+    a = _norm_team(name_a)
+    b = _norm_team(name_b)
+    if a == b:
+        return True
+    # Nickname fallback: 'jets' == last word of 'winnipeg jets'
+    la, lb = _last_word(a), _last_word(b)
+    return bool(la and lb and la == lb)
+
+
 def fetch_game_lines(api_key, sport="baseball_mlb"):
     """Pull h2h / spreads / totals for the given sport at the 5 sharp books."""
     url = (f"https://api.the-odds-api.com/v4/sports/{sport}/odds"
@@ -94,13 +113,17 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
     """For each Polymarket row, find matching sportsbook line + edge."""
     games = fetch_game_lines(api_key, sport)
 
-    # Index games by normalized team pair
+    # Index games by normalized team pair (full name) + nickname fallback
     game_by_pair = {}
+    game_by_nickname = {}
     for g in games:
         a = _norm_team(g.get("away_team", ""))
         h = _norm_team(g.get("home_team", ""))
         if a and h:
             game_by_pair[(a, h)] = g
+            an, hn = _last_word(a), _last_word(h)
+            if an and hn:
+                game_by_nickname[(an, hn)] = g
 
     enriched = []
     for r in polymarket_rows:
@@ -121,8 +144,12 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
         away_pm = _norm_team(r.get("away_team", ""))
         home_pm = _norm_team(r.get("home_team", ""))
 
+        an_pm = _last_word(away_pm)
+        hn_pm = _last_word(home_pm)
         game = (game_by_pair.get((away_pm, home_pm))
-                or game_by_pair.get((home_pm, away_pm)))
+                or game_by_pair.get((home_pm, away_pm))
+                or game_by_nickname.get((an_pm, hn_pm))
+                or game_by_nickname.get((hn_pm, an_pm)))
         if not game:
             # Most common reason: Polymarket lists tomorrow's games but
             # sportsbooks haven't posted lines yet. Communicate clearly.
@@ -151,7 +178,7 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
                 target_team = r["home_team"]  # PM NO team
             tt_norm = _norm_team(target_team)
             all_p = _find_all_prices(books, "h2h",
-                lambda o: _norm_team(o.get("name", "")) == tt_norm)
+                lambda o, _t=target_team: _team_matches(o.get("name", ""), _t))
             best = max(all_p, key=lambda x: x["price"]) if all_p else None
             if best:
                 row["sb_best_price"] = best["price"]
@@ -170,7 +197,7 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
                 # Settle: bet on target_team -> need to know if Home or Away in SB
                 row["bet_stat_key"] = "h2h"
                 row["bet_team"] = target_team
-                row["bet_side"] = ("Home" if tt_norm == _norm_team(game.get("home_team",""))
+                row["bet_side"] = ("Home" if _team_matches(target_team, game.get("home_team",""))
                                    else "Away")
                 row["bet_point"] = None
                 row["best_price"] = best["price"]  # alias for settler ROI calc
@@ -215,10 +242,10 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
                 target_team = r["team"]; target_point = r["point"]
             else:
                 target_team = r["team"]; target_point = -r["point"]  # other side
-            tt_norm = _norm_team(target_team)
             all_p = _find_all_prices(books, "spreads",
-                lambda o: (_norm_team(o.get("name","")) == tt_norm
-                           and abs((o.get("point") or 0) - target_point) < 0.01))
+                lambda o, _t=target_team, _pt=target_point: (
+                    _team_matches(o.get("name",""), _t)
+                    and abs((o.get("point") or 0) - _pt) < 0.01))
             best = max(all_p, key=lambda x: x["price"]) if all_p else None
             if best:
                 row["sb_best_price"] = best["price"]
@@ -235,7 +262,7 @@ def match_signals(polymarket_rows, api_key, sport="baseball_mlb"):
                 # Settle metadata
                 row["bet_stat_key"] = "spread"
                 row["bet_team"] = target_team
-                row["bet_side"] = ("Home" if tt_norm == _norm_team(game.get("home_team",""))
+                row["bet_side"] = ("Home" if _team_matches(target_team, game.get("home_team",""))
                                    else "Away")
                 row["bet_point"] = target_point
                 row["best_price"] = best["price"]
