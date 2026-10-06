@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 11,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
-    "losses": 0,
+    "n_settled": 4,
+    "n_void": 2,
+    "n_no_data": 5,
+    "wins": 3,
+    "losses": 1,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 75.0,
+    "risk_total": 1202.0,
+    "profit_total": 17.0,
+    "roi_pct": 1.41
   },
   "picks": [
     {
@@ -85,7 +86,9 @@
           "ev": 16.13,
           "price": -340
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Freddy Peralta)"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -150,7 +153,9 @@
           "ev": 4.92,
           "price": -350
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
@@ -215,7 +220,9 @@
           "ev": 5.72,
           "price": -329
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -280,7 +287,9 @@
           "ev": 8.12,
           "price": -273
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Cam Schlittler)"
     },
     {
       "event_id": "ccd487a87bb73145e3f12dd3a765ad47",
@@ -345,7 +354,9 @@
           "ev": 4.94,
           "price": -298
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+1 vs -2.5"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -410,7 +421,9 @@
           "ev": 6.2,
           "price": -283
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-3 vs -1.5"
     },
     {
       "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
@@ -469,7 +482,9 @@
           "ev": 19.18,
           "price": -397
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -528,7 +543,9 @@
           "ev": 14.86,
           "price": -375
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -587,7 +604,9 @@
           "ev": 4.76,
           "price": -350
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Scheduled"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -642,7 +661,9 @@
           "ev": 5.67,
           "price": -319
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "total=7 vs O4.5"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -701,7 +722,10 @@
           "ev": 3.91,
           "price": -302
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+3 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-06T12:26:49.609610-04:00"
 }
