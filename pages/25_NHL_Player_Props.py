@@ -20,11 +20,10 @@ EASTERN = ZoneInfo("America/New_York")
 st.set_page_config(page_title="NHL Player Props", page_icon="🏒", layout="wide")
 st.title("🏒 NHL Player Props")
 st.caption(
-    "**Goals** and **Shots on Goal** O/U props from FanDuel + BetRivers.  \n"
-    "**No-Vig Over %** = true probability (vig removed from one book's line).  "
+    "**Goals** and **Shots on Goal** O/U props — FanDuel + BetRivers.  \n"
+    "**No-Vig Over %** = true probability (vig removed).  "
     "**💎 Value** = best price beats no-vig by 3+ pp.  "
-    "**📊 Book Split** = both books priced this player.  \n"
-    "**Context columns** use current-season NHL stats (small sample early in the year)."
+    "**📊** = both books posted this player."
 )
 
 
@@ -48,9 +47,11 @@ def _cached_scan(api_key):
     return scan(api_key)
 
 
-if st.button("🔄 Refresh", type="primary"):
-    st.cache_data.clear()
-    st.rerun()
+col_r, col_s = st.columns([1, 5])
+with col_r:
+    if st.button("🔄 Refresh", type="primary"):
+        st.cache_data.clear()
+        st.rerun()
 
 with st.spinner("Loading NHL player props + context stats…"):
     try:
@@ -94,14 +95,77 @@ def _toi_fmt(seconds):
     return f"{s // 60}:{s % 60:02d}"
 
 
-# ---- Sidebar filters ----
+# ════════════════════════════════════════════════
+# ACTIONABLE PLAYS — shown before sidebar filters
+# ════════════════════════════════════════════════
+EDGE_THRESHOLD = 3.0
+
+# Collect all value plays (over or under edge ≥ threshold)
+action_rows = []
+for r in rows:
+    oe = r.get("over_edge") or 0
+    ue = r.get("under_edge") or 0
+    if oe >= EDGE_THRESHOLD:
+        action_rows.append((r, "Over",  oe,
+                            r.get("best_over_price"),
+                            r.get("best_over_book"),
+                            r.get("nv_over_pct")))
+    elif ue >= EDGE_THRESHOLD:
+        action_rows.append((r, "Under", ue,
+                            r.get("best_under_price"),
+                            r.get("best_under_book"),
+                            r.get("nv_under_pct")))
+
+# Sort by edge descending
+action_rows.sort(key=lambda x: -x[2])
+
+if action_rows:
+    st.markdown("## 🎯 Actionable Plays")
+    st.caption(f"Props where the best available price beats no-vig probability by {EDGE_THRESHOLD}+ pp")
+
+    for r, side, edge, price, book, nv_pct in action_rows:
+        mkt   = r["market"]           # "Goals" / "Shots on Goal"
+        line  = r["line"]
+        player = r["player"]
+        game  = r["game"]
+        ko    = _kickoff(r["first_pitch"])
+        toi   = _toi_fmt(r.get("avg_toi_s"))
+
+        price_str = f"{price:+d}" if price is not None else "N/A"
+        nv_str    = f"{nv_pct:.1f}%" if nv_pct is not None else "?"
+        edge_str  = f"+{edge:.1f} pp"
+        toi_str   = f"TOI {toi}" if toi else ""
+
+        with st.container(border=True):
+            c1, c2, c3, c4 = st.columns([3, 2, 2, 2])
+            with c1:
+                st.markdown(f"**{player}**")
+                st.caption(f"{game} · {ko}")
+            with c2:
+                arrow = "⬆️" if side == "Over" else "⬇️"
+                st.markdown(f"{arrow} **{side} {line}** {mkt}")
+                if toi_str:
+                    st.caption(toi_str)
+            with c3:
+                st.markdown(f"**{price_str}** @ {book or '?'}")
+                st.caption(f"No-Vig: {nv_str}")
+            with c4:
+                st.metric("Edge", edge_str)
+
+    st.divider()
+else:
+    st.info("No value plays right now (no prop has ≥ 3 pp edge). Check back closer to puck drop.")
+    st.divider()
+
+
+# ════════════════════════════════
+# Sidebar filters
+# ════════════════════════════════
 st.sidebar.markdown("### 🏒 Filters")
 
-# Market
 all_markets = ["Goals", "Shots on Goal"]
 market_sel = st.sidebar.radio("Market", all_markets, index=0)
 
-# Side focus
 side_sel = st.sidebar.radio(
     "Side", ["Over", "Under", "Both"], index=0,
     help="Focus the table and value callout on Overs, Unders, or show both columns"
@@ -109,63 +173,55 @@ side_sel = st.sidebar.radio(
 
 st.sidebar.divider()
 
-# Team filter
 all_teams = sorted({t for r in rows for t in [r["away_team"], r["home_team"]]})
 team_sel = st.sidebar.multiselect(
     "Team", options=all_teams, default=[],
     help="Show only players from these teams"
 )
 
-# Game filter
 all_games = sorted({r["game"] for r in rows})
 game_sel = st.sidebar.multiselect(
     "Game", options=all_games, default=[],
     help="Leave empty to show all games"
 )
 
-# Line size filter (only lines that exist in data for this market)
 all_lines = sorted({r["line"] for r in rows if r["market"] == market_sel})
 line_sel = st.sidebar.multiselect(
     "Line (O/U)", options=[str(l) for l in all_lines], default=[],
     help="Leave empty to show all lines"
 )
 
-# Player search
 player_search = st.sidebar.text_input("Player search", placeholder="e.g. Matthews, Kaprizov")
 
 st.sidebar.divider()
 st.sidebar.markdown("**Odds & probability**")
 
-# Odds range for best over price
 oc1, oc2 = st.sidebar.columns(2)
-min_over_price = oc1.number_input("Best Over min", value=-300, step=10, help="e.g. -110")
-max_over_price = oc2.number_input("Best Over max", value=1000, step=10, help="e.g. +300")
+min_over_price = oc1.number_input("Best Over min", value=-300, step=10)
+max_over_price = oc2.number_input("Best Over max", value=1000, step=10)
 
-# No-vig probability range
 min_nv = st.sidebar.slider("Min No-Vig Over %", 0, 80, 0, step=5)
 max_nv = st.sidebar.slider("Max No-Vig Over %", 20, 100, 100, step=5)
 
 st.sidebar.divider()
 st.sidebar.markdown("**Player context**")
 
-# TOI filter (in minutes)
 all_toi = [r["avg_toi_s"] for r in rows if r.get("avg_toi_s")]
 if all_toi:
     max_toi_min = int(max(all_toi) / 60) + 1
     toi_min_filter = st.sidebar.slider(
         "Min avg TOI (min/game)", 0, max_toi_min, 0, step=1,
-        help="Only show players who average at least this many minutes of ice time"
+        help="Filter to players averaging at least this many minutes on ice"
     )
 else:
     toi_min_filter = 0
 
-# Opposing defense quality filter
 all_opp_ga = [r["opp_ga_pgp"] for r in rows if r.get("opp_ga_pgp") is not None]
 if all_opp_ga:
     max_ga = max(all_opp_ga)
     opp_ga_max = st.sidebar.slider(
         "Max opp GA/game", 1.0, max(max_ga, 6.0), max(max_ga, 6.0), step=0.5,
-        help="Higher = weaker defense. Set lower to only see players facing softer opposition."
+        help="Higher = weaker defense. Lower this to only see players facing weak teams."
     )
 else:
     opp_ga_max = 99.0
@@ -192,24 +248,20 @@ if line_sel:
 if player_search.strip():
     q = player_search.strip().lower()
     filtered = [r for r in filtered if q in r["player"].lower()]
-# Odds range
 filtered = [r for r in filtered
             if r.get("best_over_price") is not None
             and min_over_price <= r["best_over_price"] <= max_over_price]
-# No-vig range
 if min_nv > 0 or max_nv < 100:
     filtered = [r for r in filtered
                 if min_nv <= (r.get("nv_over_pct") or 0) <= max_nv]
-# TOI filter
 if toi_min_filter > 0:
     filtered = [r for r in filtered
                 if (r.get("avg_toi_s") or 0) / 60 >= toi_min_filter]
-# Opp GA/GP filter
 if all_opp_ga and opp_ga_max < max(all_opp_ga):
     filtered = [r for r in filtered
                 if r.get("opp_ga_pgp") is None or r["opp_ga_pgp"] <= opp_ga_max]
 if value_only:
-    filtered = [r for r in filtered if (r.get("over_edge") or 0) >= 3.0]
+    filtered = [r for r in filtered if (r.get("over_edge") or 0) >= EDGE_THRESHOLD]
 if two_book_only:
     filtered = [r for r in filtered if r.get("n_books", 0) >= 2]
 
@@ -220,7 +272,7 @@ elif sort_by == "Best Over Price":
     filtered.sort(key=lambda r: -(r.get("best_over_price") or -9999))
 elif sort_by == "Value Edge":
     filtered.sort(key=lambda r: -(r.get("over_edge") or -999))
-else:  # Avg TOI
+else:
     filtered.sort(key=lambda r: -(r.get("avg_toi_s") or 0))
 
 # ---- Column config ----
@@ -229,6 +281,7 @@ COL_CFG = {
     "Best Over":     st.column_config.NumberColumn(format="%+d"),
     "Best Under":    st.column_config.NumberColumn(format="%+d"),
     "Over Edge":     st.column_config.NumberColumn(format="%+.1f pp"),
+    "Under Edge":    st.column_config.NumberColumn(format="%+.1f pp"),
     "FD Over":       st.column_config.NumberColumn(format="%+d"),
     "BR Over":       st.column_config.NumberColumn(format="%+d"),
     "FD Under":      st.column_config.NumberColumn(format="%+d"),
@@ -241,8 +294,9 @@ COL_CFG = {
 
 def _flags(r):
     f = ""
-    if (r.get("over_edge") or 0) >= 3.0:  f += "💎"
-    if r.get("n_books", 0) >= 2:           f += "📊"
+    if (r.get("over_edge") or 0) >= EDGE_THRESHOLD: f += "💎"
+    if (r.get("under_edge") or 0) >= EDGE_THRESHOLD: f += "💎"
+    if r.get("n_books", 0) >= 2: f += "📊"
     return f
 
 
@@ -268,8 +322,8 @@ def _build_df(subset, market):
             "Best Under":    r.get("best_under_price"),
             "Best Under @":  r.get("best_under_book"),
             "Over Edge":     r.get("over_edge"),
+            "Under Edge":    r.get("under_edge"),
             "# Books":       r.get("n_books"),
-            # Context
             "TOI":           _toi_fmt(r.get("avg_toi_s")),
             "GP":            r.get("player_gp"),
             "Opp GA/G":      r.get("opp_ga_pgp"),
@@ -282,10 +336,12 @@ def _build_df(subset, market):
     return pd.DataFrame(df_rows)
 
 
-# ---- Summary stats ----
+# ---- Summary metrics ----
 total_players = len({r["player"] for r in filtered})
 total_games   = len({r["game"] for r in filtered})
-value_ct      = sum(1 for r in filtered if (r.get("over_edge") or 0) >= 3.0)
+value_ct      = sum(1 for r in filtered
+                    if (r.get("over_edge") or 0) >= EDGE_THRESHOLD
+                    or (r.get("under_edge") or 0) >= EDGE_THRESHOLD)
 two_book_ct   = sum(1 for r in filtered if r.get("n_books", 0) >= 2)
 
 m1, m2, m3, m4 = st.columns(4)
@@ -303,29 +359,13 @@ else:
     df = _build_df(filtered, market_sel)
     st.dataframe(df, use_container_width=True, hide_index=True, column_config=COL_CFG)
 
-    # ---- Value plays callout ----
-    value_rows = [r for r in filtered if (r.get("over_edge") or 0) >= 3.0]
-    if value_rows:
-        st.divider()
-        st.markdown("### 💎 Value Plays (Over edge ≥ 3 pp)")
-        st.caption(
-            "No-vig probability is higher than what the best available over price implies — "
-            "the market is giving you a better-than-fair price on the over."
-        )
-        st.dataframe(
-            _build_df(value_rows, market_sel),
-            use_container_width=True,
-            hide_index=True,
-            column_config=COL_CFG,
-        )
-
 st.divider()
 with st.expander("🔍 Scan info"):
     st.write({
-        "Events scanned":    dbg.get("n_events", 0),
-        "Upcoming games":    dbg.get("n_upcoming", 0),
-        "Outcomes parsed":   dbg.get("outcomes_parsed", 0),
-        "Market hits":       dbg.get("market_hits", {}),
-        "Skaters loaded":    dbg.get("n_skaters_loaded", 0),
-        "Errors":            dbg.get("errors", []),
+        "Events scanned":  dbg.get("n_events", 0),
+        "Upcoming games":  dbg.get("n_upcoming", 0),
+        "Outcomes parsed": dbg.get("outcomes_parsed", 0),
+        "Market hits":     dbg.get("market_hits", {}),
+        "Skaters loaded":  dbg.get("n_skaters_loaded", 0),
+        "Errors":          dbg.get("errors", []),
     })

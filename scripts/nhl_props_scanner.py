@@ -320,6 +320,11 @@ def scan(api_key: str) -> tuple[list[dict], dict]:
                     if nv_prob is not None and best_over is not None:
                         over_edge = round(nv_prob - _amer_to_imp(best_over) * 100, 1)
 
+                    under_edge = None
+                    nv_under_pct = round(100 - nv_prob, 1) if nv_prob is not None else None
+                    if nv_under_pct is not None and best_under is not None:
+                        under_edge = round(nv_under_pct - _amer_to_imp(best_under) * 100, 1)
+
                     results.append({
                         "player":           player,
                         "market":           MARKET_LABELS[mk],
@@ -335,6 +340,8 @@ def scan(api_key: str) -> tuple[list[dict], dict]:
                         "best_under_price": best_under,
                         "best_under_book":  best_under_book,
                         "over_edge":        over_edge,
+                        "under_edge":       under_edge,
+                        "nv_under_pct":     nv_under_pct,
                         "n_books":          max(len(over_prices), len(under_prices)),
                         # Context stats
                         "player_gp":        player_gp,
