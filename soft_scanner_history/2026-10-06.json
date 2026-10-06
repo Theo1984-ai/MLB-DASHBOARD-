@@ -1,7 +1,7 @@
 {
   "date": "2026-10-06",
-  "snapshot_at": "2026-10-06T14:01:27.770104-04:00",
-  "n_picks": 21,
+  "snapshot_at": "2026-10-06T14:40:01.958616-04:00",
+  "n_picks": 24,
   "filter": {
     "min_edge_pp": 5.0,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "top_n": 30
   },
   "summary": {
-    "n_total": 21,
+    "n_total": 24,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -37,29 +37,29 @@
       "side": "Over",
       "point": 0.5,
       "best_book": "betmgm",
-      "best_price": -110,
-      "best_imp_pct": 52.38,
-      "consensus_pct": 55.36,
-      "edge_pp": 5.95,
-      "ev_per_100": 6.25,
+      "best_price": -125,
+      "best_imp_pct": 55.56,
+      "consensus_pct": 57.87,
+      "edge_pp": 5.23,
+      "ev_per_100": 5.2,
       "n_books": 3,
       "all_prices": [
         [
           "betmgm",
-          -110
+          -125
         ],
         [
           "draftkings",
-          -124
+          -134
         ],
         [
           "fanduel",
-          -140
+          -155
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -77,6 +77,12 @@
           "t": "2026-10-06T14:01:27.770030-04:00",
           "edge": 5.95,
           "price": -110,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
+          "edge": 5.23,
+          "price": -125,
           "n_books": 3
         }
       ]
@@ -177,9 +183,9 @@
           -133
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -195,6 +201,12 @@
         },
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.86,
+          "price": -105,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.86,
           "price": -105,
           "n_books": 5
@@ -244,9 +256,9 @@
           -105
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-10-06T12:26:57.351070-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T12:26:57.351070-04:00",
@@ -262,6 +274,12 @@
         },
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.35,
+          "price": 118,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.35,
           "price": 118,
           "n_books": 5
@@ -802,9 +820,9 @@
           200
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-06T13:00:08.952123-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T13:00:08.952123-04:00",
@@ -814,6 +832,12 @@
         },
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.56,
+          "price": 260,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.56,
           "price": 260,
           "n_books": 3
@@ -965,12 +989,18 @@
           -250
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.44,
+          "price": -194,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.44,
           "price": -194,
           "n_books": 3
@@ -1020,12 +1050,18 @@
           -143
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.36,
+          "price": -115,
+          "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.36,
           "price": -115,
           "n_books": 5
@@ -1114,12 +1150,18 @@
           167
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
+          "edge": 5.2,
+          "price": 210,
+          "n_books": 3
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
           "edge": 5.2,
           "price": 210,
           "n_books": 3
@@ -1143,9 +1185,9 @@
       "best_book": "fanduel",
       "best_price": 260,
       "best_imp_pct": 27.78,
-      "consensus_pct": 30.21,
-      "edge_pp": 5.01,
-      "ev_per_100": 8.75,
+      "consensus_pct": 30.32,
+      "edge_pp": 5.56,
+      "ev_per_100": 9.14,
       "n_books": 5,
       "all_prices": [
         [
@@ -1166,18 +1208,173 @@
         ],
         [
           "williamhill_us",
-          205
+          200
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-06T14:01:27.770030-04:00",
-      "last_seen_at": "2026-10-06T14:01:27.770030-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
       "scan_history": [
         {
           "t": "2026-10-06T14:01:27.770030-04:00",
           "edge": 5.01,
           "price": 260,
           "n_books": 5
+        },
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
+          "edge": 5.56,
+          "price": 260,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-06T22:00:00Z",
+      "stat_key": "hits",
+      "market_key": "batter_hits_alternate",
+      "game": "Dodgers @ Braves",
+      "market": "Hits",
+      "player": "Ha-Seong Kim",
+      "team": "ATL",
+      "selection": "Ha-Seong Kim",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 126,
+      "best_imp_pct": 44.25,
+      "consensus_pct": 48.89,
+      "edge_pp": 11.31,
+      "ev_per_100": 10.49,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "draftkings",
+          126
+        ],
+        [
+          "betmgm",
+          125
+        ],
+        [
+          "williamhill_us",
+          120
+        ],
+        [
+          "bovada",
+          -121
+        ],
+        [
+          "fanduel",
+          -125
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
+          "edge": 11.31,
+          "price": 126,
+          "n_books": 5
+        }
+      ]
+    },
+    {
+      "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-06T22:00:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Dodgers @ Braves",
+      "market": "H+R+R",
+      "player": "Ha-Seong Kim",
+      "team": "ATL",
+      "selection": "Ha-Seong Kim",
+      "side": "Over",
+      "point": 0.5,
+      "best_book": "draftkings",
+      "best_price": 102,
+      "best_imp_pct": 49.5,
+      "consensus_pct": 54.22,
+      "edge_pp": 11.28,
+      "ev_per_100": 9.53,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          102
+        ],
+        [
+          "betmgm",
+          -110
+        ],
+        [
+          "fanduel",
+          -155
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
+          "edge": 11.28,
+          "price": 102,
+          "n_books": 3
+        }
+      ]
+    },
+    {
+      "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
+      "away_team": "Los Angeles Dodgers",
+      "home_team": "Atlanta Braves",
+      "first_pitch": "2026-10-06T22:00:00Z",
+      "stat_key": "hrr",
+      "market_key": "batter_hits_runs_rbis_alternate",
+      "game": "Dodgers @ Braves",
+      "market": "H+R+R",
+      "player": "Ha-Seong Kim",
+      "team": "ATL",
+      "selection": "Ha-Seong Kim",
+      "side": "Over",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": 262,
+      "best_imp_pct": 27.62,
+      "consensus_pct": 31.13,
+      "edge_pp": 8.74,
+      "ev_per_100": 12.7,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          262
+        ],
+        [
+          "betmgm",
+          240
+        ],
+        [
+          "fanduel",
+          175
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "last_seen_at": "2026-10-06T14:40:01.958568-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-06T14:40:01.958568-04:00",
+          "edge": 8.74,
+          "price": 262,
+          "n_books": 3
         }
       ]
     }
