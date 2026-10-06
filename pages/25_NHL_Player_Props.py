@@ -136,14 +136,24 @@ if action_rows:
         edge_str  = f"+{edge:.1f} pp"
         toi_str   = f"TOI {toi}" if toi else ""
 
+        # Human-readable market label
+        if mkt == "Goals" and line == 0.5:
+            mkt_label = "🥅 Anytime Goal"
+        elif mkt == "Goals":
+            mkt_label = f"🥅 Goals O/U {line}"
+        else:
+            mkt_label = f"🏒 Shots on Goal O/U {line}"
+
+        arrow = "⬆️" if side == "Over" else "⬇️"
+
         with st.container(border=True):
             c1, c2, c3, c4 = st.columns([3, 2, 2, 2])
             with c1:
                 st.markdown(f"**{player}**")
                 st.caption(f"{game} · {ko}")
             with c2:
-                arrow = "⬆️" if side == "Over" else "⬇️"
-                st.markdown(f"{arrow} **{side} {line}** {mkt}")
+                st.markdown(f"**{mkt_label}**")
+                st.markdown(f"{arrow} **{side}**")
                 if toi_str:
                     st.caption(toi_str)
             with c3:
