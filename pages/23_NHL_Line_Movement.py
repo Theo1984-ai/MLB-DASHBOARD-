@@ -333,6 +333,19 @@ def _consensus_tag(open_game, curr_game, side):
     return "🟢 consensus"
 
 
+def _book_gap(curr_game, side_key):
+    """Return a label when Fanatics and FanDuel disagree on the current line (gap >= 0.5)."""
+    bks = (curr_game or {}).get("books") or {}
+    fan_line = (bks.get("fanatics") or {}).get(side_key, {}).get("line")
+    fd_line  = (bks.get("fanduel")  or {}).get(side_key, {}).get("line")
+    if fan_line is None or fd_line is None:
+        return ""
+    gap = abs(fan_line - fd_line)
+    if gap >= 0.5:
+        return f"Fan {fan_line} / FD {fd_line}"
+    return ""
+
+
 def _recommendation(open_game, curr_game, side, consensus_tag, dl):
     dl = dl or 0
     rlm = _rlm_check(open_game, curr_game, side)
@@ -373,12 +386,14 @@ for game in all_games:
         dp_under = _delta_price(o_side.get("under_price"), c_side.get("under_price"))
         consensus = _consensus_tag(o, c, side_key)
         rec       = _recommendation(o, c, side_key, consensus, dl)
+        book_gap  = _book_gap(c if c else o, side_key)
         rows.append({
             "Game":          game,
             "Team":          (c.get(team_key) or o.get(team_key) or "?"),
             "Open":          o_side.get("line"),
             "Current":       c_side.get("line"),
             "Δ Line":        dl,
+            "Book Gap":      book_gap,
             "Consensus":     consensus,
             "🎯 Rec":        rec,
             "Over Open":     o_side.get("over_price"),
@@ -429,6 +444,28 @@ if not df.empty:
         )
     else:
         st.info("🎯 No actionable plays yet — waiting for meaningful line movement (0.25+ goals).")
+
+# Book Disagreements — Fanatics vs FanDuel line gap ≥ 0.5
+if not df.empty:
+    gaps = df[df["Book Gap"] != ""].copy()
+    if not gaps.empty:
+        st.markdown("### 📋 Book Disagreements (Fanatics ≠ FanDuel)")
+        st.caption(
+            "These teams have **different lines on Fanatics vs FanDuel right now** — "
+            "one book may be sharper or slower to move. "
+            "Fanatics is the anchor used for Open/Current above."
+        )
+        live_scores_gap = _fetch_live_scores(sel_date)
+        gaps["Score"] = gaps["Team"].map(lambda t: live_scores_gap.get(t, "–"))
+        st.dataframe(
+            gaps[["Score", "Team", "Game", "Current", "Book Gap"]],
+            use_container_width=True, hide_index=True,
+            column_config={
+                "Score":   st.column_config.TextColumn("🏒 Score"),
+                "Current": st.column_config.NumberColumn("Fanatics Line", format="%.2f"),
+                "Book Gap": st.column_config.TextColumn("Fan vs FD"),
+            },
+        )
     st.divider()
 
 # Filter
@@ -447,6 +484,7 @@ st.dataframe(
         "Open":          st.column_config.NumberColumn(format="%.2f"),
         "Current":       st.column_config.NumberColumn(format="%.2f"),
         "Δ Line":        st.column_config.NumberColumn(format="%+.2f"),
+        "Book Gap":      st.column_config.TextColumn("Book Gap"),
         "Over Open":     st.column_config.NumberColumn(format="%+d"),
         "Over Current":  st.column_config.NumberColumn(format="%+d"),
         "Δ Over":        st.column_config.NumberColumn(format="%+d"),
@@ -486,6 +524,6 @@ if game_options:
 
 st.divider()
 st.caption(
-    f"Data source: DraftKings (primary) + FanDuel, BetMGM, Bovada, Caesars via The Odds API · "
+    f"Data source: Fanatics (primary — best NHL coverage) + FanDuel via The Odds API · "
     f"Snapshots merged: {payload.get('n_snapshots', len(snapshots))}"
 )
