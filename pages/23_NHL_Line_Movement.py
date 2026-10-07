@@ -109,8 +109,8 @@ REPO  = "MLB-DASHBOARD-"
 st.set_page_config(page_title="NHL Line Movement", page_icon="🏒", layout="wide")
 st.title("🏒 NHL Team Totals — Line Movement")
 st.caption(
-    "FanDuel NHL team-total snapshots (anchor) + comparison against Fanatics, Caesars, and BetMGM. "
-    "**Consensus** = 🟢🟢 3+ books agree / 🟢 2 books agree — follow these.  \n"
+    "Fanatics NHL team-total snapshots (primary — most coverage) + FanDuel (sharper but fewer games).  \n"
+    "**Consensus** = 🟢🟢 both books agree / 🟢 one book moved.  "
     "**0.25+ goal moves are highlighted. Hit 🔄 to take a fresh snapshot.**"
 )
 
@@ -322,7 +322,9 @@ def _consensus_tag(open_game, curr_game, side):
     if not big_movers:
         return ""
     if len(big_movers) == 1:
-        return "⚠️ FD only" if "fanduel" in big_movers else "⚠️ single book"
+        bk = next(iter(big_movers))
+        label = {"fanduel": "FD only", "fanatics": "Fanatics only"}.get(bk, "single book")
+        return f"⚠️ {label}"
     same_dir = all(d > 0 for d in big_movers.values()) or all(d < 0 for d in big_movers.values())
     if not same_dir:
         return "🟡 mixed"
@@ -341,11 +343,11 @@ def _recommendation(open_game, curr_game, side, consensus_tag, dl):
             return "🎯 Over (consensus)"
         if dl <= -0.25:
             return "🎯 Under (consensus)"
-    if "DK only" in consensus_tag:
+    if "only" in consensus_tag and "consensus" not in consensus_tag:
         if dl >= 0.25:
-            return "↩️ Under (fade FD)"
+            return "↩️ Under (single-book move)"
         if dl <= -0.25:
-            return "↩️ Over (fade FD)"
+            return "↩️ Over (single-book move)"
     return ""
 
 

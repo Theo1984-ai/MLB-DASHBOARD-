@@ -23,7 +23,7 @@ if ROOT not in sys.path:
 _SSL = _ssl._create_unverified_context()
 EASTERN = ZoneInfo("America/New_York")
 SPORT = "icehockey_nhl"
-BOOKS = "draftkings,fanduel,betmgm,bovada,williamhill_us,fanatics,pointsbetus"
+BOOKS = "fanatics,fanduel"
 MARKET = "team_totals"
 HISTORY_DIR = os.path.join(ROOT, "nhl_team_totals_history")
 
@@ -47,8 +47,8 @@ def _fetch_team_totals(api_key, event_id):
         return {}
 
 
-_SANE_PT_MIN = 1.5   # NHL team total floor — alt lines go lower
-_SANE_PT_MAX = 5.0   # NHL team total ceiling
+_SANE_PT_MIN = 1.5   # NHL team total floor
+_SANE_PT_MAX = 6.0   # raised to handle dominant teams (CAR, EDM etc at 5.5)
 _MAX_PRICE   = 220   # main-market odds rarely exceed ±220; alt lines are more extreme
 
 def _best_outcome(candidates):
@@ -110,17 +110,15 @@ def _parse_game(event):
     per_book = {}
     for bm in event.get("bookmakers", []):
         key = bm.get("key")
-        if key not in ("draftkings", "fanduel", "betmgm", "bovada", "williamhill_us",
-                       "fanatics", "pointsbetus"):
+        if key not in ("fanatics", "fanduel"):
             continue
         parsed = _extract_book(bm, away, home)
         if parsed:
             per_book[key] = parsed
     if not per_book:
         return None
-    # FanDuel is primary — Caesars/MGM/Fanatics used as fallback
-    anchor_priority = ("fanduel", "pointsbetus", "williamhill_us", "betmgm",
-                       "fanatics", "draftkings", "bovada")
+    # Fanatics has the most NHL team total coverage; FanDuel is sharper but misses games
+    anchor_priority = ("fanatics", "fanduel")
     anchor_key = next((b for b in anchor_priority if b in per_book), next(iter(per_book)))
     anchor = per_book[anchor_key]
     return {
@@ -215,7 +213,7 @@ def main(force=False, min_gap_min=30):
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
 
-    print(f"  NHL snapshot #{len(snapshots)}: {len(games)} games → {out_path}")
+    print(f"  NHL snapshot #{len(snapshots)}: {len(games)} games -> {out_path}")
     return {"status": "ok", "n_games": len(games), "snapshot_n": len(snapshots),
             "path": out_path, "target_date": today}
 
