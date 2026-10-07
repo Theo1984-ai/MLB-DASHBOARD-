@@ -340,10 +340,69 @@ def _book_gap(curr_game, side_key):
     fd_line  = (bks.get("fanduel")  or {}).get(side_key, {}).get("line")
     if fan_line is None or fd_line is None:
         return ""
-    gap = abs(fan_line - fd_line)
-    if gap >= 0.5:
+    if abs(fan_line - fd_line) >= 0.5:
         return f"Fan {fan_line} / FD {fd_line}"
     return ""
+
+
+def _gap_play(curr_game, side_key):
+    """
+    Recommend Over/Under + best book when there's a line gap.
+
+    Logic:
+    - FanDuel is the sharper book — its juice direction is the consensus
+    - If FD leans Under at their line: team scores low → take Over the LOWER line
+      (easier number, same expected outcome) — or Under the lower line if FD leans Over
+    - Value rating: ✅ price > -130  ⚠️ -130 to -165  💸 worse than -165
+    """
+    bks = (curr_game or {}).get("books") or {}
+    fan = (bks.get("fanatics") or {}).get(side_key, {})
+    fd  = (bks.get("fanduel")  or {}).get(side_key, {})
+
+    fan_line = fan.get("line")
+    fd_line  = fd.get("line")
+    if fan_line is None or fd_line is None:
+        return ""
+    if abs(fd_line - fan_line) < 0.5:
+        return ""
+
+    def nv_over(over_p, under_p):
+        if over_p is None or under_p is None:
+            return None
+        imp = lambda p: abs(p) / (abs(p) + 100) if p < 0 else 100 / (p + 100)
+        o, u = imp(over_p), imp(under_p)
+        return o / (o + u) * 100
+
+    def val(price):
+        if price is None: return ""
+        return "✅" if price > -130 else ("⚠️" if price > -165 else "💸")
+
+    fd_nv = nv_over(fd.get("over_price"), fd.get("under_price"))
+    if fd_nv is None:
+        return ""
+
+    low_line   = min(fan_line, fd_line)
+    high_line  = max(fan_line, fd_line)
+    low_is_fan = fan_line < fd_line
+
+    if fd_nv <= 50:
+        # FD leans Under → team expected to score low
+        # Best number: Under the HIGHER line (gives most room)
+        if not low_is_fan:  # Fan has high line
+            p = fan.get("under_price")
+            return f"{val(p)} ⬇️ Under {high_line} @Fan ({p:+d})" if p else f"⬇️ Under {high_line} @Fan"
+        else:               # FD has high line
+            p = fd.get("under_price")
+            return f"{val(p)} ⬇️ Under {high_line} @FD ({p:+d})" if p else f"⬇️ Under {high_line} @FD"
+    else:
+        # FD leans Over → team expected to score high
+        # Best number: Over the LOWER line (easiest to hit)
+        if low_is_fan:      # Fan has low line
+            p = fan.get("over_price")
+            return f"{val(p)} ⬆️ Over {low_line} @Fan ({p:+d})" if p else f"⬆️ Over {low_line} @Fan"
+        else:               # FD has low line
+            p = fd.get("over_price")
+            return f"{val(p)} ⬆️ Over {low_line} @FD ({p:+d})" if p else f"⬆️ Over {low_line} @FD"
 
 
 def _recommendation(open_game, curr_game, side, consensus_tag, dl):
@@ -386,7 +445,9 @@ for game in all_games:
         dp_under = _delta_price(o_side.get("under_price"), c_side.get("under_price"))
         consensus = _consensus_tag(o, c, side_key)
         rec       = _recommendation(o, c, side_key, consensus, dl)
-        book_gap  = _book_gap(c if c else o, side_key)
+        _cg       = c if c else o
+        book_gap  = _book_gap(_cg, side_key)
+        gap_play  = _gap_play(_cg, side_key)
         rows.append({
             "Game":          game,
             "Team":          (c.get(team_key) or o.get(team_key) or "?"),
@@ -394,6 +455,7 @@ for game in all_games:
             "Current":       c_side.get("line"),
             "Δ Line":        dl,
             "Book Gap":      book_gap,
+            "Gap Play":      gap_play,
             "Consensus":     consensus,
             "🎯 Rec":        rec,
             "Over Open":     o_side.get("over_price"),
@@ -458,14 +520,16 @@ if not df.empty:
         live_scores_gap = _fetch_live_scores(sel_date)
         gaps["Score"] = gaps["Team"].map(lambda t: live_scores_gap.get(t, "–"))
         st.dataframe(
-            gaps[["Score", "Team", "Game", "Current", "Book Gap"]],
+            gaps[["Score", "Team", "Game", "Current", "Book Gap", "Gap Play"]],
             use_container_width=True, hide_index=True,
             column_config={
-                "Score":   st.column_config.TextColumn("🏒 Score"),
-                "Current": st.column_config.NumberColumn("Fanatics Line", format="%.2f"),
+                "Score":    st.column_config.TextColumn("🏒 Score"),
+                "Current":  st.column_config.NumberColumn("Fanatics Line", format="%.2f"),
                 "Book Gap": st.column_config.TextColumn("Fan vs FD"),
+                "Gap Play": st.column_config.TextColumn("▶️ Play"),
             },
         )
+        st.caption("✅ = good value (< -130)  ⚠️ = decent (-130 to -165)  💸 = heavy juice (> -165)")
     st.divider()
 
 # Filter
