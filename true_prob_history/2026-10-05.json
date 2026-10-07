@@ -11,16 +11,16 @@
   },
   "summary": {
     "n_total": 11,
-    "n_settled": 4,
-    "n_void": 2,
-    "n_no_data": 5,
-    "wins": 3,
+    "n_settled": 6,
+    "n_void": 5,
+    "n_no_data": 0,
+    "wins": 5,
     "losses": 1,
     "pushes": 0,
-    "hit_rate": 75.0,
-    "risk_total": 1202.0,
-    "profit_total": 17.0,
-    "roi_pct": 1.41
+    "hit_rate": 83.3,
+    "risk_total": 1881.0,
+    "profit_total": 217.0,
+    "roi_pct": 11.54
   },
   "picks": [
     {
@@ -154,8 +154,8 @@
           "price": -350
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Pre-Game"
+      "result": "WIN",
+      "settle_detail": "margin=-2 vs -2.5"
     },
     {
       "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
@@ -221,8 +221,8 @@
           "price": -329
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Scheduled"
+      "result": "WIN",
+      "settle_detail": "margin=-1 vs -2.5"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -483,8 +483,8 @@
           "price": -397
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Scheduled"
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Nick Pivetta)"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -544,8 +544,8 @@
           "price": -375
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Pre-Game"
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Yoshinobu Yamamoto)"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -605,8 +605,8 @@
           "price": -350
         }
       ],
-      "result": "NO_DATA",
-      "settle_detail": "game status=Pre-Game"
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Chris Sale)"
     },
     {
       "event_id": "4be245ad03895bcafcdc42d7d926b675",
@@ -727,5 +727,5 @@
       "settle_detail": "margin=+3 vs -2.5"
     }
   ],
-  "settled_at": "2026-10-06T14:39:58.335162-04:00"
+  "settled_at": "2026-10-07T13:09:56.593276-04:00"
 }

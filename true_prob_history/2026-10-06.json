@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 5,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
+    "n_settled": 2,
+    "n_void": 2,
+    "n_no_data": 1,
+    "wins": 2,
     "losses": 0,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 100.0,
+    "risk_total": 659.0,
+    "profit_total": 200.0,
+    "roi_pct": 30.35
   },
   "picks": [
     {
@@ -91,7 +92,9 @@
           "ev": 17.5,
           "price": -350
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Yoshinobu Yamamoto)"
     },
     {
       "event_id": "cd974d85e2a617152370056d22cd8deb",
@@ -162,7 +165,9 @@
           "ev": 7.03,
           "price": -356
         }
-      ]
+      ],
+      "result": "NO_DATA",
+      "settle_detail": "game status=Pre-Game"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -233,7 +238,9 @@
           "ev": 18.72,
           "price": -295
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Chris Sale)"
     },
     {
       "event_id": "62d8e1c18355ab6b3913d7a28fa677c2",
@@ -304,7 +311,9 @@
           "ev": 4.04,
           "price": -313
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=-1 vs -2.5"
     },
     {
       "event_id": "1bc3bf1d3034010bdfb31d928a71177a",
@@ -369,7 +378,10 @@
           "ev": 3.13,
           "price": -346
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=-2 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-07T13:09:45.633224-04:00"
 }
