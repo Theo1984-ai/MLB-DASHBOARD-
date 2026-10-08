@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 6,
-    "n_settled": 0,
-    "n_void": 0,
-    "wins": 0,
+    "n_settled": 4,
+    "n_void": 2,
+    "n_no_data": 0,
+    "wins": 4,
     "losses": 0,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 100.0,
+    "risk_total": 1320.0,
+    "profit_total": 400.0,
+    "roi_pct": 30.3
   },
   "picks": [
     {
@@ -85,7 +86,9 @@
           "ev": 21.06,
           "price": -350
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Tyler Mahle)"
     },
     {
       "event_id": "2f041c00e4bddc69bd1bbfbd40cc3c09",
@@ -144,7 +147,9 @@
           "ev": 11.27,
           "price": -400
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Tyler Glasnow)"
     },
     {
       "event_id": "3c71012ad7a75e6c11575285e6841e14",
@@ -209,7 +214,9 @@
           "ev": 5.52,
           "price": -373
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+2 vs -2.5"
     },
     {
       "event_id": "cd974d85e2a617152370056d22cd8deb",
@@ -268,7 +275,9 @@
           "ev": 4.74,
           "price": -325
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+6 vs -2.5"
     },
     {
       "event_id": "2f041c00e4bddc69bd1bbfbd40cc3c09",
@@ -333,7 +342,9 @@
           "ev": 4.05,
           "price": -330
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=+3 vs -1.5"
     },
     {
       "event_id": "aa266da6f8d98646bc59d18ddbc5b2de",
@@ -386,7 +397,10 @@
           "ev": 3.15,
           "price": -292
         }
-      ]
+      ],
+      "result": "WIN",
+      "settle_detail": "margin=-1 vs -1.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-08T13:07:20.868322-04:00"
 }

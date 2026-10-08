@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-08",
+  "snapshot_at": "2026-10-08T13:07:38.530643-04:00",
+  "n_picks": 2,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 2,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "b57e790481f2b8e5eaf9e0f3eab816bc",
+      "game": "Guardians @ Sox",
+      "away_team": "Cleveland Guardians",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-10-09T00:00:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Parker Messick",
+      "player": "Parker Messick",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "betmgm",
+      "best_price": -295,
+      "true_prob_pct": 76.87,
+      "ev_per_100": 8.62,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -295
+        ],
+        [
+          "draftkings",
+          -320
+        ],
+        [
+          "bovada",
+          -325
+        ],
+        [
+          "williamhill_us",
+          -360
+        ],
+        [
+          "fanduel",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-08T13:07:38.530609-04:00",
+      "last_seen_at": "2026-10-08T13:07:38.530609-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-08T13:07:38.530609-04:00",
+          "tp": 76.87,
+          "ev": 8.62,
+          "price": -295
+        }
+      ]
+    },
+    {
+      "event_id": "b57e790481f2b8e5eaf9e0f3eab816bc",
+      "game": "Guardians @ Sox",
+      "away_team": "Cleveland Guardians",
+      "home_team": "Chicago White Sox",
+      "first_pitch": "2026-10-09T00:00:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Chicago White Sox +2.5",
+      "player": "Chicago White Sox",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -305,
+      "true_prob_pct": 76.19,
+      "ev_per_100": 3.56,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          -305
+        ],
+        [
+          "draftkings",
+          -311
+        ],
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "bovada",
+          -330
+        ],
+        [
+          "fanduel",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-08T13:07:38.530609-04:00",
+      "last_seen_at": "2026-10-08T13:07:38.530609-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-08T13:07:38.530609-04:00",
+          "tp": 76.19,
+          "ev": 3.56,
+          "price": -305
+        }
+      ]
+    }
+  ]
+}
