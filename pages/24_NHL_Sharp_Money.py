@@ -25,6 +25,107 @@ from scripts.sportsbook_matcher import match_signals  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 
+
+# =============================================================================
+# Confluence helpers — mirrors MLB Sharp Money exactly, NHL-adapted
+# =============================================================================
+
+def _normalize_team_conf(s):
+    if not s: return ""
+    s2 = s.lower().replace(",","").replace(".","").replace("'","").strip()
+    parts = s2.split()
+    return parts[-1] if parts else ""
+
+
+def _make_game_key(away, home):
+    a = _normalize_team_conf(away); h = _normalize_team_conf(home)
+    if not a or not h: return ""
+    return "|".join(sorted([a, h]))
+
+
+def _split_event(event_str):
+    if not event_str: return (None, None)
+    for sep in (" vs. ", " vs ", " @ ", " at "):
+        if sep in event_str:
+            a, b = event_str.split(sep, 1)
+            return (a.strip(), b.strip())
+    return (None, None)
+
+
+def _load_today_snapshot(dirname):
+    import json as _json
+    from datetime import datetime as _dt
+    from zoneinfo import ZoneInfo as _Z
+    today = _dt.now(tz=_Z("America/New_York")).strftime("%Y-%m-%d")
+    path = os.path.join(ROOT, dirname, f"{today}.json")
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            raw = f.read()
+        try:
+            return _json.loads(raw).get("picks", [])
+        except Exception:
+            pass
+        if "<<<<<<<" in raw or "=======" in raw or ">>>>>>>" in raw:
+            out, skip = [], False
+            for line in raw.split("\n"):
+                if line.startswith("<<<<<<<"): skip = True; continue
+                if line.startswith("======="): skip = False; continue
+                if line.startswith(">>>>>>>"): continue
+                if skip: continue
+                out.append(line)
+            return _json.loads("\n".join(out)).get("picks", [])
+        return []
+    except Exception:
+        return []
+
+
+def _build_play_index(picks):
+    """Index NHL true-prob picks by (game_key, market_type, side_id)."""
+    idx = {}
+    for p in picks:
+        away = p.get("away_team", ""); home = p.get("home_team", "")
+        if not away or not home:
+            a2, h2 = _split_event(p.get("game") or "")
+            if a2: away = a2
+            if h2: home = h2
+        gkey = _make_game_key(away, home)
+        if not gkey:
+            continue
+        stat = (p.get("stat_key") or "").lower()
+        side = (p.get("side") or "").lower()
+        point = p.get("point")
+        if stat == "h2h":
+            sel = _normalize_team_conf(p.get("selection") or p.get("player") or "")
+            idx[(gkey, "ml", sel)] = p
+        elif stat == "spread":
+            side_lower = side
+            team_name = (p.get("away_team") if side_lower == "away"
+                         else p.get("home_team") if side_lower == "home"
+                         else None)
+            if not team_name:
+                # parse team from selection string e.g. "Red Wings +1.5"
+                sel_str = (p.get("selection") or "")
+                parts = sel_str.split()
+                team_name = " ".join(parts[:-1]) if len(parts) > 1 else sel_str
+            team_norm = _normalize_team_conf(team_name)
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            if team_norm:
+                idx[(gkey, "spread", f"{team_norm}_{pt_str}")] = p
+        elif stat == "total":
+            try: pt_str = f"{float(point):g}"
+            except Exception: pt_str = str(point)
+            side_lower = side  # "over" or "under"
+            if side_lower in ("over", "under"):
+                idx[(gkey, "tot", f"{side_lower}_{pt_str}")] = p
+    return idx
+
+
+_tp_picks = _load_today_snapshot("nhl_true_prob_history")
+tp_idx = _build_play_index(_tp_picks)
+
 st.set_page_config(page_title="NHL Sharp Money", page_icon="🏒", layout="wide")
 st.title("🏒💰 NHL Polymarket Sharp Money")
 st.caption(
@@ -125,10 +226,65 @@ def _lookup_persistence(row):
     return _persist_idx.get(key)
 
 
-# Annotate each row with persistence before scoring
+def _confluence_check(sharp_row):
+    """Returns list of source names that ALSO have this play."""
+    away = sharp_row.get("away_team", ""); home = sharp_row.get("home_team", "")
+    if not away or not home:
+        a2, h2 = _split_event(sharp_row.get("event") or "")
+        if a2: away = a2
+        if h2: home = h2
+    gkey = _make_game_key(away, home)
+    if not gkey:
+        return []
+    mt = sharp_row.get("match_type")
+    sharp_side = sharp_row.get("skew_side")
+    hits = []
+    if mt == "h2h":
+        target = away if sharp_side == "YES" else home
+        target_norm = _normalize_team_conf(target)
+        if (gkey, "ml", target_norm) in tp_idx:
+            hits.append("True Prob")
+        if "True Prob" not in hits:
+            for key in list(tp_idx.keys()):
+                if (key[0] == gkey and key[1] == "spread"
+                        and key[2].startswith(f"{target_norm}_")):
+                    hits.append("True Prob")
+                    break
+    elif mt == "totals":
+        side_str = "over" if sharp_side == "YES" else "under"
+        pt = sharp_row.get("point")
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        if (gkey, "tot", f"{side_str}_{pt_str}") in tp_idx:
+            hits.append("True Prob")
+        else:
+            for key in list(tp_idx.keys()):
+                if key[0] == gkey and key[1] == "tot":
+                    try:
+                        s, p2 = key[2].rsplit("_", 1)
+                        if s == side_str and abs(float(p2) - float(pt)) <= 1.0:
+                            if "True Prob" not in hits:
+                                hits.append("True Prob")
+                            break
+                    except Exception:
+                        continue
+    elif mt == "spreads":
+        team_norm = _normalize_team_conf(sharp_row.get("team") or "")
+        pt = sharp_row.get("point")
+        try: pt_str = f"{float(pt):g}"
+        except Exception: pt_str = str(pt)
+        if (gkey, "spread", f"{team_norm}_{pt_str}") in tp_idx:
+            hits.append("True Prob")
+        elif (gkey, "ml", team_norm) in tp_idx:
+            hits.append("True Prob")
+    return hits
+
+
+# Annotate each row with persistence AND confluence before scoring
 for r in filtered:
     p = _lookup_persistence(r)
     r["_n_seen"] = p["n"] if p else 0
+    r["_confluence"] = _confluence_check(r)
 
 
 # =============================================================================
@@ -256,7 +412,7 @@ def render_table(rows_subset, sort_by="score", show_details=False):
         ratio   = _depth_ratio(sharp_depth, other_depth)
         persist = _lookup_persistence(r)
         n_seen  = persist["n"] if persist else None
-        n_conf  = 0   # no confluence system for NHL yet
+        n_conf  = len(r.get("_confluence") or [])
         score   = _sharp_score(r, n_conf, n_seen or 0, ratio)
         tier    = _sharp_tier(score)
         row = {
@@ -265,6 +421,7 @@ def render_table(rows_subset, sort_by="score", show_details=False):
             "Tier":        tier,
             "Skew %":      r["skew_strength"],
             "Depth ratio": ratio,
+            "Confluence":  n_conf,
             "Game":        r["event"][:36],
         }
         if show_details:
@@ -300,8 +457,12 @@ def render_table(rows_subset, sort_by="score", show_details=False):
 
     full_cfg = {
         "Score":             st.column_config.NumberColumn(format="%d",
-            help="Composite 0-100 score. Weights: persistence 20, depth ratio 20, "
-                 "skew 15, edge 15. Whale penalty up to −25."),
+            help="Composite 0-100 score. Weights: confluence 30, persistence 20, "
+                 "depth ratio 20, skew 15, edge 15. Whale penalty up to −25. "
+                 "Tiers: 75+ ELITE, 55-74 STRONG, 35-54 DECENT, <35 WEAK."),
+        "Confluence":        st.column_config.NumberColumn(format="%d",
+            help="Number of other systems (True Prob) that also have this pick. "
+                 "1 = True Prob agrees — highest-conviction signal."),
         "Whale?":            st.column_config.TextColumn(
             help="🐋 lone whale (80%+) = fragile · 🐟 concentrated · "
                  "🟢 distributed (5+ orders) · ⚪ small book"),
@@ -341,6 +502,88 @@ with tab_no:
     show_d_n = st.toggle("🔧 Show details", value=False, key="details_no")
     no_only = [r for r in filtered if r["skew_side"] == "NO"]
     render_table(sorted(no_only, key=lambda r: -r["no_bid_depth"]), show_details=show_d_n)
+
+
+# =============================================================================
+# Confluence Plays — Sharp Money agrees with True Probability
+# =============================================================================
+
+st.markdown("---")
+st.markdown("### 🎯 Confluence Plays — Sharp Money + True Probability agree")
+st.caption(
+    "When the same team / over-under shows up in **NHL Sharp Money** AND in "
+    "today's **True Probability** (75%+ consensus, 3+ sharp books), "
+    "that's a multi-source signal — much stronger than either alone."
+)
+
+confluent = sorted(
+    [r for r in filtered if len(r["_confluence"]) >= 1],
+    key=lambda r: (-len(r["_confluence"]), -r["skew_strength"],
+                   -r["yes_bid_depth"] - r["no_bid_depth"])
+)
+
+if not confluent:
+    sharp_games = sorted({_make_game_key(r.get("away_team",""), r.get("home_team",""))
+                          for r in filtered if r.get("away_team")})
+    tp_games = sorted({k[0] for k in tp_idx.keys()})
+    overlap = [g for g in sharp_games if g in tp_games]
+
+    st.info(
+        "No confluence plays right now — no Sharp Money signals overlap with "
+        "True Probability picks for today."
+    )
+    with st.expander("🔍 Why? (diagnostic)", expanded=False):
+        st.markdown(f"""
+- **Sharp Money picks today:** {len(filtered)} markets across {len(sharp_games)} games
+- **True Prob picks loaded:** {len(_tp_picks)} picks across {len(tp_games)} games
+- **Sharp ↔ True Prob game overlap:** {len(overlap)} games
+""")
+        if not _tp_picks:
+            st.warning(
+                "⚠️ **No True Probability snapshots saved for today yet.** "
+                "Daily snapshots are written once the cron script runs. "
+                "Until then, Confluence has nothing to compare against."
+            )
+        elif not overlap:
+            st.warning(
+                "Snapshots exist but no game-key overlap with today's Sharp Money scan. "
+                "This usually means trackers ran for a different slate. "
+                "Possibly stale snapshot."
+            )
+        else:
+            st.info(
+                "Same games appear in both — but different markets/sides. "
+                "Sharp Money's pick didn't match True Prob's same-game pick. "
+                "This is normal — both systems target different angles."
+            )
+else:
+    crows = []
+    for r in confluent[:15]:
+        crows.append({
+            "Tier":        "🟢🟢 + True Prob",
+            "Sharp pick":  r.get("sharp_pick", ""),
+            "Game":        r["event"][:36],
+            "Skew %":      r["skew_strength"],
+            "Liquidity $": r.get("liquidity", 0),
+            "SB price":    r.get("sb_best_price"),
+            "Edge pp":     r.get("edge_pp"),
+            "Confirmed by": "True Prob",
+        })
+    cdf = pd.DataFrame(crows)
+    st.dataframe(
+        cdf, use_container_width=True, hide_index=True,
+        column_config={
+            "Skew %":      st.column_config.NumberColumn(format="%.0f%%"),
+            "Liquidity $": st.column_config.NumberColumn(format="$%,.0f"),
+            "SB price":    st.column_config.NumberColumn(format="%+d"),
+            "Edge pp":     st.column_config.NumberColumn(format="%+.1f"),
+        },
+    )
+    st.success(
+        f"🔥 **{len(confluent)} confluence play{'s' if len(confluent)!=1 else ''} found.** "
+        f"NHL Sharp Money + True Probability (75%+ consensus) both agree — "
+        f"highest-conviction signals on the dashboard."
+    )
 
 
 # =============================================================================
