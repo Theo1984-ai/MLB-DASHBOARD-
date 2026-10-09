@@ -293,7 +293,9 @@ for t in TRACKERS:
     day_summary[t["name"]] = {"picks": n, "w": w, "l": l, "p": pu,
                               "settled": w + l + pu, "payload": payload,
                               "data_feed": t.get("data_feed", False)}
-    total_w += w; total_l += l; total_p += pu; total_picks += n
+    # Only count picks from pick-based trackers — snapshot counts are not picks
+    if not t.get("data_feed", False):
+        total_w += w; total_l += l; total_p += pu; total_picks += n
 
 # Badge row
 badge_cols = st.columns(len(TRACKERS) + 1)
@@ -303,7 +305,7 @@ for i, t in enumerate(TRACKERS):
         n = s["picks"]
         badge_cols[i].metric(
             label=f"{t['icon']} {t['name']}",
-            value=f"{n} snapshots" if n else "—",
+            value=f"{n} snaps" if n else "—",
             delta="data feed" if n else "no save",
             delta_color="off",
         )
@@ -355,26 +357,90 @@ for i, t in enumerate(TRACKERS):
             st.caption(f"No {t['name']} save for {sel_date}.")
             continue
 
-        # ── Data-feed trackers: show snapshot summary ──
+        # ── Data-feed trackers: show latest snapshot's actual data ──
         if t.get("data_feed"):
             snaps = payload.get("snapshots", [])
+            n_snaps = len(snaps)
             if not snaps:
                 st.caption(f"{t['name']}: {payload.get('n_snapshots', 0)} snapshots saved, no detail.")
                 continue
-            snap_rows = []
-            for sn in snaps:
-                row = {"Captured at": sn.get("captured_at", "")}
-                if "n_games" in sn:
-                    row["Games"] = sn["n_games"]
-                if "n_props" in sn:
-                    row["Props"] = sn["n_props"]
-                snap_rows.append(row)
-            st.caption(
-                f"{t['name']}: **{len(snaps)} snapshots** on {sel_date}  ·  "
-                f"book: {payload.get('book', '—')}  ·  "
-                f"market: {payload.get('market', '—')}"
-            )
-            st.dataframe(pd.DataFrame(snap_rows), use_container_width=True, hide_index=True)
+
+            # Always show the most recent snapshot's actual data
+            latest = snaps[-1]
+            captured = latest.get("captured_at", "")
+            try:
+                cap_dt = datetime.fromisoformat(captured).astimezone(EASTERN)
+                cap_str = cap_dt.strftime("%I:%M %p ET")
+            except Exception:
+                cap_str = captured[:19]
+
+            # Team Totals — show games with away/home lines + prices
+            if "games" in latest:
+                games = latest["games"]
+                st.caption(
+                    f"**{t['name']}** · {n_snaps} snapshots on {sel_date}  ·  "
+                    f"latest at {cap_str}  ·  {len(games)} games  ·  "
+                    f"book: {payload.get('book', '—')}"
+                )
+                game_rows = []
+                for g in games:
+                    away_d = g.get("away") or {}
+                    home_d = g.get("home") or {}
+                    game_rows.append({
+                        "Game":           g.get("game", ""),
+                        "Away line":      fmt_line(away_d.get("line")),
+                        "Away O":         away_d.get("over_price"),
+                        "Away U":         away_d.get("under_price"),
+                        "Home line":      fmt_line(home_d.get("line")),
+                        "Home O":         home_d.get("over_price"),
+                        "Home U":         home_d.get("under_price"),
+                        "# Books":        g.get("n_books"),
+                    })
+                gdf = pd.DataFrame(game_rows)
+                st.dataframe(
+                    gdf, use_container_width=True, hide_index=True,
+                    column_config={
+                        "Away O": st.column_config.NumberColumn(format="%+d"),
+                        "Away U": st.column_config.NumberColumn(format="%+d"),
+                        "Home O": st.column_config.NumberColumn(format="%+d"),
+                        "Home U": st.column_config.NumberColumn(format="%+d"),
+                    },
+                )
+
+            # Props — show player props from latest snapshot
+            elif "props" in latest:
+                props = latest["props"]
+                st.caption(
+                    f"**{t['name']}** · {n_snaps} snapshots on {sel_date}  ·  "
+                    f"latest at {cap_str}  ·  {len(props)} props"
+                )
+                prop_rows = []
+                for p in props:
+                    prop_rows.append({
+                        "Player":    p.get("player", ""),
+                        "Market":    p.get("market", ""),
+                        "Line":      fmt_line(p.get("line")),
+                        "Game":      p.get("game", ""),
+                        "NV Over %": p.get("nv_over_pct"),
+                        "NV Under %":p.get("nv_under_pct"),
+                        "Best O":    p.get("best_over_price"),
+                        "O Book":    p.get("best_over_book", ""),
+                        "Best U":    p.get("best_under_price"),
+                        "U Book":    p.get("best_under_book", ""),
+                        "# Books":   p.get("n_books"),
+                    })
+                pdf = pd.DataFrame(prop_rows)
+                st.dataframe(
+                    pdf, use_container_width=True, hide_index=True,
+                    column_config={
+                        "NV Over %":  st.column_config.NumberColumn(format="%.1f%%"),
+                        "NV Under %": st.column_config.NumberColumn(format="%.1f%%"),
+                        "Best O":     st.column_config.NumberColumn(format="%+d"),
+                        "Best U":     st.column_config.NumberColumn(format="%+d"),
+                    },
+                )
+            else:
+                st.caption(f"{t['name']}: {n_snaps} snapshots, no game/prop detail available.")
             continue
 
         # ── Pick-based trackers: show W/L pick table ──
