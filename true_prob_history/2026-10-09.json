@@ -1,7 +1,7 @@
 {
   "date": "2026-10-09",
-  "snapshot_at": "2026-10-09T12:45:59.354452-04:00",
-  "n_picks": 0,
+  "snapshot_at": "2026-10-09T13:15:11.363250-04:00",
+  "n_picks": 1,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 4,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 0,
+    "n_total": 1,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -21,5 +21,55 @@
     "profit_total": 0.0,
     "roi_pct": 0
   },
-  "picks": []
+  "picks": [
+    {
+      "event_id": "62bf363a77455f7a8b48838e7792f60b",
+      "game": "Sox @ Guardians",
+      "away_team": "Chicago White Sox",
+      "home_team": "Cleveland Guardians",
+      "first_pitch": "2026-10-11T00:01:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Sean Burke",
+      "player": "Sean Burke",
+      "side": "Over",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -378,
+      "true_prob_pct": 82.54,
+      "ev_per_100": 16.52,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -378
+        ],
+        [
+          "fanduel",
+          -500
+        ],
+        [
+          "bovada",
+          -510
+        ],
+        [
+          "williamhill_us",
+          -530
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T13:15:11.363222-04:00",
+      "last_seen_at": "2026-10-09T13:15:11.363222-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T13:15:11.363222-04:00",
+          "tp": 82.54,
+          "ev": 16.52,
+          "price": -378
+        }
+      ]
+    }
+  ]
 }
