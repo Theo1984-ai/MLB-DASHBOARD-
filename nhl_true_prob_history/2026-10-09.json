@@ -1,7 +1,7 @@
 {
   "date": "2026-10-09",
-  "snapshot_at": "2026-10-09T17:21:46.633996-04:00",
-  "n_picks": 8,
+  "snapshot_at": "2026-10-09T19:46:27.545860-04:00",
+  "n_picks": 15,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 8,
+    "n_total": 15,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -197,8 +197,8 @@
       "point": 1.5,
       "best_book": "draftkings",
       "best_price": -300,
-      "true_prob_pct": 75.9,
-      "ev_per_100": 3.6,
+      "true_prob_pct": 75.75,
+      "ev_per_100": 3.0,
       "n_books": 4,
       "all_prices": [
         [
@@ -206,21 +206,21 @@
           -300
         ],
         [
-          "pinnacle",
-          -311
+          "fanduel",
+          -300
         ],
         [
-          "fanduel",
-          -320
+          "pinnacle",
+          -312
         ],
         [
           "bovada",
-          -330
+          -340
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
@@ -232,6 +232,12 @@
           "t": "2026-10-09T17:21:46.633947-04:00",
           "tp": 75.9,
           "ev": 3.6,
+          "price": -300
+        },
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 75.75,
+          "ev": 3.0,
           "price": -300
         }
       ]
@@ -437,6 +443,321 @@
           "tp": 78.68,
           "ev": 4.06,
           "price": -350
+        }
+      ]
+    },
+    {
+      "event_id": "d9285582597ee00291a57aaf08f4bd50",
+      "game": "Kings @ Knights",
+      "away_team": "Los Angeles Kings",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-10-11T02:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Vegas Golden Knights +1.5",
+      "player": "Vegas Golden Knights",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -400,
+      "true_prob_pct": 81.84,
+      "ev_per_100": 9.18,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -400
+        ],
+        [
+          "pinnacle",
+          -461
+        ],
+        [
+          "bovada",
+          -500
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 81.84,
+          "ev": 9.18,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "08385500bdc8f9cbcab43927a7d21671",
+      "game": "Oilers @ Sharks",
+      "away_team": "Edmonton Oilers",
+      "home_team": "San Jose Sharks",
+      "first_pitch": "2026-10-10T20:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Edmonton Oilers +1.5",
+      "player": "Edmonton Oilers",
+      "side": "Away",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -400,
+      "true_prob_pct": 80.91,
+      "ev_per_100": 4.54,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -400
+        ],
+        [
+          "pinnacle",
+          -415
+        ],
+        [
+          "bovada",
+          -460
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 80.91,
+          "ev": 4.54,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "d85b0a6ad02d473031876a3286f80638",
+      "game": "Flyers @ Bruins",
+      "away_team": "Philadelphia Flyers",
+      "home_team": "Boston Bruins",
+      "first_pitch": "2026-10-10T17:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Boston Bruins +1.5",
+      "player": "Boston Bruins",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -360,
+      "true_prob_pct": 79.29,
+      "ev_per_100": 4.72,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -360
+        ],
+        [
+          "pinnacle",
+          -381
+        ],
+        [
+          "bovada",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 79.29,
+          "ev": 4.72,
+          "price": -360
+        }
+      ]
+    },
+    {
+      "event_id": "4951992db982c394e261970cbfb52332",
+      "game": "Wild @ Panthers",
+      "away_team": "Minnesota Wild",
+      "home_team": "Florida Panthers",
+      "first_pitch": "2026-10-10T22:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Florida Panthers +1.5",
+      "player": "Florida Panthers",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -350,
+      "true_prob_pct": 78.86,
+      "ev_per_100": 4.89,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -350
+        ],
+        [
+          "pinnacle",
+          -372
+        ],
+        [
+          "bovada",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 78.86,
+          "ev": 4.89,
+          "price": -350
+        }
+      ]
+    },
+    {
+      "event_id": "d9285582597ee00291a57aaf08f4bd50",
+      "game": "Kings @ Knights",
+      "away_team": "Los Angeles Kings",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-10-11T02:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Los Angeles Kings +2.5",
+      "player": "Los Angeles Kings",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -342,
+      "true_prob_pct": 78.12,
+      "ev_per_100": 3.29,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -342
+        ],
+        [
+          "draftkings",
+          -360
+        ],
+        [
+          "bovada",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 78.12,
+          "ev": 3.29,
+          "price": -342
+        }
+      ]
+    },
+    {
+      "event_id": "15f36c06476a3c7811b74283878ee66e",
+      "game": "Lightning @ Islanders",
+      "away_team": "Tampa Bay Lightning",
+      "home_team": "New York Islanders",
+      "first_pitch": "2026-10-10T23:40:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Islanders +2.5",
+      "player": "New York Islanders",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -339,
+      "true_prob_pct": 78.07,
+      "ev_per_100": 3.72,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -339
+        ],
+        [
+          "draftkings",
+          -360
+        ],
+        [
+          "bovada",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 78.07,
+          "ev": 3.72,
+          "price": -339
+        }
+      ]
+    },
+    {
+      "event_id": "15f36c06476a3c7811b74283878ee66e",
+      "game": "Lightning @ Islanders",
+      "away_team": "Tampa Bay Lightning",
+      "home_team": "New York Islanders",
+      "first_pitch": "2026-10-10T23:40:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "draftkings",
+      "best_price": -335,
+      "true_prob_pct": 77.81,
+      "ev_per_100": 3.48,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "pinnacle",
+          -344
+        ],
+        [
+          "bovada",
+          -375
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "last_seen_at": "2026-10-09T19:46:27.545825-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T19:46:27.545825-04:00",
+          "tp": 77.81,
+          "ev": 3.48,
+          "price": -335
         }
       ]
     }
