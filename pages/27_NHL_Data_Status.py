@@ -365,21 +365,46 @@ for i, t in enumerate(TRACKERS):
                 st.caption(f"{t['name']}: {payload.get('n_snapshots', 0)} snapshots saved, no detail.")
                 continue
 
-            # Always show the most recent snapshot's actual data
-            latest = snaps[-1]
-            captured = latest.get("captured_at", "")
+            # Aggregate the best prices across all snapshots for the selected
+            # date: collect every game/prop whose first_pitch falls on sel_date
+            # in ET, keeping the latest price seen for each unique game.
+            def _item_date(item):
+                fp = item.get("first_pitch", "")
+                if not fp:
+                    return None
+                try:
+                    return datetime.fromisoformat(
+                        fp.replace("Z", "+00:00")
+                    ).astimezone(EASTERN).strftime("%Y-%m-%d")
+                except Exception:
+                    return None
+
+            item_key = "games" if "games" in snaps[0] else "props"
+            # Deduplicate by game name, keeping latest snapshot's data
+            item_by_key = {}
+            last_cap = snaps[0].get("captured_at", "")
+            for sn in snaps:
+                cap = sn.get("captured_at", "")
+                for item in sn.get(item_key, []):
+                    if _item_date(item) != sel_date:
+                        continue
+                    name = item.get("game", item.get("player", "?"))
+                    item_by_key[name] = item
+                    last_cap = cap
+            latest_items = list(item_by_key.values())
+
             try:
-                cap_dt = datetime.fromisoformat(captured).astimezone(EASTERN)
+                cap_dt = datetime.fromisoformat(last_cap).astimezone(EASTERN)
                 cap_str = cap_dt.strftime("%I:%M %p ET")
             except Exception:
-                cap_str = captured[:19]
+                cap_str = last_cap[:19]
 
             # Team Totals — show games with away/home lines + prices
-            if "games" in latest:
-                games = latest["games"]
+            if item_key == "games":
+                games = latest_items
                 st.caption(
                     f"**{t['name']}** · {n_snaps} snapshots on {sel_date}  ·  "
-                    f"latest at {cap_str}  ·  {len(games)} games  ·  "
+                    f"last updated {cap_str}  ·  {len(games)} games on {sel_date}  ·  "
                     f"book: {payload.get('book', '—')}"
                 )
                 game_rows = []
@@ -407,12 +432,12 @@ for i, t in enumerate(TRACKERS):
                     },
                 )
 
-            # Props — show player props from latest snapshot
-            elif "props" in latest:
-                props = latest["props"]
+            # Props — show player props for sel_date
+            elif item_key == "props":
+                props = latest_items
                 st.caption(
                     f"**{t['name']}** · {n_snaps} snapshots on {sel_date}  ·  "
-                    f"latest at {cap_str}  ·  {len(props)} props"
+                    f"last updated {cap_str}  ·  {len(props)} props on {sel_date}"
                 )
                 prop_rows = []
                 for p in props:
@@ -440,7 +465,7 @@ for i, t in enumerate(TRACKERS):
                     },
                 )
             else:
-                st.caption(f"{t['name']}: {n_snaps} snapshots, no game/prop detail available.")
+                st.caption(f"{t['name']}: {n_snaps} snapshots, no game/prop detail for {sel_date}.")
             continue
 
         # ── Pick-based trackers: show W/L pick table ──
