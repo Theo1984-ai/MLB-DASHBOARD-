@@ -1,0 +1,65 @@
+name: NHL True Probability Snapshot (noon + 4 PM + 6 PM ET)
+
+on:
+  schedule:
+    # NHL lines firm up around noon ET. Snapshots at noon, 4 PM, and 6 PM
+    # capture opening, afternoon movement, and final pre-game state.
+    #
+    # Cron is UTC. During EDT (Mar–Nov): offset = -4h
+    # During EST (Nov–Mar):             offset = -5h
+    - cron: '0 16 * * *'   # noon ET (EDT)
+    - cron: '0 17 * * *'   # noon ET (EST)
+    - cron: '0 20 * * *'   #  4 PM ET (EDT)
+    - cron: '0 21 * * *'   #  4 PM ET (EST) / 5 PM ET (EDT)
+    - cron: '0 22 * * *'   #  6 PM ET (EDT)
+    - cron: '0 23 * * *'   #  6 PM ET (EST)
+  workflow_dispatch:
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Configure git
+        run: |
+          git config user.name "NHL True Prob Bot"
+          git config user.email "bot@noreply.github.com"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas tzdata
+
+      - name: Run NHL True Probability snapshot
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          GITHUB_ACTIONS: 'true'
+        run: |
+          python scripts/nhl_true_prob_snapshot.py
+
+      - name: Commit + push
+        run: |
+          git add nhl_true_prob_history/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "NHL true prob snapshot $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push origin main && break
+              echo "Push attempt $i failed, retrying..."
+              sleep 5
+            done
+          fi
