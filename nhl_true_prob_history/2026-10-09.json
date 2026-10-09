@@ -1,7 +1,7 @@
 {
   "date": "2026-10-09",
-  "snapshot_at": "2026-10-09T16:24:26.501648-04:00",
-  "n_picks": 6,
+  "snapshot_at": "2026-10-09T17:21:46.633996-04:00",
+  "n_picks": 8,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 6,
+    "n_total": 8,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -59,12 +59,18 @@
           -410
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T16:24:26.501608-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
+          "tp": 79.65,
+          "ev": 4.34,
+          "price": -370
+        },
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
           "tp": 79.65,
           "ev": 4.34,
           "price": -370
@@ -87,8 +93,8 @@
       "point": 1.5,
       "best_book": "draftkings",
       "best_price": -360,
-      "true_prob_pct": 79.17,
-      "ev_per_100": 4.17,
+      "true_prob_pct": 79.28,
+      "ev_per_100": 4.68,
       "n_books": 4,
       "all_prices": [
         [
@@ -97,7 +103,7 @@
         ],
         [
           "fanduel",
-          -370
+          -380
         ],
         [
           "pinnacle",
@@ -108,14 +114,20 @@
           -410
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T16:24:26.501608-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
           "tp": 79.17,
           "ev": 4.17,
+          "price": -360
+        },
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 79.28,
+          "ev": 4.68,
           "price": -360
         }
       ]
@@ -184,37 +196,43 @@
       "side": "Home",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": -290,
-      "true_prob_pct": 75.79,
-      "ev_per_100": 5.57,
+      "best_price": -300,
+      "true_prob_pct": 75.9,
+      "ev_per_100": 3.6,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -290
-        ],
-        [
-          "fanduel",
-          -310
+          -300
         ],
         [
           "pinnacle",
-          -315
+          -311
+        ],
+        [
+          "fanduel",
+          -320
         ],
         [
           "bovada",
-          -340
+          -330
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T16:24:26.501608-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
           "tp": 75.79,
           "ev": 5.57,
           "price": -290
+        },
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 75.9,
+          "ev": 3.6,
+          "price": -300
         }
       ]
     },
@@ -233,37 +251,43 @@
       "side": "Home",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": -280,
-      "true_prob_pct": 75.57,
-      "ev_per_100": 7.16,
+      "best_price": -270,
+      "true_prob_pct": 75.13,
+      "ev_per_100": 8.0,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -280
+          -270
         ],
         [
           "pinnacle",
-          -302
+          -295
         ],
         [
           "bovada",
-          -320
+          -310
         ],
         [
           "fanduel",
           -340
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T16:24:26.501608-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
           "tp": 75.57,
           "ev": 7.16,
           "price": -280
+        },
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 75.13,
+          "ev": 8.0,
+          "price": -270
         }
       ]
     },
@@ -282,14 +306,18 @@
       "side": "Under",
       "point": 7.5,
       "best_book": "pinnacle",
-      "best_price": -293,
-      "true_prob_pct": 75.49,
-      "ev_per_100": 3.68,
+      "best_price": -292,
+      "true_prob_pct": 75.47,
+      "ev_per_100": 3.86,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -293
+          -292
+        ],
+        [
+          "draftkings",
+          -310
         ],
         [
           "bovada",
@@ -297,22 +325,118 @@
         ],
         [
           "fanduel",
-          -310
-        ],
-        [
-          "draftkings",
           -320
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-09T16:24:26.501608-04:00",
-      "last_seen_at": "2026-10-09T16:24:26.501608-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
       "scan_history": [
         {
           "t": "2026-10-09T16:24:26.501608-04:00",
           "tp": 75.49,
           "ev": 3.68,
           "price": -293
+        },
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 75.47,
+          "ev": 3.86,
+          "price": -292
+        }
+      ]
+    },
+    {
+      "event_id": "30e778f30fcb48f94af24793f5bd201a",
+      "game": "Kraken @ Wings",
+      "away_team": "Seattle Kraken",
+      "home_team": "Detroit Red Wings",
+      "first_pitch": "2026-10-09T23:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Seattle Kraken +2.5",
+      "player": "Seattle Kraken",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -380,
+      "true_prob_pct": 79.83,
+      "ev_per_100": 3.2,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -380
+        ],
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "bovada",
+          -410
+        ],
+        [
+          "fanduel",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T17:21:46.633947-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 79.83,
+          "ev": 3.2,
+          "price": -380
+        }
+      ]
+    },
+    {
+      "event_id": "30e778f30fcb48f94af24793f5bd201a",
+      "game": "Kraken @ Wings",
+      "away_team": "Seattle Kraken",
+      "home_team": "Detroit Red Wings",
+      "first_pitch": "2026-10-09T23:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "bovada",
+      "best_price": -350,
+      "true_prob_pct": 78.68,
+      "ev_per_100": 4.06,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -350
+        ],
+        [
+          "draftkings",
+          -360
+        ],
+        [
+          "fanduel",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-09T17:21:46.633947-04:00",
+      "last_seen_at": "2026-10-09T17:21:46.633947-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-09T17:21:46.633947-04:00",
+          "tp": 78.68,
+          "ev": 4.06,
+          "price": -350
         }
       ]
     }
