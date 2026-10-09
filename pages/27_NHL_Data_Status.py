@@ -285,8 +285,21 @@ for t in TRACKERS:
                                   "settled": 0, "payload": None,
                                   "data_feed": t.get("data_feed", False)}
         continue
-    picks  = payload.get("picks", [])
-    n      = _pick_count(payload)
+    all_picks = payload.get("picks", [])
+    # For pick-based trackers, only count picks whose game is on sel_date
+    if not t.get("data_feed", False):
+        def _et_date(p):
+            fp = p.get("first_pitch", "")
+            if not fp: return None
+            try:
+                return datetime.fromisoformat(
+                    fp.replace("Z", "+00:00")
+                ).astimezone(EASTERN).strftime("%Y-%m-%d")
+            except Exception: return None
+        picks = [p for p in all_picks if _et_date(p) == sel_date or _et_date(p) is None]
+    else:
+        picks = all_picks
+    n      = _pick_count(payload) if t.get("data_feed", False) else len(picks)
     w      = sum(1 for p in picks if p.get("result") == "WIN")
     l      = sum(1 for p in picks if p.get("result") == "LOSS")
     pu     = sum(1 for p in picks if p.get("result") == "PUSH")
@@ -469,9 +482,28 @@ for i, t in enumerate(TRACKERS):
             continue
 
         # ── Pick-based trackers: show W/L pick table ──
-        picks = payload.get("picks", [])
+        all_picks = payload.get("picks", [])
+        # Filter to picks whose game is on the selected date (ET) so late
+        # snapshots that already fetched tomorrow's lines don't bleed through.
+        def _pick_et_date(p):
+            fp = p.get("first_pitch", "")
+            if not fp:
+                return None
+            try:
+                return datetime.fromisoformat(
+                    fp.replace("Z", "+00:00")
+                ).astimezone(EASTERN).strftime("%Y-%m-%d")
+            except Exception:
+                return None
+
+        picks = [p for p in all_picks if _pick_et_date(p) == sel_date or _pick_et_date(p) is None]
         if not picks:
-            st.caption(f"{t['name']} ran but produced 0 picks for {sel_date}.")
+            n_other = len(all_picks)
+            st.caption(
+                f"{t['name']} ran but 0 picks fall on {sel_date}.  "
+                f"The snapshot captured {n_other} pick(s) for other dates — "
+                f"they'll appear when you select those dates."
+            )
             continue
 
         rows = []
