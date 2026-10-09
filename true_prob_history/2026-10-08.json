@@ -11,15 +11,16 @@
   },
   "summary": {
     "n_total": 2,
-    "n_settled": 0,
-    "n_void": 0,
+    "n_settled": 1,
+    "n_void": 1,
+    "n_no_data": 0,
     "wins": 0,
-    "losses": 0,
+    "losses": 1,
     "pushes": 0,
-    "hit_rate": 0,
-    "risk_total": 0.0,
-    "profit_total": 0.0,
-    "roi_pct": 0
+    "hit_rate": 0.0,
+    "risk_total": 308.0,
+    "profit_total": -308.0,
+    "roi_pct": -100.0
   },
   "picks": [
     {
@@ -91,7 +92,9 @@
           "ev": 7.84,
           "price": -295
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "pitcher did not start (Parker Messick)"
     },
     {
       "event_id": "b57e790481f2b8e5eaf9e0f3eab816bc",
@@ -162,7 +165,10 @@
           "ev": 4.48,
           "price": -308
         }
-      ]
+      ],
+      "result": "LOSS",
+      "settle_detail": "margin=-4 vs -2.5"
     }
-  ]
+  ],
+  "settled_at": "2026-10-09T12:45:53.340370-04:00"
 }
