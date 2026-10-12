@@ -2,12 +2,85 @@
   "date": "2026-10-12",
   "book": "draftkings",
   "market": "team_totals",
-  "n_snapshots": 1,
+  "n_snapshots": 2,
   "snapshots": [
     {
       "captured_at": "2026-10-12T16:10:19.490968-04:00",
       "n_games": 0,
       "games": []
+    },
+    {
+      "captured_at": "2026-10-12T18:48:27.857533-04:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Cleveland Guardians @ Tampa Bay Rays",
+          "away_team": "Cleveland Guardians",
+          "home_team": "Tampa Bay Rays",
+          "first_pitch": "2026-10-13T00:00:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -125,
+            "under_price": -105
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": -115,
+            "under_price": -115
+          },
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -130,
+                "under_price": 102
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -108,
+                "under_price": -118
+              }
+            },
+            "draftkings": {
+              "away": {
+                "line": 2.5,
+                "over_price": -125,
+                "under_price": -105
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -115,
+                "under_price": -115
+              }
+            },
+            "betmgm": {
+              "away": {
+                "line": 2.5,
+                "over_price": -130,
+                "under_price": -102
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -110,
+                "under_price": -118
+              }
+            },
+            "bovada": {
+              "away": {
+                "line": 2.5,
+                "over_price": -130,
+                "under_price": 100
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -115,
+                "under_price": -115
+              }
+            }
+          },
+          "n_books": 4
+        }
+      ]
     }
   ]
 }
