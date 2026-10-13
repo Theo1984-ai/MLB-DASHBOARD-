@@ -376,6 +376,8 @@ for g in snap.get("games", []):
         wil_over  = wil.get("over")
         fan_over  = fan.get("over")
         pin_under = pin.get("under")
+        wil_under = wil.get("under")
+        fan_under = fan.get("under")
 
         all_lines = [l for l in [pin_line, wil_line, fan_line] if l is not None]
         lines_split = len(set(l for l in all_lines if l != 0.5)) > 1
@@ -407,6 +409,8 @@ for g in snap.get("games", []):
             "pin_under":      pin_under,
             "best_line_book": best_line_book,   # (book, line, price) — play when lines differ
             "best_price_book":best_price_book,  # (book, line, price) — play when lines same
+            "wil_under":      wil_under,
+            "fan_under":      fan_under,
             "streak_dir":     s_dir,
             "streak_len":     s_len,
             "signals":        signals,
@@ -471,10 +475,13 @@ else:
 st.markdown("---")
 st.markdown("### 📊 All Games — Current Team Totals")
 st.caption(
-    "Each book shows **line @ over price**. "
-    "When lines differ, the play is the OVER at the book with the **highest line** (easiest to cover). "
-    "When lines match, the play is the OVER at the **best price**. "
-    "Streak = consecutive Pinnacle over moves same direction."
+    "Each book shows its own **line, over price, and under price**. "
+    "**LINE SPLIT — Pinnacle lower** (e.g. PIN=2.5, WH=3.5) = sharp UNDER steam → "
+    "**BET UNDER at the book with the higher line** before they drop it. "
+    "**LINE SPLIT — Pinnacle higher** = sharp OVER steam → "
+    "**BET OVER at the book with the lower line**. "
+    "Same line = bet the best price. "
+    "Streak = consecutive same-direction Pinnacle moves."
 )
 
 def _price_str(p):
@@ -495,24 +502,35 @@ BOOK_LABELS = {
     "fanatics":       "Fanatics",
 }
 
-def _book_row(bk_key, line, over, is_play, play_reason):
-    label = BOOK_LABELS.get(bk_key, bk_key)
-    line_str  = str(line) if line is not None else "—"
-    price_str = _price_str(over)
-    if is_play:
-        row_style = "background:#f0fdf4;"
-        price_html = f'<strong style="color:#15803d;font-size:15px;">{price_str}</strong>'
-        play_tag   = (f'<span style="background:#15803d;color:#fff;font-size:10px;'
-                      f'font-weight:700;padding:1px 6px;border-radius:3px;margin-left:6px;">'
-                      f'BET HERE — {play_reason}</span>')
+def _book_row(bk_key, line, over, under, is_play, play_bet, play_reason):
+    label    = BOOK_LABELS.get(bk_key, bk_key)
+    line_str = str(line) if line is not None else "—"
+    o_str    = _price_str(over)
+    u_str    = _price_str(under)
+
+    if is_play and play_bet == "OVER":
+        row_style  = "background:#f0fdf4;"
+        o_html     = f'<strong style="color:#15803d;font-size:14px;">{o_str} ✓</strong>'
+        u_html     = f'<span style="font-size:13px;color:#9ca3af;">{u_str}</span>'
+        tag        = (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;'
+                      f'padding:1px 6px;border-radius:3px;margin-left:6px;">BET OVER — {play_reason}</span>')
+    elif is_play and play_bet == "UNDER":
+        row_style  = "background:#eff6ff;"
+        o_html     = f'<span style="font-size:13px;color:#9ca3af;">{o_str}</span>'
+        u_html     = f'<strong style="color:#1d4ed8;font-size:14px;">{u_str} ✓</strong>'
+        tag        = (f'<span style="background:#1d4ed8;color:#fff;font-size:10px;font-weight:700;'
+                      f'padding:1px 6px;border-radius:3px;margin-left:6px;">BET UNDER — {play_reason}</span>')
     else:
         row_style  = ""
-        price_html = f'<span style="font-size:14px;">{price_str}</span>'
-        play_tag   = ""
+        o_html     = f'<span style="font-size:13px;">{o_str}</span>'
+        u_html     = f'<span style="font-size:13px;">{u_str}</span>'
+        tag        = ""
+
     return (f'<tr style="{row_style}">'
             f'<td style="padding:5px 10px 5px 6px;color:#6b7280;font-size:13px;white-space:nowrap;">{label}</td>'
             f'<td style="padding:5px 8px;font-size:13px;color:#374151;">{line_str}</td>'
-            f'<td style="padding:5px 0;">{price_html}{play_tag}</td>'
+            f'<td style="padding:5px 6px;">{o_html}</td>'
+            f'<td style="padding:5px 0;">{u_html}{tag}</td>'
             f'</tr>')
 
 for row in game_rows:
@@ -535,23 +553,44 @@ for row in game_rows:
 
                 # Determine the play
                 lines_split    = side["lines_split"]
-                best_line_book = side["best_line_book"]   # (bk, line, price)
-                best_price_book= side["best_price_book"]  # (bk, line, price)
+                best_line_book = side["best_line_book"]   # (bk, line, price) — highest line
+                best_price_book= side["best_price_book"]  # (bk, line, price) — same line, best price
+                pin_line       = side["pin_line"]
+
+                play_bk        = None
+                play_reason    = ""
+                play_bet       = "OVER"   # default
+                split_badge    = ""
 
                 if lines_split and best_line_book:
-                    play_bk     = best_line_book[0]
-                    play_reason = f"highest line {best_line_book[1]}"
+                    # Pinnacle lower than another book → UNDER steam → bet UNDER at highest line
+                    # Pinnacle higher than another book → OVER steam → bet OVER at lowest line
+                    non_pin_lines = [
+                        (bk, ln, ov) for bk, ln, ov in [
+                            ("williamhill_us", side["wil_line"], side["wil_over"]),
+                            ("fanatics",       side["fan_line"], side["fan_over"]),
+                        ] if ln is not None and ln != 0.5
+                    ]
+                    if non_pin_lines and pin_line:
+                        max_non_pin = max(non_pin_lines, key=lambda x: x[1])
+                        min_non_pin = min(non_pin_lines, key=lambda x: x[1])
+                        if pin_line < max_non_pin[1]:
+                            # PIN lower → UNDER steam → play UNDER at highest non-pin line
+                            play_bk     = max_non_pin[0]
+                            play_bet    = "UNDER"
+                            play_reason = f"UNDER {max_non_pin[1]} — PIN dropped to {pin_line}, bet before they follow"
+                        elif pin_line > min_non_pin[1]:
+                            # PIN higher → OVER steam → play OVER at lowest non-pin line
+                            play_bk     = min_non_pin[0]
+                            play_bet    = "OVER"
+                            play_reason = f"OVER {min_non_pin[1]} — PIN raised to {pin_line}, bet before they follow"
                     split_badge = (f'<span style="background:#fef3c7;color:#92400e;font-size:11px;'
                                    f'font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;">'
                                    f'LINE SPLIT</span>')
                 elif best_price_book:
                     play_bk     = best_price_book[0]
-                    play_reason = f"best price {_price_str(best_price_book[2])}"
-                    split_badge = ""
-                else:
-                    play_bk     = None
-                    play_reason = ""
-                    split_badge = ""
+                    play_bet    = "OVER"
+                    play_reason = f"OVER {best_price_book[1]} — best price {_price_str(best_price_book[2])}"
 
                 st.markdown(
                     f'<div style="margin-bottom:6px;font-size:15px;font-weight:600;">'
@@ -559,20 +598,24 @@ for row in game_rows:
                     unsafe_allow_html=True,
                 )
 
-                # Book rows: line @ price, with BET HERE on the play book
+                # Book rows: line, over, under — BET HERE on the play book
                 books_data = [
-                    ("pinnacle",       side["pin_line"], side["pin_over"]),
-                    ("williamhill_us", side["wil_line"], side["wil_over"]),
-                    ("fanatics",       side["fan_line"], side["fan_over"]),
+                    ("pinnacle",       side["pin_line"], side["pin_over"],
+                     side["pin_under"]),
+                    ("williamhill_us", side["wil_line"], side["wil_over"],
+                     side.get("wil_under")),
+                    ("fanatics",       side["fan_line"], side["fan_over"],
+                     side.get("fan_under")),
                 ]
                 header = ('<tr style="border-bottom:1px solid #e5e7eb;">'
                           '<th style="padding:3px 10px 3px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Book</th>'
                           '<th style="padding:3px 8px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Line</th>'
-                          '<th style="padding:3px 0;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Over</th>'
+                          '<th style="padding:3px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Over</th>'
+                          '<th style="padding:3px 0;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Under</th>'
                           '</tr>')
                 rows_html = header + "".join(
-                    _book_row(bk, ln, ov, bk == play_bk, play_reason)
-                    for bk, ln, ov in books_data
+                    _book_row(bk, ln, ov, un, bk == play_bk, play_bet, play_reason)
+                    for bk, ln, ov, un in books_data
                     if ln is not None or ov is not None
                 )
                 st.markdown(
