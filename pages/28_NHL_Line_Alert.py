@@ -442,60 +442,105 @@ else:
 
 st.markdown("---")
 st.markdown("### 📊 All Games — Current Team Totals")
-st.caption("PIN = Pinnacle  |  WIL = William Hill  |  FAN = Fanatics  |  Streak = consecutive same-direction Pinnacle moves")
+st.caption(
+    "**Gap** = best non-Pinnacle price minus Pinnacle price on the over. "
+    "Positive gap = a book is softer than Pinnacle — that's where the value is. "
+    "Streak = consecutive same-direction Pinnacle moves."
+)
 
 def _price_str(p):
-    if p is None:
-        return "—"
-    return f"{p:+d}"
+    return f"{p:+d}" if p is not None else "—"
 
-def _streak_str(direction, length):
+def _streak_badge(direction, length):
     if direction is None or length < 2:
         return ""
     arrow = "▼" if direction == "down" else "▲"
-    return f"{arrow}×{length}"
+    color = "#dc2626" if direction == "down" else "#16a34a"
+    return (f'<span style="background:{color};color:#fff;font-size:11px;'
+            f'font-weight:600;padding:2px 6px;border-radius:4px;margin-left:6px;">'
+            f'{arrow}×{length}</span>')
+
+def _gap_badge(gap):
+    """Gap = best non-PIN over price − PIN over price. Positive = soft book."""
+    if gap is None:
+        return ""
+    if gap >= 20:
+        color, bg = "#15803d", "#dcfce7"
+    elif gap >= 10:
+        color, bg = "#ca8a04", "#fefce8"
+    else:
+        color, bg = "#6b7280", "#f3f4f6"
+    return (f'<span style="background:{bg};color:{color};font-size:11px;'
+            f'font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;">'
+            f'gap {gap:+d}</span>')
+
+def _book_row(label, price, pin_price, is_best):
+    """Render one book's price row with optional best-price highlight."""
+    p_str = _price_str(price)
+    gap   = (price - pin_price) if (price is not None and pin_price is not None) else None
+    gap_str = f'<span style="color:#6b7280;font-size:12px;margin-left:8px;">({gap:+d} vs PIN)</span>' if gap and gap != 0 else ""
+    bold_open  = '<strong style="color:#15803d;">' if is_best else '<span>'
+    bold_close = '</strong>' if is_best else '</span>'
+    check = ' ✓' if is_best else ''
+    return (f'<tr><td style="padding:4px 8px 4px 0;color:#6b7280;font-size:13px;white-space:nowrap;">{label}</td>'
+            f'<td style="padding:4px 0;font-size:14px;">{bold_open}{p_str}{check}{bold_close}{gap_str}</td></tr>')
 
 for row in game_rows:
     with st.expander(f"**{row['game']}** — {row['time']} ET", expanded=True):
         cols = st.columns(len(row["sides"]) or 1)
         for i, side in enumerate(row["sides"]):
             with cols[i]:
-                sig_types  = {s["type"] for s in side["signals"]}
-                has_alarm  = "FULL SEQUENCE" in sig_types
-                has_seq    = "SEQUENCE BUILDING" in sig_types
-                has_cross  = "CROSSED ZERO" in sig_types
-                has_drop   = "LINE DROP" in sig_types
+                sig_types = {s["type"] for s in side["signals"]}
+                has_alarm = "FULL SEQUENCE" in sig_types
+                has_seq   = "SEQUENCE BUILDING" in sig_types
+                has_cross = "CROSSED ZERO" in sig_types
+                has_drop  = "LINE DROP" in sig_types
 
                 label = side["team"]
-                if has_alarm:
-                    label = "🚨 " + label
-                elif has_seq or has_cross:
-                    label = "🔴 " + label
-                elif has_drop:
-                    label = "🟠 " + label
+                if has_alarm:   label = "🚨 " + label
+                elif has_seq or has_cross: label = "🔴 " + label
+                elif has_drop:  label = "🟠 " + label
 
-                st.markdown(f"**{label}**")
+                streak_html = _streak_badge(side["streak_dir"], side["streak_len"])
+
+                # Best non-Pinnacle over price
+                non_pin = {k: v for k, v in [
+                    ("williamhill_us", side["wil_over"]),
+                    ("fanatics",       side["fan_over"]),
+                ] if v is not None}
+                best_book = max(non_pin, key=lambda k: non_pin[k]) if non_pin else None
+                best_price = non_pin[best_book] if best_book else None
+                gap = (best_price - side["pin_over"]) if (best_price is not None and side["pin_over"] is not None) else None
+                gap_html = _gap_badge(gap)
+
                 st.markdown(
-                    f"Line: **{side['line']}** &nbsp;&nbsp;"
-                    f"{'<span style=\"color:#dc2626\">' if has_cross else ''}"
-                    f"{'</span>' if has_cross else ''}"
+                    f'<div style="margin-bottom:4px;font-size:15px;font-weight:600;">'
+                    f'{label}{streak_html}{gap_html}</div>'
+                    f'<div style="font-size:12px;color:#6b7280;margin-bottom:6px;">Line: {side["line"]}</div>',
+                    unsafe_allow_html=True,
                 )
 
-                streak = _streak_str(side["streak_dir"], side["streak_len"])
-                streak_md = f" &nbsp;`{streak}`" if streak else ""
+                # Price table
+                pin_o = side["pin_over"]
+                rows_html = (
+                    _book_row("Pinnacle", pin_o, pin_o, False)
+                    + _book_row("Wm Hill",  side["wil_over"], pin_o, best_book == "williamhill_us")
+                    + _book_row("Fanatics", side["fan_over"], pin_o, best_book == "fanatics")
+                )
                 st.markdown(
-                    f"PIN over: **{_price_str(side['pin_over'])}**{streak_md}  \n"
-                    f"WIL over: **{_price_str(side['wil_over'])}**  \n"
-                    f"FAN over: **{_price_str(side['fan_over'])}**"
+                    f'<table style="width:100%;border-collapse:collapse;">{rows_html}</table>',
+                    unsafe_allow_html=True,
                 )
 
+                # Signal badges
                 if side["signals"]:
+                    st.markdown("")
                     for s in side["signals"]:
                         icon = LEVEL_ICON.get(s["level"], "•")
                         css  = LEVEL_CSS.get(s["level"], "")
                         st.markdown(
                             f'<div style="font-size:12px;padding:4px 8px;border-radius:4px;'
-                            f'margin-top:4px;{css}">'
+                            f'margin-top:3px;{css}">'
                             f'{icon} <strong>{s["type"]}</strong>: {s["detail"]}</div>',
                             unsafe_allow_html=True,
                         )
