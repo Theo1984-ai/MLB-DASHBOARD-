@@ -365,23 +365,51 @@ for g in snap.get("games", []):
         signals = detect_signals(game_name, team, history, snap)
         s_dir, s_len = streak_info(game_name, team, history, snap)
 
-        pin_over  = cur_side.get("pinnacle", {}).get("over")
-        wil_over  = cur_side.get("williamhill_us", {}).get("over")
-        fan_over  = cur_side.get("fanatics", {}).get("over")
-        pin_under = cur_side.get("pinnacle", {}).get("under")
-        lines     = [v.get("line") for v in cur_side.values() if v.get("line") is not None]
-        line_str  = f"{min(lines)}/{max(lines)}" if len(set(lines)) > 1 else str(lines[0]) if lines else "?"
+        pin  = cur_side.get("pinnacle", {})
+        wil  = cur_side.get("williamhill_us", {})
+        fan  = cur_side.get("fanatics", {})
+
+        pin_line  = pin.get("line")
+        wil_line  = wil.get("line")
+        fan_line  = fan.get("line")
+        pin_over  = pin.get("over")
+        wil_over  = wil.get("over")
+        fan_over  = fan.get("over")
+        pin_under = pin.get("under")
+
+        all_lines = [l for l in [pin_line, wil_line, fan_line] if l is not None]
+        lines_split = len(set(l for l in all_lines if l != 0.5)) > 1
+
+        # When lines differ, find the book with the highest (easiest) line — that's the play
+        book_entries = [
+            ("pinnacle",       pin_line, pin_over),
+            ("williamhill_us", wil_line, wil_over),
+            ("fanatics",       fan_line, fan_over),
+        ]
+        valid = [(bk, ln, ov) for bk, ln, ov in book_entries
+                 if ln is not None and ln != 0.5 and ov is not None]
+        best_line_book = max(valid, key=lambda x: x[1]) if valid else None
+
+        # When lines are same, find best (highest) over price
+        same_line_books = [(bk, ln, ov) for bk, ln, ov in valid
+                           if pin_line and ln == pin_line]
+        best_price_book = max(same_line_books, key=lambda x: x[2]) if same_line_books else None
 
         row["sides"].append({
-            "team":     team,
-            "line":     line_str,
-            "pin_over": pin_over,
-            "wil_over": wil_over,
-            "fan_over": fan_over,
-            "pin_under": pin_under,
-            "streak_dir": s_dir,
-            "streak_len": s_len,
-            "signals":  signals,
+            "team":           team,
+            "pin_line":       pin_line,
+            "wil_line":       wil_line,
+            "fan_line":       fan_line,
+            "lines_split":    lines_split,
+            "pin_over":       pin_over,
+            "wil_over":       wil_over,
+            "fan_over":       fan_over,
+            "pin_under":      pin_under,
+            "best_line_book": best_line_book,   # (book, line, price) — play when lines differ
+            "best_price_book":best_price_book,  # (book, line, price) — play when lines same
+            "streak_dir":     s_dir,
+            "streak_len":     s_len,
+            "signals":        signals,
         })
 
         if signals:
@@ -443,9 +471,10 @@ else:
 st.markdown("---")
 st.markdown("### 📊 All Games — Current Team Totals")
 st.caption(
-    "**Gap** = best non-Pinnacle price minus Pinnacle price on the over. "
-    "Positive gap = a book is softer than Pinnacle — that's where the value is. "
-    "Streak = consecutive same-direction Pinnacle moves."
+    "Each book shows **line @ over price**. "
+    "When lines differ, the play is the OVER at the book with the **highest line** (easiest to cover). "
+    "When lines match, the play is the OVER at the **best price**. "
+    "Streak = consecutive Pinnacle over moves same direction."
 )
 
 def _price_str(p):
@@ -460,30 +489,31 @@ def _streak_badge(direction, length):
             f'font-weight:600;padding:2px 6px;border-radius:4px;margin-left:6px;">'
             f'{arrow}×{length}</span>')
 
-def _gap_badge(gap):
-    """Gap = best non-PIN over price − PIN over price. Positive = soft book."""
-    if gap is None:
-        return ""
-    if gap >= 20:
-        color, bg = "#15803d", "#dcfce7"
-    elif gap >= 10:
-        color, bg = "#ca8a04", "#fefce8"
-    else:
-        color, bg = "#6b7280", "#f3f4f6"
-    return (f'<span style="background:{bg};color:{color};font-size:11px;'
-            f'font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;">'
-            f'gap {gap:+d}</span>')
+BOOK_LABELS = {
+    "pinnacle":       "Pinnacle",
+    "williamhill_us": "Wm Hill",
+    "fanatics":       "Fanatics",
+}
 
-def _book_row(label, price, pin_price, is_best):
-    """Render one book's price row with optional best-price highlight."""
-    p_str = _price_str(price)
-    gap   = (price - pin_price) if (price is not None and pin_price is not None) else None
-    gap_str = f'<span style="color:#6b7280;font-size:12px;margin-left:8px;">({gap:+d} vs PIN)</span>' if gap and gap != 0 else ""
-    bold_open  = '<strong style="color:#15803d;">' if is_best else '<span>'
-    bold_close = '</strong>' if is_best else '</span>'
-    check = ' ✓' if is_best else ''
-    return (f'<tr><td style="padding:4px 8px 4px 0;color:#6b7280;font-size:13px;white-space:nowrap;">{label}</td>'
-            f'<td style="padding:4px 0;font-size:14px;">{bold_open}{p_str}{check}{bold_close}{gap_str}</td></tr>')
+def _book_row(bk_key, line, over, is_play, play_reason):
+    label = BOOK_LABELS.get(bk_key, bk_key)
+    line_str  = str(line) if line is not None else "—"
+    price_str = _price_str(over)
+    if is_play:
+        row_style = "background:#f0fdf4;"
+        price_html = f'<strong style="color:#15803d;font-size:15px;">{price_str}</strong>'
+        play_tag   = (f'<span style="background:#15803d;color:#fff;font-size:10px;'
+                      f'font-weight:700;padding:1px 6px;border-radius:3px;margin-left:6px;">'
+                      f'BET HERE — {play_reason}</span>')
+    else:
+        row_style  = ""
+        price_html = f'<span style="font-size:14px;">{price_str}</span>'
+        play_tag   = ""
+    return (f'<tr style="{row_style}">'
+            f'<td style="padding:5px 10px 5px 6px;color:#6b7280;font-size:13px;white-space:nowrap;">{label}</td>'
+            f'<td style="padding:5px 8px;font-size:13px;color:#374151;">{line_str}</td>'
+            f'<td style="padding:5px 0;">{price_html}{play_tag}</td>'
+            f'</tr>')
 
 for row in game_rows:
     with st.expander(f"**{row['game']}** — {row['time']} ET", expanded=True):
@@ -497,44 +527,61 @@ for row in game_rows:
                 has_drop  = "LINE DROP" in sig_types
 
                 label = side["team"]
-                if has_alarm:   label = "🚨 " + label
+                if has_alarm:              label = "🚨 " + label
                 elif has_seq or has_cross: label = "🔴 " + label
-                elif has_drop:  label = "🟠 " + label
+                elif has_drop:             label = "🟠 " + label
 
                 streak_html = _streak_badge(side["streak_dir"], side["streak_len"])
 
-                # Best non-Pinnacle over price
-                non_pin = {k: v for k, v in [
-                    ("williamhill_us", side["wil_over"]),
-                    ("fanatics",       side["fan_over"]),
-                ] if v is not None}
-                best_book = max(non_pin, key=lambda k: non_pin[k]) if non_pin else None
-                best_price = non_pin[best_book] if best_book else None
-                gap = (best_price - side["pin_over"]) if (best_price is not None and side["pin_over"] is not None) else None
-                gap_html = _gap_badge(gap)
+                # Determine the play
+                lines_split    = side["lines_split"]
+                best_line_book = side["best_line_book"]   # (bk, line, price)
+                best_price_book= side["best_price_book"]  # (bk, line, price)
+
+                if lines_split and best_line_book:
+                    play_bk     = best_line_book[0]
+                    play_reason = f"highest line {best_line_book[1]}"
+                    split_badge = (f'<span style="background:#fef3c7;color:#92400e;font-size:11px;'
+                                   f'font-weight:600;padding:2px 7px;border-radius:4px;margin-left:6px;">'
+                                   f'LINE SPLIT</span>')
+                elif best_price_book:
+                    play_bk     = best_price_book[0]
+                    play_reason = f"best price {_price_str(best_price_book[2])}"
+                    split_badge = ""
+                else:
+                    play_bk     = None
+                    play_reason = ""
+                    split_badge = ""
 
                 st.markdown(
-                    f'<div style="margin-bottom:4px;font-size:15px;font-weight:600;">'
-                    f'{label}{streak_html}{gap_html}</div>'
-                    f'<div style="font-size:12px;color:#6b7280;margin-bottom:6px;">Line: {side["line"]}</div>',
+                    f'<div style="margin-bottom:6px;font-size:15px;font-weight:600;">'
+                    f'{label}{streak_html}{split_badge}</div>',
                     unsafe_allow_html=True,
                 )
 
-                # Price table
-                pin_o = side["pin_over"]
-                rows_html = (
-                    _book_row("Pinnacle", pin_o, pin_o, False)
-                    + _book_row("Wm Hill",  side["wil_over"], pin_o, best_book == "williamhill_us")
-                    + _book_row("Fanatics", side["fan_over"], pin_o, best_book == "fanatics")
+                # Book rows: line @ price, with BET HERE on the play book
+                books_data = [
+                    ("pinnacle",       side["pin_line"], side["pin_over"]),
+                    ("williamhill_us", side["wil_line"], side["wil_over"]),
+                    ("fanatics",       side["fan_line"], side["fan_over"]),
+                ]
+                header = ('<tr style="border-bottom:1px solid #e5e7eb;">'
+                          '<th style="padding:3px 10px 3px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Book</th>'
+                          '<th style="padding:3px 8px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Line</th>'
+                          '<th style="padding:3px 0;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Over</th>'
+                          '</tr>')
+                rows_html = header + "".join(
+                    _book_row(bk, ln, ov, bk == play_bk, play_reason)
+                    for bk, ln, ov in books_data
+                    if ln is not None or ov is not None
                 )
                 st.markdown(
-                    f'<table style="width:100%;border-collapse:collapse;">{rows_html}</table>',
+                    f'<table style="width:100%;border-collapse:collapse;margin-bottom:6px;">{rows_html}</table>',
                     unsafe_allow_html=True,
                 )
 
                 # Signal badges
                 if side["signals"]:
-                    st.markdown("")
                     for s in side["signals"]:
                         icon = LEVEL_ICON.get(s["level"], "•")
                         css  = LEVEL_CSS.get(s["level"], "")
