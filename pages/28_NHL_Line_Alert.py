@@ -344,6 +344,7 @@ history = load_history(n=15)
 # ── Scan all games for signals ────────────────────────────────────────────────
 
 all_alerts = []   # (game, team, signals, game_time)
+all_plays  = []   # actionable plays
 game_rows  = []   # for full grid
 
 for g in snap.get("games", []):
@@ -419,7 +420,117 @@ for g in snap.get("games", []):
         if signals:
             all_alerts.append((game_name, team, game_time, signals))
 
+        # ── Collect actionable plays ──────────────────────────────────────────
+        sig_types = {s["type"] for s in signals}
+
+        # Determine play for this side (mirrors display logic below)
+        ap_bk = ap_bet = ap_line = ap_price = ap_why = ap_priority = None
+
+        if lines_split and pin_line:
+            non_pin_lines = [
+                (bk, ln, ov, un) for bk, ln, ov, un in [
+                    ("williamhill_us", wil_line, wil_over, wil_under),
+                    ("fanatics",       fan_line, fan_over, fan_under),
+                ] if ln is not None and ln != 0.5
+            ]
+            if non_pin_lines:
+                max_entry = max(non_pin_lines, key=lambda x: x[1])
+                min_entry = min(non_pin_lines, key=lambda x: x[1])
+                if pin_line < max_entry[1]:
+                    ap_bk, ap_line = max_entry[0], max_entry[1]
+                    ap_bet   = "UNDER"
+                    ap_price = max_entry[3]  # under price
+                    ap_why   = f"LINE SPLIT — Pinnacle dropped to {pin_line}"
+                    ap_priority = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+                elif pin_line > min_entry[1]:
+                    ap_bk, ap_line = min_entry[0], min_entry[1]
+                    ap_bet   = "OVER"
+                    ap_price = min_entry[2]  # over price
+                    ap_why   = f"LINE SPLIT — Pinnacle raised to {pin_line}"
+                    ap_priority = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+        elif best_price_book and best_price_book[0] != "pinnacle":
+            ap_bk    = best_price_book[0]
+            ap_line  = best_price_book[1]
+            ap_bet   = "OVER"
+            ap_price = best_price_book[2]
+            # Only surface as an actionable play if there's a meaningful signal
+            if sig_types - {"LINE SPLIT"}:
+                ap_why = " + ".join(s["type"] for s in signals if s["type"] not in ("LINE SPLIT",))
+                ap_priority = 1 if "FULL SEQUENCE" in sig_types else 3
+
+        if ap_bk and ap_price and ap_why:
+            all_plays.append({
+                "game":     game_name,
+                "time":     game_time,
+                "team":     team,
+                "bet":      ap_bet,
+                "line":     ap_line,
+                "book":     ap_bk,
+                "price":    ap_price,
+                "why":      ap_why,
+                "priority": ap_priority,
+                "streak":   (s_dir, s_len),
+            })
+
     game_rows.append(row)
+
+# ── ACTIONABLE PLAYS ─────────────────────────────────────────────────────────
+
+BOOK_DISPLAY = {
+    "pinnacle":       "Pinnacle",
+    "williamhill_us": "William Hill",
+    "fanatics":       "Fanatics",
+}
+
+st.markdown("### 🎯 Actionable Plays")
+
+all_plays.sort(key=lambda x: (x["priority"], x["game"]))
+
+if not all_plays:
+    st.info("No actionable plays right now. Plays appear when a line split or steam signal is detected.")
+else:
+    cols = st.columns(min(len(all_plays), 3))
+    for idx, play in enumerate(all_plays):
+        col = cols[idx % 3]
+        with col:
+            bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
+            bet_bg     = "#f0fdf4" if play["bet"] == "OVER" else "#eff6ff"
+            bet_border = "#86efac" if play["bet"] == "OVER" else "#93c5fd"
+            priority_tag = ""
+            if play["priority"] == 1:
+                priority_tag = '<span style="background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;">🚨 SEQUENCE</span> '
+
+            streak_dir, streak_len = play["streak"]
+            streak_html = ""
+            if streak_dir and streak_len >= 3:
+                arrow = "▼" if streak_dir == "down" else "▲"
+                s_color = "#dc2626" if streak_dir == "down" else "#16a34a"
+                streak_html = (f'<span style="background:{s_color};color:#fff;font-size:10px;'
+                               f'font-weight:600;padding:2px 5px;border-radius:3px;margin-left:4px;">'
+                               f'{arrow}×{streak_len}</span>')
+
+            price_str = _price_str(play["price"])
+            book_name = BOOK_DISPLAY.get(play["book"], play["book"])
+
+            st.markdown(
+                f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
+                f'border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
+                f'<div style="font-size:12px;color:#6b7280;margin-bottom:4px;">'
+                f'{priority_tag}{play["game"]}</div>'
+                f'<div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">'
+                f'{play["team"]}{streak_html}</div>'
+                f'<div style="font-size:22px;font-weight:700;color:{bet_color};margin-bottom:2px;">'
+                f'{play["bet"]} {play["line"]}</div>'
+                f'<div style="font-size:14px;color:#374151;margin-bottom:6px;">'
+                f'@ <strong>{book_name}</strong> &nbsp; {price_str}</div>'
+                f'<div style="font-size:11px;color:#6b7280;border-top:1px solid {bet_border};'
+                f'padding-top:6px;margin-top:2px;">{play["why"]}</div>'
+                f'<div style="font-size:11px;color:#9ca3af;margin-top:2px;">{play["time"]} ET</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+st.markdown("---")
 
 # ── ALERTS section ────────────────────────────────────────────────────────────
 
