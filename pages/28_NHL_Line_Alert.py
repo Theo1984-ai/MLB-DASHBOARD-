@@ -367,7 +367,7 @@ def streak_info(game_name, team, history, current):
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 
-col_r, col_t, col_q = st.columns([1, 2, 2])
+col_r, col_s, col_t, col_q = st.columns([1, 1, 2, 2])
 
 # Auto-refresh from session state
 if "last_fetch_time" not in st.session_state:
@@ -381,6 +381,10 @@ if "scores_lookup" not in st.session_state:
 
 with col_r:
     force_refresh = st.button("🔄 Refresh Now", type="primary", use_container_width=True)
+
+with col_s:
+    snap_now = st.button("📸 Snapshot Now", use_container_width=True,
+                         help="Manually save today's plays to the history record.")
 
 now = datetime.now(tz=EASTERN)
 needs_refresh = (
@@ -560,9 +564,12 @@ for g in sorted_games:
 
     game_rows.append(row)
 
-# Save play record to history on each refresh (GitHub Actions will commit)
-if needs_refresh and fetch_time and all_plays:
+# Save play record to history on refresh or manual snapshot
+if (needs_refresh or snap_now) and fetch_time and all_plays:
     save_play_record(all_plays, fetch_time)
+    if snap_now:
+        st.toast(f"📸 Snapshot saved — {len(all_plays)} play(s) recorded at {fetch_time.strftime('%I:%M %p ET')}",
+                 icon="✅")
 
 # ── ACTIONABLE PLAYS ─────────────────────────────────────────────────────────
 
@@ -740,19 +747,9 @@ def _book_row(bk_key, line, over, under, is_play, play_bet, play_reason):
 scores_lookup = st.session_state.scores_lookup
 
 for row in game_rows:
-    # Build score badge for the expander header
     sc = scores_lookup.get(row["game"], {})
-    ts = sc.get("team_scores", {})
-    away_sc = ts.get(row["away"])
-    home_sc = ts.get(row["home"])
-    if sc.get("completed") and away_sc is not None and home_sc is not None:
-        score_badge = f"  ✅ Final: {away_sc}–{home_sc}"
-    elif ts and away_sc is not None and home_sc is not None:
-        score_badge = f"  🟢 Live: {away_sc}–{home_sc}"
-    else:
-        score_badge = ""
 
-    with st.expander(f"**{row['game']}** — {row['time']} ET{score_badge}", expanded=True):
+    with st.expander(f"**{row['game']}** — {row['time']} ET", expanded=True):
         cols = st.columns(len(row["sides"]) or 1)
         for i, side in enumerate(row["sides"]):
             with cols[i]:
@@ -768,6 +765,20 @@ for row in game_rows:
                 elif has_drop:             label = "🟠 " + label
 
                 streak_html = _streak_badge(side["streak_dir"], side["streak_len"])
+
+                # Per-team score badge
+                ts = sc.get("team_scores", {})
+                team_sc = ts.get(side["team"])
+                if team_sc is not None and sc.get("completed"):
+                    score_html = (f'<span style="background:#1f2937;color:#f9fafb;font-size:12px;'
+                                  f'font-weight:700;padding:2px 8px;border-radius:4px;margin-left:8px;">'
+                                  f'✅ {team_sc} goals</span>')
+                elif team_sc is not None:
+                    score_html = (f'<span style="background:#065f46;color:#d1fae5;font-size:12px;'
+                                  f'font-weight:700;padding:2px 8px;border-radius:4px;margin-left:8px;">'
+                                  f'🟢 {team_sc}</span>')
+                else:
+                    score_html = ""
 
                 # Determine the play
                 lines_split    = side["lines_split"]
@@ -812,7 +823,7 @@ for row in game_rows:
 
                 st.markdown(
                     f'<div style="margin-bottom:6px;font-size:15px;font-weight:600;">'
-                    f'{label}{streak_html}{split_badge}</div>',
+                    f'{label}{streak_html}{split_badge}{score_html}</div>',
                     unsafe_allow_html=True,
                 )
 
