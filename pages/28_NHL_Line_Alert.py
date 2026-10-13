@@ -550,16 +550,17 @@ for g in sorted_games:
 
         if ap_bk and ap_price and ap_why:
             all_plays.append({
-                "game":     game_name,
-                "time":     game_time,
-                "team":     team,
-                "bet":      ap_bet,
-                "line":     ap_line,
-                "book":     ap_bk,
-                "price":    ap_price,
-                "why":      ap_why,
-                "priority": ap_priority,
-                "streak":   (s_dir, s_len),
+                "game":          game_name,
+                "time":          game_time,
+                "commence_time": ct,
+                "team":          team,
+                "bet":           ap_bet,
+                "line":          ap_line,
+                "book":          ap_bk,
+                "price":         ap_price,
+                "why":           ap_why,
+                "priority":      ap_priority,
+                "streak":        (s_dir, s_len),
             })
 
     game_rows.append(row)
@@ -584,7 +585,7 @@ def _price_str(p):
 
 st.markdown("### 🎯 Actionable Plays")
 
-all_plays.sort(key=lambda x: (x["priority"], x["game"]))
+all_plays.sort(key=lambda x: (x["commence_time"], x["priority"], x["team"]))
 
 if not all_plays:
     st.info("No actionable plays right now. Plays appear when a line split or steam signal is detected.")
