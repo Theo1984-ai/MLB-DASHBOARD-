@@ -869,56 +869,136 @@ for row in game_rows:
 st.markdown("---")
 st.markdown("### 📋 Past Plays & Results")
 st.caption("Plays recorded by the daily snapshot cron (noon, 4 PM, 6 PM ET). "
-           "Result shown once game is complete.")
+           "Result shown once game is complete. Scores only available for last 3 days via API.")
 
-play_history = load_play_history(days=7)
+import pandas as pd
 
-if not play_history:
-    st.info("No historical records yet — records appear after the daily cron runs.")
+# Find all dates that have history files
+_avail_dates = []
+for _i in range(30):
+    _d = (datetime.now(tz=EASTERN) - timedelta(days=_i)).date()
+    if os.path.exists(os.path.join(HISTORY_DIR, f"{_d}.strftime('%Y-%m-%d')}"
+                                   .replace(".strftime('%Y-%m-%d')", "")
+                                   + _d.strftime("%Y-%m-%d") + ".json"
+                                   ).replace(HISTORY_DIR + os.sep + _d.strftime("%Y-%m-%d") + ".json",
+                                             os.path.join(HISTORY_DIR, _d.strftime("%Y-%m-%d") + ".json"))):
+        _avail_dates.append(_d)
+
+# Simpler: just scan the directory
+_avail_dates = []
+if os.path.isdir(HISTORY_DIR):
+    for _fname in sorted(os.listdir(HISTORY_DIR), reverse=True):
+        if _fname.endswith(".json"):
+            try:
+                _avail_dates.append(datetime.strptime(_fname[:10], "%Y-%m-%d").date())
+            except Exception:
+                pass
+
+_today = datetime.now(tz=EASTERN).date()
+
+hcol1, hcol2 = st.columns([1, 3])
+with hcol1:
+    if _avail_dates:
+        selected_date = st.date_input(
+            "📅 Select date",
+            value=_avail_dates[0],
+            min_value=_avail_dates[-1] if _avail_dates else _today - timedelta(days=30),
+            max_value=_today,
+        )
+    else:
+        selected_date = st.date_input("📅 Select date", value=_today)
+
+with hcol2:
+    if _avail_dates:
+        st.caption(f"History available for: {', '.join(d.strftime('%b %d') for d in _avail_dates[:10])}"
+                   + (" …" if len(_avail_dates) > 10 else ""))
+    else:
+        st.caption("No history files yet — records appear after the first snapshot runs.")
+
+# Load the selected date's history file
+_sel_str  = selected_date.strftime("%Y-%m-%d")
+_sel_path = os.path.join(HISTORY_DIR, f"{_sel_str}.json")
+
+if not os.path.exists(_sel_path):
+    st.info(f"No records for {selected_date.strftime('%B %d, %Y')}. "
+            "Hit **📸 Snapshot Now** to save today's plays, or wait for the cron.")
 else:
-    rows_out = []
-    for rec in play_history:
-        game = rec.get("game", "")
-        team = rec.get("team", "")
-        sc   = scores_lookup.get(game, {})
-        ts   = sc.get("team_scores", {})
-        team_score = ts.get(team)
-        completed  = sc.get("completed", False)
+    try:
+        _day_data = json.load(open(_sel_path, encoding="utf-8"))
+    except Exception:
+        _day_data = {}
 
-        if completed and team_score is not None:
-            line = float(rec.get("line", 0))
-            bet  = rec.get("bet", "OVER")
-            if bet == "OVER":
-                result = "✅ WIN" if team_score > line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+    # Build flat play list from all snapshots in that day, deduped by (game, team, bet, line)
+    _seen = set()
+    _plays_for_day = []
+    for _snap_time in sorted(_day_data.keys()):
+        for _p in _day_data[_snap_time].get("plays", []):
+            _key = (_p.get("game"), _p.get("team"), _p.get("bet"), _p.get("line"))
+            if _key not in _seen:
+                _seen.add(_key)
+                _plays_for_day.append({**_p, "snap_time": _snap_time})
+
+    if not _plays_for_day:
+        st.info(f"No plays recorded for {selected_date.strftime('%B %d, %Y')}.")
+    else:
+        st.caption(f"**{len(_plays_for_day)} unique plays** detected on {selected_date.strftime('%B %d, %Y')} "
+                   f"across {len(_day_data)} snapshot(s) at: {', '.join(sorted(_day_data.keys()))}")
+
+        rows_out = []
+        for rec in _plays_for_day:
+            game = rec.get("game", "")
+            team = rec.get("team", "")
+            sc   = scores_lookup.get(game, {})
+            ts   = sc.get("team_scores", {})
+            team_score = ts.get(team)
+            completed  = sc.get("completed", False)
+
+            if completed and team_score is not None:
+                line = float(rec.get("line", 0))
+                bet  = rec.get("bet", "OVER")
+                if bet == "OVER":
+                    result = "✅ WIN" if team_score > line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+                else:
+                    result = "✅ WIN" if team_score < line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+                score_str = str(team_score)
+            elif ts and team_score is not None:
+                result = "🟢 Live"
+                score_str = str(team_score)
             else:
-                result = "✅ WIN" if team_score < line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
-            score_str = str(team_score)
-        elif ts and team_score is not None:
-            result = "🟢 Live"
-            score_str = str(team_score)
-        else:
-            result = "⏳ Pending"
-            score_str = "—"
+                result = "⏳ Pending"
+                score_str = "—"
 
-        rows_out.append({
-            "Date":   rec.get("date", ""),
-            "Time":   rec.get("snap_time", ""),
-            "Game":   game,
-            "Team":   team,
-            "Bet":    f"{rec.get('bet','')} {rec.get('line','')}",
-            "Book":   BOOK_DISPLAY.get(rec.get("book", ""), rec.get("book", "")),
-            "Price":  _price_str(rec.get("price")),
-            "Score":  score_str,
-            "Result": result,
-            "Why":    rec.get("why", ""),
-        })
+            rows_out.append({
+                "Snap":   rec.get("snap_time", ""),
+                "Game":   game,
+                "Team":   team,
+                "Bet":    f"{rec.get('bet','')} {rec.get('line','')}",
+                "Book":   BOOK_DISPLAY.get(rec.get("book", ""), rec.get("book", "")),
+                "Price":  _price_str(rec.get("price")),
+                "Score":  score_str,
+                "Result": result,
+                "Why":    rec.get("why", ""),
+            })
 
-    if rows_out:
-        # Sort: most recent first, then by game name
-        rows_out.sort(key=lambda r: (r["Date"], r["Time"]), reverse=True)
-        import pandas as pd
         df = pd.DataFrame(rows_out)
         st.dataframe(df, use_container_width=True, hide_index=True)
+
+        # Summary win/loss for that day
+        wins   = sum(1 for r in rows_out if r["Result"] == "✅ WIN")
+        losses = sum(1 for r in rows_out if r["Result"] == "❌ LOSS")
+        pushes = sum(1 for r in rows_out if r["Result"] == "🟡 PUSH")
+        settled = wins + losses + pushes
+        if settled:
+            st.markdown(
+                f'<div style="margin-top:8px;font-size:13px;color:#374151;">'
+                f'<strong>Day record:</strong> &nbsp;'
+                f'<span style="color:#15803d;font-weight:700;">{wins}W</span> – '
+                f'<span style="color:#dc2626;font-weight:700;">{losses}L</span>'
+                + (f' – <span style="color:#d97706;font-weight:700;">{pushes}P</span>' if pushes else "")
+                + f'&nbsp; ({settled} settled)'
+                + f'</div>',
+                unsafe_allow_html=True,
+            )
 
 # ── Auto-rerun every 5 min ────────────────────────────────────────────────────
 
