@@ -873,18 +873,7 @@ st.caption("Plays recorded by the daily snapshot cron (noon, 4 PM, 6 PM ET). "
 
 import pandas as pd
 
-# Find all dates that have history files
-_avail_dates = []
-for _i in range(30):
-    _d = (datetime.now(tz=EASTERN) - timedelta(days=_i)).date()
-    if os.path.exists(os.path.join(HISTORY_DIR, f"{_d}.strftime('%Y-%m-%d')}"
-                                   .replace(".strftime('%Y-%m-%d')", "")
-                                   + _d.strftime("%Y-%m-%d") + ".json"
-                                   ).replace(HISTORY_DIR + os.sep + _d.strftime("%Y-%m-%d") + ".json",
-                                             os.path.join(HISTORY_DIR, _d.strftime("%Y-%m-%d") + ".json"))):
-        _avail_dates.append(_d)
-
-# Simpler: just scan the directory
+# Scan history directory for available dates
 _avail_dates = []
 if os.path.isdir(HISTORY_DIR):
     for _fname in sorted(os.listdir(HISTORY_DIR), reverse=True):
