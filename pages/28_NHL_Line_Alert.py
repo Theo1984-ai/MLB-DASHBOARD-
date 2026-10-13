@@ -482,6 +482,9 @@ BOOK_DISPLAY = {
     "fanatics":       "Fanatics",
 }
 
+def _price_str(p):
+    return f"{p:+d}" if p is not None else "—"
+
 st.markdown("### 🎯 Actionable Plays")
 
 all_plays.sort(key=lambda x: (x["priority"], x["game"]))
