@@ -26,10 +26,12 @@ if ROOT not in sys.path:
 
 EASTERN     = ZoneInfo("America/New_York")
 CACHE_DIR   = os.path.join(ROOT, "nhl_line_alert_cache")
+HISTORY_DIR = os.path.join(ROOT, "nhl_line_alert_history")
 TRACKED_BOOKS = {"pinnacle", "williamhill_us", "fanatics"}
 MIN_REFRESH_SEC = 300  # 5 minutes
 
 os.makedirs(CACHE_DIR, exist_ok=True)
+os.makedirs(HISTORY_DIR, exist_ok=True)
 
 st.set_page_config(page_title="NHL Line Alert", page_icon="🚨", layout="wide")
 st.title("🚨 NHL Line Movement Alert")
@@ -148,6 +150,76 @@ def load_history(n=10):
         return snaps[-n:]
     except Exception:
         return []
+
+
+def fetch_scores():
+    """Fetch current + recent game scores from the Odds API (1 credit)."""
+    data, _ = _get(
+        f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/scores/"
+        f"?apiKey={ODDS_KEY}&daysFrom=3"
+    )
+    lookup = {}
+    for ev in data:
+        away = ev.get("away_team", "")
+        home = ev.get("home_team", "")
+        key  = f"{away} @ {home}"
+        completed  = ev.get("completed", False)
+        raw_scores = ev.get("scores") or []
+        team_scores = {}
+        for s in raw_scores:
+            try:
+                team_scores[s["name"]] = int(s["score"])
+            except Exception:
+                pass
+        lookup[key] = {
+            "completed":   completed,
+            "team_scores": team_scores,
+            "last_update": ev.get("last_update"),
+        }
+    return lookup
+
+
+def save_play_record(plays, snap_time):
+    """Append detected plays to today's history file (for GitHub Actions to commit)."""
+    if not plays:
+        return
+    today = snap_time.strftime("%Y-%m-%d")
+    path  = os.path.join(HISTORY_DIR, f"{today}.json")
+    existing = {}
+    if os.path.exists(path):
+        try:
+            existing = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            existing = {}
+    snap_key = snap_time.strftime("%H:%M")
+    existing[snap_key] = {
+        "captured_at": snap_time.isoformat(),
+        "plays":       plays,
+    }
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(existing, f, indent=2)
+    except Exception:
+        pass
+
+
+def load_play_history(days=7):
+    """Load play records from the last N days (committed history files)."""
+    records = []
+    today_et = datetime.now(tz=EASTERN)
+    for i in range(days):
+        d = (today_et - timedelta(days=i)).strftime("%Y-%m-%d")
+        path = os.path.join(HISTORY_DIR, f"{d}.json")
+        if not os.path.exists(path):
+            continue
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+            for snap_time, snap_data in data.items():
+                for play in snap_data.get("plays", []):
+                    records.append({**play, "date": d, "snap_time": snap_time})
+        except Exception:
+            pass
+    return records
 
 
 # ── Sequence detection ────────────────────────────────────────────────────────
@@ -304,6 +376,8 @@ if "last_snap" not in st.session_state:
     st.session_state.last_snap = None
 if "last_quota" not in st.session_state:
     st.session_state.last_quota = "?"
+if "scores_lookup" not in st.session_state:
+    st.session_state.scores_lookup = {}
 
 with col_r:
     force_refresh = st.button("🔄 Refresh Now", type="primary", use_container_width=True)
@@ -319,15 +393,19 @@ needs_refresh = (
 )
 
 if needs_refresh:
-    with st.spinner("Fetching team totals from 16 games…"):
+    with st.spinner("Fetching team totals and scores…"):
         try:
             snap, quota = fetch_snapshot()
-            st.session_state.last_snap     = snap
-            st.session_state.last_quota    = quota
+            st.session_state.last_snap       = snap
+            st.session_state.last_quota      = quota
             st.session_state.last_fetch_time = now
         except Exception as e:
             st.error(f"Fetch failed: {e}")
             st.stop()
+        try:
+            st.session_state.scores_lookup = fetch_scores()
+        except Exception:
+            pass
 
 snap  = st.session_state.last_snap
 quota = st.session_state.last_quota
@@ -347,16 +425,24 @@ all_alerts = []   # (game, team, signals, game_time)
 all_plays  = []   # actionable plays
 game_rows  = []   # for full grid
 
-for g in snap.get("games", []):
+sorted_games = sorted(
+    snap.get("games", []),
+    key=lambda g: g.get("commence_time", "")
+)
+
+for g in sorted_games:
     game_name = g["game"]
     ct = g["commence_time"]
     try:
         gt = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
         game_time = gt.strftime("%I:%M %p")
+        game_dt   = gt
     except Exception:
         game_time = "?"
+        game_dt   = None
 
-    row = {"game": game_name, "time": game_time, "sides": []}
+    row = {"game": game_name, "away": g["away"], "home": g["home"],
+           "time": game_time, "game_dt": game_dt, "sides": []}
 
     for team in [g["away"], g["home"]]:
         cur_side = g["sides"].get(team, {})
@@ -473,6 +559,10 @@ for g in snap.get("games", []):
             })
 
     game_rows.append(row)
+
+# Save play record to history on each refresh (GitHub Actions will commit)
+if needs_refresh and fetch_time and all_plays:
+    save_play_record(all_plays, fetch_time)
 
 # ── ACTIONABLE PLAYS ─────────────────────────────────────────────────────────
 
@@ -647,8 +737,22 @@ def _book_row(bk_key, line, over, under, is_play, play_bet, play_reason):
             f'<td style="padding:5px 0;">{u_html}{tag}</td>'
             f'</tr>')
 
+scores_lookup = st.session_state.scores_lookup
+
 for row in game_rows:
-    with st.expander(f"**{row['game']}** — {row['time']} ET", expanded=True):
+    # Build score badge for the expander header
+    sc = scores_lookup.get(row["game"], {})
+    ts = sc.get("team_scores", {})
+    away_sc = ts.get(row["away"])
+    home_sc = ts.get(row["home"])
+    if sc.get("completed") and away_sc is not None and home_sc is not None:
+        score_badge = f"  ✅ Final: {away_sc}–{home_sc}"
+    elif ts and away_sc is not None and home_sc is not None:
+        score_badge = f"  🟢 Live: {away_sc}–{home_sc}"
+    else:
+        score_badge = ""
+
+    with st.expander(f"**{row['game']}** — {row['time']} ET{score_badge}", expanded=True):
         cols = st.columns(len(row["sides"]) or 1)
         for i, side in enumerate(row["sides"]):
             with cols[i]:
@@ -748,6 +852,62 @@ for row in game_rows:
                             f'{icon} <strong>{s["type"]}</strong>: {s["detail"]}</div>',
                             unsafe_allow_html=True,
                         )
+
+# ── Past Plays & Results ──────────────────────────────────────────────────────
+
+st.markdown("---")
+st.markdown("### 📋 Past Plays & Results")
+st.caption("Plays recorded by the daily snapshot cron (noon, 4 PM, 6 PM ET). "
+           "Result shown once game is complete.")
+
+play_history = load_play_history(days=7)
+
+if not play_history:
+    st.info("No historical records yet — records appear after the daily cron runs.")
+else:
+    rows_out = []
+    for rec in play_history:
+        game = rec.get("game", "")
+        team = rec.get("team", "")
+        sc   = scores_lookup.get(game, {})
+        ts   = sc.get("team_scores", {})
+        team_score = ts.get(team)
+        completed  = sc.get("completed", False)
+
+        if completed and team_score is not None:
+            line = float(rec.get("line", 0))
+            bet  = rec.get("bet", "OVER")
+            if bet == "OVER":
+                result = "✅ WIN" if team_score > line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+            else:
+                result = "✅ WIN" if team_score < line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+            score_str = str(team_score)
+        elif ts and team_score is not None:
+            result = "🟢 Live"
+            score_str = str(team_score)
+        else:
+            result = "⏳ Pending"
+            score_str = "—"
+
+        rows_out.append({
+            "Date":   rec.get("date", ""),
+            "Time":   rec.get("snap_time", ""),
+            "Game":   game,
+            "Team":   team,
+            "Bet":    f"{rec.get('bet','')} {rec.get('line','')}",
+            "Book":   BOOK_DISPLAY.get(rec.get("book", ""), rec.get("book", "")),
+            "Price":  _price_str(rec.get("price")),
+            "Score":  score_str,
+            "Result": result,
+            "Why":    rec.get("why", ""),
+        })
+
+    if rows_out:
+        # Sort: most recent first, then by game name
+        rows_out.sort(key=lambda r: (r["Date"], r["Time"]), reverse=True)
+        import pandas as pd
+        df = pd.DataFrame(rows_out)
+        st.dataframe(df, use_container_width=True, hide_index=True)
 
 # ── Auto-rerun every 5 min ────────────────────────────────────────────────────
 
