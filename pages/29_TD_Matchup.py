@@ -306,10 +306,10 @@ with tab_all:
     _df_show["True Prob"] = _df_show["True Prob"].map(lambda x: f"{x:.1f}%")
     _df_show["Team Total"] = _df_show["Team Total"].map(lambda x: f"{x:.1f}" if x else "—")
     _df_show["RZ Opp/G"] = _df_show["RZ Opp/G"].map(
-        lambda x: f"{x:.1f}" if x is not None else "—"
+        lambda x: f"{x:.1f}" if x is not None and x == x else "—"
     )
     _df_show["Snaps/G"] = _df_show["Snaps/G"].map(
-        lambda x: str(int(x)) if x is not None else "—"
+        lambda x: str(int(x)) if x is not None and x == x else "—"
     )
 
     def _row_style(row):
