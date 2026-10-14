@@ -325,15 +325,16 @@ def _render_cfb_true_prob():
 
     event_meta = {}
     for e, hrs in upcoming:
-        away = e["away_team"].split()[-1]; home = e["home_team"].split()[-1]
+        away = e["away_team"]
+        home = e["home_team"]
         ct   = datetime.fromisoformat(e["commence_time"].replace("Z","+00:00")).astimezone(EASTERN)
-        fmt  = "%#I:%M %p ET" if sys.platform == "win32" else "%-I:%M %p ET"
+        fmt  = "%a %m/%d %#I:%M %p ET" if sys.platform == "win32" else "%a %m/%d %-I:%M %p ET"
         event_meta[e["id"]] = {
             "label":          f"{away} @ {home}",
             "first_pitch":    ct.strftime(fmt),
             "hours_to_start": hrs,
-            "away_team":      e["away_team"],
-            "home_team":      e["home_team"],
+            "away_team":      away,
+            "home_team":      home,
         }
 
     st.markdown(f"### Scanning **{len(upcoming)}** upcoming CFB games")
