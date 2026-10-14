@@ -77,7 +77,7 @@ _CFB_MARKET_LABELS = {
     "h2h":"Moneyline","spreads":"Spread","totals":"Total",
     "alternate_spreads":"Spread alt","alternate_totals":"Total alt",
 }
-_CFB_MIN_BOOKS = 4
+_CFB_MIN_BOOKS = 2
 _CFB_MIN_TRUE_PROB = 0.75
 
 
