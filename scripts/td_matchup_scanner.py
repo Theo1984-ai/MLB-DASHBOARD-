@@ -4,8 +4,12 @@ TD Matchup Scanner — NFL & CFB
 Returns player-level TD matchup scores combining:
   - Odds API: anytime TD scorer true probability + team implied totals
   - Sleeper API: red zone opportunities, snap count, recent form (NFL only)
+  - ESPN: defensive ranking by position vs opponent (NFL only)
 
-Score formula (with Sleeper data):
+Score formula (full — with RZ + def rank):
+  35% true_prob + 20% team_implied_total + 20% rz_opp_per_game + 15% rz_share + 10% def_rank
+
+Score formula (no def rank):
   40% true_prob + 25% team_implied_total + 20% rz_opp_per_game + 15% rz_share
 
 Score formula (odds-only fallback):
@@ -21,6 +25,8 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 EASTERN = ZoneInfo("America/New_York")
 
 BOOKS = {"draftkings", "fanduel", "bovada", "betrivers", "pinnacle"}
@@ -273,15 +279,27 @@ def fetch_weather(team_abbrev):
 
 # ─── SCORING ─────────────────────────────────────────────────────────────────
 
-def composite_score(true_prob, team_total, rz_opp=None, rz_share=None):
-    """Returns 0-100 composite score."""
+def composite_score(true_prob, team_total, rz_opp=None, rz_share=None, def_rank=None):
+    """
+    Returns 0-100 composite score.
+    def_rank: 1 (weakest defense / best matchup) … 32 (toughest). None = not available.
+    """
     tp = min(true_prob / 100, 1.0)
     tt = min((team_total or 21) / 35, 1.0)
 
-    if rz_opp is not None:
-        rz = min((rz_opp or 0) / 6.0, 1.0)
-        rs = min((rz_share or 0) / 70.0, 1.0)
+    # Normalize def_rank: rank 1 → 1.0 (best matchup), rank 32 → 0.0 (toughest)
+    dr = ((32 - def_rank) / 31) if def_rank is not None else None
+
+    if rz_opp is not None and dr is not None:
+        rz  = min((rz_opp or 0) / 6.0, 1.0)
+        rs  = min((rz_share or 0) / 70.0, 1.0)
+        raw = 0.35 * tp + 0.20 * tt + 0.20 * rz + 0.15 * rs + 0.10 * dr
+    elif rz_opp is not None:
+        rz  = min((rz_opp or 0) / 6.0, 1.0)
+        rs  = min((rz_share or 0) / 70.0, 1.0)
         raw = 0.40 * tp + 0.25 * tt + 0.20 * rz + 0.15 * rs
+    elif dr is not None:
+        raw = 0.60 * tp + 0.30 * tt + 0.10 * dr
     else:
         raw = 0.65 * tp + 0.35 * tt
 
@@ -290,10 +308,11 @@ def composite_score(true_prob, team_total, rz_opp=None, rz_share=None):
 
 # ─── MAIN SCAN ───────────────────────────────────────────────────────────────
 
-def scan(api_key, sport="nfl", fetch_weather_data=True):
+def scan(api_key, sport="nfl", fetch_weather_data=True, fetch_espn_def=True):
     """
     Returns list of player dicts sorted by TD score descending.
     sport: "nfl" or "ncaaf"
+    fetch_espn_def: include ESPN defensive rankings in the score (NFL only)
     """
     sport_key = f"americanfootball_{sport}"
 
@@ -302,6 +321,18 @@ def scan(api_key, sport="nfl", fetch_weather_data=True):
         return []
 
     team_totals = fetch_team_totals(api_key, sport_key)
+
+    # ── ESPN defensive rankings (NFL only) ───────────────────────────────────
+    def_rankings = {}
+    if sport == "nfl" and fetch_espn_def:
+        try:
+            from scripts.espn_def_rankings import fetch_nfl_def_rankings, get_def_rank as _get_def_rank
+            def_rankings = fetch_nfl_def_rankings()
+            _get_def_rank_fn = _get_def_rank
+        except Exception:
+            _get_def_rank_fn = None
+    else:
+        _get_def_rank_fn = None
 
     # ── Sleeper (NFL only) ───────────────────────────────────────────────────
     pid_stats = {}   # pid → averaged stat dict
@@ -412,7 +443,21 @@ def scan(api_key, sport="nfl", fetch_weather_data=True):
             if player_team_total is None:
                 player_team_total = max(home_total, away_total, 21)
 
-            score = composite_score(true_prob, player_team_total, rz_opp, rz_share)
+            # ── ESPN defensive rank vs opponent ──────────────────────────────
+            def_rank       = None
+            def_rank_label = None
+            opponent_abbrev = None
+            if _get_def_rank_fn and def_rankings and team_abbr:
+                home_abbr = _TEAM_MAP_REV.get(home, "")
+                away_abbr = _TEAM_MAP_REV.get(away, "")
+                if team_abbr == home_abbr:
+                    opponent_abbrev = away_abbr
+                elif team_abbr == away_abbr:
+                    opponent_abbrev = home_abbr
+                if opponent_abbrev:
+                    def_rank, def_rank_label = _get_def_rank_fn(def_rankings, opponent_abbrev, pos or "")
+
+            score = composite_score(true_prob, player_team_total, rz_opp, rz_share, def_rank)
 
             try:
                 gt   = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
@@ -423,27 +468,30 @@ def scan(api_key, sport="nfl", fetch_weather_data=True):
                 game_time = "TBD"
 
             rows.append({
-                "player":        player_name,
-                "league":        sport.upper() if sport != "ncaaf" else "CFB",
-                "pos":           pos or "",
-                "game":          f"{away} @ {home}",
-                "home":          home,
-                "away":          away,
-                "game_time":     game_time,
-                "commence_time": ct,
-                "score":         score,
-                "true_prob":     round(true_prob, 1),
-                "best_price":    best_price,
-                "best_book":     best_book,
-                "n_books":       len(book_prices),
-                "team_total":    player_team_total or 0,
-                "home_total":    home_total,
-                "away_total":    away_total,
-                "rz_opp":        round(rz_opp, 1) if rz_opp else None,
-                "snap_avg":      round(snap_avg) if snap_avg else None,
-                "form":          form,
-                "weather":       wx_label or ("🏟 Dome" if sport == "nfl" else ""),
-                "wind_mph":      wx_wind or 0,
+                "player":          player_name,
+                "league":          sport.upper() if sport != "ncaaf" else "CFB",
+                "pos":             pos or "",
+                "game":            f"{away} @ {home}",
+                "home":            home,
+                "away":            away,
+                "game_time":       game_time,
+                "commence_time":   ct,
+                "score":           score,
+                "true_prob":       round(true_prob, 1),
+                "best_price":      best_price,
+                "best_book":       best_book,
+                "n_books":         len(book_prices),
+                "team_total":      player_team_total or 0,
+                "home_total":      home_total,
+                "away_total":      away_total,
+                "rz_opp":          round(rz_opp, 1) if rz_opp else None,
+                "snap_avg":        round(snap_avg) if snap_avg else None,
+                "form":            form,
+                "weather":         wx_label or ("🏟 Dome" if sport == "nfl" else ""),
+                "wind_mph":        wx_wind or 0,
+                "def_rank":        def_rank,
+                "def_rank_label":  def_rank_label,
+                "opponent_abbrev": opponent_abbrev,
             })
 
     return sorted(rows, key=lambda x: x["score"], reverse=True)

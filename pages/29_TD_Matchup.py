@@ -37,17 +37,19 @@ def _api_key():
 # ─── Scanner with caching ─────────────────────────────────────────────────────
 
 @st.cache_data(ttl=600, show_spinner=False)
-def run_scan(leagues, fetch_wx):
+def run_scan(leagues, fetch_wx, fetch_espn_def):
     from scripts.td_matchup_scanner import scan
     rows = []
     if "NFL" in leagues:
         try:
-            rows += scan(_api_key(), sport="nfl", fetch_weather_data=fetch_wx)
+            rows += scan(_api_key(), sport="nfl", fetch_weather_data=fetch_wx,
+                         fetch_espn_def=fetch_espn_def)
         except Exception as e:
             st.warning(f"NFL scan error: {e}")
     if "CFB" in leagues:
         try:
-            rows += scan(_api_key(), sport="ncaaf", fetch_weather_data=fetch_wx)
+            rows += scan(_api_key(), sport="ncaaf", fetch_weather_data=fetch_wx,
+                         fetch_espn_def=False)
         except Exception as e:
             st.warning(f"CFB scan error: {e}")
     return rows
@@ -55,7 +57,7 @@ def run_scan(leagues, fetch_wx):
 
 # ─── Controls ────────────────────────────────────────────────────────────────
 
-col_a, col_b, col_c, col_d, col_e = st.columns([1, 1, 1, 1, 2])
+col_a, col_b, col_c, col_d, col_e, col_f = st.columns([1, 1, 1, 1, 1, 2])
 
 with col_a:
     leagues = st.multiselect(
@@ -88,9 +90,15 @@ with col_d:
     fetch_wx = st.toggle("Weather", value=True)
 
 with col_e:
+    fetch_espn_def = st.toggle("DEF Rank", value=True,
+                                help="Load ESPN defensive rankings by position (NFL only, ~10s first load, cached daily)")
+
+with col_f:
     refresh = st.button("🔄 Refresh", use_container_width=False)
     if refresh:
         run_scan.clear()
+        from scripts.espn_def_rankings import clear_cache as _espn_clear
+        _espn_clear()
 
 key = _api_key()
 if not key:
@@ -99,8 +107,9 @@ if not key:
 
 # ─── Load data ───────────────────────────────────────────────────────────────
 
-with st.spinner("Fetching TD props and team totals…"):
-    rows = run_scan(tuple(sorted(leagues)), fetch_wx)
+spinner_msg = "Fetching TD props, team totals" + (", and ESPN DEF rankings…" if fetch_espn_def else "…")
+with st.spinner(spinner_msg):
+    rows = run_scan(tuple(sorted(leagues)), fetch_wx, fetch_espn_def)
 
 if not rows:
     st.info("No TD scorer props found for upcoming games in the selected leagues. "
@@ -171,6 +180,19 @@ def price_str(p):
     return f"+{int(p)}" if p > 0 else str(int(p))
 
 
+def def_rank_str(rank):
+    """Format defensive rank with color emoji: 1-10 🔴 (weak), 11-21 🟡, 22-32 🟢 (tough)."""
+    if rank is None:
+        return "—"
+    if rank <= 10:
+        icon = "🔴"
+    elif rank <= 21:
+        icon = "🟡"
+    else:
+        icon = "🟢"
+    return f"{icon} #{rank}"
+
+
 def pos_badge(pos):
     colors = {
         "QB": ("bg:#152540", "color:#79b8ff"),
@@ -206,6 +228,7 @@ for i, r in df.iterrows():
         "Book":        (r.get("best_book") or "").upper()[:3],
         "# Books":     r.get("n_books", 0),
         "Team Total":  r.get("team_total", 0),
+        "DEF Rank":    def_rank_str(r.get("def_rank")),
         "RZ Opp/G":    r.get("rz_opp"),
         "Snaps/G":     r.get("snap_avg"),
         "Weather":     r.get("weather", ""),
@@ -222,7 +245,7 @@ with tab_all:
     _show_cols = [
         "#", "Player", "Pos", "Game", "Time",
         "TD Score", "True Prob", "Best Odds", "Book",
-        "# Books", "Team Total", "RZ Opp/G", "Snaps/G", "Weather",
+        "# Books", "Team Total", "DEF Rank", "RZ Opp/G", "Snaps/G", "Weather",
     ]
     _df_show = display_df[_show_cols].copy()
     _df_show["True Prob"] = _df_show["True Prob"].map(lambda x: f"{x:.1f}%")
@@ -262,9 +285,11 @@ with tab_all:
 
     st.caption(
         "**TD Score formula** — "
-        "With RZ data: 40% true prob + 25% team implied total + 20% RZ opps/G + 15% RZ share  |  "
-        "Without: 65% true prob + 35% team implied total  |  "
-        "Only books: DraftKings · FanDuel · Bovada · BetRivers · Pinnacle"
+        "Full (RZ + DEF): 35% true prob + 20% team total + 20% RZ opps/G + 15% RZ share + 10% DEF rank  |  "
+        "No DEF: 40/25/20/15  |  "
+        "Odds only: 65% true prob + 35% team total  |  "
+        "DEF Rank: 🔴 #1–10 = weakest (best matchup) · 🟡 #11–21 · 🟢 #22–32 = toughest  |  "
+        "Books: DraftKings · FanDuel · Bovada · BetRivers · Pinnacle"
     )
 
 with tab_game:
@@ -345,5 +370,5 @@ st.caption(
     f"Refreshed {datetime.now(tz=EASTERN).strftime('%I:%M %p ET')}  ·  "
     f"Props cache: 10 min  ·  "
     f"Sleeper stats: last 3 weeks averaged  ·  "
-    f"Position data from Sleeper (NFL only)"
+    f"ESPN DEF rankings: cached 24 h (NFL only)"
 )
