@@ -215,6 +215,20 @@ def form_dots(form_list):
     return " ".join(dots)
 
 
+_BOOK_ABBREVS = {
+    "draftkings":  "DK",
+    "fanduel":     "FD",
+    "bovada":      "BOV",
+    "betrivers":   "BRV",
+    "pinnacle":    "PIN",
+    "espnbet":     "ESPN",
+    "betonlineag": "BOL",
+}
+
+def _book_label(key):
+    return _BOOK_ABBREVS.get(key or "", (key or "").upper()[:4])
+
+
 def price_str(p):
     if p is None:
         return ""
@@ -266,7 +280,7 @@ for i, r in df.iterrows():
         "TD Score":    r["score"],
         "True Prob":   r["true_prob"],
         "Best Odds":   price_str(r.get("best_price")),
-        "Book":        (r.get("best_book") or "").upper()[:3],
+        "Book":        _book_label(r.get("best_book")),
         "# Books":     r.get("n_books", 0),
         "Team Total":  r.get("team_total", 0),
         "DEF Rank":    def_rank_str(r.get("def_rank")),
@@ -357,7 +371,7 @@ with tab_game:
                     "TD Score":   r["score"],
                     "True Prob":  f"{r['true_prob']:.1f}%",
                     "Best Odds":  price_str(r.get("best_price")),
-                    "Book":       (r.get("best_book") or "").upper()[:3],
+                    "Book":       _book_label(r.get("best_book")),
                     "# Books":    r.get("n_books", 0),
                     "RZ Opp/G":   f"{r['rz_opp']:.1f}" if r.get("rz_opp") is not None else "—",
                     "Snaps/G":    str(int(r["snap_avg"])) if r.get("snap_avg") is not None else "—",
@@ -391,7 +405,7 @@ with tab_pos:
                     "TD Score":  r["score"],
                     "True Prob": f"{r['true_prob']:.1f}%",
                     "Best Odds": price_str(r.get("best_price")),
-                    "Book":      (r.get("best_book") or "").upper()[:3],
+                    "Book":      _book_label(r.get("best_book")),
                     "Team Total":f"{r['team_total']:.1f}" if r.get("team_total") else "—",
                     "RZ Opp/G": f"{r['rz_opp']:.1f}" if r.get("rz_opp") is not None else "—",
                     "Weather":   r.get("weather", ""),

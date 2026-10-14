@@ -136,6 +136,20 @@ st.divider()
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
+_BOOK_ABBREVS = {
+    "draftkings":  "DK",
+    "fanduel":     "FD",
+    "bovada":      "BOV",
+    "betrivers":   "BRV",
+    "pinnacle":    "PIN",
+    "espnbet":     "ESPN",
+    "betonlineag": "BOL",
+}
+
+def _book_label(key):
+    return _BOOK_ABBREVS.get(key or "", (key or "").upper()[:4])
+
+
 def price_str(p):
     if p is None:
         return ""
@@ -170,7 +184,7 @@ for _, r in df.iterrows():
         "Goal Score": r["score"],
         "True Prob":  r["true_prob"],
         "Best Odds":  price_str(r.get("best_price")),
-        "Book":       (r.get("best_book") or "").upper()[:3],
+        "Book":       _book_label(r.get("best_book")),
         "# Books":    r.get("n_books", 0),
         "Team Total": r.get("team_total", 0),
         "DEF Rank":   def_rank_str(r.get("def_rank")),
@@ -254,7 +268,7 @@ with tab_game:
                     "Goal Score": r["score"],
                     "True Prob": f"{r['true_prob']:.1f}%",
                     "Best Odds": price_str(r.get("best_price")),
-                    "Book":      (r.get("best_book") or "").upper()[:3],
+                    "Book":      _book_label(r.get("best_book")),
                     "# Books":   r.get("n_books", 0),
                     "DEF Rank":  def_rank_str(r.get("def_rank")),
                     "G/G":       f"{r['goals_pg']:.2f}" if r.get("goals_pg") is not None else "—",
@@ -287,7 +301,7 @@ with tab_pos:
                     "Goal Score": r["score"],
                     "True Prob": f"{r['true_prob']:.1f}%",
                     "Best Odds": price_str(r.get("best_price")),
-                    "Book":      (r.get("best_book") or "").upper()[:3],
+                    "Book":      _book_label(r.get("best_book")),
                     "Team Total":f"{r['team_total']:.1f}" if r.get("team_total") else "—",
                     "DEF Rank":  def_rank_str(r.get("def_rank")),
                     "G/G":       f"{r['goals_pg']:.2f}" if r.get("goals_pg") is not None else "—",
