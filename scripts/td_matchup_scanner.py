@@ -134,11 +134,13 @@ def fetch_team_totals(api_key, sport="americanfootball_nfl"):
 
 
 def fetch_td_props(api_key, event_id, sport="americanfootball_nfl"):
-    """Returns {player_name: {book_key: american_price}} for anytime TD scorer."""
+    """Returns {player_name: {book_key: american_price}} for anytime TD scorer (YES/NO).
+    Player name is in outcome['description']; outcome['name'] == 'Yes'.
+    """
     try:
         data, _ = _get(
             f"https://api.the-odds-api.com/v4/sports/{sport}/events/{event_id}/odds"
-            f"?apiKey={api_key}&regions=us&markets=player_td_scorer&oddsFormat=american"
+            f"?apiKey={api_key}&regions=us,us2&markets=player_anytime_td&oddsFormat=american"
         )
     except Exception:
         return {}
@@ -149,10 +151,12 @@ def fetch_td_props(api_key, event_id, sport="americanfootball_nfl"):
         if bk not in BOOKS:
             continue
         for mkt in bm.get("markets", []):
-            if mkt.get("key") != "player_td_scorer":
+            if mkt.get("key") != "player_anytime_td":
                 continue
             for out in mkt.get("outcomes", []):
-                name  = out.get("name", "")
+                if out.get("name") != "Yes":
+                    continue
+                name  = out.get("description", "")
                 price = out.get("price")
                 if name and price is not None:
                     players[name][bk] = price
