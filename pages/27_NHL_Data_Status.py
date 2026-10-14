@@ -62,7 +62,7 @@ def check_quota():
         return {"used": None, "remaining": None, "status": f"error: {msg[:60]}"}
 
 
-QUOTA_RESET_DATE = "2026-06-30"
+QUOTA_RESET_DATE = "2027-06-30"
 
 
 def _days_until(date_str):
@@ -141,10 +141,13 @@ def _recompute_summary(picks):
     }
 
 
-def _pick_count(payload):
-    """Works for both picks-based files and snapshot-based files."""
+def _pick_count(payload, line_alert=False):
+    """Works for picks-based, snapshot-based, and line-alert files."""
     if payload is None:
         return 0
+    if line_alert:
+        # line-alert format: {"HH:MM": {"plays": [...]}, ...}
+        return sum(len(v.get("plays", [])) for v in payload.values() if isinstance(v, dict))
     # picks-based (True Prob, Sharp Money)
     n = payload.get("n_picks")
     if n is not None:
@@ -193,6 +196,7 @@ TRACKERS = [
     {"name": "Sharp Money", "icon": "💰", "dir": "nhl_sharp_money_history"},
     {"name": "Team Totals", "icon": "📊", "dir": "nhl_team_totals_history", "data_feed": True},
     {"name": "Props",       "icon": "🏒", "dir": "nhl_props_history",        "data_feed": True},
+    {"name": "Line Alert",  "icon": "🚨", "dir": "nhl_line_alert_history",   "line_alert": True},
 ]
 
 
@@ -232,9 +236,9 @@ for i, t in enumerate(TRACKERS):
     if files:
         last_date    = files[-1][0]
         last_payload = files[-1][1]
-        n     = _pick_count(last_payload)
+        n     = _pick_count(last_payload, line_alert=t.get("line_alert", False))
         emoji = freshness_emoji(last_date)
-        unit  = "snapshots" if t.get("data_feed") else "picks"
+        unit  = "snapshots" if t.get("data_feed") else ("plays" if t.get("line_alert") else "picks")
         status_cols[i].markdown(
             f"### {t['icon']} {t['name']}\n"
             f"{emoji} **{last_date}** — {n} {unit}"
@@ -280,10 +284,18 @@ total_w = total_l = total_p = total_picks = 0
 for t in TRACKERS:
     files_by_date = {f[0]: f[1] for f in all_data[t["name"]]}
     payload = files_by_date.get(sel_date)
+    is_la = t.get("line_alert", False)
     if not payload:
         day_summary[t["name"]] = {"picks": 0, "w": 0, "l": 0, "p": 0,
                                   "settled": 0, "payload": None,
-                                  "data_feed": t.get("data_feed", False)}
+                                  "data_feed": t.get("data_feed", False),
+                                  "line_alert": is_la}
+        continue
+    if is_la:
+        n = _pick_count(payload, line_alert=True)
+        day_summary[t["name"]] = {"picks": n, "w": 0, "l": 0, "p": 0,
+                                  "settled": 0, "payload": payload,
+                                  "data_feed": False, "line_alert": True}
         continue
     all_picks = payload.get("picks", [])
     # For pick-based trackers, only count picks whose game is on sel_date
@@ -305,7 +317,8 @@ for t in TRACKERS:
     pu     = sum(1 for p in picks if p.get("result") == "PUSH")
     day_summary[t["name"]] = {"picks": n, "w": w, "l": l, "p": pu,
                               "settled": w + l + pu, "payload": payload,
-                              "data_feed": t.get("data_feed", False)}
+                              "data_feed": t.get("data_feed", False),
+                              "line_alert": False}
     # Only count picks from pick-based trackers — snapshot counts are not picks
     if not t.get("data_feed", False):
         total_w += w; total_l += l; total_p += pu; total_picks += n
@@ -314,7 +327,15 @@ for t in TRACKERS:
 badge_cols = st.columns(len(TRACKERS) + 1)
 for i, t in enumerate(TRACKERS):
     s = day_summary[t["name"]]
-    if s["data_feed"]:
+    if s.get("line_alert"):
+        n = s["picks"]
+        badge_cols[i].metric(
+            label=f"{t['icon']} {t['name']}",
+            value=f"{n} plays" if n else "—",
+            delta="detected" if n else "none found",
+            delta_color="normal" if n else "off",
+        )
+    elif s["data_feed"]:
         n = s["picks"]
         badge_cols[i].metric(
             label=f"{t['icon']} {t['name']}",
@@ -368,6 +389,46 @@ for i, t in enumerate(TRACKERS):
         payload = s["payload"]
         if not payload:
             st.caption(f"No {t['name']} save for {sel_date}.")
+            continue
+
+        # ── Line Alert tracker: show detected plays ──
+        if t.get("line_alert"):
+            # payload is {"HH:MM": {"captured_at": "...", "plays": [...]}, ...}
+            all_snaptimes = sorted(payload.keys())
+            all_plays = []
+            for snap_time in all_snaptimes:
+                snap = payload[snap_time]
+                cap = snap.get("captured_at", snap_time)
+                try:
+                    cap_dt = datetime.fromisoformat(cap).astimezone(EASTERN)
+                    cap_label = cap_dt.strftime("%I:%M %p ET")
+                except Exception:
+                    cap_label = snap_time
+                for play in snap.get("plays", []):
+                    all_plays.append({**play, "_snap_time": cap_label})
+            if not all_plays:
+                st.caption(f"No LINE SPLIT plays detected on {sel_date}.")
+            else:
+                st.caption(f"**{len(all_plays)} plays** detected across {len(all_snaptimes)} snapshot(s) on {sel_date}.")
+                play_rows = []
+                for p in all_plays:
+                    play_rows.append({
+                        "Detected": p.get("_snap_time", ""),
+                        "Game":     p.get("game", ""),
+                        "Team":     p.get("team", ""),
+                        "Bet":      p.get("bet", ""),
+                        "Line":     p.get("line"),
+                        "Book":     p.get("book", ""),
+                        "Price":    p.get("price"),
+                        "Why":      p.get("why", ""),
+                    })
+                pdf = pd.DataFrame(play_rows)
+                st.dataframe(
+                    pdf, use_container_width=True, hide_index=True,
+                    column_config={
+                        "Price": st.column_config.NumberColumn(format="%+d"),
+                    },
+                )
             continue
 
         # ── Data-feed trackers: show latest snapshot's actual data ──
@@ -581,6 +642,21 @@ for t in TRACKERS:
     w = l = p = 0
     risk = profit = 0.0
 
+    if t.get("line_alert"):
+        total_plays = sum(
+            _pick_count(f[1], line_alert=True) for f in files
+        )
+        perf_rows.append({
+            "Tracker":    f"{t['icon']} {t['name']}",
+            "Days saved": days_total,
+            "Settled":    "—",
+            "W-L-P":      f"{total_plays} plays",
+            "Hit %":      None,
+            "Net $":      None,
+            "ROI %":      None,
+        })
+        continue
+
     if t.get("data_feed"):
         total_snaps = sum(
             f[1].get("n_snapshots", 0) for f in files
@@ -649,9 +725,11 @@ with st.expander("🗓️ Last 14 days activity grid"):
             files_by_date = {f[0]: f[1] for f in all_data[t["name"]]}
             if ds in files_by_date:
                 payload = files_by_date[ds]
-                n = _pick_count(payload)
+                n = _pick_count(payload, line_alert=t.get("line_alert", False))
                 summ = payload.get("summary") or {}
-                if t.get("data_feed"):
+                if t.get("line_alert"):
+                    row[t["name"]] = f"🚨 {n}" if n else "—"
+                elif t.get("data_feed"):
                     row[t["name"]] = f"📥 {n}" if n else "0"
                 elif summ.get("n_settled", 0) > 0:
                     row[t["name"]] = f"✅ {n} ({summ['wins']}-{summ['losses']})"
@@ -675,13 +753,24 @@ with st.expander("📂 Per-tracker day-by-day history"):
                 continue
             rows = []
             for date_str, payload, mtime, size in reversed(files):
-                n    = _pick_count(payload)
+                n    = _pick_count(payload, line_alert=t.get("line_alert", False))
                 summ = payload.get("summary") or {}
-                if not summ and not t.get("data_feed"):
+                if not summ and not t.get("data_feed") and not t.get("line_alert"):
                     picks = payload.get("picks", [])
                     if picks:
                         summ = _recompute_summary(picks)
-                if t.get("data_feed"):
+                if t.get("line_alert"):
+                    snaps = len([k for k in payload if isinstance(payload[k], dict)])
+                    rows.append({
+                        "Date":      date_str,
+                        "Snapshots": snaps,
+                        "Plays":     n,
+                        "W-L-P":     "monitor",
+                        "Hit %":     None,
+                        "Net $":     None,
+                        "ROI %":     None,
+                    })
+                elif t.get("data_feed"):
                     rows.append({
                         "Date":      date_str,
                         "Snapshots": n,
@@ -724,7 +813,8 @@ with st.expander("ℹ️ How this works"):
         "- 🎯 True Prob — 75%+ consensus plays from 3+ sharp books; forward-tested\n"
         "- 💰 Sharp Money — Polymarket order-book skew signals; forward-tested\n"
         "- 📊 Team Totals — raw odds snapshots (no W/L tracking)\n"
-        "- 🏒 Props — raw prop line snapshots (no W/L tracking)"
+        "- 🏒 Props — raw prop line snapshots (no W/L tracking)\n"
+        "- 🚨 Line Alert — Pinnacle LINE SPLIT plays detected during the day"
     )
 
 st.caption(
