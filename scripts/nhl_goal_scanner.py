@@ -14,7 +14,7 @@ DEF rank: goals allowed per game per team from NHL standings
   rank 1 = most goals allowed = weakest goaltending = best matchup
   rank 32 = fewest goals allowed = toughest matchup
 
-Books used: DraftKings, FanDuel, Bovada, BetRivers, Pinnacle
+Books used: DraftKings, FanDuel, Bovada, BetRivers, Pinnacle, ESPN Bet, BetOnline
   (NO BetMGM / Caesars per project policy)
 """
 import difflib
@@ -337,14 +337,13 @@ def fetch_team_totals(api_key):
 
 def fetch_goal_props(api_key, event_id):
     """
-    Returns {player_name: {book_key: american_price}} for anytime scorer.
-    Uses player_points Over 0.5 — nearest available proxy for anytime goal/point scorer.
-    Player name is in outcome['description']; we take only Over 0.5 lines.
+    Returns {player_name: {book_key: american_price}} for anytime goal scorer (YES/NO).
+    Uses player_goal_scorer_anytime market. Player name is in outcome['description'].
     """
     try:
         data, _ = _get(
             f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/{event_id}/odds"
-            f"?apiKey={api_key}&regions=us,us2&markets=player_points&oddsFormat=american"
+            f"?apiKey={api_key}&regions=us,us2&markets=player_goal_scorer_anytime&oddsFormat=american"
         )
     except Exception:
         return {}
@@ -355,13 +354,11 @@ def fetch_goal_props(api_key, event_id):
         if bk not in BOOKS:
             continue
         for mkt in bm.get("markets", []):
-            if mkt.get("key") != "player_points":
+            if mkt.get("key") != "player_goal_scorer_anytime":
                 continue
             for out in mkt.get("outcomes", []):
-                if out.get("name") != "Over":
+                if out.get("name") != "Yes":
                     continue
-                if (out.get("point") or 1.0) > 0.5:
-                    continue  # skip 1.5, 2.5 etc; only 0.5 = anytime scorer
                 name  = out.get("description", "")
                 price = out.get("price")
                 if name and price is not None:

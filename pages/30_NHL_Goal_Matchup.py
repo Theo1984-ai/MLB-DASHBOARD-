@@ -20,7 +20,7 @@ EASTERN = ZoneInfo("America/New_York")
 
 st.set_page_config(page_title="NHL Goal Matchup", page_icon="🏒", layout="wide")
 st.title("🏒 NHL Goal Matchup Scores")
-st.caption("Anytime scorer (player points O0.5) true prob · team implied total · NHL defensive rank · player form")
+st.caption("Anytime goal scorer (YES/NO) true prob · team implied total · NHL defensive rank · player form")
 
 
 # ─── API key ─────────────────────────────────────────────────────────────────
