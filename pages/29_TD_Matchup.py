@@ -145,8 +145,16 @@ if def_rankings:
         pass
 
 if not rows:
-    st.info("No TD scorer props found for upcoming games in the selected leagues. "
-            "Props are typically posted day-of or 1-2 days before kickoff.")
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    now_et = datetime.now(tz=ZoneInfo("America/New_York"))
+    day = now_et.strftime("%A")
+    st.info(
+        f"**No TD scorer props posted yet** ({day}). "
+        "Sportsbooks typically release anytime TD scorer markets Wednesday–Thursday "
+        "for the upcoming NFL weekend, and Thursday–Friday for CFB. "
+        "Check back later in the week."
+    )
     st.stop()
 
 # ─── Filter ──────────────────────────────────────────────────────────────────
