@@ -402,7 +402,7 @@ def scan(api_key, sport="nfl", fetch_weather_data=True, fetch_espn_def=True):
             best_book  = max(book_prices, key=lambda k: book_prices.get(k, -9999))
 
             # ── Sleeper lookup ───────────────────────────────────────────────
-            pos = rz_opp = rz_share = snap_avg = None
+            pos = rz_opp = rz_share = snap_avg = team_abbr = None
             form = [0, 0, 0]
             player_team_total = None
 
