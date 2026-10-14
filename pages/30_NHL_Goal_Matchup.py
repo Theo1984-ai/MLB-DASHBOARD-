@@ -20,7 +20,7 @@ EASTERN = ZoneInfo("America/New_York")
 
 st.set_page_config(page_title="NHL Goal Matchup", page_icon="🏒", layout="wide")
 st.title("🏒 NHL Goal Matchup Scores")
-st.caption("Anytime goal scorer true prob · team implied total · NHL defensive rank · player form")
+st.caption("Anytime scorer (player points O0.5) true prob · team implied total · NHL defensive rank · player form")
 
 
 # ─── API key ─────────────────────────────────────────────────────────────────
@@ -231,7 +231,7 @@ with tab_all:
         "No player stats: 50/30/20  |  "
         "Odds only: 65/35  |  "
         "DEF Rank: 🔴 #1–10 = most goals allowed · 🟢 #22–32 = fewest  |  "
-        "Books: DraftKings · FanDuel · Bovada · BetRivers · Pinnacle"
+        "Books: DraftKings · FanDuel · Bovada · BetRivers · Pinnacle · ESPN Bet · BetOnline"
     )
 
 with tab_game:

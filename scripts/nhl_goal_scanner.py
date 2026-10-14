@@ -31,8 +31,8 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EASTERN = ZoneInfo("America/New_York")
 
-BOOKS = {"draftkings", "fanduel", "bovada", "betrivers", "pinnacle"}
-MIN_BOOKS = 2
+BOOKS = {"draftkings", "fanduel", "bovada", "betrivers", "pinnacle", "espnbet", "betonlineag"}
+MIN_BOOKS = 1
 MAX_PRICE_INCLUDE = 500   # skip huge longshots (>83% implied)
 
 _CTX = ssl.create_default_context()
@@ -55,7 +55,7 @@ _TEAM_MAP = {
     "FLA": "Florida Panthers",
     "LAK": "Los Angeles Kings",
     "MIN": "Minnesota Wild",
-    "MTL": "Montreal Canadiens",
+    "MTL": "Montréal Canadiens",
     "NSH": "Nashville Predators",
     "NJD": "New Jersey Devils",
     "NYI": "New York Islanders",
@@ -91,8 +91,11 @@ def _get(url, timeout=10):
     return json.loads(resp.read()), remaining
 
 
+_NHL_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
 def _nhl_get(url, timeout=8):
-    resp = urllib.request.urlopen(url, timeout=timeout, context=_CTX)
+    req = urllib.request.Request(url, headers=_NHL_HEADERS)
+    resp = urllib.request.urlopen(req, timeout=timeout, context=_CTX)
     return json.loads(resp.read())
 
 
@@ -333,11 +336,15 @@ def fetch_team_totals(api_key):
 
 
 def fetch_goal_props(api_key, event_id):
-    """Returns {player_name: {book_key: american_price}} for anytime goal scorer."""
+    """
+    Returns {player_name: {book_key: american_price}} for anytime scorer.
+    Uses player_points Over 0.5 — nearest available proxy for anytime goal/point scorer.
+    Player name is in outcome['description']; we take only Over 0.5 lines.
+    """
     try:
         data, _ = _get(
             f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/{event_id}/odds"
-            f"?apiKey={api_key}&regions=us&markets=player_goal_scorer&oddsFormat=american"
+            f"?apiKey={api_key}&regions=us,us2&markets=player_points&oddsFormat=american"
         )
     except Exception:
         return {}
@@ -348,10 +355,14 @@ def fetch_goal_props(api_key, event_id):
         if bk not in BOOKS:
             continue
         for mkt in bm.get("markets", []):
-            if mkt.get("key") != "player_goal_scorer":
+            if mkt.get("key") != "player_points":
                 continue
             for out in mkt.get("outcomes", []):
-                name  = out.get("name", "")
+                if out.get("name") != "Over":
+                    continue
+                if (out.get("point") or 1.0) > 0.5:
+                    continue  # skip 1.5, 2.5 etc; only 0.5 = anytime scorer
+                name  = out.get("description", "")
                 price = out.get("price")
                 if name and price is not None:
                     players[name][bk] = price
