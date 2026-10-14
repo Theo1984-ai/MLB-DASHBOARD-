@@ -362,7 +362,6 @@ def _render_cfb_true_prob():
             ev = _ev_per_100(best_price, consensus)
             all_plays.append({
                 "Kickoff":     fp,
-                "Hours":       round(hrs, 1),
                 "Game":        game_label,
                 "Market":      _CFB_MARKET_LABELS.get(mkt_key, mkt_key),
                 "Selection":   _fmt_sel(mkt_key, player, side, point),
@@ -465,7 +464,7 @@ def _render_cfb_true_prob():
 
     all_plays.sort(key=lambda r: (-r["True Prob %"], -r["EV/$100"]))
     df = pd.DataFrame(all_plays)
-    for c in ("True Prob %","EV/$100","Best Price","Line","Hours"):
+    for c in ("True Prob %","EV/$100","Best Price","Line"):
         if c in df.columns:
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
