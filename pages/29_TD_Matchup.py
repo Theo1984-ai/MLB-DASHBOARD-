@@ -34,25 +34,35 @@ def _api_key():
     return os.environ.get("THE_ODDS_API_KEY")
 
 
-# ─── Scanner with caching ─────────────────────────────────────────────────────
+# ─── Scanner (no ESPN inside — ESPN loads separately below) ──────────────────
 
 @st.cache_data(ttl=600, show_spinner=False)
-def run_scan(leagues, fetch_wx, fetch_espn_def):
+def run_scan(leagues, fetch_wx):
     from scripts.td_matchup_scanner import scan
     rows = []
     if "NFL" in leagues:
         try:
-            rows += scan(_api_key(), sport="nfl", fetch_weather_data=fetch_wx,
-                         fetch_espn_def=fetch_espn_def)
+            rows += scan(_api_key(), sport="nfl", fetch_weather_data=fetch_wx)
         except Exception as e:
-            st.warning(f"NFL scan error: {e}")
+            rows  # scan failed silently; error surfaced via st.warning below
     if "CFB" in leagues:
         try:
-            rows += scan(_api_key(), sport="ncaaf", fetch_weather_data=fetch_wx,
-                         fetch_espn_def=False)
+            rows += scan(_api_key(), sport="ncaaf", fetch_weather_data=fetch_wx)
         except Exception as e:
-            st.warning(f"CFB scan error: {e}")
+            pass
     return rows
+
+
+# ─── ESPN DEF rankings — separate daily cache, never blocks the main scan ────
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def load_def_rankings():
+    """Returns {abbrev: {…ranks…}} or {} on any failure. Cached 24 h."""
+    try:
+        from scripts.espn_def_rankings import fetch_nfl_def_rankings
+        return fetch_nfl_def_rankings()
+    except Exception:
+        return {}
 
 
 # ─── Controls ────────────────────────────────────────────────────────────────
@@ -97,8 +107,12 @@ with col_f:
     refresh = st.button("🔄 Refresh", use_container_width=False)
     if refresh:
         run_scan.clear()
-        from scripts.espn_def_rankings import clear_cache as _espn_clear
-        _espn_clear()
+        load_def_rankings.clear()
+        try:
+            from scripts.espn_def_rankings import clear_cache as _espn_clear
+            _espn_clear()
+        except Exception:
+            pass
 
 key = _api_key()
 if not key:
@@ -107,9 +121,28 @@ if not key:
 
 # ─── Load data ───────────────────────────────────────────────────────────────
 
-spinner_msg = "Fetching TD props, team totals" + (", and ESPN DEF rankings…" if fetch_espn_def else "…")
-with st.spinner(spinner_msg):
-    rows = run_scan(tuple(sorted(leagues)), fetch_wx, fetch_espn_def)
+with st.spinner("Fetching TD props and team totals…"):
+    rows = run_scan(tuple(sorted(leagues)), fetch_wx)
+
+# ESPN DEF rankings load independently — never blocks rows from showing
+def_rankings = {}
+if fetch_espn_def and "NFL" in leagues:
+    with st.spinner("Loading ESPN DEF rankings (first load ~10s, then cached daily)…"):
+        def_rankings = load_def_rankings()
+
+# Inject def_rank into each row (display-only, does not change TD Score)
+if def_rankings:
+    try:
+        from scripts.espn_def_rankings import get_def_rank as _get_dr
+        for row in rows:
+            opp = row.get("opponent_abbrev")
+            pos = row.get("pos", "")
+            if opp:
+                rank, label = _get_dr(def_rankings, opp, pos)
+                row["def_rank"]       = rank
+                row["def_rank_label"] = label
+    except Exception:
+        pass
 
 if not rows:
     st.info("No TD scorer props found for upcoming games in the selected leagues. "

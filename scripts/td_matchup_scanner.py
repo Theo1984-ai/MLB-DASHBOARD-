@@ -308,11 +308,12 @@ def composite_score(true_prob, team_total, rz_opp=None, rz_share=None, def_rank=
 
 # ─── MAIN SCAN ───────────────────────────────────────────────────────────────
 
-def scan(api_key, sport="nfl", fetch_weather_data=True, fetch_espn_def=True):
+def scan(api_key, sport="nfl", fetch_weather_data=True, def_rankings=None):
     """
     Returns list of player dicts sorted by TD score descending.
     sport: "nfl" or "ncaaf"
-    fetch_espn_def: include ESPN defensive rankings in the score (NFL only)
+    def_rankings: pre-fetched ESPN defensive rankings dict (from espn_def_rankings module),
+                  or None/empty to skip. Passed in so it can be cached independently.
     """
     sport_key = f"americanfootball_{sport}"
 
@@ -322,16 +323,15 @@ def scan(api_key, sport="nfl", fetch_weather_data=True, fetch_espn_def=True):
 
     team_totals = fetch_team_totals(api_key, sport_key)
 
-    # ── ESPN defensive rankings (NFL only) ───────────────────────────────────
-    def_rankings = {}
-    if sport == "nfl" and fetch_espn_def:
+    # ── ESPN defensive rankings (injected, not fetched here) ─────────────────
+    if def_rankings and sport == "nfl":
         try:
-            from scripts.espn_def_rankings import fetch_nfl_def_rankings, get_def_rank as _get_def_rank
-            def_rankings = fetch_nfl_def_rankings()
+            from scripts.espn_def_rankings import get_def_rank as _get_def_rank
             _get_def_rank_fn = _get_def_rank
         except Exception:
             _get_def_rank_fn = None
     else:
+        def_rankings    = {}
         _get_def_rank_fn = None
 
     # ── Sleeper (NFL only) ───────────────────────────────────────────────────

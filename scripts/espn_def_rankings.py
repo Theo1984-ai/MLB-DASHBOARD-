@@ -15,6 +15,7 @@ import json
 import os
 import ssl
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -40,7 +41,7 @@ _CACHE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_espn_de
 _CACHE = None   # in-process cache; file cache survives process restarts
 
 
-def _get(url, timeout=10):
+def _get(url, timeout=5):
     resp = urllib.request.urlopen(url, timeout=timeout, context=_CTX)
     return json.loads(resp.read())
 
@@ -191,14 +192,22 @@ def fetch_nfl_def_rankings(year=None):
     if year is None:
         year = datetime.now(tz=EASTERN).year
 
-    raw = {}
-    for espn_id, abbrev in _ESPN_IDS.items():
+    def _fetch_one(espn_id_abbrev):
+        espn_id, abbrev = espn_id_abbrev
         rec   = _fetch_team_record(espn_id, year)
         stats = _fetch_team_stats(espn_id, year)
-        if not rec and not stats:
-            continue
+        return abbrev, {**rec, **stats} if (rec or stats) else None
 
-        raw[abbrev] = {**rec, **stats}
+    raw = {}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        futures = {pool.submit(_fetch_one, item): item for item in _ESPN_IDS.items()}
+        for fut in as_completed(futures):
+            try:
+                abbrev, data = fut.result()
+                if data:
+                    raw[abbrev] = data
+            except Exception:
+                pass
 
     if not raw:
         return {}
