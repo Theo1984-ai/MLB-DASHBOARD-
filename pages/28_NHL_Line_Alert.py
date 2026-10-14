@@ -82,42 +82,58 @@ def fetch_snapshot():
         away = ev["away_team"]
         ct   = ev["commence_time"]
 
+        # Check if game has already started
+        game_started = False
         try:
-            data, _ = _get(
-                f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/{eid}/odds"
-                f"?apiKey={ODDS_KEY}&regions=us,eu,uk&markets=team_totals&oddsFormat=american"
-            )
+            gt = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
+            game_started = gt <= now_et
         except Exception:
-            continue
+            pass
 
-        sides = defaultdict(dict)
-        for bm in data.get("bookmakers", []):
-            bk = bm["key"]
-            if bk not in TRACKED_BOOKS:
+        sides = {}
+        if not game_started:
+            # Only fetch odds for games that haven't started (saves quota)
+            try:
+                data, _ = _get(
+                    f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/{eid}/odds"
+                    f"?apiKey={ODDS_KEY}&regions=us,eu,uk&markets=team_totals&oddsFormat=american"
+                )
+            except Exception:
                 continue
-            for mkt in bm.get("markets", []):
-                if mkt.get("key") != "team_totals":
-                    continue
-                for out in mkt.get("outcomes", []):
-                    team  = out.get("description", "")
-                    name  = out.get("name", "")
-                    price = out.get("price")
-                    point = out.get("point")
-                    if name == "Over":
-                        sides[team][bk] = {"line": point, "over": price}
-                    elif name == "Under":
-                        if bk not in sides[team]:
-                            sides[team][bk] = {}
-                        sides[team][bk]["under"] = price
 
-        if sides:
-            games.append({
-                "game":         f"{away} @ {home}",
-                "away":         away,
-                "home":         home,
-                "commence_time": ct,
-                "sides":        {k: v for k, v in sides.items()},
-            })
+            bk_sides = defaultdict(dict)
+            for bm in data.get("bookmakers", []):
+                bk = bm["key"]
+                if bk not in TRACKED_BOOKS:
+                    continue
+                for mkt in bm.get("markets", []):
+                    if mkt.get("key") != "team_totals":
+                        continue
+                    for out in mkt.get("outcomes", []):
+                        team  = out.get("description", "")
+                        name  = out.get("name", "")
+                        price = out.get("price")
+                        point = out.get("point")
+                        if name == "Over":
+                            bk_sides[team][bk] = {"line": point, "over": price}
+                        elif name == "Under":
+                            if bk not in bk_sides[team]:
+                                bk_sides[team][bk] = {}
+                            bk_sides[team][bk]["under"] = price
+
+            if not bk_sides:
+                continue
+            sides = dict(bk_sides)
+
+        # Always include the game (started ones show score only)
+        games.append({
+            "game":          f"{away} @ {home}",
+            "away":          away,
+            "home":          home,
+            "commence_time": ct,
+            "started":       game_started,
+            "sides":         sides,
+        })
 
     snap = {
         "captured_at": now_et.isoformat(),
@@ -445,8 +461,14 @@ for g in sorted_games:
         game_time = "?"
         game_dt   = None
 
+    game_started = g.get("started", False)
     row = {"game": game_name, "away": g["away"], "home": g["home"],
-           "time": game_time, "game_dt": game_dt, "sides": []}
+           "time": game_time, "game_dt": game_dt, "started": game_started, "sides": []}
+
+    # Frozen: don't process signals or plays for started games
+    if game_started:
+        game_rows.append(row)
+        continue
 
     for team in [g["away"], g["home"]]:
         cur_side = g["sides"].get(team, {})
@@ -749,6 +771,20 @@ scores_lookup = st.session_state.scores_lookup
 
 for row in game_rows:
     sc = scores_lookup.get(row["game"], {})
+    ts_hdr = sc.get("team_scores", {})
+    away_sc_hdr = ts_hdr.get(row["away"])
+    home_sc_hdr = ts_hdr.get(row["home"])
+
+    if row.get("started"):
+        if sc.get("completed") and away_sc_hdr is not None:
+            hdr_score = f"  ✅ Final: {away_sc_hdr}–{home_sc_hdr}"
+        elif away_sc_hdr is not None:
+            hdr_score = f"  🟢 Live: {away_sc_hdr}–{home_sc_hdr}"
+        else:
+            hdr_score = ""
+        with st.expander(f"⏸ {row['game']} — STARTED{hdr_score}", expanded=False):
+            st.caption("Lines frozen — game is in progress. Score updates with each refresh.")
+        continue
 
     with st.expander(f"**{row['game']}** — {row['time']} ET", expanded=True):
         cols = st.columns(len(row["sides"]) or 1)
