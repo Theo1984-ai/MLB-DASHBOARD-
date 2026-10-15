@@ -513,10 +513,21 @@ for i, t in enumerate(TRACKERS):
                     f"**{t['name']}** · {n_snaps} snapshots on {sel_date}  ·  "
                     f"last updated {cap_str}  ·  {len(props)} props on {sel_date}"
                 )
+                # Load roster index for team lookup
+                _roster_idx = {}
+                try:
+                    _roster_path = os.path.join(ROOT, "scripts", "_nhl_roster_index.json")
+                    with open(_roster_path, encoding="utf-8") as _rf:
+                        _roster_idx = json.load(_rf)
+                except Exception:
+                    pass
                 prop_rows = []
                 for p in props:
+                    player_name = p.get("player", "")
+                    team_abbr = (_roster_idx.get(player_name.lower()) or {}).get("team", "")
                     prop_rows.append({
-                        "Player":    p.get("player", ""),
+                        "Player":    player_name,
+                        "Team":      team_abbr,
                         "Market":    p.get("market", ""),
                         "Line":      fmt_line(p.get("line")),
                         "Game":      p.get("game", ""),
