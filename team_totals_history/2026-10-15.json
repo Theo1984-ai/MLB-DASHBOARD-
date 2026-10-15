@@ -2,12 +2,85 @@
   "date": "2026-10-15",
   "book": "draftkings",
   "market": "team_totals",
-  "n_snapshots": 1,
+  "n_snapshots": 2,
   "snapshots": [
     {
       "captured_at": "2026-10-15T11:31:28.314902-04:00",
       "n_games": 0,
       "games": []
+    },
+    {
+      "captured_at": "2026-10-15T13:15:14.895735-04:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Milwaukee Brewers @ Los Angeles Dodgers",
+          "away_team": "Milwaukee Brewers",
+          "home_team": "Los Angeles Dodgers",
+          "first_pitch": "2026-10-16T00:00:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": -105,
+            "under_price": -125
+          },
+          "home": {
+            "line": 4.5,
+            "over_price": 114,
+            "under_price": -145
+          },
+          "books": {
+            "draftkings": {
+              "away": {
+                "line": 3.5,
+                "over_price": -105,
+                "under_price": -125
+              },
+              "home": {
+                "line": 4.5,
+                "over_price": 114,
+                "under_price": -145
+              }
+            },
+            "betmgm": {
+              "away": {
+                "line": 3.5,
+                "over_price": -102,
+                "under_price": -130
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -150,
+                "under_price": 115
+              }
+            },
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": 108,
+                "under_price": -136
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -148,
+                "under_price": 116
+              }
+            },
+            "bovada": {
+              "away": {
+                "line": 3.5,
+                "over_price": 100,
+                "under_price": -130
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -150,
+                "under_price": 115
+              }
+            }
+          },
+          "n_books": 4
+        }
+      ]
     }
   ]
 }
