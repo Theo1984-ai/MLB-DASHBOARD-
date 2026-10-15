@@ -454,15 +454,19 @@ for i, t in enumerate(TRACKERS):
                     return None
 
             item_key = "games" if "games" in snaps[0] else "props"
-            # Deduplicate by game name, keeping latest snapshot's data
             item_by_key = {}
             last_cap = snaps[0].get("captured_at", "")
             for sn in snaps:
                 cap = sn.get("captured_at", "")
                 for item in sn.get(item_key, []):
-                    if _item_date(item) != sel_date:
-                        continue
-                    name = item.get("game", item.get("player", "?"))
+                    if item_key == "games":
+                        # Team Totals: filter to games on the selected date
+                        if _item_date(item) != sel_date:
+                            continue
+                        name = item.get("game", "?")
+                    else:
+                        # Props: show all props captured on sel_date; dedup by player+market
+                        name = f"{item.get('player','?')}|{item.get('market','?')}"
                     item_by_key[name] = item
                     last_cap = cap
             latest_items = list(item_by_key.values())
