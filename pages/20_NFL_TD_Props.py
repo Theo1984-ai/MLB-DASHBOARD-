@@ -139,24 +139,6 @@ def _render_sport(sport_key, sport_label, icon):
             })
         return
 
-    # Filter to today's games only (ET)
-    _today_et = datetime.now(tz=EASTERN).date()
-    def _is_today(r):
-        fp = r.get("first_pitch", "")
-        try:
-            return datetime.fromisoformat(fp.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today_et
-        except Exception:
-            return True
-    rows = [r for r in rows if _is_today(r)]
-
-    if not rows:
-        st.info(
-            f"**No {sport_label} TD props for today's games** "
-            f"({datetime.now(tz=EASTERN).strftime('%A, %b %d')}). "
-            "Check back on game day."
-        )
-        return
-
     # Sidebar filters (keyed by sport to avoid widget ID conflicts)
     sid = sport_key[:3]  # "ame" for NFL, "ame" for CFB — use label instead
     sid = sport_label

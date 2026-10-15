@@ -157,26 +157,6 @@ if not rows:
     )
     st.stop()
 
-# Filter to today's games only (ET)
-from datetime import datetime as _dt
-from zoneinfo import ZoneInfo as _ZI
-_today_et = _dt.now(tz=_ZI("America/New_York")).date()
-def _is_today_game(r):
-    ct = r.get("commence_time", "")
-    try:
-        return _dt.fromisoformat(ct.replace("Z", "+00:00")).astimezone(_ZI("America/New_York")).date() == _today_et
-    except Exception:
-        return True
-rows = [r for r in rows if _is_today_game(r)]
-
-if not rows:
-    now_et = _dt.now(tz=_ZI("America/New_York"))
-    st.info(
-        f"**No TD props for today's games** ({now_et.strftime('%A, %b %d')}). "
-        "Check back on game day — props are usually posted by midday."
-    )
-    st.stop()
-
 # ─── Filter ──────────────────────────────────────────────────────────────────
 
 df = pd.DataFrame(rows)
