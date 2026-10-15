@@ -76,16 +76,20 @@ def fetch_snapshot():
     )
 
     games = []
+    today_date = now_et.date()
+
     for ev in events:
         eid  = ev["id"]
         home = ev["home_team"]
         away = ev["away_team"]
         ct   = ev["commence_time"]
 
-        # Check if game has already started
+        # Skip games not starting today ET
         game_started = False
         try:
             gt = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
+            if gt.date() != today_date:
+                continue
             game_started = gt <= now_et
         except Exception:
             pass
