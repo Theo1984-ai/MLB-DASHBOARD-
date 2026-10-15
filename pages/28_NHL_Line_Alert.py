@@ -908,16 +908,41 @@ for row in game_rows:
 # ── Past Plays & Results ──────────────────────────────────────────────────────
 
 st.markdown("---")
-st.markdown("### 📋 Today's Past Plays & Results")
+st.markdown("### 📋 Past Plays & Results")
 st.caption("Plays recorded by the daily snapshot cron (noon, 4 PM, 6 PM ET). "
            "Result shown once game is complete.")
 
 import pandas as pd
 
-_today    = datetime.now(tz=EASTERN).date()
-_sel_str  = _today.strftime("%Y-%m-%d")
+_today = datetime.now(tz=EASTERN).date()
+
+# Scan history directory for available dates
+_avail_dates = []
+if os.path.isdir(HISTORY_DIR):
+    for _fname in sorted(os.listdir(HISTORY_DIR), reverse=True):
+        if _fname.endswith(".json"):
+            try:
+                _avail_dates.append(datetime.strptime(_fname[:10], "%Y-%m-%d").date())
+            except Exception:
+                pass
+
+hcol1, hcol2 = st.columns([1, 3])
+with hcol1:
+    selected_date = st.date_input(
+        "📅 Select date",
+        value=_avail_dates[0] if _avail_dates else _today,
+        min_value=_avail_dates[-1] if _avail_dates else _today - timedelta(days=30),
+        max_value=_today,
+    )
+with hcol2:
+    if _avail_dates:
+        st.caption(f"History available for: {', '.join(d.strftime('%b %d') for d in _avail_dates[:10])}"
+                   + (" …" if len(_avail_dates) > 10 else ""))
+    else:
+        st.caption("No history files yet — records appear after the first snapshot runs.")
+
+_sel_str  = selected_date.strftime("%Y-%m-%d")
 _sel_path = os.path.join(HISTORY_DIR, f"{_sel_str}.json")
-selected_date = _today
 
 if not os.path.exists(_sel_path):
     st.info(f"No records for {selected_date.strftime('%B %d, %Y')}. "
@@ -933,7 +958,7 @@ else:
     def _play_is_today(p):
         ct = p.get("commence_time", "")
         try:
-            return datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today
+            return datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN).date() == selected_date
         except Exception:
             return True  # keep if unparseable
     _seen = set()
