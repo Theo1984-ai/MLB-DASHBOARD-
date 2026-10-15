@@ -929,10 +929,19 @@ else:
         _day_data = {}
 
     # Build flat play list from all snapshots in that day, deduped by (game, team, bet, line)
+    # Only include plays whose game starts today (ET)
+    def _play_is_today(p):
+        ct = p.get("commence_time", "")
+        try:
+            return datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today
+        except Exception:
+            return True  # keep if unparseable
     _seen = set()
     _plays_for_day = []
     for _snap_time in sorted(_day_data.keys()):
         for _p in _day_data[_snap_time].get("plays", []):
+            if not _play_is_today(_p):
+                continue
             _key = (_p.get("game"), _p.get("team"), _p.get("bet"), _p.get("line"))
             if _key not in _seen:
                 _seen.add(_key)
