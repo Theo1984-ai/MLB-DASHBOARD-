@@ -598,6 +598,7 @@ for i, t in enumerate(TRACKERS):
 
             row = {
                 "Selection": sel_val,
+                "Game":      p.get("game", ""),
                 "Market":    market,
                 "Side":      side,
                 "Line":      line,
