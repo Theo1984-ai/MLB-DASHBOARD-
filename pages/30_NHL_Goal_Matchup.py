@@ -104,6 +104,24 @@ if not rows:
     )
     st.stop()
 
+# Filter to today's games only (ET)
+_today_et = datetime.now(tz=EASTERN).date()
+def _is_today_game(r):
+    ct = r.get("commence_time", "")
+    try:
+        return datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today_et
+    except Exception:
+        return True
+rows = [r for r in rows if _is_today_game(r)]
+
+if not rows:
+    now_et = datetime.now(tz=EASTERN)
+    st.info(
+        f"**No goal scorer props for today's games yet** ({now_et.strftime('%A, %b %d')}). "
+        "Props are usually available a few hours before puck drop."
+    )
+    st.stop()
+
 # ─── Filter ──────────────────────────────────────────────────────────────────
 
 df = pd.DataFrame(rows)

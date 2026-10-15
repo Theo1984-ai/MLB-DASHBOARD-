@@ -78,6 +78,23 @@ if not rows:
         })
     st.stop()
 
+# Filter to today's games only (ET)
+_today_et = datetime.now(tz=EASTERN).date()
+def _is_today_game(r):
+    fp = r.get("first_pitch", "")
+    try:
+        return datetime.fromisoformat(fp.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today_et
+    except Exception:
+        return True
+rows = [r for r in rows if _is_today_game(r)]
+
+if not rows:
+    st.info(
+        f"**No NHL props for today's games** ({datetime.now(tz=EASTERN).strftime('%A, %b %d')}). "
+        "Check back closer to puck drop."
+    )
+    st.stop()
+
 
 def _kickoff(iso):
     try:

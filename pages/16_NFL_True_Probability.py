@@ -238,6 +238,23 @@ def _render_nfl_true_prob():
         )
         return
 
+    # Filter to today's games only (ET)
+    _today_et = datetime.now(tz=EASTERN).date()
+    def _is_today(p):
+        fp = p.get("first_pitch", "")
+        try:
+            return datetime.fromisoformat(fp.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today_et
+        except Exception:
+            return True
+    plays = [p for p in plays if _is_today(p)]
+
+    if not plays:
+        st.info(
+            f"**No 75%+ plays for today's NFL games** ({datetime.now(tz=EASTERN).strftime('%A, %b %d')}). "
+            "Check back on game day."
+        )
+        return
+
     all_rows = []
     for p in plays:
         all_rows.append({

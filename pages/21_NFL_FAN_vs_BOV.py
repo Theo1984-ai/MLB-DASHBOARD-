@@ -164,10 +164,14 @@ def _render(history_dir, sport_label):
                 continue
             current_map[game_key] = g
 
-    now_utc = datetime.now(tz=timezone.utc)
+    now_utc   = datetime.now(tz=timezone.utc)
+    _today_et = datetime.now(tz=EASTERN).date()
     rows = []
     for g in current_map.values():
         kick_ts = _parse_ts(g.get("first_pitch", ""))
+        # Skip games not happening today (ET)
+        if kick_ts and kick_ts.astimezone(EASTERN).date() != _today_et:
+            continue
         books   = g.get("books", {})
         fd      = books.get("fanduel", {})
         bol     = books.get("betonlineag", {})
