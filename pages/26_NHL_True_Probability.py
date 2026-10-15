@@ -95,6 +95,24 @@ if not all_plays:
     )
     st.stop()
 
+# Filter to today's games only (ET)
+_today_et = datetime.now(tz=EASTERN).date()
+def _is_today(play):
+    fp = play.get("first_pitch", "")
+    try:
+        return datetime.fromisoformat(fp.replace("Z", "+00:00")).astimezone(EASTERN).date() == _today_et
+    except Exception:
+        return True  # keep if unparseable
+
+all_plays = [p for p in all_plays if _is_today(p)]
+
+if not all_plays:
+    st.info(
+        "No 75%+ plays for today's games. "
+        "Check back closer to puck drop, or tomorrow's lines may not be shown here yet."
+    )
+    st.stop()
+
 # ---------- Build display ----------
 
 TAB_PROPS = ["Goals", "Shots on Goal", "Points", "Assists", "PP Points", "Anytime Goal"]
