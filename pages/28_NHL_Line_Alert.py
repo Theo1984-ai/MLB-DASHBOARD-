@@ -1,13 +1,11 @@
 """
-🚨 NHL Line Movement Alert
+🚨 Line Movement Alert (multi-sport)
 
 Monitors team totals every 5 min and fires when the steam sequence triggers:
   Step 1 — Pinnacle over price drops
-  Step 2 — William Hill or another book follows
+  Step 2 — Follower book follows
   Step 3 — Over price approaches or crosses zero
   Step 4 — Line drops a half-point
-
-Books used: Pinnacle (sharp), William Hill (Caesars), Fanatics
 """
 import json
 import os
@@ -24,21 +22,71 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-EASTERN     = ZoneInfo("America/New_York")
-CACHE_DIR   = os.path.join(ROOT, "nhl_line_alert_cache")
-HISTORY_DIR = os.path.join(ROOT, "nhl_line_alert_history")
-TRACKED_BOOKS = {"pinnacle", "williamhill_us", "fanatics"}
+EASTERN         = ZoneInfo("America/New_York")
 MIN_REFRESH_SEC = 300  # 5 minutes
 
-os.makedirs(CACHE_DIR, exist_ok=True)
+SPORT_CONFIGS = {
+    "NHL 🏒": {
+        "api_key":        "icehockey_nhl",
+        "follower_books": ["williamhill_us", "fanatics"],
+        "cache_dir":      os.path.join(ROOT, "nhl_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "nhl_line_alert_history"),
+        "today_only":     True,
+    },
+    "NFL 🏈": {
+        "api_key":        "americanfootball_nfl",
+        "follower_books": ["draftkings", "fanduel"],
+        "cache_dir":      os.path.join(ROOT, "nfl_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "nfl_line_alert_history"),
+        "today_only":     False,
+    },
+    "CFB 🏈": {
+        "api_key":        "americanfootball_ncaaf",
+        "follower_books": ["draftkings", "fanduel"],
+        "cache_dir":      os.path.join(ROOT, "cfb_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "cfb_line_alert_history"),
+        "today_only":     False,
+    },
+    "NBA 🏀": {
+        "api_key":        "basketball_nba",
+        "follower_books": ["draftkings", "fanduel"],
+        "cache_dir":      os.path.join(ROOT, "nba_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "nba_line_alert_history"),
+        "today_only":     True,
+    },
+    "MLB ⚾": {
+        "api_key":        "baseball_mlb",
+        "follower_books": ["draftkings", "fanduel"],
+        "cache_dir":      os.path.join(ROOT, "mlb_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "mlb_line_alert_history"),
+        "today_only":     True,
+    },
+}
+
+st.set_page_config(page_title="Line Alert", page_icon="🚨", layout="wide")
+
+# ── Sport selector ────────────────────────────────────────────────────────────
+selected_sport = st.radio(
+    "Sport", list(SPORT_CONFIGS.keys()), horizontal=True,
+    label_visibility="collapsed", key="line_alert_sport",
+)
+_cfg = SPORT_CONFIGS[selected_sport]
+SPORT_KEY      = _cfg["api_key"]
+FOLLOWER_BOOKS = _cfg["follower_books"]
+TRACKED_BOOKS  = {"pinnacle"} | set(FOLLOWER_BOOKS)
+CACHE_DIR      = _cfg["cache_dir"]
+HISTORY_DIR    = _cfg["history_dir"]
+TODAY_ONLY     = _cfg["today_only"]
+F1_KEY         = FOLLOWER_BOOKS[0] if len(FOLLOWER_BOOKS) > 0 else ""
+F2_KEY         = FOLLOWER_BOOKS[1] if len(FOLLOWER_BOOKS) > 1 else ""
+
+os.makedirs(CACHE_DIR,   exist_ok=True)
 os.makedirs(HISTORY_DIR, exist_ok=True)
 
-st.set_page_config(page_title="NHL Line Alert", page_icon="🚨", layout="wide")
-st.title("🚨 NHL Line Movement Alert")
+st.title(f"🚨 {selected_sport} Line Movement Alert")
 st.caption(
     "Fires when the steam sequence triggers: **Pinnacle over drops → book follows → "
-    "price crosses zero → line drops**. Refreshes every 5 min. Uses Pinnacle + "
-    "William Hill + Fanatics (the only books posting NHL team totals)."
+    "price crosses zero → line drops**. Refreshes every 5 min."
 )
 
 # ── Secrets ──────────────────────────────────────────────────────────────────
@@ -71,7 +119,7 @@ def _get(url, timeout=15):
 def fetch_snapshot():
     now_et = datetime.now(tz=EASTERN)
     events, quota = _get(
-        f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events"
+        f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/events"
         f"?apiKey={ODDS_KEY}"
     )
 
@@ -84,11 +132,11 @@ def fetch_snapshot():
         away = ev["away_team"]
         ct   = ev["commence_time"]
 
-        # Skip games not starting today ET
         game_started = False
         try:
             gt = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
-            if gt.date() != today_date:
+            # For today_only sports (NHL/NBA/MLB), skip games not today
+            if TODAY_ONLY and gt.date() != today_date:
                 continue
             game_started = gt <= now_et
         except Exception:
@@ -99,7 +147,7 @@ def fetch_snapshot():
             # Only fetch odds for games that haven't started (saves quota)
             try:
                 data, _ = _get(
-                    f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/events/{eid}/odds"
+                    f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/events/{eid}/odds"
                     f"?apiKey={ODDS_KEY}&regions=us,eu,uk&markets=team_totals&oddsFormat=american"
                 )
             except Exception:
@@ -175,7 +223,7 @@ def load_history(n=10):
 def fetch_scores():
     """Fetch current + recent game scores from the Odds API (1 credit)."""
     data, _ = _get(
-        f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/scores/"
+        f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/scores/"
         f"?apiKey={ODDS_KEY}&daysFrom=3"
     )
     lookup = {}
@@ -288,7 +336,7 @@ def detect_signals(game_name, team, history, current):
 
     # ── Signal 2: Another book follows Pinnacle ──────────────────────────────
     followers = []
-    for bk in ("williamhill_us", "fanatics"):
+    for bk in FOLLOWER_BOOKS:
         bk_prev = prev.get(bk, {}).get("over")
         bk_curr = cur.get(bk, {}).get("over")
         if bk_prev is not None and bk_curr is not None and bk_curr < bk_prev:
@@ -389,7 +437,16 @@ def streak_info(game_name, team, history, current):
 
 col_r, col_s, col_t, col_q = st.columns([1, 1, 2, 2])
 
-# Auto-refresh from session state
+# Auto-refresh from session state (keyed per sport so switching clears stale data)
+_sk = SPORT_KEY  # short alias for key prefix
+if st.session_state.get("_la_sport") != _sk:
+    # Sport changed — clear cached data
+    st.session_state["_la_sport"]        = _sk
+    st.session_state["last_fetch_time"]  = None
+    st.session_state["last_snap"]        = None
+    st.session_state["last_quota"]       = "?"
+    st.session_state["scores_lookup"]    = {}
+
 if "last_fetch_time" not in st.session_state:
     st.session_state.last_fetch_time = None
 if "last_snap" not in st.session_state:
@@ -483,8 +540,8 @@ for g in sorted_games:
         s_dir, s_len = streak_info(game_name, team, history, snap)
 
         pin  = cur_side.get("pinnacle", {})
-        wil  = cur_side.get("williamhill_us", {})
-        fan  = cur_side.get("fanatics", {})
+        wil  = cur_side.get(F1_KEY, {})
+        fan  = cur_side.get(F2_KEY, {})
 
         pin_line  = pin.get("line")
         wil_line  = wil.get("line")
@@ -501,9 +558,9 @@ for g in sorted_games:
 
         # When lines differ, find the book with the highest (easiest) line — that's the play
         book_entries = [
-            ("pinnacle",       pin_line, pin_over),
-            ("williamhill_us", wil_line, wil_over),
-            ("fanatics",       fan_line, fan_over),
+            ("pinnacle", pin_line, pin_over),
+            (F1_KEY,     wil_line, wil_over),
+            (F2_KEY,     fan_line, fan_over),
         ]
         valid = [(bk, ln, ov) for bk, ln, ov in book_entries
                  if ln is not None and ln != 0.5 and ov is not None]
@@ -545,8 +602,8 @@ for g in sorted_games:
         if lines_split and pin_line:
             non_pin_lines = [
                 (bk, ln, ov, un) for bk, ln, ov, un in [
-                    ("williamhill_us", wil_line, wil_over, wil_under),
-                    ("fanatics",       fan_line, fan_over, fan_under),
+                    (F1_KEY, wil_line, wil_over, wil_under),
+                    (F2_KEY, fan_line, fan_over, fan_under),
                 ] if ln is not None and ln != 0.5
             ]
             if non_pin_lines:
@@ -604,6 +661,8 @@ BOOK_DISPLAY = {
     "pinnacle":       "Pinnacle",
     "williamhill_us": "William Hill",
     "fanatics":       "Fanatics",
+    "draftkings":     "DraftKings",
+    "fanduel":        "FanDuel",
 }
 
 def _price_str(p):
@@ -738,6 +797,8 @@ BOOK_LABELS = {
     "pinnacle":       "Pinnacle",
     "williamhill_us": "Wm Hill",
     "fanatics":       "Fanatics",
+    "draftkings":     "DraftKings",
+    "fanduel":        "FanDuel",
 }
 
 def _book_row(bk_key, line, over, under, is_play, play_bet, play_reason):
@@ -837,8 +898,8 @@ for row in game_rows:
                     # Pinnacle higher than another book → OVER steam → bet OVER at lowest line
                     non_pin_lines = [
                         (bk, ln, ov) for bk, ln, ov in [
-                            ("williamhill_us", side["wil_line"], side["wil_over"]),
-                            ("fanatics",       side["fan_line"], side["fan_over"]),
+                            (F1_KEY, side["wil_line"], side["wil_over"]),
+                            (F2_KEY, side["fan_line"], side["fan_over"]),
                         ] if ln is not None and ln != 0.5
                     ]
                     if non_pin_lines and pin_line:
@@ -870,12 +931,9 @@ for row in game_rows:
 
                 # Book rows: line, over, under — BET HERE on the play book
                 books_data = [
-                    ("pinnacle",       side["pin_line"], side["pin_over"],
-                     side["pin_under"]),
-                    ("williamhill_us", side["wil_line"], side["wil_over"],
-                     side.get("wil_under")),
-                    ("fanatics",       side["fan_line"], side["fan_over"],
-                     side.get("fan_under")),
+                    ("pinnacle", side["pin_line"], side["pin_over"], side["pin_under"]),
+                    (F1_KEY,     side["wil_line"], side["wil_over"], side.get("wil_under")),
+                    (F2_KEY,     side["fan_line"], side["fan_over"], side.get("fan_under")),
                 ]
                 header = ('<tr style="border-bottom:1px solid #e5e7eb;">'
                           '<th style="padding:3px 10px 3px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Book</th>'
