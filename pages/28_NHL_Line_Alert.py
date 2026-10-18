@@ -35,28 +35,36 @@ SPORT_CONFIGS = {
     },
     "NFL 🏈": {
         "api_key":        "americanfootball_nfl",
-        "follower_books": ["draftkings", "fanduel"],
+        "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                           "bovada", "betrivers", "betonlineag", "espnbet",
+                           "mybookieag", "pointsbetus"],
         "cache_dir":      os.path.join(ROOT, "nfl_line_alert_cache"),
         "history_dir":    os.path.join(ROOT, "nfl_line_alert_history"),
         "today_only":     False,
     },
     "CFB 🏈": {
         "api_key":        "americanfootball_ncaaf",
-        "follower_books": ["draftkings", "fanduel"],
+        "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                           "bovada", "betrivers", "betonlineag", "espnbet",
+                           "mybookieag", "pointsbetus"],
         "cache_dir":      os.path.join(ROOT, "cfb_line_alert_cache"),
         "history_dir":    os.path.join(ROOT, "cfb_line_alert_history"),
         "today_only":     False,
     },
     "NBA 🏀": {
         "api_key":        "basketball_nba",
-        "follower_books": ["draftkings", "fanduel"],
+        "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                           "bovada", "betrivers", "betonlineag", "espnbet",
+                           "mybookieag", "pointsbetus"],
         "cache_dir":      os.path.join(ROOT, "nba_line_alert_cache"),
         "history_dir":    os.path.join(ROOT, "nba_line_alert_history"),
         "today_only":     True,
     },
     "MLB ⚾": {
         "api_key":        "baseball_mlb",
-        "follower_books": ["draftkings", "fanduel"],
+        "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                           "bovada", "betrivers", "betonlineag", "espnbet",
+                           "mybookieag", "pointsbetus"],
         "cache_dir":      os.path.join(ROOT, "mlb_line_alert_cache"),
         "history_dir":    os.path.join(ROOT, "mlb_line_alert_history"),
         "today_only":     True,
@@ -77,8 +85,6 @@ TRACKED_BOOKS  = {"pinnacle"} | set(FOLLOWER_BOOKS)
 CACHE_DIR      = _cfg["cache_dir"]
 HISTORY_DIR    = _cfg["history_dir"]
 TODAY_ONLY     = _cfg["today_only"]
-F1_KEY         = FOLLOWER_BOOKS[0] if len(FOLLOWER_BOOKS) > 0 else ""
-F2_KEY         = FOLLOWER_BOOKS[1] if len(FOLLOWER_BOOKS) > 1 else ""
 
 os.makedirs(CACHE_DIR,   exist_ok=True)
 os.makedirs(HISTORY_DIR, exist_ok=True)
@@ -540,27 +546,20 @@ for g in sorted_games:
         s_dir, s_len = streak_info(game_name, team, history, snap)
 
         pin  = cur_side.get("pinnacle", {})
-        wil  = cur_side.get(F1_KEY, {})
-        fan  = cur_side.get(F2_KEY, {})
-
         pin_line  = pin.get("line")
-        wil_line  = wil.get("line")
-        fan_line  = fan.get("line")
         pin_over  = pin.get("over")
-        wil_over  = wil.get("over")
-        fan_over  = fan.get("over")
         pin_under = pin.get("under")
-        wil_under = wil.get("under")
-        fan_under = fan.get("under")
 
-        all_lines = [l for l in [pin_line, wil_line, fan_line] if l is not None]
+        follower_data = {bk: cur_side.get(bk, {}) for bk in FOLLOWER_BOOKS}
+
+        all_lines = [pin_line] + [follower_data[bk].get("line") for bk in FOLLOWER_BOOKS]
+        all_lines = [l for l in all_lines if l is not None]
         lines_split = len(set(l for l in all_lines if l != 0.5)) > 1
 
         # When lines differ, find the book with the highest (easiest) line — that's the play
-        book_entries = [
-            ("pinnacle", pin_line, pin_over),
-            (F1_KEY,     wil_line, wil_over),
-            (F2_KEY,     fan_line, fan_over),
+        book_entries = [("pinnacle", pin_line, pin_over)] + [
+            (bk, follower_data[bk].get("line"), follower_data[bk].get("over"))
+            for bk in FOLLOWER_BOOKS
         ]
         valid = [(bk, ln, ov) for bk, ln, ov in book_entries
                  if ln is not None and ln != 0.5 and ov is not None]
@@ -572,22 +571,17 @@ for g in sorted_games:
         best_price_book = max(same_line_books, key=lambda x: x[2]) if same_line_books else None
 
         row["sides"].append({
-            "team":           team,
-            "pin_line":       pin_line,
-            "wil_line":       wil_line,
-            "fan_line":       fan_line,
-            "lines_split":    lines_split,
-            "pin_over":       pin_over,
-            "wil_over":       wil_over,
-            "fan_over":       fan_over,
-            "pin_under":      pin_under,
-            "best_line_book": best_line_book,   # (book, line, price) — play when lines differ
-            "best_price_book":best_price_book,  # (book, line, price) — play when lines same
-            "wil_under":      wil_under,
-            "fan_under":      fan_under,
-            "streak_dir":     s_dir,
-            "streak_len":     s_len,
-            "signals":        signals,
+            "team":            team,
+            "pin_line":        pin_line,
+            "pin_over":        pin_over,
+            "pin_under":       pin_under,
+            "follower_data":   follower_data,
+            "lines_split":     lines_split,
+            "best_line_book":  best_line_book,   # (book, line, price) — play when lines differ
+            "best_price_book": best_price_book,  # (book, line, price) — play when lines same
+            "streak_dir":      s_dir,
+            "streak_len":      s_len,
+            "signals":         signals,
         })
 
         if signals:
@@ -601,10 +595,10 @@ for g in sorted_games:
 
         if lines_split and pin_line:
             non_pin_lines = [
-                (bk, ln, ov, un) for bk, ln, ov, un in [
-                    (F1_KEY, wil_line, wil_over, wil_under),
-                    (F2_KEY, fan_line, fan_over, fan_under),
-                ] if ln is not None and ln != 0.5
+                (bk, fd.get("line"), fd.get("over"), fd.get("under"))
+                for bk in FOLLOWER_BOOKS
+                for fd in [follower_data.get(bk, {})]
+                if fd.get("line") is not None and fd.get("line") != 0.5
             ]
             if non_pin_lines:
                 max_entry = max(non_pin_lines, key=lambda x: x[1])
@@ -659,10 +653,16 @@ if (needs_refresh or snap_now) and fetch_time and all_plays:
 
 BOOK_DISPLAY = {
     "pinnacle":       "Pinnacle",
-    "williamhill_us": "William Hill",
+    "williamhill_us": "Caesars",
     "fanatics":       "Fanatics",
     "draftkings":     "DraftKings",
     "fanduel":        "FanDuel",
+    "bovada":         "Bovada",
+    "betrivers":      "BetRivers",
+    "betonlineag":    "BetOnline",
+    "espnbet":        "ESPN Bet",
+    "mybookieag":     "MyBookie",
+    "pointsbetus":    "PointsBet",
 }
 
 def _price_str(p):
@@ -795,10 +795,16 @@ def _streak_badge(direction, length):
 
 BOOK_LABELS = {
     "pinnacle":       "Pinnacle",
-    "williamhill_us": "Wm Hill",
+    "williamhill_us": "Caesars",
     "fanatics":       "Fanatics",
     "draftkings":     "DraftKings",
     "fanduel":        "FanDuel",
+    "bovada":         "Bovada",
+    "betrivers":      "BetRivers",
+    "betonlineag":    "BetOnline",
+    "espnbet":        "ESPN Bet",
+    "mybookieag":     "MyBookie",
+    "pointsbetus":    "PointsBet",
 }
 
 def _book_row(bk_key, line, over, under, is_play, play_bet, play_reason):
@@ -897,10 +903,10 @@ for row in game_rows:
                     # Pinnacle lower than another book → UNDER steam → bet UNDER at highest line
                     # Pinnacle higher than another book → OVER steam → bet OVER at lowest line
                     non_pin_lines = [
-                        (bk, ln, ov) for bk, ln, ov in [
-                            (F1_KEY, side["wil_line"], side["wil_over"]),
-                            (F2_KEY, side["fan_line"], side["fan_over"]),
-                        ] if ln is not None and ln != 0.5
+                        (bk, fd.get("line"), fd.get("over"))
+                        for bk in FOLLOWER_BOOKS
+                        for fd in [side["follower_data"].get(bk, {})]
+                        if fd.get("line") is not None and fd.get("line") != 0.5
                     ]
                     if non_pin_lines and pin_line:
                         max_non_pin = max(non_pin_lines, key=lambda x: x[1])
@@ -930,11 +936,10 @@ for row in game_rows:
                 )
 
                 # Book rows: line, over, under — BET HERE on the play book
-                books_data = [
-                    ("pinnacle", side["pin_line"], side["pin_over"], side["pin_under"]),
-                    (F1_KEY,     side["wil_line"], side["wil_over"], side.get("wil_under")),
-                    (F2_KEY,     side["fan_line"], side["fan_over"], side.get("fan_under")),
-                ]
+                books_data = [("pinnacle", side["pin_line"], side["pin_over"], side["pin_under"])]
+                for _bk in FOLLOWER_BOOKS:
+                    _fd = side["follower_data"].get(_bk, {})
+                    books_data.append((_bk, _fd.get("line"), _fd.get("over"), _fd.get("under")))
                 header = ('<tr style="border-bottom:1px solid #e5e7eb;">'
                           '<th style="padding:3px 10px 3px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Book</th>'
                           '<th style="padding:3px 8px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Line</th>'
