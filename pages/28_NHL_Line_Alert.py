@@ -160,8 +160,11 @@ def fetch_snapshot():
                 continue
 
             bk_sides = defaultdict(dict)
+            raw_books_seen = []   # debug: all bookmakers in API response
+            pin_descriptions = [] # debug: team names Pinnacle uses
             for bm in data.get("bookmakers", []):
                 bk = bm["key"]
+                raw_books_seen.append(bk)
                 if bk not in TRACKED_BOOKS:
                     continue
                 for mkt in bm.get("markets", []):
@@ -172,6 +175,8 @@ def fetch_snapshot():
                         name  = out.get("name", "")
                         price = out.get("price")
                         point = out.get("point")
+                        if bk == "pinnacle" and name == "Over":
+                            pin_descriptions.append(team)
                         if name == "Over":
                             bk_sides[team][bk] = {"line": point, "over": price}
                         elif name == "Under":
@@ -185,12 +190,14 @@ def fetch_snapshot():
 
         # Always include the game (started ones show score only)
         games.append({
-            "game":          f"{away} @ {home}",
-            "away":          away,
-            "home":          home,
-            "commence_time": ct,
-            "started":       game_started,
-            "sides":         sides,
+            "game":            f"{away} @ {home}",
+            "away":            away,
+            "home":            home,
+            "commence_time":   ct,
+            "started":         game_started,
+            "sides":           sides,
+            "_debug_all_books":  raw_books_seen if not game_started else [],
+            "_debug_pin_desc":   pin_descriptions if not game_started else [],
         })
 
     snap = {
@@ -512,10 +519,22 @@ with st.expander("🔍 Debug — books in latest snapshot", expanded=False):
         for g in snap.get("games", []):
             if g.get("started"):
                 continue
-            books_found = set()
+            # Books actually matched to team names (what the page uses)
+            books_matched = set()
             for team_data in g.get("sides", {}).values():
-                books_found |= set(team_data.keys())
-            st.caption(f"**{g['game']}** — books: {', '.join(sorted(books_found)) or 'none'}")
+                books_matched |= set(team_data.keys())
+            # All books the API returned (before team-name lookup)
+            all_api_books = g.get("_debug_all_books", [])
+            pin_names     = g.get("_debug_pin_desc", [])
+            event_teams   = f"{g['away']} / {g['home']}"
+            st.markdown(
+                f"**{g['game']}**  \n"
+                f"&nbsp;&nbsp;📋 API returned: `{', '.join(sorted(set(all_api_books))) or 'none'}`  \n"
+                f"&nbsp;&nbsp;✅ Matched to teams: `{', '.join(sorted(books_matched)) or 'none'}`  \n"
+                f"&nbsp;&nbsp;🔵 Pinnacle team names: `{', '.join(pin_names) or 'not in response'}`  \n"
+                f"&nbsp;&nbsp;🏒 Event team names: `{event_teams}`",
+                unsafe_allow_html=False,
+            )
     else:
         st.caption("No snapshot loaded yet — hit Refresh.")
 
