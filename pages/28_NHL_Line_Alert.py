@@ -159,15 +159,33 @@ def fetch_snapshot():
             except Exception:
                 continue
 
-            # Normalize team description to canonical event team name
-            # (different books may abbreviate/format team names differently)
+            # Normalize team description to canonical event team name.
+            # Handles: exact match, substring, initials (e.g. "BOS" → "Boston Bruins").
             def _canonical(desc):
-                dl = desc.lower()
-                if dl == away.lower() or dl in away.lower() or away.lower() in dl:
-                    return away
-                if dl == home.lower() or dl in home.lower() or home.lower() in dl:
-                    return home
-                return desc  # unknown description — keep as-is
+                if not desc:
+                    return desc
+                dl = desc.strip().lower()
+                for canonical, clow in ((away, away.lower()), (home, home.lower())):
+                    # Exact match
+                    if dl == clow:
+                        return canonical
+                    # Substring: "bruins" in "boston bruins" or "boston bruins" in "bruins" (unlikely)
+                    if dl in clow or clow in dl:
+                        return canonical
+                    # Initials match: "bos" matches "Boston" (first 3 chars of first word)
+                    first_word = clow.split()[0] if clow.split() else ""
+                    if dl == first_word[:len(dl)] and len(dl) >= 2:
+                        return canonical
+                    # Last word match: "bruins" or "BRU"
+                    last_word = clow.split()[-1] if clow.split() else ""
+                    if dl == last_word[:len(dl)] and len(dl) >= 3:
+                        return canonical
+                    # Any word in desc matches any word in canonical (word-level)
+                    desc_words = set(dl.split())
+                    can_words  = set(clow.split())
+                    if desc_words & can_words and len(max(desc_words & can_words, key=len)) >= 3:
+                        return canonical
+                return desc
 
             bk_sides = defaultdict(dict)
             raw_books_seen = []   # debug: all bookmakers in API response
@@ -194,6 +212,17 @@ def fetch_snapshot():
                             if bk not in bk_sides[team]:
                                 bk_sides[team][bk] = {}
                             bk_sides[team][bk]["under"] = price
+
+            # Re-map any unrecognized keys to canonical team names using _canonical
+            # (handles cases where _canonical failed the first time due to ordering)
+            fixed = defaultdict(dict)
+            for key, book_data in bk_sides.items():
+                canon = key if key in (away, home) else _canonical(key)
+                for bk, bdata in book_data.items():
+                    existing = fixed[canon].get(bk, {})
+                    existing.update(bdata)
+                    fixed[canon][bk] = existing
+            bk_sides = fixed
 
             if not bk_sides:
                 continue
@@ -525,29 +554,36 @@ with col_q:
 history = load_history(n=15)
 
 # ── Debug: show raw books in snapshot ────────────────────────────────────────
-with st.expander("🔍 Debug — books in latest snapshot", expanded=False):
+with st.expander("🔍 Debug — Pinnacle Diagnostic", expanded=True):
     if snap:
-        for g in snap.get("games", []):
-            if g.get("started"):
-                continue
-            # Books actually matched to team names (what the page uses)
+        ungames = [g for g in snap.get("games", []) if not g.get("started")]
+        if not ungames:
+            st.warning("No upcoming games in snapshot (all may have started). Hit **Refresh Now**.")
+        for g in ungames:
             books_matched = set()
             for team_data in g.get("sides", {}).values():
                 books_matched |= set(team_data.keys())
-            # All books the API returned (before team-name lookup)
-            all_api_books = g.get("_debug_all_books", [])
+            all_api_books = list(set(g.get("_debug_all_books", [])))
             pin_names     = g.get("_debug_pin_desc", [])
             event_teams   = f"{g['away']} / {g['home']}"
+            pin_in_api    = "pinnacle" in all_api_books
+            pin_in_grid   = "pinnacle" in books_matched
+            if pin_in_grid:
+                pin_status = "✅ Pinnacle — **IN GRID** (working)"
+            elif pin_in_api:
+                pin_status = "⚠️ Pinnacle — **in API response but MISSING from grid** (team name mismatch)"
+            else:
+                pin_status = "❌ Pinnacle — **NOT in API response** (Pinnacle hasn't posted this market yet)"
             st.markdown(
-                f"**{g['game']}**  \n"
-                f"&nbsp;&nbsp;📋 API returned: `{', '.join(sorted(set(all_api_books))) or 'none'}`  \n"
-                f"&nbsp;&nbsp;✅ Matched to teams: `{', '.join(sorted(books_matched)) or 'none'}`  \n"
-                f"&nbsp;&nbsp;🔵 Pinnacle team names: `{', '.join(pin_names) or 'not in response'}`  \n"
+                f"**{g['game']}** &nbsp; {pin_status}  \n"
+                f"&nbsp;&nbsp;📋 All books from API: `{', '.join(sorted(all_api_books)) or 'none'}`  \n"
+                f"&nbsp;&nbsp;✅ Books shown in grid: `{', '.join(sorted(books_matched)) or 'none'}`  \n"
+                f"&nbsp;&nbsp;🔵 Pinnacle descriptions→canonical: `{', '.join(pin_names) or 'n/a'}`  \n"
                 f"&nbsp;&nbsp;🏒 Event team names: `{event_teams}`",
                 unsafe_allow_html=False,
             )
     else:
-        st.caption("No snapshot loaded yet — hit Refresh.")
+        st.warning("No snapshot loaded yet — hit **Refresh Now**.")
 
 # ── Scan all games for signals ────────────────────────────────────────────────
 
