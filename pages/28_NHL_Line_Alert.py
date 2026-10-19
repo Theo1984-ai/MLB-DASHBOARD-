@@ -159,6 +159,16 @@ def fetch_snapshot():
             except Exception:
                 continue
 
+            # Normalize team description to canonical event team name
+            # (different books may abbreviate/format team names differently)
+            def _canonical(desc):
+                dl = desc.lower()
+                if dl == away.lower() or dl in away.lower() or away.lower() in dl:
+                    return away
+                if dl == home.lower() or dl in home.lower() or home.lower() in dl:
+                    return home
+                return desc  # unknown description — keep as-is
+
             bk_sides = defaultdict(dict)
             raw_books_seen = []   # debug: all bookmakers in API response
             pin_descriptions = [] # debug: team names Pinnacle uses
@@ -171,12 +181,13 @@ def fetch_snapshot():
                     if mkt.get("key") != "team_totals":
                         continue
                     for out in mkt.get("outcomes", []):
-                        team  = out.get("description", "")
+                        raw_desc = out.get("description", "")
+                        team  = _canonical(raw_desc)
                         name  = out.get("name", "")
                         price = out.get("price")
                         point = out.get("point")
                         if bk == "pinnacle" and name == "Over":
-                            pin_descriptions.append(team)
+                            pin_descriptions.append(f"{raw_desc!r} -> {team!r}")
                         if name == "Over":
                             bk_sides[team][bk] = {"line": point, "over": price}
                         elif name == "Under":
