@@ -506,6 +506,19 @@ with col_q:
 
 history = load_history(n=15)
 
+# ── Debug: show raw books in snapshot ────────────────────────────────────────
+with st.expander("🔍 Debug — books in latest snapshot", expanded=False):
+    if snap:
+        for g in snap.get("games", []):
+            if g.get("started"):
+                continue
+            books_found = set()
+            for team_data in g.get("sides", {}).values():
+                books_found |= set(team_data.keys())
+            st.caption(f"**{g['game']}** — books: {', '.join(sorted(books_found)) or 'none'}")
+    else:
+        st.caption("No snapshot loaded yet — hit Refresh.")
+
 # ── Scan all games for signals ────────────────────────────────────────────────
 
 all_alerts = []   # (game, team, signals, game_time)
