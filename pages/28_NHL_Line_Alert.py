@@ -1097,13 +1097,151 @@ else:
                 unsafe_allow_html=True,
             )
 
+# ── Teams to Watch ───────────────────────────────────────────────────────────
+
+st.markdown("---")
+st.markdown("### 📈 Teams to Watch — Over/Under Trends")
+st.caption("Based on last 3 days of completed games vs closing team total line. Min 2 games to appear.")
+
+def _load_team_stats(scores_lkp):
+    """Load nhl_team_totals_history, cross-ref with scores, return per-team stats."""
+    hist_dir = os.path.join(ROOT, "nhl_team_totals_history")
+    if not os.path.isdir(hist_dir):
+        return {}
+
+    # Build game→team→{close_line, result} from history files
+    game_sides = {}   # (game, team) -> {close_line, last_cap, first_pitch}
+    for fname in sorted(os.listdir(hist_dir)):
+        if not fname.endswith(".json"):
+            continue
+        try:
+            data = json.load(open(os.path.join(hist_dir, fname), encoding="utf-8"))
+        except Exception:
+            continue
+        snaps = data.get("snapshots", [])
+        if not snaps:
+            continue
+        # Use last snapshot of the day as closing line
+        last_snap = snaps[-1]
+        for g in last_snap.get("games", []):
+            game = g.get("game", "")
+            fp   = g.get("first_pitch", "")
+            books = g.get("books", {})
+            for side in ["away", "home"]:
+                team = g.get(f"{side}_team", "")
+                if not team:
+                    continue
+                # Best closing line: fanatics > fanduel > williamhill_us
+                cl = None
+                for bk in ["fanatics", "fanduel", "williamhill_us", "betrivers"]:
+                    bk_data = books.get(bk, {})
+                    if bk_data.get(side, {}).get("line") is not None:
+                        cl = bk_data[side]["line"]
+                        break
+                if cl is None:
+                    continue
+                key = (game, team)
+                if key not in game_sides or game_sides[key]["last_cap"] < last_snap.get("captured_at", ""):
+                    game_sides[key] = {
+                        "close_line": cl,
+                        "last_cap": last_snap.get("captured_at", ""),
+                        "first_pitch": fp,
+                    }
+
+    # Cross-reference with scores
+    team_stats = {}   # team -> {over, under, games: [(line, score, result)]}
+    for (game, team), gd in game_sides.items():
+        sc = scores_lkp.get(game, {})
+        if not sc.get("completed"):
+            continue
+        ts = sc.get("team_scores", {})
+        team_score = ts.get(team)
+        if team_score is None:
+            continue
+        line = gd["close_line"]
+        result = "over" if team_score > line else ("push" if team_score == line else "under")
+        if team not in team_stats:
+            team_stats[team] = {"over": 0, "under": 0, "push": 0, "games": []}
+        team_stats[team][result] += 1
+        team_stats[team]["games"].append((line, team_score, result))
+    return team_stats
+
+_team_stats = _load_team_stats(scores_lookup)
+
+if not _team_stats:
+    st.info("Not enough completed game data yet — check back after a few days of results.")
+else:
+    _team_rows = []
+    for team, stat in _team_stats.items():
+        total = stat["over"] + stat["under"] + stat["push"]
+        if total < 2:
+            continue
+        over_rate = stat["over"] / total * 100
+        recent = stat["games"][-3:]   # last 3 results
+        trend_parts = []
+        for ln, sc, res in recent:
+            if res == "over":
+                trend_parts.append(f"O{int(sc)}>{ln}")
+            elif res == "under":
+                trend_parts.append(f"U{int(sc)}<{ln}")
+            else:
+                trend_parts.append(f"P{int(sc)}={ln}")
+        trend = "  ".join(trend_parts)
+
+        # Most common line
+        lines = [g[0] for g in stat["games"]]
+        common_line = max(set(lines), key=lines.count)
+
+        _team_rows.append({
+            "Team":      team,
+            "Line":      common_line,
+            "Over":      stat["over"],
+            "Under":     stat["under"],
+            "Games":     total,
+            "Over %":    round(over_rate, 1),
+            "Trend (last 3)": trend,
+            "_over_rate": over_rate,
+        })
+
+    _team_rows.sort(key=lambda x: -x["_over_rate"])
+
+    hot  = [r for r in _team_rows if r["Over %"] >= 65]
+    cold = [r for r in _team_rows if r["Over %"] <= 35]
+    mid  = [r for r in _team_rows if 35 < r["Over %"] < 65]
+
+    tcol1, tcol2 = st.columns(2)
+
+    with tcol1:
+        st.markdown("**🔥 Consistent OVER teams**")
+        if hot:
+            import pandas as pd
+            df_hot = pd.DataFrame(hot)[["Team", "Line", "Over", "Under", "Games", "Over %", "Trend (last 3)"]]
+            st.dataframe(df_hot, use_container_width=True, hide_index=True)
+        else:
+            st.info("No teams at 65%+ yet.")
+
+    with tcol2:
+        st.markdown("**🧊 Consistent UNDER teams**")
+        if cold:
+            import pandas as pd
+            df_cold = pd.DataFrame(sorted(cold, key=lambda x: x["_over_rate"]))[
+                ["Team", "Line", "Over", "Under", "Games", "Over %", "Trend (last 3)"]]
+            st.dataframe(df_cold, use_container_width=True, hide_index=True)
+        else:
+            st.info("No teams at 35% or below yet.")
+
+    with st.expander("📋 All teams", expanded=False):
+        import pandas as pd
+        df_all = pd.DataFrame(_team_rows)[["Team", "Line", "Over", "Under", "Games", "Over %", "Trend (last 3)"]]
+        st.dataframe(df_all, use_container_width=True, hide_index=True)
+
 # ── Auto-rerun every 5 min ────────────────────────────────────────────────────
 
 st.markdown("---")
 st.caption(
     f"Quota cost: ~17 credits/refresh  •  Min interval: 5 min  •  "
-    f"Books: Pinnacle + William Hill + Fanatics  •  "
-    f"Sequence: PIN drop → follower → cross zero → line drop"
+    f"Books: Pinnacle + {' + '.join(BOOK_LABELS.get(b, b) for b in FOLLOWER_BOOKS[:2])}  •  "
+    f"Sequence: PIN drop -> follower -> cross zero -> line drop"
 )
 
 # Schedule rerun
