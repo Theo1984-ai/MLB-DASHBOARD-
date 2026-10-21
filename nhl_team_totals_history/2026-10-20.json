@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 9,
+  "n_snapshots": 10,
   "snapshots": [
     {
       "captured_at": "2026-10-20T08:09:08.765503-04:00",
@@ -486,6 +486,44 @@
       "captured_at": "2026-10-20T16:29:42.997062-04:00",
       "n_games": 0,
       "games": []
+    },
+    {
+      "captured_at": "2026-10-20T23:14:19.910447-04:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Florida Panthers @ Ottawa Senators",
+          "away_team": "Florida Panthers",
+          "home_team": "Ottawa Senators",
+          "first_pitch": "2026-10-21T23:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -165,
+            "under_price": 125
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": 150,
+            "under_price": -200
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": -165,
+                "under_price": 125
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": 150,
+                "under_price": -200
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
     }
   ]
 }
