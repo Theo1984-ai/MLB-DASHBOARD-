@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-21",
+  "sport": "icehockey_nhl",
+  "book": "fanduel",
+  "market": "team_totals",
+  "n_snapshots": 1,
+  "snapshots": [
+    {
+      "captured_at": "2026-10-21T08:01:18.089445-04:00",
+      "n_games": 2,
+      "games": [
+        {
+          "game": "Philadelphia Flyers @ Buffalo Sabres",
+          "away_team": "Philadelphia Flyers",
+          "home_team": "Buffalo Sabres",
+          "first_pitch": "2026-10-21T23:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -108,
+            "under_price": -118
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": -102,
+            "under_price": -124
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -108,
+                "under_price": -118
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -102,
+                "under_price": -124
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Florida Panthers @ Ottawa Senators",
+          "away_team": "Florida Panthers",
+          "home_team": "Ottawa Senators",
+          "first_pitch": "2026-10-21T23:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -160,
+            "under_price": 120
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": 150,
+            "under_price": -200
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": -160,
+                "under_price": 120
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": 150,
+                "under_price": -200
+              }
+            },
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -164,
+                "under_price": 128
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -156,
+                "under_price": 122
+              }
+            }
+          },
+          "n_books": 2
+        }
+      ]
+    }
+  ]
+}
