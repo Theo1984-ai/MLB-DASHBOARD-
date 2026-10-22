@@ -797,6 +797,26 @@ else:
 
 st.markdown("---")
 
+# ── Signal legend ─────────────────────────────────────────────────────────────
+st.markdown("#### 🗺️ Signal Color Guide")
+st.markdown(
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">'
+    '<div style="background:#eff6ff;color:#1e3a5f;border:1px solid #93c5fd;border-radius:6px;padding:6px 12px;font-size:13px;">'
+    '🔵 <strong>LINE SPLIT</strong> — Books disagree on the line right now (e.g. Caesars 3.5, Pinnacle 2.5)</div>'
+    '<div style="background:#fefce8;color:#713f12;border:1px solid #fde047;border-radius:6px;padding:6px 12px;font-size:13px;">'
+    '🟡 <strong>PINNACLE DROP</strong> — Pinnacle\'s over price fell since last snapshot (sharp money coming in)</div>'
+    '<div style="background:#fff7ed;color:#7c2d12;border:1px solid #fdba74;border-radius:6px;padding:6px 12px;font-size:13px;">'
+    '🟠 <strong>FOLLOWER / LINE DROP</strong> — A follower book also dropped its price, or the line itself moved down</div>'
+    '<div style="background:#fef2f2;color:#7f1d1d;border:1px solid #fca5a5;border-radius:6px;padding:6px 12px;font-size:13px;">'
+    '🔴 <strong>SEQUENCE BUILDING / CROSSED ZERO</strong> — Steps 1–2 confirmed, or price crossed from + to − (big move)</div>'
+    '<div style="background:#7f1d1d;color:#fecaca;border:1px solid #ef4444;border-radius:6px;padding:6px 12px;font-size:13px;">'
+    '🚨 <strong>FULL SEQUENCE</strong> — All 4 steps hit: Pinnacle dropped → follower followed → price crossed zero → line dropped. <strong>BET NOW.</strong></div>'
+    '</div>',
+    unsafe_allow_html=True,
+)
+
+st.markdown("---")
+
 # ── ALERTS section ────────────────────────────────────────────────────────────
 
 LEVEL_CSS = {
