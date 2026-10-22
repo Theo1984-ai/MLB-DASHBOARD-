@@ -723,48 +723,43 @@ all_plays.sort(key=lambda x: (x["commence_time"], x["team"]))
 if not all_plays:
     st.info("No actionable plays right now. Plays appear when a line split or steam signal is detected.")
 else:
-    # Render 3 per row so reading order (left→right, top→bottom) matches sort order on all screens
-    for row_start in range(0, len(all_plays), 3):
-        row_plays = all_plays[row_start:row_start + 3]
-        cols = st.columns(len(row_plays))
-        for col, play in zip(cols, row_plays):
-            with col:
-                bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
-                bet_bg     = "#f0fdf4" if play["bet"] == "OVER" else "#eff6ff"
-                bet_border = "#86efac" if play["bet"] == "OVER" else "#93c5fd"
-                priority_tag = ""
-                if play["priority"] == 1:
-                    priority_tag = '<span style="background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;">🚨 SEQUENCE</span> '
+    for play in all_plays:
+        bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
+        bet_bg     = "#f0fdf4" if play["bet"] == "OVER" else "#eff6ff"
+        bet_border = "#86efac" if play["bet"] == "OVER" else "#93c5fd"
 
-                streak_dir, streak_len = play["streak"]
-                streak_html = ""
-                if streak_dir and streak_len >= 3:
-                    arrow = "▼" if streak_dir == "down" else "▲"
-                    s_color = "#dc2626" if streak_dir == "down" else "#16a34a"
-                    streak_html = (f'<span style="background:{s_color};color:#fff;font-size:10px;'
-                                   f'font-weight:600;padding:2px 5px;border-radius:3px;margin-left:4px;">'
-                                   f'{arrow}×{streak_len}</span>')
+        seq_tag = '🚨 ' if play["priority"] == 1 else ''
 
-                price_str = _price_str(play["price"])
-                book_name = BOOK_DISPLAY.get(play["book"], play["book"])
+        streak_dir, streak_len = play["streak"]
+        streak_html = ""
+        if streak_dir and streak_len >= 3:
+            arrow = "▼" if streak_dir == "down" else "▲"
+            s_color = "#dc2626" if streak_dir == "down" else "#16a34a"
+            streak_html = (f' <span style="background:{s_color};color:#fff;font-size:10px;'
+                           f'font-weight:600;padding:1px 5px;border-radius:3px;">'
+                           f'{arrow}×{streak_len}</span>')
 
-                st.markdown(
-                    f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
-                    f'border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
-                    f'<div style="font-size:12px;color:#6b7280;margin-bottom:4px;">'
-                    f'{priority_tag}{play["game"]}</div>'
-                    f'<div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">'
-                    f'{play["team"]}{streak_html}</div>'
-                    f'<div style="font-size:22px;font-weight:700;color:{bet_color};margin-bottom:2px;">'
-                    f'{play["bet"]} {play["line"]}</div>'
-                    f'<div style="font-size:14px;color:#374151;margin-bottom:6px;">'
-                    f'@ <strong>{book_name}</strong> &nbsp; {price_str}</div>'
-                    f'<div style="font-size:11px;color:#6b7280;border-top:1px solid {bet_border};'
-                    f'padding-top:6px;margin-top:2px;">{play["why"]}</div>'
-                    f'<div style="font-size:11px;color:#9ca3af;margin-top:2px;">{play["time"]} ET</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
+        price_str = _price_str(play["price"])
+        book_name = BOOK_DISPLAY.get(play["book"], play["book"])
+
+        st.markdown(
+            f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
+            f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
+            # Row 1: team + time
+            f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">'
+            f'<span style="font-size:14px;font-weight:700;color:#111827;">{seq_tag}{play["team"]}{streak_html}</span>'
+            f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span>'
+            f'</div>'
+            # Row 2: bet + line + book + price
+            f'<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px;">'
+            f'<span style="font-size:18px;font-weight:800;color:{bet_color};">{play["bet"]} {play["line"]}</span>'
+            f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str}</span>'
+            f'</div>'
+            # Row 3: why (small)
+            f'<div style="font-size:11px;color:#6b7280;">{play["why"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
 st.markdown("---")
 
