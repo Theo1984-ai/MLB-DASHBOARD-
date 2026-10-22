@@ -742,12 +742,20 @@ else:
         price_str = _price_str(play["price"])
         book_name = BOOK_DISPLAY.get(play["book"], play["book"])
 
+        # Derive opponent from game string "Away @ Home"
+        try:
+            _parts = play["game"].split(" @ ")
+            opponent = _parts[1] if play["team"] == _parts[0] else _parts[0]
+            vs_html = f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> vs {opponent}</span>'
+        except Exception:
+            vs_html = ""
+
         st.markdown(
             f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
             f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
-            # Row 1: team + time
+            # Row 1: team + opponent + time
             f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">'
-            f'<span style="font-size:14px;font-weight:700;color:#111827;">{seq_tag}{play["team"]}{streak_html}</span>'
+            f'<span style="font-size:14px;font-weight:700;color:#111827;">{seq_tag}{play["team"]}{streak_html}{vs_html}</span>'
             f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span>'
             f'</div>'
             # Row 2: bet + line + book + price
