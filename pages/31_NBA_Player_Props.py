@@ -69,6 +69,21 @@ SPORTS = {
             "player_blocked_shots": ("🛡️", "Blocked Shots"),
         },
     },
+    "🎓 CFB": {
+        "key":      "americanfootball_ncaaf",
+        "markets":  [
+            "player_anytime_td", "player_pass_tds", "player_pass_yds",
+            "player_rush_yds", "player_reception_yds", "player_receptions",
+        ],
+        "display": {
+            "player_anytime_td":    ("🏈", "Anytime TD"),
+            "player_pass_tds":      ("🎯", "Pass TDs"),
+            "player_pass_yds":      ("📏", "Pass Yards"),
+            "player_rush_yds":      ("🏃", "Rush Yards"),
+            "player_reception_yds": ("📡", "Rec Yards"),
+            "player_receptions":    ("🙌", "Receptions"),
+        },
+    },
     "⚾ MLB": {
         "key":      "baseball_mlb",
         "markets":  [
