@@ -553,37 +553,6 @@ with col_q:
 
 history = load_history(n=15)
 
-# ── Debug: show raw books in snapshot ────────────────────────────────────────
-with st.expander("🔍 Debug — Pinnacle Diagnostic", expanded=True):
-    if snap:
-        ungames = [g for g in snap.get("games", []) if not g.get("started")]
-        if not ungames:
-            st.warning("No upcoming games in snapshot (all may have started). Hit **Refresh Now**.")
-        for g in ungames:
-            books_matched = set()
-            for team_data in g.get("sides", {}).values():
-                books_matched |= set(team_data.keys())
-            all_api_books = list(set(g.get("_debug_all_books", [])))
-            pin_names     = g.get("_debug_pin_desc", [])
-            event_teams   = f"{g['away']} / {g['home']}"
-            pin_in_api    = "pinnacle" in all_api_books
-            pin_in_grid   = "pinnacle" in books_matched
-            if pin_in_grid:
-                pin_status = "✅ Pinnacle — **IN GRID** (working)"
-            elif pin_in_api:
-                pin_status = "⚠️ Pinnacle — **in API response but MISSING from grid** (team name mismatch)"
-            else:
-                pin_status = "❌ Pinnacle — **NOT in API response** (Pinnacle hasn't posted this market yet)"
-            st.markdown(
-                f"**{g['game']}** &nbsp; {pin_status}  \n"
-                f"&nbsp;&nbsp;📋 All books from API: `{', '.join(sorted(all_api_books)) or 'none'}`  \n"
-                f"&nbsp;&nbsp;✅ Books shown in grid: `{', '.join(sorted(books_matched)) or 'none'}`  \n"
-                f"&nbsp;&nbsp;🔵 Pinnacle descriptions→canonical: `{', '.join(pin_names) or 'n/a'}`  \n"
-                f"&nbsp;&nbsp;🏒 Event team names: `{event_teams}`",
-                unsafe_allow_html=False,
-            )
-    else:
-        st.warning("No snapshot loaded yet — hit **Refresh Now**.")
 
 # ── Scan all games for signals ────────────────────────────────────────────────
 
