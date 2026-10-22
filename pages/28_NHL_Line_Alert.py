@@ -718,7 +718,7 @@ def _price_str(p):
 
 st.markdown("### 🎯 Actionable Plays")
 
-all_plays.sort(key=lambda x: (x["commence_time"], x["priority"], x["team"]))
+all_plays.sort(key=lambda x: (x["commence_time"], x["team"]))
 
 if not all_plays:
     st.info("No actionable plays right now. Plays appear when a line split or steam signal is detected.")
