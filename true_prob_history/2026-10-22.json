@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-22",
+  "snapshot_at": "2026-10-22T00:01:07.843673-04:00",
+  "n_picks": 2,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 2,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "e4c03eec29795f56b6b06c313d3af271",
+      "game": "Rays @ Brewers",
+      "away_team": "Tampa Bay Rays",
+      "home_team": "Milwaukee Brewers",
+      "first_pitch": "2026-10-24T00:00:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Tampa Bay Rays +2.5",
+      "player": "Tampa Bay Rays",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -312,
+      "true_prob_pct": 76.59,
+      "ev_per_100": 3.56,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "pinnacle",
+          -312
+        ],
+        [
+          "betmgm",
+          -325
+        ],
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "bovada",
+          -330
+        ],
+        [
+          "draftkings",
+          -340
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-22T00:01:07.843615-04:00",
+      "last_seen_at": "2026-10-22T00:01:07.843615-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-22T00:01:07.843615-04:00",
+          "tp": 76.59,
+          "ev": 3.56,
+          "price": -312
+        }
+      ]
+    },
+    {
+      "event_id": "e4c03eec29795f56b6b06c313d3af271",
+      "game": "Rays @ Brewers",
+      "away_team": "Tampa Bay Rays",
+      "home_team": "Milwaukee Brewers",
+      "first_pitch": "2026-10-24T00:00:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Milwaukee Brewers +1.5",
+      "player": "Milwaukee Brewers",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "betmgm",
+      "best_price": -300,
+      "true_prob_pct": 75.81,
+      "ev_per_100": 3.23,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -300
+        ],
+        [
+          "fanduel",
+          -310
+        ],
+        [
+          "draftkings",
+          -312
+        ],
+        [
+          "pinnacle",
+          -316
+        ],
+        [
+          "bovada",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-22T00:01:07.843615-04:00",
+      "last_seen_at": "2026-10-22T00:01:07.843615-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-22T00:01:07.843615-04:00",
+          "tp": 75.81,
+          "ev": 3.23,
+          "price": -300
+        }
+      ]
+    }
+  ]
+}
