@@ -840,6 +840,19 @@ if all_alerts:
 else:
     st.info("No signals yet. Signals appear here when the sequence triggers.")
 
+# ── Book debug ───────────────────────────────────────────────────────────────
+with st.expander("🔍 Debug: what books is the API returning?", expanded=False):
+    for g in snap.get("games", []):
+        if not g.get("started") and g.get("_debug_all_books"):
+            st.markdown(f"**{g['game']}**")
+            all_bks  = g.get("_debug_all_books", [])
+            have_data = list(g.get("sides", {}).get(g["away"], {}).keys()) + \
+                        list(g.get("sides", {}).get(g["home"], {}).keys())
+            have_data = sorted(set(have_data))
+            st.caption(f"All books in API response: `{all_bks}`")
+            st.caption(f"Books with team_totals data: `{have_data}`")
+            break
+
 # ── Full game grid ────────────────────────────────────────────────────────────
 
 st.markdown("---")
