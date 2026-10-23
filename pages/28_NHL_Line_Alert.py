@@ -28,7 +28,7 @@ MIN_REFRESH_SEC = 300  # 5 minutes
 SPORT_CONFIGS = {
     "NHL 🏒": {
         "api_key":        "icehockey_nhl",
-        "follower_books": ["williamhill_us", "fanatics"],
+        "follower_books": ["williamhill_us", "draftkings", "fanduel", "bovada", "betrivers", "fanatics"],
         "cache_dir":      os.path.join(ROOT, "nhl_line_alert_cache"),
         "history_dir":    os.path.join(ROOT, "nhl_line_alert_history"),
         "today_only":     True,
