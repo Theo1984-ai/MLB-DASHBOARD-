@@ -58,16 +58,15 @@ SPORTS = {
     "🏒 NHL": {
         "key":      "icehockey_nhl",
         "markets":  [
-            "player_anytime_scorer", "player_points", "player_goals",
-            "player_assists", "player_shots_on_goal", "player_blocked_shots",
+            "player_points", "player_goals", "player_assists",
+            "player_shots_on_goal", "player_blocked_shots",
         ],
         "display": {
-            "player_anytime_scorer": ("🥅", "Anytime Goal"),
-            "player_points":         ("⭐", "Points"),
-            "player_goals":          ("🎯", "Goals"),
-            "player_assists":        ("🎯", "Assists"),
-            "player_shots_on_goal":  ("🚀", "Shots on Goal"),
-            "player_blocked_shots":  ("🛡️", "Blocked Shots"),
+            "player_points":        ("⭐", "Points"),
+            "player_goals":         ("🥅", "Goals"),
+            "player_assists":       ("🎯", "Assists"),
+            "player_shots_on_goal": ("🚀", "Shots on Goal"),
+            "player_blocked_shots": ("🛡️", "Blocked Shots"),
         },
     },
     "🎓 CFB": {
