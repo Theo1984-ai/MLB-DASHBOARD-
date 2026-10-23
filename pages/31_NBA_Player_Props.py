@@ -193,7 +193,8 @@ def fetch_sport(sport_key, markets):
                 f"https://api.the-odds-api.com/v4/sports/{sport_key}/events/{eid}/odds"
                 f"?apiKey={ODDS_KEY}&regions=us,eu&markets={markets_param}&oddsFormat=american"
             )
-        except Exception:
+        except Exception as e:
+            st.warning(f"Skipped {away} @ {home}: {e}", icon="⚠️")
             continue
 
         players = {}
@@ -213,10 +214,11 @@ def fetch_sport(sport_key, markets):
                     if not player:
                         continue
                     players.setdefault(player, {}).setdefault(mkt_key, {}).setdefault(bk, {})
-                    if name == "Over":
-                        players[player][mkt_key][bk]["line"] = point
+                    if name in ("Over", "Yes"):
+                        # Yes/No markets (e.g. anytime scorer) have no point; use 0.5 as virtual line
+                        players[player][mkt_key][bk]["line"] = point if point is not None else 0.5
                         players[player][mkt_key][bk]["over"] = price
-                    elif name == "Under":
+                    elif name in ("Under", "No"):
                         players[player][mkt_key][bk]["under"] = price
 
         if not players:
