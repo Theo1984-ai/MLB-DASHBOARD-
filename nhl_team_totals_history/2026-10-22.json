@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 19,
+  "n_snapshots": 20,
   "snapshots": [
     {
       "captured_at": "2026-10-22T08:29:08.634750-04:00",
@@ -4680,6 +4680,44 @@
                 "line": 3.5,
                 "over_price": 115,
                 "under_price": -150
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-10-22T23:38:02.986615-04:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Tampa Bay Lightning @ Colorado Avalanche",
+          "away_team": "Tampa Bay Lightning",
+          "home_team": "Colorado Avalanche",
+          "first_pitch": "2026-10-24T01:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -170,
+            "under_price": 130
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": 110,
+            "under_price": -145
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": -170,
+                "under_price": 130
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": 110,
+                "under_price": -145
               }
             }
           },
