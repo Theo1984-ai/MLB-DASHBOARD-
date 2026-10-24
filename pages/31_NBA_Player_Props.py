@@ -619,8 +619,7 @@ def render_sport_tab(sport_label, sport_cfg):
                     header_html = (
                         '<tr style="border-bottom:1px solid #e5e7eb;">'
                         '<th style="padding:2px 8px 2px 6px;font-size:11px;color:#9ca3af;font-weight:500;text-align:left;">Book</th>'
-                        '<th style="padding:2px 8px;font-size:11px;color:#9ca3af;font-weight:500;">Line</th>'
-                        '<th style="padding:2px 6px;font-size:11px;color:#9ca3af;font-weight:500;">Over</th>'
+                        '<th style="padding:2px 8px;font-size:11px;color:#9ca3af;font-weight:500;">Over</th>'
                         '<th style="padding:2px 0;font-size:11px;color:#9ca3af;font-weight:500;">Under</th>'
                         '</tr>'
                     )
@@ -633,21 +632,21 @@ def render_sport_tab(sport_label, sport_cfg):
                         play_bet = r["ap_bet"]
                         pin_bold = "font-weight:700;" if bk == "pinnacle" else ""
                         row_bg   = "background:#fafafa;" if bk == "pinnacle" else ""
+                        ln_str   = f"{ln} " if ln is not None else ""
                         if is_play and play_bet == "OVER":
                             row_bg  = "background:#f0fdf4;"
-                            o_html  = f'<strong style="color:#15803d;">{_price_str(ov)} ✓</strong>'
+                            o_html  = f'<strong style="color:#15803d;">{ln_str}{_price_str(ov)} ✓</strong>'
                             u_html  = f'<span style="color:#9ca3af;">{_price_str(un)}</span>'
                         elif is_play and play_bet == "UNDER":
                             row_bg  = "background:#eff6ff;"
-                            o_html  = f'<span style="color:#9ca3af;">{_price_str(ov)}</span>'
+                            o_html  = f'<span style="color:#9ca3af;">{ln_str}{_price_str(ov)}</span>'
                             u_html  = f'<strong style="color:#1d4ed8;">{_price_str(un)} ✓</strong>'
                         else:
-                            o_html = f'<span>{_price_str(ov)}</span>'
+                            o_html = f'<span>{ln_str}{_price_str(ov)}</span>'
                             u_html = f'<span>{_price_str(un)}</span>'
                         rows_html += (
                             f'<tr style="{row_bg}">'
                             f'<td style="padding:3px 8px 3px 6px;font-size:12px;color:#6b7280;{pin_bold}white-space:nowrap;">{label}</td>'
-                            f'<td style="padding:3px 8px;font-size:12px;color:#374151;">{ln if ln is not None else "—"}</td>'
                             f'<td style="padding:3px 6px;font-size:12px;">{o_html}</td>'
                             f'<td style="padding:3px 0;font-size:12px;">{u_html}</td>'
                             f'</tr>'
