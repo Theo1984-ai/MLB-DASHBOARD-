@@ -103,7 +103,7 @@ SPORTS = {
 
 FOLLOWER_BOOKS = [
     "draftkings", "fanduel", "williamhill_us", "fanatics",
-    "bovada", "betrivers", "betonlineag", "espnbet",
+    "betrivers", "betonlineag", "espnbet",
 ]
 TRACKED_BOOKS = {"pinnacle"} | set(FOLLOWER_BOOKS)
 BOOK_DISPLAY = {
