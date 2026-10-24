@@ -1093,9 +1093,52 @@ with hcol2:
 _sel_str  = selected_date.strftime("%Y-%m-%d")
 _sel_path = os.path.join(HISTORY_DIR, f"{_sel_str}.json")
 
-if not os.path.exists(_sel_path):
+if not os.path.exists(_sel_path) and (selected_date != _today or not all_plays):
     st.info(f"No records for {selected_date.strftime('%B %d, %Y')}. "
             "Hit **📸 Snapshot Now** to save today's plays, or wait for the cron.")
+elif not os.path.exists(_sel_path) and selected_date == _today and all_plays:
+    # No committed history file yet — show live session plays as a fallback
+    _snap_label = fetch_time.strftime("%H:%M") if fetch_time else "now"
+    st.caption(
+        f"⚡ **Live session data** — no committed snapshot yet for today. "
+        f"Showing {len(all_plays)} play(s) detected at {_snap_label} ET. "
+        f"Hit **📸 Snapshot Now** to save, or wait for the noon/4PM/6PM cron."
+    )
+    rows_out = []
+    for rec in sorted(all_plays, key=lambda x: (x.get("commence_time",""), x.get("team",""))):
+        game = rec.get("game", "")
+        team = rec.get("team", "")
+        sc   = scores_lookup.get(game, {})
+        ts   = sc.get("team_scores", {})
+        team_score = ts.get(team)
+        completed  = sc.get("completed", False)
+        if completed and team_score is not None:
+            line = float(rec.get("line", 0))
+            bet  = rec.get("bet", "OVER")
+            if bet == "OVER":
+                result = "✅ WIN" if team_score > line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+            else:
+                result = "✅ WIN" if team_score < line else ("🟡 PUSH" if team_score == line else "❌ LOSS")
+            score_str = str(team_score)
+        elif ts and team_score is not None:
+            result    = "🟢 Live"
+            score_str = str(team_score)
+        else:
+            result    = "⏳ Pending"
+            score_str = "—"
+        rows_out.append({
+            "Snap":   _snap_label,
+            "Game":   game,
+            "Team":   team,
+            "Bet":    f"{rec.get('bet','')} {rec.get('line','')}",
+            "Book":   BOOK_DISPLAY.get(rec.get("book",""), rec.get("book","")),
+            "Price":  _price_str(rec.get("price")),
+            "Score":  score_str,
+            "Result": result,
+            "Why":    rec.get("why",""),
+        })
+    df = pd.DataFrame(rows_out)
+    st.dataframe(df, use_container_width=True, hide_index=True)
 else:
     try:
         _day_data = json.load(open(_sel_path, encoding="utf-8"))
