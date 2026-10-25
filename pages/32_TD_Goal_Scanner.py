@@ -1,7 +1,7 @@
 """
-🥅 NHL Goal Scanner
-Sharp money model for anytime goal scorer props.
-Detects Pinnacle price edges on Yes/No goal markets + team total movement.
+🏈🥅 TD & Goal Scanner
+Sharp money model for anytime TD (NFL) and anytime goal scorer (NHL).
+Detects Pinnacle price edges on Yes/No markets + team total movement.
 """
 import json
 import os
@@ -19,27 +19,50 @@ if ROOT not in sys.path:
 
 EASTERN = ZoneInfo("America/New_York")
 
-SPORT_KEY = "icehockey_nhl"
-PINNACLE  = "pinnacle"
-# BetMGM and Caesars (williamhill_us) excluded from all NHL models
-FOLLOWER_BOOKS = [
-    "draftkings", "fanduel", "bovada", "betrivers",
-]
-TRACKED_BOOKS = {PINNACLE} | set(FOLLOWER_BOOKS)
+SPORT_CONFIGS = {
+    "nfl": {
+        "key":       "americanfootball_nfl",
+        "market":    "player_anytime_td",
+        "label":     "ANYTIME TD",
+        "color":     "#dc2626",
+        "followers": [
+            "draftkings", "fanduel", "williamhill_us", "fanatics",
+            "betrivers", "betonlineag", "espnbet", "mybookieag", "pointsbetus",
+        ],
+    },
+    "nhl": {
+        "key":       "icehockey_nhl",
+        "market":    "player_anytime_scorer",
+        "label":     "ANYTIME GOAL",
+        "color":     "#1d4ed8",
+        # BetMGM and Caesars (williamhill_us) excluded from all NHL models
+        "followers": [
+            "draftkings", "fanduel", "bovada", "betrivers",
+        ],
+    },
+}
+
+PINNACLE = "pinnacle"
 BOOK_DISPLAY = {
-    "pinnacle":   "Pinnacle",
-    "draftkings": "DraftKings",
-    "fanduel":    "FanDuel",
-    "bovada":     "Bovada",
-    "betrivers":  "BetRivers",
+    "pinnacle":       "Pinnacle",
+    "draftkings":     "DraftKings",
+    "fanduel":        "FanDuel",
+    "williamhill_us": "Caesars",
+    "fanatics":       "Fanatics",
+    "betrivers":      "BetRivers",
+    "betonlineag":    "BetOnline",
+    "espnbet":        "ESPN Bet",
+    "mybookieag":     "MyBookie",
+    "pointsbetus":    "PointsBet",
+    "bovada":         "Bovada",
 }
 
 # ── Page setup ────────────────────────────────────────────────────────────────
-st.set_page_config(page_title="NHL Goal Scanner", page_icon="🥅", layout="wide")
-st.title("🥅 NHL Goal Scanner")
+st.set_page_config(page_title="TD & Goal Scanner", page_icon="🏈", layout="wide")
+st.title("🏈🥅 TD & Goal Scanner")
 st.caption(
-    "Pinnacle sharp anchor · Price edge detection on Anytime Goal Scorer props · "
-    "Team total movement confirms high-scoring environment · Refreshes every 10 min"
+    "Pinnacle sharp anchor · Price edge on Yes/No scorer props · "
+    "Team total movement confirms scoring environment · Refreshes every 10 min"
 )
 
 def _resolve_secret(name):
@@ -83,12 +106,17 @@ def format_time(ct):
 
 # ── Fetch ─────────────────────────────────────────────────────────────────────
 @st.cache_data(ttl=600, show_spinner=False)
-def fetch_goal_data():
+def fetch_data(sport_id):
+    cfg        = SPORT_CONFIGS[sport_id]
+    sport_key  = cfg["key"]
+    market     = cfg["market"]
+    followers  = cfg["followers"]
+    tracked    = {PINNACLE} | set(followers)
     now_et     = datetime.now(tz=EASTERN)
     today_date = now_et.date()
 
     events, quota = _get(
-        f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/events"
+        f"https://api.the-odds-api.com/v4/sports/{sport_key}/events"
         f"?apiKey={ODDS_KEY}"
     )
 
@@ -106,7 +134,7 @@ def fetch_goal_data():
                 games.append({
                     "game": f"{away} @ {home}", "away": away, "home": home,
                     "commence_time": ct, "started": True,
-                    "goal_players": {}, "team_totals": {},
+                    "players": {}, "team_totals": {},
                 })
                 continue
         except Exception:
@@ -114,25 +142,24 @@ def fetch_goal_data():
 
         try:
             data, _ = _get(
-                f"https://api.the-odds-api.com/v4/sports/{SPORT_KEY}/events/{ev['id']}/odds"
-                f"?apiKey={ODDS_KEY}&regions=us,eu&markets=player_anytime_scorer,team_totals&oddsFormat=american"
+                f"https://api.the-odds-api.com/v4/sports/{sport_key}/events/{ev['id']}/odds"
+                f"?apiKey={ODDS_KEY}&regions=us,eu&markets={market},team_totals&oddsFormat=american"
             )
         except Exception as e:
             st.warning(f"Skipped {away} @ {home}: {e}", icon="⚠️")
             continue
 
-        goal_players = {}
-        team_totals  = {}
+        players     = {}
+        team_totals = {}
 
         for bm in data.get("bookmakers", []):
             bk = bm["key"]
-            if bk not in TRACKED_BOOKS:
+            if bk not in tracked:
                 continue
-
             for mkt in bm.get("markets", []):
                 mkt_key = mkt.get("key", "")
 
-                if mkt_key == "player_anytime_scorer":
+                if mkt_key == market:
                     for out in mkt.get("outcomes", []):
                         player = (out.get("description") or out.get("name", "")).strip()
                         name   = out.get("name", "")
@@ -140,7 +167,7 @@ def fetch_goal_data():
                         if not player or price is None:
                             continue
                         if name in ("Over", "Yes", player):
-                            goal_players.setdefault(player, {})[bk] = price
+                            players.setdefault(player, {})[bk] = price
 
                 elif mkt_key == "team_totals":
                     for out in mkt.get("outcomes", []):
@@ -154,38 +181,32 @@ def fetch_goal_data():
         games.append({
             "game": f"{away} @ {home}", "away": away, "home": home,
             "commence_time": ct, "started": False,
-            "goal_players": goal_players,
-            "team_totals":  team_totals,
+            "players": players, "team_totals": team_totals,
         })
 
     return games, quota, now_et.strftime("%I:%M %p").lstrip("0")
 
 # ── Detection ─────────────────────────────────────────────────────────────────
-def detect_team_total_signal(team_totals, team):
+def detect_team_total_signal(team_totals, team, followers):
     bk_data  = team_totals.get(team, {})
     pin_line = bk_data.get(PINNACLE)
     if pin_line is None:
         return False
-    fol_lines = [bk_data[bk] for bk in FOLLOWER_BOOKS if bk in bk_data]
-    if not fol_lines:
-        return False
-    return pin_line > max(fol_lines)
+    fol_lines = [bk_data[bk] for bk in followers if bk in bk_data]
+    return bool(fol_lines) and pin_line > max(fol_lines)
 
-def scan_goal_signals(game):
-    goal_players = game["goal_players"]
-    team_totals  = game["team_totals"]
-
-    home_signal = detect_team_total_signal(team_totals, game["home"])
-    away_signal = detect_team_total_signal(team_totals, game["away"])
-    game_total_signal = home_signal or away_signal
+def scan_signals(game, followers):
+    game_total_signal = (
+        detect_team_total_signal(game["team_totals"], game["home"], followers) or
+        detect_team_total_signal(game["team_totals"], game["away"], followers)
+    )
 
     plays = []
-    for player, prices in goal_players.items():
-        pin_price = prices.get(PINNACLE)
-
+    for player, prices in game["players"].items():
+        pin_price     = prices.get(PINNACLE)
         follower_data = [
             (bk, prices[bk], american_to_prob(prices[bk]))
-            for bk in FOLLOWER_BOOKS if bk in prices
+            for bk in followers if bk in prices
         ]
         if len(follower_data) < 2:
             continue
@@ -209,7 +230,7 @@ def scan_goal_signals(game):
 
         if signal_type is None:
             discrepancy = best_prob - worst_prob
-            if discrepancy >= 0.015 and len(follower_data) >= 2:
+            if discrepancy >= 0.015:
                 signal_type = "SPLIT"
                 edge        = discrepancy
                 stale_count = sum(1 for fp in follower_probs if (best_prob - fp) > 0.005)
@@ -230,12 +251,11 @@ def scan_goal_signals(game):
             "best_book":     best_bk,
             "best_price":    best_price,
             "team_signal":   game_total_signal,
-            "started":       game["started"],
         })
 
     return plays
 
-def confidence(play):
+def get_confidence(play):
     score    = play["edge"] + (0.01 if play["team_signal"] else 0)
     is_sharp = play.get("signal_type") == "SHARP"
     if is_sharp or score >= 0.04:
@@ -244,8 +264,8 @@ def confidence(play):
         return "MED", "#d97706", "#fffbeb"
     return "LOW", "#6b7280", "#f3f4f6"
 
-def render_card(play, best_bet=False):
-    conf_label, conf_color, conf_bg = confidence(play)
+def render_card(play, market_label, market_color, best_bet=False):
+    conf_label, conf_color, conf_bg = get_confidence(play)
     edge_pct  = round(play["edge"] * 100, 1)
     fol_pct   = round(play["avg_fol_prob"] * 100, 1)
     book_name = BOOK_DISPLAY.get(play["best_book"], play["best_book"])
@@ -280,7 +300,7 @@ def render_card(play, best_bet=False):
         f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span></div>'
         f'<div style="font-size:12px;color:#6b7280;margin-bottom:4px;">{play["game"]}</div>'
         f'<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:3px;">'
-        f'<span style="font-size:18px;font-weight:800;color:#1d4ed8;">ANYTIME GOAL</span>'
+        f'<span style="font-size:18px;font-weight:800;color:{market_color};">{market_label}</span>'
         f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str(play["best_price"])}</span>'
         f'{juiced}</div>'
         f'<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">'
@@ -295,83 +315,94 @@ def render_card(play, best_bet=False):
         unsafe_allow_html=True,
     )
 
-# ── Main ──────────────────────────────────────────────────────────────────────
-col_hdr, col_btn = st.columns([5, 1])
-with col_btn:
-    if st.button("🔄 Refresh", use_container_width=True):
-        st.cache_data.clear()
+def render_sport_tab(sport_id):
+    cfg = SPORT_CONFIGS[sport_id]
 
-with st.spinner("Fetching today's NHL games and props..."):
-    try:
-        games, quota, fetch_time = fetch_goal_data()
-    except Exception as e:
-        st.error(f"API error: {e}")
-        st.stop()
+    col_hdr, col_btn = st.columns([5, 1])
+    with col_btn:
+        if st.button("🔄 Refresh", key=f"refresh_{sport_id}", use_container_width=True):
+            st.cache_data.clear()
 
-st.caption(f"Last fetch: {fetch_time} ET · API quota remaining: {quota}")
+    with st.spinner(f"Fetching today's {sport_id.upper()} games and props..."):
+        try:
+            games, quota, fetch_time = fetch_data(sport_id)
+        except Exception as e:
+            st.error(f"API error: {e}")
+            return
 
-today_games   = [g for g in games if not g["started"]]
-started_games = [g for g in games if g["started"]]
+    st.caption(f"Last fetch: {fetch_time} ET · API quota remaining: {quota}")
 
-if not games:
-    st.info("No NHL games scheduled for today.")
-    st.stop()
+    today_games   = [g for g in games if not g["started"]]
+    started_games = [g for g in games if g["started"]]
 
-all_plays = []
-for game in today_games:
-    all_plays.extend(scan_goal_signals(game))
+    if not games:
+        sport_name = "NFL" if sport_id == "nfl" else "NHL"
+        days       = "Thu / Sun / Mon" if sport_id == "nfl" else "daily Oct–Apr"
+        st.info(f"No {sport_name} games scheduled for today ({days}).")
+        return
 
-for play in all_plays:
-    play["score"] = play["edge"] + (0.01 if play["team_signal"] else 0)
+    all_plays = []
+    for game in today_games:
+        all_plays.extend(scan_signals(game, cfg["followers"]))
 
-all_plays.sort(key=lambda x: -x["score"])
+    for play in all_plays:
+        play["score"] = play["edge"] + (0.01 if play["team_signal"] else 0)
+    all_plays.sort(key=lambda x: -x["score"])
 
-if started_games:
-    st.warning(
-        f"**{len(started_games)} game{'s' if len(started_games) > 1 else ''} already started** — "
-        f"{', '.join(g['game'] for g in started_games)}",
-        icon="⏱️"
+    if started_games:
+        st.warning(
+            f"**{len(started_games)} game{'s' if len(started_games) > 1 else ''} already started** — "
+            f"{', '.join(g['game'] for g in started_games)}",
+            icon="⏱️"
+        )
+
+    if not all_plays:
+        if today_games:
+            st.warning(
+                "No sharp signals detected yet. "
+                "Props typically post 2–3 hours before game time — check back soon.",
+                icon="🔍"
+            )
+        st.markdown("**Today's games:**")
+        for g in today_games:
+            st.write(f"• {g['game']} — {format_time(g['commence_time'])} ET")
+        return
+
+    st.markdown(f"### {len(all_plays)} signal{'s' if len(all_plays) != 1 else ''} found")
+
+    with st.expander("🔍 Debug — raw player counts per game", expanded=False):
+        for game in today_games:
+            pin_count = sum(1 for p in game["players"].values() if PINNACLE in p)
+            fol_count = sum(1 for p in game["players"].values() if any(bk in p for bk in cfg["followers"]))
+            st.write(f"**{game['game']}** — {len(game['players'])} players · {pin_count} with Pinnacle · {fol_count} with follower data")
+
+    best_bets = all_plays[:2]
+    rest      = all_plays[2:]
+
+    st.markdown("---")
+    st.markdown("## ⭐ Best Bets")
+    st.caption("Top 2 plays by combined edge score (price gap + team scoring environment)")
+    for play in best_bets:
+        render_card(play, cfg["label"], cfg["color"], best_bet=True)
+
+    if rest:
+        st.markdown("---")
+        st.markdown("## 📋 All Signals")
+        for play in rest:
+            render_card(play, cfg["label"], cfg["color"], best_bet=False)
+
+    nhl_note = " · BetMGM and Caesars excluded from all NHL models" if sport_id == "nhl" else ""
+    st.markdown("---")
+    st.caption(
+        f"Signal: Pinnacle implied prob vs follower avg · "
+        f"Books: Pinnacle + {len(cfg['followers'])} followers{nhl_note}"
     )
 
-if not all_plays:
-    if today_games:
-        st.warning(
-            "No sharp goal signals detected yet. "
-            "Props typically post 2–3 hours before puck drop — check back closer to game time.",
-            icon="🔍"
-        )
-    st.markdown("---")
-    st.markdown("**Today's games:**")
-    for g in today_games:
-        st.write(f"• {g['game']} — {format_time(g['commence_time'])} ET")
-    st.stop()
+# ── Tabs ──────────────────────────────────────────────────────────────────────
+tab_nfl, tab_nhl = st.tabs(["🏈 NFL", "🥅 NHL"])
 
-st.markdown(f"### {len(all_plays)} signal{'s' if len(all_plays) != 1 else ''} found")
+with tab_nfl:
+    render_sport_tab("nfl")
 
-with st.expander("🔍 Debug — raw player counts per game", expanded=False):
-    for game in today_games:
-        pin_count = sum(1 for p in game["goal_players"].values() if PINNACLE in p)
-        fol_count = sum(1 for p in game["goal_players"].values() if any(bk in p for bk in FOLLOWER_BOOKS))
-        st.write(f"**{game['game']}** — {len(game['goal_players'])} players · {pin_count} with Pinnacle · {fol_count} with follower data")
-
-best_bets = all_plays[:2]
-rest      = all_plays[2:]
-
-st.markdown("---")
-st.markdown("## ⭐ Best Bets")
-st.caption("Top 2 plays by combined edge score (price gap + team scoring environment)")
-for play in best_bets:
-    render_card(play, best_bet=True)
-
-if rest:
-    st.markdown("---")
-    st.markdown("## 📋 All Signals")
-    for play in rest:
-        render_card(play, best_bet=False)
-
-st.markdown("---")
-st.caption(
-    "Signal: Pinnacle implied probability vs follower avg · "
-    "Books: Pinnacle + DraftKings + FanDuel + Bovada + BetRivers · "
-    "BetMGM and Caesars excluded from all NHL models"
-)
+with tab_nhl:
+    render_sport_tab("nhl")
