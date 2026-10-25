@@ -1385,8 +1385,11 @@ else:
 
     with st.expander("📋 All teams", expanded=False):
         import pandas as pd
-        df_all = pd.DataFrame(_team_rows)[["Team", "Line", "Over", "Under", "Games", "Over %", "Trend (last 3)"]]
-        st.dataframe(df_all, use_container_width=True, hide_index=True)
+        if _team_rows:
+            df_all = pd.DataFrame(_team_rows)[["Team", "Line", "Over", "Under", "Games", "Over %", "Trend (last 3)"]]
+            st.dataframe(df_all, use_container_width=True, hide_index=True)
+        else:
+            st.info("No team data yet.")
 
 # ── Auto-rerun every 5 min ────────────────────────────────────────────────────
 
