@@ -471,7 +471,7 @@ def render_sport_tab(sport_label, sport_cfg):
 
         game_data.append({"game": game_name, "time": game_time, "started": False, "rows": rows})
 
-    all_plays.sort(key=lambda x: (x["commence_time"], x["game"], 0 if x["bet"] == "OVER" else 1, x["player"], x["market"]))
+    all_plays.sort(key=lambda x: (x["commence_time"], x["game"], x["player"], x["market"], 0 if x["bet"] == "OVER" else 1))
 
     # ── Actionable Plays ──────────────────────────────────────────────────────
     st.markdown("### 🎯 Actionable Plays")
