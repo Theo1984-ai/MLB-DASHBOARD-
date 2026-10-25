@@ -336,6 +336,7 @@ def render_sport_tab(sport_id):
     with col_btn:
         if st.button("🔄 Refresh", key=f"refresh_{sport_id}", use_container_width=True):
             st.cache_data.clear()
+            st.rerun()
 
     with st.spinner(f"Fetching today's {sport_id.upper()} games and props..."):
         try:
