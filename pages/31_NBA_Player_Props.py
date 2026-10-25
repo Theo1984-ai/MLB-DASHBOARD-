@@ -432,7 +432,8 @@ def render_sport_tab(sport_label, sport_cfg):
                 lines_split  = len(set(all_lines)) > 1
 
                 ap_bk = ap_bet = ap_line = ap_price = ap_why = None
-                is_yes_no = all(l == 0.5 for l in all_lines if l is not None) and all_lines
+                YES_NO_MARKETS = {"player_anytime_td", "player_anytime_scorer"}
+                is_yes_no = market in YES_NO_MARKETS
                 if lines_split and pin_line is not None and not is_yes_no:
                     non_pin = [
                         (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
