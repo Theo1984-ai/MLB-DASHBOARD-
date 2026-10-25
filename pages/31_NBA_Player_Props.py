@@ -432,6 +432,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 lines_split  = len(set(all_lines)) > 1
 
                 ap_bk = ap_bet = ap_line = ap_price = ap_why = None
+                ap_split = ap_stale = 0
                 if lines_split and pin_line is not None:
                     non_pin = [
                         (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
@@ -445,10 +446,14 @@ def render_sport_tab(sport_label, sport_cfg):
                             ap_bk, ap_line, ap_bet = max_e[0], max_e[1], "UNDER"
                             ap_price = max_e[3]
                             ap_why   = f"LINE SPLIT — Pinnacle dropped to {pin_line}"
+                            ap_split = round(max_e[1] - pin_line, 1)
+                            ap_stale = sum(1 for _, ln, _, _ in non_pin if ln > pin_line)
                         elif pin_line > min_e[1] and min_e[2] is not None:
                             ap_bk, ap_line, ap_bet = min_e[0], min_e[1], "OVER"
                             ap_price = min_e[2]
                             ap_why   = f"LINE SPLIT — Pinnacle raised to {pin_line}"
+                            ap_split = round(pin_line - min_e[1], 1)
+                            ap_stale = sum(1 for _, ln, _, _ in non_pin if ln < pin_line)
 
                 if ap_bk and ap_price is not None:
                     all_plays.append({
@@ -457,6 +462,9 @@ def render_sport_tab(sport_label, sport_cfg):
                         "line": ap_line, "book": ap_bk, "price": ap_price,
                         "why": ap_why, "streak": (s_dir, s_len),
                         "priority": 1 if {"FULL SEQUENCE", "SEQUENCE BUILDING"} & {s["type"] for s in signals} else 2,
+                        "split_size":  ap_split,
+                        "stale_count": ap_stale,
+                        "pin_line":    pin_line,
                     })
                 if signals:
                     all_alerts.append((game_name, player, market, game_time, signals))
@@ -493,6 +501,26 @@ def render_sport_tab(sport_label, sport_cfg):
                 s_color = "#dc2626" if sd == "down" else "#16a34a"
                 streak_html = (f' <span style="background:{s_color};color:#fff;font-size:10px;'
                                f'font-weight:600;padding:1px 5px;border-radius:3px;">{arrow}×{sl}</span>')
+
+            _split = play.get("split_size", 0)
+            _stale = play.get("stale_count", 0)
+            _price = play.get("price")
+            if play.get("priority") == 1 or _split >= 1.0 or (_split >= 0.5 and _stale >= 3):
+                conf_label, conf_color, conf_bg = "HIGH", "#dc2626", "#fef2f2"
+            elif _split >= 0.5 and _stale >= 2:
+                conf_label, conf_color, conf_bg = "MED", "#d97706", "#fffbeb"
+            else:
+                conf_label, conf_color, conf_bg = "LOW", "#6b7280", "#f3f4f6"
+            juiced_html = (' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
+                           if _price is not None and _price < -150 else "")
+            meta_html = (
+                f'<div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap;">'
+                f'<span style="background:{conf_bg};color:{conf_color};border:1px solid {conf_color};'
+                f'font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;">{conf_label}</span>'
+                f'<span style="font-size:11px;color:#6b7280;">{_split} pt gap · {_stale} book{"s" if _stale != 1 else ""} stale</span>'
+                f'{juiced_html}</div>'
+            )
+
             st.markdown(
                 f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
                 f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
@@ -506,6 +534,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 f'<span style="font-size:18px;font-weight:800;color:{bet_color};">{play["bet"]} {play["line"]}</span>'
                 f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str}</span></div>'
                 f'<div style="font-size:11px;color:#6b7280;">{play["why"]}</div>'
+                f'{meta_html}'
                 f'</div>',
                 unsafe_allow_html=True,
             )

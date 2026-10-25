@@ -653,16 +653,20 @@ for g in sorted_games:
                 min_entry = min(non_pin_lines, key=lambda x: x[1])
                 if pin_line < max_entry[1]:
                     ap_bk, ap_line = max_entry[0], max_entry[1]
-                    ap_bet   = "UNDER"
-                    ap_price = max_entry[3]  # under price
-                    ap_why   = f"LINE SPLIT — Pinnacle dropped to {pin_line}"
-                    ap_priority = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+                    ap_bet       = "UNDER"
+                    ap_price     = max_entry[3]
+                    ap_why       = f"LINE SPLIT — Pinnacle dropped to {pin_line}"
+                    ap_priority  = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+                    ap_split     = round(max_entry[1] - pin_line, 1)
+                    ap_stale     = sum(1 for _, ln, _, _ in non_pin_lines if ln > pin_line)
                 elif pin_line > min_entry[1]:
                     ap_bk, ap_line = min_entry[0], min_entry[1]
-                    ap_bet   = "OVER"
-                    ap_price = min_entry[2]  # over price
-                    ap_why   = f"LINE SPLIT — Pinnacle raised to {pin_line}"
-                    ap_priority = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+                    ap_bet       = "OVER"
+                    ap_price     = min_entry[2]
+                    ap_why       = f"LINE SPLIT — Pinnacle raised to {pin_line}"
+                    ap_priority  = 1 if ("FULL SEQUENCE" in sig_types or "SEQUENCE BUILDING" in sig_types) else 2
+                    ap_split     = round(pin_line - min_entry[1], 1)
+                    ap_stale     = sum(1 for _, ln, _, _ in non_pin_lines if ln < pin_line)
         elif best_price_book and best_price_book[0] != "pinnacle":
             ap_bk    = best_price_book[0]
             ap_line  = best_price_book[1]
@@ -686,6 +690,9 @@ for g in sorted_games:
                 "why":           ap_why,
                 "priority":      ap_priority,
                 "streak":        (s_dir, s_len),
+                "split_size":    ap_split if lines_split else 0,
+                "stale_count":   ap_stale if lines_split else 0,
+                "pin_line":      pin_line,
             })
 
     game_rows.append(row)
@@ -742,7 +749,6 @@ else:
         price_str = _price_str(play["price"])
         book_name = BOOK_DISPLAY.get(play["book"], play["book"])
 
-        # Derive opponent from game string "Away @ Home"
         try:
             _parts = play["game"].split(" @ ")
             opponent = _parts[1] if play["team"] == _parts[0] else _parts[0]
@@ -750,21 +756,39 @@ else:
         except Exception:
             vs_html = ""
 
+        # Confidence tier
+        _split  = play.get("split_size", 0)
+        _stale  = play.get("stale_count", 0)
+        _price  = play.get("price")
+        if play.get("priority") == 1 or _split >= 1.0 or (_split >= 0.5 and _stale >= 3):
+            conf_label, conf_color, conf_bg = "HIGH", "#dc2626", "#fef2f2"
+        elif _split >= 0.5 and _stale >= 2:
+            conf_label, conf_color, conf_bg = "MED", "#d97706", "#fffbeb"
+        else:
+            conf_label, conf_color, conf_bg = "LOW", "#6b7280", "#f3f4f6"
+        juiced_html = (' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
+                       if _price is not None and _price < -150 else "")
+        meta_html = (
+            f'<div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap;">'
+            f'<span style="background:{conf_bg};color:{conf_color};border:1px solid {conf_color};'
+            f'font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;">{conf_label}</span>'
+            f'<span style="font-size:11px;color:#6b7280;">{_split} pt gap · {_stale} book{"s" if _stale != 1 else ""} stale</span>'
+            f'{juiced_html}</div>'
+        )
+
         st.markdown(
             f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
             f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
-            # Row 1: team + opponent + time
             f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;">'
             f'<span style="font-size:14px;font-weight:700;color:#111827;">{seq_tag}{play["team"]}{streak_html}{vs_html}</span>'
             f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span>'
             f'</div>'
-            # Row 2: bet + line + book + price
             f'<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px;">'
             f'<span style="font-size:18px;font-weight:800;color:{bet_color};">{play["bet"]} {play["line"]}</span>'
             f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str}</span>'
             f'</div>'
-            # Row 3: why (small)
             f'<div style="font-size:11px;color:#6b7280;">{play["why"]}</div>'
+            f'{meta_html}'
             f'</div>',
             unsafe_allow_html=True,
         )
