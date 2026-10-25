@@ -218,17 +218,17 @@ def scan_td_signals(game):
         if pin_price is not None:
             pin_prob = american_to_prob(pin_price)
             pin_edge = pin_prob - avg_fol_prob
-            if pin_edge >= 0.01:
+            if pin_edge >= 0.005:
                 signal_type = "SHARP"
                 edge        = pin_edge
                 stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.005)
 
         if signal_type is None:
             discrepancy = best_prob - worst_prob
-            if discrepancy >= 0.03 and len(follower_data) >= 3:
+            if discrepancy >= 0.015 and len(follower_data) >= 2:
                 signal_type = "SPLIT"
                 edge        = discrepancy
-                stale_count = sum(1 for fp in follower_probs if (best_prob - fp) > 0.01)
+                stale_count = sum(1 for fp in follower_probs if (best_prob - fp) > 0.005)
 
         if signal_type is None:
             continue
@@ -252,10 +252,11 @@ def scan_td_signals(game):
     return plays
 
 def confidence(play):
-    score = play["edge"] + (0.02 if play["team_signal"] else 0)
-    if score >= 0.07 or (play["edge"] >= 0.05 and play["team_signal"]):
+    score = play["edge"] + (0.01 if play["team_signal"] else 0)
+    is_sharp = play.get("signal_type") == "SHARP"
+    if is_sharp or score >= 0.04:
         return "HIGH", "#dc2626", "#fef2f2"
-    elif score >= 0.04:
+    elif score >= 0.025:
         return "MED", "#d97706", "#fffbeb"
     return "LOW", "#6b7280", "#f3f4f6"
 
