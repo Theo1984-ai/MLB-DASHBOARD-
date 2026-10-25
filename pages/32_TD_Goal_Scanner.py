@@ -149,7 +149,7 @@ def fetch_data(sport_id):
         try:
             data, _ = _get(
                 f"https://api.the-odds-api.com/v4/sports/{sport_key}/events/{ev['id']}/odds"
-                f"?apiKey={ODDS_KEY}&regions=us,eu&markets={markets_param}&oddsFormat=american"
+                f"?apiKey={ODDS_KEY}&regions=us,eu,uk&markets={markets_param}&oddsFormat=american"
             )
         except Exception as e:
             st.warning(f"Skipped {away} @ {home}: {e}", icon="⚠️")
@@ -371,6 +371,12 @@ def render_sport_tab(sport_id):
             icon="⏱️"
         )
 
+    with st.expander("🔍 Debug — raw player counts per game", expanded=False):
+        for game in today_games:
+            pin_count = sum(1 for p in game["players"].values() if PINNACLE in p)
+            fol_count = sum(1 for p in game["players"].values() if any(bk in p for bk in cfg["followers"]))
+            st.write(f"**{game['game']}** — {len(game['players'])} players · {pin_count} with Pinnacle · {fol_count} with follower data")
+
     if not all_plays:
         if today_games:
             st.warning(
@@ -384,12 +390,6 @@ def render_sport_tab(sport_id):
         return
 
     st.markdown(f"### {len(all_plays)} signal{'s' if len(all_plays) != 1 else ''} found")
-
-    with st.expander("🔍 Debug — raw player counts per game", expanded=False):
-        for game in today_games:
-            pin_count = sum(1 for p in game["players"].values() if PINNACLE in p)
-            fol_count = sum(1 for p in game["players"].values() if any(bk in p for bk in cfg["followers"]))
-            st.write(f"**{game['game']}** — {len(game['players'])} players · {pin_count} with Pinnacle · {fol_count} with follower data")
 
     best_bets = all_plays[:2]
     rest      = all_plays[2:]
