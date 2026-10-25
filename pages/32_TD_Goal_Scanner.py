@@ -21,20 +21,24 @@ EASTERN = ZoneInfo("America/New_York")
 
 SPORT_CONFIGS = {
     "nfl": {
-        "key":       "americanfootball_nfl",
-        "market":    "player_anytime_td",
-        "label":     "ANYTIME TD",
-        "color":     "#dc2626",
+        "key":        "americanfootball_nfl",
+        "market":     "player_anytime_td",
+        "yes_point":  None,   # Yes/No market — no point filter needed
+        "tt_market":  "team_totals",
+        "label":      "ANYTIME TD",
+        "color":      "#dc2626",
         "followers": [
             "draftkings", "fanduel", "williamhill_us", "fanatics",
             "betrivers", "betonlineag", "espnbet", "mybookieag", "pointsbetus",
         ],
     },
     "nhl": {
-        "key":       "icehockey_nhl",
-        "market":    "player_anytime_scorer",
-        "label":     "ANYTIME GOAL",
-        "color":     "#1d4ed8",
+        "key":        "icehockey_nhl",
+        "market":     "player_goals",   # OVER 0.5 = anytime goal scorer
+        "yes_point":  0.5,              # only collect Over 0.5 outcomes
+        "tt_market":  None,             # team_totals not available for NHL
+        "label":      "ANYTIME GOAL",
+        "color":      "#1d4ed8",
         # BetMGM and Caesars (williamhill_us) excluded from all NHL models
         "followers": [
             "draftkings", "fanduel", "bovada", "betrivers",
@@ -140,15 +144,18 @@ def fetch_data(sport_id):
         except Exception:
             continue
 
+        tt_market  = cfg["tt_market"]
+        markets_param = market if tt_market is None else f"{market},{tt_market}"
         try:
             data, _ = _get(
                 f"https://api.the-odds-api.com/v4/sports/{sport_key}/events/{ev['id']}/odds"
-                f"?apiKey={ODDS_KEY}&regions=us,eu&markets={market},team_totals&oddsFormat=american"
+                f"?apiKey={ODDS_KEY}&regions=us,eu&markets={markets_param}&oddsFormat=american"
             )
         except Exception as e:
             st.warning(f"Skipped {away} @ {home}: {e}", icon="⚠️")
             continue
 
+        yes_point   = cfg["yes_point"]
         players     = {}
         team_totals = {}
 
@@ -164,12 +171,19 @@ def fetch_data(sport_id):
                         player = (out.get("description") or out.get("name", "")).strip()
                         name   = out.get("name", "")
                         price  = out.get("price")
+                        point  = out.get("point")
                         if not player or price is None:
                             continue
-                        if name in ("Over", "Yes", player):
-                            players.setdefault(player, {})[bk] = price
+                        if yes_point is not None:
+                            # Line market (e.g. player_goals): only collect Over at the target line
+                            if name == "Over" and point == yes_point:
+                                players.setdefault(player, {})[bk] = price
+                        else:
+                            # Yes/No market (e.g. player_anytime_td)
+                            if name in ("Over", "Yes", player):
+                                players.setdefault(player, {})[bk] = price
 
-                elif mkt_key == "team_totals":
+                elif tt_market and mkt_key == tt_market:
                     for out in mkt.get("outcomes", []):
                         team  = out.get("description", "").strip()
                         side  = out.get("name", "")
