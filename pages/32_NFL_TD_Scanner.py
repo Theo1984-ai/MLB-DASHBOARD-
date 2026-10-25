@@ -183,13 +183,14 @@ def detect_team_total_signal(team_totals, team):
 
 def scan_td_signals(game):
     """
-    For each player with Pinnacle data, compare Pinnacle implied prob vs follower avg.
-    Returns list of signal dicts ranked by edge.
+    Two-tier detection:
+    1. SHARP: Pinnacle implied prob > follower avg by 1%+ (Pinnacle has the player)
+    2. SPLIT:  Best follower price vs worst follower price gap >= 3% (books disagree)
+    Requires at least 3 follower books for SPLIT signal.
     """
     td_players  = game["td_players"]
     team_totals = game["team_totals"]
 
-    # Team total signals for both teams
     home_signal = detect_team_total_signal(team_totals, game["home"])
     away_signal = detect_team_total_signal(team_totals, game["away"])
     game_total_signal = home_signal or away_signal
@@ -197,42 +198,55 @@ def scan_td_signals(game):
     plays = []
     for player, prices in td_players.items():
         pin_price = prices.get(PINNACLE)
-        if pin_price is None:
-            continue
-
-        pin_prob = american_to_prob(pin_price)
 
         follower_data = [
             (bk, prices[bk], american_to_prob(prices[bk]))
             for bk in FOLLOWER_BOOKS if bk in prices
         ]
-        if not follower_data:
+        if len(follower_data) < 2:
             continue
 
         follower_probs = [fd[2] for fd in follower_data]
         avg_fol_prob   = sum(follower_probs) / len(follower_probs)
-        edge           = pin_prob - avg_fol_prob  # positive = Pinnacle more confident
+        best_bk, best_price, best_prob = max(follower_data, key=lambda x: x[1])
+        worst_prob = min(follower_probs)
 
-        if edge < 0.01:
+        signal_type = None
+        edge        = 0.0
+        stale_count = 0
+
+        if pin_price is not None:
+            pin_prob = american_to_prob(pin_price)
+            pin_edge = pin_prob - avg_fol_prob
+            if pin_edge >= 0.01:
+                signal_type = "SHARP"
+                edge        = pin_edge
+                stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.005)
+
+        if signal_type is None:
+            discrepancy = best_prob - worst_prob
+            if discrepancy >= 0.03 and len(follower_data) >= 3:
+                signal_type = "SPLIT"
+                edge        = discrepancy
+                stale_count = sum(1 for fp in follower_probs if (best_prob - fp) > 0.01)
+
+        if signal_type is None:
             continue
 
-        stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.005)
-        best_bk, best_price, _ = max(follower_data, key=lambda x: x[1])
-
         plays.append({
-            "player":      player,
-            "game":        game["game"],
-            "time":        format_time(game["commence_time"]),
+            "player":       player,
+            "game":         game["game"],
+            "time":         format_time(game["commence_time"]),
             "commence_time": game["commence_time"],
-            "pin_price":   pin_price,
-            "pin_prob":    pin_prob,
+            "pin_price":    pin_price,
             "avg_fol_prob": avg_fol_prob,
-            "edge":        edge,
-            "stale_count": stale_count,
-            "best_book":   best_bk,
-            "best_price":  best_price,
-            "team_signal": game_total_signal,
-            "started":     game["started"],
+            "edge":         edge,
+            "signal_type":  signal_type,
+            "stale_count":  stale_count,
+            "best_book":    best_bk,
+            "best_price":   best_price,
+            "team_signal":  game_total_signal,
+            "started":      game["started"],
         })
 
     return plays
@@ -248,7 +262,6 @@ def confidence(play):
 def render_card(play, best_bet=False):
     conf_label, conf_color, conf_bg = confidence(play)
     edge_pct  = round(play["edge"] * 100, 1)
-    pin_pct   = round(play["pin_prob"] * 100, 1)
     fol_pct   = round(play["avg_fol_prob"] * 100, 1)
     book_name = BOOK_DISPLAY.get(play["best_book"], play["best_book"])
 
@@ -257,6 +270,7 @@ def render_card(play, best_bet=False):
     star         = "⭐ " if best_bet else ""
     name_size    = "16px" if best_bet else "14px"
     name_weight  = "800" if best_bet else "700"
+    border_width = "2px" if best_bet else "1.5px"
 
     team_badge = ""
     if play["team_signal"]:
@@ -268,7 +282,9 @@ def render_card(play, best_bet=False):
     if play["best_price"] < -150:
         juiced = ' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
 
-    border_width = "2px" if best_bet else "1.5px"
+    sig_label = "📌 Pinnacle sharp" if play.get("signal_type") == "SHARP" else "📊 Book split"
+    pin_line  = (f' · PIN: {round(american_to_prob(play["pin_price"]) * 100, 1)}%'
+                 if play.get("pin_price") is not None else "")
 
     st.markdown(
         f'<div style="background:{bg_color};border:{border_width} solid {border_color};'
@@ -283,8 +299,7 @@ def render_card(play, best_bet=False):
         f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str(play["best_price"])}</span>'
         f'{juiced}</div>'
         f'<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">'
-        f'Pinnacle: {pin_pct}% · Followers avg: {fol_pct}% · '
-        f'<strong>Edge: +{edge_pct}%</strong></div>'
+        f'{sig_label} · Avg: {fol_pct}%{pin_line} · <strong>Edge: +{edge_pct}%</strong></div>'
         f'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
         f'<span style="background:{conf_bg};color:{conf_color};border:1px solid {conf_color};'
         f'font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;">{conf_label}</span>'
