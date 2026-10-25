@@ -434,7 +434,9 @@ def render_sport_tab(sport_label, sport_cfg):
                 ap_bk = ap_bet = ap_line = ap_price = ap_why = None
                 YES_NO_MARKETS = {"player_anytime_td", "player_anytime_scorer"}
                 is_yes_no = market in YES_NO_MARKETS
+
                 if lines_split and pin_line is not None and not is_yes_no:
+                    # Regular market with a real line split across books
                     non_pin = [
                         (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
                         for bk in FOLLOWER_BOOKS if fdata[bk].get("line") is not None
@@ -451,18 +453,38 @@ def render_sport_tab(sport_label, sport_cfg):
                             ap_bk, ap_line, ap_bet = min_e[0], min_e[1], "OVER"
                             ap_price = min_e[2]
                             ap_why   = f"LINE SPLIT — Pinnacle raised to {pin_line}"
+
                 elif is_yes_no and pin_over is not None:
-                    # Yes/No market — look for price split vs Pinnacle
+                    # Yes/No market (anytime TD/goal) — price split vs Pinnacle
                     non_pin_yes = [
                         (bk, fdata[bk].get("over"))
                         for bk in FOLLOWER_BOOKS if fdata[bk].get("over") is not None
                     ]
                     if non_pin_yes:
                         best_yes = max(non_pin_yes, key=lambda x: x[1])
-                        if best_yes[1] > pin_over + 9:  # ≥10 pt price gap
+                        if best_yes[1] > pin_over + 9:
                             ap_bk, ap_line, ap_bet = best_yes[0], 0.5, "YES"
                             ap_price = best_yes[1]
                             ap_why   = f"PRICE SPLIT — Pinnacle YES {pin_over:+d}, book still at {best_yes[1]:+d}"
+
+                elif not lines_split and not is_yes_no and pin_over is not None:
+                    # Same line everywhere but Pinnacle's price is notably sharper — price steam
+                    non_pin_over = [
+                        (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
+                        for bk in FOLLOWER_BOOKS
+                        if fdata[bk].get("over") is not None and fdata[bk].get("line") == pin_line
+                    ]
+                    if non_pin_over:
+                        best_o = max(non_pin_over, key=lambda x: x[2])   # highest over price
+                        best_u = max(non_pin_over, key=lambda x: (x[3] or -9999))  # highest under price
+                        if best_o[2] > pin_over + 9:
+                            ap_bk, ap_line, ap_bet = best_o[0], best_o[1], "OVER"
+                            ap_price = best_o[2]
+                            ap_why   = f"PRICE SPLIT — Pinnacle OVER {pin_over:+d}, book still at {best_o[2]:+d}"
+                        elif pin_under is not None and best_u[3] is not None and best_u[3] > pin_under + 9:
+                            ap_bk, ap_line, ap_bet = best_u[0], best_u[1], "UNDER"
+                            ap_price = best_u[3]
+                            ap_why   = f"PRICE SPLIT — Pinnacle UNDER {pin_under:+d}, book still at {best_u[3]:+d}"
 
                 if ap_bk and ap_price is not None:
                     all_plays.append({
