@@ -432,11 +432,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 lines_split  = len(set(all_lines)) > 1
 
                 ap_bk = ap_bet = ap_line = ap_price = ap_why = None
-                YES_NO_MARKETS = {"player_anytime_td", "player_anytime_scorer"}
-                is_yes_no = market in YES_NO_MARKETS
-
-                if lines_split and pin_line is not None and not is_yes_no:
-                    # Regular market with a real line split across books
+                if lines_split and pin_line is not None:
                     non_pin = [
                         (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
                         for bk in FOLLOWER_BOOKS if fdata[bk].get("line") is not None
@@ -453,38 +449,6 @@ def render_sport_tab(sport_label, sport_cfg):
                             ap_bk, ap_line, ap_bet = min_e[0], min_e[1], "OVER"
                             ap_price = min_e[2]
                             ap_why   = f"LINE SPLIT — Pinnacle raised to {pin_line}"
-
-                elif is_yes_no and pin_over is not None:
-                    # Yes/No market (anytime TD/goal) — price split vs Pinnacle
-                    non_pin_yes = [
-                        (bk, fdata[bk].get("over"))
-                        for bk in FOLLOWER_BOOKS if fdata[bk].get("over") is not None
-                    ]
-                    if non_pin_yes:
-                        best_yes = max(non_pin_yes, key=lambda x: x[1])
-                        if best_yes[1] > pin_over + 9:
-                            ap_bk, ap_line, ap_bet = best_yes[0], 0.5, "YES"
-                            ap_price = best_yes[1]
-                            ap_why   = f"PRICE SPLIT — Pinnacle YES {pin_over:+d}, book still at {best_yes[1]:+d}"
-
-                elif not lines_split and not is_yes_no and pin_over is not None:
-                    # Same line everywhere but Pinnacle's price is notably sharper — price steam
-                    non_pin_over = [
-                        (bk, fdata[bk].get("line"), fdata[bk].get("over"), fdata[bk].get("under"))
-                        for bk in FOLLOWER_BOOKS
-                        if fdata[bk].get("over") is not None and fdata[bk].get("line") == pin_line
-                    ]
-                    if non_pin_over:
-                        best_o = max(non_pin_over, key=lambda x: x[2])   # highest over price
-                        best_u = max(non_pin_over, key=lambda x: (x[3] or -9999))  # highest under price
-                        if best_o[2] > pin_over + 9:
-                            ap_bk, ap_line, ap_bet = best_o[0], best_o[1], "OVER"
-                            ap_price = best_o[2]
-                            ap_why   = f"PRICE SPLIT — Pinnacle OVER {pin_over:+d}, book still at {best_o[2]:+d}"
-                        elif pin_under is not None and best_u[3] is not None and best_u[3] > pin_under + 9:
-                            ap_bk, ap_line, ap_bet = best_u[0], best_u[1], "UNDER"
-                            ap_price = best_u[3]
-                            ap_why   = f"PRICE SPLIT — Pinnacle UNDER {pin_under:+d}, book still at {best_u[3]:+d}"
 
                 if ap_bk and ap_price is not None:
                     all_plays.append({
@@ -515,10 +479,9 @@ def render_sport_tab(sport_label, sport_cfg):
         st.info("No actionable plays right now. Plays appear when Pinnacle's line splits from follower books.")
     else:
         for play in all_plays:
-            is_yes_no  = play["bet"] == "YES"
-            bet_color  = "#15803d" if play["bet"] in ("OVER", "YES") else "#1d4ed8"
-            bet_bg     = "#f0fdf4" if play["bet"] in ("OVER", "YES") else "#eff6ff"
-            bet_border = "#86efac" if play["bet"] in ("OVER", "YES") else "#93c5fd"
+            bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
+            bet_bg     = "#f0fdf4" if play["bet"] == "OVER" else "#eff6ff"
+            bet_border = "#86efac" if play["bet"] == "OVER" else "#93c5fd"
             seq_tag    = "🚨 " if play.get("priority") == 1 else ""
             icon, name = mk_display.get(play["market"], ("", play["market"]))
             book_name  = BOOK_DISPLAY.get(play["book"], play["book"])
@@ -530,9 +493,6 @@ def render_sport_tab(sport_label, sport_cfg):
                 s_color = "#dc2626" if sd == "down" else "#16a34a"
                 streak_html = (f' <span style="background:{s_color};color:#fff;font-size:10px;'
                                f'font-weight:600;padding:1px 5px;border-radius:3px;">{arrow}×{sl}</span>')
-            # For Yes/No markets show "YES" without the 0.5 line
-            bet_label = play["bet"] if not is_yes_no else "YES"
-            line_part  = "" if is_yes_no else f" {play['line']}"
             st.markdown(
                 f'<div style="background:{bet_bg};border:1.5px solid {bet_border};'
                 f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
@@ -543,7 +503,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span></div>'
                 f'<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:2px;">'
                 f'<span style="font-size:11px;color:#6b7280;">{icon} {name}</span>'
-                f'<span style="font-size:18px;font-weight:800;color:{bet_color};">{bet_label}{line_part}</span>'
+                f'<span style="font-size:18px;font-weight:800;color:{bet_color};">{play["bet"]} {play["line"]}</span>'
                 f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str}</span></div>'
                 f'<div style="font-size:11px;color:#6b7280;">{play["why"]}</div>'
                 f'</div>',
