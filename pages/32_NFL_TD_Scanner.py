@@ -213,10 +213,10 @@ def scan_td_signals(game):
         avg_fol_prob   = sum(follower_probs) / len(follower_probs)
         edge           = pin_prob - avg_fol_prob  # positive = Pinnacle more confident
 
-        if edge < 0.02:
+        if edge < 0.01:
             continue
 
-        stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.01)
+        stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.005)
         best_bk, best_price, _ = max(follower_data, key=lambda x: x[1])
 
         plays.append({
@@ -350,6 +350,12 @@ if not all_plays:
     st.stop()
 
 st.markdown(f"### {len(all_plays)} signal{'s' if len(all_plays) != 1 else ''} found")
+
+with st.expander("🔍 Debug — raw player counts per game", expanded=False):
+    for game in today_games:
+        pin_count = sum(1 for prices in game["td_players"].values() if PINNACLE in prices)
+        fol_count = sum(1 for prices in game["td_players"].values() if any(bk in prices for bk in FOLLOWER_BOOKS))
+        st.write(f"**{game['game']}** — {len(game['td_players'])} players total · {pin_count} with Pinnacle · {fol_count} with follower data")
 
 # ── Best Bets ──
 best_bets = all_plays[:2]
