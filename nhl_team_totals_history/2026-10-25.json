@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 8,
+  "n_snapshots": 9,
   "snapshots": [
     {
       "captured_at": "2026-10-25T10:45:08.061823-04:00",
@@ -44,6 +44,184 @@
       "captured_at": "2026-10-25T15:32:35.665473-04:00",
       "n_games": 0,
       "games": []
+    },
+    {
+      "captured_at": "2026-10-25T17:04:10.431160-04:00",
+      "n_games": 5,
+      "games": [
+        {
+          "game": "New York Islanders @ Dallas Stars",
+          "away_team": "New York Islanders",
+          "home_team": "Dallas Stars",
+          "first_pitch": "2026-10-25T22:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": 115,
+            "under_price": -150
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": 125,
+            "under_price": -165
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": 114,
+                "under_price": null
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -210,
+                "under_price": -154
+              }
+            },
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": 115,
+                "under_price": -150
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": 125,
+                "under_price": -165
+              }
+            }
+          },
+          "n_books": 2
+        },
+        {
+          "game": "Montr\u00e9al Canadiens @ Winnipeg Jets",
+          "away_team": "Montr\u00e9al Canadiens",
+          "home_team": "Winnipeg Jets",
+          "first_pitch": "2026-10-25T23:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -176,
+            "under_price": -180
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -154,
+            "under_price": -205
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -176,
+                "under_price": -180
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -154,
+                "under_price": -205
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Colorado Avalanche @ Nashville Predators",
+          "away_team": "Colorado Avalanche",
+          "home_team": "Nashville Predators",
+          "first_pitch": "2026-10-26T00:10:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": -158,
+            "under_price": -186
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -104,
+            "under_price": null
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": -158,
+                "under_price": -186
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -104,
+                "under_price": null
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Minnesota Wild @ Vancouver Canucks",
+          "away_team": "Minnesota Wild",
+          "home_team": "Vancouver Canucks",
+          "first_pitch": "2026-10-26T02:10:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": -130,
+            "under_price": null
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -118,
+            "under_price": null
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": -130,
+                "under_price": null
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -118,
+                "under_price": null
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Detroit Red Wings @ Edmonton Oilers",
+          "away_team": "Detroit Red Wings",
+          "home_team": "Edmonton Oilers",
+          "first_pitch": "2026-10-27T01:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -140,
+            "under_price": 105
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": -130,
+            "under_price": 100
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": -140,
+                "under_price": 105
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -130,
+                "under_price": 100
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
     }
   ]
 }
