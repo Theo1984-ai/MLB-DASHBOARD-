@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-26",
+  "snapshot_at": "2026-10-26T09:00:08.292450-04:00",
+  "n_picks": 2,
+  "filter": {
+    "min_true_prob": 0.75,
+    "min_books": 4,
+    "min_price": -400,
+    "max_price": null,
+    "min_ev_per_100": 3.0
+  },
+  "summary": {
+    "n_total": 2,
+    "n_settled": 0,
+    "n_void": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "hit_rate": 0,
+    "risk_total": 0.0,
+    "profit_total": 0.0,
+    "roi_pct": 0
+  },
+  "picks": [
+    {
+      "event_id": "82812d5c946d4e055002fcb42673a38b",
+      "game": "Brewers @ Rays",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-27T00:10:00Z",
+      "market": "Run Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Milwaukee Brewers +2.5",
+      "player": "Milwaukee Brewers",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "betmgm",
+      "best_price": -375,
+      "true_prob_pct": 79.84,
+      "ev_per_100": 4.24,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -375
+        ],
+        [
+          "draftkings",
+          -380
+        ],
+        [
+          "pinnacle",
+          -381
+        ],
+        [
+          "bovada",
+          -410
+        ],
+        [
+          "fanduel",
+          -440
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-26T09:00:08.292370-04:00",
+      "last_seen_at": "2026-10-26T09:00:08.292370-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-26T09:00:08.292370-04:00",
+          "tp": 79.84,
+          "ev": 4.24,
+          "price": -375
+        }
+      ]
+    },
+    {
+      "event_id": "82812d5c946d4e055002fcb42673a38b",
+      "game": "Brewers @ Rays",
+      "away_team": "Milwaukee Brewers",
+      "home_team": "Tampa Bay Rays",
+      "first_pitch": "2026-10-27T00:10:00Z",
+      "market": "K's alt",
+      "market_key": "pitcher_strikeouts_alternate",
+      "stat_key": "ks",
+      "settle_type": "Over/Under",
+      "selection": "Freddy Peralta",
+      "player": "Freddy Peralta",
+      "side": "Over",
+      "point": 3.5,
+      "best_book": "betmgm",
+      "best_price": -275,
+      "true_prob_pct": 76.38,
+      "ev_per_100": 11.42,
+      "n_books": 5,
+      "all_prices": [
+        [
+          "betmgm",
+          -275
+        ],
+        [
+          "draftkings",
+          -296
+        ],
+        [
+          "fanduel",
+          -350
+        ],
+        [
+          "bovada",
+          -350
+        ],
+        [
+          "williamhill_us",
+          -360
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-26T09:00:08.292370-04:00",
+      "last_seen_at": "2026-10-26T09:00:08.292370-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-26T09:00:08.292370-04:00",
+          "tp": 76.38,
+          "ev": 11.42,
+          "price": -275
+        }
+      ]
+    }
+  ]
+}
