@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 9,
+  "n_snapshots": 10,
   "snapshots": [
     {
       "captured_at": "2026-10-25T10:45:08.061823-04:00",
@@ -216,6 +216,76 @@
                 "line": 3.5,
                 "over_price": -130,
                 "under_price": 100
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-10-25T21:50:04.786258-04:00",
+      "n_games": 2,
+      "games": [
+        {
+          "game": "Minnesota Wild @ Vancouver Canucks",
+          "away_team": "Minnesota Wild",
+          "home_team": "Vancouver Canucks",
+          "first_pitch": "2026-10-26T02:10:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": -134,
+            "under_price": null
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -122,
+            "under_price": null
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": -134,
+                "under_price": null
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -122,
+                "under_price": null
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Detroit Red Wings @ Edmonton Oilers",
+          "away_team": "Detroit Red Wings",
+          "home_team": "Edmonton Oilers",
+          "first_pitch": "2026-10-27T01:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -150,
+            "under_price": 115
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": -125,
+            "under_price": -105
+          },
+          "anchor_book": "fanatics",
+          "books": {
+            "fanatics": {
+              "away": {
+                "line": 2.5,
+                "over_price": -150,
+                "under_price": 115
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -125,
+                "under_price": -105
               }
             }
           },
