@@ -110,6 +110,10 @@ if not ODDS_KEY:
     st.error("Missing `THE_ODDS_API_KEY` in secrets.")
     st.stop()
 
+GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
+GH_OWNER = "Theo1984-ai"
+GH_REPO  = "MLB-DASHBOARD-"
+
 # ── Fetch ─────────────────────────────────────────────────────────────────────
 
 _CTX = ssl.create_default_context()
@@ -324,6 +328,32 @@ def save_play_record(plays, snap_time):
         pass
 
 
+def push_snapshot_to_github(snap, plays, snap_time):
+    """Save the snapshot (and detected plays) to the GitHub repo. Returns the paths written."""
+    from data import github_storage as gh
+    today = snap_time.strftime("%Y-%m-%d")
+
+    # Raw team-totals snapshot, appended to the day's list (debug fields dropped to keep it lean)
+    lean = {**snap, "games": [{k: v for k, v in g.items() if not k.startswith("_debug")}
+                              for g in snap.get("games", [])]}
+    snap_path = f"line_alert_snapshots/{SPORT_KEY}/{today}.json"
+    existing  = gh.load_json(GH_TOKEN, GH_OWNER, GH_REPO, snap_path) or []
+    existing.append(lean)
+    gh.save_json(GH_TOKEN, GH_OWNER, GH_REPO, snap_path, existing,
+                 commit_msg=f"Line alert snapshot {SPORT_KEY} {snap_time.strftime('%Y-%m-%d %I:%M %p')} ET")
+    paths = [snap_path]
+
+    # Detected plays, merged into the same history file the page and the Actions bots use
+    if plays:
+        hist_path = f"{os.path.basename(HISTORY_DIR)}/{today}.json"
+        record    = gh.load_json(GH_TOKEN, GH_OWNER, GH_REPO, hist_path) or {}
+        record[snap_time.strftime("%H:%M")] = {"captured_at": snap_time.isoformat(), "plays": plays}
+        gh.save_json(GH_TOKEN, GH_OWNER, GH_REPO, hist_path, record,
+                     commit_msg=f"Line alert plays {SPORT_KEY} {snap_time.strftime('%Y-%m-%d %I:%M %p')} ET")
+        paths.append(hist_path)
+    return paths
+
+
 def load_play_history(days=7):
     """Load play records from the last N days (committed history files)."""
     records = []
@@ -519,6 +549,7 @@ with col_s:
 now = datetime.now(tz=EASTERN)
 needs_refresh = (
     force_refresh
+    or snap_now
     or st.session_state.last_snap is None
     or (
         st.session_state.last_fetch_time is not None
@@ -703,6 +734,16 @@ if (needs_refresh or snap_now) and fetch_time and all_plays:
     if snap_now:
         st.toast(f"📸 Snapshot saved — {len(all_plays)} play(s) recorded at {fetch_time.strftime('%I:%M %p ET')}",
                  icon="✅")
+
+if snap_now and snap and fetch_time:
+    if not GH_TOKEN:
+        st.warning("Snapshot not saved to GitHub: `GITHUB_TOKEN` not configured.")
+    else:
+        try:
+            saved = push_snapshot_to_github(snap, all_plays, fetch_time)
+            st.success("📸 Snapshot saved to GitHub · " + " · ".join(f"`{p}`" for p in saved))
+        except Exception as e:
+            st.warning(f"Snapshot fetched but GitHub save failed: {e}")
 
 # ── ACTIONABLE PLAYS ─────────────────────────────────────────────────────────
 
