@@ -148,6 +148,10 @@ if not ODDS_KEY:
     st.error("Missing `THE_ODDS_API_KEY` in secrets.")
     st.stop()
 
+GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
+GH_OWNER = "Theo1984-ai"
+GH_REPO  = "MLB-DASHBOARD-"
+
 _CTX = ssl.create_default_context()
 _CTX.check_hostname = False
 _CTX.verify_mode    = ssl.CERT_NONE
@@ -245,6 +249,18 @@ def fetch_sport(sport_key, markets):
     with open(path, "w") as f:
         json.dump(existing, f)
     return snap, quota
+
+
+def push_snapshot(sport_key, snap):
+    """Append one snapshot to props_history/<sport_key>/<date>.json in the GitHub repo."""
+    from data import github_storage as gh
+    today = datetime.now(tz=EASTERN).strftime("%Y-%m-%d")
+    path  = f"props_history/{sport_key}/{today}.json"
+    existing = gh.load_json(GH_TOKEN, GH_OWNER, GH_REPO, path) or []
+    existing.append(snap)
+    gh.save_json(GH_TOKEN, GH_OWNER, GH_REPO, path, existing,
+                 commit_msg=f"Props snapshot {sport_key} {datetime.now(tz=EASTERN).strftime('%Y-%m-%d %I:%M %p')} ET")
+    return path
 
 
 def load_history(sport_key, n=15):
@@ -381,6 +397,15 @@ def render_sport_tab(sport_label, sport_cfg):
             except Exception as e:
                 st.error(f"Fetch failed: {e}")
                 return
+        if snap_btn:
+            if not GH_TOKEN:
+                st.warning("Snapshot not saved to GitHub: `GITHUB_TOKEN` not configured.")
+            else:
+                try:
+                    saved_path = push_snapshot(sport_key, snap)
+                    st.success(f"📸 Snapshot saved to GitHub · `{saved_path}`")
+                except Exception as e:
+                    st.warning(f"Snapshot fetched but GitHub save failed: {e}")
 
     snap       = st.session_state[sk]
     quota      = st.session_state[sk_q]
