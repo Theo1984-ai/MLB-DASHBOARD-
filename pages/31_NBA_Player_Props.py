@@ -176,13 +176,13 @@ def fetch_sport(sport_key, markets):
 
         try:
             gt = datetime.fromisoformat(ct.replace("Z", "+00:00")).astimezone(EASTERN)
-            if gt.date() != today_date:
-                continue
             if gt <= now_et:
-                games.append({
-                    "game": f"{away} @ {home}", "away": away, "home": home,
-                    "commence_time": ct, "started": True, "players": {},
-                })
+                # only include started games from today (not old games)
+                if gt.date() == today_date:
+                    games.append({
+                        "game": f"{away} @ {home}", "away": away, "home": home,
+                        "commence_time": ct, "started": True, "players": {},
+                    })
                 continue
         except Exception:
             continue
