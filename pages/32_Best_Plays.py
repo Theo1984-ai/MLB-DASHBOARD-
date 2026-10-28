@@ -113,6 +113,20 @@ def grade_recent(now_et, days=7):
         totals["errors"] += counts["errors"]
         if counts["graded"] or counts["no_data"]:
             save_log(d, log, f"graded {counts['graded']} picks")
+    have_claude = {i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")}
+    for i in range(days):
+        d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
+        if f"{d}.json" not in have_claude:
+            continue
+        path = f"{LOG_DIR}/claude_picks/{d}.json"
+        clog = gh.load_json(GH_TOKEN, OWNER, REPO, path) or {}
+        cc = bp.grade_log(clog, now_et)
+        totals["graded"] += cc["graded"]
+        totals["no_data"] += cc["no_data"]
+        totals["errors"] += cc["errors"]
+        if cc["graded"] or cc["no_data"]:
+            gh.save_json(GH_TOKEN, OWNER, REPO, path, clog,
+                         commit_msg=f"Claude picks {d}: graded {cc['graded']}")
     for i in range(days):
         d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
         if f"{d}.json" not in have_pred:
@@ -497,7 +511,17 @@ def load_all_preds(_token_present):
     gh = _gh()
     items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
              if i["name"].endswith(".json")]
-    return [gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {} for n in sorted(items)[-30:]]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_claude(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks/{n}") or {})
+            for n in sorted(items)[-30:]]
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -524,7 +548,39 @@ with tab_track:
         except Exception as e:  # noqa: BLE001
             plogs = []
             st.warning(f"Couldn't load the prediction log: {e}")
-        psum = bp.summarize_predictions(plogs) if plogs else None
+        try:
+            clogs = load_all_claude(True)
+        except Exception:  # noqa: BLE001
+            clogs = []
+        try:
+            pick_logs_for_days = dict(load_all_logs(True))
+        except Exception:  # noqa: BLE001
+            pick_logs_for_days = {}
+        days = bp.daily_summary(pick_logs_for_days, dict(plogs), dict(clogs))
+        if len(days) > 1 or days[0]["model"]["logged"] or days[0]["pred"]["games"]:
+            st.markdown("#### 📅 Day by day")
+
+            def wlp(x, w="w", l="l", pu="p"):
+                return f"{x[w]}-{x[l]}-{x[pu]}" if (x[w] + x[l] + x[pu]) else "—"
+
+            def pct(v):
+                return f"{v}%" if v is not None else "—"
+
+            table = []
+            for d in days:
+                m, c, q = d["model"], d["claude"], d["pred"]
+                table.append({
+                    "Date": d["date"],
+                    "Model picks W-L-P": wlp(m), "Model win %": pct(m["win_pct"]), "Model ROI %": pct(m["roi_pct"]),
+                    "Claude picks W-L-P": wlp(c), "Claude win %": pct(c["win_pct"]), "Claude ROI %": pct(c["roi_pct"]),
+                    "Games predicted": q["games"], "Winner hit %": pct(q["winner_pct"]),
+                    "Pinnacle fav hit %": pct(q["fav_pct"]),
+                    "Over/Under W-L-P": wlp(q, "ou_w", "ou_l", "ou_p"), "O/U hit %": pct(q["ou_pct"]),
+                })
+            st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
+            st.caption("One row per day, newest first, and a row for all days. ROI is flat 1 unit per pick. "
+                       "Days fill in as games finish and get graded (next snapshot, or press ✅ Grade finished picks).")
+        psum = bp.summarize_predictions([lg for _, lg in plogs]) if plogs else None
         if psum and psum["n"]:
             st.markdown("#### 🔮 Game predictions")
             q1, q2, q3 = st.columns(3)

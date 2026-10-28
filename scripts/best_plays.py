@@ -1182,6 +1182,65 @@ def grade_log(log, now_et, fetch=_get_plain, finished_after_hours=4):
     return counts
 
 
+# ── Day-by-day results ───────────────────────────────────────────────────────────────────────
+
+def _pick_day(log):
+    w = l = pu = 0
+    profit = 0.0
+    for r in (log or {}).values():
+        res = r.get("result")
+        if not res or res.get("outcome") not in ("win", "loss", "push"):
+            continue
+        profit += res.get("profit") or 0.0
+        if res["outcome"] == "win":
+            w += 1
+        elif res["outcome"] == "loss":
+            l += 1
+        else:
+            pu += 1
+    n = w + l + pu
+    return {"logged": len(log or {}), "graded": n, "w": w, "l": l, "p": pu,
+            "win_pct": round(100 * w / (w + l), 1) if (w + l) else None,
+            "roi_pct": round(100 * profit / n, 1) if n else None}
+
+
+def _pred_day(log):
+    done = [r for r in (log or {}).values() if r.get("result")]
+    win = [r for r in done if r["result"].get("winner_correct") is not None]
+    fav = [r for r in done if r["result"].get("pin_fav_correct") is not None]
+    ou = [r["result"]["ou_outcome"] for r in done if r["result"].get("ou_outcome")]
+    ow, ol, op = ou.count("win"), ou.count("loss"), ou.count("push")
+    return {"games": len(log or {}), "graded": len(done),
+            "winner_pct": round(100 * sum(1 for r in win if r["result"]["winner_correct"]) / len(win), 1) if win else None,
+            "fav_pct": round(100 * sum(1 for r in fav if r["result"]["pin_fav_correct"]) / len(fav), 1) if fav else None,
+            "ou_w": ow, "ou_l": ol, "ou_p": op,
+            "ou_pct": round(100 * ow / (ow + ol), 1) if (ow + ol) else None}
+
+
+def daily_summary(pick_logs, pred_logs, claude_logs=None):
+    """
+    One row per date, newest first, plus an 'All days' row at the end.
+    Each argument is {date: log}: the model's picks, the game predictions and (optionally) Claude's
+    own picks, which use the same record format as the model's.
+    """
+    claude_logs = claude_logs or {}
+    dates = sorted(set(pick_logs) | set(pred_logs) | set(claude_logs), reverse=True)
+    rows = []
+    for d in dates:
+        rows.append({"date": d, "model": _pick_day(pick_logs.get(d)), "claude": _pick_day(claude_logs.get(d)),
+                     "pred": _pred_day(pred_logs.get(d))})
+
+    def merge(logs):
+        out = {}
+        for d, lg in logs.items():
+            for k, v in (lg or {}).items():
+                out[f"{d}|{k}"] = v
+        return out
+    rows.append({"date": "All days", "model": _pick_day(merge(pick_logs)), "claude": _pick_day(merge(claude_logs)),
+                 "pred": _pred_day(merge(pred_logs))})
+    return rows
+
+
 # ── Track-record summary ─────────────────────────────────────────────────────
 
 def _bucket(edge):
