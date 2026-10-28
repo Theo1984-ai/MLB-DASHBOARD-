@@ -522,9 +522,11 @@ def game_line_info(sport, game_snap, game, team):
         out["fav"] = out.get("fav", fav_s)
         out["fav_spread"] = spreads[fav_s]
         out["blowout"] = abs(spreads[fav_s]) >= BLOWOUT_SPREAD.get(sport, 99.0)
-    total = (ctx.get("total") or {}).get("line")
-    if total is not None:
-        out["total"] = total
+    tot = ctx.get("total") or {}
+    if tot.get("line") is not None:
+        out["total"] = tot["line"]
+        if tot.get("over") is not None and tot.get("under") is not None:
+            out["total_over"], out["total_under"] = tot["over"], tot["under"]
     return out
 
 
@@ -647,11 +649,41 @@ def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_
 
 PRED_SIGMA = {"NBA": 12.0, "NFL": 13.0, "CFB": 14.0, "NHL": 2.5}   # std dev of the final margin
 PROP_UNIT = {"NBA": 1.0, "NFL": 1.0, "CFB": 1.0, "NHL": 0.1}       # score nudge per prop play, x0.25
-OU_MIN = {"NBA": 1.0, "NFL": 1.5, "CFB": 2.0, "NHL": 0.3}          # soft-vs-predicted total gap for Medium
+GAME_TOTAL_SIGMA = {"NBA": 18.0, "NFL": 13.5, "CFB": 15.0}         # std dev of a game's combined score
+OU_LEAN_MEDIUM, OU_LEAN_HIGH = 0.03, 0.06                          # chance above 50% for Medium / High
 
 
 def _clamp(x, lo, hi):
     return max(lo, min(hi, x))
+
+
+def _total_spec(sport):
+    """Distribution of a game's combined score: Poisson for hockey, normal otherwise."""
+    return ("pois", None) if sport == "NHL" else ("norm", GAME_TOTAL_SIGMA.get(sport, 15.0))
+
+
+def _fit_total_mean(spec, line, p_over):
+    """Mean of the combined score that makes P(total > line) equal p_over."""
+    kind, sigma = spec
+    p = min(max(p_over, 0.02), 0.98)
+    if kind == "norm":
+        return line - sigma * _norm_ppf(1 - p)
+    k = int(math.floor(line)) + 1
+    lo, hi = 1e-6, 400.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if _pois_sf(k, mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def _total_prob_over(spec, line, mean):
+    kind, sigma = spec
+    if kind == "norm":
+        return 1 - _norm_cdf((line - mean) / sigma)
+    return _pois_sf(int(math.floor(line)) + 1, mean)
 
 
 def predict_row(sport, row):
@@ -663,9 +695,10 @@ def predict_row(sport, row):
          plays with no known team across both teams.
       3. Winner: the higher predicted score. Win probability is the normal margin model, averaged
          with Pinnacle's moneyline when we have it.
-      4. Over/Under: compare the predicted total with what the soft books post for the same team
-         totals (Pinnacle's game total when there are no soft lines). Soft books higher than we
-         expect -> Under, lower -> Over.
+      4. Over/Under: start from Pinnacle's game total and its price (the sharp market's own
+         expectation), add the props nudge, and read off the chance of Over vs Under at Pinnacle's
+         line. Confidence comes from how far that chance is from 50%. Soft-book lines and price
+         outliers do not move the call; price-aware team-total value is shown as a note.
     Returns None when either team has no Pinnacle team total.
     """
     a, h = row["teams"][0], row["teams"][1]
@@ -694,33 +727,35 @@ def predict_row(sport, row):
     pin_fav = row["home"] if h["mean"] >= a["mean"] else row["away"]
     pin_p_home = _norm_cdf((h["mean"] - a["mean"]) / PRED_SIGMA.get(sport, 12.0))
 
-    pred_total = sa + sh
+    # Over/Under: the sharp market's own expectation plus the props nudge.
+    spec = _total_spec(sport)
+    mkt_mean_tt = a["mean"] + h["mean"]                      # what the two team totals say
+    nudge = adj_a + adj_h
     pin_total = ln.get("total")
-    if pin_total is None and a["line"] is not None and h["line"] is not None:
-        pin_total = a["line"] + h["line"]
-    # Over/Under: line-shop. Best Under line = highest total any soft book posts for both teams;
-    # best Over line = lowest. Take the side with the bigger cushion against our predicted total.
-    hi = [t["soft_max"] for t in (a, h)]
-    lo = [t["soft_min"] for t in (a, h)]
-    soft_hi = sum(hi) if None not in hi else None
-    soft_lo = sum(lo) if None not in lo else None
-    ou_pick = ou_gap = ou_conf = ref = None
-    ref_kind = "Pinnacle total"
-    if soft_hi is not None and soft_lo is not None:
-        under_cushion, over_cushion = soft_hi - pred_total, pred_total - soft_lo
-        if under_cushion >= over_cushion:
-            ou_pick, ref, ou_gap = "Under", soft_hi, under_cushion
+    if pin_total is not None:
+        ref, ref_kind = pin_total, "Pinnacle game total"
+        if ln.get("total_over") is not None and ln.get("total_under") is not None:
+            p_mkt_over = devig(ln["total_over"], ln["total_under"])[0]
         else:
-            ou_pick, ref, ou_gap = "Over", soft_lo, over_cushion
-        ref_kind = "best soft-book line"
-    elif pin_total is not None:
-        ref = pin_total
-        ou_gap = abs(pred_total - pin_total)
-        ou_pick = "Over" if pred_total > pin_total else "Under"
-    if ou_pick:
-        thr = OU_MIN.get(sport, 1.0)
-        ou_conf = "High" if ou_gap >= 2 * thr else "Medium" if ou_gap >= thr else "Low"
-    soft_total = soft_hi if ou_pick == "Under" else soft_lo if ou_pick == "Over" else None
+            p_mkt_over = 0.5
+        base_mean = _fit_total_mean(spec, ref, p_mkt_over)
+    else:
+        ref = (a["line"] + h["line"]) if a["line"] is not None and h["line"] is not None \
+            else round(mkt_mean_tt * 2) / 2
+        ref_kind = "sum of Pinnacle team totals"
+        p_mkt_over = None
+        base_mean = mkt_mean_tt
+    pred_total = base_mean + nudge
+    p_over = _total_prob_over(spec, ref, pred_total)
+    ou_pick = "Over" if p_over >= 0.5 else "Under"
+    ou_prob = max(p_over, 1 - p_over)
+    ou_conf = ("High" if ou_prob - 0.5 >= OU_LEAN_HIGH else
+               "Medium" if ou_prob - 0.5 >= OU_LEAN_MEDIUM else "Low")
+    ou_gap = abs(pred_total - ref)
+    # keep the two predicted scores adding up to the predicted total (the margin is unchanged)
+    delta = (pred_total - (sa + sh)) / 2
+    sa, sh = sa + delta, sh + delta
+    soft_total = None
 
     reasons = [f"Pinnacle team totals imply {a['team']} {a['mean']:.1f}, {h['team']} {h['mean']:.1f}."]
     for t, ad in ((a, adj_a), (h, adj_h)):
@@ -739,9 +774,18 @@ def predict_row(sport, row):
         reasons.append(f"Spread: {ln['fav']} {ln['fav_spread']:+.1f}.")
     if ln.get("blowout"):
         reasons.append("Blowout risk: starters may sit, which hurts the Over.")
-    if ou_pick:
-        reasons.append(f"Predicted total {pred_total:.1f}; {ref_kind} for the {ou_pick} is {ref:.1f} "
-                       f"({ou_gap:.1f} of cushion). Price is not considered.")
+    if p_mkt_over is not None:
+        reasons.append(f"Pinnacle's game total is {ref:.1f} ({p_mkt_over * 100:.0f}% Over after removing the vig).")
+    else:
+        reasons.append(f"No Pinnacle game total saved, so the line is the sum of the team totals ({ref:.1f}).")
+    reasons.append(f"Props lean adds {nudge:+.2f} to the total, so we expect {pred_total:.1f}.")
+    reasons.append(f"Over/Under: {ou_pick} {ref:.1f} ({ou_prob * 100:.0f}% chance, {ou_conf} confidence)."
+                   + (" Too close to the market line to call with confidence." if ou_conf == "Low" else ""))
+    value = sorted((p for p in row.get("plays", []) if p.get("kind") == "team total"
+                    and p["edge"] >= 0.01 and p["price"] >= -140), key=lambda p: -p["edge"])[:2]
+    for p in value:
+        reasons.append(f"Team-total value: {p['who']} {p['bet']} {p['line']} @ "
+                       f"{BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d} (edge {p['edge'] * 100:+.1f}%).")
     return {
         "winner": winner, "win_prob": round(win_prob, 3),
         "win_conf": "High" if win_prob >= 0.70 else "Medium" if win_prob >= 0.60 else "Low",
@@ -749,8 +793,8 @@ def predict_row(sport, row):
         "pred_margin": round(abs(margin), 1), "pred_total": round(pred_total, 1),
         "pin_total": None if pin_total is None else round(pin_total, 1),
         "soft_total": None if soft_total is None else round(soft_total, 1),
-        "ou_ref": None if ref is None else round(ref, 1), "ou_ref_kind": ref_kind,
-        "ou_pick": ou_pick, "ou_gap": None if ou_gap is None else round(ou_gap, 1), "ou_conf": ou_conf,
+        "ou_ref": round(ref, 1), "ou_ref_kind": ref_kind,
+        "ou_pick": ou_pick, "ou_gap": round(ou_gap, 1), "ou_conf": ou_conf, "ou_prob": round(ou_prob, 3),
         "pin_favorite": pin_fav, "pin_win_prob": round(max(pin_p_home, 1 - pin_p_home), 3),
         "market_win_prob_home": None if market is None else round(market, 3),
         "adj_away": round(adj_a, 2), "adj_home": round(adj_h, 2), "reasons": reasons,

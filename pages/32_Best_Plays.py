@@ -493,7 +493,7 @@ with tab_games:
             pr = r["pred"]
             when = datetime.fromisoformat(r["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
             ou = (f"**{pr['ou_pick'].upper()} {pr['ou_ref']}** ({conf_icon[pr['ou_conf']]} {pr['ou_conf']}, "
-                  f"cushion {pr['ou_gap']:.1f})" if pr["ou_pick"] else "no total available")
+                  f"{pr['ou_prob'] * 100:.0f}% chance)" if pr["ou_pick"] else "no total available")
             st.markdown(
                 f"**{bp.SPORTS[r['sport']]['label']} · {when.strftime('%I:%M %p')} ET · "
                 f"{r['away']} @ {r['home']}**  \n"
