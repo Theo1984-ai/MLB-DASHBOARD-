@@ -91,6 +91,11 @@ def save_preds(date, log, note):
                     commit_msg=f"Game predictions {date}: {note}")
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def load_today_preds(date, _token_present):
+    return load_preds(date)
+
+
 def grade_recent(now_et, days=7):
     """Grade finished picks from the last few days and save any that changed."""
     gh = _gh()
@@ -108,6 +113,20 @@ def grade_recent(now_et, days=7):
         totals["errors"] += counts["errors"]
         if counts["graded"] or counts["no_data"]:
             save_log(d, log, f"graded {counts['graded']} picks")
+    have_claude = {i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")}
+    for i in range(days):
+        d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
+        if f"{d}.json" not in have_claude:
+            continue
+        path = f"{LOG_DIR}/claude_picks/{d}.json"
+        clog = gh.load_json(GH_TOKEN, OWNER, REPO, path) or {}
+        cc = bp.grade_log(clog, now_et)
+        totals["graded"] += cc["graded"]
+        totals["no_data"] += cc["no_data"]
+        totals["errors"] += cc["errors"]
+        if cc["graded"] or cc["no_data"]:
+            gh.save_json(GH_TOKEN, OWNER, REPO, path, clog,
+                         commit_msg=f"Claude picks {d}: graded {cc['graded']}")
     for i in range(days):
         d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
         if f"{d}.json" not in have_pred:
@@ -163,6 +182,33 @@ def load_rosters(_token_present):
     gh = _gh()
     return {sport: gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/rosters/{sport}.json") or {}
             for sport in bp.SPORTS}
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_preds(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_claude(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_logs(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{n}") or {})
+            for n in sorted(items)[-30:]]
 
 
 # ── Snapshot run ──────────────────────────────────────────────────────────────
@@ -435,6 +481,12 @@ with tab_games:
         sport_filter = st.multiselect("Sports", options=list(bp.SPORTS), default=list(bp.SPORTS),
                                       format_func=lambda x: bp.SPORTS[x]["label"], key="bp_game_sports")
         conf_icon = {"High": "🟢", "Medium": "🟡", "Low": "⚪"}
+        pred_log = {}
+        if GH_TOKEN:
+            try:
+                pred_log = load_today_preds(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), True)
+            except Exception:  # noqa: BLE001
+                pred_log = {}
         for r in preds:
             if r["sport"] not in sport_filter:
                 continue
@@ -449,6 +501,14 @@ with tab_games:
                 f"{pr['win_prob'] * 100:.0f}%) · predicted **{pr['pred_away']:.0f}–{pr['pred_home']:.0f}** "
                 f"(total {pr['pred_total']:.1f})  \n"
                 f"📊 {ou}")
+            hist = (pred_log.get(bp.pred_key(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), r["sport"], r["game"])) or {}).get("history", [])
+            if len(hist) >= 2:
+                prev = hist[-2]
+                changes = bp.prediction_changes(prev, pr)
+                since = datetime.fromisoformat(prev["t"]).strftime("%I:%M %p")
+                st.caption(f"Since the {since} snapshot: " + ("; ".join(changes) if changes else "no change."))
+            elif hist:
+                st.caption("First prediction for this game. The next snapshot will show what changed.")
             with st.expander("Why"):
                 for line in pr["reasons"]:
                     st.markdown(f"- {line}")
@@ -471,24 +531,58 @@ with tab_games:
             st.caption("No prediction (no Pinnacle team totals saved): " +
                        "; ".join(f"{r['away']} @ {r['home']}" for r in no_pred if r["sport"] in sport_filter))
 
+    # ── Look back: every prediction next to what actually happened ─────────────────────
+    st.markdown("---")
+    st.markdown("### 📜 Past predictions & results")
+    if not GH_TOKEN:
+        st.info("Add `GITHUB_TOKEN` to secrets to save predictions and look back at them.")
+    else:
+        try:
+            hist_logs = dict(load_all_preds(True))
+        except Exception as e:  # noqa: BLE001
+            hist_logs = {}
+            st.warning(f"Couldn't load the prediction history: {e}")
+        all_rows = bp.prediction_results_rows(hist_logs)
+        if not all_rows:
+            st.info("No saved predictions yet. Every snapshot saves a prediction for each open game, "
+                    "and finished games are graded on the next snapshot (or press ✅ Grade finished picks).")
+        else:
+            days_avail = sorted({r["date"] for r in all_rows}, reverse=True)
+            graded_days = [d for d in days_avail if any(r["done"] for r in all_rows if r["date"] == d)]
+            choices = ["All days"] + days_avail
+            pick_day = st.selectbox("Day", choices, index=choices.index(graded_days[0]) if graded_days else 1,
+                                    key="bp_hist_day")
+            shown = all_rows if pick_day == "All days" else [r for r in all_rows if r["date"] == pick_day]
+            sm = bp.results_day_summary(shown)
+            h1, h2, h3, h4 = st.columns(4)
+            h1.metric("Winner calls", f"{sm['winner_hits']}/{sm['winner_n']}" if sm["winner_n"] else "—",
+                      help="Games where our predicted winner won.")
+            h2.metric("Pinnacle favorite (baseline)", f"{sm['fav_hits']}/{sm['fav_n']}" if sm["fav_n"] else "—",
+                      help="Games where Pinnacle's favorite won. We should beat this.")
+            h3.metric("Over/Under", f"{sm['ou_w']}-{sm['ou_l']}-{sm['ou_p']}" if (sm["ou_w"] + sm["ou_l"] + sm["ou_p"]) else "—")
+            h4.metric("Avg total miss", sm["mean_total_miss"] if sm["mean_total_miss"] is not None else "—",
+                      help="Average points between our predicted total and the final total.")
+            if sm["pending"]:
+                st.caption(f"{sm['pending']} game(s) not graded yet. They fill in after the game ends, on the next "
+                           "snapshot or when you press ✅ Grade finished picks.")
+            table = [{
+                "Date": r["date"], "Time (ET)": r["start"].strftime("%I:%M %p"), "Sport": r["sport"], "Game": r["game"],
+                "We predicted": f"{r['winner']} ({r['win_prob'] * 100:.0f}%, {r['win_conf']})" if r["winner"] else "—",
+                "Predicted score": r["pred_score"],
+                "Final score": r["actual_score"],
+                "Winner": r["winner_result"], "Pinnacle fav": r["fav_result"],
+                "Over/Under call": f"{r['ou_pick']} {r['ou_ref']} ({r['ou_conf']})" if r["ou_pick"] else "—",
+                "Final total": f"{r['actual_total']:.0f}" if r["actual_total"] is not None else "—",
+                "O/U": r["ou_result"],
+                "Total miss": f"{r['total_miss']:+.1f}" if r["total_miss"] is not None else "—",
+                "Notes": ("winner flipped before the game; " if r["flipped"] else "") + f"{r['updates']} snapshot(s)",
+            } for r in shown]
+            st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
+            st.caption("Final score is away–home. Winner ✅ means our predicted winner won; Pinnacle fav shows how its "
+                       "favorite did for comparison. Over/Under is graded against the line we called. "
+                       "Total miss = final total minus our predicted total.")
+
 # ── Track record ──────────────────────────────────────────────────────────────
-
-@st.cache_data(ttl=300, show_spinner=False)
-def load_all_preds(_token_present):
-    gh = _gh()
-    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
-             if i["name"].endswith(".json")]
-    return [gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {} for n in sorted(items)[-30:]]
-
-
-@st.cache_data(ttl=300, show_spinner=False)
-def load_all_logs(_token_present):
-    gh = _gh()
-    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks")
-             if i["name"].endswith(".json")]
-    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{n}") or {})
-            for n in sorted(items)[-30:]]
-
 
 with tab_track:
     if "bp_grade" in st.session_state:
@@ -505,7 +599,39 @@ with tab_track:
         except Exception as e:  # noqa: BLE001
             plogs = []
             st.warning(f"Couldn't load the prediction log: {e}")
-        psum = bp.summarize_predictions(plogs) if plogs else None
+        try:
+            clogs = load_all_claude(True)
+        except Exception:  # noqa: BLE001
+            clogs = []
+        try:
+            pick_logs_for_days = dict(load_all_logs(True))
+        except Exception:  # noqa: BLE001
+            pick_logs_for_days = {}
+        days = bp.daily_summary(pick_logs_for_days, dict(plogs), dict(clogs))
+        if len(days) > 1 or days[0]["model"]["logged"] or days[0]["pred"]["games"]:
+            st.markdown("#### 📅 Day by day")
+
+            def wlp(x, w="w", l="l", pu="p"):
+                return f"{x[w]}-{x[l]}-{x[pu]}" if (x[w] + x[l] + x[pu]) else "—"
+
+            def pct(v):
+                return f"{v}%" if v is not None else "—"
+
+            table = []
+            for d in days:
+                m, c, q = d["model"], d["claude"], d["pred"]
+                table.append({
+                    "Date": d["date"],
+                    "Model picks W-L-P": wlp(m), "Model win %": pct(m["win_pct"]), "Model ROI %": pct(m["roi_pct"]),
+                    "Claude picks W-L-P": wlp(c), "Claude win %": pct(c["win_pct"]), "Claude ROI %": pct(c["roi_pct"]),
+                    "Games predicted": q["games"], "Winner hit %": pct(q["winner_pct"]),
+                    "Pinnacle fav hit %": pct(q["fav_pct"]),
+                    "Over/Under W-L-P": wlp(q, "ou_w", "ou_l", "ou_p"), "O/U hit %": pct(q["ou_pct"]),
+                })
+            st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
+            st.caption("One row per day, newest first, and a row for all days. ROI is flat 1 unit per pick. "
+                       "Days fill in as games finish and get graded (next snapshot, or press ✅ Grade finished picks).")
+        psum = bp.summarize_predictions([lg for _, lg in plogs]) if plogs else None
         if psum and psum["n"]:
             st.markdown("#### 🔮 Game predictions")
             q1, q2, q3 = st.columns(3)

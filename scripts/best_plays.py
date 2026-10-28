@@ -767,8 +767,15 @@ def pred_key(date, sport, game):
     return "|".join([date, sport, game])
 
 
+HIST_KEYS = ("t", "winner", "win_prob", "pred_away", "pred_home", "pred_total", "ou_pick", "ou_ref", "ou_conf")
+HIST_MAX = 30
+
+
 def update_predictions(log, rows, snap_time, date):
-    """Store each game's first prediction and its latest one (the latest is what gets graded)."""
+    """
+    Store each game's first prediction, its latest one (the latest is what gets graded) and a short
+    history of every snapshot's prediction, so the page can show what changed.
+    """
     n = 0
     for r in rows:
         pr = r.get("pred")
@@ -776,16 +783,49 @@ def update_predictions(log, rows, snap_time, date):
             continue
         key = pred_key(date, r["sport"], r["game"])
         stamp = {"t": snap_time, **pr}
+        entry = {k: stamp.get(k) for k in HIST_KEYS}
         if key not in log:
             first = {k: v for k, v in stamp.items() if k != "reasons"}
             log[key] = {"sport": r["sport"], "game": r["game"], "away": r["away"], "home": r["home"],
                         "commence_time": r["commence_time"], "first": first, "last": stamp,
-                        "n_updates": 1, "result": None}
+                        "n_updates": 1, "history": [entry], "result": None}
             n += 1
         elif not log[key].get("result"):
-            log[key]["last"] = stamp
-            log[key]["n_updates"] = log[key].get("n_updates", 1) + 1
+            rec = log[key]
+            rec["last"] = stamp
+            rec["n_updates"] = rec.get("n_updates", 1) + 1
+            hist = rec.setdefault("history", [])
+            if not hist or hist[-1].get("t") != snap_time:
+                hist.append(entry)
+            del hist[:-HIST_MAX]
     return n
+
+
+def prediction_changes(prev, cur):
+    """
+    What moved between two predictions (dicts with the HIST_KEYS fields). Returns a list of short
+    strings, [] when nothing changed. `cur` can be a full prediction.
+    """
+    if not prev or not cur:
+        return []
+    out = []
+    if prev["winner"] != cur["winner"]:
+        out.append(f"⚠️ winner flipped: was {prev['winner']} ({prev['win_prob'] * 100:.0f}%) → "
+                   f"now {cur['winner']} ({cur['win_prob'] * 100:.0f}%)")
+    elif abs(cur["win_prob"] - prev["win_prob"]) >= 0.005:
+        arrow = "▲" if cur["win_prob"] > prev["win_prob"] else "▼"
+        out.append(f"{cur['winner']} win chance {prev['win_prob'] * 100:.0f}% → {cur['win_prob'] * 100:.0f}% {arrow}")
+    if abs(cur["pred_total"] - prev["pred_total"]) >= 0.05:
+        out.append(f"predicted total {prev['pred_total']:.1f} → {cur['pred_total']:.1f}")
+    if prev.get("ou_pick") and cur.get("ou_pick"):
+        if prev["ou_pick"] != cur["ou_pick"]:
+            out.append(f"⚠️ Over/Under flipped: was {prev['ou_pick']} {prev['ou_ref']} → "
+                       f"now {cur['ou_pick']} {cur['ou_ref']}")
+        elif prev.get("ou_ref") != cur.get("ou_ref"):
+            out.append(f"{cur['ou_pick']} line {prev['ou_ref']} → {cur['ou_ref']}")
+        if prev.get("ou_conf") != cur.get("ou_conf"):
+            out.append(f"Over/Under confidence {prev['ou_conf']} → {cur['ou_conf']}")
+    return out
 
 
 def grade_predictions(log, now_et, fetch=_get_plain, finished_after_hours=4):
@@ -1140,6 +1180,128 @@ def grade_log(log, now_et, fetch=_get_plain, finished_after_hours=4):
                              "graded_at": now_et.isoformat()}
             counts["no_data" if outcome == "no_data" else "graded"] += 1
     return counts
+
+
+# ── Look-back table: every prediction next to what happened ──────────────────────────────────
+
+def prediction_results_rows(logs_by_date):
+    """
+    Rows for the Predictions tab's look-back table. `logs_by_date` is {date: prediction log}.
+    Newest day first, games in start order. Games that have not finished yet show as pending.
+    """
+    rows = []
+    for date, log in logs_by_date.items():
+        for rec in (log or {}).values():
+            last = rec.get("last") or {}
+            first = rec.get("first") or last
+            res = rec.get("result")
+            try:
+                start = datetime.fromisoformat(rec["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
+            except Exception:  # noqa: BLE001
+                continue
+            mark = {"win": "✅", "loss": "❌", "push": "➖"}
+            row = {
+                "date": date, "start": start, "sport": rec["sport"], "game": rec["game"],
+                "winner": last.get("winner"), "win_prob": last.get("win_prob"), "win_conf": last.get("win_conf"),
+                "pred_score": f"{last.get('pred_away', 0):.0f}–{last.get('pred_home', 0):.0f}"
+                              f" ({rec['away'].split()[-1]}–{rec['home'].split()[-1]})",
+                "pred_total": last.get("pred_total"),
+                "ou_pick": last.get("ou_pick"), "ou_ref": last.get("ou_ref"), "ou_conf": last.get("ou_conf"),
+                "flipped": bool(first.get("winner") and last.get("winner") and first["winner"] != last["winner"]),
+                "updates": rec.get("n_updates", 1),
+                "done": bool(res),
+            }
+            if res:
+                aa, ah = res.get("actual_away"), res.get("actual_home")
+                row["actual_score"] = f"{aa:.0f}–{ah:.0f}" if aa is not None and ah is not None else "—"
+                wc = res.get("winner_correct")
+                row["winner_result"] = "✅" if wc is True else "❌" if wc is False else "—"
+                fc = res.get("pin_fav_correct")
+                row["fav_result"] = "✅" if fc is True else "❌" if fc is False else "—"
+                row["ou_result"] = mark.get(res.get("ou_outcome"), "—")
+                row["total_miss"] = res.get("total_error")
+                row["actual_total"] = res.get("actual_total")
+            else:
+                row["actual_score"] = "⏳"
+                row["winner_result"] = row["fav_result"] = row["ou_result"] = "⏳"
+                row["total_miss"] = row["actual_total"] = None
+            rows.append(row)
+    rows.sort(key=lambda r: (r["date"], r["start"]))
+    rows.sort(key=lambda r: r["date"], reverse=True)
+    return rows
+
+
+def results_day_summary(rows):
+    """Winner / Over-Under record for a set of look-back rows."""
+    done = [r for r in rows if r["done"]]
+    wr = [r["winner_result"] for r in done]
+    fr = [r["fav_result"] for r in done]
+    orr = [r["ou_result"] for r in done]
+    errs = [abs(r["total_miss"]) for r in done if r["total_miss"] is not None]
+    return {"games": len(rows), "graded": len(done), "pending": len(rows) - len(done),
+            "winner_hits": wr.count("✅"), "winner_n": wr.count("✅") + wr.count("❌"),
+            "fav_hits": fr.count("✅"), "fav_n": fr.count("✅") + fr.count("❌"),
+            "ou_w": orr.count("✅"), "ou_l": orr.count("❌"), "ou_p": orr.count("➖"),
+            "mean_total_miss": round(sum(errs) / len(errs), 1) if errs else None}
+
+
+# ── Day-by-day results ───────────────────────────────────────────────────────────────────────
+
+def _pick_day(log):
+    w = l = pu = 0
+    profit = 0.0
+    for r in (log or {}).values():
+        res = r.get("result")
+        if not res or res.get("outcome") not in ("win", "loss", "push"):
+            continue
+        profit += res.get("profit") or 0.0
+        if res["outcome"] == "win":
+            w += 1
+        elif res["outcome"] == "loss":
+            l += 1
+        else:
+            pu += 1
+    n = w + l + pu
+    return {"logged": len(log or {}), "graded": n, "w": w, "l": l, "p": pu,
+            "win_pct": round(100 * w / (w + l), 1) if (w + l) else None,
+            "roi_pct": round(100 * profit / n, 1) if n else None}
+
+
+def _pred_day(log):
+    done = [r for r in (log or {}).values() if r.get("result")]
+    win = [r for r in done if r["result"].get("winner_correct") is not None]
+    fav = [r for r in done if r["result"].get("pin_fav_correct") is not None]
+    ou = [r["result"]["ou_outcome"] for r in done if r["result"].get("ou_outcome")]
+    ow, ol, op = ou.count("win"), ou.count("loss"), ou.count("push")
+    return {"games": len(log or {}), "graded": len(done),
+            "winner_pct": round(100 * sum(1 for r in win if r["result"]["winner_correct"]) / len(win), 1) if win else None,
+            "fav_pct": round(100 * sum(1 for r in fav if r["result"]["pin_fav_correct"]) / len(fav), 1) if fav else None,
+            "ou_w": ow, "ou_l": ol, "ou_p": op,
+            "ou_pct": round(100 * ow / (ow + ol), 1) if (ow + ol) else None}
+
+
+def daily_summary(pick_logs, pred_logs, claude_logs=None):
+    """
+    One row per date, newest first, plus an 'All days' row at the end.
+    Each argument is {date: log}: the model's picks, the game predictions and (optionally) Claude's
+    own picks, which use the same record format as the model's.
+    """
+    claude_logs = claude_logs or {}
+    dates = sorted(set(pick_logs) | set(pred_logs) | set(claude_logs), reverse=True)
+    rows = []
+    for d in dates:
+        rows.append({"date": d, "model": _pick_day(pick_logs.get(d)), "claude": _pick_day(claude_logs.get(d)),
+                     "pred": _pred_day(pred_logs.get(d))})
+
+    def merge(logs):
+        out = {}
+        for d, lg in logs.items():
+            for k, v in (lg or {}).items():
+                out[f"{d}|{k}"] = v
+        return out
+    rows.append({"date": "All days", "model": _pick_day(merge(pick_logs)), "claude": _pick_day(merge(claude_logs)),
+                 "pred": _pred_day(merge(pred_logs))})
+    return rows
 
 
 # ── Track-record summary ─────────────────────────────────────────────────────
