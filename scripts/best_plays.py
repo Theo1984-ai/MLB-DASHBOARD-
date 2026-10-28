@@ -23,6 +23,7 @@ import json
 import math
 import re
 import ssl
+import statistics
 import time
 import unicodedata
 import urllib.request
@@ -591,15 +592,19 @@ def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_
             mean, first = now_m.get((name, t)), first_m.get((name, t))
             teams.append({
                 "team": t, "line": pin.get("line"), "over": pin.get("over"), "under": pin.get("under"),
-                "mean": None if mean is None else round(mean, 1),
+                "mean": None if mean is None else round(mean, 2),
                 "shift": None if mean is None or first is None else round(mean - first, 2),
                 "soft": sorted(set(soft)), "n_soft": len(soft),
+                "soft_median": statistics.median(soft) if soft else None,
+                "soft_max": max(soft) if soft else None, "soft_min": min(soft) if soft else None,
+                "n_higher": sum(1 for l in soft if pin.get("line") is not None and l > pin["line"]),
+                "n_lower": sum(1 for l in soft if pin.get("line") is not None and l < pin["line"]),
                 "off": sum(1 for l in soft if pin.get("line") is not None and l != pin["line"]),
             })
         gplays = sorted((p for p in plays if p["game"] == name),
                         key=lambda p: -p.get("adj", p["edge"]))
         # Props lean: scoring-stat plays only, +1 per Over, -1 per Under, by team
-        lean = {}
+        lean, lean_w = {}, {}
         for p in gplays:
             ctx = p.get("ctx") or {}
             if ctx.get("tag", "n/a") == "n/a":
@@ -607,6 +612,8 @@ def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_
             key = ctx.get("team") or "game"
             d = lean.setdefault(key, {"over": 0, "under": 0})
             d["over" if p["bet"] == "OVER" else "under"] += 1
+            w = p["stale"] / p["n_books"] if p.get("n_books") else 1.0
+            lean_w[key] = lean_w.get(key, 0.0) + (w if p["bet"] == "OVER" else -w)
         agree, conflict = [], []
         for t in teams:
             d = lean.get(t["team"])
@@ -629,11 +636,233 @@ def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_
         rows.append({
             "sport": sport, "game": name, "away": away, "home": home, "commence_time": g["commence_time"],
             "lines": game_line_info(sport, game_snap, name, None), "teams": teams,
-            "plays": gplays, "lean": lean, "verdict_tag": verdict_tag,
+            "plays": gplays, "lean": lean, "lean_w": lean_w, "verdict_tag": verdict_tag,
             "verdict": "; ".join(conflict or agree) or "no clear lean against the game market",
         })
     rows.sort(key=lambda r: (r["commence_time"], r["game"]))
     return rows
+
+
+# ── Game predictions: winner, score and Over/Under from the plays ───────────────────────────
+
+PRED_SIGMA = {"NBA": 12.0, "NFL": 13.0, "CFB": 14.0, "NHL": 2.5}   # std dev of the final margin
+PROP_UNIT = {"NBA": 1.0, "NFL": 1.0, "CFB": 1.0, "NHL": 0.1}       # score nudge per prop play, x0.25
+OU_MIN = {"NBA": 1.0, "NFL": 1.5, "CFB": 2.0, "NHL": 0.3}          # soft-vs-predicted total gap for Medium
+
+
+def _clamp(x, lo, hi):
+    return max(lo, min(hi, x))
+
+
+def predict_row(sport, row):
+    """
+    Predict one game from a `build_game_rows` row.
+      1. Start from Pinnacle's expected score for each team (its team total, line and price).
+      2. Nudge each team's score by its prop plays (0.25 x one unit per net Over; Unders subtract; a
+         play counts by the share of books that are off Pinnacle), capped at 2 units, and split any
+         plays with no known team across both teams.
+      3. Winner: the higher predicted score. Win probability is the normal margin model, averaged
+         with Pinnacle's moneyline when we have it.
+      4. Over/Under: compare the predicted total with what the soft books post for the same team
+         totals (Pinnacle's game total when there are no soft lines). Soft books higher than we
+         expect -> Under, lower -> Over.
+    Returns None when either team has no Pinnacle team total.
+    """
+    a, h = row["teams"][0], row["teams"][1]
+    if a["mean"] is None or h["mean"] is None:
+        return None
+    unit = PROP_UNIT.get(sport, 1.0)
+    lean = row["lean"]
+    lean_w = row.get("lean_w", {})
+
+    def net(key):                       # net Overs minus Unders, each weighted by books off Pinnacle
+        return lean_w.get(key, 0.0)
+
+    g = net("game")
+    adj_a = _clamp(0.25 * net(a["team"]) + 0.125 * g, -2.0, 2.0) * unit
+    adj_h = _clamp(0.25 * net(h["team"]) + 0.125 * g, -2.0, 2.0) * unit
+    sa, sh = a["mean"] + adj_a, h["mean"] + adj_h
+    margin = sh - sa
+    p_model = _norm_cdf(margin / PRED_SIGMA.get(sport, 12.0))
+    ln = row["lines"]
+    market = None
+    if ln.get("fav") and ln.get("fav_win_prob"):
+        market = ln["fav_win_prob"] if ln["fav"] == row["home"] else 1 - ln["fav_win_prob"]
+    p_home = p_model if market is None else (p_model + market) / 2
+    winner = row["home"] if p_home >= 0.5 else row["away"]
+    win_prob = max(p_home, 1 - p_home)
+    pin_fav = row["home"] if h["mean"] >= a["mean"] else row["away"]
+    pin_p_home = _norm_cdf((h["mean"] - a["mean"]) / PRED_SIGMA.get(sport, 12.0))
+
+    pred_total = sa + sh
+    pin_total = ln.get("total")
+    if pin_total is None and a["line"] is not None and h["line"] is not None:
+        pin_total = a["line"] + h["line"]
+    # Over/Under: line-shop. Best Under line = highest total any soft book posts for both teams;
+    # best Over line = lowest. Take the side with the bigger cushion against our predicted total.
+    hi = [t["soft_max"] for t in (a, h)]
+    lo = [t["soft_min"] for t in (a, h)]
+    soft_hi = sum(hi) if None not in hi else None
+    soft_lo = sum(lo) if None not in lo else None
+    ou_pick = ou_gap = ou_conf = ref = None
+    ref_kind = "Pinnacle total"
+    if soft_hi is not None and soft_lo is not None:
+        under_cushion, over_cushion = soft_hi - pred_total, pred_total - soft_lo
+        if under_cushion >= over_cushion:
+            ou_pick, ref, ou_gap = "Under", soft_hi, under_cushion
+        else:
+            ou_pick, ref, ou_gap = "Over", soft_lo, over_cushion
+        ref_kind = "best soft-book line"
+    elif pin_total is not None:
+        ref = pin_total
+        ou_gap = abs(pred_total - pin_total)
+        ou_pick = "Over" if pred_total > pin_total else "Under"
+    if ou_pick:
+        thr = OU_MIN.get(sport, 1.0)
+        ou_conf = "High" if ou_gap >= 2 * thr else "Medium" if ou_gap >= thr else "Low"
+    soft_total = soft_hi if ou_pick == "Under" else soft_lo if ou_pick == "Over" else None
+
+    reasons = [f"Pinnacle team totals imply {a['team']} {a['mean']:.1f}, {h['team']} {h['mean']:.1f}."]
+    for t, ad in ((a, adj_a), (h, adj_h)):
+        d = lean.get(t["team"])
+        if d:
+            reasons.append(f"{t['team']}: {d['over']} Over / {d['under']} Under prop plays ({ad:+.2f} to its score).")
+    if "game" in lean:
+        d = lean["game"]
+        reasons.append(f"{d['over']} Over / {d['under']} Under prop plays with the team unknown, split across both teams.")
+    for t in (a, h):
+        if t["shift"] is not None and abs(t["shift"]) >= SHIFT_MIN.get(sport, 0.5):
+            reasons.append(f"{t['team']}'s expected score moved {t['shift']:+.1f} since the day's first snapshot.")
+    if market is not None:
+        reasons.append(f"Pinnacle moneyline gives {row['home']} {market * 100:.0f}% to win.")
+    if ln.get("fav") and ln.get("fav_spread") is not None:
+        reasons.append(f"Spread: {ln['fav']} {ln['fav_spread']:+.1f}.")
+    if ln.get("blowout"):
+        reasons.append("Blowout risk: starters may sit, which hurts the Over.")
+    if ou_pick:
+        reasons.append(f"Predicted total {pred_total:.1f}; {ref_kind} for the {ou_pick} is {ref:.1f} "
+                       f"({ou_gap:.1f} of cushion). Price is not considered.")
+    return {
+        "winner": winner, "win_prob": round(win_prob, 3),
+        "win_conf": "High" if win_prob >= 0.70 else "Medium" if win_prob >= 0.60 else "Low",
+        "pred_away": round(sa, 1), "pred_home": round(sh, 1),
+        "pred_margin": round(abs(margin), 1), "pred_total": round(pred_total, 1),
+        "pin_total": None if pin_total is None else round(pin_total, 1),
+        "soft_total": None if soft_total is None else round(soft_total, 1),
+        "ou_ref": None if ref is None else round(ref, 1), "ou_ref_kind": ref_kind,
+        "ou_pick": ou_pick, "ou_gap": None if ou_gap is None else round(ou_gap, 1), "ou_conf": ou_conf,
+        "pin_favorite": pin_fav, "pin_win_prob": round(max(pin_p_home, 1 - pin_p_home), 3),
+        "market_win_prob_home": None if market is None else round(market, 3),
+        "adj_away": round(adj_a, 2), "adj_home": round(adj_h, 2), "reasons": reasons,
+    }
+
+
+def predict_rows(sport, rows):
+    for r in rows:
+        r["pred"] = predict_row(sport, r)
+    return rows
+
+
+def pred_key(date, sport, game):
+    return "|".join([date, sport, game])
+
+
+def update_predictions(log, rows, snap_time, date):
+    """Store each game's first prediction and its latest one (the latest is what gets graded)."""
+    n = 0
+    for r in rows:
+        pr = r.get("pred")
+        if not pr:
+            continue
+        key = pred_key(date, r["sport"], r["game"])
+        stamp = {"t": snap_time, **pr}
+        if key not in log:
+            first = {k: v for k, v in stamp.items() if k != "reasons"}
+            log[key] = {"sport": r["sport"], "game": r["game"], "away": r["away"], "home": r["home"],
+                        "commence_time": r["commence_time"], "first": first, "last": stamp,
+                        "n_updates": 1, "result": None}
+            n += 1
+        elif not log[key].get("result"):
+            log[key]["last"] = stamp
+            log[key]["n_updates"] = log[key].get("n_updates", 1) + 1
+    return n
+
+
+def grade_predictions(log, now_et, fetch=_get_plain, finished_after_hours=4):
+    """Grade stored predictions against ESPN final scores. Anything it can't find stays ungraded."""
+    todo = defaultdict(list)
+    for rec in log.values():
+        if rec.get("result"):
+            continue
+        try:
+            start = datetime.fromisoformat(rec["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
+        except Exception:  # noqa: BLE001
+            continue
+        if (now_et - start).total_seconds() < finished_after_hours * 3600:
+            continue
+        todo[(rec["sport"], start.strftime("%Y-%m-%d"))].append(rec)
+    counts = {"graded": 0, "pending": 0, "errors": []}
+    for (sport, date_str), recs in todo.items():
+        try:
+            events = espn_events(sport, date_str, fetch)
+        except Exception as e:  # noqa: BLE001
+            counts["errors"].append(f"{sport} {date_str} scoreboard: {e}")
+            continue
+        for rec in recs:
+            ev = next((e for e in events if team_match(e["home"], rec["home"])
+                       and team_match(e["away"], rec["away"])), None)
+            if not ev or not ev["completed"] or ev.get("home_score") is None or ev.get("away_score") is None:
+                counts["pending"] += 1
+                continue
+            ah, aa = ev["home_score"], ev["away_score"]
+            actual_winner = rec["home"] if ah > aa else rec["away"] if aa > ah else None
+            last = rec["last"]
+            total = ah + aa
+            ref = last.get("ou_ref")
+            if ref is None or last.get("ou_pick") is None:
+                ou = None
+            elif total == ref:
+                ou = "push"
+            else:
+                ou = "win" if (total > ref) == (last["ou_pick"] == "Over") else "loss"
+            rec["result"] = {
+                "actual_home": ah, "actual_away": aa, "actual_total": total, "actual_winner": actual_winner,
+                "winner_correct": None if actual_winner is None else last["winner"] == actual_winner,
+                "pin_fav_correct": None if actual_winner is None else last["pin_favorite"] == actual_winner,
+                "ou_outcome": ou, "total_error": round(total - last["pred_total"], 1),
+                "graded_at": now_et.isoformat(),
+            }
+            counts["graded"] += 1
+    return counts
+
+
+def summarize_predictions(logs):
+    """Hit rates for winner calls, Pinnacle's favorite (the baseline) and Over/Under calls."""
+    recs = [r for log in logs for r in log.values()]
+    done = [r for r in recs if r.get("result")]
+    rows = []
+
+    def add(name, items, key):
+        items = [r for r in items if key(r) is not None]
+        hits = sum(1 for r in items if key(r) is True or key(r) == "win")
+        decided = [r for r in items if key(r) != "push"]
+        if items:
+            rows.append({"group": name, "n": len(items), "hits": hits,
+                         "pct": round(100 * hits / len(decided), 1) if decided else None})
+
+    win = lambda r: r["result"]["winner_correct"]
+    fav = lambda r: r["result"]["pin_fav_correct"]
+    ou = lambda r: r["result"]["ou_outcome"]
+    add("Winner (our call)", done, win)
+    for c in ("High", "Medium", "Low"):
+        add(f"Winner, {c} confidence", [r for r in done if r["last"]["win_conf"] == c], win)
+    add("Winner (Pinnacle favorite, baseline)", done, fav)
+    add("Over/Under (our call)", done, ou)
+    for c in ("High", "Medium", "Low"):
+        add(f"Over/Under, {c} confidence", [r for r in done if r["last"].get("ou_conf") == c], ou)
+    errs = [abs(r["result"]["total_error"]) for r in done]
+    return {"rows": rows, "n": len(recs), "graded": len(done),
+            "mean_total_error": round(sum(errs) / len(errs), 1) if errs else None}
 
 
 def cap_per_game(plays, n):
