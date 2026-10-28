@@ -12,7 +12,8 @@
   "summary": {
     "n_total": 2,
     "n_settled": 0,
-    "n_void": 0,
+    "n_void": 2,
+    "n_no_data": 0,
     "wins": 0,
     "losses": 0,
     "pushes": 0,
@@ -75,7 +76,9 @@
           "price": 270,
           "n_books": 5
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Junior Caminero)"
     },
     {
       "event_id": "82812d5c946d4e055002fcb42673a38b",
@@ -122,7 +125,10 @@
           "price": 120,
           "n_books": 3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Yandy Diaz)"
     }
-  ]
+  ],
+  "settled_at": "2026-10-27T23:46:53.522836-04:00"
 }

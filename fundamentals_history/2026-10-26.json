@@ -16,7 +16,8 @@
   "summary": {
     "n_total": 4,
     "n_settled": 0,
-    "n_void": 0,
+    "n_void": 4,
+    "n_no_data": 0,
     "wins": 0,
     "losses": 0,
     "pushes": 0,
@@ -62,7 +63,9 @@
           "cons": 62.5,
           "edge": 4.6
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Junior Caminero)"
     },
     {
       "stat_key": "hits",
@@ -100,7 +103,9 @@
           "cons": 70.0,
           "edge": 2.9
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Jackson Chourio)"
     },
     {
       "stat_key": "tb",
@@ -138,7 +143,9 @@
           "cons": 62.0,
           "edge": 2.2
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Jackson Chourio)"
     },
     {
       "stat_key": "hr",
@@ -176,7 +183,10 @@
           "cons": 21.1,
           "edge": 2.3
         }
-      ]
+      ],
+      "result": "VOID",
+      "settle_detail": "batter did not play (Junior Caminero)"
     }
-  ]
+  ],
+  "settled_at": "2026-10-27T23:46:59.705767-04:00"
 }
