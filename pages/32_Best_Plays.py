@@ -6,6 +6,7 @@ open game today), ranks the line splits against Pinnacle by estimated edge,
 and logs every pick so we can see what actually works over time.
 """
 import os
+import re
 import sys
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -101,7 +102,7 @@ def run_snapshot():
     now_et = datetime.now(tz=EASTERN)
     date, hhmm = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M")
     out = {"time": now_et, "sports": {}, "plays": [], "errors": [], "saved": [], "quota": "?",
-           "graded": None}
+           "graded": None, "snaps": {}}
     snaps = {}
     for sport in bp.SPORTS:
         try:
@@ -114,6 +115,7 @@ def run_snapshot():
             out["sports"][sport] = {"games": 0, "plays": 0}
             continue
         snaps[sport] = res
+        out["snaps"][sport] = {"props_snap": res["props_snap"], "tt_snap": res["tt_snap"]}
         plays = bp.find_plays(sport, res["props_snap"], res["tt_snap"], TH)
         out["sports"][sport] = {"games": res["n_games"], "plays": len(plays)}
         out["errors"] += res["errors"]
@@ -169,35 +171,105 @@ if grade_btn:
 tab_today, tab_track = st.tabs(["🎯 Today's plays", "📈 Track record"])
 
 # ── Today's plays ─────────────────────────────────────────────────────────────
-with tab_today:
+
+@st.cache_data(ttl=120, show_spinner=False)
+def load_saved_snaps(date, _token_present):
+    """Latest saved snapshot per sport for `date` (skips empty ones, e.g. when credits ran out)."""
+    gh = _gh()
+    folder = f"{LOG_DIR}/snapshots/{date}"
+    files = {}
+    for item in gh.list_dir(GH_TOKEN, OWNER, REPO, folder):
+        m = re.fullmatch(r"([A-Z]+)_(\d{4})_(props|totals)\.json", item["name"])
+        if m:
+            files.setdefault((m[1], m[2]), {})[m[3]] = item["name"]
+    out = {}
+    for sport in bp.SPORTS:
+        for hhmm in sorted({h for (sp, h) in files if sp == sport}, reverse=True):
+            got = {kind: gh.load_json(GH_TOKEN, OWNER, REPO, f"{folder}/{name}") or {}
+                   for kind, name in files[(sport, hhmm)].items()}
+            if any(snap.get("games") for snap in got.values()):
+                out[sport] = {"hhmm": hhmm, "props_snap": got.get("props"), "tt_snap": got.get("totals")}
+                break
+    return out
+
+
+def _open_games(snap, now_et):
+    names = set()
+    for g in (snap or {}).get("games", []):
+        if datetime.fromisoformat(g["commence_time"].replace("Z", "+00:00")) > now_et:
+            names.add(g["game"])
+    return names
+
+
+def build_view():
+    """
+    What to show: the fresh run if there is one, otherwise the latest saved snapshot per sport
+    (so the plays are still there when you come back). Plays are re-ranked with the current
+    thresholds, and games that have already started are hidden.
+    """
+    now_et = datetime.now(tz=EASTERN)
     run = st.session_state.get("bp_run")
-    if not run:
-        st.info("Press **📸 Snapshot all sports & find plays**. Only sports with an open game "
-                "today are pulled (MLB is off).")
+    view = {"errors": [], "saved": [], "graded": None, "quota": None, "idle": [], "hidden": 0,
+            "from_saved": run is None, "stamp": "", "sports": {}, "plays": []}
+    if run:
+        snaps = run["snaps"]
+        view.update(errors=run["errors"], saved=run.get("saved", []), graded=run.get("graded"),
+                    quota=run["quota"], stamp=f"Snapshot {run['time'].strftime('%I:%M %p ET')}",
+                    idle=[s for s, v in run["sports"].items() if not v["games"]])
+    elif GH_TOKEN:
+        try:
+            snaps = load_saved_snaps(now_et.strftime("%Y-%m-%d"), True)
+        except Exception as e:  # noqa: BLE001
+            snaps = {}
+            view["errors"].append(f"Couldn't load the saved snapshot: {e}")
+        stamps = [f"{s} {datetime.strptime(v['hhmm'], '%H%M').strftime('%I:%M %p')}"
+                  for s, v in snaps.items()]
+        view["stamp"] = "Latest saved snapshot (" + " · ".join(stamps) + " ET)" if stamps else ""
     else:
-        sp = run["sports"]
+        snaps = {}
+    for sport, s in snaps.items():
+        found = bp.find_plays(sport, s["props_snap"], s["tt_snap"], TH)
+        open_plays = [p for p in found if datetime.fromisoformat(
+            p["commence_time"].replace("Z", "+00:00")) > now_et]
+        view["hidden"] += len(found) - len(open_plays)
+        view["plays"] += open_plays
+        games = _open_games(s["props_snap"], now_et) | _open_games(s["tt_snap"], now_et)
+        view["sports"][sport] = {"games": len(games), "plays": len(open_plays)}
+    view["plays"].sort(key=lambda p: -p["edge"])
+    return view
+
+
+with tab_today:
+    view = build_view()
+    if not view["sports"] and not st.session_state.get("bp_run"):
+        st.info("No saved snapshot for today yet. Press **📸 Snapshot all sports & find plays**. "
+                "Only sports with an open game today are pulled (MLB is off).")
+    else:
         playing = [bp.SPORTS[s]["label"] + f" ({v['games']} games · {v['plays']} plays)"
-                   for s, v in sp.items() if v["games"]]
-        idle = [s for s, v in sp.items() if not v["games"]]
-        st.markdown(f"**Snapshot {run['time'].strftime('%I:%M %p ET')}** · "
-                    f"{len(run['plays'])} plays · API quota left **{run['quota']}**")
+                   for s, v in view["sports"].items() if v["games"]]
+        st.markdown(f"**{view['stamp']}** · {len(view['plays'])} plays"
+                    + (f" · API quota left **{view['quota']}**" if view["quota"] is not None else ""))
+        if view["from_saved"]:
+            st.caption("Loaded from GitHub, so no API credits were used. Press 📸 for fresh lines.")
         if playing:
             st.caption("Pulled: " + " · ".join(playing))
-        if idle:
-            st.caption("No open game today (skipped): " + ", ".join(idle))
-        if run.get("saved"):
-            st.caption(f"Saved to GitHub: {len(run['saved'])} files (snapshots + pick log).")
-        if run.get("graded"):
-            g = run["graded"]
+        if view["idle"]:
+            st.caption("No open game today (skipped): " + ", ".join(view["idle"]))
+        if view["hidden"]:
+            st.caption(f"{view['hidden']} play(s) hidden because the game has already started.")
+        if view["saved"]:
+            st.caption(f"Saved to GitHub: {len(view['saved'])} files (snapshots + pick log).")
+        if view["graded"]:
+            g = view["graded"]
             st.caption(f"Grading: {g['graded']} graded · {g['pending']} waiting on final scores · "
                        f"{g['no_data']} no data.")
-        for e in run["errors"]:
+        for e in view["errors"]:
             st.warning(e)
 
-        if not run["plays"]:
+        if not view["plays"]:
             st.info("No plays clear the thresholds right now. Loosen them above, or snapshot "
                     "again closer to game time.")
-        for p in run["plays"]:
+        for p in view["plays"]:
             when = datetime.fromisoformat(p["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
             is_over = p["bet"] == "OVER"
             bg, border, colour = ("#f0fdf4", "#86efac", "#15803d") if is_over else ("#eff6ff", "#93c5fd", "#1d4ed8")
