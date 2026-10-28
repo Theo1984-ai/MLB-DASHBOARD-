@@ -190,9 +190,36 @@ def _fetch_event_totals(key, sport_key, ev, tracked):
     return dict(sides), quota
 
 
+def _fetch_event_game(key, sport_key, ev):
+    """Pinnacle's moneyline, spread and game total (bookmakers=pinnacle costs 1 credit per market)."""
+    data, quota = _get(
+        f"{ODDS_API}/sports/{sport_key}/events/{ev['id']}/odds"
+        f"?apiKey={key}&bookmakers=pinnacle&markets=h2h,spreads,totals&oddsFormat=american")
+    ctx = {}
+    for bm in data.get("bookmakers", []):
+        if bm.get("key") != "pinnacle":
+            continue
+        for mkt in bm.get("markets", []):
+            k, outs = mkt.get("key"), mkt.get("outcomes", [])
+            if k == "h2h":
+                ctx["h2h"] = {o["name"]: o["price"] for o in outs if o.get("price") is not None}
+            elif k == "spreads":
+                ctx["spread"] = {o["name"]: {"line": o.get("point"), "price": o.get("price")} for o in outs}
+            elif k == "totals":
+                tot = {}
+                for o in outs:
+                    if o.get("name") == "Over":
+                        tot["line"], tot["over"] = o.get("point"), o.get("price")
+                    elif o.get("name") == "Under":
+                        tot["under"] = o.get("price")
+                ctx["total"] = tot
+    return ctx, quota
+
+
 def snapshot_sport(key, sport, now_et, workers=6):
     """
-    Pull props + team totals for today's open games in one sport.
+    Pull props, team totals and Pinnacle's game lines (moneyline / spread / total) for
+    today's open games in one sport.
     Returns (result, quota). result is None when the sport has no open game today.
     Snapshot shapes match props_history/ and line_alert_snapshots/.
     """
@@ -207,7 +234,7 @@ def snapshot_sport(key, sport, now_et, workers=6):
     errors = []
 
     def one(ev):
-        props = totals = None
+        props = totals = game_ctx = None
         try:
             props, q1 = _fetch_event_props(key, cfg["key"], ev, cfg["prop_markets"], prop_tracked)
         except Exception as e:  # noqa: BLE001
@@ -218,14 +245,19 @@ def snapshot_sport(key, sport, now_et, workers=6):
         except Exception as e:  # noqa: BLE001
             errors.append(f"{ev['away_team']} @ {ev['home_team']} totals: {e}")
             q2 = None
-        return ev, props, totals, q2 or q1
+        try:
+            game_ctx, q3 = _fetch_event_game(key, cfg["key"], ev)
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{ev['away_team']} @ {ev['home_team']} spread/moneyline: {e}")
+            q3 = None
+        return ev, props, totals, game_ctx, q3 or q2 or q1
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, games))
 
     captured = now_et.isoformat()
-    props_games, tt_games = [], []
-    for ev, props, totals, q in results:
+    props_games, tt_games, game_games = [], [], []
+    for ev, props, totals, game_ctx, q in results:
         if q is not None:
             quota = q
         base = {"game": f"{ev['away_team']} @ {ev['home_team']}", "away": ev["away_team"],
@@ -234,10 +266,13 @@ def snapshot_sport(key, sport, now_et, workers=6):
             props_games.append({**base, "players": props})
         if totals:
             tt_games.append({**base, "sides": totals})
+        if game_ctx:
+            game_games.append({**base, "ctx": game_ctx})
     return {
         "sport": sport, "n_games": len(games), "errors": errors,
         "props_snap": {"captured_at": captured, "quota": quota, "games": props_games},
         "tt_snap": {"captured_at": captured, "quota": quota, "games": tt_games},
+        "game_snap": {"captured_at": captured, "quota": quota, "games": game_games},
     }, quota
 
 
@@ -412,6 +447,262 @@ def find_plays(sport, props_snap, tt_snap, th):
     return plays
 
 
+# ── Game context: do the props agree with the game market? ──────────────────
+
+# Stats that move with how many points the team scores. Rebounds, steals, blocks, turnovers and
+# shots on goal don't, so they get no tag.
+SCORING_MARKETS = {
+    "NBA": {"points", "assists", "threes", "team total"},
+    "NHL": {"points", "goals", "assists", "team total"},
+    "NFL": {"pass_yds", "pass_tds", "rush_yds", "reception_yds", "receptions", "team total"},
+    "CFB": {"pass_yds", "pass_tds", "rush_yds", "reception_yds", "receptions", "team total"},
+}
+SHIFT_MIN = {"NBA": 0.5, "NFL": 0.7, "CFB": 0.7, "NHL": 0.1}      # expected-score move that counts
+BLOWOUT_SPREAD = {"NBA": 10.0, "NFL": 10.0, "CFB": 14.0, "NHL": 99.0}
+TAG_ADJ = {"backed": 0.005, "neutral": 0.0, "conflicts": -0.01, "n/a": 0.0}
+
+
+def implied_mean(sport, line, over_price, under_price):
+    """Expected points/goals that a team total implies (vig removed, price included)."""
+    p, _ = devig(over_price, under_price)
+    p = min(max(p, 0.02), 0.98)
+    kind, sigma = dist_spec(sport, "team total", line)
+    if kind == "norm":
+        return line - sigma * _norm_ppf(1 - p)
+    k = int(math.floor(line)) + 1
+    lo, hi = 1e-6, 400.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if _pois_sf(k, mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def team_means(sport, tt_snap):
+    """{(game, team): expected score} from Pinnacle's team totals."""
+    out = {}
+    for g in (tt_snap or {}).get("games", []):
+        for team, bd in g.get("sides", {}).items():
+            pin = bd.get("pinnacle") or {}
+            if None in (pin.get("line"), pin.get("over"), pin.get("under")):
+                continue
+            out[(g["game"], team)] = implied_mean(sport, pin["line"], pin["over"], pin["under"])
+    return out
+
+
+def player_team(roster, away, home, who):
+    nm = norm_name(who)
+    for team in (away, home):
+        if nm in set((roster or {}).get(team, ())):
+            return team
+    return None
+
+
+def game_line_info(sport, game_snap, game, team):
+    """Pinnacle's moneyline / spread / total for the game, from `team`'s side when known."""
+    ctx = next((g.get("ctx") for g in (game_snap or {}).get("games", []) if g["game"] == game), None)
+    if not ctx:
+        return {}
+    out = {}
+    h2h = ctx.get("h2h") or {}
+    names = list(h2h)
+    if len(names) == 2:
+        pa, pb = devig(h2h[names[0]], h2h[names[1]])
+        win = {names[0]: pa, names[1]: pb}
+        if team in win:
+            out["win_prob"] = round(win[team], 3)
+        fav = max(win, key=win.get)
+        out["fav"], out["fav_win_prob"] = fav, round(win[fav], 3)
+    spreads = {t: v.get("line") for t, v in (ctx.get("spread") or {}).items() if v.get("line") is not None}
+    if spreads:
+        fav_s = min(spreads, key=spreads.get)
+        out["fav"] = out.get("fav", fav_s)
+        out["fav_spread"] = spreads[fav_s]
+        out["blowout"] = abs(spreads[fav_s]) >= BLOWOUT_SPREAD.get(sport, 99.0)
+    total = (ctx.get("total") or {}).get("line")
+    if total is not None:
+        out["total"] = total
+    return out
+
+
+def annotate(plays, sport, tt_snap, first_tt, game_snap, roster):
+    """
+    Tag each play against the game market. For a scoring stat, `backed` means the team's
+    expected score moved the way the bet needs since the day's first snapshot; `conflicts` means
+    it moved the other way. Sets p["ctx"] and p["adj"] (edge nudged by the tag, used to rank).
+    """
+    now_m = team_means(sport, tt_snap)
+    first_m = team_means(sport, first_tt) if first_tt else {}
+    for p in plays:
+        away, _, home = p["game"].partition(" @ ")
+        team = p["who"] if p["kind"] == "team total" else player_team(roster, away, home, p["who"])
+
+        def shift(t):
+            a, b = now_m.get((p["game"], t)), first_m.get((p["game"], t))
+            return None if a is None or b is None else a - b
+
+        if team:
+            sh, scope = shift(team), "team"
+        else:
+            vals = [v for v in (shift(away), shift(home)) if v is not None]
+            sh, scope = (sum(vals) / len(vals) if vals else None), "game"
+        tag = "n/a"
+        if p["market"] in SCORING_MARKETS.get(sport, ()) and sh is not None:
+            signed = sh if p["bet"] == "OVER" else -sh
+            thr = SHIFT_MIN.get(sport, 0.5)
+            tag = "backed" if signed >= thr else "conflicts" if signed <= -thr else "neutral"
+        p["ctx"] = {"team": team, "opp": (home if team == away else away) if team else None,
+                    "scope": scope, "shift": None if sh is None else round(sh, 2), "tag": tag,
+                    **game_line_info(sport, game_snap, p["game"], team)}
+        p["adj"] = round(p["edge"] + TAG_ADJ[tag], 4)
+    return plays
+
+
+def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_et):
+    """
+    One row per open game: Pinnacle's game lines, each team's expected score and how it moved since
+    the day's first snapshot, the annotated plays in that game, and a verdict on whether the props'
+    lean agrees with the game market. `plays` should be the annotated, uncapped, open plays.
+    """
+    now_m = team_means(sport, tt_snap)
+    first_m = team_means(sport, first_tt) if first_tt else {}
+    games = {}
+    for snap in (tt_snap, props_snap, game_snap):
+        for g in (snap or {}).get("games", []):
+            games.setdefault(g["game"], g)
+    thr = SHIFT_MIN.get(sport, 0.5)
+    rows = []
+    for name, g in games.items():
+        try:
+            start = datetime.fromisoformat(g["commence_time"].replace("Z", "+00:00"))
+        except Exception:  # noqa: BLE001
+            continue
+        if start <= now_et:
+            continue
+        away, home = g["away"], g["home"]
+        sides = next((x["sides"] for x in (tt_snap or {}).get("games", []) if x["game"] == name), {})
+        teams = []
+        for t in (away, home):
+            bd = sides.get(t, {})
+            pin = bd.get("pinnacle") or {}
+            soft = [v["line"] for b, v in bd.items() if b != "pinnacle" and v.get("line") is not None]
+            mean, first = now_m.get((name, t)), first_m.get((name, t))
+            teams.append({
+                "team": t, "line": pin.get("line"), "over": pin.get("over"), "under": pin.get("under"),
+                "mean": None if mean is None else round(mean, 1),
+                "shift": None if mean is None or first is None else round(mean - first, 2),
+                "soft": sorted(set(soft)), "n_soft": len(soft),
+                "off": sum(1 for l in soft if pin.get("line") is not None and l != pin["line"]),
+            })
+        gplays = sorted((p for p in plays if p["game"] == name),
+                        key=lambda p: -p.get("adj", p["edge"]))
+        # Props lean: scoring-stat plays only, +1 per Over, -1 per Under, by team
+        lean = {}
+        for p in gplays:
+            ctx = p.get("ctx") or {}
+            if ctx.get("tag", "n/a") == "n/a":
+                continue
+            key = ctx.get("team") or "game"
+            d = lean.setdefault(key, {"over": 0, "under": 0})
+            d["over" if p["bet"] == "OVER" else "under"] += 1
+        agree, conflict = [], []
+        for t in teams:
+            d = lean.get(t["team"])
+            net = (d["over"] - d["under"]) if d else 0
+            if net and t["shift"] is not None and abs(t["shift"]) >= thr:
+                side = "Over" if net > 0 else "Under"
+                msg = (f"props lean {side} on {t['team']} ({d['over']}O/{d['under']}U) and its expected "
+                       f"score moved {t['shift']:+.1f}")
+                (agree if net * t["shift"] > 0 else conflict).append(msg)
+        if "game" in lean:
+            d = lean["game"]
+            net = d["over"] - d["under"]
+            shifts = [t["shift"] for t in teams if t["shift"] is not None]
+            avg = sum(shifts) / len(shifts) if shifts else None
+            if net and avg is not None and abs(avg) >= thr:
+                msg = (f"props lean {'Over' if net > 0 else 'Under'} ({d['over']}O/{d['under']}U, team unknown) "
+                       f"and the game's expected score moved {avg:+.1f} per team")
+                (agree if net * avg > 0 else conflict).append(msg)
+        verdict_tag = "conflict" if conflict else "agree" if agree else "none"
+        rows.append({
+            "sport": sport, "game": name, "away": away, "home": home, "commence_time": g["commence_time"],
+            "lines": game_line_info(sport, game_snap, name, None), "teams": teams,
+            "plays": gplays, "lean": lean, "verdict_tag": verdict_tag,
+            "verdict": "; ".join(conflict or agree) or "no clear lean against the game market",
+        })
+    rows.sort(key=lambda r: (r["commence_time"], r["game"]))
+    return rows
+
+
+def cap_per_game(plays, n):
+    """Keep the best `n` plays (by adjusted edge) per game; 0 means no cap."""
+    if not n:
+        return sorted(plays, key=lambda p: -p.get("adj", p["edge"]))
+    seen, out = defaultdict(int), []
+    for p in sorted(plays, key=lambda p: -p.get("adj", p["edge"])):
+        if seen[p["game"]] < n:
+            out.append(p)
+            seen[p["game"]] += 1
+    return out
+
+
+# ── Rosters (player -> team), cached so ESPN is only hit when a team is new or stale ──────────
+
+def _roster_names(data):
+    names = set()
+    for a in data.get("athletes", []):
+        for it in (a.get("items") if isinstance(a, dict) and "items" in a else [a]):
+            nm = (it or {}).get("displayName") or (it or {}).get("fullName") or ""
+            if nm:
+                names.add(norm_name(nm))
+    return names
+
+
+def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5, today=None):
+    """
+    cache: {team: {"names": [...], "fetched": "YYYY-MM-DD"}}, keyed by the Odds API team name.
+    Returns (cache, errors, changed). Teams already cached and fresh are not fetched again.
+    """
+    cache = dict(cache or {})
+    today = today or datetime.now(EASTERN).strftime("%Y-%m-%d")
+    errors = []
+
+    def stale(t):
+        try:
+            age = (datetime.fromisoformat(today) - datetime.fromisoformat(cache[t]["fetched"])).days
+        except Exception:  # noqa: BLE001
+            return True
+        return age >= max_age_days
+
+    need = [t for t in team_names if t not in cache or stale(t)]
+    if not need:
+        return cache, errors, False
+    try:
+        teams = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/teams?limit=500")["sports"][0]["leagues"][0]["teams"]
+    except Exception as e:  # noqa: BLE001
+        return cache, [f"{sport} team list: {e}"], False
+    changed = False
+    for name in need:
+        hits = [t["team"] for t in teams if norm_name(t["team"].get("displayName", "")) == norm_name(name)] \
+            or [t["team"] for t in teams if team_match(t["team"].get("displayName", ""), name)]
+        if not hits:
+            errors.append(f"{sport} roster: no ESPN team for {name}")
+            continue
+        try:
+            data = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/teams/{hits[0]['id']}/roster")
+            cache[name] = {"names": sorted(_roster_names(data)), "fetched": today}
+            changed = True
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{sport} roster {name}: {e}")
+    return cache, errors, changed
+
+
+def roster_lookup(cache):
+    return {t: set(v.get("names", ())) for t, v in (cache or {}).items()}
+
+
 # ── Log: first-seen picks + later checks ─────────────────────────────────────
 
 def pick_id(date, p):
@@ -429,7 +720,8 @@ def update_log(log, plays, snap_time, date):
         if pid not in log:
             rec = {k: p[k] for k in ("sport", "kind", "game", "who", "market", "bet",
                                       "commence_time")}
-            rec.update({"first_seen": stamp, "last_seen": stamp, "checks": [], "result": None})
+            rec.update({"first_seen": stamp, "last_seen": stamp, "checks": [], "result": None,
+                        "context": p.get("ctx")})
             log[pid] = rec
             new += 1
         else:
@@ -656,6 +948,9 @@ def summarize(logs):
         add(f"Sport: {r['sport']}", r)
         add(f"Type: {r['kind']}", r)
         add(f"Edge: {_bucket(r['first_seen']['edge'])}", r)
+        tag = (r.get("context") or {}).get("tag")
+        if tag and tag != "n/a":
+            add(f"Game market: {tag}", r)
     rows = []
     for name, g in sorted(groups.items()):
         n = g["w"] + g["l"] + g["p"]
