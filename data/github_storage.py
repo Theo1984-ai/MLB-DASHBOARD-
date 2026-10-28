@@ -54,17 +54,53 @@ def _request(method: str, url: str, token: str, body: dict | None = None):
         raise GitHubStorageError(f"Network error: {e.reason}")
 
 
+def _request_raw(url: str, token: str):
+    """GET a file's raw text (works for files over 1 MB, up to 100 MB)."""
+    headers = {**_headers(token), "Accept": "application/vnd.github.raw+json"}
+    req = urllib.request.Request(url, method="GET", headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30, context=_UNVERIFIED_SSL) as resp:
+            return resp.status, resp.read().decode("utf-8")
+    except urllib.error.HTTPError as e:
+        return e.code, e.read().decode("utf-8", "replace")
+    except urllib.error.URLError as e:
+        raise GitHubStorageError(f"Network error: {e.reason}")
+
+
 def get_file(token: str, owner: str, repo: str, path: str) -> dict | None:
     """
     Fetch a file's contents and SHA. Returns dict with keys:
       {sha, content (decoded str), parsed (json-decoded if applicable)}
     Returns None if file doesn't exist (404).
     Raises GitHubStorageError on other failures.
+
+    The contents API only returns inline content up to 1 MB. For larger files
+    it returns an empty body (or a 403), so fall back to the raw media type —
+    otherwise callers that append to a file would read "nothing" and overwrite it.
     """
     url = f"{API}/repos/{owner}/{repo}/contents/{urllib.parse.quote(path)}"
     status, body = _request("GET", url, token)
     if status == 404:
         return None
+    too_large = status == 403 and "too large" in str(body.get("message", "")).lower()
+    empty_body = status == 200 and body.get("size", 0) and not body.get("content")
+    if too_large or empty_body or (status == 200 and body.get("encoding") == "none"):
+        raw_status, raw = _request_raw(url, token)
+        if raw_status != 200:
+            raise GitHubStorageError(f"GitHub GET {path} (raw) failed [{raw_status}]")
+        sha = body.get("sha")
+        if not sha:
+            # The 403 body has no sha; ask the directory listing for it.
+            parent, _, name = path.rpartition("/")
+            for item in list_dir(token, owner, repo, parent):
+                if item.get("name") == name:
+                    sha = item.get("sha")
+        out = {"sha": sha, "content": raw, "parsed": None}
+        try:
+            out["parsed"] = json.loads(raw)
+        except json.JSONDecodeError:
+            pass
+        return out
     if status != 200:
         raise GitHubStorageError(f"GitHub GET {path} failed [{status}]: {body.get('message')}")
     raw = base64.b64decode(body.get("content", "")).decode("utf-8")
