@@ -23,6 +23,8 @@ from scripts import best_plays as bp  # noqa: E402
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
 LOG_DIR = "best_plays_log"
+# Game predictions use every line split (no edge or book-count cut), weighted by books off Pinnacle.
+LOOSE_TH = {"min_edge": -1.0, "min_stale": 1, "min_gap": 0.5, "max_juice": 1000}
 
 
 def _resolve_secret(name):
@@ -80,11 +82,21 @@ def save_log(date, log, note):
                     commit_msg=f"Best plays log {date}: {note}")
 
 
+def load_preds(date):
+    return _gh().load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json") or {}
+
+
+def save_preds(date, log, note):
+    _gh().save_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json", log,
+                    commit_msg=f"Game predictions {date}: {note}")
+
+
 def grade_recent(now_et, days=7):
     """Grade finished picks from the last few days and save any that changed."""
     gh = _gh()
-    totals = {"graded": 0, "pending": 0, "no_data": 0, "errors": []}
+    totals = {"graded": 0, "pending": 0, "no_data": 0, "errors": [], "pred_graded": 0}
     have = {i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks")}
+    have_pred = {i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")}
     for i in range(days):
         d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
         if f"{d}.json" not in have:
@@ -96,6 +108,16 @@ def grade_recent(now_et, days=7):
         totals["errors"] += counts["errors"]
         if counts["graded"] or counts["no_data"]:
             save_log(d, log, f"graded {counts['graded']} picks")
+    for i in range(days):
+        d = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
+        if f"{d}.json" not in have_pred:
+            continue
+        plog = load_preds(d)
+        pc = bp.grade_predictions(plog, now_et)
+        totals["pred_graded"] += pc["graded"]
+        totals["errors"] += pc["errors"]
+        if pc["graded"]:
+            save_preds(d, plog, f"graded {pc['graded']} predictions")
     return totals
 
 
@@ -149,7 +171,7 @@ def run_snapshot():
     now_et = datetime.now(tz=EASTERN)
     date, hhmm = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M")
     out = {"time": now_et, "sports": {}, "plays": [], "errors": [], "saved": [], "quota": "?",
-           "graded": None, "snaps": {}}
+           "graded": None, "snaps": {}, "pred_rows": []}
     snaps = {}
     for sport in bp.SPORTS:
         try:
@@ -187,6 +209,10 @@ def run_snapshot():
         out["snaps"][sport] = bundle
         plays = bp.annotate(bp.find_plays(sport, res["props_snap"], res["tt_snap"], TH), sport,
                             res["tt_snap"], bundle["first_tt"], res["game_snap"], bundle["roster"])
+        loose = bp.annotate(bp.find_plays(sport, res["props_snap"], res["tt_snap"], LOOSE_TH), sport,
+                            res["tt_snap"], bundle["first_tt"], res["game_snap"], bundle["roster"])
+        out["pred_rows"] += bp.predict_rows(sport, bp.build_game_rows(
+            sport, res["tt_snap"], bundle["first_tt"], res["game_snap"], res["props_snap"], loose, now_et))
         out["sports"][sport] = {"games": res["n_games"], "plays": len(plays)}
         out["errors"] += res["errors"]
         out["plays"] += plays
@@ -212,6 +238,10 @@ def run_snapshot():
         save_log(date, log, f"{new} new picks, {checked} checks")
         out["saved"].append(f"{LOG_DIR}/picks/{date}.json")
         out["new_picks"], out["checked"] = new, checked
+        plog = load_preds(date)
+        n_pred = bp.update_predictions(plog, out["pred_rows"], iso, date)
+        save_preds(date, plog, f"{n_pred} new, {len(out['pred_rows'])} updated")
+        out["saved"].append(f"{LOG_DIR}/predictions/{date}.json")
     except Exception as e:  # noqa: BLE001
         out["errors"].append(f"GitHub save failed: {e}")
     try:
@@ -239,7 +269,7 @@ if grade_btn:
         except Exception as e:  # noqa: BLE001
             st.session_state["bp_grade"] = {"errors": [str(e)], "graded": 0, "pending": 0, "no_data": 0}
 
-tab_today, tab_games, tab_track = st.tabs(["🎯 Today's plays", "🧭 Games", "📈 Track record"])
+tab_today, tab_games, tab_track = st.tabs(["🎯 Today's plays", "🔮 Predictions", "📈 Track record"])
 
 # ── Today's plays ─────────────────────────────────────────────────────────────
 
@@ -290,8 +320,13 @@ def build_view():
         open_plays = [p for p in found if datetime.fromisoformat(
             p["commence_time"].replace("Z", "+00:00")) > now_et]
         view["hidden"] += len(found) - len(open_plays)
-        view["games"] += bp.build_game_rows(sport, s["tt_snap"], s.get("first_tt") or s["tt_snap"],
-                                            s.get("game_snap"), s["props_snap"], open_plays, now_et)
+        loose = bp.annotate(bp.find_plays(sport, s["props_snap"], s["tt_snap"], LOOSE_TH), sport,
+                            s["tt_snap"], s.get("first_tt") or s["tt_snap"], s.get("game_snap"), roster)
+        open_loose = [p for p in loose if datetime.fromisoformat(
+            p["commence_time"].replace("Z", "+00:00")) > now_et]
+        view["games"] += bp.predict_rows(sport, bp.build_game_rows(
+            sport, s["tt_snap"], s.get("first_tt") or s["tt_snap"], s.get("game_snap"),
+            s["props_snap"], open_loose, now_et))
         view["plays"] += open_plays
         games = _open_games(s["props_snap"], now_et) | _open_games(s["tt_snap"], now_et)
         view["sports"][sport] = {"games": len(games), "plays": len(open_plays)}
@@ -327,8 +362,8 @@ with tab_today:
             st.caption(f"Saved to GitHub: {len(view['saved'])} files (snapshots + pick log).")
         if view["graded"]:
             g = view["graded"]
-            st.caption(f"Grading: {g['graded']} graded · {g['pending']} waiting on final scores · "
-                       f"{g['no_data']} no data.")
+            st.caption(f"Grading: {g['graded']} picks + {g.get('pred_graded', 0)} predictions graded · "
+                       f"{g['pending']} waiting on final scores · {g['no_data']} no data.")
         for e in view["errors"]:
             st.warning(e)
 
@@ -383,67 +418,68 @@ with tab_today:
                 unsafe_allow_html=True,
             )
 
-# ── Games ─────────────────────────────────────────────────────────────────────
-
-def _tag_chip(tag):
-    return {"backed": "✅", "conflicts": "⚠️", "neutral": "➖"}.get(tag, "")
-
+# ── Predictions ───────────────────────────────────────────────────────────────
 
 with tab_games:
-    gview = view
-    if not gview["games"]:
-        st.info("No open games to show yet. Press **📸 Snapshot all sports & find plays** "
+    preds = [r for r in view["games"] if r.get("pred")]
+    no_pred = [r for r in view["games"] if not r.get("pred")]
+    if not view["games"]:
+        st.info("No open games to predict yet. Press **📸 Snapshot all sports & find plays** "
                 "(or reopen the page after a snapshot has been saved today).")
     else:
-        st.caption("One block per open game: Pinnacle's game lines, each team's expected score and how "
-                   "it has moved since the day's first snapshot, and the props in that game. The verdict "
-                   "says whether the props' lean agrees with the game market. Plays here use the "
-                   "thresholds above and ignore the per-game cap.")
+        st.caption("For each open game: who wins, the score, and Over or Under. It starts from Pinnacle's "
+                   "expected score for each team, nudges it by the prop plays (every line split counts, "
+                   "weighted by how many books are off Pinnacle), and compares the total with the best "
+                   "line any book posts. It's an estimate: it can't see injuries or lineups, and the "
+                   "Over/Under ignores price. Every prediction is saved and graded against the final score.")
         sport_filter = st.multiselect("Sports", options=list(bp.SPORTS), default=list(bp.SPORTS),
                                       format_func=lambda x: bp.SPORTS[x]["label"], key="bp_game_sports")
-        only_plays = st.checkbox("Only games that have plays", value=False, key="bp_game_only")
-        icon = {"agree": "✅", "conflict": "⚠️", "none": "➖"}
-        for r in gview["games"]:
-            if r["sport"] not in sport_filter or (only_plays and not r["plays"]):
+        conf_icon = {"High": "🟢", "Medium": "🟡", "Low": "⚪"}
+        for r in preds:
+            if r["sport"] not in sport_filter:
                 continue
+            pr = r["pred"]
             when = datetime.fromisoformat(r["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
-            label = (f"{icon[r['verdict_tag']]} {when.strftime('%I:%M %p')} · {r['game']} · "
-                     f"{bp.SPORTS[r['sport']]['label']} · {len(r['plays'])} play(s)")
-            with st.expander(label, expanded=r["verdict_tag"] == "conflict"):
-                ln = r["lines"]
-                if ln.get("fav") and ln.get("fav_spread") is not None:
-                    bits = [f"**{ln['fav']} {ln['fav_spread']:+.1f}**"]
-                    if ln.get("fav_win_prob"):
-                        bits.append(f"win {ln['fav_win_prob'] * 100:.0f}%")
-                    if ln.get("total") is not None:
-                        bits.append(f"total {ln['total']}")
-                    if ln.get("blowout"):
-                        bits.append("⚠️ blowout risk, starters may sit")
-                    st.markdown("Game line: " + " · ".join(bits))
-                else:
-                    st.caption("No spread / moneyline saved for this game (older snapshot).")
-                rows = []
-                for t in r["teams"]:
-                    rows.append({
-                        "Team": t["team"],
-                        "Pinnacle total": (f"{t['line']} ({t['over']:+d}/{t['under']:+d})"
-                                           if t["line"] is not None else "—"),
-                        "Expected score": f"{t['mean']:.1f}" if t["mean"] is not None else "—",
-                        "Moved since first snapshot": (f"{t['shift']:+.1f}" if t["shift"] is not None else "—"),
-                        "Books off Pinnacle": f"{t['off']} of {t['n_soft']}" if t["n_soft"] else "—",
-                    })
-                st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-                lean = ", ".join(f"{k}: {v['over']}O/{v['under']}U" for k, v in r["lean"].items())
-                st.markdown(f"**Props lean:** {lean or 'no scoring-stat plays'}  \n"
-                            f"**Verdict:** {icon[r['verdict_tag']]} {r['verdict']}")
-                for p in r["plays"]:
-                    ctx = p.get("ctx") or {}
-                    st.markdown(
-                        f"- {_tag_chip(ctx.get('tag'))} **{p['who']}** {p['market']} **{p['bet']} {p['line']}** "
-                        f"@ {bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d} · "
-                        f"edge ~{p['edge'] * 100:+.1f}% · game market: {ctx.get('tag', 'n/a')}")
+            ou = (f"**{pr['ou_pick'].upper()} {pr['ou_ref']}** ({conf_icon[pr['ou_conf']]} {pr['ou_conf']}, "
+                  f"cushion {pr['ou_gap']:.1f})" if pr["ou_pick"] else "no total available")
+            st.markdown(
+                f"**{bp.SPORTS[r['sport']]['label']} · {when.strftime('%I:%M %p')} ET · "
+                f"{r['away']} @ {r['home']}**  \n"
+                f"🏆 **{pr['winner']} to win** ({conf_icon[pr['win_conf']]} {pr['win_conf']}, "
+                f"{pr['win_prob'] * 100:.0f}%) · predicted **{pr['pred_away']:.0f}–{pr['pred_home']:.0f}** "
+                f"(total {pr['pred_total']:.1f})  \n"
+                f"📊 {ou}")
+            with st.expander("Why"):
+                for line in pr["reasons"]:
+                    st.markdown(f"- {line}")
+                rows_t = [{"Team": t["team"],
+                           "Pinnacle total": (f"{t['line']} ({t['over']:+d}/{t['under']:+d})"
+                                              if t["line"] is not None else "—"),
+                           "Expected score": f"{t['mean']:.1f}" if t["mean"] is not None else "—",
+                           "Moved": f"{t['shift']:+.1f}" if t["shift"] is not None else "—",
+                           "Books off Pinnacle": f"{t['off']} of {t['n_soft']}" if t["n_soft"] else "—"}
+                          for t in r["teams"]]
+                st.dataframe(pd.DataFrame(rows_t), hide_index=True, use_container_width=True)
+                if r["plays"]:
+                    st.markdown("**Prop plays used** (every line split in this game):")
+                    for p in r["plays"]:
+                        ctx = p.get("ctx") or {}
+                        st.markdown(f"- {p['who']} {p['market']} **{p['bet']} {p['line']}** @ "
+                                    f"{bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d} · "
+                                    f"{p['stale']} of {p['n_books']} books off Pinnacle")
+        if no_pred:
+            st.caption("No prediction (no Pinnacle team totals saved): " +
+                       "; ".join(f"{r['away']} @ {r['home']}" for r in no_pred if r["sport"] in sport_filter))
 
 # ── Track record ──────────────────────────────────────────────────────────────
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_preds(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
+             if i["name"].endswith(".json")]
+    return [gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {} for n in sorted(items)[-30:]]
+
 
 @st.cache_data(ttl=300, show_spinner=False)
 def load_all_logs(_token_present):
@@ -457,13 +493,35 @@ def load_all_logs(_token_present):
 with tab_track:
     if "bp_grade" in st.session_state:
         g = st.session_state["bp_grade"]
-        st.caption(f"Last grading run: {g['graded']} graded · {g['pending']} waiting on final scores "
-                   f"· {g['no_data']} no data.")
+        st.caption(f"Last grading run: {g['graded']} picks graded · {g.get('pred_graded', 0)} predictions graded · "
+                   f"{g['pending']} waiting on final scores · {g['no_data']} no data.")
         for e in g["errors"]:
             st.warning(e)
     if not GH_TOKEN:
         st.info("Add `GITHUB_TOKEN` to secrets to log and track picks.")
     else:
+        try:
+            plogs = load_all_preds(True)
+        except Exception as e:  # noqa: BLE001
+            plogs = []
+            st.warning(f"Couldn't load the prediction log: {e}")
+        psum = bp.summarize_predictions(plogs) if plogs else None
+        if psum and psum["n"]:
+            st.markdown("#### 🔮 Game predictions")
+            q1, q2, q3 = st.columns(3)
+            q1.metric("Games predicted", psum["n"])
+            q2.metric("Graded", psum["graded"])
+            q3.metric("Avg total miss", psum["mean_total_error"] if psum["mean_total_error"] is not None else "—",
+                      help="Average points between our predicted total and the final total.")
+            if psum["rows"]:
+                st.dataframe(pd.DataFrame(psum["rows"]).rename(columns={
+                    "group": "Group", "n": "Games", "hits": "Hits", "pct": "Hit %"}),
+                    hide_index=True, use_container_width=True)
+                st.caption("Compare 'Winner (our call)' with the Pinnacle-favorite baseline: if we aren't "
+                           "beating it, the prop nudges aren't adding anything. Small samples are noise.")
+            else:
+                st.caption("No predictions graded yet. Finished games are graded on the next snapshot, "
+                           "or press ✅ Grade finished picks.")
         try:
             logs = load_all_logs(True)
         except Exception as e:  # noqa: BLE001
