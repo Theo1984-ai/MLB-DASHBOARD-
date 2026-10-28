@@ -239,7 +239,7 @@ if grade_btn:
         except Exception as e:  # noqa: BLE001
             st.session_state["bp_grade"] = {"errors": [str(e)], "graded": 0, "pending": 0, "no_data": 0}
 
-tab_today, tab_track = st.tabs(["🎯 Today's plays", "📈 Track record"])
+tab_today, tab_games, tab_track = st.tabs(["🎯 Today's plays", "🧭 Games", "📈 Track record"])
 
 # ── Today's plays ─────────────────────────────────────────────────────────────
 
@@ -260,7 +260,7 @@ def build_view():
     now_et = datetime.now(tz=EASTERN)
     run = st.session_state.get("bp_run")
     view = {"errors": [], "saved": [], "graded": None, "quota": None, "idle": [], "hidden": 0,
-            "from_saved": run is None, "stamp": "", "sports": {}, "plays": []}
+            "from_saved": run is None, "stamp": "", "sports": {}, "plays": [], "games": []}
     if run:
         snaps = run["snaps"]
         view.update(errors=run["errors"], saved=run.get("saved", []), graded=run.get("graded"),
@@ -290,9 +290,12 @@ def build_view():
         open_plays = [p for p in found if datetime.fromisoformat(
             p["commence_time"].replace("Z", "+00:00")) > now_et]
         view["hidden"] += len(found) - len(open_plays)
+        view["games"] += bp.build_game_rows(sport, s["tt_snap"], s.get("first_tt") or s["tt_snap"],
+                                            s.get("game_snap"), s["props_snap"], open_plays, now_et)
         view["plays"] += open_plays
         games = _open_games(s["props_snap"], now_et) | _open_games(s["tt_snap"], now_et)
         view["sports"][sport] = {"games": len(games), "plays": len(open_plays)}
+    view["games"].sort(key=lambda r: (r["commence_time"], r["sport"], r["game"]))
     capped = bp.cap_per_game(view["plays"], TH["max_per_game"])
     view["capped"] = len(view["plays"]) - len(capped)
     view["plays"] = capped
@@ -379,6 +382,66 @@ with tab_today:
                 f'{bp.implied(p["price"]) * 100:.0f}%</div>{ctx_html}</div>',
                 unsafe_allow_html=True,
             )
+
+# ── Games ─────────────────────────────────────────────────────────────────────
+
+def _tag_chip(tag):
+    return {"backed": "✅", "conflicts": "⚠️", "neutral": "➖"}.get(tag, "")
+
+
+with tab_games:
+    gview = view
+    if not gview["games"]:
+        st.info("No open games to show yet. Press **📸 Snapshot all sports & find plays** "
+                "(or reopen the page after a snapshot has been saved today).")
+    else:
+        st.caption("One block per open game: Pinnacle's game lines, each team's expected score and how "
+                   "it has moved since the day's first snapshot, and the props in that game. The verdict "
+                   "says whether the props' lean agrees with the game market. Plays here use the "
+                   "thresholds above and ignore the per-game cap.")
+        sport_filter = st.multiselect("Sports", options=list(bp.SPORTS), default=list(bp.SPORTS),
+                                      format_func=lambda x: bp.SPORTS[x]["label"], key="bp_game_sports")
+        only_plays = st.checkbox("Only games that have plays", value=False, key="bp_game_only")
+        icon = {"agree": "✅", "conflict": "⚠️", "none": "➖"}
+        for r in gview["games"]:
+            if r["sport"] not in sport_filter or (only_plays and not r["plays"]):
+                continue
+            when = datetime.fromisoformat(r["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
+            label = (f"{icon[r['verdict_tag']]} {when.strftime('%I:%M %p')} · {r['game']} · "
+                     f"{bp.SPORTS[r['sport']]['label']} · {len(r['plays'])} play(s)")
+            with st.expander(label, expanded=r["verdict_tag"] == "conflict"):
+                ln = r["lines"]
+                if ln.get("fav") and ln.get("fav_spread") is not None:
+                    bits = [f"**{ln['fav']} {ln['fav_spread']:+.1f}**"]
+                    if ln.get("fav_win_prob"):
+                        bits.append(f"win {ln['fav_win_prob'] * 100:.0f}%")
+                    if ln.get("total") is not None:
+                        bits.append(f"total {ln['total']}")
+                    if ln.get("blowout"):
+                        bits.append("⚠️ blowout risk, starters may sit")
+                    st.markdown("Game line: " + " · ".join(bits))
+                else:
+                    st.caption("No spread / moneyline saved for this game (older snapshot).")
+                rows = []
+                for t in r["teams"]:
+                    rows.append({
+                        "Team": t["team"],
+                        "Pinnacle total": (f"{t['line']} ({t['over']:+d}/{t['under']:+d})"
+                                           if t["line"] is not None else "—"),
+                        "Expected score": f"{t['mean']:.1f}" if t["mean"] is not None else "—",
+                        "Moved since first snapshot": (f"{t['shift']:+.1f}" if t["shift"] is not None else "—"),
+                        "Books off Pinnacle": f"{t['off']} of {t['n_soft']}" if t["n_soft"] else "—",
+                    })
+                st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+                lean = ", ".join(f"{k}: {v['over']}O/{v['under']}U" for k, v in r["lean"].items())
+                st.markdown(f"**Props lean:** {lean or 'no scoring-stat plays'}  \n"
+                            f"**Verdict:** {icon[r['verdict_tag']]} {r['verdict']}")
+                for p in r["plays"]:
+                    ctx = p.get("ctx") or {}
+                    st.markdown(
+                        f"- {_tag_chip(ctx.get('tag'))} **{p['who']}** {p['market']} **{p['bet']} {p['line']}** "
+                        f"@ {bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d} · "
+                        f"edge ~{p['edge'] * 100:+.1f}% · game market: {ctx.get('tag', 'n/a')}")
 
 # ── Track record ──────────────────────────────────────────────────────────────
 

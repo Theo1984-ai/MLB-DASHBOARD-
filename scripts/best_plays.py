@@ -560,6 +560,82 @@ def annotate(plays, sport, tt_snap, first_tt, game_snap, roster):
     return plays
 
 
+def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_et):
+    """
+    One row per open game: Pinnacle's game lines, each team's expected score and how it moved since
+    the day's first snapshot, the annotated plays in that game, and a verdict on whether the props'
+    lean agrees with the game market. `plays` should be the annotated, uncapped, open plays.
+    """
+    now_m = team_means(sport, tt_snap)
+    first_m = team_means(sport, first_tt) if first_tt else {}
+    games = {}
+    for snap in (tt_snap, props_snap, game_snap):
+        for g in (snap or {}).get("games", []):
+            games.setdefault(g["game"], g)
+    thr = SHIFT_MIN.get(sport, 0.5)
+    rows = []
+    for name, g in games.items():
+        try:
+            start = datetime.fromisoformat(g["commence_time"].replace("Z", "+00:00"))
+        except Exception:  # noqa: BLE001
+            continue
+        if start <= now_et:
+            continue
+        away, home = g["away"], g["home"]
+        sides = next((x["sides"] for x in (tt_snap or {}).get("games", []) if x["game"] == name), {})
+        teams = []
+        for t in (away, home):
+            bd = sides.get(t, {})
+            pin = bd.get("pinnacle") or {}
+            soft = [v["line"] for b, v in bd.items() if b != "pinnacle" and v.get("line") is not None]
+            mean, first = now_m.get((name, t)), first_m.get((name, t))
+            teams.append({
+                "team": t, "line": pin.get("line"), "over": pin.get("over"), "under": pin.get("under"),
+                "mean": None if mean is None else round(mean, 1),
+                "shift": None if mean is None or first is None else round(mean - first, 2),
+                "soft": sorted(set(soft)), "n_soft": len(soft),
+                "off": sum(1 for l in soft if pin.get("line") is not None and l != pin["line"]),
+            })
+        gplays = sorted((p for p in plays if p["game"] == name),
+                        key=lambda p: -p.get("adj", p["edge"]))
+        # Props lean: scoring-stat plays only, +1 per Over, -1 per Under, by team
+        lean = {}
+        for p in gplays:
+            ctx = p.get("ctx") or {}
+            if ctx.get("tag", "n/a") == "n/a":
+                continue
+            key = ctx.get("team") or "game"
+            d = lean.setdefault(key, {"over": 0, "under": 0})
+            d["over" if p["bet"] == "OVER" else "under"] += 1
+        agree, conflict = [], []
+        for t in teams:
+            d = lean.get(t["team"])
+            net = (d["over"] - d["under"]) if d else 0
+            if net and t["shift"] is not None and abs(t["shift"]) >= thr:
+                side = "Over" if net > 0 else "Under"
+                msg = (f"props lean {side} on {t['team']} ({d['over']}O/{d['under']}U) and its expected "
+                       f"score moved {t['shift']:+.1f}")
+                (agree if net * t["shift"] > 0 else conflict).append(msg)
+        if "game" in lean:
+            d = lean["game"]
+            net = d["over"] - d["under"]
+            shifts = [t["shift"] for t in teams if t["shift"] is not None]
+            avg = sum(shifts) / len(shifts) if shifts else None
+            if net and avg is not None and abs(avg) >= thr:
+                msg = (f"props lean {'Over' if net > 0 else 'Under'} ({d['over']}O/{d['under']}U, team unknown) "
+                       f"and the game's expected score moved {avg:+.1f} per team")
+                (agree if net * avg > 0 else conflict).append(msg)
+        verdict_tag = "conflict" if conflict else "agree" if agree else "none"
+        rows.append({
+            "sport": sport, "game": name, "away": away, "home": home, "commence_time": g["commence_time"],
+            "lines": game_line_info(sport, game_snap, name, None), "teams": teams,
+            "plays": gplays, "lean": lean, "verdict_tag": verdict_tag,
+            "verdict": "; ".join(conflict or agree) or "no clear lean against the game market",
+        })
+    rows.sort(key=lambda r: (r["commence_time"], r["game"]))
+    return rows
+
+
 def cap_per_game(plays, n):
     """Keep the best `n` plays (by adjusted edge) per game; 0 means no cap."""
     if not n:
