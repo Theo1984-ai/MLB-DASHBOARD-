@@ -184,6 +184,33 @@ def load_rosters(_token_present):
             for sport in bp.SPORTS}
 
 
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_preds(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_claude(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_all_logs(_token_present):
+    gh = _gh()
+    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks")
+             if i["name"].endswith(".json")]
+    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{n}") or {})
+            for n in sorted(items)[-30:]]
+
+
 # ── Snapshot run ──────────────────────────────────────────────────────────────
 
 def run_snapshot():
@@ -504,34 +531,58 @@ with tab_games:
             st.caption("No prediction (no Pinnacle team totals saved): " +
                        "; ".join(f"{r['away']} @ {r['home']}" for r in no_pred if r["sport"] in sport_filter))
 
+    # ── Look back: every prediction next to what actually happened ─────────────────────
+    st.markdown("---")
+    st.markdown("### 📜 Past predictions & results")
+    if not GH_TOKEN:
+        st.info("Add `GITHUB_TOKEN` to secrets to save predictions and look back at them.")
+    else:
+        try:
+            hist_logs = dict(load_all_preds(True))
+        except Exception as e:  # noqa: BLE001
+            hist_logs = {}
+            st.warning(f"Couldn't load the prediction history: {e}")
+        all_rows = bp.prediction_results_rows(hist_logs)
+        if not all_rows:
+            st.info("No saved predictions yet. Every snapshot saves a prediction for each open game, "
+                    "and finished games are graded on the next snapshot (or press ✅ Grade finished picks).")
+        else:
+            days_avail = sorted({r["date"] for r in all_rows}, reverse=True)
+            graded_days = [d for d in days_avail if any(r["done"] for r in all_rows if r["date"] == d)]
+            choices = ["All days"] + days_avail
+            pick_day = st.selectbox("Day", choices, index=choices.index(graded_days[0]) if graded_days else 1,
+                                    key="bp_hist_day")
+            shown = all_rows if pick_day == "All days" else [r for r in all_rows if r["date"] == pick_day]
+            sm = bp.results_day_summary(shown)
+            h1, h2, h3, h4 = st.columns(4)
+            h1.metric("Winner calls", f"{sm['winner_hits']}/{sm['winner_n']}" if sm["winner_n"] else "—",
+                      help="Games where our predicted winner won.")
+            h2.metric("Pinnacle favorite (baseline)", f"{sm['fav_hits']}/{sm['fav_n']}" if sm["fav_n"] else "—",
+                      help="Games where Pinnacle's favorite won. We should beat this.")
+            h3.metric("Over/Under", f"{sm['ou_w']}-{sm['ou_l']}-{sm['ou_p']}" if (sm["ou_w"] + sm["ou_l"] + sm["ou_p"]) else "—")
+            h4.metric("Avg total miss", sm["mean_total_miss"] if sm["mean_total_miss"] is not None else "—",
+                      help="Average points between our predicted total and the final total.")
+            if sm["pending"]:
+                st.caption(f"{sm['pending']} game(s) not graded yet. They fill in after the game ends, on the next "
+                           "snapshot or when you press ✅ Grade finished picks.")
+            table = [{
+                "Date": r["date"], "Time (ET)": r["start"].strftime("%I:%M %p"), "Sport": r["sport"], "Game": r["game"],
+                "We predicted": f"{r['winner']} ({r['win_prob'] * 100:.0f}%, {r['win_conf']})" if r["winner"] else "—",
+                "Predicted score": r["pred_score"],
+                "Final score": r["actual_score"],
+                "Winner": r["winner_result"], "Pinnacle fav": r["fav_result"],
+                "Over/Under call": f"{r['ou_pick']} {r['ou_ref']} ({r['ou_conf']})" if r["ou_pick"] else "—",
+                "Final total": f"{r['actual_total']:.0f}" if r["actual_total"] is not None else "—",
+                "O/U": r["ou_result"],
+                "Total miss": f"{r['total_miss']:+.1f}" if r["total_miss"] is not None else "—",
+                "Notes": ("winner flipped before the game; " if r["flipped"] else "") + f"{r['updates']} snapshot(s)",
+            } for r in shown]
+            st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
+            st.caption("Final score is away–home. Winner ✅ means our predicted winner won; Pinnacle fav shows how its "
+                       "favorite did for comparison. Over/Under is graded against the line we called. "
+                       "Total miss = final total minus our predicted total.")
+
 # ── Track record ──────────────────────────────────────────────────────────────
-
-@st.cache_data(ttl=300, show_spinner=False)
-def load_all_preds(_token_present):
-    gh = _gh()
-    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions")
-             if i["name"].endswith(".json")]
-    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{n}") or {})
-            for n in sorted(items)[-30:]]
-
-
-@st.cache_data(ttl=300, show_spinner=False)
-def load_all_claude(_token_present):
-    gh = _gh()
-    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks")
-             if i["name"].endswith(".json")]
-    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/claude_picks/{n}") or {})
-            for n in sorted(items)[-30:]]
-
-
-@st.cache_data(ttl=300, show_spinner=False)
-def load_all_logs(_token_present):
-    gh = _gh()
-    items = [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks")
-             if i["name"].endswith(".json")]
-    return [(n[:-5], gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{n}") or {})
-            for n in sorted(items)[-30:]]
-
 
 with tab_track:
     if "bp_grade" in st.session_state:

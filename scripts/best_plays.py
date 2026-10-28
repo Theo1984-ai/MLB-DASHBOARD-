@@ -1182,6 +1182,69 @@ def grade_log(log, now_et, fetch=_get_plain, finished_after_hours=4):
     return counts
 
 
+# ── Look-back table: every prediction next to what happened ──────────────────────────────────
+
+def prediction_results_rows(logs_by_date):
+    """
+    Rows for the Predictions tab's look-back table. `logs_by_date` is {date: prediction log}.
+    Newest day first, games in start order. Games that have not finished yet show as pending.
+    """
+    rows = []
+    for date, log in logs_by_date.items():
+        for rec in (log or {}).values():
+            last = rec.get("last") or {}
+            first = rec.get("first") or last
+            res = rec.get("result")
+            try:
+                start = datetime.fromisoformat(rec["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
+            except Exception:  # noqa: BLE001
+                continue
+            mark = {"win": "✅", "loss": "❌", "push": "➖"}
+            row = {
+                "date": date, "start": start, "sport": rec["sport"], "game": rec["game"],
+                "winner": last.get("winner"), "win_prob": last.get("win_prob"), "win_conf": last.get("win_conf"),
+                "pred_score": f"{last.get('pred_away', 0):.0f}–{last.get('pred_home', 0):.0f}"
+                              f" ({rec['away'].split()[-1]}–{rec['home'].split()[-1]})",
+                "pred_total": last.get("pred_total"),
+                "ou_pick": last.get("ou_pick"), "ou_ref": last.get("ou_ref"), "ou_conf": last.get("ou_conf"),
+                "flipped": bool(first.get("winner") and last.get("winner") and first["winner"] != last["winner"]),
+                "updates": rec.get("n_updates", 1),
+                "done": bool(res),
+            }
+            if res:
+                aa, ah = res.get("actual_away"), res.get("actual_home")
+                row["actual_score"] = f"{aa:.0f}–{ah:.0f}" if aa is not None and ah is not None else "—"
+                wc = res.get("winner_correct")
+                row["winner_result"] = "✅" if wc is True else "❌" if wc is False else "—"
+                fc = res.get("pin_fav_correct")
+                row["fav_result"] = "✅" if fc is True else "❌" if fc is False else "—"
+                row["ou_result"] = mark.get(res.get("ou_outcome"), "—")
+                row["total_miss"] = res.get("total_error")
+                row["actual_total"] = res.get("actual_total")
+            else:
+                row["actual_score"] = "⏳"
+                row["winner_result"] = row["fav_result"] = row["ou_result"] = "⏳"
+                row["total_miss"] = row["actual_total"] = None
+            rows.append(row)
+    rows.sort(key=lambda r: (r["date"], r["start"]))
+    rows.sort(key=lambda r: r["date"], reverse=True)
+    return rows
+
+
+def results_day_summary(rows):
+    """Winner / Over-Under record for a set of look-back rows."""
+    done = [r for r in rows if r["done"]]
+    wr = [r["winner_result"] for r in done]
+    fr = [r["fav_result"] for r in done]
+    orr = [r["ou_result"] for r in done]
+    errs = [abs(r["total_miss"]) for r in done if r["total_miss"] is not None]
+    return {"games": len(rows), "graded": len(done), "pending": len(rows) - len(done),
+            "winner_hits": wr.count("✅"), "winner_n": wr.count("✅") + wr.count("❌"),
+            "fav_hits": fr.count("✅"), "fav_n": fr.count("✅") + fr.count("❌"),
+            "ou_w": orr.count("✅"), "ou_l": orr.count("❌"), "ou_p": orr.count("➖"),
+            "mean_total_miss": round(sum(errs) / len(errs), 1) if errs else None}
+
+
 # ── Day-by-day results ───────────────────────────────────────────────────────────────────────
 
 def _pick_day(log):
