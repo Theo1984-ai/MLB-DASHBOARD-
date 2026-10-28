@@ -767,8 +767,15 @@ def pred_key(date, sport, game):
     return "|".join([date, sport, game])
 
 
+HIST_KEYS = ("t", "winner", "win_prob", "pred_away", "pred_home", "pred_total", "ou_pick", "ou_ref", "ou_conf")
+HIST_MAX = 30
+
+
 def update_predictions(log, rows, snap_time, date):
-    """Store each game's first prediction and its latest one (the latest is what gets graded)."""
+    """
+    Store each game's first prediction, its latest one (the latest is what gets graded) and a short
+    history of every snapshot's prediction, so the page can show what changed.
+    """
     n = 0
     for r in rows:
         pr = r.get("pred")
@@ -776,16 +783,49 @@ def update_predictions(log, rows, snap_time, date):
             continue
         key = pred_key(date, r["sport"], r["game"])
         stamp = {"t": snap_time, **pr}
+        entry = {k: stamp.get(k) for k in HIST_KEYS}
         if key not in log:
             first = {k: v for k, v in stamp.items() if k != "reasons"}
             log[key] = {"sport": r["sport"], "game": r["game"], "away": r["away"], "home": r["home"],
                         "commence_time": r["commence_time"], "first": first, "last": stamp,
-                        "n_updates": 1, "result": None}
+                        "n_updates": 1, "history": [entry], "result": None}
             n += 1
         elif not log[key].get("result"):
-            log[key]["last"] = stamp
-            log[key]["n_updates"] = log[key].get("n_updates", 1) + 1
+            rec = log[key]
+            rec["last"] = stamp
+            rec["n_updates"] = rec.get("n_updates", 1) + 1
+            hist = rec.setdefault("history", [])
+            if not hist or hist[-1].get("t") != snap_time:
+                hist.append(entry)
+            del hist[:-HIST_MAX]
     return n
+
+
+def prediction_changes(prev, cur):
+    """
+    What moved between two predictions (dicts with the HIST_KEYS fields). Returns a list of short
+    strings, [] when nothing changed. `cur` can be a full prediction.
+    """
+    if not prev or not cur:
+        return []
+    out = []
+    if prev["winner"] != cur["winner"]:
+        out.append(f"⚠️ winner flipped: was {prev['winner']} ({prev['win_prob'] * 100:.0f}%) → "
+                   f"now {cur['winner']} ({cur['win_prob'] * 100:.0f}%)")
+    elif abs(cur["win_prob"] - prev["win_prob"]) >= 0.005:
+        arrow = "▲" if cur["win_prob"] > prev["win_prob"] else "▼"
+        out.append(f"{cur['winner']} win chance {prev['win_prob'] * 100:.0f}% → {cur['win_prob'] * 100:.0f}% {arrow}")
+    if abs(cur["pred_total"] - prev["pred_total"]) >= 0.05:
+        out.append(f"predicted total {prev['pred_total']:.1f} → {cur['pred_total']:.1f}")
+    if prev.get("ou_pick") and cur.get("ou_pick"):
+        if prev["ou_pick"] != cur["ou_pick"]:
+            out.append(f"⚠️ Over/Under flipped: was {prev['ou_pick']} {prev['ou_ref']} → "
+                       f"now {cur['ou_pick']} {cur['ou_ref']}")
+        elif prev.get("ou_ref") != cur.get("ou_ref"):
+            out.append(f"{cur['ou_pick']} line {prev['ou_ref']} → {cur['ou_ref']}")
+        if prev.get("ou_conf") != cur.get("ou_conf"):
+            out.append(f"Over/Under confidence {prev['ou_conf']} → {cur['ou_conf']}")
+    return out
 
 
 def grade_predictions(log, now_et, fetch=_get_plain, finished_after_hours=4):

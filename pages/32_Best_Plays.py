@@ -91,6 +91,11 @@ def save_preds(date, log, note):
                     commit_msg=f"Game predictions {date}: {note}")
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def load_today_preds(date, _token_present):
+    return load_preds(date)
+
+
 def grade_recent(now_et, days=7):
     """Grade finished picks from the last few days and save any that changed."""
     gh = _gh()
@@ -435,6 +440,12 @@ with tab_games:
         sport_filter = st.multiselect("Sports", options=list(bp.SPORTS), default=list(bp.SPORTS),
                                       format_func=lambda x: bp.SPORTS[x]["label"], key="bp_game_sports")
         conf_icon = {"High": "🟢", "Medium": "🟡", "Low": "⚪"}
+        pred_log = {}
+        if GH_TOKEN:
+            try:
+                pred_log = load_today_preds(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), True)
+            except Exception:  # noqa: BLE001
+                pred_log = {}
         for r in preds:
             if r["sport"] not in sport_filter:
                 continue
@@ -449,6 +460,14 @@ with tab_games:
                 f"{pr['win_prob'] * 100:.0f}%) · predicted **{pr['pred_away']:.0f}–{pr['pred_home']:.0f}** "
                 f"(total {pr['pred_total']:.1f})  \n"
                 f"📊 {ou}")
+            hist = (pred_log.get(bp.pred_key(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), r["sport"], r["game"])) or {}).get("history", [])
+            if len(hist) >= 2:
+                prev = hist[-2]
+                changes = bp.prediction_changes(prev, pr)
+                since = datetime.fromisoformat(prev["t"]).strftime("%I:%M %p")
+                st.caption(f"Since the {since} snapshot: " + ("; ".join(changes) if changes else "no change."))
+            elif hist:
+                st.caption("First prediction for this game. The next snapshot will show what changed.")
             with st.expander("Why"):
                 for line in pr["reasons"]:
                     st.markdown(f"- {line}")
