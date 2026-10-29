@@ -20,14 +20,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-10-29T08:42:51.140098-04:00",
-      "line": 17.5,
-      "price": -114,
+      "t": "2026-10-29T08:58:03.349066-04:00",
+      "line": 16.5,
+      "price": -108,
       "book": "draftkings",
       "pin_line": 14.5,
-      "pin_over": -112,
-      "pin_under": -112,
-      "edge": 0.064,
+      "pin_over": -113,
+      "pin_under": -111,
+      "edge": 0.0435,
       "stale": 3,
       "n_books": 4
     },
@@ -58,6 +58,15 @@
         "book_line": 17.5,
         "book_over": -110,
         "book_under": -114
+      },
+      {
+        "t": "2026-10-29T08:58:03.349066-04:00",
+        "pin_line": 14.5,
+        "pin_over": -113,
+        "pin_under": -111,
+        "book_line": 16.5,
+        "book_over": -116,
+        "book_under": -108
       }
     ],
     "result": null,
@@ -98,14 +107,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-10-29T08:42:51.140098-04:00",
-      "line": 70.5,
-      "price": -112,
+      "t": "2026-10-29T08:58:03.349066-04:00",
+      "line": 71.5,
+      "price": -110,
       "book": "draftkings",
       "pin_line": 74.5,
       "pin_over": -118,
       "pin_under": -107,
-      "edge": 0.0209,
+      "edge": 0.016,
       "stale": 3,
       "n_books": 4
     },
@@ -136,6 +145,15 @@
         "book_line": 70.5,
         "book_over": -112,
         "book_under": -112
+      },
+      {
+        "t": "2026-10-29T08:58:03.349066-04:00",
+        "pin_line": 74.5,
+        "pin_over": -118,
+        "pin_under": -107,
+        "book_line": 71.5,
+        "book_over": -110,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -153,6 +171,66 @@
       "total": 47.5,
       "total_over": 100,
       "total_under": -116
+    }
+  },
+  "2026-10-29|NBA|prop|Cleveland Cavaliers @ Atlanta Hawks|Donovan Mitchell|assists|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Cleveland Cavaliers @ Atlanta Hawks",
+    "who": "Donovan Mitchell",
+    "market": "assists",
+    "bet": "OVER",
+    "commence_time": "2026-10-30T00:10:00Z",
+    "first_seen": {
+      "t": "2026-10-29T08:58:03.349066-04:00",
+      "line": 4.5,
+      "price": -132,
+      "book": "betrivers",
+      "pin_line": 5.5,
+      "pin_over": 122,
+      "pin_under": -162,
+      "edge": 0.0272,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-29T08:58:03.349066-04:00",
+      "line": 4.5,
+      "price": -132,
+      "book": "betrivers",
+      "pin_line": 5.5,
+      "pin_over": 122,
+      "pin_under": -162,
+      "edge": 0.0272,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-29T08:58:03.349066-04:00",
+        "pin_line": 5.5,
+        "pin_over": 122,
+        "pin_under": -162,
+        "book_line": 4.5,
+        "book_over": -132,
+        "book_under": -104
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Cleveland Cavaliers",
+      "opp": "Atlanta Hawks",
+      "scope": "team",
+      "shift": 0.16,
+      "tag": "neutral",
+      "win_prob": 0.491,
+      "fav": "Atlanta Hawks",
+      "fav_win_prob": 0.509,
+      "fav_spread": -1.0,
+      "blowout": false,
+      "total": 237.5,
+      "total_over": -107,
+      "total_under": -105
     }
   }
 }
