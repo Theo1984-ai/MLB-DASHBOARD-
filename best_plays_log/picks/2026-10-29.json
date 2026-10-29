@@ -76,6 +76,15 @@
         "book_line": 16.5,
         "book_over": -116,
         "book_under": -109
+      },
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 15.5,
+        "pin_over": -110,
+        "pin_under": -110,
+        "book_line": 17.5,
+        "book_over": -108,
+        "book_under": -116
       }
     ],
     "result": null,
@@ -172,6 +181,15 @@
         "book_line": 70.5,
         "book_over": -114,
         "book_under": -110
+      },
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 73.5,
+        "pin_over": -114,
+        "pin_under": -107,
+        "book_line": 70.5,
+        "book_over": -112,
+        "book_under": -112
       }
     ],
     "result": null,
@@ -212,7 +230,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-10-29T09:31:36.472572-04:00",
+      "t": "2026-10-29T11:16:32.430631-04:00",
       "line": 4.5,
       "price": -139,
       "book": "draftkings",
@@ -241,6 +259,15 @@
         "book_line": 4.5,
         "book_over": -141,
         "book_under": 104
+      },
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 5.5,
+        "pin_over": 122,
+        "pin_under": -162,
+        "book_line": 4.5,
+        "book_over": -143,
+        "book_under": 105
       }
     ],
     "result": null,
@@ -301,6 +328,15 @@
         "book_line": 19.5,
         "book_over": -110,
         "book_under": -121
+      },
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 21.5,
+        "pin_over": -110,
+        "pin_under": -110,
+        "book_line": 20.5,
+        "book_over": -113,
+        "book_under": -118
       }
     ],
     "result": null,
@@ -318,6 +354,186 @@
       "total": 47.0,
       "total_over": -104,
       "total_under": -108
+    }
+  },
+  "2026-10-29|NFL|prop|Carolina Panthers @ Green Bay Packers|Brycen Tremayne|reception_yds|OVER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Carolina Panthers @ Green Bay Packers",
+    "who": "Brycen Tremayne",
+    "market": "reception_yds",
+    "bet": "OVER",
+    "commence_time": "2026-10-30T00:15:00Z",
+    "first_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 3.5,
+      "price": -109,
+      "book": "draftkings",
+      "pin_line": 6.5,
+      "pin_over": 102,
+      "pin_under": -124,
+      "edge": 0.0939,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 3.5,
+      "price": -109,
+      "book": "draftkings",
+      "pin_line": 6.5,
+      "pin_over": 102,
+      "pin_under": -124,
+      "edge": 0.0939,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 6.5,
+        "pin_over": 102,
+        "pin_under": -124,
+        "book_line": 3.5,
+        "book_over": -109,
+        "book_under": -115
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Carolina Panthers",
+      "opp": "Green Bay Packers",
+      "scope": "team",
+      "shift": -0.4,
+      "tag": "neutral",
+      "win_prob": 0.364,
+      "fav": "Green Bay Packers",
+      "fav_win_prob": 0.636,
+      "fav_spread": -3.5,
+      "blowout": false,
+      "total": 47.0,
+      "total_over": -106,
+      "total_under": -106
+    }
+  },
+  "2026-10-29|NBA|prop|Memphis Grizzlies @ Portland Trail Blazers|Cedric Coward|rebounds|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Memphis Grizzlies @ Portland Trail Blazers",
+    "who": "Cedric Coward",
+    "market": "rebounds",
+    "bet": "UNDER",
+    "commence_time": "2026-10-30T02:10:00Z",
+    "first_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 6.5,
+      "price": -138,
+      "book": "draftkings",
+      "pin_line": 5.5,
+      "pin_over": -147,
+      "pin_under": 110,
+      "edge": 0.0253,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 6.5,
+      "price": -138,
+      "book": "draftkings",
+      "pin_line": 5.5,
+      "pin_over": -147,
+      "pin_under": 110,
+      "edge": 0.0253,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 5.5,
+        "pin_over": -147,
+        "pin_under": 110,
+        "book_line": 6.5,
+        "book_over": 105,
+        "book_under": -138
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Memphis Grizzlies",
+      "opp": "Portland Trail Blazers",
+      "scope": "team",
+      "shift": -0.4,
+      "tag": "n/a",
+      "win_prob": 0.283,
+      "fav": "Portland Trail Blazers",
+      "fav_win_prob": 0.717,
+      "fav_spread": -7.5,
+      "blowout": false,
+      "total": 233.0,
+      "total_over": -109,
+      "total_under": -103
+    }
+  },
+  "2026-10-29|NFL|prop|Carolina Panthers @ Green Bay Packers|Josh Jacobs|rush_yds|UNDER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Carolina Panthers @ Green Bay Packers",
+    "who": "Josh Jacobs",
+    "market": "rush_yds",
+    "bet": "UNDER",
+    "commence_time": "2026-10-30T00:15:00Z",
+    "first_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 61.5,
+      "price": -110,
+      "book": "betonlineag",
+      "pin_line": 58.5,
+      "pin_over": -109,
+      "pin_under": -111,
+      "edge": 0.0191,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-29T11:16:32.430631-04:00",
+      "line": 61.5,
+      "price": -110,
+      "book": "betonlineag",
+      "pin_line": 58.5,
+      "pin_over": -109,
+      "pin_under": -111,
+      "edge": 0.0191,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-29T11:16:32.430631-04:00",
+        "pin_line": 58.5,
+        "pin_over": -109,
+        "pin_under": -111,
+        "book_line": 61.5,
+        "book_over": -118,
+        "book_under": -110
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Green Bay Packers",
+      "opp": "Carolina Panthers",
+      "scope": "team",
+      "shift": -0.18,
+      "tag": "neutral",
+      "win_prob": 0.636,
+      "fav": "Green Bay Packers",
+      "fav_win_prob": 0.636,
+      "fav_spread": -3.5,
+      "blowout": false,
+      "total": 47.0,
+      "total_over": -106,
+      "total_under": -106
     }
   }
 }
