@@ -443,7 +443,10 @@ with tab_today:
         if not view["plays"]:
             st.info("No plays clear the thresholds right now. Loosen them above, or snapshot "
                     "again closer to game time.")
-        for p in view["plays"]:
+        sort_by = st.radio("Sort plays by", ["⏰ Start time", "📈 Edge"], horizontal=True, key="bp_sort")
+        ordered = (sorted(view["plays"], key=lambda p: (p["commence_time"], -p["adj"]))
+                   if sort_by.startswith("⏰") else view["plays"])
+        for p in ordered:
             when = datetime.fromisoformat(p["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
             is_over = p["bet"] == "OVER"
             bg, border, colour = ("#f0fdf4", "#86efac", "#15803d") if is_over else ("#eff6ff", "#93c5fd", "#1d4ed8")
