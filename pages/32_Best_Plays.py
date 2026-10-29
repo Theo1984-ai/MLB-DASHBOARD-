@@ -685,6 +685,13 @@ with tab_track:
                                  "Game market": (r.get("context") or {}).get("tag", "—"),
                                  "Result": res.get("outcome", "pending"), "Actual": res.get("actual"),
                                  "Game": r["game"]})
-            st.markdown("#### All picks")
-            st.dataframe(pd.DataFrame(rows).sort_values(["Date", "Edge %"], ascending=[False, False]),
-                         hide_index=True, use_container_width=True)
+            st.markdown("#### All picks, by day")
+            all_df = pd.DataFrame(rows)
+            for i, day in enumerate(sorted(all_df["Date"].unique(), reverse=True)):
+                day_df = all_df[all_df["Date"] == day].sort_values("Edge %", ascending=False)
+                w = int((day_df["Result"] == "win").sum())
+                l = int((day_df["Result"] == "loss").sum())
+                pend = int((day_df["Result"] == "pending").sum())
+                label = f"{day} · {len(day_df)} picks · {w}-{l}" + (f" · {pend} pending" if pend else "")
+                with st.expander(label, expanded=(i == 0)):
+                    st.dataframe(day_df.drop(columns=["Date"]), hide_index=True, use_container_width=True)
