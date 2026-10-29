@@ -1867,6 +1867,15 @@
         "book_line": 7.5,
         "book_over": -115,
         "book_under": -115
+      },
+      {
+        "t": "2026-10-28T22:20:02.983076-04:00",
+        "pin_line": 7.5,
+        "pin_over": -115,
+        "pin_under": -115,
+        "book_line": 7.5,
+        "book_over": -110,
+        "book_under": -120
       }
     ],
     "result": null
@@ -2808,6 +2817,15 @@
         "book_line": 112.5,
         "book_over": -106,
         "book_under": -114
+      },
+      {
+        "t": "2026-10-28T22:20:02.983076-04:00",
+        "pin_line": 111.5,
+        "pin_over": -113,
+        "pin_under": -103,
+        "book_line": 112.5,
+        "book_over": -106,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -3384,6 +3402,15 @@
         "book_line": 3.5,
         "book_over": -147,
         "book_under": 111
+      },
+      {
+        "t": "2026-10-28T22:20:02.983076-04:00",
+        "pin_line": 4.5,
+        "pin_over": 108,
+        "pin_under": -143,
+        "book_line": 4.5,
+        "book_over": 105,
+        "book_under": -139
       }
     ],
     "result": null,
@@ -3890,6 +3917,15 @@
       },
       {
         "t": "2026-10-28T22:15:01.694390-04:00",
+        "pin_line": 11.5,
+        "pin_over": 106,
+        "pin_under": -140,
+        "book_line": 10.5,
+        "book_over": -120,
+        "book_under": -106
+      },
+      {
+        "t": "2026-10-28T22:20:02.983076-04:00",
         "pin_line": 11.5,
         "pin_over": 106,
         "pin_under": -140,
@@ -4498,6 +4534,66 @@
       "total": 228.5,
       "total_over": 100,
       "total_under": -112
+    }
+  },
+  "2026-10-28|NBA|team total|Los Angeles Lakers @ Los Angeles Clippers|Los Angeles Lakers|team total|UNDER": {
+    "sport": "NBA",
+    "kind": "team total",
+    "game": "Los Angeles Lakers @ Los Angeles Clippers",
+    "who": "Los Angeles Lakers",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-10-29T02:40:00Z",
+    "first_seen": {
+      "t": "2026-10-28T22:20:02.983076-04:00",
+      "line": 112.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 111.5,
+      "pin_over": -113,
+      "pin_under": -103,
+      "edge": 0.0113,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-28T22:20:02.983076-04:00",
+      "line": 112.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 111.5,
+      "pin_over": -113,
+      "pin_under": -103,
+      "edge": 0.0113,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-28T22:20:02.983076-04:00",
+        "pin_line": 111.5,
+        "pin_over": -113,
+        "pin_under": -103,
+        "book_line": 112.5,
+        "book_over": -125,
+        "book_under": -105
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Los Angeles Lakers",
+      "opp": "Los Angeles Clippers",
+      "scope": "team",
+      "shift": -4.3,
+      "tag": "backed",
+      "win_prob": 0.49,
+      "fav": "Los Angeles Clippers",
+      "fav_win_prob": 0.51,
+      "fav_spread": -1.0,
+      "blowout": false,
+      "total": 223.5,
+      "total_over": -110,
+      "total_under": -102
     }
   }
 }
