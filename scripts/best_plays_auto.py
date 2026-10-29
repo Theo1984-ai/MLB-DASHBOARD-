@@ -5,15 +5,22 @@ Snapshots every sport with a game today, saves the snapshot files, logs the pick
 predictions, and grades anything that finished. Same logic and same files as the page.
 Needs THE_ODDS_API_KEY and GITHUB_TOKEN in the environment.
 """
+import importlib.util
 import os
 import re
 import sys
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from data import github_storage as gh  # noqa: E402
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
 from scripts import best_plays as bp  # noqa: E402
+
+# Load github_storage straight from its file: importing the `data` package would pull in
+# pandas and the rest of the app, which the Actions runner doesn't install.
+_spec = importlib.util.spec_from_file_location("github_storage", os.path.join(ROOT, "data", "github_storage.py"))
+gh = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(gh)
 
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
