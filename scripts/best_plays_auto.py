@@ -61,6 +61,11 @@ def grade_recent(now_et, days=7):
 def main():
     if not (ODDS_KEY and TOKEN):
         sys.exit("THE_ODDS_API_KEY and GITHUB_TOKEN are required")
+    # The page's toggle (best_plays_log/auto_config.json). A manual "Run workflow" ignores it.
+    if os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch" and \
+            load(f"{LOG_DIR}/auto_config.json").get("enabled", True) is False:
+        print("Auto snapshot is switched off on the Best Plays page. Nothing to do.")
+        return
     now_et = datetime.now(tz=EASTERN)
     date, hhmm, iso = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M"), now_et.isoformat()
     plays, pred_rows, snaps, errors = [], [], {}, []
