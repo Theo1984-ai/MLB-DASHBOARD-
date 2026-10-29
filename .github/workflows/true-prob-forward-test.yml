@@ -1,18 +1,16 @@
 name: Daily All Tracker (cloud backup)
 
 on:
-  # schedule:
-    # === EARLY-MORNING SETTLE CRONS — DISABLED 2026-10-29 ===
-    # Turned off by request: the pre-flight Odds API check was failing every run
-    # (bad key) and MLB is off-season. Re-enable by uncommenting the four lines.
+  schedule:
+    # === EARLY-MORNING SETTLE CRONS ===
     # Yesterday's MLB games are all final by ~2 AM ET. We settle them
     # before user wakes up so results are visible in the morning.
     # These runs only SETTLE — no Odds API calls, just free MLB Stats
-    # API for game results.
-    # - cron: '0 10 * * *'    # 6:00 AM ET (EDT) — earliest settle attempt
-    # - cron: '0 11 * * *'    # 7:00 AM ET (EDT) / 6:00 AM ET (EST)
-    # - cron: '0 12 * * *'    # 8:00 AM ET (EDT) / 7:00 AM ET (EST)
-    # - cron: '0 13 * * *'    # 9:00 AM ET (EDT) — last morning attempt
+    # API for game results. Kept ON even after the 8/27 API downgrade.
+    - cron: '0 10 * * *'    # 6:00 AM ET (EDT) — earliest settle attempt
+    - cron: '0 11 * * *'    # 7:00 AM ET (EDT) / 6:00 AM ET (EST)
+    - cron: '0 12 * * *'    # 8:00 AM ET (EDT) / 7:00 AM ET (EST)
+    - cron: '0 13 * * *'    # 9:00 AM ET (EDT) — last morning attempt
 
     # === NOON SNAPSHOT CRONS — DISABLED 2026-08-27 ===
     # API downgraded to 20k/mo. Snapshot runs (which burn Odds API for
@@ -38,7 +36,27 @@ on:
         default: 'false'
 
 jobs:
+  # Switched on/off from the Automation page (automation_config.json). This one is OFF unless switched on.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: automation_config.json
+          sparse-checkout-cone-mode: false
+      - id: check
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          cfg = json.load(open("automation_config.json")) if os.path.exists("automation_config.json") else {}
+          print("enabled=" + ("true" if cfg.get("jobs", {}).get("daily_all_tracker") is True else "false"))
+          PY
+
   daily-all:
+    needs: gate
+    if: github.event_name == 'workflow_dispatch' || needs.gate.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write

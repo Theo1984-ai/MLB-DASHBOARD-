@@ -23,6 +23,8 @@ BEST_PLAYS_PATH = "best_plays_log/auto_config.json"  # {"enabled": bool}, also o
 
 # (key, label, what it does / when it runs). Times are Eastern; the older jobs were written
 # for standard time, so during daylight time they run an hour later than their names say.
+# A job in OFF_BY_DEFAULT stays off until it is switched on.
+OFF_BY_DEFAULT = {"daily_all_tracker"}
 JOBS = [
     ("nba_line_alert", "NBA line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
     ("nfl_line_alert", "NFL line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
@@ -35,6 +37,8 @@ JOBS = [
     ("nhl_true_prob", "NHL true probability", "Noon, 4 PM, 6 PM"),
     ("sharp_money", "Sharp money", "3x a day (about 7 AM, 11 AM, 1 PM)"),
     ("team_totals", "Team totals", "7 AM and noon"),
+    ("daily_all_tracker", "Daily All Tracker",
+     "Settles yesterday's MLB results, 4 tries from about 6 to 9 AM. MLB is off-season. Off by default."),
 ]
 
 
@@ -86,7 +90,7 @@ need = [k for k, _, _ in JOBS if f"au_{k}" not in st.session_state]
 if need or "bp_auto_on" not in st.session_state:
     jobs, bp_on = _load_config()
     for key in need:
-        st.session_state[f"au_{key}"] = jobs.get(key) is not False   # missing = on
+        st.session_state[f"au_{key}"] = (jobs.get(key) is True) if key in OFF_BY_DEFAULT else (jobs.get(key) is not False)
     if "bp_auto_on" not in st.session_state:
         st.session_state["bp_auto_on"] = bp_on                       # shared with the Best Plays page
 
@@ -130,7 +134,4 @@ for key, label, when in JOBS:
     st.caption(when)
 
 st.divider()
-st.caption(
-    "The Daily All Tracker is turned off in its own workflow file, and the daily picks and HR line "
-    "movement jobs have no schedule, so they aren't listed here."
-)
+st.caption("The daily picks and HR line movement jobs have no schedule, so they aren't listed here.")
