@@ -1,16 +1,18 @@
 name: Daily All Tracker (cloud backup)
 
 on:
-  schedule:
-    # === EARLY-MORNING SETTLE CRONS ===
+  # schedule:
+    # === EARLY-MORNING SETTLE CRONS — DISABLED 2026-10-29 ===
+    # Turned off by request: the pre-flight Odds API check was failing every run
+    # (bad key) and MLB is off-season. Re-enable by uncommenting the four lines.
     # Yesterday's MLB games are all final by ~2 AM ET. We settle them
     # before user wakes up so results are visible in the morning.
     # These runs only SETTLE — no Odds API calls, just free MLB Stats
-    # API for game results. Kept ON even after the 8/27 API downgrade.
-    - cron: '0 10 * * *'    # 6:00 AM ET (EDT) — earliest settle attempt
-    - cron: '0 11 * * *'    # 7:00 AM ET (EDT) / 6:00 AM ET (EST)
-    - cron: '0 12 * * *'    # 8:00 AM ET (EDT) / 7:00 AM ET (EST)
-    - cron: '0 13 * * *'    # 9:00 AM ET (EDT) — last morning attempt
+    # API for game results.
+    # - cron: '0 10 * * *'    # 6:00 AM ET (EDT) — earliest settle attempt
+    # - cron: '0 11 * * *'    # 7:00 AM ET (EDT) / 6:00 AM ET (EST)
+    # - cron: '0 12 * * *'    # 8:00 AM ET (EDT) / 7:00 AM ET (EST)
+    # - cron: '0 13 * * *'    # 9:00 AM ET (EDT) — last morning attempt
 
     # === NOON SNAPSHOT CRONS — DISABLED 2026-08-27 ===
     # API downgraded to 20k/mo. Snapshot runs (which burn Odds API for
