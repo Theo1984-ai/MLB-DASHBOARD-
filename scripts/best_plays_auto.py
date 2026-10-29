@@ -75,12 +75,13 @@ def main():
         return
     now_et = datetime.now(tz=EASTERN)
     date, hhmm, iso = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M"), now_et.isoformat()
-    plays, pred_rows, snaps, errors = [], [], {}, []
+    plays, pred_rows, snaps, errors, failed = [], [], {}, [], []
     for sport in bp.SPORTS:
         try:
             res, quota = bp.snapshot_sport(ODDS_KEY, sport, now_et)
         except Exception as e:  # noqa: BLE001
             errors.append(f"{sport}: {e}")
+            failed.append(sport)
             continue
         print(f"{sport}: {'no games' if not res else str(res['n_games']) + ' games'} (quota left {quota})")
         if not res:
@@ -132,6 +133,9 @@ def main():
         errors.append(f"grading: {e}")
     for e in errors:
         print("note:", e)
+    if failed:
+        # Show the run red in GitHub (e.g. a bad Odds API key gives 401 for every sport), after saving what we could.
+        sys.exit(f"Snapshot failed for: {', '.join(failed)}")
 
 
 if __name__ == "__main__":
