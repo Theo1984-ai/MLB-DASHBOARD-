@@ -12,7 +12,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Switched on/off from the Automation page (automation_config.json). Missing = on.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: automation_config.json
+          sparse-checkout-cone-mode: false
+      - id: check
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          cfg = json.load(open("automation_config.json")) if os.path.exists("automation_config.json") else {}
+          print("enabled=" + ("false" if cfg.get("jobs", {}).get("nhl_line_alert") is False else "true"))
+          PY
+
   snapshot:
+    needs: gate
+    if: github.event_name == 'workflow_dispatch' || needs.gate.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
