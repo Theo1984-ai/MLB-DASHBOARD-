@@ -1,0 +1,29 @@
+name: Best Plays Auto Snapshot
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # every 2 hours, all day (UTC clock)
+  workflow_dispatch:
+
+# One run at a time so two snapshots never write the same log together.
+concurrency:
+  group: best-plays-auto
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Snapshot every sport, log picks and predictions, grade finished games
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/best_plays_auto.py

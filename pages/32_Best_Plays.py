@@ -315,6 +315,33 @@ if grade_btn:
         except Exception as e:  # noqa: BLE001
             st.session_state["bp_grade"] = {"errors": [str(e)], "graded": 0, "pending": 0, "no_data": 0}
 
+AUTO_PATH = f"{LOG_DIR}/auto_config.json"
+
+
+def _auto_changed():
+    on = st.session_state["bp_auto_on"]
+    try:
+        _gh().save_json(GH_TOKEN, OWNER, REPO, AUTO_PATH,
+                        {"enabled": on, "updated": datetime.now(tz=EASTERN).isoformat()},
+                        commit_msg=f"Auto snapshot {'ON' if on else 'OFF'}")
+        st.session_state.pop("bp_auto_err", None)
+    except Exception as e:  # noqa: BLE001
+        st.session_state["bp_auto_err"] = str(e)
+
+
+if GH_TOKEN:
+    if "bp_auto_on" not in st.session_state:
+        try:
+            st.session_state["bp_auto_on"] = bool((_gh().load_json(GH_TOKEN, OWNER, REPO, AUTO_PATH) or {})
+                                                  .get("enabled", True))
+        except Exception:  # noqa: BLE001
+            st.session_state["bp_auto_on"] = True
+    st.toggle("⏱️ Auto snapshot every 2 hours", key="bp_auto_on", on_change=_auto_changed,
+              help="When on, a scheduled job takes the same snapshot as the 📸 button every 2 hours "
+                   "and saves it (plays, predictions, grading). Turn it off to stop using Odds API credits.")
+    if st.session_state.get("bp_auto_err"):
+        st.error(f"Couldn't save the auto snapshot setting: {st.session_state['bp_auto_err']}")
+
 tab_today, tab_games, tab_track = st.tabs(["🎯 Today's plays", "🔮 Predictions", "📈 Track record"])
 
 # ── Today's plays ─────────────────────────────────────────────────────────────
