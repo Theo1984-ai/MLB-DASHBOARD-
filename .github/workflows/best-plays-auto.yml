@@ -2,7 +2,8 @@ name: Best Plays Auto Snapshot
 
 on:
   schedule:
-    - cron: '0 */2 * * *'   # every 2 hours, all day (UTC clock)
+    - cron: '17 */2 * * *'  # every 2 hours, all day (UTC clock), off the busy top-of-hour slot
+    - cron: '5 19 * * *'    # extra test slot: 3:05 PM ET (EDT); remove once the schedule is confirmed
   workflow_dispatch:
 
 # One run at a time so two snapshots never write the same log together.
