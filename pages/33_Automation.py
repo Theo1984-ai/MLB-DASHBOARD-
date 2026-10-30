@@ -45,7 +45,7 @@ JOBS = [
 # Not a scheduled job: a switch the auto snapshot reads before sending its Telegram alerts.
 ALERTS = [
     ("telegram_alerts", "📲 Telegram alerts",
-     "A message for each new strong play (edge 2%+, price no worse than -130, not a football line under 10 "
+     "A message for each new Tier A play (edge 2%+, price no worse than -130, not a football line under 10 "
      "yards), at most 8 a day, none from 11 PM to 8 AM. Needs the Telegram secrets in GitHub."),
 ]
 

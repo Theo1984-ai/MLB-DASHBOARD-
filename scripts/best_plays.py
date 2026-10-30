@@ -84,6 +84,38 @@ BOOK_DISPLAY = {
 # min_edge is a probability difference (0.01 = 1%); max_juice 140 means "price no worse than -140".
 DEFAULT_TH = {"min_edge": 0.01, "min_stale": 3, "min_gap": 1.0, "max_juice": 140}
 
+# Tier A = a play that passes four sanity checks that, on the first two days of picks, separated the
+# winners from the losers (all four are about "is this line gap real or is it news the model can't see").
+TIER_A_MAX_GAP = 1.0           # a bigger line gap to Pinnacle usually means injury or lineup news
+TIER_A_PIN_AGAINST = 105       # Pinnacle paying +105 or better on our side means it leans against us
+
+
+def play_tier(src):
+    """
+    ("A" | "B", [reasons it is B]) for a play dict, or for a log record merged with its first_seen stamp.
+    Needs sport, market, bet, line, pin_line, pin_over, pin_under, stale, n_books.
+    """
+    why = []
+    if src.get("line") is not None and src.get("pin_line") is not None \
+            and abs(src["line"] - src["pin_line"]) > TIER_A_MAX_GAP:
+        why.append("big gap to Pinnacle (often news)")
+    if src.get("n_books") and src.get("stale") is not None and src["stale"] >= src["n_books"]:
+        why.append("every book is off Pinnacle")
+    pin_side = src.get("pin_over") if src.get("bet") == "OVER" else src.get("pin_under")
+    if pin_side is not None and pin_side >= TIER_A_PIN_AGAINST:
+        why.append("Pinnacle's price leans against this side")
+    if src.get("sport") in ("NFL", "CFB") and str(src.get("market", "")).endswith("_yds"):
+        why.append("football yardage prop")
+    return ("A" if not why else "B"), why
+
+
+def record_tier(rec):
+    """Tier of a logged pick, as first seen. Returns (tier, stored) where stored is False when it was derived."""
+    if rec.get("tier"):
+        return rec["tier"], True
+    return play_tier({**rec, **rec["first_seen"]})[0], False
+
+
 
 # ── HTTP ──────────────────────────────────────────────────────────────────────
 
@@ -1043,6 +1075,7 @@ def update_log(log, plays, snap_time, date):
                                       "commence_time")}
             rec.update({"first_seen": stamp, "last_seen": stamp, "checks": [], "result": None,
                         "context": p.get("ctx")})
+            rec["tier"], rec["tier_why"] = play_tier(p)
             log[pid] = rec
             new += 1
         else:
@@ -1394,6 +1427,8 @@ def summarize(logs):
         tag = (r.get("context") or {}).get("tag")
         if tag and tag != "n/a":
             add(f"Game market: {tag}", r)
+        tier, stored = record_tier(r)
+        add(f"Tier {tier}" + ("" if stored else " (back-tested, flatters A)"), r)
     rows = []
     for name, g in sorted(groups.items()):
         n = g["w"] + g["l"] + g["p"]
