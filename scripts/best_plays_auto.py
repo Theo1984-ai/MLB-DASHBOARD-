@@ -91,6 +91,13 @@ def send_alerts(plays, log, date, now_et, iso):
         print(f"Telegram: sent {len(picks)} alert(s)")
 
 
+def is_manual():
+    """A hand-started run. The outside timer starts runs the same way but sends source=timer, which
+    should behave like a scheduled run (respect the on/off switch and the 45-minute rule)."""
+    return (os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
+            and os.environ.get("RUN_SOURCE", "").strip().lower() != "timer")
+
+
 def telegram_test():
     """One test message, no Odds API calls. Started from the workflow's 'send_test_message' input."""
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
@@ -110,7 +117,7 @@ def main():
     if not (ODDS_KEY and TOKEN):
         sys.exit("THE_ODDS_API_KEY and GITHUB_TOKEN are required")
     # The page's toggle (best_plays_log/auto_config.json). A manual "Run workflow" ignores it.
-    if os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch" and \
+    if not is_manual() and \
             load(f"{LOG_DIR}/auto_config.json").get("enabled", True) is False:
         print("Auto snapshot is switched off on the Best Plays page. Nothing to do.")
         return
@@ -119,7 +126,7 @@ def main():
     # GitHub starts scheduled runs late or skips some, so the workflow is scheduled every 10 minutes and
     # each wake-up only does the work when the last good run is old enough. That keeps it about hourly
     # but lets the next wake-up catch up after a skipped slot. A manual "Run workflow" always runs.
-    if os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch":
+    if not is_manual():
         ago = minutes_since_last_run(now_et)
         if ago is not None and ago < MIN_GAP_MINUTES:
             print(f"Last snapshot finished {ago:.0f} minutes ago (under {MIN_GAP_MINUTES}); skipping this wake-up.")

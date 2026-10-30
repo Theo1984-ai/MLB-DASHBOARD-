@@ -12,6 +12,10 @@ on:
         description: 'Only send a Telegram test message (no snapshot, no Odds API credits)'
         type: boolean
         default: false
+      source:
+        description: "Leave empty for a manual run (ignores the on/off switch and the 45-minute rule). The outside timer sends 'timer' so it respects both."
+        required: false
+        default: ''
 
 # One run at a time so two snapshots never write the same log together.
 concurrency:
@@ -37,4 +41,5 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_TEST: ${{ github.event.inputs.send_test_message }}
+          RUN_SOURCE: ${{ github.event.inputs.source }}
         run: python scripts/best_plays_auto.py
