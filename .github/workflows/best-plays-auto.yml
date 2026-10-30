@@ -5,6 +5,11 @@ on:
     - cron: '17 */2 * * *'  # every 2 hours, all day (UTC clock), off the busy top-of-hour slot
     - cron: '5 19 * * *'    # extra test slot: 3:05 PM ET (EDT); remove once the schedule is confirmed
   workflow_dispatch:
+    inputs:
+      send_test_message:
+        description: 'Only send a Telegram test message (no snapshot, no Odds API credits)'
+        type: boolean
+        default: false
 
 # One run at a time so two snapshots never write the same log together.
 concurrency:
@@ -27,4 +32,7 @@ jobs:
         env:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TEST: ${{ github.event.inputs.send_test_message }}
         run: python scripts/best_plays_auto.py

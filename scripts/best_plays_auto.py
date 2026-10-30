@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from scripts import best_plays as bp  # noqa: E402
+from scripts import best_plays_alerts as alerts  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
 # pandas and the rest of the app, which the Actions runner doesn't install.
@@ -65,7 +66,37 @@ def grade_recent(now_et, days=7):
                 print(f"graded {c['graded']} {label} for {d}")
 
 
+def send_alerts(plays, log, date, now_et, iso):
+    """Telegram the best new plays once (needs the two secrets; the Automation page can switch it off)."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat):
+        return
+    if load("automation_config.json").get("jobs", {}).get("telegram_alerts") is False:
+        print("Telegram alerts are switched off on the Automation page.")
+        return
+    picks = alerts.pick_alerts(plays, log, date, now_et)
+    if picks and alerts.send_telegram(token, chat, alerts.format_alert(picks)):
+        for pid, _ in picks:
+            log[pid]["alerted"] = iso
+        print(f"Telegram: sent {len(picks)} alert(s)")
+
+
+def telegram_test():
+    """One test message, no Odds API calls. Started from the workflow's 'send_test_message' input."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat):
+        sys.exit("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are not both set as repo secrets.")
+    if not alerts.send_telegram(token, chat, "✅ Test message from your Best Plays auto snapshot. "
+                                "Telegram alerts are connected."):
+        sys.exit("Telegram did not accept the message. Check the token and chat ID secrets, "
+                 "and that you have sent your bot a message first.")
+    print("Telegram test message sent.")
+
+
 def main():
+    if os.environ.get("TELEGRAM_TEST") == "true":
+        telegram_test()
+        return
     if not (ODDS_KEY and TOKEN):
         sys.exit("THE_ODDS_API_KEY and GITHUB_TOKEN are required")
     # The page's toggle (best_plays_log/auto_config.json). A manual "Run workflow" ignores it.
@@ -120,6 +151,7 @@ def main():
         log = load(f"{LOG_DIR}/picks/{date}.json")
         new = bp.update_log(log, plays, iso, date)
         checked = sum(bp.add_checks(log, r["props_snap"], r["tt_snap"], iso) for r in snaps.values())
+        send_alerts(plays, log, date, now_et, iso)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{date}.json", log,
                      commit_msg=f"Best plays log {date}: {new} new picks, {checked} checks")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")

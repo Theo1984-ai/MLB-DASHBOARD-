@@ -42,6 +42,14 @@ JOBS = [
 ]
 
 
+# Not a scheduled job: a switch the auto snapshot reads before sending its Telegram alerts.
+ALERTS = [
+    ("telegram_alerts", "📲 Telegram alerts",
+     "A message for each new strong play (edge 2%+, price no worse than -130, not a football line under 10 "
+     "yards), at most 8 a day, none from 11 PM to 8 AM. Needs the Telegram secrets in GitHub."),
+]
+
+
 def _resolve_secret(name):
     try:
         if name in st.secrets:
@@ -86,7 +94,7 @@ def _load_config():
 
 
 # Widget state can be dropped when you leave the page, so fill in whatever is missing from the saved settings.
-need = [k for k, _, _ in JOBS if f"au_{k}" not in st.session_state]
+need = [k for k, _, _ in JOBS + ALERTS if f"au_{k}" not in st.session_state]
 if need or "bp_auto_on" not in st.session_state:
     jobs, bp_on = _load_config()
     for key in need:
@@ -130,6 +138,11 @@ st.caption("Every 2 hours, at 17 minutes past the hour (plus a 3:05 PM test slot
 
 st.subheader("Other scheduled jobs")
 for key, label, when in JOBS:
+    st.toggle(label, key=f"au_{key}", on_change=_job_changed, args=(key, label))
+    st.caption(when)
+
+st.subheader("Alerts")
+for key, label, when in ALERTS:
     st.toggle(label, key=f"au_{key}", on_change=_job_changed, args=(key, label))
     st.caption(when)
 
