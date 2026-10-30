@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "snapshot_at": "2026-10-29T19:45:54.906150-04:00",
-  "n_picks": 14,
+  "snapshot_at": "2026-10-29T20:41:53.257788-04:00",
+  "n_picks": 16,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 14,
+    "n_total": 16,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -324,9 +324,9 @@
           -400
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-10-29T16:45:00.118405-04:00",
-      "last_seen_at": "2026-10-29T19:45:54.906096-04:00",
+      "last_seen_at": "2026-10-29T20:41:53.257737-04:00",
       "scan_history": [
         {
           "t": "2026-10-29T16:45:00.118405-04:00",
@@ -342,6 +342,12 @@
         },
         {
           "t": "2026-10-29T19:45:54.906096-04:00",
+          "tp": 78.42,
+          "ev": 6.14,
+          "price": -335
+        },
+        {
+          "t": "2026-10-29T20:41:53.257737-04:00",
           "tp": 78.42,
           "ev": 6.14,
           "price": -335
@@ -760,15 +766,115 @@
           -390
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-10-29T19:45:54.906096-04:00",
-      "last_seen_at": "2026-10-29T19:45:54.906096-04:00",
+      "last_seen_at": "2026-10-29T20:41:53.257737-04:00",
       "scan_history": [
         {
           "t": "2026-10-29T19:45:54.906096-04:00",
           "tp": 78.68,
           "ev": 4.07,
           "price": -350
+        },
+        {
+          "t": "2026-10-29T20:41:53.257737-04:00",
+          "tp": 78.68,
+          "ev": 4.07,
+          "price": -350
+        }
+      ]
+    },
+    {
+      "event_id": "923b47df7869b8b2c5d758b7f21d4b4a",
+      "game": "Capitals @ Predators",
+      "away_team": "Washington Capitals",
+      "home_team": "Nashville Predators",
+      "first_pitch": "2026-10-30T00:21:23Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Nashville Predators +1.5",
+      "player": "Nashville Predators",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -302,
+      "true_prob_pct": 76.65,
+      "ev_per_100": 6.13,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -302
+        ],
+        [
+          "bovada",
+          -325
+        ],
+        [
+          "fanduel",
+          -330
+        ],
+        [
+          "draftkings",
+          -360
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-29T20:41:53.257737-04:00",
+      "last_seen_at": "2026-10-29T20:41:53.257737-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-29T20:41:53.257737-04:00",
+          "tp": 76.65,
+          "ev": 6.13,
+          "price": -302
+        }
+      ]
+    },
+    {
+      "event_id": "026d37181dd4ace0df7565d9b208ce7e",
+      "game": "Kraken @ Flames",
+      "away_team": "Seattle Kraken",
+      "home_team": "Calgary Flames",
+      "first_pitch": "2026-10-31T00:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "bovada",
+      "best_price": -285,
+      "true_prob_pct": 75.13,
+      "ev_per_100": 4.27,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -285
+        ],
+        [
+          "pinnacle",
+          -303
+        ],
+        [
+          "draftkings",
+          -320
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-29T20:41:53.257737-04:00",
+      "last_seen_at": "2026-10-29T20:41:53.257737-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-29T20:41:53.257737-04:00",
+          "tp": 75.13,
+          "ev": 4.27,
+          "price": -285
         }
       ]
     }
