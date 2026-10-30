@@ -80,44 +80,47 @@ if not GH_TOKEN:
     st.stop()
 
 
-def _load_config():
+@st.cache_data(ttl=10, show_spinner=False)
+def _read(path, _token_present):
+    return _gh().load_json(GH_TOKEN, OWNER, REPO, path) or {}
+
+
+def _safe(path):
     try:
-        jobs = (_gh().load_json(GH_TOKEN, OWNER, REPO, CONFIG_PATH) or {}).get("jobs", {})
+        return _read(path, True), None
     except Exception as e:  # noqa: BLE001
-        st.session_state["au_err"] = f"Couldn't read the saved settings: {e}"
-        jobs = {}
+        return {}, f"Couldn't read {path}: {e}"
+
+
+cfg, err_a = _safe(CONFIG_PATH)
+bp_cfg, err_b = _safe(BEST_PLAYS_PATH)
+jobs = cfg.get("jobs", {})
+stamp, bp_stamp = cfg.get("updated", "none"), bp_cfg.get("updated", "none")
+bp_on = bp_cfg.get("enabled", True) is not False
+
+
+def saved_on(key):
+    return (jobs.get(key) is True) if key in OFF_BY_DEFAULT else (jobs.get(key) is not False)
+
+
+# Every switch shows what is saved on GitHub: its key includes the saved timestamp, so any change
+# (from either page, or a stale tab) rebuilds it from the saved value.
+def _job_changed(key, label, wkey):
+    on = st.session_state[wkey]
     try:
-        bp_on = bool((_gh().load_json(GH_TOKEN, OWNER, REPO, BEST_PLAYS_PATH) or {}).get("enabled", True))
-    except Exception:  # noqa: BLE001
-        bp_on = True
-    return jobs, bp_on
-
-
-# Widget state can be dropped when you leave the page, so fill in whatever is missing from the saved settings.
-need = [k for k, _, _ in JOBS + ALERTS if f"au_{k}" not in st.session_state]
-if need or "bp_auto_on" not in st.session_state:
-    jobs, bp_on = _load_config()
-    for key in need:
-        st.session_state[f"au_{key}"] = (jobs.get(key) is True) if key in OFF_BY_DEFAULT else (jobs.get(key) is not False)
-    if "bp_auto_on" not in st.session_state:
-        st.session_state["bp_auto_on"] = bp_on                       # shared with the Best Plays page
-
-
-def _job_changed(key, label):
-    on = st.session_state[f"au_{key}"]
-    try:
-        cfg = _gh().load_json(GH_TOKEN, OWNER, REPO, CONFIG_PATH) or {}
-        cfg.setdefault("jobs", {})[key] = on
-        cfg["updated"] = datetime.now(tz=EASTERN).isoformat()
-        _gh().save_json(GH_TOKEN, OWNER, REPO, CONFIG_PATH, cfg,
+        cur = _gh().load_json(GH_TOKEN, OWNER, REPO, CONFIG_PATH) or {}
+        cur.setdefault("jobs", {})[key] = on
+        cur["updated"] = datetime.now(tz=EASTERN).isoformat()
+        _gh().save_json(GH_TOKEN, OWNER, REPO, CONFIG_PATH, cur,
                         commit_msg=f"Automation: {label} {'ON' if on else 'OFF'}")
         st.session_state.pop("au_err", None)
     except Exception as e:  # noqa: BLE001
         st.session_state["au_err"] = f"Couldn't save {label}: {e}"
+    _read.clear()
 
 
-def _bp_changed():
-    on = st.session_state["bp_auto_on"]
+def _bp_changed(wkey):
+    on = st.session_state[wkey]
     try:
         _gh().save_json(GH_TOKEN, OWNER, REPO, BEST_PLAYS_PATH,
                         {"enabled": on, "updated": datetime.now(tz=EASTERN).isoformat()},
@@ -125,25 +128,31 @@ def _bp_changed():
         st.session_state.pop("au_err", None)
     except Exception as e:  # noqa: BLE001
         st.session_state["au_err"] = f"Couldn't save Best Plays: {e}"
+    _read.clear()
 
 
-if st.session_state.get("au_err"):
-    st.error(st.session_state["au_err"])
+for e in (err_a, err_b, st.session_state.get("au_err")):
+    if e:
+        st.error(e)
 
 st.subheader("Best Plays")
-st.toggle("🎯 Best Plays auto snapshot", key="bp_auto_on", on_change=_bp_changed,
+bp_key = f"bp_auto_{bp_stamp}"
+st.toggle("🎯 Best Plays auto snapshot", value=bp_on, key=bp_key, on_change=_bp_changed, args=(bp_key,),
           help="Every hour, all day: snapshots every sport with a game today, logs picks and "
                "predictions, grades finished games. Same switch as on the Best Plays page.")
-st.caption("About once an hour. GitHub wakes it every 10 minutes and it runs when the last snapshot is 45+ minutes old, so a skipped slot is caught up.")
+st.caption("Saved on GitHub: " + ("ON" if bp_on else "OFF") + ". About once an hour. GitHub wakes it every 10 minutes "
+           "and it runs when the last snapshot is 45+ minutes old, so a skipped slot is caught up.")
 
 st.subheader("Other scheduled jobs")
 for key, label, when in JOBS:
-    st.toggle(label, key=f"au_{key}", on_change=_job_changed, args=(key, label))
+    wkey = f"au_{key}_{stamp}"
+    st.toggle(label, value=saved_on(key), key=wkey, on_change=_job_changed, args=(key, label, wkey))
     st.caption(when)
 
 st.subheader("Alerts")
 for key, label, when in ALERTS:
-    st.toggle(label, key=f"au_{key}", on_change=_job_changed, args=(key, label))
+    wkey = f"au_{key}_{stamp}"
+    st.toggle(label, value=saved_on(key), key=wkey, on_change=_job_changed, args=(key, label, wkey))
     st.caption(when)
 
 st.divider()
