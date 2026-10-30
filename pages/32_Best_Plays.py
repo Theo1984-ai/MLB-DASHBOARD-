@@ -336,8 +336,8 @@ if GH_TOKEN:
                                                   .get("enabled", True))
         except Exception:  # noqa: BLE001
             st.session_state["bp_auto_on"] = True
-    st.toggle("⏱️ Auto snapshot every 2 hours", key="bp_auto_on", on_change=_auto_changed,
-              help="When on, a scheduled job takes the same snapshot as the 📸 button every 2 hours "
+    st.toggle("⏱️ Auto snapshot every hour", key="bp_auto_on", on_change=_auto_changed,
+              help="When on, a scheduled job takes the same snapshot as the 📸 button every hour "
                    "and saves it (plays, predictions, grading). Turn it off to stop using Odds API credits.")
     if st.session_state.get("bp_auto_err"):
         st.error(f"Couldn't save the auto snapshot setting: {st.session_state['bp_auto_err']}")

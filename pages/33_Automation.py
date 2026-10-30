@@ -132,9 +132,9 @@ if st.session_state.get("au_err"):
 
 st.subheader("Best Plays")
 st.toggle("🎯 Best Plays auto snapshot", key="bp_auto_on", on_change=_bp_changed,
-          help="Every 2 hours, all day: snapshots every sport with a game today, logs picks and "
+          help="Every hour, all day: snapshots every sport with a game today, logs picks and "
                "predictions, grades finished games. Same switch as on the Best Plays page.")
-st.caption("Every 2 hours, at 17 minutes past the hour (plus a 3:05 PM test slot).")
+st.caption("Every hour, at 17 minutes past the hour.")
 
 st.subheader("Other scheduled jobs")
 for key, label, when in JOBS:
