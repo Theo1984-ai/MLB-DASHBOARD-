@@ -27,6 +27,7 @@ EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
 LOG_DIR = "best_plays_log"
 LOOSE_TH = {"min_edge": -1.0, "min_stale": 1, "min_gap": 0.5, "max_juice": 1000}
+MIN_GAP_MINUTES = 45   # the workflow wakes every 10 minutes; a run is skipped if one finished this recently
 ODDS_KEY = os.environ.get("THE_ODDS_API_KEY", "")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
@@ -64,6 +65,15 @@ def grade_recent(now_et, days=7):
             if c["graded"] or c.get("no_data"):
                 gh.save_json(TOKEN, OWNER, REPO, path, log, commit_msg=f"{label} {d}: graded {c['graded']}")
                 print(f"graded {c['graded']} {label} for {d}")
+
+
+def minutes_since_last_run(now_et):
+    """Minutes since the last successful scheduled snapshot (heartbeat file), or None if there is none."""
+    t = load(f"{LOG_DIR}/last_run.json").get("t")
+    try:
+        return (now_et - datetime.fromisoformat(t)).total_seconds() / 60
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def send_alerts(plays, log, date, now_et, iso):
@@ -106,6 +116,14 @@ def main():
         return
     now_et = datetime.now(tz=EASTERN)
     date, hhmm, iso = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M"), now_et.isoformat()
+    # GitHub starts scheduled runs late or skips some, so the workflow is scheduled every 10 minutes and
+    # each wake-up only does the work when the last good run is old enough. That keeps it about hourly
+    # but lets the next wake-up catch up after a skipped slot. A manual "Run workflow" always runs.
+    if os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch":
+        ago = minutes_since_last_run(now_et)
+        if ago is not None and ago < MIN_GAP_MINUTES:
+            print(f"Last snapshot finished {ago:.0f} minutes ago (under {MIN_GAP_MINUTES}); skipping this wake-up.")
+            return
     plays, pred_rows, snaps, errors, failed = [], [], {}, [], []
     for sport in bp.SPORTS:
         try:
@@ -165,6 +183,9 @@ def main():
         errors.append(f"grading: {e}")
     for e in errors:
         print("note:", e)
+    if not failed:
+        gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/last_run.json", {"t": iso},
+                     commit_msg=f"Auto snapshot heartbeat {hhmm}")
     if failed:
         # Show the run red in GitHub (e.g. a bad Odds API key gives 401 for every sport), after saving what we could.
         sys.exit(f"Snapshot failed for: {', '.join(failed)}")
