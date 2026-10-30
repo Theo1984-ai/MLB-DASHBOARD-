@@ -20,7 +20,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-10-30T07:45:05.177060-04:00",
+      "t": "2026-10-30T08:57:00.776972-04:00",
       "line": 50.5,
       "price": -110,
       "book": "betonlineag",
@@ -58,6 +58,15 @@
         "book_line": 50.5,
         "book_over": -118,
         "book_under": -110
+      },
+      {
+        "t": "2026-10-30T08:57:00.776972-04:00",
+        "pin_line": 47.5,
+        "pin_over": -114,
+        "pin_under": -114,
+        "book_line": 50.5,
+        "book_over": -118,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -74,6 +83,66 @@
       "total": 46.5,
       "total_over": -114,
       "total_under": -102
+    }
+  },
+  "2026-10-30|NBA|team total|Detroit Pistons @ Brooklyn Nets|Detroit Pistons|team total|UNDER": {
+    "sport": "NBA",
+    "kind": "team total",
+    "game": "Detroit Pistons @ Brooklyn Nets",
+    "who": "Detroit Pistons",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-10-30T23:40:00Z",
+    "first_seen": {
+      "t": "2026-10-30T08:57:00.776972-04:00",
+      "line": 116.5,
+      "price": -115,
+      "book": "draftkings",
+      "pin_line": 114.5,
+      "pin_over": -110,
+      "pin_under": -106,
+      "edge": 0.0298,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-30T08:57:00.776972-04:00",
+      "line": 116.5,
+      "price": -115,
+      "book": "draftkings",
+      "pin_line": 114.5,
+      "pin_over": -110,
+      "pin_under": -106,
+      "edge": 0.0298,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-30T08:57:00.776972-04:00",
+        "pin_line": 114.5,
+        "pin_over": -110,
+        "pin_under": -106,
+        "book_line": 116.5,
+        "book_over": -105,
+        "book_under": -115
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Detroit Pistons",
+      "opp": "Brooklyn Nets",
+      "scope": "team",
+      "shift": -0.4,
+      "tag": "neutral",
+      "win_prob": 0.73,
+      "fav": "Detroit Pistons",
+      "fav_win_prob": 0.73,
+      "fav_spread": -8.5,
+      "blowout": false,
+      "total": 222.5,
+      "total_over": 102,
+      "total_under": -115
     }
   }
 }
