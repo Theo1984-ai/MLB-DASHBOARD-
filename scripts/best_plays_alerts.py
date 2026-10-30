@@ -47,6 +47,8 @@ def pick_alerts(plays, log, date, now_et, cfg=ALERT):
             continue
         if p["edge"] < cfg["min_edge"] or p["price"] < -cfg["max_juice"]:
             continue
+        if bp.play_tier(p)[0] != "A":      # only the plays that pass the sanity checks buzz your phone
+            continue
         if _parse(p["commence_time"]) - now_et < timedelta(minutes=cfg["min_minutes_to_start"]):
             continue
         if now_et - _parse(rec["first_seen"]["t"]) > timedelta(hours=cfg["max_age_hours"]):
@@ -60,7 +62,7 @@ def pick_alerts(plays, log, date, now_et, cfg=ALERT):
 
 
 def format_alert(picks):
-    lines = ["🎯 New play" + ("s" if len(picks) > 1 else "")]
+    lines = ["🎯 New Tier A play" + ("s" if len(picks) > 1 else "")]
     for _, p in picks:
         start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
         lines.append(f"\n{p['who']} {p['market']} {p['bet']} {p['line']} @ "

@@ -444,13 +444,26 @@ with tab_today:
             st.info("No plays clear the thresholds right now. Loosen them above, or snapshot "
                     "again closer to game time.")
         sort_by = st.radio("Sort plays by", ["⏰ Start time", "📈 Edge"], horizontal=True, key="bp_sort")
+        tier_view = st.radio("Show", ["All plays", "⭐ Tier A only"], horizontal=True, key="bp_tier",
+                             help="Tier A = passes four sanity checks: line gap to Pinnacle of 1 or less, not every "
+                                  "book off Pinnacle, Pinnacle's price not leaning against us, and not a football "
+                                  "yardage prop. Every play is logged with its tier, so the Track record tab shows "
+                                  "whether Tier A really does better.")
         ordered = (sorted(view["plays"], key=lambda p: (p["commence_time"], -p["adj"]))
                    if sort_by.startswith("⏰") else view["plays"])
+        if tier_view.startswith("⭐"):
+            ordered = [p for p in ordered if bp.play_tier(p)[0] == "A"]
+            if not ordered:
+                st.info("No Tier A plays right now. Switch to All plays to see the rest.")
         for p in ordered:
             when = datetime.fromisoformat(p["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
             is_over = p["bet"] == "OVER"
             bg, border, colour = ("#f0fdf4", "#86efac", "#15803d") if is_over else ("#eff6ff", "#93c5fd", "#1d4ed8")
             ctx = p.get("ctx") or {}
+            tier, tier_why = bp.play_tier(p)
+            tier_html = (f'<span title="{"; ".join(tier_why)}" style="background:{"#15803d" if tier == "A" else "#9ca3af"};'
+                         f'color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-right:6px;">'
+                         f'TIER {tier}</span>')
             tag_txt, tag_col = {"backed": ("✅ backed by game market", "#15803d"),
                                 "conflicts": ("⚠️ conflicts with game market", "#b45309"),
                                 "neutral": ("➖ game market neutral", "#6b7280")}.get(ctx.get("tag"), (None, None))
@@ -469,6 +482,8 @@ with tab_today:
                 bits.append(line)
             if ctx.get("blowout"):
                 bits.append('<span style="color:#b45309;font-weight:700;">⚠️ blowout risk, starters may sit</span>')
+            if tier == "B":
+                bits.append("Tier B: " + "; ".join(tier_why))
             ctx_html = (f'<div style="font-size:11px;color:#6b7280;margin-top:2px;">{" · ".join(bits)}</div>'
                         if bits else "")
             st.markdown(
@@ -478,7 +493,7 @@ with tab_today:
                 f'<span style="font-size:14px;font-weight:700;">{p["who"]}'
                 f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {p["game"]} · '
                 f'{bp.SPORTS[p["sport"]]["label"]}</span></span>'
-                f'<span style="font-size:11px;color:#6b7280;">{when.strftime("%a %I:%M %p")} ET</span></div>'
+                f'<span style="font-size:11px;color:#6b7280;">{tier_html}{when.strftime("%a %I:%M %p")} ET</span></div>'
                 f'<div style="display:flex;align-items:baseline;gap:10px;margin:2px 0;flex-wrap:wrap;">'
                 f'<span style="font-size:11px;color:#6b7280;">{p["market"]}</span>'
                 f'<span style="font-size:18px;font-weight:800;color:{colour};">{p["bet"]} {p["line"]}</span>'
@@ -700,7 +715,9 @@ with tab_track:
                     "group": "Group", "n": "Picks", "wins": "W", "losses": "L", "pushes": "Push",
                     "win_pct": "Win %", "roi_pct": "ROI % (1u flat)"}),
                     hide_index=True, use_container_width=True)
-                st.caption("Small samples are noise. Wait for ~100+ graded picks before trusting any row.")
+                st.caption("Small samples are noise. Wait for ~100+ graded picks before trusting any row. "
+                           "Tier A / Tier B without a note are tiers saved when the play was logged (the fair test). "
+                           "Picks logged before tiers existed were tiered afterwards (marked A* or B*), so they flatter Tier A.")
             if cu["n"]:
                 st.caption(f"Average gap to Pinnacle: {cu['avg_gap_first']} when first flagged → "
                            f"{cu['avg_gap_last']} at the last re-check.")
@@ -712,6 +729,7 @@ with tab_track:
                                  "Market": r["market"], "Bet": f"{r['bet']} {f['line']}",
                                  "Book": bp.BOOK_DISPLAY.get(f["book"], f["book"]),
                                  "Price": f["price"], "Edge %": round(f["edge"] * 100, 1),
+                                 "Tier": (lambda t: t[0] + ("" if t[1] else "*"))(bp.record_tier(r)),
                                  "Game market": (r.get("context") or {}).get("tag", "—"),
                                  "Result": res.get("outcome", "pending"), "Actual": res.get("actual"),
                                  "Game": r["game"]})
