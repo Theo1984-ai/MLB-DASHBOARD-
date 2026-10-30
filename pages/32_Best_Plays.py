@@ -318,8 +318,13 @@ if grade_btn:
 AUTO_PATH = f"{LOG_DIR}/auto_config.json"
 
 
-def _auto_changed():
-    on = st.session_state["bp_auto_on"]
+@st.cache_data(ttl=10, show_spinner=False)
+def load_auto(_token_present):
+    return _gh().load_json(GH_TOKEN, OWNER, REPO, AUTO_PATH) or {}
+
+
+def _auto_changed(wkey):
+    on = st.session_state[wkey]
     try:
         _gh().save_json(GH_TOKEN, OWNER, REPO, AUTO_PATH,
                         {"enabled": on, "updated": datetime.now(tz=EASTERN).isoformat()},
@@ -327,18 +332,26 @@ def _auto_changed():
         st.session_state.pop("bp_auto_err", None)
     except Exception as e:  # noqa: BLE001
         st.session_state["bp_auto_err"] = str(e)
+    load_auto.clear()
 
 
 if GH_TOKEN:
-    if "bp_auto_on" not in st.session_state:
-        try:
-            st.session_state["bp_auto_on"] = bool((_gh().load_json(GH_TOKEN, OWNER, REPO, AUTO_PATH) or {})
-                                                  .get("enabled", True))
-        except Exception:  # noqa: BLE001
-            st.session_state["bp_auto_on"] = True
-    st.toggle("⏱️ Auto snapshot every hour", key="bp_auto_on", on_change=_auto_changed,
+    # The switch always shows what is saved on GitHub: its key includes the saved timestamp, so any
+    # change (from either page, or a stale tab) rebuilds it from the saved value.
+    try:
+        auto_cfg, auto_err = load_auto(True), None
+    except Exception as e:  # noqa: BLE001
+        auto_cfg, auto_err = {}, str(e)
+    auto_on = auto_cfg.get("enabled", True) is not False
+    wkey = f"bp_auto_{auto_cfg.get('updated', 'none')}"
+    st.toggle("⏱️ Auto snapshot every hour", value=auto_on, key=wkey, on_change=_auto_changed, args=(wkey,),
               help="When on, a scheduled job takes the same snapshot as the 📸 button every hour "
                    "and saves it (plays, predictions, grading). Turn it off to stop using Odds API credits.")
+    st.caption("Saved on GitHub: " + ("ON" if auto_on else "OFF")
+               + (f" (changed {datetime.fromisoformat(auto_cfg['updated']).strftime('%a %I:%M %p').replace(' 0', ' ')} ET)"
+                  if auto_cfg.get("updated") else " (never changed)"))
+    if auto_err:
+        st.error(f"Couldn't read the auto snapshot setting: {auto_err}")
     if st.session_state.get("bp_auto_err"):
         st.error(f"Couldn't save the auto snapshot setting: {st.session_state['bp_auto_err']}")
 
