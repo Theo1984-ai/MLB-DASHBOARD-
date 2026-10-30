@@ -115,16 +115,16 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-10-30T11:12:34.445489-04:00",
+      "t": "2026-10-30T11:45:25.999711-04:00",
       "line": 115.5,
-      "price": -105,
+      "price": -102,
       "book": "draftkings",
       "pin_line": 114.5,
-      "pin_over": -113,
-      "pin_under": -103,
-      "edge": 0.0113,
-      "stale": 5,
-      "n_books": 5
+      "pin_over": -111,
+      "pin_under": -105,
+      "edge": 0.023,
+      "stale": 4,
+      "n_books": 4
     },
     "checks": [
       {
@@ -144,6 +144,15 @@
         "book_line": 115.5,
         "book_over": -115,
         "book_under": -105
+      },
+      {
+        "t": "2026-10-30T11:45:25.999711-04:00",
+        "pin_line": 114.5,
+        "pin_over": -111,
+        "pin_under": -105,
+        "book_line": 115.5,
+        "book_over": -118,
+        "book_under": -102
       }
     ],
     "result": null,
@@ -184,16 +193,16 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-10-30T11:12:34.445489-04:00",
-      "line": 12.5,
-      "price": -129,
+      "t": "2026-10-30T11:45:25.999711-04:00",
+      "line": 11.5,
+      "price": -104,
       "book": "betrivers",
       "pin_line": 10.5,
       "pin_over": -135,
       "pin_under": 102,
-      "edge": 0.0561,
-      "stale": 5,
-      "n_books": 5
+      "edge": 0.0322,
+      "stale": 4,
+      "n_books": 4
     },
     "checks": [
       {
@@ -204,6 +213,15 @@
         "book_line": 12.5,
         "book_over": -107,
         "book_under": -129
+      },
+      {
+        "t": "2026-10-30T11:45:25.999711-04:00",
+        "pin_line": 10.5,
+        "pin_over": -135,
+        "pin_under": 102,
+        "book_line": 11.5,
+        "book_over": -132,
+        "book_under": -104
       }
     ],
     "result": null,
@@ -221,7 +239,8 @@
       "total": 221.0,
       "total_over": -108,
       "total_under": -104
-    }
+    },
+    "alerted": "2026-10-30T11:45:25.999711-04:00"
   },
   "2026-10-30|NBA|prop|Chicago Bulls @ Boston Celtics|Jalen Smith|points|UNDER": {
     "sport": "NBA",
@@ -244,15 +263,15 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-10-30T11:12:34.445489-04:00",
+      "t": "2026-10-30T11:45:25.999711-04:00",
       "line": 11.5,
-      "price": -114,
+      "price": -112,
       "book": "betrivers",
       "pin_line": 10.5,
       "pin_over": -120,
       "pin_under": -110,
-      "edge": 0.0361,
-      "stale": 3,
+      "edge": 0.0405,
+      "stale": 4,
       "n_books": 5
     },
     "checks": [
@@ -264,6 +283,15 @@
         "book_line": 11.5,
         "book_over": -120,
         "book_under": -114
+      },
+      {
+        "t": "2026-10-30T11:45:25.999711-04:00",
+        "pin_line": 10.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 11.5,
+        "book_over": -122,
+        "book_under": -112
       }
     ],
     "result": null,
@@ -281,7 +309,8 @@
       "total": 235.0,
       "total_over": -105,
       "total_under": -107
-    }
+    },
+    "alerted": "2026-10-30T11:45:25.999711-04:00"
   },
   "2026-10-30|NBA|prop|Denver Nuggets @ Phoenix Suns|Aaron Gordon|points|OVER": {
     "sport": "NBA",
@@ -304,7 +333,7 @@
       "n_books": 6
     },
     "last_seen": {
-      "t": "2026-10-30T11:12:34.445489-04:00",
+      "t": "2026-10-30T11:45:25.999711-04:00",
       "line": 14.5,
       "price": -110,
       "book": "betrivers",
@@ -313,11 +342,20 @@
       "pin_under": -128,
       "edge": 0.0133,
       "stale": 4,
-      "n_books": 6
+      "n_books": 5
     },
     "checks": [
       {
         "t": "2026-10-30T11:12:34.445489-04:00",
+        "pin_line": 15.5,
+        "pin_over": -103,
+        "pin_under": -128,
+        "book_line": 14.5,
+        "book_over": -110,
+        "book_under": -124
+      },
+      {
+        "t": "2026-10-30T11:45:25.999711-04:00",
         "pin_line": 15.5,
         "pin_over": -103,
         "pin_under": -128,
@@ -342,5 +380,66 @@
       "total_over": -104,
       "total_under": -108
     }
+  },
+  "2026-10-30|NBA|prop|Orlando Magic @ Toronto Raptors|Franz Wagner|assists|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Orlando Magic @ Toronto Raptors",
+    "who": "Franz Wagner",
+    "market": "assists",
+    "bet": "UNDER",
+    "commence_time": "2026-10-30T23:40:00Z",
+    "first_seen": {
+      "t": "2026-10-30T11:45:25.999711-04:00",
+      "line": 6.5,
+      "price": -125,
+      "book": "williamhill_us",
+      "pin_line": 5.5,
+      "pin_over": -150,
+      "pin_under": 113,
+      "edge": 0.044,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-30T11:45:25.999711-04:00",
+      "line": 6.5,
+      "price": -125,
+      "book": "williamhill_us",
+      "pin_line": 5.5,
+      "pin_over": -150,
+      "pin_under": 113,
+      "edge": 0.044,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-30T11:45:25.999711-04:00",
+        "pin_line": 5.5,
+        "pin_over": -150,
+        "pin_under": 113,
+        "book_line": 6.5,
+        "book_over": -108,
+        "book_under": -125
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Orlando Magic",
+      "opp": "Toronto Raptors",
+      "scope": "team",
+      "shift": 0.19,
+      "tag": "neutral",
+      "win_prob": 0.345,
+      "fav": "Toronto Raptors",
+      "fav_win_prob": 0.655,
+      "fav_spread": -5.5,
+      "blowout": false,
+      "total": 226.5,
+      "total_over": -109,
+      "total_under": -103
+    },
+    "alerted": "2026-10-30T11:45:25.999711-04:00"
   }
 }
