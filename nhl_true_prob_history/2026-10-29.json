@@ -1,7 +1,7 @@
 {
   "date": "2026-10-29",
-  "snapshot_at": "2026-10-29T21:29:18.370344-04:00",
-  "n_picks": 17,
+  "snapshot_at": "2026-10-29T22:16:54.710319-04:00",
+  "n_picks": 19,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 17,
+    "n_total": 19,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -256,32 +256,28 @@
       "player": "Anaheim Ducks",
       "side": "Home",
       "point": 2.5,
-      "best_book": "fanduel",
-      "best_price": -350,
-      "true_prob_pct": 78.78,
-      "ev_per_100": 4.49,
-      "n_books": 4,
+      "best_book": "pinnacle",
+      "best_price": -332,
+      "true_prob_pct": 84.51,
+      "ev_per_100": 33.1,
+      "n_books": 3,
       "all_prices": [
         [
-          "fanduel",
-          -350
+          "pinnacle",
+          -332
         ],
         [
-          "pinnacle",
-          -362
+          "fanduel",
+          -700
         ],
         [
           "draftkings",
-          -385
-        ],
-        [
-          "bovada",
-          -390
+          -825
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-29T16:45:00.118405-04:00",
-      "last_seen_at": "2026-10-29T17:28:41.592670-04:00",
+      "last_seen_at": "2026-10-29T22:16:54.710267-04:00",
       "scan_history": [
         {
           "t": "2026-10-29T16:45:00.118405-04:00",
@@ -294,6 +290,12 @@
           "tp": 78.78,
           "ev": 4.49,
           "price": -350
+        },
+        {
+          "t": "2026-10-29T22:16:54.710267-04:00",
+          "tp": 84.51,
+          "ev": 33.1,
+          "price": -332
         }
       ]
     },
@@ -942,6 +944,104 @@
           "tp": 76.36,
           "ev": 3.07,
           "price": -310
+        }
+      ]
+    },
+    {
+      "event_id": "c8abddd6d4a9c96f45dcdd287f392537",
+      "game": "Sabres @ Ducks",
+      "away_team": "Buffalo Sabres",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-10-30T02:08:45Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Buffalo Sabres +2.5",
+      "player": "Buffalo Sabres",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "draftkings",
+      "best_price": -335,
+      "true_prob_pct": 80.16,
+      "ev_per_100": 13.71,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "bovada",
+          -335
+        ],
+        [
+          "fanduel",
+          -370
+        ],
+        [
+          "pinnacle",
+          -727
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-29T22:16:54.710267-04:00",
+      "last_seen_at": "2026-10-29T22:16:54.710267-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-29T22:16:54.710267-04:00",
+          "tp": 80.16,
+          "ev": 13.71,
+          "price": -335
+        }
+      ]
+    },
+    {
+      "event_id": "c8abddd6d4a9c96f45dcdd287f392537",
+      "game": "Sabres @ Ducks",
+      "away_team": "Buffalo Sabres",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-10-30T02:08:45Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Anaheim Ducks +1.5",
+      "player": "Anaheim Ducks",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -181,
+      "true_prob_pct": 76.49,
+      "ev_per_100": 33.94,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -181
+        ],
+        [
+          "fanduel",
+          -410
+        ],
+        [
+          "bovada",
+          -410
+        ],
+        [
+          "draftkings",
+          -420
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-29T22:16:54.710267-04:00",
+      "last_seen_at": "2026-10-29T22:16:54.710267-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-29T22:16:54.710267-04:00",
+          "tp": 76.49,
+          "ev": 33.94,
+          "price": -181
         }
       ]
     }
