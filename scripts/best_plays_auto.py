@@ -81,7 +81,22 @@ def send_alerts(plays, log, date, now_et, iso):
         print(f"Telegram: sent {len(picks)} alert(s)")
 
 
+def telegram_test():
+    """One test message, no Odds API calls. Started from the workflow's 'send_test_message' input."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat):
+        sys.exit("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are not both set as repo secrets.")
+    if not alerts.send_telegram(token, chat, "✅ Test message from your Best Plays auto snapshot. "
+                                "Telegram alerts are connected."):
+        sys.exit("Telegram did not accept the message. Check the token and chat ID secrets, "
+                 "and that you have sent your bot a message first.")
+    print("Telegram test message sent.")
+
+
 def main():
+    if os.environ.get("TELEGRAM_TEST") == "true":
+        telegram_test()
+        return
     if not (ODDS_KEY and TOKEN):
         sys.exit("THE_ODDS_API_KEY and GITHUB_TOKEN are required")
     # The page's toggle (best_plays_log/auto_config.json). A manual "Run workflow" ignores it.
