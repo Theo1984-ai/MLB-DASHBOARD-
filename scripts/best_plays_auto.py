@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from scripts import best_plays as bp  # noqa: E402
+from scripts import best_plays_alerts as alerts  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
 # pandas and the rest of the app, which the Actions runner doesn't install.
@@ -63,6 +64,21 @@ def grade_recent(now_et, days=7):
             if c["graded"] or c.get("no_data"):
                 gh.save_json(TOKEN, OWNER, REPO, path, log, commit_msg=f"{label} {d}: graded {c['graded']}")
                 print(f"graded {c['graded']} {label} for {d}")
+
+
+def send_alerts(plays, log, date, now_et, iso):
+    """Telegram the best new plays once (needs the two secrets; the Automation page can switch it off)."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat):
+        return
+    if load("automation_config.json").get("jobs", {}).get("telegram_alerts") is False:
+        print("Telegram alerts are switched off on the Automation page.")
+        return
+    picks = alerts.pick_alerts(plays, log, date, now_et)
+    if picks and alerts.send_telegram(token, chat, alerts.format_alert(picks)):
+        for pid, _ in picks:
+            log[pid]["alerted"] = iso
+        print(f"Telegram: sent {len(picks)} alert(s)")
 
 
 def main():
@@ -120,6 +136,7 @@ def main():
         log = load(f"{LOG_DIR}/picks/{date}.json")
         new = bp.update_log(log, plays, iso, date)
         checked = sum(bp.add_checks(log, r["props_snap"], r["tt_snap"], iso) for r in snaps.values())
+        send_alerts(plays, log, date, now_et, iso)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{date}.json", log,
                      commit_msg=f"Best plays log {date}: {new} new picks, {checked} checks")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
