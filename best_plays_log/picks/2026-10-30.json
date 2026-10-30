@@ -171,6 +171,15 @@
         "book_line": 115.5,
         "book_over": -110,
         "book_under": -110
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 114.5,
+        "pin_over": -111,
+        "pin_under": -105,
+        "book_line": 115.5,
+        "book_over": -110,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -211,7 +220,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-10-30T13:52:22.319467-04:00",
+      "t": "2026-10-30T14:44:28.461064-04:00",
       "line": 11.5,
       "price": -108,
       "book": "betrivers",
@@ -243,6 +252,15 @@
       },
       {
         "t": "2026-10-30T13:52:22.319467-04:00",
+        "pin_line": 10.5,
+        "pin_over": -135,
+        "pin_under": 102,
+        "book_line": 11.5,
+        "book_over": -127,
+        "book_under": -108
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
         "pin_line": 10.5,
         "pin_over": -135,
         "pin_under": 102,
@@ -328,6 +346,15 @@
         "book_line": 11.5,
         "book_over": -112,
         "book_under": -122
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 10.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 11.5,
+        "book_over": -112,
+        "book_under": -122
       }
     ],
     "result": null,
@@ -369,7 +396,7 @@
       "n_books": 6
     },
     "last_seen": {
-      "t": "2026-10-30T13:52:22.319467-04:00",
+      "t": "2026-10-30T14:44:28.461064-04:00",
       "line": 14.5,
       "price": -111,
       "book": "draftkings",
@@ -377,8 +404,8 @@
       "pin_over": -103,
       "pin_under": -128,
       "edge": 0.0111,
-      "stale": 4,
-      "n_books": 6
+      "stale": 3,
+      "n_books": 5
     },
     "checks": [
       {
@@ -407,6 +434,15 @@
         "book_line": 14.5,
         "book_over": -120,
         "book_under": -114
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 15.5,
+        "pin_over": -103,
+        "pin_under": -128,
+        "book_line": 14.5,
+        "book_over": -113,
+        "book_under": -121
       }
     ],
     "result": null,
@@ -476,6 +512,15 @@
         "book_line": 6.5,
         "book_over": -108,
         "book_under": -127
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 5.5,
+        "pin_over": -177,
+        "pin_under": 132,
+        "book_line": 6.5,
+        "book_over": -105,
+        "book_under": -130
       }
     ],
     "result": null,
@@ -537,6 +582,15 @@
         "book_line": 8.5,
         "book_over": -103,
         "book_under": -132
+      },
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 9.5,
+        "pin_over": 104,
+        "pin_under": -138,
+        "book_line": 8.5,
+        "book_over": -115,
+        "book_under": -117
       }
     ],
     "result": null,
@@ -555,5 +609,67 @@
       "total_over": -104,
       "total_under": -108
     }
+  },
+  "2026-10-30|NBA|prop|Detroit Pistons @ Brooklyn Nets|Paul Reed Jr|rebounds|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Detroit Pistons @ Brooklyn Nets",
+    "who": "Paul Reed Jr",
+    "market": "rebounds",
+    "bet": "UNDER",
+    "commence_time": "2026-10-30T23:40:00Z",
+    "first_seen": {
+      "t": "2026-10-30T14:44:28.461064-04:00",
+      "line": 9.5,
+      "price": -127,
+      "book": "draftkings",
+      "pin_line": 8.5,
+      "pin_over": -123,
+      "pin_under": -108,
+      "edge": 0.033,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-30T14:44:28.461064-04:00",
+      "line": 9.5,
+      "price": -127,
+      "book": "draftkings",
+      "pin_line": 8.5,
+      "pin_over": -123,
+      "pin_under": -108,
+      "edge": 0.033,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-30T14:44:28.461064-04:00",
+        "pin_line": 8.5,
+        "pin_over": -123,
+        "pin_under": -108,
+        "book_line": 9.5,
+        "book_over": -103,
+        "book_under": -127
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Detroit Pistons",
+      "opp": "Brooklyn Nets",
+      "scope": "team",
+      "shift": -0.33,
+      "tag": "n/a",
+      "win_prob": 0.738,
+      "fav": "Detroit Pistons",
+      "fav_win_prob": 0.738,
+      "fav_spread": -8.5,
+      "blowout": false,
+      "total": 221.0,
+      "total_over": -107,
+      "total_under": -105
+    },
+    "tier": "A",
+    "tier_why": []
   }
 }
