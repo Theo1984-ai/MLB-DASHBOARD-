@@ -2,8 +2,7 @@ name: Best Plays Auto Snapshot
 
 on:
   schedule:
-    - cron: '17 */2 * * *'  # every 2 hours, all day (UTC clock), off the busy top-of-hour slot
-    - cron: '5 19 * * *'    # extra test slot: 3:05 PM ET (EDT); remove once the schedule is confirmed
+    - cron: '17 * * * *'    # every hour, all day (UTC clock), off the busy top-of-hour slot
   workflow_dispatch:
     inputs:
       send_test_message:
