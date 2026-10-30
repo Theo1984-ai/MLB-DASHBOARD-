@@ -662,28 +662,36 @@ def _total_spec(sport):
     return ("pois", None) if sport == "NHL" else ("norm", GAME_TOTAL_SIGMA.get(sport, 15.0))
 
 
+def _total_prob_over(spec, line, mean):
+    """
+    Chance of Over as a share of Over + Under (a push is refunded, so it is left out). For a
+    half-point line that is just P(total > line); for a whole-number Poisson line it is
+    P(X > line) / (P(X > line) + P(X < line)), so Over and Under are compared on equal footing.
+    """
+    kind, sigma = spec
+    if kind == "norm":
+        return 1 - _norm_cdf((line - mean) / sigma)
+    over = _pois_sf(int(math.floor(line)) + 1, mean)
+    if line != math.floor(line):
+        return over
+    under = 1 - _pois_sf(int(line), mean)
+    return over / (over + under) if over + under > 0 else 0.5
+
+
 def _fit_total_mean(spec, line, p_over):
-    """Mean of the combined score that makes P(total > line) equal p_over."""
+    """Mean of the combined score that makes the Over share (see _total_prob_over) equal p_over."""
     kind, sigma = spec
     p = min(max(p_over, 0.02), 0.98)
     if kind == "norm":
         return line - sigma * _norm_ppf(1 - p)
-    k = int(math.floor(line)) + 1
     lo, hi = 1e-6, 400.0
     for _ in range(100):
         mid = (lo + hi) / 2
-        if _pois_sf(k, mid) < p:
+        if _total_prob_over(spec, line, mid) < p:
             lo = mid
         else:
             hi = mid
     return (lo + hi) / 2
-
-
-def _total_prob_over(spec, line, mean):
-    kind, sigma = spec
-    if kind == "norm":
-        return 1 - _norm_cdf((line - mean) / sigma)
-    return _pois_sf(int(math.floor(line)) + 1, mean)
 
 
 def predict_row(sport, row):
