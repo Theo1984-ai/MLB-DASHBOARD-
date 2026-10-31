@@ -65,7 +65,9 @@ def format_alert(picks):
     lines = ["🎯 New Tier A play" + ("s" if len(picks) > 1 else "")]
     for _, p in picks:
         start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
-        lines.append(f"\n{p['who']} {p['market']} {p['bet']} {p['line']} @ "
+        team = bp.play_team(p) if p.get("kind") == "prop" else None
+        who = f"{p['who']} ({team})" if team else p["who"]
+        lines.append(f"\n{who} {p['market']} {p['bet']} {p['line']} @ "
                      f"{bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d}\n"
                      f"Edge ~{p['edge'] * 100:.1f}% · {p['game']} · {start} ET")
     lines.append(f"\nCheck the price and injuries first. {APP_URL}")
