@@ -749,6 +749,15 @@
         "book_line": 14.5,
         "book_over": -113,
         "book_under": -121
+      },
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
+        "pin_line": 15.5,
+        "pin_over": -101,
+        "pin_under": -132,
+        "book_line": 14.5,
+        "book_over": -113,
+        "book_under": -121
       }
     ],
     "result": null,
@@ -1008,6 +1017,15 @@
       },
       {
         "t": "2026-10-30T19:30:14.485245-04:00",
+        "pin_line": 9.5,
+        "pin_over": -104,
+        "pin_under": -127,
+        "book_line": 8.5,
+        "book_over": -132,
+        "book_under": -103
+      },
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
         "pin_line": 9.5,
         "pin_over": -104,
         "pin_under": -127,
@@ -1362,6 +1380,15 @@
         "book_line": 7.5,
         "book_over": -104,
         "book_under": -122
+      },
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
+        "pin_line": 8.5,
+        "pin_over": 137,
+        "pin_under": -184,
+        "book_line": 7.5,
+        "book_over": -104,
+        "book_under": -122
       }
     ],
     "result": null,
@@ -1478,6 +1505,15 @@
         "pin_line": 33.5,
         "pin_over": -121,
         "pin_under": -109,
+        "book_line": 34.5,
+        "book_over": -114,
+        "book_under": -114
+      },
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
+        "pin_line": 33.5,
+        "pin_over": -126,
+        "pin_under": -105,
         "book_line": 34.5,
         "book_over": -114,
         "book_under": -114
@@ -3718,5 +3754,136 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-10-30|NBA|prop|Denver Nuggets @ Phoenix Suns|DeMar DeRozan|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Denver Nuggets @ Phoenix Suns",
+    "who": "DeMar DeRozan",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-10-31T02:10:00Z",
+    "first_seen": {
+      "t": "2026-10-30T20:30:14.473167-04:00",
+      "line": 12.5,
+      "price": -105,
+      "book": "draftkings",
+      "pin_line": 14.5,
+      "pin_over": 120,
+      "pin_under": -160,
+      "edge": 0.0425,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-30T20:30:14.473167-04:00",
+      "line": 12.5,
+      "price": -105,
+      "book": "draftkings",
+      "pin_line": 14.5,
+      "pin_over": 120,
+      "pin_under": -160,
+      "edge": 0.0425,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
+        "pin_line": 14.5,
+        "pin_over": 120,
+        "pin_under": -160,
+        "book_line": 12.5,
+        "book_over": -105,
+        "book_under": -121
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Denver Nuggets",
+      "opp": "Phoenix Suns",
+      "scope": "team",
+      "shift": -0.19,
+      "tag": "neutral",
+      "win_prob": 0.602,
+      "fav": "Denver Nuggets",
+      "fav_win_prob": 0.602,
+      "fav_spread": -4.0,
+      "blowout": false,
+      "total": 232.0,
+      "total_over": 101,
+      "total_under": -114
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
+    ]
+  },
+  "2026-10-30|NBA|prop|Denver Nuggets @ Phoenix Suns|Khaman Maluach|rebounds|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Denver Nuggets @ Phoenix Suns",
+    "who": "Khaman Maluach",
+    "market": "rebounds",
+    "bet": "OVER",
+    "commence_time": "2026-10-31T02:10:00Z",
+    "first_seen": {
+      "t": "2026-10-30T20:30:14.473167-04:00",
+      "line": 7.5,
+      "price": -122,
+      "book": "fanduel",
+      "pin_line": 8.5,
+      "pin_over": 107,
+      "pin_under": -142,
+      "edge": 0.0101,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-10-30T20:30:14.473167-04:00",
+      "line": 7.5,
+      "price": -122,
+      "book": "fanduel",
+      "pin_line": 8.5,
+      "pin_over": 107,
+      "pin_under": -142,
+      "edge": 0.0101,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-10-30T20:30:14.473167-04:00",
+        "pin_line": 8.5,
+        "pin_over": 107,
+        "pin_under": -142,
+        "book_line": 7.5,
+        "book_over": -122,
+        "book_under": -104
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Phoenix Suns",
+      "opp": "Denver Nuggets",
+      "scope": "team",
+      "shift": 0.49,
+      "tag": "n/a",
+      "win_prob": 0.398,
+      "fav": "Denver Nuggets",
+      "fav_win_prob": 0.602,
+      "fav_spread": -4.0,
+      "blowout": false,
+      "total": 232.0,
+      "total_over": 101,
+      "total_under": -114
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
+    ]
   }
 }
