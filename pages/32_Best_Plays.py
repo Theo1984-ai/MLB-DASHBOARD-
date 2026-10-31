@@ -477,6 +477,9 @@ with tab_today:
             tier_html = (f'<span title="{"; ".join(tier_why)}" style="background:{"#15803d" if tier == "A" else "#9ca3af"};'
                          f'color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-right:6px;">'
                          f'TIER {tier}</span>')
+            team = bp.play_team(p) if p["kind"] == "prop" else None
+            team_html = (f'<span style="background:#e5e7eb;color:#111827;font-size:10px;font-weight:700;'
+                         f'padding:1px 6px;border-radius:3px;margin-left:6px;">{team}</span>' if team else "")
             tag_txt, tag_col = {"backed": ("✅ backed by game market", "#15803d"),
                                 "conflicts": ("⚠️ conflicts with game market", "#b45309"),
                                 "neutral": ("➖ game market neutral", "#6b7280")}.get(ctx.get("tag"), (None, None))
@@ -503,7 +506,7 @@ with tab_today:
                 f'<div style="background:{bg};border:1.5px solid {border};border-radius:8px;'
                 f'padding:10px 14px;margin-bottom:6px;color:#111827;">'
                 f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
-                f'<span style="font-size:14px;font-weight:700;">{p["who"]}'
+                f'<span style="font-size:14px;font-weight:700;">{p["who"]}{team_html}'
                 f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {p["game"]} · '
                 f'{bp.SPORTS[p["sport"]]["label"]}</span></span>'
                 f'<span style="font-size:11px;color:#6b7280;">{tier_html}{when.strftime("%a %I:%M %p")} ET</span></div>'
@@ -742,6 +745,7 @@ with tab_track:
                                  "Market": r["market"], "Bet": f"{r['bet']} {f['line']}",
                                  "Book": bp.BOOK_DISPLAY.get(f["book"], f["book"]),
                                  "Price": f["price"], "Edge %": round(f["edge"] * 100, 1),
+                                 "Team": bp.record_team(r) or "—",
                                  "Tier": (lambda t: t[0] + ("" if t[1] else "*"))(bp.record_tier(r)),
                                  "Game market": (r.get("context") or {}).get("tag", "—"),
                                  "Result": res.get("outcome", "pending"), "Actual": res.get("actual"),

@@ -533,6 +533,16 @@ def player_team(roster, away, home, who):
     return None
 
 
+def play_team(p):
+    """The team a player prop is on (None when the roster doesn't have the player, or for non-props)."""
+    return (p.get("ctx") or {}).get("team")
+
+
+def record_team(rec):
+    """Same, for a logged pick (the team is stored in its context when the play is first logged)."""
+    return (rec.get("context") or {}).get("team")
+
+
 def game_line_info(sport, game_snap, game, team):
     """Pinnacle's moneyline / spread / total for the game, from `team`'s side when known."""
     ctx = next((g.get("ctx") for g in (game_snap or {}).get("games", []) if g["game"] == game), None)
