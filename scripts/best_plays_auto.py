@@ -149,7 +149,8 @@ def main():
             teams = {t for g in res["tt_snap"]["games"] + res["props_snap"]["games"] for t in (g["away"], g["home"])}
             path = f"{LOG_DIR}/rosters/{sport}.json"
             roster_cache = load(path)
-            roster_cache, _errs, changed = bp.espn_rosters(sport, teams, roster_cache)
+            roster_cache, r_errs, changed = bp.espn_rosters(sport, teams, roster_cache)
+            errors += r_errs[:5]                 # shown in the run log so a team that never gets a roster is visible
             if changed:
                 gh.save_json(TOKEN, OWNER, REPO, path, roster_cache, commit_msg=f"Roster cache {sport}")
         except Exception as e:  # noqa: BLE001
