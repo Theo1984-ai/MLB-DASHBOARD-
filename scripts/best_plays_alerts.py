@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from scripts import best_plays as bp
+from scripts import injuries as injm
 
 EASTERN = ZoneInfo("America/New_York")
 APP_URL = "https://theo1984-mlb.streamlit.app"
@@ -31,7 +32,7 @@ def _parse(ts):
     return datetime.fromisoformat(ts.replace("Z", "+00:00"))
 
 
-def pick_alerts(plays, log, date, now_et, cfg=ALERT):
+def pick_alerts(plays, log, date, now_et, cfg=ALERT, inj=None):
     """New plays worth a notification: [(pick id, play)], best first. `log` is the day's pick log."""
     if now_et.hour >= cfg["quiet_start"] or now_et.hour < cfg["quiet_end"]:
         return []
@@ -55,18 +56,24 @@ def pick_alerts(plays, log, date, now_et, cfg=ALERT):
             continue
         if p["sport"] in ("NFL", "CFB") and p["market"].endswith("_yds") and p["line"] < cfg["min_yard_line"]:
             continue
+        e = injm.play_injury(inj, p)
+        if e and injm.severity(e["status"]) >= injm.STAYS_OFF_ALERTS:   # Out / Doubtful: skip
+            continue
         out.append((pid, p))
         if len(out) >= room:
             break
     return out
 
 
-def format_alert(picks):
+def format_alert(picks, inj=None):
     lines = ["🎯 New Tier A play" + ("s" if len(picks) > 1 else "")]
     for _, p in picks:
         start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
         team = bp.play_team(p) if p.get("kind") == "prop" else None
         who = f"{p['who']} ({team})" if team else p["who"]
+        e = injm.play_injury(inj, p)
+        if e:
+            who += f" ⚠️ {e['status']}"
         lines.append(f"\n{who} {p['market']} {p['bet']} {p['line']} @ "
                      f"{bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d}\n"
                      f"Edge ~{p['edge'] * 100:.1f}% · {p['game']} · {start} ET")
