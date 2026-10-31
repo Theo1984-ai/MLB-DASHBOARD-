@@ -526,10 +526,24 @@ def team_means(sport, tt_snap):
 
 
 def player_team(roster, away, home, who):
+    """
+    The team (away or home) whose roster has this player, or None. Tolerates punctuation and spacing
+    differences between the odds feed and ESPN (A.J. vs AJ, J'Koby vs JKoby) and a nickname for the
+    first name (Herb vs Herbert) when the last name matches on the same team.
+    """
     nm = norm_name(who)
+    ck, toks = nm.replace(" ", ""), nm.split()
     for team in (away, home):
-        if nm in set((roster or {}).get(team, ())):
+        names = (roster or {}).get(team, ())
+        if nm in names or any(n.replace(" ", "") == ck for n in names):
             return team
+    if len(toks) >= 2:
+        for team in (away, home):
+            for n in (roster or {}).get(team, ()):
+                t = n.split()
+                if len(t) >= 2 and t[-1] == toks[-1] and min(len(t[0]), len(toks[0])) >= 3 \
+                        and (t[0].startswith(toks[0]) or toks[0].startswith(t[0])):
+                    return team
     return None
 
 
@@ -1034,6 +1048,8 @@ def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5
 
     def stale(t):
         try:
+            if not cache[t].get("names"):
+                return True                      # an empty roster is a failed fetch: try again
             age = (datetime.fromisoformat(today) - datetime.fromisoformat(cache[t]["fetched"])).days
         except Exception:  # noqa: BLE001
             return True
@@ -1054,8 +1070,16 @@ def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5
             errors.append(f"{sport} roster: no ESPN team for {name}")
             continue
         try:
-            data = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/teams/{hits[0]['id']}/roster")
-            cache[name] = {"names": sorted(_roster_names(data)), "fetched": today}
+            url = f"{ESPN_API}/{SPORTS[sport]['espn']}/teams/{hits[0]['id']}/roster"
+            try:
+                data = fetch(url + "?limit=500")     # college rosters were coming back capped at 100 names
+            except Exception:  # noqa: BLE001
+                data = fetch(url)
+            names = sorted(_roster_names(data))
+            if not names:
+                errors.append(f"{sport} roster {name}: ESPN returned an empty roster (will retry)")
+                continue
+            cache[name] = {"names": names, "fetched": today}
             changed = True
         except Exception as e:  # noqa: BLE001
             errors.append(f"{sport} roster {name}: {e}")
