@@ -1,7 +1,7 @@
 {
   "date": "2026-10-31",
-  "snapshot_at": "2026-10-31T16:20:53.697673-04:00",
-  "n_picks": 14,
+  "snapshot_at": "2026-10-31T18:58:43.732501-04:00",
+  "n_picks": 15,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 14,
+    "n_total": 15,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -38,8 +38,8 @@
       "point": null,
       "best_book": "draftkings",
       "best_price": -380,
-      "true_prob_pct": 81.49,
-      "ev_per_100": 11.13,
+      "true_prob_pct": 80.37,
+      "ev_per_100": 5.77,
       "n_books": 5,
       "all_prices": [
         [
@@ -47,25 +47,25 @@
           -380
         ],
         [
-          "pinnacle",
-          -438
-        ],
-        [
           "fanduel",
-          -450
+          -385
         ],
         [
-          "betrivers",
-          -455
+          "pinnacle",
+          -385
         ],
         [
           "bovada",
-          -490
+          -415
+        ],
+        [
+          "betrivers",
+          -500
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-31T15:37:55.651014-04:00",
-      "last_seen_at": "2026-10-31T16:20:53.697612-04:00",
+      "last_seen_at": "2026-10-31T18:58:43.732441-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T15:37:55.651014-04:00",
@@ -77,6 +77,12 @@
           "t": "2026-10-31T16:20:53.697612-04:00",
           "tp": 81.49,
           "ev": 11.13,
+          "price": -380
+        },
+        {
+          "t": "2026-10-31T18:58:43.732441-04:00",
+          "tp": 80.37,
+          "ev": 5.77,
           "price": -380
         }
       ]
@@ -460,32 +466,32 @@
       "player": "Montr\u00e9al Canadiens",
       "side": "Home",
       "point": 1.5,
-      "best_book": "fanduel",
-      "best_price": -300,
-      "true_prob_pct": 76.6,
-      "ev_per_100": 6.41,
+      "best_book": "draftkings",
+      "best_price": -290,
+      "true_prob_pct": 75.9,
+      "ev_per_100": 6.02,
       "n_books": 4,
       "all_prices": [
+        [
+          "draftkings",
+          -290
+        ],
         [
           "fanduel",
           -300
         ],
         [
-          "draftkings",
-          -320
-        ],
-        [
           "pinnacle",
-          -334
+          -325
         ],
         [
           "bovada",
-          -360
+          -350
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-31T15:37:55.651014-04:00",
-      "last_seen_at": "2026-10-31T16:20:53.697612-04:00",
+      "last_seen_at": "2026-10-31T18:58:43.732441-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T15:37:55.651014-04:00",
@@ -498,6 +504,12 @@
           "tp": 76.6,
           "ev": 6.41,
           "price": -300
+        },
+        {
+          "t": "2026-10-31T18:58:43.732441-04:00",
+          "tp": 75.9,
+          "ev": 6.02,
+          "price": -290
         }
       ]
     },
@@ -571,31 +583,31 @@
       "side": "Over",
       "point": 4.5,
       "best_book": "draftkings",
-      "best_price": -290,
-      "true_prob_pct": 75.39,
-      "ev_per_100": 4.0,
+      "best_price": -300,
+      "true_prob_pct": 75.77,
+      "ev_per_100": 3.1,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -290
+          -300
         ],
         [
           "fanduel",
           -310
         ],
         [
-          "bovada",
-          -310
+          "pinnacle",
+          -317
         ],
         [
-          "pinnacle",
-          -316
+          "bovada",
+          -325
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-31T15:37:55.651014-04:00",
-      "last_seen_at": "2026-10-31T16:20:53.697612-04:00",
+      "last_seen_at": "2026-10-31T18:58:43.732441-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T15:37:55.651014-04:00",
@@ -608,6 +620,12 @@
           "tp": 75.39,
           "ev": 4.0,
           "price": -290
+        },
+        {
+          "t": "2026-10-31T18:58:43.732441-04:00",
+          "tp": 75.77,
+          "ev": 3.1,
+          "price": -300
         }
       ]
     },
@@ -747,6 +765,51 @@
           "tp": 77.84,
           "ev": 3.59,
           "price": -335
+        }
+      ]
+    },
+    {
+      "event_id": "d8dd95fa4fc001a1ea9f6629a8c8ffee",
+      "game": "Oilers @ Rangers",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New York Rangers",
+      "first_pitch": "2026-11-01T23:00:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Rangers +1.5",
+      "player": "New York Rangers",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -300,
+      "true_prob_pct": 76.9,
+      "ev_per_100": 7.58,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -300
+        ],
+        [
+          "pinnacle",
+          -343
+        ],
+        [
+          "bovada",
+          -360
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-31T18:58:43.732441-04:00",
+      "last_seen_at": "2026-10-31T18:58:43.732441-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-31T18:58:43.732441-04:00",
+          "tp": 76.9,
+          "ev": 7.58,
+          "price": -300
         }
       ]
     }
