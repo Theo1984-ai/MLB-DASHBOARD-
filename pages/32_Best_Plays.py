@@ -19,6 +19,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from scripts import best_plays as bp  # noqa: E402
+from scripts import injuries as injm  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
@@ -182,6 +183,18 @@ def load_rosters(_token_present):
     gh = _gh()
     return {sport: gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/rosters/{sport}.json") or {}
             for sport in bp.SPORTS}
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def load_injuries(_token_present):
+    gh = _gh()
+    out = {}
+    for sport in injm.PATHS:
+        try:
+            out[sport] = gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/injuries/{sport}.json") or {}
+        except Exception:  # noqa: BLE001
+            out[sport] = {}
+    return out
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -478,8 +491,12 @@ with tab_today:
                          f'color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-right:6px;">'
                          f'TIER {tier}</span>')
             team = bp.play_team(p) if p["kind"] == "prop" else None
+            try:
+                inj_html = injm.badge(injm.play_injury(load_injuries(True), p))
+            except Exception:  # noqa: BLE001
+                inj_html = ""
             team_html = (f'<span style="background:#e5e7eb;color:#111827;font-size:10px;font-weight:700;'
-                         f'padding:1px 6px;border-radius:3px;margin-left:6px;">{team}</span>' if team else "")
+                         f'padding:1px 6px;border-radius:3px;margin-left:6px;">{team}</span>' if team else "") + inj_html
             tag_txt, tag_col = {"backed": ("✅ backed by game market", "#15803d"),
                                 "conflicts": ("⚠️ conflicts with game market", "#b45309"),
                                 "neutral": ("➖ game market neutral", "#6b7280")}.get(ctx.get("tag"), (None, None))

@@ -16,6 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from scripts import best_plays as bp  # noqa: E402
 from scripts import best_plays_alerts as alerts  # noqa: E402
+from scripts import injuries as injm  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
 # pandas and the rest of the app, which the Actions runner doesn't install.
@@ -76,7 +77,7 @@ def minutes_since_last_run(now_et):
         return None
 
 
-def send_alerts(plays, log, date, now_et, iso):
+def send_alerts(plays, log, date, now_et, iso, inj=None):
     """Telegram the best new plays once (needs the two secrets; the Automation page can switch it off)."""
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
     if not (token and chat):
@@ -84,11 +85,33 @@ def send_alerts(plays, log, date, now_et, iso):
     if load("automation_config.json").get("jobs", {}).get("telegram_alerts") is False:
         print("Telegram alerts are switched off on the Automation page.")
         return
-    picks = alerts.pick_alerts(plays, log, date, now_et)
-    if picks and alerts.send_telegram(token, chat, alerts.format_alert(picks)):
+    picks = alerts.pick_alerts(plays, log, date, now_et, inj=inj)
+    if picks and alerts.send_telegram(token, chat, alerts.format_alert(picks, inj)):
         for pid, _ in picks:
             log[pid]["alerted"] = iso
         print(f"Telegram: sent {len(picks)} alert(s)")
+
+
+def refresh_injuries(date, errors):
+    """Fetch ESPN injuries and lineups for every sport and save them (only when changed).
+    Returns {sport: {"teams": ...}} for the alerts; a sport that fails keeps its last saved copy."""
+    out = {}
+    for sport in injm.PATHS:
+        path = f"{LOG_DIR}/injuries/{sport}.json"
+        try:
+            old = load(path)
+            new = {"teams": injm.fetch_injuries(sport), "lineups": injm.fetch_lineups(sport, date), "date": date}
+            out[sport] = new
+            if {k: old.get(k) for k in new} != new:
+                new["fetched"] = datetime.now(tz=EASTERN).isoformat()
+                gh.save_json(TOKEN, OWNER, REPO, path, new, commit_msg=f"Injuries {sport}")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{sport} injuries: {e}")
+            try:
+                out[sport] = load(path)
+            except Exception:  # noqa: BLE001
+                pass
+    return out
 
 
 def is_manual():
@@ -168,6 +191,7 @@ def main():
         pred_rows += bp.predict_rows(sport, bp.build_game_rows(
             sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et))
     plays.sort(key=lambda p: -p["adj"])
+    inj = refresh_injuries(date, errors)
 
     if snaps:
         for sport, res in snaps.items():
@@ -177,7 +201,7 @@ def main():
         log = load(f"{LOG_DIR}/picks/{date}.json")
         new = bp.update_log(log, plays, iso, date)
         checked = sum(bp.add_checks(log, r["props_snap"], r["tt_snap"], iso) for r in snaps.values())
-        send_alerts(plays, log, date, now_et, iso)
+        send_alerts(plays, log, date, now_et, iso, inj)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{date}.json", log,
                      commit_msg=f"Best plays log {date}: {new} new picks, {checked} checks")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
