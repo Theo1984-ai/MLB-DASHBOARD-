@@ -525,6 +525,9 @@ def team_means(sport, tt_snap):
     return out
 
 
+ROSTER_VERSION = 2   # bump to make every cached roster refetch once (v2 = asked ESPN for the full list)
+
+
 def player_team(roster, away, home, who):
     """
     The team (away or home) whose roster has this player, or None. Tolerates punctuation and spacing
@@ -1048,8 +1051,8 @@ def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5
 
     def stale(t):
         try:
-            if not cache[t].get("names"):
-                return True                      # an empty roster is a failed fetch: try again
+            if not cache[t].get("names") or cache[t].get("v") != ROSTER_VERSION:
+                return True                      # empty = failed fetch; older version = fetched capped at 100 names
             age = (datetime.fromisoformat(today) - datetime.fromisoformat(cache[t]["fetched"])).days
         except Exception:  # noqa: BLE001
             return True
@@ -1079,7 +1082,7 @@ def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5
             if not names:
                 errors.append(f"{sport} roster {name}: ESPN returned an empty roster (will retry)")
                 continue
-            cache[name] = {"names": names, "fetched": today}
+            cache[name] = {"names": names, "fetched": today, "v": ROSTER_VERSION}
             changed = True
         except Exception as e:  # noqa: BLE001
             errors.append(f"{sport} roster {name}: {e}")
