@@ -360,6 +360,35 @@ def _price_str(p):
     return f"{p:+d}" if p is not None else "—"
 
 
+
+# Sport key -> roster file written by the Best Plays snapshot (player -> team, from ESPN).
+ROSTER_CODE = {"basketball_nba": "NBA", "americanfootball_nfl": "NFL",
+               "icehockey_nhl": "NHL", "americanfootball_ncaaf": "CFB"}
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def _load_roster(code):
+    if not (code and GH_TOKEN):
+        return {}
+    try:
+        from data import github_storage as gh
+        from scripts import best_plays as bp
+        return bp.roster_lookup(gh.load_json(GH_TOKEN, GH_OWNER, GH_REPO, f"best_plays_log/rosters/{code}.json") or {})
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def _team_badge(roster, game_name, player):
+    """A small team label for a player, or '' when the roster doesn't have them."""
+    from scripts import best_plays as bp
+    away, _, home = game_name.partition(" @ ")
+    team = bp.player_team(roster, away, home, player)
+    if not team:
+        return ""
+    return (f' <span style="background:#e5e7eb;color:#111827;font-size:10px;font-weight:700;'
+            f'padding:1px 6px;border-radius:3px;">{team}</span>')
+
+
 def render_sport_tab(sport_label, sport_cfg):
     sport_key  = sport_cfg["key"]
     markets    = sport_cfg["markets"]
@@ -421,6 +450,7 @@ def render_sport_tab(sport_label, sport_cfg):
         return
 
     history      = load_history(sport_key, n=15)
+    roster       = _load_roster(ROSTER_CODE.get(sport_key))
     sorted_games = sorted(snap.get("games", []), key=lambda g: g.get("commence_time", ""))
 
     all_plays  = []
@@ -551,7 +581,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 f'border-radius:8px;padding:10px 14px;margin-bottom:6px;">'
                 f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;">'
                 f'<span style="font-size:14px;font-weight:700;color:#111827;">'
-                f'{seq_tag}{play["player"]}{streak_html}'
+                f'{seq_tag}{play["player"]}{_team_badge(roster, play["game"], play["player"])}{streak_html}'
                 f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {play["game"]}</span></span>'
                 f'<span style="font-size:11px;color:#9ca3af;">{play["time"]} ET</span></div>'
                 f'<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:2px;">'
@@ -593,7 +623,7 @@ def render_sport_tab(sport_label, sport_cfg):
             icon_m, name_m = mk_display.get(market, ("", market))
             st.markdown(
                 f'<div style="padding:10px 14px;border-radius:8px;margin-bottom:8px;{LEVEL_CSS[top_name]}">'
-                f'<strong>{LEVEL_ICON[top_name]} {player}</strong> — {icon_m} {name_m}'
+                f'<strong>{LEVEL_ICON[top_name]} {player}</strong>{_team_badge(roster, gname, player)} — {icon_m} {name_m}'
                 f'<span style="font-size:12px;font-weight:400;"> &nbsp;{gname} ({gtime} ET)</span><br>'
                 + "".join(
                     f'<span style="margin-right:14px;font-size:12px;">'
@@ -647,7 +677,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 nbg    = "background:#f0fdf4;" if has_ap else ""
                 st.markdown(
                     f'<div style="font-size:13px;font-weight:700;color:#111827;margin:10px 0 4px;'
-                    f'padding:4px 8px;border-radius:4px;{nbg}">{pname}{sh}</div>',
+                    f'padding:4px 8px;border-radius:4px;{nbg}">{pname}{_team_badge(roster, gd["game"], pname)}{sh}</div>',
                     unsafe_allow_html=True,
                 )
                 for r in p_rows:
