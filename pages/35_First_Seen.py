@@ -106,12 +106,16 @@ def render_today(sport, recs_by_day, key, day):
     inj = load_injuries(True)
     roster = load_roster(sport, True)
     rows = []
-    past = day != today
+    past = day < today
+    open_only = False
+    if not past:
+        open_only = st.radio("Show", ["All of today's plays", "Games not started"], horizontal=True,
+                             key=f"show_{key}") == "Games not started"
     for r in recs_by_day.get(day, {}).values():
         if r["sport"] != sport:
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
-        if tip <= now and not past:
+        if tip <= now and open_only:
             continue
         seen = fs._parse(r["first_seen"]["t"]).astimezone(EASTERN)
         away, _, home = r["game"].partition(" @ ")
@@ -126,7 +130,9 @@ def render_today(sport, recs_by_day, key, day):
         st.markdown(f"**{len(rows)} line splits on {day}** · graded {w + l + sum(d.get('outcome') == 'push' for d in done)}"
                     f" · **{w}-{l}** · {units:+.1f}u")
     else:
-        st.markdown(f"**{len(rows)} open line splits today**")
+        started = sum(x["tip"] <= now for x in rows)
+        st.markdown(f"**{len(rows)} line splits {'today' if day == today else 'on ' + day}** · "
+                    f"{len(rows) - started} not started · {started} started")
     if sort == "Time and team":
         rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"], x["r"]["who"]))
     elif sort == "Biggest gap":
@@ -150,9 +156,10 @@ def render_today(sport, recs_by_day, key, day):
             res_html = (f'<span style="background:{rc};color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
                         f'border-radius:3px;margin-right:6px;">{out.upper()}'
                         f'{f" · {actual:g}" if isinstance(actual, (int, float)) else ""}</span>')
-        elif past:
+        elif past or x["tip"] <= now:
+            label = "PENDING" if past else "STARTED"
             res_html = ('<span style="background:#9ca3af;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
-                        'border-radius:3px;margin-right:6px;">PENDING</span>')
+                        f'border-radius:3px;margin-right:6px;">{label}</span>')
         else:
             res_html = ""
         st.markdown(
@@ -213,9 +220,12 @@ def render_results(sport):
 
 
 days = sorted(set(logs) | {today}, reverse=True)
-day = st.selectbox("Date", days, key="fs_day",
-                   format_func=lambda d: datetime.strptime(d, "%Y-%m-%d").strftime("%a %b %d").replace(" 0", " ")
-                   + (" (today)" if d == today else ""))
+def _day_label(d):
+    txt = datetime.strptime(d, "%Y-%m-%d").strftime("%a %b %d").replace(" 0", " ")
+    return txt + (" (today)" if d == today else " (upcoming)" if d > today else "")
+
+
+day = st.selectbox("Date", days, index=days.index(today), key="fs_day", format_func=_day_label)
 tabs = st.tabs([label for _, label in SPORT_TABS])
 for tab, (sport, _) in zip(tabs, SPORT_TABS):
     with tab:
