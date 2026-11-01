@@ -123,3 +123,14 @@ def summarize(recs, key):
         a["p"] += o == "push"
         a["units"] += res.get("profit") or 0.0
     return dict(agg)
+
+
+def first_wave(log):
+    """Only the splits that showed up in the day's first snapshot with any (per sport): the 'first wave'.
+    Later arrivals are dropped. `log` is one day's {pick id: record}."""
+    first = {}
+    for r in log.values():
+        t = r["first_seen"]["t"]
+        if r["sport"] not in first or t < first[r["sport"]]:
+            first[r["sport"]] = t
+    return {pid: r for pid, r in log.items() if r["first_seen"]["t"] == first[r["sport"]]}
