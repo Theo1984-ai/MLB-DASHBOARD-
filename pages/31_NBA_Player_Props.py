@@ -40,6 +40,16 @@ SPORTS = {
             "player_turnovers": ("🔄", "Turnovers"),
         },
     },
+    "🏀 NCAAB": {
+        "key":      "basketball_ncaab",
+        "markets":  ["player_points", "player_rebounds", "player_assists", "player_threes"],
+        "display": {
+            "player_points":    ("🏀", "Points"),
+            "player_rebounds":  ("💪", "Rebounds"),
+            "player_assists":   ("🎯", "Assists"),
+            "player_threes":    ("3️⃣", "3-Pointers"),
+        },
+    },
     "🏈 NFL": {
         "key":      "americanfootball_nfl",
         "markets":  [
@@ -362,7 +372,7 @@ def _price_str(p):
 
 
 # Sport key -> roster file written by the Best Plays snapshot (player -> team, from ESPN).
-ROSTER_CODE = {"basketball_nba": "NBA", "americanfootball_nfl": "NFL",
+ROSTER_CODE = {"basketball_nba": "NBA", "basketball_ncaab": "NCAAB", "americanfootball_nfl": "NFL",
                "icehockey_nhl": "NHL", "americanfootball_ncaaf": "CFB"}
 
 

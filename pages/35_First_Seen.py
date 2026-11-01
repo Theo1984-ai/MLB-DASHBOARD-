@@ -93,7 +93,7 @@ if not logs:
 now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
-SPORT_TABS = [("NBA", "NBA 🏀"), ("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("CFB", "CFB 🎓")]
+SPORT_TABS = [("NBA", "NBA 🏀"), ("NCAAB", "NCAAB 🏀"), ("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("CFB", "CFB 🎓")]
 
 
 def pct(w, l):
