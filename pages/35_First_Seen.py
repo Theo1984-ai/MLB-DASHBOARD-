@@ -115,26 +115,44 @@ def render_today(sport, recs_by_day, key):
         seen = fs._parse(r["first_seen"]["t"]).astimezone(EASTERN)
         away, _, home = r["game"].partition(" @ ")
         e = injm.find((inj.get(r["sport"]) or {}).get("teams"), away, home, r["who"])
-        team = bp.player_team(roster, away, home, r["who"]) or ""
-        rows.append({"_seen": seen, "_tip": tip, "First seen": seen.strftime("%I:%M %p").lstrip("0"),
-                     "Tip-off": tip.strftime("%I:%M %p").lstrip("0"), "Game": r["game"], "Team": team,
-                     "Lead (h)": round(fs.hours_before_tip(r), 1), "Player": r["who"],
-                     "Market": r["market"], "Bet": r["bet"], "Line": r["first_seen"]["line"],
-                     "Book": bp.BOOK_DISPLAY.get(r["first_seen"]["book"], r["first_seen"]["book"]),
-                     "Price": r["first_seen"]["price"], "Pinnacle": r["first_seen"]["pin_line"],
-                     "Gap": r["first_seen"]["gap"], "Books off": r["first_seen"]["stale"],
-                     "Injury": e["status"] if e and injm.is_real(e["status"]) else ""})
+        rows.append({"r": r, "seen": seen, "tip": tip, "team": bp.player_team(roster, away, home, r["who"]) or "",
+                     "inj": e if e and injm.is_real(e["status"]) else None})
     st.markdown(f"**{len(rows)} open line splits today**")
-    if not rows:
-        return
-    df = pd.DataFrame(rows)
     if sort == "Time and team":
-        df = df.sort_values(["_tip", "Game", "Team", "Player"])
+        rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"], x["r"]["who"]))
     elif sort == "Biggest gap":
-        df = df.sort_values(["Gap", "Books off"], ascending=False)
+        rows.sort(key=lambda x: (-x["r"]["first_seen"]["gap"], -x["r"]["first_seen"]["stale"]))
     else:
-        df = df.sort_values("_seen", ascending=(sort == "Earliest first"))
-    st.dataframe(df.drop(columns=["_seen", "_tip"]), hide_index=True, use_container_width=True)
+        rows.sort(key=lambda x: x["seen"], reverse=(sort == "Newest first"))
+    for x in rows:
+        r, fsn = x["r"], x["r"]["first_seen"]
+        is_over = r["bet"] == "OVER"
+        bg, border, colour = ("#f0fdf4", "#86efac", "#15803d") if is_over else ("#eff6ff", "#93c5fd", "#1d4ed8")
+        team_html = (f'<span style="background:#e5e7eb;color:#111827;font-size:10px;font-weight:700;'
+                     f'padding:1px 6px;border-radius:3px;margin-left:6px;">{x["team"]}</span>' if x["team"] else "")
+        inj_html = injm.badge(x["inj"])
+        book = bp.BOOK_DISPLAY.get(fsn["book"], fsn["book"])
+        lead = fs.hours_before_tip(r)
+        st.markdown(
+            f'<div style="background:{bg};border:1.5px solid {border};border-radius:8px;'
+            f'padding:10px 14px;margin-bottom:6px;color:#111827;">'
+            f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+            f'<span style="font-size:14px;font-weight:700;">{r["who"]}{team_html}{inj_html}'
+            f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {r["game"]} · '
+            f'{bp.SPORTS[r["sport"]]["label"]}</span></span>'
+            f'<span style="font-size:11px;color:#6b7280;">{x["tip"].strftime("%a %I:%M %p")} ET</span></div>'
+            f'<div style="display:flex;align-items:baseline;gap:10px;margin:2px 0;flex-wrap:wrap;">'
+            f'<span style="font-size:11px;color:#6b7280;">{r["market"]}</span>'
+            f'<span style="font-size:18px;font-weight:800;color:{colour};">{r["bet"]} {fsn["line"]}</span>'
+            f'<span style="font-size:13px;">@ <strong>{book}</strong> {fsn["price"]:+d}</span>'
+            f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:11px;'
+            f'font-weight:700;padding:1px 7px;border-radius:3px;">gap {fsn["gap"]}</span>'
+            f'<span style="font-size:11px;color:#6b7280;">first seen {x["seen"].strftime("%I:%M %p").lstrip("0")} ET'
+            f'{f" · {lead:.1f} h before tip" if lead is not None else ""}</span></div>'
+            f'<div style="font-size:11px;color:#6b7280;">Pinnacle {fsn["pin_line"]} · '
+            f'{fsn["stale"]} of {fsn["n_books"]} books off it</div></div>',
+            unsafe_allow_html=True,
+        )
 
 
 def render_results(sport):
