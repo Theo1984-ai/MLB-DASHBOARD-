@@ -17,6 +17,7 @@ sys.path.insert(0, ROOT)
 from scripts import best_plays as bp  # noqa: E402
 from scripts import best_plays_alerts as alerts  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
+from scripts import first_seen as fs  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
 # pandas and the rest of the app, which the Actions runner doesn't install.
@@ -51,6 +52,7 @@ def first_totals(date, sport):
 
 def grade_recent(now_et, days=7):
     for sub, grader, label in (("picks", bp.grade_log, "picks"),
+                               (fs.LOG_SUB, bp.grade_log, "first-seen splits"),
                                ("claude_picks", bp.grade_log, "Claude picks"),
                                ("predictions", bp.grade_predictions, "predictions")):
         have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, f"{LOG_DIR}/{sub}")}
@@ -204,6 +206,15 @@ def main():
         send_alerts(plays, log, date, now_et, iso, inj)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{date}.json", log,
                      commit_msg=f"Best plays log {date}: {new} new picks, {checked} checks")
+        try:
+            fs_log = load(f"{LOG_DIR}/{fs.LOG_SUB}/{date}.json")
+            n_fs = sum(fs.update_log(fs_log, fs.split_plays(sp, r["props_snap"], now_et), iso, date)
+                       for sp, r in snaps.items())
+            gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{date}.json", fs_log,
+                         commit_msg=f"First-seen splits {date}: {n_fs} new")
+            print(f"first-seen: {n_fs} new line splits")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"first-seen: {e}")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
         n_pred = bp.update_predictions(plog, pred_rows, iso, date)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json", plog,
