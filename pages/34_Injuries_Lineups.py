@@ -48,6 +48,7 @@ def load(sport, _token_present):
 
 
 def injury_lines(rows):
+    rows = [r for r in rows if injm.is_real(r.get("status"))]
     if not rows:
         return ["No injuries listed."]
     return [f"{injm.badge(r)} **{r['name']}** {r['pos']}" + (f" — {r['note']}" if r.get("note") else "")
