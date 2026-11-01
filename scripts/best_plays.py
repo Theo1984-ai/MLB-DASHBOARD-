@@ -60,6 +60,12 @@ SPORTS = {
                          "player_steals", "player_blocks", "player_turnovers"],
         "tt_books": _TT_BOOKS_BIG,
     },
+    "NCAAB": {
+        "key": "basketball_ncaab", "label": "NCAAB 🏀", "espn": "basketball/mens-college-basketball",
+        "espn_groups": 50,      # ESPN lists only featured games unless you ask for all of Division I
+        "prop_markets": ["player_points", "player_rebounds", "player_assists", "player_threes"],
+        "tt_books": _TT_BOOKS_BIG,
+    },
     "NFL": {
         "key": "americanfootball_nfl", "label": "NFL 🏈", "espn": "football/nfl",
         "prop_markets": ["player_pass_tds", "player_pass_yds", "player_rush_yds",
@@ -397,10 +403,10 @@ def dist_spec(sport, market, line):
     if m == "team total":
         if sport == "NHL":
             return ("pois", None)
-        return ("norm", {"NBA": 11.5, "NFL": 7.5, "CFB": 10.5}.get(sport, 10.0))
+        return ("norm", {"NBA": 11.5, "NCAAB": 10.0, "NFL": 7.5, "CFB": 10.5}.get(sport, 10.0))
     if sport == "NHL":
         return ("pois", None)
-    if sport == "NBA":
+    if sport in ("NBA", "NCAAB"):
         if m == "points":
             return ("norm", 2.2 + 0.27 * line)
         if m in ("rebounds", "assists"):
@@ -525,12 +531,13 @@ def find_plays(sport, props_snap, tt_snap, th):
 # shots on goal don't, so they get no tag.
 SCORING_MARKETS = {
     "NBA": {"points", "assists", "threes", "team total"},
+    "NCAAB": {"points", "assists", "threes", "team total"},
     "NHL": {"points", "goals", "assists", "team total"},
     "NFL": {"pass_yds", "pass_tds", "rush_yds", "reception_yds", "receptions", "team total"},
     "CFB": {"pass_yds", "pass_tds", "rush_yds", "reception_yds", "receptions", "team total"},
 }
-SHIFT_MIN = {"NBA": 0.5, "NFL": 0.7, "CFB": 0.7, "NHL": 0.1}      # expected-score move that counts
-BLOWOUT_SPREAD = {"NBA": 10.0, "NFL": 10.0, "CFB": 14.0, "NHL": 99.0}
+SHIFT_MIN = {"NBA": 0.5, "NCAAB": 0.7, "NFL": 0.7, "CFB": 0.7, "NHL": 0.1}      # expected-score move that counts
+BLOWOUT_SPREAD = {"NBA": 10.0, "NCAAB": 15.0, "NFL": 10.0, "CFB": 14.0, "NHL": 99.0}
 TAG_ADJ = {"backed": 0.005, "neutral": 0.0, "conflicts": -0.01, "n/a": 0.0}
 
 
@@ -745,9 +752,9 @@ def build_game_rows(sport, tt_snap, first_tt, game_snap, props_snap, plays, now_
 
 # ── Game predictions: winner, score and Over/Under from the plays ───────────────────────────
 
-PRED_SIGMA = {"NBA": 12.0, "NFL": 13.0, "CFB": 14.0, "NHL": 2.5}   # std dev of the final margin
-PROP_UNIT = {"NBA": 1.0, "NFL": 1.0, "CFB": 1.0, "NHL": 0.1}       # score nudge per prop play, x0.25
-GAME_TOTAL_SIGMA = {"NBA": 18.0, "NFL": 13.5, "CFB": 15.0}         # std dev of a game's combined score
+PRED_SIGMA = {"NBA": 12.0, "NCAAB": 11.0, "NFL": 13.0, "CFB": 14.0, "NHL": 2.5}   # std dev of the final margin
+PROP_UNIT = {"NBA": 1.0, "NCAAB": 1.0, "NFL": 1.0, "CFB": 1.0, "NHL": 0.1}       # score nudge per prop play, x0.25
+GAME_TOTAL_SIGMA = {"NBA": 18.0, "NCAAB": 16.0, "NFL": 13.5, "CFB": 15.0}         # std dev of a game's combined score
 OU_LEAN_MEDIUM, OU_LEAN_HIGH = 0.03, 0.06                          # chance above 50% for Medium / High
 
 
@@ -1101,7 +1108,9 @@ def espn_rosters(sport, team_names, cache=None, fetch=_get_plain, max_age_days=5
     if not need:
         return cache, errors, False
     try:
-        teams = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/teams?limit=500")["sports"][0]["leagues"][0]["teams"]
+        groups = SPORTS[sport].get("espn_groups")
+        teams = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/teams?limit=500"
+                      + (f"&groups={groups}" if groups else ""))["sports"][0]["leagues"][0]["teams"]
     except Exception as e:  # noqa: BLE001
         return cache, [f"{sport} team list: {e}"], False
     changed = False
@@ -1226,7 +1235,9 @@ def _num(x):
 
 def espn_events(sport, date_str, fetch=_get_plain):
     """Final scores for one day: list of dicts(id, home, away, home_score, away_score, completed)."""
-    data = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/scoreboard?dates={date_str.replace('-', '')}&limit=300")
+    groups = SPORTS[sport].get("espn_groups")
+    data = fetch(f"{ESPN_API}/{SPORTS[sport]['espn']}/scoreboard?dates={date_str.replace('-', '')}&limit=300"
+                 + (f"&groups={groups}" if groups else ""))
     out = []
     for ev in data.get("events", []):
         comp = (ev.get("competitions") or [{}])[0]
@@ -1264,7 +1275,7 @@ def espn_boxscore(sport, event_id, fetch=_get_plain):
 
 def player_stat(sport, market, rec):
     g = rec.get
-    if sport == "NBA":
+    if sport in ("NBA", "NCAAB"):
         key = {"points": "PTS", "rebounds": "REB", "assists": "AST", "threes": "3PT",
                "steals": "STL", "blocks": "BLK", "turnovers": "TO"}.get(market)
         return g(key) if key else None
