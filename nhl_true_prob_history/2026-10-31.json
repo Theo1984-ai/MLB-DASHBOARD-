@@ -1,7 +1,7 @@
 {
   "date": "2026-10-31",
-  "snapshot_at": "2026-10-31T19:58:50.137081-04:00",
-  "n_picks": 15,
+  "snapshot_at": "2026-10-31T20:35:36.262439-04:00",
+  "n_picks": 16,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 15,
+    "n_total": 16,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -38,8 +38,8 @@
       "point": null,
       "best_book": "draftkings",
       "best_price": -380,
-      "true_prob_pct": 80.34,
-      "ev_per_100": 5.62,
+      "true_prob_pct": 80.41,
+      "ev_per_100": 5.99,
       "n_books": 5,
       "all_prices": [
         [
@@ -51,11 +51,11 @@
           -385
         ],
         [
-          "bovada",
-          -410
+          "fanduel",
+          -420
         ],
         [
-          "fanduel",
+          "bovada",
           -420
         ],
         [
@@ -63,9 +63,9 @@
           -455
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-10-31T15:37:55.651014-04:00",
-      "last_seen_at": "2026-10-31T19:58:50.137034-04:00",
+      "last_seen_at": "2026-10-31T20:35:36.262382-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T15:37:55.651014-04:00",
@@ -89,6 +89,12 @@
           "t": "2026-10-31T19:58:50.137034-04:00",
           "tp": 80.34,
           "ev": 5.62,
+          "price": -380
+        },
+        {
+          "t": "2026-10-31T20:35:36.262382-04:00",
+          "tp": 80.41,
+          "ev": 5.99,
           "price": -380
         }
       ]
@@ -594,32 +600,32 @@
       "player": "Game Total",
       "side": "Over",
       "point": 4.5,
-      "best_book": "draftkings",
+      "best_book": "fanduel",
       "best_price": -300,
-      "true_prob_pct": 75.92,
-      "ev_per_100": 3.68,
+      "true_prob_pct": 76.64,
+      "ev_per_100": 6.55,
       "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
+          "fanduel",
           -300
         ],
         [
-          "pinnacle",
-          -317
-        ],
-        [
-          "fanduel",
-          -320
+          "draftkings",
+          -310
         ],
         [
           "bovada",
           -325
+        ],
+        [
+          "pinnacle",
+          -387
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-10-31T15:37:55.651014-04:00",
-      "last_seen_at": "2026-10-31T19:58:50.137034-04:00",
+      "last_seen_at": "2026-10-31T20:35:36.262382-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T15:37:55.651014-04:00",
@@ -643,6 +649,12 @@
           "t": "2026-10-31T19:58:50.137034-04:00",
           "tp": 75.92,
           "ev": 3.68,
+          "price": -300
+        },
+        {
+          "t": "2026-10-31T20:35:36.262382-04:00",
+          "tp": 76.64,
+          "ev": 6.55,
           "price": -300
         }
       ]
@@ -819,9 +831,9 @@
           -360
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-10-31T18:58:43.732441-04:00",
-      "last_seen_at": "2026-10-31T19:58:50.137034-04:00",
+      "last_seen_at": "2026-10-31T20:35:36.262382-04:00",
       "scan_history": [
         {
           "t": "2026-10-31T18:58:43.732441-04:00",
@@ -834,6 +846,61 @@
           "tp": 76.9,
           "ev": 7.58,
           "price": -300
+        },
+        {
+          "t": "2026-10-31T20:35:36.262382-04:00",
+          "tp": 76.9,
+          "ev": 7.58,
+          "price": -300
+        }
+      ]
+    },
+    {
+      "event_id": "7bfae1a5166976e5ca05e92319277910",
+      "game": "Jackets @ Stars",
+      "away_team": "Columbus Blue Jackets",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-01T00:08:37Z",
+      "market": "Moneyline",
+      "market_key": "h2h",
+      "stat_key": "h2h",
+      "settle_type": "Team",
+      "selection": "Dallas Stars",
+      "player": "Dallas Stars",
+      "side": "Home",
+      "point": null,
+      "best_book": "draftkings",
+      "best_price": -345,
+      "true_prob_pct": 79.49,
+      "ev_per_100": 8.73,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -345
+        ],
+        [
+          "pinnacle",
+          -374
+        ],
+        [
+          "bovada",
+          -410
+        ],
+        [
+          "fanduel",
+          -430
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-10-31T20:35:36.262382-04:00",
+      "last_seen_at": "2026-10-31T20:35:36.262382-04:00",
+      "scan_history": [
+        {
+          "t": "2026-10-31T20:35:36.262382-04:00",
+          "tp": 79.49,
+          "ev": 8.73,
+          "price": -345
         }
       ]
     }
