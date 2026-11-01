@@ -135,9 +135,6 @@ def render_today(sport, recs_by_day, key):
     else:
         df = df.sort_values("_seen", ascending=(sort == "Earliest first"))
     st.dataframe(df.drop(columns=["_seen", "_tip"]), hide_index=True, use_container_width=True)
-    by_hour = pd.Series([r["_seen"].hour for r in rows]).value_counts().sort_index()
-    st.markdown("**Plays by the hour they first appeared**")
-    st.bar_chart(by_hour.rename(lambda h: f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}"))
 
 
 def render_results(sport):
