@@ -116,6 +116,44 @@ def refresh_injuries(date, errors):
     return out
 
 
+EARLY_SPORTS = ("NFL", "CFB")
+EARLY_FROM_HOUR = 7            # the day's early look runs on the first wake-up at or after 7 AM ET
+
+
+def early_snapshot(now_et, iso, errors, snap=None):
+    """Once a day, look at NFL and college football games on the next few days (props only) and log the first
+    time each game's line splits show up, under that game's own date. Returns the number logged, or None
+    when it was skipped. `snap` replaces the Odds API call in tests."""
+    today = now_et.strftime("%Y-%m-%d")
+    if now_et.hour < EARLY_FROM_HOUR or load(f"{LOG_DIR}/early_run.json").get("date") == today:
+        return None
+    snap = snap or (lambda sport: bp.snapshot_upcoming_props(ODDS_KEY, sport, now_et)[0])
+    logs, total, ok = {}, 0, True
+    for sport in EARLY_SPORTS:
+        try:
+            s = snap(sport)
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{sport} early look: {e}")
+            ok = False
+            continue
+        errors.extend(s.get("errors", [])[:3])
+        by_day = {}
+        for p in fs.split_plays(sport, s, now_et):
+            by_day.setdefault(fs.game_date(p), []).append(p)
+        for day, plays in by_day.items():
+            if day not in logs:
+                logs[day] = load(f"{LOG_DIR}/{fs.LOG_SUB}/{day}.json")
+            total += fs.update_log(logs[day], plays, iso, day)
+        print(f"{sport} early look: {len(s['games'])} upcoming games with props")
+    for day, log in logs.items():
+        gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{day}.json", log,
+                     commit_msg=f"First-seen splits {day}: early look")
+    if ok:
+        gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/early_run.json", {"date": today},
+                     commit_msg=f"Early look done {today}")
+    return total
+
+
 def is_manual():
     """A hand-started run. The outside timer starts runs the same way but sends source=timer, which
     should behave like a scheduled run (respect the on/off switch and the 45-minute rule)."""
@@ -194,6 +232,12 @@ def main():
             sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et))
     plays.sort(key=lambda p: -p["adj"])
     inj = refresh_injuries(date, errors)
+    try:
+        n_early = early_snapshot(now_et, iso, errors)
+        if n_early is not None:
+            print(f"early look: {n_early} new line splits for upcoming NFL/CFB games")
+    except Exception as e:  # noqa: BLE001
+        errors.append(f"early look: {e}")
 
     if snaps:
         for sport, res in snaps.items():
