@@ -126,11 +126,17 @@ def summarize(recs, key):
 
 
 def first_wave(log):
-    """Only the splits that showed up in the day's first snapshot with any (per sport): the 'first wave'.
-    Later arrivals are dropped. `log` is one day's {pick id: record}."""
+    """Only the splits that showed up the first time a game had any: for each game, the records from its
+    earliest snapshot. Later arrivals for the same game are dropped. `log` is one day's {pick id: record}."""
     first = {}
     for r in log.values():
+        k = (r["sport"], r["game"])
         t = r["first_seen"]["t"]
-        if r["sport"] not in first or t < first[r["sport"]]:
-            first[r["sport"]] = t
-    return {pid: r for pid, r in log.items() if r["first_seen"]["t"] == first[r["sport"]]}
+        if k not in first or t < first[k]:
+            first[k] = t
+    return {pid: r for pid, r in log.items() if r["first_seen"]["t"] == first[(r["sport"], r["game"])]}
+
+
+def game_date(p):
+    """The ET date a play's game is on (the date its log file is named after)."""
+    return _parse(p["commence_time"]).astimezone(EASTERN).strftime("%Y-%m-%d")
