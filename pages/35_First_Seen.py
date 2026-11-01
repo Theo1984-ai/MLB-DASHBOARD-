@@ -100,24 +100,33 @@ def pct(w, l):
     return f"{w / (w + l) * 100:.0f}%" if w + l else "-"
 
 
-def render_today(sport, recs_by_day, key):
+def render_today(sport, recs_by_day, key, day):
     sort = st.radio("Sort by", ["Time and team", "Newest first", "Earliest first", "Biggest gap"],
                     horizontal=True, key=f"sort_{key}")
     inj = load_injuries(True)
     roster = load_roster(sport, True)
     rows = []
-    for r in recs_by_day.get(today, {}).values():
+    past = day != today
+    for r in recs_by_day.get(day, {}).values():
         if r["sport"] != sport:
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
-        if tip <= now:
+        if tip <= now and not past:
             continue
         seen = fs._parse(r["first_seen"]["t"]).astimezone(EASTERN)
         away, _, home = r["game"].partition(" @ ")
         e = injm.find((inj.get(r["sport"]) or {}).get("teams"), away, home, r["who"])
         rows.append({"r": r, "seen": seen, "tip": tip, "team": bp.player_team(roster, away, home, r["who"]) or "",
                      "inj": e if e and injm.is_real(e["status"]) else None})
-    st.markdown(f"**{len(rows)} open line splits today**")
+    if past:
+        done = [x["r"].get("result") or {} for x in rows]
+        w = sum(d.get("outcome") == "win" for d in done)
+        l = sum(d.get("outcome") == "loss" for d in done)
+        units = sum(d.get("profit") or 0 for d in done if d.get("outcome") in ("win", "loss", "push"))
+        st.markdown(f"**{len(rows)} line splits on {day}** · graded {w + l + sum(d.get('outcome') == 'push' for d in done)}"
+                    f" · **{w}-{l}** · {units:+.1f}u")
+    else:
+        st.markdown(f"**{len(rows)} open line splits today**")
     if sort == "Time and team":
         rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"], x["r"]["who"]))
     elif sort == "Biggest gap":
@@ -133,6 +142,19 @@ def render_today(sport, recs_by_day, key):
         inj_html = injm.badge(x["inj"])
         book = bp.BOOK_DISPLAY.get(fsn["book"], fsn["book"])
         lead = fs.hours_before_tip(r)
+        res = r.get("result") or {}
+        out = res.get("outcome")
+        if out in ("win", "loss", "push"):
+            rc = {"win": "#15803d", "loss": "#b91c1c", "push": "#6b7280"}[out]
+            actual = res.get("actual")
+            res_html = (f'<span style="background:{rc};color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
+                        f'border-radius:3px;margin-right:6px;">{out.upper()}'
+                        f'{f" · {actual:g}" if isinstance(actual, (int, float)) else ""}</span>')
+        elif past:
+            res_html = ('<span style="background:#9ca3af;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
+                        'border-radius:3px;margin-right:6px;">PENDING</span>')
+        else:
+            res_html = ""
         st.markdown(
             f'<div style="background:{bg};border:1.5px solid {border};border-radius:8px;'
             f'padding:10px 14px;margin-bottom:6px;color:#111827;">'
@@ -140,7 +162,7 @@ def render_today(sport, recs_by_day, key):
             f'<span style="font-size:14px;font-weight:700;">{r["who"]}{team_html}{inj_html}'
             f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {r["game"]} · '
             f'{bp.SPORTS[r["sport"]]["label"]}</span></span>'
-            f'<span style="font-size:11px;color:#6b7280;">{x["tip"].strftime("%a %I:%M %p")} ET</span></div>'
+            f'<span style="font-size:11px;color:#6b7280;">{res_html}{x["tip"].strftime("%a %I:%M %p")} ET</span></div>'
             f'<div style="display:flex;align-items:baseline;gap:10px;margin:2px 0;flex-wrap:wrap;">'
             f'<span style="font-size:11px;color:#6b7280;">{r["market"]}</span>'
             f'<span style="font-size:18px;font-weight:800;color:{colour};">{r["bet"]} {fsn["line"]}</span>'
@@ -190,6 +212,10 @@ def render_results(sport):
          lambda r: str(min(r["first_seen"]["stale"], 5)) + ("+" if r["first_seen"]["stale"] >= 5 else ""))
 
 
+days = sorted(set(logs) | {today}, reverse=True)
+day = st.selectbox("Date", days, key="fs_day",
+                   format_func=lambda d: datetime.strptime(d, "%Y-%m-%d").strftime("%a %b %d").replace(" 0", " ")
+                   + (" (today)" if d == today else ""))
 tabs = st.tabs([label for _, label in SPORT_TABS])
 for tab, (sport, _) in zip(tabs, SPORT_TABS):
     with tab:
@@ -199,6 +225,6 @@ for tab, (sport, _) in zip(tabs, SPORT_TABS):
             continue
         view = st.radio("View", ["Today", "Results"], horizontal=True, key=f"view_{sport}")
         if view == "Today":
-            render_today(sport, logs, sport)
+            render_today(sport, logs, sport, day)
         else:
             render_results(sport)

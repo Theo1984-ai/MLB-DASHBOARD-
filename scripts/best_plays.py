@@ -309,6 +309,45 @@ def snapshot_sport(key, sport, now_et, workers=6):
     }, quota
 
 
+def snapshot_upcoming_props(key, sport, now_et, days=6, workers=6):
+    """
+    Player props only, for games on the next `days` days (not today): the daily early look used to catch
+    the first time a game's plays show up. Returns (props_snap, quota); props_snap has no games when
+    nothing is posted yet.
+    """
+    cfg = SPORTS[sport]
+    events, quota = _get(f"{ODDS_API}/sports/{cfg['key']}/events?apiKey={key}")
+    games = []
+    for ev in events:
+        try:
+            gd = datetime.fromisoformat(ev["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN).date()
+        except Exception:  # noqa: BLE001
+            continue
+        if 0 < (gd - now_et.date()).days <= days:
+            games.append(ev)
+    tracked = {"pinnacle"} | set(PROP_FOLLOWERS)
+    errors = []
+
+    def one(ev):
+        try:
+            return ev, *_fetch_event_props(key, cfg["key"], ev, cfg["prop_markets"], tracked)
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{ev['away_team']} @ {ev['home_team']} props: {e}")
+            return ev, None, None
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        results = list(ex.map(one, games))
+    out = []
+    for ev, props, q in results:
+        if q is not None:
+            quota = q
+        if props:
+            out.append({"game": f"{ev['away_team']} @ {ev['home_team']}", "away": ev["away_team"],
+                        "home": ev["home_team"], "commence_time": ev["commence_time"],
+                        "started": False, "players": props})
+    return {"captured_at": now_et.isoformat(), "quota": quota, "games": out, "errors": errors}, quota
+
+
 # ── Model ─────────────────────────────────────────────────────────────────────
 
 def implied(price):
