@@ -15,6 +15,11 @@ SEVERITY = {"out": 3, "doubtful": 2, "questionable": 1, "day-to-day": 1, "probab
 STAYS_OFF_ALERTS = 2          # severity at or above this (Out / Doubtful) blocks a Telegram alert
 
 
+def is_real(status):
+    """False for statuses that mean healthy (ESPN lists some active players, e.g. 'Active')."""
+    return (status or "").strip().lower() not in ("", "active", "available", "healthy", "cleared")
+
+
 def severity(status):
     s = (status or "").lower()
     if "out" in s or "injured reserve" in s or "suspend" in s:
@@ -37,6 +42,8 @@ def parse_injuries(data):
             if not name:
                 continue
             status = i.get("status") or (i.get("type") or {}).get("description") or ""
+            if not is_real(status):
+                continue
             rows.append({
                 "name": name, "status": status,
                 "pos": (ath.get("position") or {}).get("abbreviation", ""),
@@ -106,12 +113,16 @@ def find(teams, away, home, who):
         return None
     for team in (away, home):
         for e in (teams or {}).get(team, []):
+            if not is_real(e.get("status")):
+                continue
             en = bp.norm_name(e["name"])
             if en == nm or en.replace(" ", "") == ck:
                 return e
     if len(toks) >= 2:
         for team in (away, home):
             for e in (teams or {}).get(team, []):
+                if not is_real(e.get("status")):
+                    continue
                 t = bp.norm_name(e["name"]).split()
                 if len(t) >= 2 and t[-1] == toks[-1] and min(len(t[0]), len(toks[0])) >= 3 \
                         and (t[0].startswith(toks[0]) or toks[0].startswith(t[0])):
@@ -132,7 +143,7 @@ COLORS = {3: "#b91c1c", 2: "#c2410c", 1: "#b45309", 0: "#6b7280"}
 
 def badge(entry):
     """Small coloured status label, '' when there is no entry."""
-    if not entry:
+    if not entry or not is_real(entry.get("status")):
         return ""
     sev = severity(entry["status"])
     tip = (entry.get("note") or "").replace('"', "'")
