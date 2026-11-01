@@ -60,6 +60,15 @@ def load_all(_token_present):
 
 
 @st.cache_data(ttl=600, show_spinner=False)
+def load_roster(sport, _token_present):
+    from data import github_storage as gh
+    try:
+        return bp.roster_lookup(gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/rosters/{sport}.json") or {})
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+@st.cache_data(ttl=600, show_spinner=False)
 def load_injuries(_token_present):
     from data import github_storage as gh
     out = {}
@@ -92,8 +101,10 @@ def pct(w, l):
 
 
 def render_today(sport, recs_by_day, key):
-    sort = st.radio("Sort by", ["Newest first", "Earliest first", "Biggest gap"], horizontal=True, key=f"sort_{key}")
+    sort = st.radio("Sort by", ["Time and team", "Newest first", "Earliest first", "Biggest gap"],
+                    horizontal=True, key=f"sort_{key}")
     inj = load_injuries(True)
+    roster = load_roster(sport, True)
     rows = []
     for r in recs_by_day.get(today, {}).values():
         if r["sport"] != sport:
@@ -104,8 +115,9 @@ def render_today(sport, recs_by_day, key):
         seen = fs._parse(r["first_seen"]["t"]).astimezone(EASTERN)
         away, _, home = r["game"].partition(" @ ")
         e = injm.find((inj.get(r["sport"]) or {}).get("teams"), away, home, r["who"])
-        rows.append({"_seen": seen, "First seen": seen.strftime("%I:%M %p").lstrip("0"),
-                     "Tip-off": tip.strftime("%I:%M %p").lstrip("0"),
+        team = bp.player_team(roster, away, home, r["who"]) or ""
+        rows.append({"_seen": seen, "_tip": tip, "First seen": seen.strftime("%I:%M %p").lstrip("0"),
+                     "Tip-off": tip.strftime("%I:%M %p").lstrip("0"), "Game": r["game"], "Team": team,
                      "Lead (h)": round(fs.hours_before_tip(r), 1), "Player": r["who"],
                      "Market": r["market"], "Bet": r["bet"], "Line": r["first_seen"]["line"],
                      "Book": bp.BOOK_DISPLAY.get(r["first_seen"]["book"], r["first_seen"]["book"]),
@@ -116,11 +128,13 @@ def render_today(sport, recs_by_day, key):
     if not rows:
         return
     df = pd.DataFrame(rows)
-    if sort == "Biggest gap":
+    if sort == "Time and team":
+        df = df.sort_values(["_tip", "Game", "Team", "Player"])
+    elif sort == "Biggest gap":
         df = df.sort_values(["Gap", "Books off"], ascending=False)
     else:
         df = df.sort_values("_seen", ascending=(sort == "Earliest first"))
-    st.dataframe(df.drop(columns="_seen"), hide_index=True, use_container_width=True)
+    st.dataframe(df.drop(columns=["_seen", "_tip"]), hide_index=True, use_container_width=True)
     by_hour = pd.Series([r["_seen"].hour for r in rows]).value_counts().sort_index()
     st.markdown("**Plays by the hour they first appeared**")
     st.bar_chart(by_hour.rename(lambda h: f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}"))
