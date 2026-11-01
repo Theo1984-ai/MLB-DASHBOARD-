@@ -1,7 +1,7 @@
 {
   "date": "2026-11-01",
-  "snapshot_at": "2026-11-01T15:53:19.741582-05:00",
-  "n_picks": 10,
+  "snapshot_at": "2026-11-01T18:18:26.098031-05:00",
+  "n_picks": 13,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 10,
+    "n_total": 13,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -106,9 +106,9 @@
           -370
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-01T14:58:24.343067-05:00",
-      "last_seen_at": "2026-11-01T15:53:19.741525-05:00",
+      "last_seen_at": "2026-11-01T18:18:26.097939-05:00",
       "scan_history": [
         {
           "t": "2026-11-01T14:58:24.343067-05:00",
@@ -118,6 +118,12 @@
         },
         {
           "t": "2026-11-01T15:53:19.741525-05:00",
+          "tp": 77.49,
+          "ev": 4.33,
+          "price": -325
+        },
+        {
+          "t": "2026-11-01T18:18:26.097939-05:00",
           "tp": 77.49,
           "ev": 4.33,
           "price": -325
@@ -295,8 +301,8 @@
       "point": 1.5,
       "best_book": "draftkings",
       "best_price": -290,
-      "true_prob_pct": 75.24,
-      "ev_per_100": 3.45,
+      "true_prob_pct": 75.48,
+      "ev_per_100": 4.38,
       "n_books": 4,
       "all_prices": [
         [
@@ -305,20 +311,20 @@
         ],
         [
           "pinnacle",
-          -297
-        ],
-        [
-          "bovada",
-          -310
+          -303
         ],
         [
           "fanduel",
           -320
+        ],
+        [
+          "bovada",
+          -320
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-01T14:58:24.343067-05:00",
-      "last_seen_at": "2026-11-01T15:53:19.741525-05:00",
+      "last_seen_at": "2026-11-01T18:18:26.097939-05:00",
       "scan_history": [
         {
           "t": "2026-11-01T14:58:24.343067-05:00",
@@ -330,6 +336,12 @@
           "t": "2026-11-01T15:53:19.741525-05:00",
           "tp": 75.24,
           "ev": 3.45,
+          "price": -290
+        },
+        {
+          "t": "2026-11-01T18:18:26.097939-05:00",
+          "tp": 75.48,
+          "ev": 4.38,
           "price": -290
         }
       ]
@@ -529,6 +541,141 @@
           "tp": 76.17,
           "ev": 48.04,
           "price": -118
+        }
+      ]
+    },
+    {
+      "event_id": "d8dd95fa4fc001a1ea9f6629a8c8ffee",
+      "game": "Oilers @ Rangers",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New York Rangers",
+      "first_pitch": "2026-11-01T23:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Rangers +3.5",
+      "player": "New York Rangers",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "draftkings",
+      "best_price": -340,
+      "true_prob_pct": 83.96,
+      "ev_per_100": 29.44,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -340
+        ],
+        [
+          "fanduel",
+          -550
+        ],
+        [
+          "bovada",
+          -900
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "last_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-01T18:18:26.097939-05:00",
+          "tp": 83.96,
+          "ev": 29.44,
+          "price": -340
+        }
+      ]
+    },
+    {
+      "event_id": "d8dd95fa4fc001a1ea9f6629a8c8ffee",
+      "game": "Oilers @ Rangers",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New York Rangers",
+      "first_pitch": "2026-11-01T23:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 5.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 5.5,
+      "best_book": "bovada",
+      "best_price": -275,
+      "true_prob_pct": 81.73,
+      "ev_per_100": 31.48,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -275
+        ],
+        [
+          "draftkings",
+          -575
+        ],
+        [
+          "fanduel",
+          -650
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "last_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-01T18:18:26.097939-05:00",
+          "tp": 81.73,
+          "ev": 31.48,
+          "price": -275
+        }
+      ]
+    },
+    {
+      "event_id": "8f768a5bd143ea549d68e5c1885023e6",
+      "game": "Flames @ Sharks",
+      "away_team": "Calgary Flames",
+      "home_team": "San Jose Sharks",
+      "first_pitch": "2026-11-03T02:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "San Jose Sharks +1.5",
+      "player": "San Jose Sharks",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -335,
+      "true_prob_pct": 78.4,
+      "ev_per_100": 6.03,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "pinnacle",
+          -367
+        ],
+        [
+          "bovada",
+          -390
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "last_seen_at": "2026-11-01T18:18:26.097939-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-01T18:18:26.097939-05:00",
+          "tp": 78.4,
+          "ev": 6.03,
+          "price": -335
         }
       ]
     }
