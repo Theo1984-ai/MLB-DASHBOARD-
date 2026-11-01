@@ -38,8 +38,9 @@ GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
 
 st.set_page_config(page_title="First Seen", page_icon="🕐", layout="wide")
 st.title("🕐 First Seen — when line splits first show up")
-st.caption("A line split = a soft book's line differs from Pinnacle's. Logged by the hourly auto snapshot "
-           "the first time each one appears. Times are Eastern.")
+st.caption("A line split = a soft book's line differs from Pinnacle's. Shows only the first wave: the splits that "
+           "appeared in the first snapshot of the day that had any for that sport. Later arrivals are left out. "
+           "Times are Eastern.")
 
 if not GH_TOKEN:
     st.error("Missing `GITHUB_TOKEN` in secrets.")
@@ -53,7 +54,8 @@ def load_all(_token_present):
     for item in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}"):
         name = item["name"]
         if name.endswith(".json"):
-            out[name[:-5]] = gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{name}") or {}
+            day = gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{name}") or {}
+            out[name[:-5]] = fs.first_wave(day) if day else {}     # first wave only
     return out
 
 
