@@ -82,21 +82,19 @@ if not logs:
 now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
-sports = sorted({r["sport"] for r in all_recs})
-tab_today, tab_results = st.tabs(["Today", "Results"])
+SPORT_TABS = [("NBA", "NBA 🏀"), ("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("CFB", "CFB 🎓")]
 
 
 def pct(w, l):
     return f"{w / (w + l) * 100:.0f}%" if w + l else "-"
 
 
-with tab_today:
-    pick = st.multiselect("Sports", sports, default=sports)
-    sort = st.radio("Sort by", ["Newest first", "Earliest first", "Biggest gap"], horizontal=True)
+def render_today(sport, recs_by_day, key):
+    sort = st.radio("Sort by", ["Newest first", "Earliest first", "Biggest gap"], horizontal=True, key=f"sort_{key}")
     inj = load_injuries(True)
     rows = []
-    for r in logs.get(today, {}).values():
-        if r["sport"] not in pick:
+    for r in recs_by_day.get(today, {}).values():
+        if r["sport"] != sport:
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
         if tip <= now:
@@ -106,35 +104,37 @@ with tab_today:
         e = injm.find((inj.get(r["sport"]) or {}).get("teams"), away, home, r["who"])
         rows.append({"_seen": seen, "First seen": seen.strftime("%I:%M %p").lstrip("0"),
                      "Tip-off": tip.strftime("%I:%M %p").lstrip("0"),
-                     "Lead (h)": round(fs.hours_before_tip(r), 1), "Sport": r["sport"], "Player": r["who"],
+                     "Lead (h)": round(fs.hours_before_tip(r), 1), "Player": r["who"],
                      "Market": r["market"], "Bet": r["bet"], "Line": r["first_seen"]["line"],
                      "Book": bp.BOOK_DISPLAY.get(r["first_seen"]["book"], r["first_seen"]["book"]),
                      "Price": r["first_seen"]["price"], "Pinnacle": r["first_seen"]["pin_line"],
                      "Gap": r["first_seen"]["gap"], "Books off": r["first_seen"]["stale"],
                      "Injury": e["status"] if e and injm.is_real(e["status"]) else ""})
     st.markdown(f"**{len(rows)} open line splits today**")
-    if rows:
-        df = pd.DataFrame(rows)
-        if sort == "Biggest gap":
-            df = df.sort_values(["Gap", "Books off"], ascending=False)
-        else:
-            df = df.sort_values("_seen", ascending=(sort == "Earliest first"))
-        st.dataframe(df.drop(columns="_seen"), hide_index=True, use_container_width=True)
-        by_hour = pd.Series([r["_seen"].hour for r in rows]).value_counts().sort_index()
-        st.markdown("**Plays by the hour they first appeared**")
-        st.bar_chart(by_hour.rename(lambda h: f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}"))
+    if not rows:
+        return
+    df = pd.DataFrame(rows)
+    if sort == "Biggest gap":
+        df = df.sort_values(["Gap", "Books off"], ascending=False)
+    else:
+        df = df.sort_values("_seen", ascending=(sort == "Earliest first"))
+    st.dataframe(df.drop(columns="_seen"), hide_index=True, use_container_width=True)
+    by_hour = pd.Series([r["_seen"].hour for r in rows]).value_counts().sort_index()
+    st.markdown("**Plays by the hour they first appeared**")
+    st.bar_chart(by_hour.rename(lambda h: f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}"))
 
-with tab_results:
-    graded = [r for r in all_recs if (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
-    st.markdown(f"**{len(graded)} graded of {len(all_recs)} logged** across {len(logs)} days. "
+
+def render_results(sport):
+    mine = [r for r in all_recs if r["sport"] == sport]
+    recs = [r for r in mine if (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
+    st.markdown(f"**{len(recs)} graded of {len(mine)} logged** across {len(logs)} days. "
                 "Groups under 30 plays are too small to trust.")
-    if not graded:
+    if not recs:
         st.info("None graded yet. The auto snapshot grades them a few hours after each game ends.")
-    sport_pick = st.multiselect("Sports ", sports, default=sports, key="res_sports")
-    recs = [r for r in graded if r["sport"] in sport_pick]
+        return
 
-    def show(title, key, order=None):
-        agg = fs.summarize(recs, key)
+    def show(title, keyf, order=None):
+        agg = fs.summarize(recs, keyf)
         if not agg:
             return
         keys = [k for k in (order or sorted(agg, key=str)) if k in agg]
@@ -145,15 +145,29 @@ with tab_results:
         st.markdown(f"#### {title}")
         st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
 
+    hour = lambda r: f"{(fs.first_seen_hour(r) % 12) or 12} {'AM' if fs.first_seen_hour(r) < 12 else 'PM'}"
     show("By how long before tip-off it first appeared", lambda r: fs.bucket_lead(fs.hours_before_tip(r)),
          fs.LEAD_ORDER)
-    show("By the hour it first appeared (ET)",
-         lambda r: f"{(fs.first_seen_hour(r) % 12) or 12} {'AM' if fs.first_seen_hour(r) < 12 else 'PM'}",
+    show("By the hour it first appeared (ET)", hour,
          [f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}" for h in range(24)])
-    show("By sport", lambda r: r["sport"])
     show("Over vs Under", lambda r: r["bet"])
     show("By line gap to Pinnacle", lambda r: ("3+" if r["first_seen"]["gap"] >= 3 else
                                                 "1.5-2.5" if r["first_seen"]["gap"] >= 1.5 else
                                                 "1" if r["first_seen"]["gap"] >= 1 else "0.5"),
          ["0.5", "1", "1.5-2.5", "3+"])
-    show("By books still off Pinnacle", lambda r: str(min(r["first_seen"]["stale"], 5)) + ("+" if r["first_seen"]["stale"] >= 5 else ""))
+    show("By books still off Pinnacle",
+         lambda r: str(min(r["first_seen"]["stale"], 5)) + ("+" if r["first_seen"]["stale"] >= 5 else ""))
+
+
+tabs = st.tabs([label for _, label in SPORT_TABS])
+for tab, (sport, _) in zip(tabs, SPORT_TABS):
+    with tab:
+        n_all = sum(1 for r in all_recs if r["sport"] == sport)
+        if not n_all:
+            st.info(f"No {sport} line splits logged yet (no {sport} games on the snapshots).")
+            continue
+        view = st.radio("View", ["Today", "Results"], horizontal=True, key=f"view_{sport}")
+        if view == "Today":
+            render_today(sport, logs, sport)
+        else:
+            render_results(sport)
