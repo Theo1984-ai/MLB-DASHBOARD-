@@ -101,7 +101,7 @@ def pct(w, l):
 
 
 def render_today(sport, recs_by_day, key, day):
-    sort = st.radio("Sort by", ["Overs then Unders", "Time and team", "Newest first", "Earliest first", "Biggest gap"],
+    sort = st.radio("Sort by", ["Team: Overs then Unders", "Time and team", "Newest first", "Earliest first", "Biggest gap"],
                     horizontal=True, key=f"sort_{key}")
     inj = load_injuries(True)
     roster = load_roster(sport, True)
@@ -133,8 +133,9 @@ def render_today(sport, recs_by_day, key, day):
         started = sum(x["tip"] <= now for x in rows)
         st.markdown(f"**{len(rows)} line splits {'today' if day == today else 'on ' + day}** · "
                     f"{len(rows) - started} not started · {started} started")
-    if sort == "Overs then Unders":
-        rows.sort(key=lambda x: (x["r"]["bet"] != "OVER", x["tip"], x["r"]["game"], x["team"], x["r"]["who"]))
+    if sort == "Team: Overs then Unders":
+        rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"] == "", x["team"],
+                                 x["r"]["bet"] != "OVER", x["r"]["who"]))
     elif sort == "Time and team":
         rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"], x["r"]["who"]))
     elif sort == "Biggest gap":
