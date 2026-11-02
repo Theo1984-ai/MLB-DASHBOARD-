@@ -47,7 +47,7 @@ if not GH_TOKEN:
     st.stop()
 
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=120, show_spinner=False)
 def load_all(_token_present):
     from data import github_storage as gh
     out = {}
@@ -131,8 +131,13 @@ def render_today(sport, recs_by_day, key, day):
                     f" · **{w}-{l}** · {units:+.1f}u")
     else:
         started = sum(x["tip"] <= now for x in rows)
+        done = [x["r"].get("result") or {} for x in rows]
+        w = sum(d.get("outcome") == "win" for d in done)
+        l = sum(d.get("outcome") == "loss" for d in done)
+        units = sum(d.get("profit") or 0 for d in done if d.get("outcome") in ("win", "loss", "push"))
         st.markdown(f"**{len(rows)} line splits {'today' if day == today else 'on ' + day}** · "
-                    f"{len(rows) - started} not started · {started} started")
+                    f"{len(rows) - started} not started · {started} started"
+                    + (f" · final so far **{w}-{l}** · {units:+.1f}u" if w + l else ""))
     if sort == "Team: Overs then Unders":
         rows.sort(key=lambda x: (x["tip"], x["r"]["game"], x["team"] == "", x["team"],
                                  x["r"]["bet"] != "OVER", x["r"]["who"]))
@@ -165,6 +170,12 @@ def render_today(sport, recs_by_day, key, day):
                         f'border-radius:3px;margin-right:6px;">{label}</span>')
         else:
             res_html = ""
+        final_html = ""
+        if out in ("win", "loss", "push") and isinstance(res.get("actual"), (int, float)):
+            unit = {"win": f"+{res.get('profit') or 0:.2f}u", "loss": f"{res.get('profit') or -1.0:.2f}u", "push": "0.00u"}[out]
+            final_html = (f'<div style="font-size:12px;font-weight:700;margin-top:3px;color:{rc};">'
+                          f'FINAL: {res["actual"]:g} {r["market"].replace("_", " ")} (line {fsn["line"]}, {r["bet"]}) '
+                          f'→ {out.upper()} {unit}</div>')
         st.markdown(
             f'<div style="background:{bg};border:1.5px solid {border};border-radius:8px;'
             f'padding:10px 14px;margin-bottom:6px;color:#111827;">'
@@ -182,7 +193,7 @@ def render_today(sport, recs_by_day, key, day):
             f'<span style="font-size:11px;color:#6b7280;">first seen {x["seen"].strftime("%I:%M %p").lstrip("0")} ET'
             f'{f" · {lead:.1f} h before tip" if lead is not None else ""}</span></div>'
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {fsn["pin_line"]} · '
-            f'{fsn["stale"]} of {fsn["n_books"]} books off it</div></div>',
+            f'{fsn["stale"]} of {fsn["n_books"]} books off it</div>{final_html}</div>',
             unsafe_allow_html=True,
         )
 
