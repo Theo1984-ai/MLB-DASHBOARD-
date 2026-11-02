@@ -27,6 +27,7 @@ BEST_PLAYS_PATH = "best_plays_log/auto_config.json"  # {"enabled": bool}, also o
 OFF_BY_DEFAULT = {"daily_all_tracker"}
 JOBS = [
     ("nba_line_alert", "NBA line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
+    ("ncaab_line_alert", "College basketball line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
     ("nfl_line_alert", "NFL line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
     ("cfb_line_alert", "College football line alert", "Team-total snapshot, 3x a day (about noon, 4 PM, 6 PM)"),
     ("mlb_line_alert", "MLB line alert", "Team-total snapshot, 3x a day. MLB is off-season."),

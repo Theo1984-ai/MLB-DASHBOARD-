@@ -60,6 +60,15 @@ SPORT_CONFIGS = {
         "history_dir":    os.path.join(ROOT, "nba_line_alert_history"),
         "today_only":     True,
     },
+    "NCAAB 🏀": {
+        "api_key":        "basketball_ncaab",
+        "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                           "bovada", "betrivers", "betonlineag", "espnbet",
+                           "mybookieag", "pointsbetus"],
+        "cache_dir":      os.path.join(ROOT, "ncaab_line_alert_cache"),
+        "history_dir":    os.path.join(ROOT, "ncaab_line_alert_history"),
+        "today_only":     True,
+    },
     "MLB ⚾": {
         "api_key":        "baseball_mlb",
         "follower_books": ["draftkings", "fanduel", "williamhill_us", "fanatics",
