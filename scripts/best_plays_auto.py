@@ -62,7 +62,9 @@ def grade_recent(now_et, days=7):
                 continue
             path = f"{LOG_DIR}/{sub}/{d}.json"
             log = load(path)
-            c = grader(log, now_et)
+            # Player results are posted as soon as ESPN marks the game final (the grader only settles a
+            # pick once the game is completed), so don't wait the old 4 hours after the start.
+            c = grader(log, now_et, finished_after_hours=1.5) if grader is bp.grade_log else grader(log, now_et)
             for e in c["errors"][:2]:
                 print(f"grading {label} {d}: {e}")
             if c["graded"] or c.get("no_data"):
