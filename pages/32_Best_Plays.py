@@ -20,6 +20,7 @@ if ROOT not in sys.path:
 
 from scripts import best_plays as bp  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
+from scripts import first_seen as fsm  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
@@ -303,6 +304,13 @@ def run_snapshot():
         out["saved"].append(f"{LOG_DIR}/predictions/{date}.json")
     except Exception as e:  # noqa: BLE001
         out["errors"].append(f"GitHub save failed: {e}")
+    try:
+        # First Seen: log this snapshot's line splits at the time it was taken (the hourly job does the same).
+        fsm.catch_up(date, lambda folder: [i["name"] for i in gh.list_dir(GH_TOKEN, OWNER, REPO, folder)],
+                     lambda path: gh.load_json(GH_TOKEN, OWNER, REPO, path) or {},
+                     lambda path, data, msg: gh.save_json(GH_TOKEN, OWNER, REPO, path, data, commit_msg=msg))
+    except Exception as e:  # noqa: BLE001
+        out["errors"].append(f"First Seen log failed: {e}")
     try:
         out["graded"] = grade_recent(now_et)
     except Exception as e:  # noqa: BLE001

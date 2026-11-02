@@ -118,6 +118,14 @@ def refresh_injuries(date, errors):
     return out
 
 
+def _snapshot_names(folder):
+    return [i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, folder)]
+
+
+def _save_json(path, data, msg):
+    gh.save_json(TOKEN, OWNER, REPO, path, data, commit_msg=msg)
+
+
 EARLY_SPORTS = ("NFL", "CFB")
 EARLY_FROM_HOUR = 7            # the day's early look runs on the first wake-up at or after 7 AM ET
 
@@ -253,11 +261,10 @@ def main():
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/picks/{date}.json", log,
                      commit_msg=f"Best plays log {date}: {new} new picks, {checked} checks")
         try:
-            fs_log = load(f"{LOG_DIR}/{fs.LOG_SUB}/{date}.json")
-            n_fs = sum(fs.update_log(fs_log, fs.split_plays(sp, r["props_snap"], now_et), iso, date)
-                       for sp, r in snaps.items())
-            gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{date}.json", fs_log,
-                         commit_msg=f"First-seen splits {date}: {n_fs} new")
+            # Every saved props snapshot not logged yet (this run's, plus any taken by hand) gets its first sightings
+            # recorded at the time it was taken.
+            n_fs = sum(fs.catch_up(d, _snapshot_names, load, _save_json)
+                       for d in (date, (now_et - timedelta(days=1)).strftime("%Y-%m-%d")))
             print(f"first-seen: {n_fs} new line splits")
         except Exception as e:  # noqa: BLE001
             errors.append(f"first-seen: {e}")
