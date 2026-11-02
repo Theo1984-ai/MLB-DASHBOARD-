@@ -7,6 +7,7 @@ the price and how far the soft books are from Pinnacle. Logged records use the s
 Plays pick log, so the existing grader settles them, and then `summarize` shows whether plays that appear
 early (or late) before tip-off do better.
 """
+import re
 from collections import defaultdict
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -140,3 +141,38 @@ def first_wave(log):
 def game_date(p):
     """The ET date a play's game is on (the date its log file is named after)."""
     return _parse(p["commence_time"]).astimezone(EASTERN).strftime("%Y-%m-%d")
+
+
+def catch_up(date, list_names, load, save, log_dir="best_plays_log"):
+    """
+    Log the line splits from every saved props snapshot of `date` that has not been processed yet, each one
+    stamped with the time the snapshot was taken. This is how a snapshot taken by hand on the Best Plays page,
+    or a run that was late, still gets its first sighting recorded at the right time. A small progress file
+    remembers which snapshot files are done. Returns the number of new splits.
+
+    list_names(folder) -> [file names]; load(path) -> data or {}; save(path, data, commit_msg).
+    """
+    done_path = f"{log_dir}/first_seen_done.json"
+    done = load(done_path) or {}
+    seen = set(done.get(date, []))
+    todo = sorted((m[2], m[1], n) for n in list_names(f"{log_dir}/snapshots/{date}")
+                  for m in [re.fullmatch(r"([A-Z]+)_(\d{4})_props\.json", n)] if m and n not in seen)
+    if not todo:
+        return 0
+    path = f"{log_dir}/{LOG_SUB}/{date}.json"
+    log = load(path) or {}
+    new = 0
+    for hhmm, sport, name in todo:
+        snap = load(f"{log_dir}/snapshots/{date}/{name}") or {}
+        try:
+            t = _parse(snap["captured_at"])
+        except Exception:  # noqa: BLE001
+            t = datetime.strptime(f"{date} {hhmm}", "%Y-%m-%d %H%M").replace(tzinfo=EASTERN)
+        new += update_log(log, split_plays(sport, snap, t), t.isoformat(), date)
+        seen.add(name)
+    save(path, log, f"First-seen splits {date}: {new} new")
+    done[date] = sorted(seen)
+    for old in sorted(done)[:-3]:            # keep the last 3 days only
+        del done[old]
+    save(done_path, done, f"First-seen progress {date}")
+    return new
