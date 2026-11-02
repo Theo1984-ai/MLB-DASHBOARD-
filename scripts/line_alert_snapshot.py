@@ -5,7 +5,7 @@ Records actionable LINE SPLIT plays to <sport>_line_alert_history/YYYY-MM-DD.jso
 Usage:
     THE_ODDS_API_KEY=xxx python scripts/line_alert_snapshot.py <sport>
 
-sport options: nfl, cfb, nba, mlb
+sport options: nfl, cfb, nba, ncaab, mlb
 """
 import json
 import os
@@ -39,6 +39,14 @@ SPORT_CONFIGS = {
     "nba": {
         "api_key":     "basketball_nba",
         "history_dir": os.path.join(ROOT, "nba_line_alert_history"),
+        "today_only":  True,
+        "followers":   ["draftkings", "fanduel", "williamhill_us", "fanatics",
+                        "bovada", "betrivers", "betonlineag", "espnbet",
+                        "mybookieag", "pointsbetus"],
+    },
+    "ncaab": {
+        "api_key":     "basketball_ncaab",
+        "history_dir": os.path.join(ROOT, "ncaab_line_alert_history"),
         "today_only":  True,
         "followers":   ["draftkings", "fanduel", "williamhill_us", "fanatics",
                         "bovada", "betrivers", "betonlineag", "espnbet",
@@ -195,7 +203,7 @@ def detect_plays(games, followers):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python line_alert_snapshot.py <sport>  (nfl | cfb | nba | mlb)", file=sys.stderr)
+        print("Usage: python line_alert_snapshot.py <sport>  (nfl | cfb | nba | ncaab | mlb)", file=sys.stderr)
         sys.exit(1)
 
     sport = sys.argv[1].lower()
