@@ -10,11 +10,13 @@ ESPN's final score, and keeps the settled results in best_plays_log/line_alert_r
 from datetime import datetime
 
 from scripts import best_plays as bp
+from scripts import line_alert_snapshot as las
 from scripts import nhl_line_alert_snapshot as nlas
 
 EASTERN = bp.EASTERN
 RESULTS_DIR = "best_plays_log/line_alert_results"
-SPORTS = {"NHL": "nhl_line_alert_history"}
+SPORTS = {"NHL": "nhl_line_alert_history", "NBA": "nba_line_alert_history", "NFL": "nfl_line_alert_history",
+          "CFB": "cfb_line_alert_history", "NCAAB": "ncaab_line_alert_history"}
 HOURLY_DIR = "best_plays_log/line_alert_hourly"      # the hourly job's own line alert snapshots, same shape as the history
 
 
@@ -77,9 +79,9 @@ def summarize(all_results):
     return out
 
 
-def hourly_plays(tt_snap, now_et):
-    """NHL line alert plays (same detection as the scheduled workflow) from the hourly job's team totals snapshot,
-    for games that have not started."""
+def hourly_plays(tt_snap, now_et, sport="NHL"):
+    """Line alert plays (same detection as the scheduled workflow for that sport) from the hourly job's team totals
+    snapshot, for games that have not started."""
     open_games = []
     for g in (tt_snap or {}).get("games", []):
         try:
@@ -87,7 +89,10 @@ def hourly_plays(tt_snap, now_et):
                 open_games.append(g)
         except Exception:  # noqa: BLE001
             continue
-    return nlas.detect_plays(open_games)
+    if sport == "NHL":
+        return nlas.detect_plays(open_games)
+    followers = sorted({b for g in open_games for sd in g.get("sides", {}).values() for b in sd if b != "pinnacle"})
+    return las.detect_plays(open_games, followers)
 
 
 def record_hourly(hourly, plays, now_et):
