@@ -605,6 +605,9 @@ with tab_games:
                 + (f"🚨 Line alert: {pr['alert_pick']} flagged Over, opponent Under → {pr['alert_pick']} to win "
                    f"({'model agrees' if pr.get('model_winner') == pr['winner'] else 'model alone: ' + str(pr.get('model_winner'))})  \n"
                    if pr.get("alert_pick") else "")
+                + (f"🚨 Line alert: both team totals flagged {pr['alert_ou']} → game {pr['alert_ou']} "
+                   f"({'model agrees' if pr.get('model_ou_pick') == pr['ou_pick'] else 'model alone: ' + str(pr.get('model_ou_pick'))})  \n"
+                   if pr.get("alert_ou") else "")
                 + f"📊 {ou}")
             hist = (pred_log.get(bp.pred_key(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), r["sport"], r["game"])) or {}).get("history", [])
             if len(hist) >= 2:
