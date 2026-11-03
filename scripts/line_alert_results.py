@@ -10,10 +10,12 @@ ESPN's final score, and keeps the settled results in best_plays_log/line_alert_r
 from datetime import datetime
 
 from scripts import best_plays as bp
+from scripts import nhl_line_alert_snapshot as nlas
 
 EASTERN = bp.EASTERN
 RESULTS_DIR = "best_plays_log/line_alert_results"
 SPORTS = {"NHL": "nhl_line_alert_history"}
+HOURLY_DIR = "best_plays_log/line_alert_hourly"      # the hourly job's own line alert snapshots, same shape as the history
 
 
 def play_id(day, sport, p):
@@ -73,3 +75,30 @@ def summarize(all_results):
             a["p"] += o == "push"
             a["u"] += res.get("profit") or 0.0
     return out
+
+
+def hourly_plays(tt_snap, now_et):
+    """NHL line alert plays (same detection as the scheduled workflow) from the hourly job's team totals snapshot,
+    for games that have not started."""
+    open_games = []
+    for g in (tt_snap or {}).get("games", []):
+        try:
+            if datetime.fromisoformat(g["commence_time"].replace("Z", "+00:00")) > now_et:
+                open_games.append(g)
+        except Exception:  # noqa: BLE001
+            continue
+    return nlas.detect_plays(open_games)
+
+
+def record_hourly(hourly, plays, now_et):
+    """Add this hour's plays to the day's hourly history ({HH:MM: {captured_at, plays}}) unless they are the same as
+    the latest snapshot (an empty list is recorded too, so a signal that has gone away stops being used).
+    Returns True when something was added."""
+    if hourly:
+        last = hourly[max(hourly, key=lambda k: hourly[k].get("captured_at", k))]
+        if last.get("plays") == plays:
+            return False
+    elif not plays:
+        return False
+    hourly[now_et.strftime("%H:%M")] = {"captured_at": now_et.isoformat(), "plays": plays}
+    return True
