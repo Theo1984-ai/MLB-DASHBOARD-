@@ -204,7 +204,10 @@ def load_line_alert_signals(date, _token_present):
     if not GH_TOKEN:
         return {}
     try:
-        return bp.line_alert_signals(_gh().load_json(GH_TOKEN, OWNER, REPO, f"nhl_line_alert_history/{date}.json") or {})
+        gh = _gh()
+        return bp.line_alert_signals(bp.merge_line_alert_history(
+            gh.load_json(GH_TOKEN, OWNER, REPO, f"nhl_line_alert_history/{date}.json") or {},
+            gh.load_json(GH_TOKEN, OWNER, REPO, f"best_plays_log/line_alert_hourly/NHL/{date}.json") or {}))
     except Exception:  # noqa: BLE001
         return {}
 

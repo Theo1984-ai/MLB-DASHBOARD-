@@ -77,6 +77,7 @@ def grade_line_alerts(now_et, errors, days=14):
     """Settle the NHL line alert plays (team totals) from ESPN final scores and keep the results on GitHub."""
     for sport, hist_dir in lar.SPORTS.items():
         have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, hist_dir)}
+        have |= {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, f"{lar.HOURLY_DIR}/{sport}")}
         for i in range(days):
             day = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
             if f"{day}.json" not in have:
@@ -84,7 +85,9 @@ def grade_line_alerts(now_et, errors, days=14):
             path = f"{lar.RESULTS_DIR}/{sport}/{day}.json"
             try:
                 results = load(path)
-                added, graded, errs = lar.grade_day(day, sport, load(f"{hist_dir}/{day}.json"), results, now_et)
+                history = bp.merge_line_alert_history(load(f"{hist_dir}/{day}.json"),
+                                                      load(f"{lar.HOURLY_DIR}/{sport}/{day}.json"))
+                added, graded, errs = lar.grade_day(day, sport, history, results, now_et)
                 errors.extend(f"{sport} line alert grading {day}: {e}" for e in errs[:1])
                 if added or graded:
                     gh.save_json(TOKEN, OWNER, REPO, path, results,
@@ -263,7 +266,14 @@ def main():
         rows = bp.build_game_rows(sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et)
         if sport == "NHL":
             try:
-                bp.attach_line_alerts(rows, bp.line_alert_signals(load(f"nhl_line_alert_history/{date}.json")))
+                # The scheduled line alert workflow runs late and only a few times a day, so the hourly job also
+                # detects line alert plays from its own team totals snapshot and saves them next to it.
+                hpath = f"{lar.HOURLY_DIR}/NHL/{date}.json"
+                hourly = load(hpath)
+                if lar.record_hourly(hourly, lar.hourly_plays(res["tt_snap"], now_et), now_et):
+                    gh.save_json(TOKEN, OWNER, REPO, hpath, hourly, commit_msg=f"NHL line alert (hourly) {date} {hhmm}")
+                bp.attach_line_alerts(rows, bp.line_alert_signals(bp.merge_line_alert_history(
+                    load(f"nhl_line_alert_history/{date}.json"), hourly)))
             except Exception as e:  # noqa: BLE001
                 errors.append(f"NHL line alert signals: {e}")
         pred_rows += bp.predict_rows(sport, rows)

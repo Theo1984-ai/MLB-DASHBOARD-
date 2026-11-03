@@ -799,6 +799,16 @@ def _fit_total_mean(spec, line, p_over):
     return (lo + hi) / 2
 
 
+def merge_line_alert_history(*histories):
+    """Combine line alert histories ({snapshot time: {captured_at, plays}}) from the scheduled workflow and the hourly
+    job into one, keyed by capture time so the latest snapshot is the newest of either."""
+    out = {}
+    for h in histories:
+        for key, snap in (h or {}).items():
+            out[(snap or {}).get("captured_at") or key] = snap
+    return out
+
+
 def line_alert_signals(history):
     """
     NHL line alert signals per game from nhl_line_alert_history/<date>.json ({snapshot time: {plays: [...]}}), using the
