@@ -1169,11 +1169,12 @@ _sel_str  = selected_date.strftime("%Y-%m-%d")
 # NHL plays are graded by the hourly job and kept on GitHub (see scripts/line_alert_results.py); use those results
 # first, then fall back to the live scores below.
 from scripts import line_alert_results as lar  # noqa: E402
-_IS_NHL = selected_sport.startswith("NHL")
+_CODE = selected_sport.split()[0]                       # "NHL", "NFL", "CFB", "NBA", "NCAAB", "MLB"
+_IS_NHL = _CODE in lar.SPORTS                           # (name kept) True for every sport the hourly job grades
 _saved = {}
 if _IS_NHL:
     try:
-        _saved = json.load(open(os.path.join(ROOT, lar.RESULTS_DIR, "NHL", f"{_sel_str}.json"), encoding="utf-8"))
+        _saved = json.load(open(os.path.join(ROOT, lar.RESULTS_DIR, _CODE, f"{_sel_str}.json"), encoding="utf-8"))
     except Exception:
         _saved = {}
 
@@ -1182,7 +1183,7 @@ def _saved_result(rec):
     """(result text, final goals text) from the saved, graded record of this play, or (None, None)."""
     if not _saved:
         return None, None
-    res = (_saved.get(lar.play_id(_sel_str, "NHL", rec)) or {}).get("result") or {}
+    res = (_saved.get(lar.play_id(_sel_str, _CODE, rec)) or {}).get("result") or {}
     o = res.get("outcome")
     if o not in ("win", "loss", "push"):
         return None, None
@@ -1333,7 +1334,7 @@ else:
 # ── Record to date (NHL: graded by the hourly job) ──────────────────────────
 
 if _IS_NHL:
-    _res_dir = os.path.join(ROOT, lar.RESULTS_DIR, "NHL")
+    _res_dir = os.path.join(ROOT, lar.RESULTS_DIR, _CODE)
     _all = []
     if os.path.isdir(_res_dir):
         for _f in sorted(os.listdir(_res_dir)):
@@ -1344,7 +1345,7 @@ if _IS_NHL:
                     pass
     _sm = lar.summarize(_all)
     st.markdown("---")
-    st.markdown("### 🏆 NHL Team Total Record (all saved days)")
+    st.markdown(f"### 🏆 {_CODE} Team Total Record (all saved days)")
     if not _sm["overall"]:
         st.caption("No graded plays yet. The hourly job grades each play after its game is final.")
     else:

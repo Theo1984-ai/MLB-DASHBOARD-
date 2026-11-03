@@ -21,6 +21,7 @@ if ROOT not in sys.path:
 from scripts import best_plays as bp  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fsm  # noqa: E402
+from scripts import line_alert_results as lar  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
@@ -199,15 +200,16 @@ def load_injuries(_token_present):
 
 
 @st.cache_data(ttl=300, show_spinner=False)
-def load_line_alert_signals(date, _token_present):
-    """NHL line alert signals for the day (one team Over, the other Under), from the saved line alert history."""
-    if not GH_TOKEN:
+def load_line_alert_signals(date, sport, _token_present):
+    """Line alert signals for the day and sport (one team Over and the other Under, or both the same way), from the
+    saved line alert history and the hourly job's own snapshots."""
+    if not GH_TOKEN or sport not in lar.SPORTS:
         return {}
     try:
         gh = _gh()
         return bp.line_alert_signals(bp.merge_line_alert_history(
-            gh.load_json(GH_TOKEN, OWNER, REPO, f"nhl_line_alert_history/{date}.json") or {},
-            gh.load_json(GH_TOKEN, OWNER, REPO, f"best_plays_log/line_alert_hourly/NHL/{date}.json") or {}))
+            gh.load_json(GH_TOKEN, OWNER, REPO, f"{lar.SPORTS[sport]}/{date}.json") or {},
+            gh.load_json(GH_TOKEN, OWNER, REPO, f"{lar.HOURLY_DIR}/{sport}/{date}.json") or {}))
     except Exception:  # noqa: BLE001
         return {}
 
@@ -287,8 +289,7 @@ def run_snapshot():
                             res["tt_snap"], bundle["first_tt"], res["game_snap"], bundle["roster"])
         rows = bp.build_game_rows(sport, res["tt_snap"], bundle["first_tt"], res["game_snap"], res["props_snap"],
                                   loose, now_et)
-        if sport == "NHL":
-            bp.attach_line_alerts(rows, load_line_alert_signals(date, True))
+        bp.attach_line_alerts(rows, load_line_alert_signals(date, sport, True))
         out["pred_rows"] += bp.predict_rows(sport, rows)
         out["sports"][sport] = {"games": res["n_games"], "plays": len(plays)}
         out["errors"] += res["errors"]
@@ -450,8 +451,8 @@ def build_view():
             p["commence_time"].replace("Z", "+00:00")) > now_et]
         rows = bp.build_game_rows(sport, s["tt_snap"], s.get("first_tt") or s["tt_snap"], s.get("game_snap"),
                                   s["props_snap"], open_loose, now_et)
-        if sport == "NHL" and GH_TOKEN:
-            bp.attach_line_alerts(rows, load_line_alert_signals(now_et.strftime("%Y-%m-%d"), True))
+        if GH_TOKEN:
+            bp.attach_line_alerts(rows, load_line_alert_signals(now_et.strftime("%Y-%m-%d"), sport, True))
         view["games"] += bp.predict_rows(sport, rows)
         view["plays"] += open_plays
         games = _open_games(s["props_snap"], now_et) | _open_games(s["tt_snap"], now_et)
@@ -605,11 +606,17 @@ with tab_games:
                 f"🏆 **{pr['winner']} to win** ({conf_icon[pr['win_conf']]} {pr['win_conf']}, "
                 f"{pr['win_prob'] * 100:.0f}%) · predicted **{pr['pred_away']:.0f}–{pr['pred_home']:.0f}** "
                 f"(total {pr['pred_total']:.1f})  \n"
-                + (f"🚨 Line alert: {pr['alert_pick']} flagged Over, opponent Under → {pr['alert_pick']} to win "
-                   f"({'model agrees' if pr.get('model_winner') == pr['winner'] else 'model alone: ' + str(pr.get('model_winner'))})  \n"
+                + ((f"🚨 Line alert: {pr['alert_pick']} flagged Over, opponent Under → {pr['alert_pick']} to win "
+                    f"({'model agrees' if pr.get('model_winner') == pr['winner'] else 'model alone: ' + str(pr.get('model_winner'))})  \n"
+                    if pr.get("alert_applied") else
+                    f"🚨 Line alert (info only): {pr['alert_pick']} flagged Over, opponent Under → points to {pr['alert_pick']} "
+                    f"({'same as the model' if pr.get('model_winner') == pr['alert_pick'] else 'model has ' + str(pr.get('model_winner'))})  \n")
                    if pr.get("alert_pick") else "")
-                + (f"🚨 Line alert: both team totals flagged {pr['alert_ou']} → game {pr['alert_ou']} "
-                   f"({'model agrees' if pr.get('model_ou_pick') == pr['ou_pick'] else 'model alone: ' + str(pr.get('model_ou_pick'))})  \n"
+                + ((f"🚨 Line alert: both team totals flagged {pr['alert_ou']} → game {pr['alert_ou']} "
+                    f"({'model agrees' if pr.get('model_ou_pick') == pr['ou_pick'] else 'model alone: ' + str(pr.get('model_ou_pick'))})  \n"
+                    if pr.get("alert_applied") else
+                    f"🚨 Line alert (info only): both team totals flagged {pr['alert_ou']} → points to game {pr['alert_ou']} "
+                    f"({'same as the model' if pr.get('model_ou_pick') == pr['alert_ou'] else 'model has ' + str(pr.get('model_ou_pick'))})  \n")
                    if pr.get("alert_ou") else "")
                 + f"📊 {ou}")
             hist = (pred_log.get(bp.pred_key(datetime.now(tz=EASTERN).strftime("%Y-%m-%d"), r["sport"], r["game"])) or {}).get("history", [])

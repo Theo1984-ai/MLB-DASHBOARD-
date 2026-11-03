@@ -799,6 +799,12 @@ def _fit_total_mean(spec, line, p_over):
     return (lo + hi) / 2
 
 
+# Sports where a line alert signal changes the prediction (winner / game Over-Under). For the others it is shown and graded
+# (alert_pick / alert_ou, with alert_applied False) but the model's own pick stands, until that sport's line alert record
+# shows it is worth using. NHL was checked first, on 3 days of results.
+ALERT_OVERRIDE_SPORTS = {"NHL"}
+
+
 def merge_line_alert_history(*histories):
     """Combine line alert histories ({snapshot time: {captured_at, plays}}) from the scheduled workflow and the hourly
     job into one, keyed by capture time so the latest snapshot is the newest of either."""
@@ -882,16 +888,23 @@ def predict_row(sport, row):
     winner = row["home"] if p_home >= 0.5 else row["away"]
     win_prob = max(p_home, 1 - p_home)
     model_winner, alert_pick, alert_note = winner, None, None
+    use_alert = sport in ALERT_OVERRIDE_SPORTS
     alert = row.get("alert")
     if alert and {alert.get("over"), alert.get("under")} == {row["home"], row["away"]}:
         # Line alert: one team's team total is flagged Over and the other's Under, so lean on the Over team to win.
         alert_pick = alert["over"]
-        winner = alert_pick
-        win_prob = p_home if winner == row["home"] else 1 - p_home
-        alert_note = (f"Line alert: {alert['over']} team total flagged Over and {alert['under']} Under, so we lean "
-                      f"{alert['over']} to win"
-                      + ("." if model_winner == winner else f" (the model alone had {model_winner} at "
-                                                              f"{max(p_home, 1 - p_home) * 100:.0f}%)."))
+        tail = "." if model_winner == alert_pick else (f" (the model alone had {model_winner} at "
+                                                       f"{max(p_home, 1 - p_home) * 100:.0f}%).")
+        if use_alert:
+            winner = alert_pick
+            win_prob = p_home if winner == row["home"] else 1 - p_home
+            alert_note = (f"Line alert: {alert['over']} team total flagged Over and {alert['under']} Under, so we lean "
+                          f"{alert['over']} to win" + tail)
+        else:
+            alert_note = (f"Line alert (info only, not used for {sport} picks yet): {alert['over']} team total flagged "
+                          f"Over and {alert['under']} Under, which points to {alert['over']}"
+                          + (", the same as the model." if model_winner == alert_pick else
+                             f", but the model has {model_winner}."))
     pin_fav = row["home"] if h["mean"] >= a["mean"] else row["away"]
     pin_p_home = _norm_cdf((h["mean"] - a["mean"]) / PRED_SIGMA.get(sport, 12.0))
 
@@ -923,12 +936,17 @@ def predict_row(sport, row):
     if alert and alert.get("both") in ("OVER", "UNDER"):
         # Line alert: both teams' totals are flagged the same way, so lean on that side of the game total.
         alert_ou = alert["both"].title()
-        ou_pick = alert_ou
-        ou_prob = p_over if ou_pick == "Over" else 1 - p_over        # the model's own chance for the chosen side
-        ou_conf = ("Low" if model_ou_pick != ou_pick else ou_conf if ou_conf != "Low" else "Medium")
-        ou_note = (f"Line alert: both team totals flagged {alert_ou}, so we lean {alert_ou} {ref:.1f}"
-                   + ("." if model_ou_pick == ou_pick else f" (the model alone had {model_ou_pick} at "
-                                                            f"{max(p_over, 1 - p_over) * 100:.0f}%)."))
+        if use_alert:
+            ou_pick = alert_ou
+            ou_prob = p_over if ou_pick == "Over" else 1 - p_over        # the model's own chance for the chosen side
+            ou_conf = ("Low" if model_ou_pick != ou_pick else ou_conf if ou_conf != "Low" else "Medium")
+            ou_note = (f"Line alert: both team totals flagged {alert_ou}, so we lean {alert_ou} {ref:.1f}"
+                       + ("." if model_ou_pick == ou_pick else f" (the model alone had {model_ou_pick} at "
+                                                                f"{max(p_over, 1 - p_over) * 100:.0f}%)."))
+        else:
+            ou_note = (f"Line alert (info only, not used for {sport} picks yet): both team totals flagged {alert_ou}"
+                       + (", the same as the model." if model_ou_pick == alert_ou else
+                          f", but the model has {model_ou_pick}."))
     ou_gap = abs(pred_total - ref)
     # keep the two predicted scores adding up to the predicted total (the margin is unchanged)
     delta = (pred_total - (sa + sh)) / 2
@@ -974,7 +992,7 @@ def predict_row(sport, row):
                      "High" if win_prob >= 0.70 else "Medium" if win_prob >= 0.60 else
                      "Medium" if alert_pick else "Low"),
         "alert_pick": alert_pick, "model_winner": model_winner,
-        "alert_ou": alert_ou, "model_ou_pick": model_ou_pick,
+        "alert_ou": alert_ou, "model_ou_pick": model_ou_pick, "alert_applied": bool(use_alert and (alert_pick or alert_ou)),
         "pred_away": round(sa, 1), "pred_home": round(sh, 1),
         "pred_margin": round(abs(margin), 1), "pred_total": round(pred_total, 1),
         "pin_total": None if pin_total is None else round(pin_total, 1),
@@ -1102,6 +1120,10 @@ def grade_predictions(log, now_et, fetch=_get_plain, finished_after_hours=4):
                 "model_ou_outcome": (None if last.get("model_ou_pick") is None or ref is None or total == ref else
                                      "win" if (total > ref) == (last["model_ou_pick"] == "Over") else "loss"),
                 "alert_ou": last.get("alert_ou"),
+                "alert_correct": None if actual_winner is None or not last.get("alert_pick")
+                else last["alert_pick"] == actual_winner,
+                "alert_ou_outcome": (None if last.get("alert_ou") is None or ref is None or total == ref else
+                                     "win" if (total > ref) == (last["alert_ou"] == "Over") else "loss"),
                 "model_correct": None if actual_winner is None or not last.get("model_winner")
                 else last["model_winner"] == actual_winner,
                 "alert_pick": last.get("alert_pick"),

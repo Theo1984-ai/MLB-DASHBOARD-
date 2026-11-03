@@ -73,12 +73,16 @@ def grade_recent(now_et, days=7):
                 print(f"graded {c['graded']} {label} for {d}")
 
 
-def grade_line_alerts(now_et, errors, days=14):
-    """Settle the NHL line alert plays (team totals) from ESPN final scores and keep the results on GitHub."""
+LINE_ALERT_DAYS = {"NHL": 14}      # how many days back to grade (NHL was backfilled further); the others a few days
+
+
+def grade_line_alerts(now_et, errors, days=None):
+    """Settle the line alert plays (team totals) from ESPN final scores and keep the results on GitHub."""
     for sport, hist_dir in lar.SPORTS.items():
+        days_back = days or LINE_ALERT_DAYS.get(sport, 4)
         have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, hist_dir)}
         have |= {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, f"{lar.HOURLY_DIR}/{sport}")}
-        for i in range(days):
+        for i in range(days_back):
             day = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
             if f"{day}.json" not in have:
                 continue
@@ -264,18 +268,19 @@ def main():
         loose = bp.annotate(bp.find_plays(sport, res["props_snap"], res["tt_snap"], LOOSE_TH), sport,
                             res["tt_snap"], first_tt, res["game_snap"], roster)
         rows = bp.build_game_rows(sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et)
-        if sport == "NHL":
+        if sport in lar.SPORTS:
             try:
-                # The scheduled line alert workflow runs late and only a few times a day, so the hourly job also
+                # The scheduled line alert workflows run late and only a few times a day, so the hourly job also
                 # detects line alert plays from its own team totals snapshot and saves them next to it.
-                hpath = f"{lar.HOURLY_DIR}/NHL/{date}.json"
+                hpath = f"{lar.HOURLY_DIR}/{sport}/{date}.json"
                 hourly = load(hpath)
-                if lar.record_hourly(hourly, lar.hourly_plays(res["tt_snap"], now_et), now_et):
-                    gh.save_json(TOKEN, OWNER, REPO, hpath, hourly, commit_msg=f"NHL line alert (hourly) {date} {hhmm}")
+                if lar.record_hourly(hourly, lar.hourly_plays(res["tt_snap"], now_et, sport), now_et):
+                    gh.save_json(TOKEN, OWNER, REPO, hpath, hourly,
+                                 commit_msg=f"{sport} line alert (hourly) {date} {hhmm}")
                 bp.attach_line_alerts(rows, bp.line_alert_signals(bp.merge_line_alert_history(
-                    load(f"nhl_line_alert_history/{date}.json"), hourly)))
+                    load(f"{lar.SPORTS[sport]}/{date}.json"), hourly)))
             except Exception as e:  # noqa: BLE001
-                errors.append(f"NHL line alert signals: {e}")
+                errors.append(f"{sport} line alert signals: {e}")
         pred_rows += bp.predict_rows(sport, rows)
     plays.sort(key=lambda p: -p["adj"])
     inj = refresh_injuries(date, errors)
