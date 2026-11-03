@@ -799,6 +799,35 @@ def _fit_total_mean(spec, line, p_over):
     return (lo + hi) / 2
 
 
+def line_alert_signals(history):
+    """
+    NHL line alert signals per game from nhl_line_alert_history/<date>.json ({snapshot time: {plays: [...]}}), using the
+    latest snapshot. A game gets a signal when one team has an OVER team-total play and the other team an UNDER:
+    {game: {"over": team, "under": team}}. A team with plays on both sides is ignored.
+    """
+    if not history:
+        return {}
+    last = history[max(history)] or {}
+    by = {}
+    for p in last.get("plays", []):
+        by.setdefault(p["game"], {}).setdefault(p["team"], set()).add(p["bet"])
+    out = {}
+    for game, teams in by.items():
+        overs = [t for t, bets in teams.items() if bets == {"OVER"}]
+        unders = [t for t, bets in teams.items() if bets == {"UNDER"}]
+        if len(overs) == 1 and len(unders) == 1:
+            out[game] = {"over": overs[0], "under": unders[0]}
+    return out
+
+
+def attach_line_alerts(rows, signals):
+    """Put each game's line alert signal on its `build_game_rows` row (key "alert") for `predict_row`."""
+    for r in rows:
+        if r["game"] in (signals or {}):
+            r["alert"] = signals[r["game"]]
+    return rows
+
+
 def predict_row(sport, row):
     """
     Predict one game from a `build_game_rows` row.
@@ -837,6 +866,17 @@ def predict_row(sport, row):
     p_home = p_model if market is None else (p_model + market) / 2
     winner = row["home"] if p_home >= 0.5 else row["away"]
     win_prob = max(p_home, 1 - p_home)
+    model_winner, alert_pick, alert_note = winner, None, None
+    alert = row.get("alert")
+    if alert and {alert.get("over"), alert.get("under")} == {row["home"], row["away"]}:
+        # Line alert: one team's team total is flagged Over and the other's Under, so lean on the Over team to win.
+        alert_pick = alert["over"]
+        winner = alert_pick
+        win_prob = p_home if winner == row["home"] else 1 - p_home
+        alert_note = (f"Line alert: {alert['over']} team total flagged Over and {alert['under']} Under, so we lean "
+                      f"{alert['over']} to win"
+                      + ("." if model_winner == winner else f" (the model alone had {model_winner} at "
+                                                              f"{max(p_home, 1 - p_home) * 100:.0f}%)."))
     pin_fav = row["home"] if h["mean"] >= a["mean"] else row["away"]
     pin_p_home = _norm_cdf((h["mean"] - a["mean"]) / PRED_SIGMA.get(sport, 12.0))
 
@@ -871,6 +911,8 @@ def predict_row(sport, row):
     soft_total = None
 
     reasons = [f"Pinnacle team totals imply {a['team']} {a['mean']:.1f}, {h['team']} {h['mean']:.1f}."]
+    if alert_note:
+        reasons.insert(0, alert_note)
     for t, ad in ((a, adj_a), (h, adj_h)):
         d = lean.get(t["team"])
         if d:
@@ -901,7 +943,10 @@ def predict_row(sport, row):
                        f"{BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d} (edge {p['edge'] * 100:+.1f}%).")
     return {
         "winner": winner, "win_prob": round(win_prob, 3),
-        "win_conf": "High" if win_prob >= 0.70 else "Medium" if win_prob >= 0.60 else "Low",
+        "win_conf": ("Low" if alert_pick and model_winner != winner else
+                     "High" if win_prob >= 0.70 else "Medium" if win_prob >= 0.60 else
+                     "Medium" if alert_pick else "Low"),
+        "alert_pick": alert_pick, "model_winner": model_winner,
         "pred_away": round(sa, 1), "pred_home": round(sh, 1),
         "pred_margin": round(abs(margin), 1), "pred_total": round(pred_total, 1),
         "pin_total": None if pin_total is None else round(pin_total, 1),
@@ -1026,6 +1071,9 @@ def grade_predictions(log, now_et, fetch=_get_plain, finished_after_hours=4):
                 "actual_home": ah, "actual_away": aa, "actual_total": total, "actual_winner": actual_winner,
                 "winner_correct": None if actual_winner is None else last["winner"] == actual_winner,
                 "pin_fav_correct": None if actual_winner is None else last["pin_favorite"] == actual_winner,
+                "model_correct": None if actual_winner is None or not last.get("model_winner")
+                else last["model_winner"] == actual_winner,
+                "alert_pick": last.get("alert_pick"),
                 "ou_outcome": ou, "total_error": round(total - last["pred_total"], 1),
                 "graded_at": now_et.isoformat(),
             }

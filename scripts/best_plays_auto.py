@@ -260,8 +260,13 @@ def main():
                              res["tt_snap"], first_tt, res["game_snap"], roster)
         loose = bp.annotate(bp.find_plays(sport, res["props_snap"], res["tt_snap"], LOOSE_TH), sport,
                             res["tt_snap"], first_tt, res["game_snap"], roster)
-        pred_rows += bp.predict_rows(sport, bp.build_game_rows(
-            sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et))
+        rows = bp.build_game_rows(sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et)
+        if sport == "NHL":
+            try:
+                bp.attach_line_alerts(rows, bp.line_alert_signals(load(f"nhl_line_alert_history/{date}.json")))
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"NHL line alert signals: {e}")
+        pred_rows += bp.predict_rows(sport, rows)
     plays.sort(key=lambda p: -p["adj"])
     inj = refresh_injuries(date, errors)
     try:
