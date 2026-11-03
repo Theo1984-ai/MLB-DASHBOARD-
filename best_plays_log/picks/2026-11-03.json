@@ -20,14 +20,14 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-03T09:00:22.491777-05:00",
-      "line": 49.5,
-      "price": -111,
+      "t": "2026-11-03T12:45:20.268640-05:00",
+      "line": 45.5,
+      "price": -110,
       "book": "betonlineag",
       "pin_line": 39.5,
-      "pin_over": -170,
-      "pin_under": 127,
-      "edge": 0.0456,
+      "pin_over": -149,
+      "pin_under": 112,
+      "edge": 0.0134,
       "stale": 3,
       "n_books": 3
     },
@@ -82,6 +82,15 @@
         "pin_line": 39.5,
         "pin_over": -170,
         "pin_under": 127,
+        "book_line": 45.5,
+        "book_over": -118,
+        "book_under": -110
+      },
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
+        "pin_line": 39.5,
+        "pin_over": -149,
+        "pin_under": 112,
         "book_line": 45.5,
         "book_over": -118,
         "book_under": -110
@@ -196,6 +205,15 @@
         "book_line": 204.5,
         "book_over": -112,
         "book_under": -115
+      },
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
+        "pin_line": 205.5,
+        "pin_over": -119,
+        "pin_under": -112,
+        "book_line": 204.5,
+        "book_over": -114,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -292,6 +310,15 @@
       },
       {
         "t": "2026-11-03T11:45:31.837372-05:00",
+        "pin_line": 64.5,
+        "pin_over": -118,
+        "pin_under": -106,
+        "book_line": 65.5,
+        "book_over": -104,
+        "book_under": -120
+      },
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
         "pin_line": 64.5,
         "pin_over": -118,
         "pin_under": -106,
@@ -441,6 +468,15 @@
         "book_line": 82.5,
         "book_over": -114,
         "book_under": -110
+      },
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
+        "pin_line": 81.5,
+        "pin_over": 100,
+        "pin_under": -126,
+        "book_line": 82.5,
+        "book_over": -112,
+        "book_under": -112
       }
     ],
     "result": null,
@@ -485,7 +521,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-03T11:45:31.837372-05:00",
+      "t": "2026-11-03T12:45:20.268640-05:00",
       "line": 33.5,
       "price": -114,
       "book": "fanduel",
@@ -499,6 +535,15 @@
     "checks": [
       {
         "t": "2026-11-03T11:45:31.837372-05:00",
+        "pin_line": 29.5,
+        "pin_over": -114,
+        "pin_under": -114,
+        "book_line": 33.5,
+        "book_over": -114,
+        "book_under": -114
+      },
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
         "pin_line": 29.5,
         "pin_over": -114,
         "pin_under": -114,
@@ -526,6 +571,136 @@
     "tier": "B",
     "tier_why": [
       "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle",
+      "football yardage prop"
+    ]
+  },
+  "2026-11-03|NHL|prop|Edmonton Oilers @ New Jersey Devils|Leon Draisaitl|shots_on_goal|OVER": {
+    "sport": "NHL",
+    "kind": "prop",
+    "game": "Edmonton Oilers @ New Jersey Devils",
+    "who": "Leon Draisaitl",
+    "market": "shots_on_goal",
+    "bet": "OVER",
+    "commence_time": "2026-11-04T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-03T12:45:20.268640-05:00",
+      "line": 2.5,
+      "price": -140,
+      "book": "draftkings",
+      "pin_line": 3.5,
+      "pin_over": 140,
+      "pin_under": -189,
+      "edge": 0.0289,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-03T12:45:20.268640-05:00",
+      "line": 2.5,
+      "price": -140,
+      "book": "draftkings",
+      "pin_line": 3.5,
+      "pin_over": 140,
+      "pin_under": -189,
+      "edge": 0.0289,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
+        "pin_line": 3.5,
+        "pin_over": 140,
+        "pin_under": -189,
+        "book_line": 2.5,
+        "book_over": -140,
+        "book_under": 105
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Edmonton Oilers",
+      "opp": "New Jersey Devils",
+      "scope": "team",
+      "shift": -0.08,
+      "tag": "n/a",
+      "win_prob": 0.414,
+      "fav": "New Jersey Devils",
+      "fav_win_prob": 0.586,
+      "fav_spread": -1.5,
+      "blowout": false,
+      "total": 6.0,
+      "total_over": -106,
+      "total_under": -106
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
+    ]
+  },
+  "2026-11-03|CFB|prop|Ohio Bobcats @ Akron Zips|Jordan Gant|reception_yds|UNDER": {
+    "sport": "CFB",
+    "kind": "prop",
+    "game": "Ohio Bobcats @ Akron Zips",
+    "who": "Jordan Gant",
+    "market": "reception_yds",
+    "bet": "UNDER",
+    "commence_time": "2026-11-04T00:00:00Z",
+    "first_seen": {
+      "t": "2026-11-03T12:45:20.268640-05:00",
+      "line": 12.5,
+      "price": -110,
+      "book": "fanduel",
+      "pin_line": 11.5,
+      "pin_over": -114,
+      "pin_under": -116,
+      "edge": 0.0153,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-03T12:45:20.268640-05:00",
+      "line": 12.5,
+      "price": -110,
+      "book": "fanduel",
+      "pin_line": 11.5,
+      "pin_over": -114,
+      "pin_under": -116,
+      "edge": 0.0153,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-03T12:45:20.268640-05:00",
+        "pin_line": 11.5,
+        "pin_over": -114,
+        "pin_under": -116,
+        "book_line": 12.5,
+        "book_over": -120,
+        "book_under": -110
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Akron Zips",
+      "opp": "Ohio Bobcats",
+      "scope": "team",
+      "shift": 0.35,
+      "tag": "neutral",
+      "win_prob": 0.19,
+      "fav": "Ohio Bobcats",
+      "fav_win_prob": 0.81,
+      "fav_spread": -13.5,
+      "blowout": false,
+      "total": 51.0,
+      "total_over": -112,
+      "total_under": -104
+    },
+    "tier": "B",
+    "tier_why": [
       "every book is off Pinnacle",
       "football yardage prop"
     ]
