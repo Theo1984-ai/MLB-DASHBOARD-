@@ -18,6 +18,7 @@ from scripts import best_plays as bp  # noqa: E402
 from scripts import best_plays_alerts as alerts  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
+from scripts import line_alert_results as lar  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
 # pandas and the rest of the app, which the Actions runner doesn't install.
@@ -70,6 +71,27 @@ def grade_recent(now_et, days=7):
             if c["graded"] or c.get("no_data"):
                 gh.save_json(TOKEN, OWNER, REPO, path, log, commit_msg=f"{label} {d}: graded {c['graded']}")
                 print(f"graded {c['graded']} {label} for {d}")
+
+
+def grade_line_alerts(now_et, errors, days=14):
+    """Settle the NHL line alert plays (team totals) from ESPN final scores and keep the results on GitHub."""
+    for sport, hist_dir in lar.SPORTS.items():
+        have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, hist_dir)}
+        for i in range(days):
+            day = (now_et - timedelta(days=i)).strftime("%Y-%m-%d")
+            if f"{day}.json" not in have:
+                continue
+            path = f"{lar.RESULTS_DIR}/{sport}/{day}.json"
+            try:
+                results = load(path)
+                added, graded, errs = lar.grade_day(day, sport, load(f"{hist_dir}/{day}.json"), results, now_et)
+                errors.extend(f"{sport} line alert grading {day}: {e}" for e in errs[:1])
+                if added or graded:
+                    gh.save_json(TOKEN, OWNER, REPO, path, results,
+                                 commit_msg=f"{sport} line alert results {day}: {added} new, {graded} graded")
+                    print(f"{sport} line alert {day}: {added} new plays, {graded} graded")
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"{sport} line alert results {day}: {e}")
 
 
 def minutes_since_last_run(now_et):
@@ -238,8 +260,13 @@ def main():
                              res["tt_snap"], first_tt, res["game_snap"], roster)
         loose = bp.annotate(bp.find_plays(sport, res["props_snap"], res["tt_snap"], LOOSE_TH), sport,
                             res["tt_snap"], first_tt, res["game_snap"], roster)
-        pred_rows += bp.predict_rows(sport, bp.build_game_rows(
-            sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et))
+        rows = bp.build_game_rows(sport, res["tt_snap"], first_tt, res["game_snap"], res["props_snap"], loose, now_et)
+        if sport == "NHL":
+            try:
+                bp.attach_line_alerts(rows, bp.line_alert_signals(load(f"nhl_line_alert_history/{date}.json")))
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"NHL line alert signals: {e}")
+        pred_rows += bp.predict_rows(sport, rows)
     plays.sort(key=lambda p: -p["adj"])
     inj = refresh_injuries(date, errors)
     try:
@@ -277,6 +304,10 @@ def main():
         grade_recent(now_et)
     except Exception as e:  # noqa: BLE001
         errors.append(f"grading: {e}")
+    try:
+        grade_line_alerts(now_et, errors)
+    except Exception as e:  # noqa: BLE001
+        errors.append(f"line alert grading: {e}")
     for e in errors:
         print("note:", e)
     if not failed:
