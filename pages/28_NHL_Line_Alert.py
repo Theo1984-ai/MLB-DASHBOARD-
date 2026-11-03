@@ -1165,6 +1165,30 @@ with hcol2:
         st.caption("No history files yet — records appear after the first snapshot runs.")
 
 _sel_str  = selected_date.strftime("%Y-%m-%d")
+
+# NHL plays are graded by the hourly job and kept on GitHub (see scripts/line_alert_results.py); use those results
+# first, then fall back to the live scores below.
+from scripts import line_alert_results as lar  # noqa: E402
+_IS_NHL = selected_sport.startswith("NHL")
+_saved = {}
+if _IS_NHL:
+    try:
+        _saved = json.load(open(os.path.join(ROOT, lar.RESULTS_DIR, "NHL", f"{_sel_str}.json"), encoding="utf-8"))
+    except Exception:
+        _saved = {}
+
+
+def _saved_result(rec):
+    """(result text, final goals text) from the saved, graded record of this play, or (None, None)."""
+    if not _saved:
+        return None, None
+    res = (_saved.get(lar.play_id(_sel_str, "NHL", rec)) or {}).get("result") or {}
+    o = res.get("outcome")
+    if o not in ("win", "loss", "push"):
+        return None, None
+    act = res.get("actual")
+    return {"win": "✅ WIN", "loss": "❌ LOSS", "push": "🟡 PUSH"}[o], (str(int(act)) if act is not None else "—")
+
 _sel_path = os.path.join(HISTORY_DIR, f"{_sel_str}.json")
 
 if not os.path.exists(_sel_path) and (selected_date != _today or not all_plays):
@@ -1186,7 +1210,10 @@ elif not os.path.exists(_sel_path) and selected_date == _today and all_plays:
         ts   = sc.get("team_scores", {})
         team_score = ts.get(team)
         completed  = sc.get("completed", False)
-        if completed and team_score is not None:
+        _sr, _ss = _saved_result(rec)
+        if _sr:
+            result, score_str = _sr, _ss
+        elif completed and team_score is not None:
             line = float(rec.get("line", 0))
             bet  = rec.get("bet", "OVER")
             if bet == "OVER":
@@ -1253,7 +1280,10 @@ else:
             team_score = ts.get(team)
             completed  = sc.get("completed", False)
 
-            if completed and team_score is not None:
+            _sr, _ss = _saved_result(rec)
+            if _sr:
+                result, score_str = _sr, _ss
+            elif completed and team_score is not None:
                 line = float(rec.get("line", 0))
                 bet  = rec.get("bet", "OVER")
                 if bet == "OVER":
@@ -1299,6 +1329,36 @@ else:
                 + f'</div>',
                 unsafe_allow_html=True,
             )
+
+# ── Record to date (NHL: graded by the hourly job) ──────────────────────────
+
+if _IS_NHL:
+    _res_dir = os.path.join(ROOT, lar.RESULTS_DIR, "NHL")
+    _all = []
+    if os.path.isdir(_res_dir):
+        for _f in sorted(os.listdir(_res_dir)):
+            if _f.endswith(".json"):
+                try:
+                    _all += list(json.load(open(os.path.join(_res_dir, _f), encoding="utf-8")).values())
+                except Exception:
+                    pass
+    _sm = lar.summarize(_all)
+    st.markdown("---")
+    st.markdown("### 🏆 NHL Team Total Record (all saved days)")
+    if not _sm["overall"]:
+        st.caption("No graded plays yet. The hourly job grades each play after its game is final.")
+    else:
+        def _rec_rows(bucket, label):
+            return [{label: k, "W-L-P": f"{v['w']}-{v['l']}-{v['p']}",
+                     "Win %": f"{v['w'] / (v['w'] + v['l']) * 100:.0f}%" if v["w"] + v["l"] else "-",
+                     "Units": round(v["u"], 1)}
+                    for k, v in sorted(_sm[bucket].items(), key=lambda x: str(x[0]))]
+        _o = _sm["overall"]["all"]
+        st.markdown(f"**Overall: {_o['w']}-{_o['l']}-{_o['p']} · {_o['u']:+.1f}u** "
+                    f"({_o['w'] + _o['l'] + _o['p']} graded plays)")
+        c1, c2 = st.columns(2)
+        c1.dataframe(pd.DataFrame(_rec_rows("bet", "Bet")), hide_index=True, use_container_width=True)
+        c2.dataframe(pd.DataFrame(_rec_rows("line", "Line")), hide_index=True, use_container_width=True)
 
 # ── Teams to Watch ───────────────────────────────────────────────────────────
 
