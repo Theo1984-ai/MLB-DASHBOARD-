@@ -6,6 +6,7 @@ time each one appears (best_plays_log/first_seen/<date>.json) and the grader set
 """
 import os
 import sys
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -47,16 +48,35 @@ if not GH_TOKEN:
     st.stop()
 
 
+def _retry(fn, tries=3):
+    """Call fn, retrying a failed GitHub request (a temporary 500 is common) before giving up."""
+    last = None
+    for i in range(tries):
+        try:
+            return fn()
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(0.6 * (i + 1))
+    raise last
+
+
 @st.cache_data(ttl=120, show_spinner=False)
 def load_all(_token_present):
+    """({day: first-wave records}, [days that could not be loaded]). One bad day no longer hides the rest."""
     from data import github_storage as gh
-    out = {}
-    for item in gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}"):
+    out, failed = {}, []
+    items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}"))
+    for item in items:
         name = item["name"]
-        if name.endswith(".json"):
-            day = gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{name}") or {}
-            out[name[:-5]] = fs.first_wave(day) if day else {}     # first wave only
-    return out
+        if not name.endswith(".json"):
+            continue
+        try:
+            day = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{fs.LOG_SUB}/{name}")) or {}
+        except Exception:  # noqa: BLE001
+            failed.append(name[:-5])
+            continue
+        out[name[:-5]] = fs.first_wave(day) if day else {}     # first wave only
+    return out, failed
 
 
 @st.cache_data(ttl=600, show_spinner=False)
@@ -81,10 +101,14 @@ def load_injuries(_token_present):
 
 
 try:
-    logs = load_all(True)
+    logs, failed_days = load_all(True)
 except Exception as e:  # noqa: BLE001
     st.error(f"Couldn't load the first-seen logs: {e}")
     st.stop()
+if failed_days:
+    load_all.clear()            # don't keep a failed day cached; the next refresh tries again
+    st.warning("Couldn't load " + ", ".join(sorted(failed_days)) + " (GitHub had a temporary error). "
+               "Showing the other days. Reload to try again.")
 
 if not logs:
     st.info("Nothing logged yet. It fills in after the next hourly snapshot.")
