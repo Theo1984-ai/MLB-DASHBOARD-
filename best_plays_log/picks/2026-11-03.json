@@ -20,7 +20,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-03T07:52:56.516732-05:00",
+      "t": "2026-11-03T08:00:18.891042-05:00",
       "line": 44.5,
       "price": -114,
       "book": "betonlineag",
@@ -34,6 +34,15 @@
     "checks": [
       {
         "t": "2026-11-03T07:52:56.516732-05:00",
+        "pin_line": 39.5,
+        "pin_over": -114,
+        "pin_under": -114,
+        "book_line": 44.5,
+        "book_over": -114,
+        "book_under": -114
+      },
+      {
+        "t": "2026-11-03T08:00:18.891042-05:00",
         "pin_line": 39.5,
         "pin_over": -114,
         "pin_under": -114,
@@ -86,7 +95,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-03T07:52:56.516732-05:00",
+      "t": "2026-11-03T08:00:18.891042-05:00",
       "line": 198.5,
       "price": -114,
       "book": "betonlineag",
@@ -100,6 +109,15 @@
     "checks": [
       {
         "t": "2026-11-03T07:52:56.516732-05:00",
+        "pin_line": 205.5,
+        "pin_over": -114,
+        "pin_under": -114,
+        "book_line": 198.5,
+        "book_over": -114,
+        "book_under": -114
+      },
+      {
+        "t": "2026-11-03T08:00:18.891042-05:00",
         "pin_line": 205.5,
         "pin_over": -114,
         "pin_under": -114,
@@ -129,6 +147,69 @@
       "big gap to Pinnacle (often news)",
       "every book is off Pinnacle",
       "football yardage prop"
+    ]
+  },
+  "2026-11-03|NCAAB|team total|Wofford Terriers @ Tennessee Volunteers|Wofford Terriers|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "Wofford Terriers @ Tennessee Volunteers",
+    "who": "Wofford Terriers",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-03T23:00:00Z",
+    "first_seen": {
+      "t": "2026-11-03T08:00:18.891042-05:00",
+      "line": 64.5,
+      "price": -120,
+      "book": "fanduel",
+      "pin_line": 62.5,
+      "pin_over": -122,
+      "pin_under": -103,
+      "edge": 0.0142,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-03T08:00:18.891042-05:00",
+      "line": 64.5,
+      "price": -120,
+      "book": "fanduel",
+      "pin_line": 62.5,
+      "pin_over": -122,
+      "pin_under": -103,
+      "edge": 0.0142,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-03T08:00:18.891042-05:00",
+        "pin_line": 62.5,
+        "pin_over": -122,
+        "pin_under": -103,
+        "book_line": 64.5,
+        "book_over": -104,
+        "book_under": -120
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Wofford Terriers",
+      "opp": "Tennessee Volunteers",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "fav": "Tennessee Volunteers",
+      "fav_spread": -27.0,
+      "blowout": true,
+      "total": 154.0,
+      "total_over": -109,
+      "total_under": -111
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle"
     ]
   }
 }
