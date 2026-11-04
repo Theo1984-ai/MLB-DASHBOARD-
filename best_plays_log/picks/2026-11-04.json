@@ -20,16 +20,16 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-04T04:00:18.173687-05:00",
+      "t": "2026-11-04T05:45:15.985260-05:00",
       "line": 8.5,
-      "price": 102,
+      "price": 100,
       "book": "fanduel",
       "pin_line": 7.5,
       "pin_over": -150,
       "pin_under": 113,
-      "edge": 0.0381,
-      "stale": 4,
-      "n_books": 4
+      "edge": 0.0331,
+      "stale": 3,
+      "n_books": 3
     },
     "checks": [
       {
@@ -76,6 +76,15 @@
         "book_line": 8.5,
         "book_over": -136,
         "book_under": 102
+      },
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 7.5,
+        "pin_over": -150,
+        "pin_under": 113,
+        "book_line": 8.5,
+        "book_over": -132,
+        "book_under": 100
       }
     ],
     "result": null,
@@ -176,6 +185,15 @@
         "book_line": 12.5,
         "book_over": -123,
         "book_under": -104
+      },
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 12.5,
+        "pin_over": -118,
+        "pin_under": -112,
+        "book_line": 12.5,
+        "book_over": -123,
+        "book_under": -104
       }
     ],
     "result": null,
@@ -256,6 +274,15 @@
         "book_line": 23.5,
         "book_over": -108,
         "book_under": -120
+      },
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 22.5,
+        "pin_over": -111,
+        "pin_under": -119,
+        "book_line": 22.5,
+        "book_over": -120,
+        "book_under": -108
       }
     ],
     "result": null,
@@ -324,6 +351,15 @@
         "pin_line": 11.5,
         "pin_over": -124,
         "pin_under": -107,
+        "book_line": 12.5,
+        "book_over": -114,
+        "book_under": -114
+      },
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 11.5,
+        "pin_over": -133,
+        "pin_under": 101,
         "book_line": 12.5,
         "book_over": -114,
         "book_under": -114
@@ -398,6 +434,15 @@
         "book_line": 8.5,
         "book_over": -116,
         "book_under": -110
+      },
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 9.5,
+        "pin_over": -101,
+        "pin_under": -131,
+        "book_line": 8.5,
+        "book_over": -116,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -418,5 +463,69 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-04|NBA|prop|Minnesota Timberwolves @ Houston Rockets|Alperen Sengun|assists|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Minnesota Timberwolves @ Houston Rockets",
+    "who": "Alperen Sengun",
+    "market": "assists",
+    "bet": "UNDER",
+    "commence_time": "2026-11-05T01:30:00Z",
+    "first_seen": {
+      "t": "2026-11-04T05:45:15.985260-05:00",
+      "line": 6.5,
+      "price": -140,
+      "book": "fanduel",
+      "pin_line": 5.5,
+      "pin_over": -152,
+      "pin_under": 115,
+      "edge": 0.0126,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-04T05:45:15.985260-05:00",
+      "line": 6.5,
+      "price": -140,
+      "book": "fanduel",
+      "pin_line": 5.5,
+      "pin_over": -152,
+      "pin_under": 115,
+      "edge": 0.0126,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-04T05:45:15.985260-05:00",
+        "pin_line": 5.5,
+        "pin_over": -152,
+        "pin_under": 115,
+        "book_line": 6.5,
+        "book_over": 106,
+        "book_under": -140
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Houston Rockets",
+      "opp": "Minnesota Timberwolves",
+      "scope": "team",
+      "shift": -0.06,
+      "tag": "neutral",
+      "win_prob": 0.727,
+      "fav": "Houston Rockets",
+      "fav_win_prob": 0.727,
+      "fav_spread": -8.5,
+      "blowout": false,
+      "total": 220.5,
+      "total_over": -106,
+      "total_under": -108
+    },
+    "tier": "B",
+    "tier_why": [
+      "Pinnacle's price leans against this side"
+    ]
   }
 }
