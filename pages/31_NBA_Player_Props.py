@@ -111,6 +111,8 @@ SPORTS = {
     },
 }
 
+MIN_OFF = 4          # "4+ books off Pinnacle": the clearest profitable rule in the First Seen record
+
 FOLLOWER_BOOKS = [
     "draftkings", "fanduel", "williamhill_us", "fanatics",
     "betrivers", "betonlineag", "espnbet",
@@ -562,8 +564,21 @@ def render_sport_tab(sport_label, sport_cfg):
 
     # ── Actionable Plays ──────────────────────────────────────────────────────
     st.markdown("### 🎯 Actionable Plays")
+    n_all = len(all_plays)
+    _mode = st.radio(
+        "Plays", ["All plays", f"⭐ {MIN_OFF}+ books off Pinnacle only", f"⭐ {MIN_OFF}+ books off, no points props"],
+        horizontal=True, key=f"plays_{sport_key}",
+        help=f"Plays where {MIN_OFF}+ soft books are still off Pinnacle's line. In the First Seen record, these went "
+             "64-44 (+8.9u) while plays with fewer than 4 lost money; with points props removed, 34-14 (+12.5u). "
+             "The First Seen page keeps the running record.")
+    if _mode != "All plays":
+        no_pts = _mode.endswith("no points props")
+        all_plays = [p for p in all_plays if p.get("stale_count", 0) >= MIN_OFF
+                     and not (no_pts and p["market"].replace("player_", "") == "points")]
+        st.caption(f"Showing {len(all_plays)} of {n_all} plays.")
     if not all_plays:
-        st.info("No actionable plays right now. Plays appear when Pinnacle's line splits from follower books.")
+        st.info("No actionable plays right now. Plays appear when Pinnacle's line splits from follower books."
+                if _mode == "All plays" else f"No plays with {MIN_OFF}+ books off right now.")
     else:
         for play in all_plays:
             bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
@@ -590,6 +605,8 @@ def render_sport_tab(sport_label, sport_cfg):
                 conf_label, conf_color, conf_bg = "MED", "#d97706", "#fffbeb"
             else:
                 conf_label, conf_color, conf_bg = "LOW", "#6b7280", "#f3f4f6"
+            star_html = (f' <span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
+                         f'border-radius:3px;">⭐ {_stale} books off</span>' if _stale >= MIN_OFF else "")
             juiced_html = (' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
                            if _price is not None and _price < -150 else "")
             meta_html = (
@@ -597,7 +614,7 @@ def render_sport_tab(sport_label, sport_cfg):
                 f'<span style="background:{conf_bg};color:{conf_color};border:1px solid {conf_color};'
                 f'font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;">{conf_label}</span>'
                 f'<span style="font-size:11px;color:#6b7280;">{_split} pt gap · {_stale} book{"s" if _stale != 1 else ""} stale</span>'
-                f'{juiced_html}</div>'
+                f'{juiced_html}{star_html}</div>'
             )
 
             st.markdown(
