@@ -1,7 +1,7 @@
 {
   "date": "2026-11-03",
-  "snapshot_at": "2026-11-03T19:19:38.977115-05:00",
-  "n_picks": 29,
+  "snapshot_at": "2026-11-03T20:08:16.871415-05:00",
+  "n_picks": 32,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 29,
+    "n_total": 32,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -976,9 +976,9 @@
           -460
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-03T17:06:20.040363-05:00",
-      "last_seen_at": "2026-11-03T19:19:38.977037-05:00",
+      "last_seen_at": "2026-11-03T20:08:16.871332-05:00",
       "scan_history": [
         {
           "t": "2026-11-03T17:06:20.040363-05:00",
@@ -988,6 +988,12 @@
         },
         {
           "t": "2026-11-03T19:19:38.977037-05:00",
+          "tp": 81.15,
+          "ev": 5.75,
+          "price": -400
+        },
+        {
+          "t": "2026-11-03T20:08:16.871332-05:00",
           "tp": 81.15,
           "ev": 5.75,
           "price": -400
@@ -1027,9 +1033,9 @@
           -410
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-03T17:06:20.040363-05:00",
-      "last_seen_at": "2026-11-03T19:19:38.977037-05:00",
+      "last_seen_at": "2026-11-03T20:08:16.871332-05:00",
       "scan_history": [
         {
           "t": "2026-11-03T17:06:20.040363-05:00",
@@ -1039,6 +1045,12 @@
         },
         {
           "t": "2026-11-03T19:19:38.977037-05:00",
+          "tp": 79.27,
+          "ev": 6.71,
+          "price": -350
+        },
+        {
+          "t": "2026-11-03T20:08:16.871332-05:00",
           "tp": 79.27,
           "ev": 6.71,
           "price": -350
@@ -1518,6 +1530,149 @@
           "tp": 75.14,
           "ev": 6.27,
           "price": -277
+        }
+      ]
+    },
+    {
+      "event_id": "71d674d1a6ac60893018bd115d42d624",
+      "game": "Oilers @ Devils",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New Jersey Devils",
+      "first_pitch": "2026-11-04T00:38:58Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New Jersey Devils +2.5",
+      "player": "New Jersey Devils",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -381,
+      "true_prob_pct": 83.54,
+      "ev_per_100": 20.82,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -381
+        ],
+        [
+          "draftkings",
+          -550
+        ],
+        [
+          "bovada",
+          -550
+        ],
+        [
+          "fanduel",
+          -600
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "last_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-03T20:08:16.871332-05:00",
+          "tp": 83.54,
+          "ev": 20.82,
+          "price": -381
+        }
+      ]
+    },
+    {
+      "event_id": "71d674d1a6ac60893018bd115d42d624",
+      "game": "Oilers @ Devils",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New Jersey Devils",
+      "first_pitch": "2026-11-04T00:38:58Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "bovada",
+      "best_price": -400,
+      "true_prob_pct": 82.03,
+      "ev_per_100": 10.16,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "draftkings",
+          -440
+        ],
+        [
+          "fanduel",
+          -550
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "last_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-03T20:08:16.871332-05:00",
+          "tp": 82.03,
+          "ev": 10.16,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "71d674d1a6ac60893018bd115d42d624",
+      "game": "Oilers @ Devils",
+      "away_team": "Edmonton Oilers",
+      "home_team": "New Jersey Devils",
+      "first_pitch": "2026-11-04T00:38:58Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Edmonton Oilers +1.5",
+      "player": "Edmonton Oilers",
+      "side": "Away",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -385,
+      "true_prob_pct": 80.67,
+      "ev_per_100": 6.26,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "bovada",
+          -410
+        ],
+        [
+          "pinnacle",
+          -429
+        ],
+        [
+          "fanduel",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "last_seen_at": "2026-11-03T20:08:16.871332-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-03T20:08:16.871332-05:00",
+          "tp": 80.67,
+          "ev": 6.26,
+          "price": -385
         }
       ]
     }
