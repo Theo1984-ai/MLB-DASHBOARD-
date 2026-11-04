@@ -1,7 +1,7 @@
 {
   "date": "2026-11-03",
-  "snapshot_at": "2026-11-03T20:47:05.715852-05:00",
-  "n_picks": 32,
+  "snapshot_at": "2026-11-03T21:50:06.974059-05:00",
+  "n_picks": 33,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 32,
+    "n_total": 33,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -976,9 +976,9 @@
           -460
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-03T17:06:20.040363-05:00",
-      "last_seen_at": "2026-11-03T20:47:05.715803-05:00",
+      "last_seen_at": "2026-11-03T21:50:06.974006-05:00",
       "scan_history": [
         {
           "t": "2026-11-03T17:06:20.040363-05:00",
@@ -1003,6 +1003,12 @@
           "tp": 81.15,
           "ev": 5.75,
           "price": -400
+        },
+        {
+          "t": "2026-11-03T21:50:06.974006-05:00",
+          "tp": 81.15,
+          "ev": 5.75,
+          "price": -400
         }
       ]
     },
@@ -1021,14 +1027,14 @@
       "side": "Home",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": -350,
-      "true_prob_pct": 79.27,
-      "ev_per_100": 6.71,
+      "best_price": -340,
+      "true_prob_pct": 79.1,
+      "ev_per_100": 8.04,
       "n_books": 3,
       "all_prices": [
         [
           "draftkings",
-          -350
+          -340
         ],
         [
           "pinnacle",
@@ -1039,9 +1045,9 @@
           -410
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-03T17:06:20.040363-05:00",
-      "last_seen_at": "2026-11-03T20:47:05.715803-05:00",
+      "last_seen_at": "2026-11-03T21:50:06.974006-05:00",
       "scan_history": [
         {
           "t": "2026-11-03T17:06:20.040363-05:00",
@@ -1066,6 +1072,12 @@
           "tp": 79.27,
           "ev": 6.71,
           "price": -350
+        },
+        {
+          "t": "2026-11-03T21:50:06.974006-05:00",
+          "tp": 79.1,
+          "ev": 8.04,
+          "price": -340
         }
       ]
     },
@@ -1685,6 +1697,51 @@
           "tp": 80.67,
           "ev": 6.26,
           "price": -385
+        }
+      ]
+    },
+    {
+      "event_id": "7cc07a9c5a886203f238a3fe0b83dfd1",
+      "game": "Flames @ Kraken",
+      "away_team": "Calgary Flames",
+      "home_team": "Seattle Kraken",
+      "first_pitch": "2026-11-05T03:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Calgary Flames +2.5",
+      "player": "Calgary Flames",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -378,
+      "true_prob_pct": 80.01,
+      "ev_per_100": 4.45,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -378
+        ],
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "draftkings",
+          -425
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-03T21:50:06.974006-05:00",
+      "last_seen_at": "2026-11-03T21:50:06.974006-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-03T21:50:06.974006-05:00",
+          "tp": 80.01,
+          "ev": 4.45,
+          "price": -378
         }
       ]
     }
