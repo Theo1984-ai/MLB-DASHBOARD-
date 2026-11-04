@@ -117,6 +117,7 @@ if not logs:
 now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
+MIN_OFF = 4          # "4+ books off Pinnacle": the first week's clearest rule (41-23, +10u; fewer than 4 lost)
 SPORT_TABS = [("NBA", "NBA 🏀"), ("NCAAB", "NCAAB 🏀"), ("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("CFB", "CFB 🎓")]
 
 
@@ -137,6 +138,8 @@ def render_today(sport, recs_by_day, key, day):
                              key=f"show_{key}") == "Games not started"
     for r in recs_by_day.get(day, {}).values():
         if r["sport"] != sport:
+            continue
+        if only4 and r["first_seen"]["stale"] < MIN_OFF:
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
         if tip <= now and open_only:
@@ -214,6 +217,9 @@ def render_today(sport, recs_by_day, key, day):
             f'<span style="font-size:13px;">@ <strong>{book}</strong> {fsn["price"]:+d}</span>'
             f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:11px;'
             f'font-weight:700;padding:1px 7px;border-radius:3px;">gap {fsn["gap"]}</span>'
+            + (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
+               f'border-radius:3px;">⭐ {fsn["stale"]} books off</span>' if fsn["stale"] >= MIN_OFF else "")
+            +
             f'<span style="font-size:11px;color:#6b7280;">first seen {x["seen"].strftime("%I:%M %p").lstrip("0")} ET'
             f'{f" · {lead:.1f} h before tip" if lead is not None else ""}</span></div>'
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {fsn["pin_line"]} · '
@@ -223,16 +229,19 @@ def render_today(sport, recs_by_day, key, day):
 
 
 def render_results(sport):
-    mine = [r for r in all_recs if r["sport"] == sport]
+    graded_all = [r for r in all_recs if r["sport"] == sport
+                  and (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
+    mine = [r for r in all_recs if r["sport"] == sport and (not only4 or r["first_seen"]["stale"] >= MIN_OFF)]
     recs = [r for r in mine if (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
-    st.markdown(f"**{len(recs)} graded of {len(mine)} logged** across {len(logs)} days. "
-                "Groups under 30 plays are too small to trust.")
-    if not recs:
+    st.markdown(f"**{len(recs)} graded of {len(mine)} logged** across {len(logs)} days"
+                + (f" (only plays with {MIN_OFF}+ books off Pinnacle)" if only4 else "")
+                + ". Groups under 30 plays are too small to trust.")
+    if not graded_all:
         st.info("None graded yet. The auto snapshot grades them a few hours after each game ends.")
         return
 
-    def show(title, keyf, order=None):
-        agg = fs.summarize(recs, keyf)
+    def show(title, keyf, order=None, rows=None):
+        agg = fs.summarize(recs if rows is None else rows, keyf)
         if not agg:
             return
         keys = [k for k in (order or sorted(agg, key=str)) if k in agg]
@@ -243,6 +252,13 @@ def render_results(sport):
         st.markdown(f"#### {title}")
         st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
 
+    # Always compares all graded plays, whatever the filter above is set to.
+    show(f"⭐ {MIN_OFF}+ books off Pinnacle vs fewer",
+         lambda r: f"{MIN_OFF}+ books off" if r["first_seen"]["stale"] >= MIN_OFF else f"fewer than {MIN_OFF}",
+         [f"{MIN_OFF}+ books off", f"fewer than {MIN_OFF}"], rows=graded_all)
+    if not recs:
+        st.info(f"No graded plays with {MIN_OFF}+ books off yet for {sport}.")
+        return
     hour = lambda r: f"{(fs.first_seen_hour(r) % 12) or 12} {'AM' if fs.first_seen_hour(r) < 12 else 'PM'}"
     show("By how long before tip-off it first appeared", lambda r: fs.bucket_lead(fs.hours_before_tip(r)),
          fs.LEAD_ORDER)
@@ -264,6 +280,10 @@ def _day_label(d):
 
 
 day = st.selectbox("Date", days, index=days.index(today), key="fs_day", format_func=_day_label)
+_books = st.radio("Plays", ["All plays", f"⭐ {MIN_OFF}+ books off Pinnacle only"], horizontal=True, key="fs_books",
+                  help=f"In the first week, plays with {MIN_OFF}+ soft books still off Pinnacle went 41-23 (+10.2u, +16%); "
+                       "plays with fewer than 4 lost money. The Results tab shows how this keeps going.")
+only4 = _books.startswith("⭐")
 tabs = st.tabs([label for _, label in SPORT_TABS])
 for tab, (sport, _) in zip(tabs, SPORT_TABS):
     with tab:
