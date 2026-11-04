@@ -118,7 +118,17 @@ now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
 MIN_OFF = 4          # "4+ books off Pinnacle": the first week's clearest rule (41-23, +10u; fewer than 4 lost)
+NO_PTS = "no points"  # 4+ off without points props: 34-14, +12.5u in the first week (picked after the fact, re-test)
 SPORT_TABS = [("NBA", "NBA 🏀"), ("NCAAB", "NCAAB 🏀"), ("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("CFB", "CFB 🎓")]
+
+
+def keep(r):
+    """Does this play pass the 'Plays' switch at the top of the page?"""
+    if not (only4 or only4_np):
+        return True
+    if r["first_seen"]["stale"] < MIN_OFF:
+        return False
+    return not (only4_np and r.get("market") == "points")
 
 
 def pct(w, l):
@@ -139,7 +149,7 @@ def render_today(sport, recs_by_day, key, day):
     for r in recs_by_day.get(day, {}).values():
         if r["sport"] != sport:
             continue
-        if only4 and r["first_seen"]["stale"] < MIN_OFF:
+        if not keep(r):
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
         if tip <= now and open_only:
@@ -231,10 +241,10 @@ def render_today(sport, recs_by_day, key, day):
 def render_results(sport):
     graded_all = [r for r in all_recs if r["sport"] == sport
                   and (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
-    mine = [r for r in all_recs if r["sport"] == sport and (not only4 or r["first_seen"]["stale"] >= MIN_OFF)]
+    mine = [r for r in all_recs if r["sport"] == sport and keep(r)]
     recs = [r for r in mine if (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
     st.markdown(f"**{len(recs)} graded of {len(mine)} logged** across {len(logs)} days"
-                + (f" (only plays with {MIN_OFF}+ books off Pinnacle)" if only4 else "")
+                + (f" (only plays with {MIN_OFF}+ books off Pinnacle{', no points props' if only4_np else ''})" if only4 or only4_np else "")
                 + ". Groups under 30 plays are too small to trust.")
     if not graded_all:
         st.info("None graded yet. The auto snapshot grades them a few hours after each game ends.")
@@ -253,9 +263,12 @@ def render_results(sport):
         st.dataframe(pd.DataFrame(table), hide_index=True, use_container_width=True)
 
     # Always compares all graded plays, whatever the filter above is set to.
-    show(f"⭐ {MIN_OFF}+ books off Pinnacle vs fewer",
-         lambda r: f"{MIN_OFF}+ books off" if r["first_seen"]["stale"] >= MIN_OFF else f"fewer than {MIN_OFF}",
-         [f"{MIN_OFF}+ books off", f"fewer than {MIN_OFF}"], rows=graded_all)
+    def _grp(r):
+        if r["first_seen"]["stale"] < MIN_OFF:
+            return f"fewer than {MIN_OFF}"
+        return f"{MIN_OFF}+ off, points props" if r.get("market") == "points" else f"{MIN_OFF}+ off, no points"
+    show(f"⭐ {MIN_OFF}+ books off Pinnacle vs fewer", _grp,
+         [f"{MIN_OFF}+ off, no points", f"{MIN_OFF}+ off, points props", f"fewer than {MIN_OFF}"], rows=graded_all)
     if not recs:
         st.info(f"No graded plays with {MIN_OFF}+ books off yet for {sport}.")
         return
@@ -280,10 +293,12 @@ def _day_label(d):
 
 
 day = st.selectbox("Date", days, index=days.index(today), key="fs_day", format_func=_day_label)
-_books = st.radio("Plays", ["All plays", f"⭐ {MIN_OFF}+ books off Pinnacle only"], horizontal=True, key="fs_books",
+_books = st.radio("Plays", ["All plays", f"⭐ {MIN_OFF}+ books off Pinnacle only",
+                            f"⭐ {MIN_OFF}+ books off, no points props"], horizontal=True, key="fs_books",
                   help=f"In the first week, plays with {MIN_OFF}+ soft books still off Pinnacle went 41-23 (+10.2u, +16%); "
                        "plays with fewer than 4 lost money. The Results tab shows how this keeps going.")
-only4 = _books.startswith("⭐")
+only4_np = _books.endswith("no points props")
+only4 = _books.startswith("⭐") and not only4_np
 tabs = st.tabs([label for _, label in SPORT_TABS])
 for tab, (sport, _) in zip(tabs, SPORT_TABS):
     with tab:
