@@ -58,6 +58,15 @@
         "book_line": 229.5,
         "book_over": -114,
         "book_under": -117
+      },
+      {
+        "t": "2026-11-05T03:00:20.762483-05:00",
+        "pin_line": 237.5,
+        "pin_over": -107,
+        "pin_under": -118,
+        "book_line": 229.5,
+        "book_over": -114,
+        "book_under": -117
       }
     ],
     "result": null,
@@ -103,7 +112,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-05T02:00:17.684898-05:00",
+      "t": "2026-11-05T03:00:20.762483-05:00",
       "line": 15.5,
       "price": -113,
       "book": "draftkings",
@@ -135,6 +144,15 @@
       },
       {
         "t": "2026-11-05T02:00:17.684898-05:00",
+        "pin_line": 13.5,
+        "pin_over": -122,
+        "pin_under": -102,
+        "book_line": 15.5,
+        "book_over": -111,
+        "book_under": -113
+      },
+      {
+        "t": "2026-11-05T03:00:20.762483-05:00",
         "pin_line": 13.5,
         "pin_over": -122,
         "pin_under": -102,
@@ -186,7 +204,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-05T02:00:17.684898-05:00",
+      "t": "2026-11-05T03:00:20.762483-05:00",
       "line": 154.5,
       "price": -114,
       "book": "betrivers",
@@ -209,6 +227,15 @@
       },
       {
         "t": "2026-11-05T02:00:17.684898-05:00",
+        "pin_line": 160.5,
+        "pin_over": -108,
+        "pin_under": -116,
+        "book_line": 154.5,
+        "book_over": -114,
+        "book_under": -117
+      },
+      {
+        "t": "2026-11-05T03:00:20.762483-05:00",
         "pin_line": 160.5,
         "pin_over": -108,
         "pin_under": -116,
@@ -260,16 +287,16 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-05T02:00:17.684898-05:00",
+      "t": "2026-11-05T03:00:20.762483-05:00",
       "line": 16.5,
-      "price": -117,
+      "price": -104,
       "book": "draftkings",
       "pin_line": 15.5,
-      "pin_over": -118,
-      "pin_under": -112,
-      "edge": 0.0171,
-      "stale": 4,
-      "n_books": 4
+      "pin_over": -120,
+      "pin_under": -110,
+      "edge": 0.0424,
+      "stale": 5,
+      "n_books": 5
     },
     "checks": [
       {
@@ -280,6 +307,15 @@
         "book_line": 16.5,
         "book_over": -109,
         "book_under": -117
+      },
+      {
+        "t": "2026-11-05T03:00:20.762483-05:00",
+        "pin_line": 15.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 16.5,
+        "book_over": -122,
+        "book_under": -104
       }
     ],
     "result": null,
@@ -295,6 +331,70 @@
       "fav_spread": -1.0,
       "blowout": false,
       "total": 224.0,
+      "total_over": -107,
+      "total_under": -107
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-05|NBA|prop|Miami Heat @ Golden State Warriors|Yaxel Lendeborg|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Miami Heat @ Golden State Warriors",
+    "who": "Yaxel Lendeborg",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-06T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-05T03:00:20.762483-05:00",
+      "line": 19.5,
+      "price": -105,
+      "book": "draftkings",
+      "pin_line": 18.5,
+      "pin_over": -130,
+      "pin_under": -102,
+      "edge": 0.015,
+      "stale": 4,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-05T03:00:20.762483-05:00",
+      "line": 19.5,
+      "price": -105,
+      "book": "draftkings",
+      "pin_line": 18.5,
+      "pin_over": -130,
+      "pin_under": -102,
+      "edge": 0.015,
+      "stale": 4,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-05T03:00:20.762483-05:00",
+        "pin_line": 18.5,
+        "pin_over": -130,
+        "pin_under": -102,
+        "book_line": 19.5,
+        "book_over": -122,
+        "book_under": -105
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Golden State Warriors",
+      "opp": "Miami Heat",
+      "scope": "team",
+      "shift": 0.0,
+      "tag": "neutral",
+      "win_prob": 0.699,
+      "fav": "Golden State Warriors",
+      "fav_win_prob": 0.699,
+      "fav_spread": -7.0,
+      "blowout": false,
+      "total": 235.5,
       "total_over": -107,
       "total_under": -107
     },
