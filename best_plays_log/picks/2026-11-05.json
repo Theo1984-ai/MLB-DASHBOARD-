@@ -40,6 +40,15 @@
         "book_line": 227.5,
         "book_over": -117,
         "book_under": -114
+      },
+      {
+        "t": "2026-11-05T01:00:18.976388-05:00",
+        "pin_line": 237.5,
+        "pin_over": -107,
+        "pin_under": -117,
+        "book_line": 229.5,
+        "book_over": -114,
+        "book_under": -117
       }
     ],
     "result": null,
@@ -85,7 +94,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-05T00:00:18.450038-05:00",
+      "t": "2026-11-05T01:00:18.976388-05:00",
       "line": 15.5,
       "price": -113,
       "book": "draftkings",
@@ -99,6 +108,15 @@
     "checks": [
       {
         "t": "2026-11-05T00:00:18.450038-05:00",
+        "pin_line": 13.5,
+        "pin_over": -122,
+        "pin_under": -102,
+        "book_line": 15.5,
+        "book_over": -111,
+        "book_under": -113
+      },
+      {
+        "t": "2026-11-05T01:00:18.976388-05:00",
         "pin_line": 13.5,
         "pin_over": -122,
         "pin_under": -102,
@@ -122,6 +140,71 @@
       "total": 39.0,
       "total_over": -111,
       "total_under": -105
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "football yardage prop"
+    ]
+  },
+  "2026-11-05|NFL|prop|Jacksonville Jaguars @ Baltimore Ravens|Joe Fagnano|pass_yds|OVER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Jacksonville Jaguars @ Baltimore Ravens",
+    "who": "Joe Fagnano",
+    "market": "pass_yds",
+    "bet": "OVER",
+    "commence_time": "2026-11-06T01:15:00Z",
+    "first_seen": {
+      "t": "2026-11-05T01:00:18.976388-05:00",
+      "line": 154.5,
+      "price": -114,
+      "book": "betrivers",
+      "pin_line": 160.5,
+      "pin_over": -108,
+      "pin_under": -116,
+      "edge": 0.014,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-05T01:00:18.976388-05:00",
+      "line": 154.5,
+      "price": -114,
+      "book": "betrivers",
+      "pin_line": 160.5,
+      "pin_over": -108,
+      "pin_under": -116,
+      "edge": 0.014,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-05T01:00:18.976388-05:00",
+        "pin_line": 160.5,
+        "pin_over": -108,
+        "pin_under": -116,
+        "book_line": 154.5,
+        "book_over": -114,
+        "book_under": -117
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Baltimore Ravens",
+      "opp": "Jacksonville Jaguars",
+      "scope": "team",
+      "shift": 0.07,
+      "tag": "neutral",
+      "win_prob": 0.198,
+      "fav": "Jacksonville Jaguars",
+      "fav_win_prob": 0.802,
+      "fav_spread": -10.5,
+      "blowout": true,
+      "total": 39.0,
+      "total_over": -115,
+      "total_under": -101
     },
     "tier": "B",
     "tier_why": [
