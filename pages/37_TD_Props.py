@@ -38,6 +38,7 @@ def _resolve_secret(name):
 
 
 GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
+ODDS_KEY = _resolve_secret("THE_ODDS_API_KEY")
 
 st.set_page_config(page_title="TD Props", page_icon="🏈", layout="wide")
 st.title("🏈 TD Props — anytime TD vs Pinnacle")
@@ -76,6 +77,41 @@ def load_all(_token_present):
             failed.append(name[:-5])
     return out, failed
 
+
+def pull_live(sport):
+    """Fetch live TD prices now and log them (same log the hourly job writes). Returns (new players, quota, errors)."""
+    from data import github_storage as gh
+    now_et = datetime.now(tz=EASTERN)
+    snap, quota = tdp.fetch_live(ODDS_KEY, sport, now_et)
+    date = now_et.strftime("%Y-%m-%d")
+    path = f"{LOG_DIR}/{tdp.LOG_SUB}/{date}.json"
+    log = gh.load_json(GH_TOKEN, OWNER, REPO, path) or {}
+    new = tdp.update_log(log, tdp.detect_plays(sport, snap, now_et), now_et.isoformat(), date)
+    gh.save_json(GH_TOKEN, OWNER, REPO, path, log, commit_msg=f"TD props {date}: {new} new (live refresh {sport})")
+    return new, quota, snap.get("errors", [])
+
+
+_c1, _c2, _c3 = st.columns([1, 1, 3])
+with _c1:
+    _sport = st.radio("Sport", ["NFL", "CFB"], horizontal=True, key="td_live_sport", label_visibility="collapsed")
+with _c2:
+    _go = st.button("🔄 Refresh live odds", type="primary", use_container_width=True, key="td_live_btn")
+with _c3:
+    st.caption("Pulls today's live anytime-TD prices from the odds service (about 2 credits per market per game) and "
+               "adds them to the log below.")
+if _go:
+    if not ODDS_KEY:
+        st.error("Missing `THE_ODDS_API_KEY` in secrets.")
+    else:
+        with st.spinner(f"Fetching live {_sport} TD odds…"):
+            try:
+                _new, _quota, _errs = pull_live(_sport)
+                load_all.clear()
+                st.success(f"Logged {_new} new players. Odds credits left: {_quota}.")
+                for _e in _errs[:3]:
+                    st.warning(_e)
+            except Exception as e:  # noqa: BLE001
+                st.error(f"Refresh failed: {e}")
 
 try:
     logs, failed_days = load_all(True)
