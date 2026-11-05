@@ -32,18 +32,18 @@
     ],
     "Boston Celtics": [
       {
+        "name": "Devin Carter",
+        "status": "Out",
+        "pos": "G",
+        "note": "Carter (illness) practiced with the G League's Maine Celtics on Wednesday.",
+        "return": "2026-11-08"
+      },
+      {
         "name": "Jayson Tatum",
         "status": "Out",
         "pos": "F",
         "note": "Tatum will be rested Wednesday against the Bucks, Jack Simone of BostonSportsJournal.com reports.",
         "return": "2026-11-06"
-      },
-      {
-        "name": "Devin Carter",
-        "status": "Out",
-        "pos": "G",
-        "note": "Carter has been diagnosed with mononucleosis and is without a timetable for a return, Gary Washburn of The Boston Globe reports.",
-        "return": "2026-11-08"
       }
     ],
     "Brooklyn Nets": [
@@ -67,15 +67,8 @@
         "name": "Grant Williams",
         "status": "Out",
         "pos": "F",
-        "note": "Charlotte assigned Williams (hamstring) to the G League's Greensboro Swarm on Wednesday.",
+        "note": "The Hornets recalled Williams (hamstring) from the G League's Greensboro Swarm on Wednesday.",
         "return": "2026-11-09"
-      },
-      {
-        "name": "Coby White",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "White (calf) is probable for Wednesday's game in Brooklyn.",
-        "return": "2026-11-04"
       }
     ],
     "Chicago Bulls": [
@@ -108,8 +101,8 @@
         "name": "Santi Aldama",
         "status": "Out",
         "pos": "F",
-        "note": "Aldama (knee) is doubtful for Wednesday's game against the Spurs, per NBA reporter Marc Stein.",
-        "return": "2026-11-04"
+        "note": "Aldama (knee) is out for Wednesday's game against the Spurs, Grant Afseth of DallasHoopsJournal.com reports.",
+        "return": "2026-11-06"
       },
       {
         "name": "Max Christie",
@@ -232,18 +225,18 @@
     ],
     "Houston Rockets": [
       {
+        "name": "Steven Adams",
+        "status": "Out",
+        "pos": "C",
+        "note": "Head coach Ime Udoka said Wednesday that Adams (calf) is still without a timetable to return and will be evaluated on a \"weekly basis,\" Varun Shankar of the Houston Chronicle reports.",
+        "return": "2026-11-09"
+      },
+      {
         "name": "Clint Capela",
         "status": "Out",
         "pos": "C",
         "note": "Capela (ankle) is out for Wednesday's game against the Timberwolves.",
         "return": "2026-11-07"
-      },
-      {
-        "name": "Steven Adams",
-        "status": "Out",
-        "pos": "C",
-        "note": "Head coach Ime Udoka said Monday that Adams could be out \"a week or two\" due to his right soleus strain, Lachard Binkley of SI.com reports.",
-        "return": "2026-11-09"
       }
     ],
     "Indiana Pacers": [
@@ -350,13 +343,6 @@
         "pos": "G",
         "note": "Pippen (back) won't play Wednesday against the Pacers.",
         "return": "2026-11-06"
-      },
-      {
-        "name": "Quinten Post",
-        "status": "Day-To-Day",
-        "pos": "C",
-        "note": "Post (ankle) is listed as questionable for Wednesday's game against Indiana.",
-        "return": "2026-11-04"
       }
     ],
     "Miami Heat": [
@@ -371,10 +357,10 @@
     "Milwaukee Bucks": [
       {
         "name": "Kam Jones",
-        "status": "Day-To-Day",
+        "status": "Out",
         "pos": "G",
-        "note": "Jones (ankle) is questionable for Wednesday against the Celtics.",
-        "return": "2026-11-04"
+        "note": "Jones (ankle) won't play Wednesday in Boston.",
+        "return": "2026-11-06"
       }
     ],
     "Minnesota Timberwolves": [
@@ -702,8 +688,23 @@
     {
       "id": "401909922",
       "start": "2026-11-05T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Philadelphia 76ers": [
+          "LeBron James",
+          "Joel Embiid",
+          "Jaylen Brown",
+          "Tyrese Maxey",
+          "VJ Edgecombe"
+        ],
+        "Detroit Pistons": [
+          "Duncan Robinson",
+          "John Collins",
+          "Paul Reed",
+          "Cade Cunningham",
+          "Ausar Thompson"
+        ]
+      },
       "probables": {},
       "home": "Detroit Pistons",
       "away": "Philadelphia 76ers"
@@ -711,8 +712,23 @@
     {
       "id": "401909923",
       "start": "2026-11-05T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Atlanta Hawks": [
+          "Onyeka Okongwu",
+          "Nickeil Alexander-Walker",
+          "Luguentz Dort",
+          "Dyson Daniels",
+          "Kingston Flemings"
+        ],
+        "Washington Wizards": [
+          "Anthony Davis",
+          "AJ Dybantsa",
+          "Kyshawn George",
+          "Alex Sarr",
+          "Trae Young"
+        ]
+      },
       "probables": {},
       "home": "Washington Wizards",
       "away": "Atlanta Hawks"
@@ -827,5 +843,5 @@
     }
   ],
   "date": "2026-11-04",
-  "fetched": "2026-11-04T18:30:34.373693-05:00"
+  "fetched": "2026-11-04T19:30:45.277236-05:00"
 }
