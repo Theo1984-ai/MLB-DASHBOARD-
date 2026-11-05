@@ -19,6 +19,7 @@ from scripts import best_plays_alerts as alerts  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
 from scripts import prop_signals as psig  # noqa: E402
+from scripts import td_props as tdp  # noqa: E402
 from scripts import line_alert_results as lar  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
@@ -56,6 +57,7 @@ def grade_recent(now_et, days=7):
     for sub, grader, label in (("picks", bp.grade_log, "picks"),
                                (fs.LOG_SUB, bp.grade_log, "first-seen splits"),
                                (psig.LOG_SUB, bp.grade_log, "prop signals"),
+                               (tdp.LOG_SUB, bp.grade_log, "TD props"),
                                ("claude_picks", bp.grade_log, "Claude picks"),
                                ("predictions", bp.grade_predictions, "predictions")):
         have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, f"{LOG_DIR}/{sub}")}
@@ -318,6 +320,12 @@ def main():
             print(f"prop signals: {n_ps} new")
         except Exception as e:  # noqa: BLE001
             errors.append(f"prop signals: {e}")
+        try:
+            n_td = sum(tdp.catch_up(d, _snapshot_names, load, _save_json)
+                       for d in (date, (now_et - timedelta(days=1)).strftime("%Y-%m-%d")))
+            print(f"TD props: {n_td} new")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"TD props: {e}")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
         n_pred = bp.update_predictions(plog, pred_rows, iso, date)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json", plog,

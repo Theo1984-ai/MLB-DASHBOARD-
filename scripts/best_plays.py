@@ -69,13 +69,13 @@ SPORTS = {
     "NFL": {
         "key": "americanfootball_nfl", "label": "NFL 🏈", "espn": "football/nfl",
         "prop_markets": ["player_pass_tds", "player_pass_yds", "player_rush_yds",
-                         "player_reception_yds", "player_receptions"],
+                         "player_reception_yds", "player_receptions", "player_anytime_td"],
         "tt_books": _TT_BOOKS_BIG,
     },
     "CFB": {
         "key": "americanfootball_ncaaf", "label": "CFB 🎓", "espn": "football/college-football",
         "prop_markets": ["player_pass_tds", "player_pass_yds", "player_rush_yds",
-                         "player_reception_yds", "player_receptions"],
+                         "player_reception_yds", "player_receptions", "player_anytime_td"],
         "tt_books": _TT_BOOKS_BIG,
     },
 }
@@ -158,6 +158,9 @@ def todays_open_games(events, now_et):
     return out
 
 
+YES_NO_MARKETS = {"player_anytime_td"}
+
+
 def _fetch_event_props(key, sport_key, ev, markets, tracked):
     data, quota = _get(
         f"{ODDS_API}/sports/{sport_key}/events/{ev['id']}/odds"
@@ -174,6 +177,9 @@ def _fetch_event_props(key, sport_key, ev, markets, tracked):
             for out in mkt.get("outcomes", []):
                 player = out.get("description", "").strip()
                 name, price, point = out.get("name", ""), out.get("price"), out.get("point")
+                if point is None and mk in YES_NO_MARKETS:
+                    point = 0.5                                  # "to score a TD": Yes = Over 0.5, No = Under 0.5
+                    name = {"Yes": "Over", "No": "Under"}.get(name, name)
                 if not player or point is None:
                     continue
                 slot = players.setdefault(player, {}).setdefault(mk, {}).setdefault(bk, {})
@@ -511,6 +517,8 @@ def find_plays(sport, props_snap, tt_snap, th):
     for g in (props_snap or {}).get("games", []):
         for player, mks in g.get("players", {}).items():
             for market, bd in mks.items():
+                if market in YES_NO_MARKETS:
+                    continue                    # priced by price only (see scripts/td_props.py), not by a line model
                 p = evaluate(sport, "prop", market, player, g["game"], bd, PROP_FOLLOWERS, th)
                 if p:
                     p["commence_time"] = g["commence_time"]
@@ -1385,6 +1393,9 @@ def player_stat(sport, market, rec):
             return g("G") + g("A") if g("G") is not None and g("A") is not None else None
         key = {"goals": "G", "assists": "A", "shots_on_goal": "S", "blocked_shots": "BS"}.get(market)
         return g(key) if key else None
+    if market == "anytime_td":
+        # Rushing, receiving and return TDs count; passing TDs don't. A player who is in the box score without a TD is 0.
+        return float(sum(v for k, v in rec.items() if k.endswith(":TD") and not k.startswith("passing")))
     key = {"pass_yds": "passing:YDS", "pass_tds": "passing:TD", "rush_yds": "rushing:YDS",
            "reception_yds": "receiving:YDS", "receptions": "receiving:REC"}.get(market)
     return g(key) if key else None

@@ -1,0 +1,112 @@
+"""
+Anytime-TD tracker (NFL / CFB).
+
+An anytime-TD prop has one line (0.5), so there is no line split to find. The only edge is a soft book paying
+more than Pinnacle's fair price. For every player Pinnacle prices (both sides, so its margin can be removed),
+the first sighting is logged with Pinnacle's fair chance, the best soft-book price at that moment and the
+expected value of that price. The grader settles each record after the game (rushing, receiving and return TDs
+count, passing TDs don't), so the Results table shows two things:
+  1. does a Pinnacle-priced player score as often as Pinnacle says (calibration), and
+  2. does betting the best soft-book price make money, in total and when the price beats Pinnacle's fair price.
+Records use the same shape as the First Seen log, so the existing grader settles them.
+"""
+import re
+from datetime import datetime
+
+from scripts import best_plays as bp
+from scripts import first_seen as fs
+
+LOG_SUB = "td_props"
+DONE_FILE = "td_props_done.json"
+MARKET = "player_anytime_td"
+BOOKS = fs.FOLLOWERS
+SPORTS = ("NFL", "CFB")
+
+
+def _imp(o):
+    return 100 / (o + 100) if o > 0 else -o / (-o + 100)
+
+
+def fair_prob(over, under):
+    """Pinnacle's chance that the player scores, with its margin removed."""
+    a, b = _imp(over), _imp(under)
+    return a / (a + b)
+
+
+def detect_plays(sport, snap, snap_time):
+    """One dict per player Pinnacle prices (both sides) in a props snapshot, for games that haven't started."""
+    out = []
+    for g in (snap or {}).get("games", []):
+        try:
+            if fs._parse(g["commence_time"]) <= snap_time:
+                continue
+        except Exception:  # noqa: BLE001
+            continue
+        for who, mks in g.get("players", {}).items():
+            bd = mks.get(MARKET)
+            if not bd:
+                continue
+            pin = bd.get("pinnacle") or {}
+            if pin.get("over") is None or pin.get("under") is None:
+                continue
+            soft = [(b, bd[b]["over"]) for b in BOOKS if b in bd and bd[b].get("over") is not None]
+            if not soft:
+                continue
+            book, price = max(soft, key=lambda x: x[1])
+            p = fair_prob(pin["over"], pin["under"])
+            dec = 1 + price / 100 if price > 0 else 1 + 100 / -price
+            out.append({"sport": sport, "kind": "prop", "game": g["game"], "who": who, "market": "anytime_td",
+                        "bet": "OVER", "commence_time": g["commence_time"], "line": 0.5, "price": price,
+                        "book": book, "pin_over": pin["over"], "pin_under": pin["under"],
+                        "fair": round(p, 4), "ev": round(p * dec - 1, 4), "n_books": len(soft)})
+    return out
+
+
+def update_log(log, plays, iso, date):
+    """Log the first sighting of each player; later sightings only refresh last_seen. Returns the new count."""
+    new = 0
+    for p in plays:
+        pid = bp.pick_id(date, p)
+        stamp = {"t": iso, "line": 0.5, "price": p["price"], "book": p["book"], "pin_over": p["pin_over"],
+                 "pin_under": p["pin_under"], "fair": p["fair"], "ev": p["ev"], "n_books": p["n_books"]}
+        if pid not in log:
+            rec = {k: p[k] for k in ("sport", "kind", "game", "who", "market", "bet", "commence_time")}
+            rec.update({"first_seen": stamp, "last_seen": stamp, "result": None})
+            log[pid] = rec
+            new += 1
+        else:
+            log[pid]["last_seen"] = stamp
+    return new
+
+
+def catch_up(date, list_names, load, save, log_dir="best_plays_log"):
+    """
+    Log the TD prices from every saved NFL/CFB props snapshot of `date` that hasn't been processed, stamped with
+    the time the snapshot was taken. A progress file remembers which snapshots are done. Returns the new count.
+    list_names(folder) -> [file names]; load(path) -> data or {}; save(path, data, commit_msg).
+    """
+    done_path = f"{log_dir}/{DONE_FILE}"
+    done = load(done_path) or {}
+    seen = set(done.get(date, []))
+    todo = sorted((m.group(2), m.group(1), n) for n in list_names(f"{log_dir}/snapshots/{date}")
+                  for m in [re.fullmatch(r"([A-Z]+)_(\d{4})_props\.json", n)]
+                  if m and m.group(1) in SPORTS and n not in seen)
+    if not todo:
+        return 0
+    path = f"{log_dir}/{LOG_SUB}/{date}.json"
+    log = load(path) or {}
+    new = 0
+    for hhmm, sport, name in todo:
+        snap = load(f"{log_dir}/snapshots/{date}/{name}") or {}
+        try:
+            t = fs._parse(snap["captured_at"])
+        except Exception:  # noqa: BLE001
+            t = datetime.strptime(f"{date} {hhmm}", "%Y-%m-%d %H%M").replace(tzinfo=fs.EASTERN)
+        new += update_log(log, detect_plays(sport, snap, t), t.isoformat(), date)
+        seen.add(name)
+    save(path, log, f"TD props {date}: {new} new")
+    done[date] = sorted(seen)
+    for old in sorted(done)[:-3]:
+        del done[old]
+    save(done_path, done, f"TD props progress {date}")
+    return new
