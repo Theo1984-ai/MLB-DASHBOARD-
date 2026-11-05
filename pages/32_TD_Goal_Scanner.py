@@ -98,6 +98,9 @@ def american_to_prob(price):
         return abs(price) / (abs(price) + 100)
     return 100 / (price + 100)
 
+def decimal_odds(price):
+    return 1 + price / 100 if price > 0 else 1 + 100 / -price
+
 def price_str(p):
     if p is None:
         return "N/A"
@@ -157,6 +160,7 @@ def fetch_data(sport_id):
 
         yes_point   = cfg["yes_point"]
         players     = {}
+        no_prices   = {}     # the "No" side, needed to take Pinnacle's margin out of its price
         team_totals = {}
 
         for bm in data.get("bookmakers", []):
@@ -178,10 +182,14 @@ def fetch_data(sport_id):
                             # Line market (e.g. player_goals): only collect Over at the target line
                             if name == "Over" and point == yes_point:
                                 players.setdefault(player, {})[bk] = price
+                            elif name == "Under" and point == yes_point:
+                                no_prices.setdefault(player, {})[bk] = price
                         else:
                             # Yes/No market (e.g. player_anytime_td)
                             if name in ("Over", "Yes", player):
                                 players.setdefault(player, {})[bk] = price
+                            elif name in ("Under", "No"):
+                                no_prices.setdefault(player, {})[bk] = price
 
                 elif tt_market and mkt_key == tt_market:
                     for out in mkt.get("outcomes", []):
@@ -195,7 +203,7 @@ def fetch_data(sport_id):
         games.append({
             "game": f"{away} @ {home}", "away": away, "home": home,
             "commence_time": ct, "started": False,
-            "players": players, "team_totals": team_totals,
+            "players": players, "no_prices": no_prices, "team_totals": team_totals,
         })
 
     return games, quota, now_et.strftime("%I:%M %p").lstrip("0")
@@ -234,13 +242,18 @@ def scan_signals(game, followers):
         edge        = 0.0
         stale_count = 0
 
-        if pin_price is not None:
-            pin_prob = american_to_prob(pin_price)
-            pin_edge = pin_prob - avg_fol_prob
+        fair = ev = None
+        pin_no = (game.get("no_prices", {}).get(player) or {}).get(PINNACLE)
+        if pin_price is not None and pin_no is not None:
+            # Pinnacle's chance with its margin taken out, compared with the BEST soft-book price (what you'd get).
+            p_yes, p_no = american_to_prob(pin_price), american_to_prob(pin_no)
+            fair = p_yes / (p_yes + p_no)
+            ev   = fair * decimal_odds(best_price) - 1
+            pin_edge = fair - best_prob
             if pin_edge >= 0.005:
                 signal_type = "SHARP"
                 edge        = pin_edge
-                stale_count = sum(1 for fp in follower_probs if (pin_prob - fp) > 0.005)
+                stale_count = sum(1 for fp in follower_probs if (fair - fp) > 0.005)
 
         if signal_type is None:
             discrepancy = best_prob - worst_prob
@@ -258,6 +271,8 @@ def scan_signals(game, followers):
             "time":          format_time(game["commence_time"]),
             "commence_time": game["commence_time"],
             "pin_price":     pin_price,
+            "fair_prob":     fair,
+            "ev":            ev,
             "avg_fol_prob":  avg_fol_prob,
             "edge":          edge,
             "signal_type":   signal_type,
@@ -302,8 +317,9 @@ def render_card(play, market_label, market_color, best_bet=False):
         juiced = ' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
 
     sig_label = "📌 Pinnacle sharp" if play.get("signal_type") == "SHARP" else "📊 Book split"
-    pin_line  = (f' · PIN: {round(american_to_prob(play["pin_price"]) * 100, 1)}%'
-                 if play.get("pin_price") is not None else "")
+    pin_line  = (f' · Fair: {round(play["fair_prob"] * 100, 1)}%' if play.get("fair_prob") is not None else "")
+    edge_txt  = (f'Edge: +{edge_pct} pts · EV {play["ev"] * 100:+.1f}%' if play.get("ev") is not None
+                 else f'Edge: +{edge_pct}%')
 
     st.markdown(
         f'<div style="background:{bg_color};border:{border_width} solid {border_color};'
@@ -318,7 +334,7 @@ def render_card(play, market_label, market_color, best_bet=False):
         f'<span style="font-size:13px;color:#374151;">@ <strong>{book_name}</strong> {price_str(play["best_price"])}</span>'
         f'{juiced}</div>'
         f'<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">'
-        f'{sig_label} · Avg: {fol_pct}%{pin_line} · <strong>Edge: +{edge_pct}%</strong></div>'
+        f'{sig_label} · Avg: {fol_pct}%{pin_line} · <strong>{edge_txt}</strong></div>'
         f'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
         f'<span style="background:{conf_bg};color:{conf_color};border:1px solid {conf_color};'
         f'font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;">{conf_label}</span>'
@@ -409,7 +425,7 @@ def render_sport_tab(sport_id):
     nhl_note = " · BetMGM and Caesars excluded from all NHL models" if sport_id == "nhl" else ""
     st.markdown("---")
     st.caption(
-        f"Signal: Pinnacle implied prob vs follower avg · "
+        f"Signal: Pinnacle's chance (margin removed) vs the best soft-book price · "
         f"Books: Pinnacle + {len(cfg['followers'])} followers{nhl_note}"
     )
 
