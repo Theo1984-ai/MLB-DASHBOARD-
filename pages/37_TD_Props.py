@@ -94,6 +94,18 @@ graded = [r for r in all_recs if (r.get("result") or {}).get("outcome") in ("win
 now = datetime.now(tz=EASTERN)
 pct = lambda x: f"{100 * x:.0f}%"
 
+def _prop(p):
+    """'68.5 (-101/-125)' = Pinnacle's line and Over/Under prices; '[66.5-68.5]' = range of the soft books' lines."""
+    if not p:
+        return ""
+    s = f"{p['line']:g}"
+    if p.get("over") is not None and p.get("under") is not None:
+        s += f" ({p['over']:+d}/{p['under']:+d})"
+    if p.get("lo") is not None and (p["lo"] != p["line"] or p["hi"] != p["line"]):
+        s += f" [{p['lo']:g}-{p['hi']:g}]"
+    return s
+
+
 tab_res, tab_day = st.tabs(["Results", "Players by day"])
 with tab_res:
     st.markdown(f"**{len(graded)} graded of {len(all_recs)} logged** across {len(logs)} days. "
@@ -134,11 +146,16 @@ with tab_day:
             continue
         f, l, res = r["first_seen"], r.get("last_seen") or r["first_seen"], r.get("result") or {}
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
+        pr = l.get("props") or {}
         rows.append({"EV": f"{100 * l['ev']:+.1f}%", "_ev": l["ev"], "Player": r["who"], "Game": r["game"],
                      "Tip": tip.strftime("%a %I:%M %p").replace(" 0", " "),
                      "Pinnacle": f"{l['pin_over']:+d} / {l['pin_under']:+d}", "Fair": pct(l["fair"]),
                      "Best price": f"{l['price']:+d} {bp.BOOK_DISPLAY.get(l['book'], l['book'])}",
+                     "Rush yds": _prop(pr.get("rush_yds")), "Rec yds": _prop(pr.get("rec_yds")),
+                     "Receptions": _prop(pr.get("recs")),
                      "Result": {"win": "✅ scored", "loss": "❌ no TD"}.get(res.get("outcome"), "pending")})
     rows.sort(key=lambda x: -x["_ev"])
-    st.caption(f"{len(rows)} players priced by Pinnacle. Sorted by EV at the best soft-book price (latest check).")
+    st.caption(f"{len(rows)} players priced by Pinnacle. Sorted by EV at the best soft-book price (latest check). "
+               "Rush yds, Rec yds and Receptions show Pinnacle's line with its Over/Under prices; the range in "
+               "brackets is where the soft books' lines sit.")
     st.dataframe(pd.DataFrame(rows).drop(columns=["_ev"], errors="ignore"), hide_index=True, use_container_width=True)

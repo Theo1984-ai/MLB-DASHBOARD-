@@ -21,6 +21,8 @@ DONE_FILE = "td_props_done.json"
 MARKET = "player_anytime_td"
 BOOKS = fs.FOLLOWERS
 SPORTS = ("NFL", "CFB")
+# The player's other props shown next to the TD price (key in the log -> market name in the snapshot).
+EXTRA = {"rush_yds": "player_rush_yds", "rec_yds": "player_reception_yds", "recs": "player_receptions"}
 
 
 def _imp(o):
@@ -31,6 +33,21 @@ def fair_prob(over, under):
     """Pinnacle's chance that the player scores, with its margin removed."""
     a, b = _imp(over), _imp(under)
     return a / (a + b)
+
+
+def other_props(mks):
+    """Pinnacle line and prices for the player's rushing yards, receiving yards and receptions, plus the range of
+    lines the soft books post: {"rush_yds": {"line", "over", "under", "lo", "hi"}, ...} (only those that exist)."""
+    out = {}
+    for key, market in EXTRA.items():
+        bd = mks.get(market) or {}
+        pin = bd.get("pinnacle") or {}
+        if pin.get("line") is None:
+            continue
+        soft = [bd[b]["line"] for b in BOOKS if b in bd and bd[b].get("line") is not None]
+        out[key] = {"line": pin["line"], "over": pin.get("over"), "under": pin.get("under"),
+                    "lo": min(soft) if soft else None, "hi": max(soft) if soft else None}
+    return out
 
 
 def detect_plays(sport, snap, snap_time):
@@ -58,7 +75,8 @@ def detect_plays(sport, snap, snap_time):
             out.append({"sport": sport, "kind": "prop", "game": g["game"], "who": who, "market": "anytime_td",
                         "bet": "OVER", "commence_time": g["commence_time"], "line": 0.5, "price": price,
                         "book": book, "pin_over": pin["over"], "pin_under": pin["under"],
-                        "fair": round(p, 4), "ev": round(p * dec - 1, 4), "n_books": len(soft)})
+                        "fair": round(p, 4), "ev": round(p * dec - 1, 4), "n_books": len(soft),
+                        "props": other_props(mks)})
     return out
 
 
@@ -68,7 +86,8 @@ def update_log(log, plays, iso, date):
     for p in plays:
         pid = bp.pick_id(date, p)
         stamp = {"t": iso, "line": 0.5, "price": p["price"], "book": p["book"], "pin_over": p["pin_over"],
-                 "pin_under": p["pin_under"], "fair": p["fair"], "ev": p["ev"], "n_books": p["n_books"]}
+                 "pin_under": p["pin_under"], "fair": p["fair"], "ev": p["ev"], "n_books": p["n_books"],
+                 "props": p.get("props") or {}}
         if pid not in log:
             rec = {k: p[k] for k in ("sport", "kind", "game", "who", "market", "bet", "commence_time")}
             rec.update({"first_seen": stamp, "last_seen": stamp, "result": None})
