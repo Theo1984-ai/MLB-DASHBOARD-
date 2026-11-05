@@ -11,6 +11,7 @@ count, passing TDs don't), so the Results table shows two things:
 Records use the same shape as the First Seen log, so the existing grader settles them.
 """
 import re
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 from scripts import best_plays as bp
@@ -78,6 +79,46 @@ def detect_plays(sport, snap, snap_time):
                         "fair": round(p, 4), "ev": round(p * dec - 1, 4), "n_books": len(soft),
                         "props": other_props(mks)})
     return out
+
+
+def fetch_live(key, sport, now_et, days=7, workers=6):
+    """
+    Live anytime-TD prices (plus the rushing, receiving and receptions lines shown beside them) for games that
+    haven't started, today and the next `days` days. Returns (snapshot, quota); the snapshot has the same shape
+    as a saved props snapshot, so detect_plays reads it. Costs about 2 odds credits per market per game.
+    """
+    cfg = bp.SPORTS[sport]
+    events, quota = bp._get(f"{bp.ODDS_API}/sports/{cfg['key']}/events?apiKey={key}")
+    games = []
+    for ev in events:
+        try:
+            start = fs._parse(ev["commence_time"]).astimezone(fs.EASTERN)
+        except Exception:  # noqa: BLE001
+            continue
+        if start > now_et and (start.date() - now_et.date()).days <= days:
+            games.append(ev)
+    markets = [MARKET] + list(EXTRA.values())
+    tracked = {"pinnacle"} | set(bp.PROP_FOLLOWERS)
+    errors = []
+
+    def one(ev):
+        try:
+            return ev, *bp._fetch_event_props(key, cfg["key"], ev, markets, tracked)
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"{ev['away_team']} @ {ev['home_team']}: {e}")
+            return ev, None, None
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        results = list(ex.map(one, games))
+    out = []
+    for ev, props, q in results:
+        if q is not None:
+            quota = q
+        if props:
+            out.append({"game": f"{ev['away_team']} @ {ev['home_team']}", "away": ev["away_team"],
+                        "home": ev["home_team"], "commence_time": ev["commence_time"],
+                        "started": False, "players": props})
+    return {"captured_at": now_et.isoformat(), "quota": quota, "games": out, "errors": errors}, quota
 
 
 def update_log(log, plays, iso, date):
