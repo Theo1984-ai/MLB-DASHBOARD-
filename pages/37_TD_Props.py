@@ -6,6 +6,7 @@ soft-book price and its expected value (best_plays_log/td_props/<date>.json). Th
 game. Results show whether Pinnacle-priced players score as often as Pinnacle says, and whether betting the
 best soft-book price makes money.
 """
+import html
 import os
 import sys
 import time
@@ -176,22 +177,70 @@ with tab_day:
     day = st.selectbox("Date", sorted(logs, reverse=True), key="td_day")
     sports = sorted({r["sport"] for r in logs[day].values()}) or ["-"]
     sport = st.radio("Sport", sports, horizontal=True, key="td_sport")
-    rows = []
+    items = []
     for r in logs[day].values():
         if r["sport"] != sport:
             continue
         f, l, res = r["first_seen"], r.get("last_seen") or r["first_seen"], r.get("result") or {}
-        tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
-        pr = l.get("props") or {}
-        rows.append({"EV": f"{100 * l['ev']:+.1f}%", "_ev": l["ev"], "Player": r["who"], "Game": r["game"],
-                     "Tip": tip.strftime("%a %I:%M %p").replace(" 0", " "),
-                     "Pinnacle": f"{l['pin_over']:+d} / {l['pin_under']:+d}", "Fair": pct(l["fair"]),
-                     "Best price": f"{l['price']:+d} {bp.BOOK_DISPLAY.get(l['book'], l['book'])}",
-                     "Rush yds": _prop(pr.get("rush_yds")), "Rec yds": _prop(pr.get("rec_yds")),
-                     "Receptions": _prop(pr.get("recs")),
-                     "Result": {"win": "✅ scored", "loss": "❌ no TD"}.get(res.get("outcome"), "pending")})
-    rows.sort(key=lambda x: -x["_ev"])
-    st.caption(f"{len(rows)} players priced by Pinnacle. Sorted by EV at the best soft-book price (latest check). "
+        items.append({"r": r, "f": f, "l": l, "res": res, "pr": l.get("props") or {},
+                      "tip": fs._parse(r["commence_time"]).astimezone(EASTERN)})
+    items.sort(key=lambda x: -x["l"]["ev"])
+    st.caption(f"{len(items)} players priced by Pinnacle. Sorted by EV at the best soft-book price (latest check). "
                "Rush yds, Rec yds and Receptions show Pinnacle's line with its Over/Under prices; the range in "
                "brackets is where the soft books' lines sit.")
-    st.dataframe(pd.DataFrame(rows).drop(columns=["_ev"], errors="ignore"), hide_index=True, use_container_width=True)
+    view = st.radio("View", ["Cards", "Table"], horizontal=True, key="td_view")
+    if view == "Table":
+        rows = [{"EV": f"{100 * x['l']['ev']:+.1f}%", "Player": x["r"]["who"], "Game": x["r"]["game"],
+                 "Tip": x["tip"].strftime("%a %I:%M %p").replace(" 0", " "),
+                 "Pinnacle": f"{x['l']['pin_over']:+d} / {x['l']['pin_under']:+d}", "Fair": pct(x["l"]["fair"]),
+                 "Best price": f"{x['l']['price']:+d} {bp.BOOK_DISPLAY.get(x['l']['book'], x['l']['book'])}",
+                 "Rush yds": _prop(x["pr"].get("rush_yds")), "Rec yds": _prop(x["pr"].get("rec_yds")),
+                 "Receptions": _prop(x["pr"].get("recs")),
+                 "Result": {"win": "✅ scored", "loss": "❌ no TD"}.get(x["res"].get("outcome"), "pending")}
+                for x in items]
+        st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+    else:
+        for x in items:
+            r, l, res = x["r"], x["l"], x["res"]
+            ev = l["ev"]
+            if ev >= 0.03:
+                bg, border, colour = "#f0fdf4", "#86efac", "#15803d"       # best price beats Pinnacle's fair price
+            elif ev >= 0:
+                bg, border, colour = "#f7fee7", "#bef264", "#4d7c0f"
+            else:
+                bg, border, colour = "#f9fafb", "#e5e7eb", "#6b7280"
+            out = res.get("outcome")
+            if out in ("win", "loss"):
+                rc = "#15803d" if out == "win" else "#b91c1c"
+                badge = (f'<span style="background:{rc};color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
+                         f'border-radius:3px;margin-right:6px;">{"SCORED" if out == "win" else "NO TD"}</span>')
+            elif x["tip"] <= now:
+                badge = ('<span style="background:#9ca3af;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
+                         'border-radius:3px;margin-right:6px;">STARTED</span>')
+            else:
+                badge = ""
+            chips = "".join(
+                f'<span style="background:#fff;border:1px solid #e5e7eb;border-radius:3px;font-size:11px;'
+                f'padding:1px 6px;color:#374151;">{label} {_prop(x["pr"].get(key))}</span>'
+                for label, key in (("Rush", "rush_yds"), ("Rec yds", "rec_yds"), ("Recs", "recs"))
+                if x["pr"].get(key))
+            book = bp.BOOK_DISPLAY.get(l["book"], l["book"])
+            fair_odds = (1 - l["fair"]) / l["fair"] * 100
+            st.markdown(
+                f'<div style="background:{bg};border:1.5px solid {border};border-radius:8px;padding:10px 14px;'
+                f'margin-bottom:6px;color:#111827;">'
+                f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+                f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}'
+                f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {html.escape(r["game"])}</span></span>'
+                f'<span style="font-size:11px;color:#6b7280;white-space:nowrap;">{badge}'
+                f'{x["tip"].strftime("%a %I:%M %p").replace(" 0", " ")} ET</span></div>'
+                f'<div style="display:flex;align-items:baseline;gap:10px;margin:2px 0;flex-wrap:wrap;">'
+                f'<span style="font-size:11px;color:#6b7280;">ANYTIME TD</span>'
+                f'<span style="font-size:18px;font-weight:800;color:{colour};">{l["price"]:+d}</span>'
+                f'<span style="font-size:13px;">@ <strong>{html.escape(book)}</strong></span>'
+                f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:11px;'
+                f'font-weight:700;padding:1px 7px;border-radius:3px;">EV {100 * ev:+.1f}%</span></div>'
+                f'<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">Pinnacle {l["pin_over"]:+d} / '
+                f'{l["pin_under"]:+d} · fair {pct(l["fair"])} (+{fair_odds:.0f})</div>'
+                f'<div style="display:flex;gap:6px;flex-wrap:wrap;">{chips}</div>'
+                f'</div>', unsafe_allow_html=True)
