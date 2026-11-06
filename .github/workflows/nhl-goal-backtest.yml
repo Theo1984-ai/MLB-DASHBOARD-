@@ -1,0 +1,23 @@
+name: NHL goal backtest (one-off)
+
+# Run by hand from the Actions tab. Reads the saved NHL props snapshots, grades every shots-on-goal Over signal
+# against who actually scored (from ESPN), and prints the results in the job log. It does not change the repo.
+on:
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install tzdata
+      - name: Run backtest
+        run: python -m scripts.nhl_goal_backtest
