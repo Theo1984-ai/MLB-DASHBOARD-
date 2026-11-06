@@ -20,7 +20,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-06T06:00:19.113463-05:00",
+      "t": "2026-11-06T07:00:18.567820-05:00",
       "line": 76.5,
       "price": -115,
       "book": "williamhill_us",
@@ -94,6 +94,15 @@
         "book_line": 76.5,
         "book_over": -105,
         "book_under": -115
+      },
+      {
+        "t": "2026-11-06T07:00:18.567820-05:00",
+        "pin_line": 74.5,
+        "pin_over": -129,
+        "pin_under": 102,
+        "book_line": 76.5,
+        "book_over": -105,
+        "book_under": -115
       }
     ],
     "result": null,
@@ -139,14 +148,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-06T06:00:19.113463-05:00",
+      "t": "2026-11-06T07:00:18.567820-05:00",
       "line": 9.5,
-      "price": -109,
+      "price": -110,
       "book": "draftkings",
       "pin_line": 8.5,
       "pin_over": -110,
-      "pin_under": -121,
-      "edge": 0.0773,
+      "pin_under": -120,
+      "edge": 0.0741,
       "stale": 5,
       "n_books": 5
     },
@@ -201,6 +210,15 @@
         "pin_line": 8.5,
         "pin_over": -110,
         "pin_under": -121,
+        "book_line": 9.5,
+        "book_over": -118,
+        "book_under": -112
+      },
+      {
+        "t": "2026-11-06T07:00:18.567820-05:00",
+        "pin_line": 8.5,
+        "pin_over": -110,
+        "pin_under": -120,
         "book_line": 9.5,
         "book_over": -118,
         "book_under": -112
@@ -313,6 +331,15 @@
         "book_line": 14.5,
         "book_over": -103,
         "book_under": -125
+      },
+      {
+        "t": "2026-11-06T07:00:18.567820-05:00",
+        "pin_line": 12.5,
+        "pin_over": -170,
+        "pin_under": 127,
+        "book_line": 13.5,
+        "book_over": -120,
+        "book_under": -108
       }
     ],
     "result": null,
@@ -387,6 +414,15 @@
         "book_line": 25.5,
         "book_over": -108,
         "book_under": -118
+      },
+      {
+        "t": "2026-11-06T07:00:18.567820-05:00",
+        "pin_line": 23.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 25.5,
+        "book_over": -108,
+        "book_under": -118
       }
     ],
     "result": null,
@@ -408,6 +444,70 @@
     "tier": "B",
     "tier_why": [
       "big gap to Pinnacle (often news)"
+    ]
+  },
+  "2026-11-06|NBA|prop|Portland Trail Blazers @ Los Angeles Lakers|Deni Avdija|assists|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Portland Trail Blazers @ Los Angeles Lakers",
+    "who": "Deni Avdija",
+    "market": "assists",
+    "bet": "UNDER",
+    "commence_time": "2026-11-07T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-06T07:00:18.567820-05:00",
+      "line": 6.5,
+      "price": -135,
+      "book": "betonlineag",
+      "pin_line": 5.5,
+      "pin_over": -147,
+      "pin_under": 111,
+      "edge": 0.0295,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-06T07:00:18.567820-05:00",
+      "line": 6.5,
+      "price": -135,
+      "book": "betonlineag",
+      "pin_line": 5.5,
+      "pin_over": -147,
+      "pin_under": 111,
+      "edge": 0.0295,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-06T07:00:18.567820-05:00",
+        "pin_line": 5.5,
+        "pin_over": -147,
+        "pin_under": 111,
+        "book_line": 6.5,
+        "book_over": 104,
+        "book_under": -135
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Portland Trail Blazers",
+      "opp": "Los Angeles Lakers",
+      "scope": "team",
+      "shift": -0.41,
+      "tag": "neutral",
+      "win_prob": 0.42,
+      "fav": "Los Angeles Lakers",
+      "fav_win_prob": 0.58,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 232.0,
+      "total_over": -107,
+      "total_under": -107
+    },
+    "tier": "B",
+    "tier_why": [
+      "Pinnacle's price leans against this side"
     ]
   }
 }
