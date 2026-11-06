@@ -1,7 +1,7 @@
 {
   "date": "2026-11-05",
-  "snapshot_at": "2026-11-05T20:57:13.171008-05:00",
-  "n_picks": 21,
+  "snapshot_at": "2026-11-05T21:58:12.384812-05:00",
+  "n_picks": 22,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 21,
+    "n_total": 22,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -1056,6 +1056,55 @@
           "tp": 75.08,
           "ev": 12.79,
           "price": -250
+        }
+      ]
+    },
+    {
+      "event_id": "446de9651d2d2948326d970e9f858a33",
+      "game": "Predators @ Avalanche",
+      "away_team": "Nashville Predators",
+      "home_team": "Colorado Avalanche",
+      "first_pitch": "2026-11-06T02:39:15Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Colorado Avalanche +1.5",
+      "player": "Colorado Avalanche",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -273,
+      "true_prob_pct": 83.38,
+      "ev_per_100": 37.99,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -273
+        ],
+        [
+          "bovada",
+          -600
+        ],
+        [
+          "draftkings",
+          -675
+        ],
+        [
+          "fanduel",
+          -700
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-05T21:58:12.384768-05:00",
+      "last_seen_at": "2026-11-05T21:58:12.384768-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-05T21:58:12.384768-05:00",
+          "tp": 83.38,
+          "ev": 37.99,
+          "price": -273
         }
       ]
     }
