@@ -20,14 +20,14 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-06T00:15:16.022619-05:00",
+      "t": "2026-11-06T01:00:19.847270-05:00",
       "line": 76.5,
-      "price": -115,
-      "book": "williamhill_us",
+      "price": -120,
+      "book": "fanduel",
       "pin_line": 74.5,
       "pin_over": -124,
       "pin_under": -102,
-      "edge": 0.0217,
+      "edge": 0.0112,
       "stale": 3,
       "n_books": 3
     },
@@ -40,6 +40,15 @@
         "book_line": 76.5,
         "book_over": -105,
         "book_under": -115
+      },
+      {
+        "t": "2026-11-06T01:00:19.847270-05:00",
+        "pin_line": 74.5,
+        "pin_over": -124,
+        "pin_under": -102,
+        "book_line": 75.5,
+        "book_over": -115,
+        "book_under": -105
       }
     ],
     "result": null,
@@ -57,6 +66,135 @@
       "total": 144.5,
       "total_over": -107,
       "total_under": -113
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-06|NBA|prop|Toronto Raptors @ Milwaukee Bucks|Kel'el Ware|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Toronto Raptors @ Milwaukee Bucks",
+    "who": "Kel'el Ware",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-07T01:10:00Z",
+    "first_seen": {
+      "t": "2026-11-06T01:00:19.847270-05:00",
+      "line": 9.5,
+      "price": -112,
+      "book": "fanduel",
+      "pin_line": 8.5,
+      "pin_over": -106,
+      "pin_under": -125,
+      "edge": 0.0783,
+      "stale": 4,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-06T01:00:19.847270-05:00",
+      "line": 9.5,
+      "price": -112,
+      "book": "fanduel",
+      "pin_line": 8.5,
+      "pin_over": -106,
+      "pin_under": -125,
+      "edge": 0.0783,
+      "stale": 4,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-06T01:00:19.847270-05:00",
+        "pin_line": 8.5,
+        "pin_over": -106,
+        "pin_under": -125,
+        "book_line": 9.5,
+        "book_over": -118,
+        "book_under": -112
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Milwaukee Bucks",
+      "opp": "Toronto Raptors",
+      "scope": "team",
+      "shift": 0.0,
+      "tag": "neutral",
+      "win_prob": 0.297,
+      "fav": "Toronto Raptors",
+      "fav_win_prob": 0.703,
+      "fav_spread": -7.0,
+      "blowout": false,
+      "total": 231.0,
+      "total_over": -109,
+      "total_under": -105
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-06|NBA|prop|Portland Trail Blazers @ Los Angeles Lakers|Jrue Holiday|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Portland Trail Blazers @ Los Angeles Lakers",
+    "who": "Jrue Holiday",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-07T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-06T01:00:19.847270-05:00",
+      "line": 14.5,
+      "price": -125,
+      "book": "betonlineag",
+      "pin_line": 12.5,
+      "pin_over": -120,
+      "pin_under": -110,
+      "edge": 0.075,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-06T01:00:19.847270-05:00",
+      "line": 14.5,
+      "price": -125,
+      "book": "betonlineag",
+      "pin_line": 12.5,
+      "pin_over": -120,
+      "pin_under": -110,
+      "edge": 0.075,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-06T01:00:19.847270-05:00",
+        "pin_line": 12.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 14.5,
+        "book_over": -103,
+        "book_under": -125
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Portland Trail Blazers",
+      "opp": "Los Angeles Lakers",
+      "scope": "team",
+      "shift": -0.25,
+      "tag": "neutral",
+      "win_prob": 0.43,
+      "fav": "Los Angeles Lakers",
+      "fav_win_prob": 0.57,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 231.5,
+      "total_over": -113,
+      "total_under": -102
     },
     "tier": "B",
     "tier_why": [
