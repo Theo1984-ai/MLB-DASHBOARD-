@@ -20,7 +20,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-06T04:00:19.669942-05:00",
+      "t": "2026-11-06T05:00:19.167661-05:00",
       "line": 75.5,
       "price": 100,
       "book": "williamhill_us",
@@ -76,6 +76,15 @@
         "book_line": 75.5,
         "book_over": -120,
         "book_under": 100
+      },
+      {
+        "t": "2026-11-06T05:00:19.167661-05:00",
+        "pin_line": 74.5,
+        "pin_over": -127,
+        "pin_under": 101,
+        "book_line": 75.5,
+        "book_over": -120,
+        "book_under": 100
       }
     ],
     "result": null,
@@ -121,14 +130,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-06T04:00:19.669942-05:00",
+      "t": "2026-11-06T05:00:19.167661-05:00",
       "line": 9.5,
-      "price": -106,
+      "price": -109,
       "book": "draftkings",
       "pin_line": 8.5,
       "pin_over": -110,
       "pin_under": -121,
-      "edge": 0.0842,
+      "edge": 0.0773,
       "stale": 5,
       "n_books": 5
     },
@@ -162,6 +171,15 @@
       },
       {
         "t": "2026-11-06T04:00:19.669942-05:00",
+        "pin_line": 8.5,
+        "pin_over": -110,
+        "pin_under": -121,
+        "book_line": 9.5,
+        "book_over": -118,
+        "book_under": -112
+      },
+      {
+        "t": "2026-11-06T05:00:19.167661-05:00",
         "pin_line": 8.5,
         "pin_over": -110,
         "pin_under": -121,
@@ -259,6 +277,15 @@
         "book_line": 14.5,
         "book_over": -103,
         "book_under": -125
+      },
+      {
+        "t": "2026-11-06T05:00:19.167661-05:00",
+        "pin_line": 12.5,
+        "pin_over": -170,
+        "pin_under": 127,
+        "book_line": 14.5,
+        "book_over": -103,
+        "book_under": -125
       }
     ],
     "result": null,
@@ -281,6 +308,70 @@
     "tier_why": [
       "big gap to Pinnacle (often news)",
       "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-06|NBA|prop|Portland Trail Blazers @ Los Angeles Lakers|Deni Avdija|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Portland Trail Blazers @ Los Angeles Lakers",
+    "who": "Deni Avdija",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-07T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-06T05:00:19.167661-05:00",
+      "line": 25.5,
+      "price": -118,
+      "book": "draftkings",
+      "pin_line": 23.5,
+      "pin_over": -120,
+      "pin_under": -110,
+      "edge": 0.0414,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-06T05:00:19.167661-05:00",
+      "line": 25.5,
+      "price": -118,
+      "book": "draftkings",
+      "pin_line": 23.5,
+      "pin_over": -120,
+      "pin_under": -110,
+      "edge": 0.0414,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-06T05:00:19.167661-05:00",
+        "pin_line": 23.5,
+        "pin_over": -120,
+        "pin_under": -110,
+        "book_line": 25.5,
+        "book_over": -108,
+        "book_under": -118
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Portland Trail Blazers",
+      "opp": "Los Angeles Lakers",
+      "scope": "team",
+      "shift": -0.41,
+      "tag": "neutral",
+      "win_prob": 0.42,
+      "fav": "Los Angeles Lakers",
+      "fav_win_prob": 0.58,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 232.0,
+      "total_over": -107,
+      "total_under": -107
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)"
     ]
   }
 }
