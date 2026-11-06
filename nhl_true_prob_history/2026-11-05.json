@@ -1,7 +1,7 @@
 {
   "date": "2026-11-05",
-  "snapshot_at": "2026-11-05T19:40:01.731671-05:00",
-  "n_picks": 17,
+  "snapshot_at": "2026-11-05T20:26:43.039534-05:00",
+  "n_picks": 21,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 17,
+    "n_total": 21,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -872,6 +872,190 @@
           "tp": 75.95,
           "ev": 6.19,
           "price": -290
+        }
+      ]
+    },
+    {
+      "event_id": "c672f144ecbb937d3b15b483847129d2",
+      "game": "Ducks @ Oilers",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Edmonton Oilers",
+      "first_pitch": "2026-11-06T01:09:07Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 8.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 8.5,
+      "best_book": "fanduel",
+      "best_price": -400,
+      "true_prob_pct": 83.44,
+      "ev_per_100": 17.22,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -400
+        ],
+        [
+          "bovada",
+          -550
+        ],
+        [
+          "draftkings",
+          -600
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "last_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-05T20:26:43.039492-05:00",
+          "tp": 83.44,
+          "ev": 17.22,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "c672f144ecbb937d3b15b483847129d2",
+      "game": "Ducks @ Oilers",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Edmonton Oilers",
+      "first_pitch": "2026-11-06T01:09:07Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Anaheim Ducks +2.5",
+      "player": "Anaheim Ducks",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -291,
+      "true_prob_pct": 79.82,
+      "ev_per_100": 21.11,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -291
+        ],
+        [
+          "fanduel",
+          -460
+        ],
+        [
+          "draftkings",
+          -485
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "last_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-05T20:26:43.039492-05:00",
+          "tp": 79.82,
+          "ev": 21.11,
+          "price": -291
+        }
+      ]
+    },
+    {
+      "event_id": "c672f144ecbb937d3b15b483847129d2",
+      "game": "Ducks @ Oilers",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Edmonton Oilers",
+      "first_pitch": "2026-11-06T01:09:07Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Edmonton Oilers +1.5",
+      "player": "Edmonton Oilers",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -290,
+      "true_prob_pct": 76.91,
+      "ev_per_100": 9.95,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -290
+        ],
+        [
+          "fanduel",
+          -290
+        ],
+        [
+          "pinnacle",
+          -456
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "last_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-05T20:26:43.039492-05:00",
+          "tp": 76.91,
+          "ev": 9.95,
+          "price": -290
+        }
+      ]
+    },
+    {
+      "event_id": "c672f144ecbb937d3b15b483847129d2",
+      "game": "Ducks @ Oilers",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Edmonton Oilers",
+      "first_pitch": "2026-11-06T01:09:07Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "fanduel",
+      "best_price": -250,
+      "true_prob_pct": 75.08,
+      "ev_per_100": 12.79,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -250
+        ],
+        [
+          "pinnacle",
+          -298
+        ],
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "bovada",
+          -335
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "last_seen_at": "2026-11-05T20:26:43.039492-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-05T20:26:43.039492-05:00",
+          "tp": 75.08,
+          "ev": 12.79,
+          "price": -250
         }
       ]
     }
