@@ -1,7 +1,7 @@
 {
   "date": "2026-11-07",
-  "snapshot_at": "2026-11-07T19:59:28.216379-05:00",
-  "n_picks": 16,
+  "snapshot_at": "2026-11-07T20:57:04.428648-05:00",
+  "n_picks": 17,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 16,
+    "n_total": 17,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -798,8 +798,8 @@
       "point": null,
       "best_book": "fanduel",
       "best_price": -360,
-      "true_prob_pct": 79.0,
-      "ev_per_100": 3.39,
+      "true_prob_pct": 79.04,
+      "ev_per_100": 3.56,
       "n_books": 5,
       "all_prices": [
         [
@@ -808,7 +808,7 @@
         ],
         [
           "pinnacle",
-          -363
+          -367
         ],
         [
           "draftkings",
@@ -823,9 +823,9 @@
           -400
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-07T15:35:22.337367-05:00",
-      "last_seen_at": "2026-11-07T19:59:28.216323-05:00",
+      "last_seen_at": "2026-11-07T20:57:04.428577-05:00",
       "scan_history": [
         {
           "t": "2026-11-07T15:35:22.337367-05:00",
@@ -849,6 +849,12 @@
           "t": "2026-11-07T19:59:28.216323-05:00",
           "tp": 79.0,
           "ev": 3.39,
+          "price": -360
+        },
+        {
+          "t": "2026-11-07T20:57:04.428577-05:00",
+          "tp": 79.04,
+          "ev": 3.56,
           "price": -360
         }
       ]
@@ -976,15 +982,70 @@
           -380
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-07T19:59:28.216323-05:00",
-      "last_seen_at": "2026-11-07T19:59:28.216323-05:00",
+      "last_seen_at": "2026-11-07T20:57:04.428577-05:00",
       "scan_history": [
         {
           "t": "2026-11-07T19:59:28.216323-05:00",
           "tp": 78.2,
           "ev": 4.09,
           "price": -340
+        },
+        {
+          "t": "2026-11-07T20:57:04.428577-05:00",
+          "tp": 78.2,
+          "ev": 4.09,
+          "price": -340
+        }
+      ]
+    },
+    {
+      "event_id": "41bd62e63799d7bb81e18169092a82bd",
+      "game": "Penguins @ Kings",
+      "away_team": "Pittsburgh Penguins",
+      "home_team": "Los Angeles Kings",
+      "first_pitch": "2026-11-08T02:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "pinnacle",
+      "best_price": -288,
+      "true_prob_pct": 75.11,
+      "ev_per_100": 3.43,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -288
+        ],
+        [
+          "draftkings",
+          -300
+        ],
+        [
+          "fanduel",
+          -310
+        ],
+        [
+          "bovada",
+          -310
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-07T20:57:04.428577-05:00",
+      "last_seen_at": "2026-11-07T20:57:04.428577-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-07T20:57:04.428577-05:00",
+          "tp": 75.11,
+          "ev": 3.43,
+          "price": -288
         }
       ]
     }
