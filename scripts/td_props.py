@@ -47,8 +47,24 @@ def other_props(mks):
             continue
         soft = [bd[b]["line"] for b in BOOKS if b in bd and bd[b].get("line") is not None]
         out[key] = {"line": pin["line"], "over": pin.get("over"), "under": pin.get("under"),
-                    "lo": min(soft) if soft else None, "hi": max(soft) if soft else None}
+                    "lo": min(soft) if soft else None, "hi": max(soft) if soft else None,
+                    # soft books whose line is below Pinnacle's (an Over line split) and how many soft books post it
+                    "n": len(soft), "over_off": sum(1 for x in soft if x < pin["line"])}
     return out
+
+
+SPLIT_KEYS = ("rec_yds", "rush_yds")      # the yards props whose Over splits are ranked on the TD page
+SPLIT_MIN = 3                             # NFL receiving yards Overs with 3+ books off: 50-28 (64%, +15u) in week 1
+
+
+def over_split(props):
+    """(books off, key) for the player's strongest Over line split on receiving or rushing yards, or (0, None)."""
+    best = (0, None)
+    for k in SPLIT_KEYS:
+        n = (props or {}).get(k, {}).get("over_off") or 0
+        if n > best[0]:
+            best = (n, k)
+    return best
 
 
 def detect_plays(sport, snap, snap_time):

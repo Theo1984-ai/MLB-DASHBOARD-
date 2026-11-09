@@ -163,7 +163,17 @@ with tab_res:
             return ("1. Best price beats Pinnacle by 3%+" if e >= 0.03 else "2. Beats Pinnacle (0 to 3%)" if e >= 0
                     else "3. Below Pinnacle (0 to -5%)" if e >= -0.05 else "4. Well below Pinnacle (-5% or worse)")
 
-        for title, keyf in (("Betting the best soft-book price, by how it compares with Pinnacle", ev_bucket),
+        def split_bucket(r):
+            ps = [(r.get("last_seen") or {}).get("props"), (r.get("first_seen") or {}).get("props")]
+            n = max((tdp.over_split(p)[0] for p in ps if p), default=None)
+            has = any(v.get("over_off") is not None for p in ps if p for v in p.values())
+            if not has:
+                return "4. No split data (older records)"
+            return ("1. Over rec/rush yds, 3+ books off" if n >= tdp.SPLIT_MIN else
+                    "2. Over rec/rush yds, 1 to 2 books off" if n >= 1 else "3. No Over split")
+
+        for title, keyf in (("By Over line split on receiving or rushing yards", split_bucket),
+                            ("Betting the best soft-book price, by how it compares with Pinnacle", ev_bucket),
                             ("By sport", lambda r: r["sport"])):
             agg = fs.summarize(graded, keyf)
             rows = [{"Group": k, "Players": agg[k]["n"], "Scored": agg[k]["w"],
@@ -184,13 +194,19 @@ with tab_day:
         f, l, res = r["first_seen"], r.get("last_seen") or r["first_seen"], r.get("result") or {}
         items.append({"r": r, "f": f, "l": l, "res": res, "pr": l.get("props") or {},
                       "tip": fs._parse(r["commence_time"]).astimezone(EASTERN)})
-    items.sort(key=lambda x: -x["l"]["ev"])
-    st.caption(f"{len(items)} players priced by Pinnacle. Sorted by EV at the best soft-book price (latest check). "
-               "Rush yds, Rec yds and Receptions show Pinnacle's line with its Over/Under prices; the range in "
-               "brackets is where the soft books' lines sit.")
+    for x in items:
+        x["split"], x["split_key"] = tdp.over_split(x["pr"])
+    items.sort(key=lambda x: (-int(x["split"] >= tdp.SPLIT_MIN), -x["split"], -x["l"]["fair"]))
+    st.caption(f"{len(items)} players priced by Pinnacle. Ranked by the strongest Over line split on receiving or "
+               f"rushing yards (soft books below Pinnacle's line; {tdp.SPLIT_MIN}+ books off is the group that has won), "
+               "then by chance to score. The TD price and EV are info only: in week 1 the 'price beats Pinnacle' plays "
+               "lost, because Pinnacle's chances were accurate. Rush yds, Rec yds and Receptions show Pinnacle's line "
+               "with its Over/Under prices; the range in brackets is where the soft books' lines sit.")
     view = st.radio("View", ["Cards", "Table"], horizontal=True, key="td_view")
     if view == "Table":
-        rows = [{"EV": f"{100 * x['l']['ev']:+.1f}%", "Player": x["r"]["who"], "Game": x["r"]["game"],
+        rows = [{"Over split": (f"{x['split']} book{'s' if x['split'] != 1 else ''} off ({'Rec' if x['split_key'] == 'rec_yds' else 'Rush'} yds)"
+                                if x["split"] else ""),
+                 "Player": x["r"]["who"], "Game": x["r"]["game"], "EV (info)": f"{100 * x['l']['ev']:+.1f}%",
                  "Tip": x["tip"].strftime("%a %I:%M %p").replace(" 0", " "),
                  "Pinnacle": f"{x['l']['pin_over']:+d} / {x['l']['pin_under']:+d}", "Fair": pct(x["l"]["fair"]),
                  "Best price": f"{x['l']['price']:+d} {bp.BOOK_DISPLAY.get(x['l']['book'], x['l']['book'])}",
@@ -203,12 +219,19 @@ with tab_day:
         for x in items:
             r, l, res = x["r"], x["l"], x["res"]
             ev = l["ev"]
-            if ev >= 0.03:
-                bg, border, colour = "#f0fdf4", "#86efac", "#15803d"       # best price beats Pinnacle's fair price
-            elif ev >= 0:
+            if x["split"] >= tdp.SPLIT_MIN:
+                bg, border, colour = "#f0fdf4", "#86efac", "#15803d"       # Over split with 3+ books off
+            elif x["split"] == 2:
                 bg, border, colour = "#f7fee7", "#bef264", "#4d7c0f"
             else:
                 bg, border, colour = "#f9fafb", "#e5e7eb", "#6b7280"
+            split_html = (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
+                          f'border-radius:3px;">⭐ Over {"rec" if x["split_key"] == "rec_yds" else "rush"} yds · '
+                          f'{x["split"]}/{x["pr"][x["split_key"]].get("n")} books off</span>'
+                          if x["split"] >= tdp.SPLIT_MIN else
+                          f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:10px;'
+                          f'font-weight:700;padding:1px 7px;border-radius:3px;">Over {"rec" if x["split_key"] == "rec_yds" else "rush"} yds · '
+                          f'{x["split"]}/{x["pr"][x["split_key"]].get("n")} books off</span>' if x["split"] else "")
             out = res.get("outcome")
             if out in ("win", "loss"):
                 rc = "#15803d" if out == "win" else "#b91c1c"
@@ -238,9 +261,8 @@ with tab_day:
                 f'<span style="font-size:11px;color:#6b7280;">ANYTIME TD</span>'
                 f'<span style="font-size:18px;font-weight:800;color:{colour};">{l["price"]:+d}</span>'
                 f'<span style="font-size:13px;">@ <strong>{html.escape(book)}</strong></span>'
-                f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:11px;'
-                f'font-weight:700;padding:1px 7px;border-radius:3px;">EV {100 * ev:+.1f}%</span></div>'
+                f'<span style="font-size:11px;color:#6b7280;">EV {100 * ev:+.1f}% (info)</span></div>'
                 f'<div style="font-size:11px;color:#6b7280;margin-bottom:4px;">Pinnacle {l["pin_over"]:+d} / '
                 f'{l["pin_under"]:+d} · fair {pct(l["fair"])} (+{fair_odds:.0f})</div>'
-                f'<div style="display:flex;gap:6px;flex-wrap:wrap;">{chips}</div>'
+                f'<div style="display:flex;gap:6px;flex-wrap:wrap;">{split_html}{chips}</div>'
                 f'</div>', unsafe_allow_html=True)
