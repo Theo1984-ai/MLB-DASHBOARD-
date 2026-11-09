@@ -1,7 +1,7 @@
 {
   "date": "2026-11-08",
-  "snapshot_at": "2026-11-08T19:39:49.722167-05:00",
-  "n_picks": 11,
+  "snapshot_at": "2026-11-08T20:20:55.102104-05:00",
+  "n_picks": 12,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 11,
+    "n_total": 12,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -529,9 +529,9 @@
           -430
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-08T18:23:13.219619-05:00",
-      "last_seen_at": "2026-11-08T19:39:49.722109-05:00",
+      "last_seen_at": "2026-11-08T20:20:55.102052-05:00",
       "scan_history": [
         {
           "t": "2026-11-08T18:23:13.219619-05:00",
@@ -541,6 +541,12 @@
         },
         {
           "t": "2026-11-08T19:39:49.722109-05:00",
+          "tp": 80.14,
+          "ev": 5.69,
+          "price": -375
+        },
+        {
+          "t": "2026-11-08T20:20:55.102052-05:00",
           "tp": 80.14,
           "ev": 5.69,
           "price": -375
@@ -580,9 +586,9 @@
           -380
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-08T18:23:13.219619-05:00",
-      "last_seen_at": "2026-11-08T19:39:49.722109-05:00",
+      "last_seen_at": "2026-11-08T20:20:55.102052-05:00",
       "scan_history": [
         {
           "t": "2026-11-08T18:23:13.219619-05:00",
@@ -592,6 +598,12 @@
         },
         {
           "t": "2026-11-08T19:39:49.722109-05:00",
+          "tp": 77.65,
+          "ev": 8.35,
+          "price": -310
+        },
+        {
+          "t": "2026-11-08T20:20:55.102052-05:00",
           "tp": 77.65,
           "ev": 8.35,
           "price": -310
@@ -644,6 +656,55 @@
           "tp": 75.51,
           "ev": 11.82,
           "price": -260
+        }
+      ]
+    },
+    {
+      "event_id": "41a3f4e9221afae1081031d9f6af0db4",
+      "game": "Penguins @ Ducks",
+      "away_team": "Pittsburgh Penguins",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-11-09T01:08:24Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Anaheim Ducks +1.5",
+      "player": "Anaheim Ducks",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -281,
+      "true_prob_pct": 75.14,
+      "ev_per_100": 5.28,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -281
+        ],
+        [
+          "bovada",
+          -300
+        ],
+        [
+          "draftkings",
+          -310
+        ],
+        [
+          "fanduel",
+          -320
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-08T20:20:55.102052-05:00",
+      "last_seen_at": "2026-11-08T20:20:55.102052-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-08T20:20:55.102052-05:00",
+          "tp": 75.14,
+          "ev": 5.28,
+          "price": -281
         }
       ]
     }
