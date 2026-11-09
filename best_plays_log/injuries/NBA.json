@@ -37,15 +37,6 @@
         "return": "2027-07-01"
       }
     ],
-    "Boston Celtics": [
-      {
-        "name": "Mitchell Robinson",
-        "status": "Day-To-Day",
-        "pos": "C",
-        "note": "Robinson (illness) is questionable for Sunday's game versus Milwaukee, Bobby Krivitsky of Forbes.com reports.",
-        "return": "2026-11-08"
-      }
-    ],
     "Brooklyn Nets": [
       {
         "name": "Mikel Brown Jr.",
@@ -376,10 +367,10 @@
     "Milwaukee Bucks": [
       {
         "name": "Gary Trent Jr.",
-        "status": "Day-To-Day",
+        "status": "Out",
         "pos": "G",
-        "note": "Trent (illness) has been downgraded to questionable for Sunday's game against Boston.",
-        "return": "2026-11-08"
+        "note": "Trent (illness) won't play in Sunday's game versus the Celtics.",
+        "return": "2026-11-10"
       }
     ],
     "Minnesota Timberwolves": [
@@ -525,7 +516,7 @@
         "name": "Jordan Goodwin",
         "status": "Out",
         "pos": "G",
-        "note": "Goodwin (calf) is out for Saturday's game against the Rockets.",
+        "note": "Goodwin (calf) is questionable for Monday's game against the Spurs.",
         "return": "2026-11-09"
       },
       {
@@ -594,8 +585,8 @@
         "name": "Tobias Harris",
         "status": "Out",
         "pos": "F",
-        "note": "Harris (calf) is listed as out for Saturday's game against Minnesota.",
-        "return": "2026-11-09"
+        "note": "Harris (calf) is listed as out for Monday's game against Phoenix.",
+        "return": "2026-11-11"
       },
       {
         "name": "Jayden Quaintance",
@@ -603,6 +594,13 @@
         "pos": "F",
         "note": "Quaintance has been around the team but has not yet been cleared for basketball activities, Matt Guzman of SI.com reports.",
         "return": "2026-12-03"
+      },
+      {
+        "name": "Devin Vassell",
+        "status": "Day-To-Day",
+        "pos": "G",
+        "note": "Vassell is questionable for Monday's game against the Suns due to left adductor tightness.",
+        "return": "2026-11-09"
       }
     ],
     "Toronto Raptors": [
@@ -636,6 +634,13 @@
       }
     ],
     "Utah Jazz": [
+      {
+        "name": "Lauri Markkanen",
+        "status": "Out",
+        "pos": "F",
+        "note": "Markkanen (wrist) is out for Sunday's game against the Timberwolves, Shreyas Laddha of The Salt Lake Tribune reports.",
+        "return": "2026-11-10"
+      },
       {
         "name": "Jusuf Nurkic",
         "status": "Out",
@@ -741,8 +746,23 @@
     {
       "id": "401909947",
       "start": "2026-11-09T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Utah Jazz": [
+          "Jaxson Hayes",
+          "Josh Green",
+          "Keyonte George",
+          "Ace Bailey",
+          "Darryn Peterson"
+        ],
+        "Minnesota Timberwolves": [
+          "Jaden McDaniels",
+          "Jonathan Kuminga",
+          "Rudy Gobert",
+          "Ayo Dosunmu",
+          "LaMelo Ball"
+        ]
+      },
       "probables": {},
       "home": "Minnesota Timberwolves",
       "away": "Utah Jazz"
@@ -750,8 +770,23 @@
     {
       "id": "401909948",
       "start": "2026-11-09T00:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Brooklyn Nets": [
+          "Julius Randle",
+          "Michael Porter Jr.",
+          "Danny Wolf",
+          "Day'Ron Sharpe",
+          "Nolan Traore"
+        ],
+        "Dallas Mavericks": [
+          "Caleb Martin",
+          "Daniel Gafford",
+          "P.J. Washington",
+          "Cooper Flagg",
+          "Kyrie Irving"
+        ]
+      },
       "probables": {},
       "home": "Dallas Mavericks",
       "away": "Brooklyn Nets"
@@ -785,5 +820,5 @@
     }
   ],
   "date": "2026-11-08",
-  "fetched": "2026-11-08T18:51:44.331570-05:00"
+  "fetched": "2026-11-08T19:45:27.777748-05:00"
 }
