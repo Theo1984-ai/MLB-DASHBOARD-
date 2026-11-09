@@ -196,8 +196,19 @@ with tab_day:
                       "tip": fs._parse(r["commence_time"]).astimezone(EASTERN)})
     for x in items:
         x["split"], x["split_key"] = tdp.over_split(x["pr"])
+    only_over = st.checkbox("Only players with an Over line split (receiving yds, rushing yds or receptions)",
+                            value=True, key="td_only_over",
+                            help="Shows a player only when at least one soft book's line is below Pinnacle's on one of "
+                                 "those props. Older records (before this was logged) have no split data and are hidden "
+                                 "while this is on.")
+    total_priced = len(items)
+    if only_over:
+        items = [x for x in items if tdp.any_over(x["pr"]) >= 1]
+        st.caption(f"Showing {len(items)} of {total_priced} players priced by Pinnacle.")
+        if not items:
+            st.info("No players with an Over line split right now. Turn the switch off to see everyone priced by Pinnacle.")
     items.sort(key=lambda x: (-int(x["split"] >= tdp.SPLIT_MIN), -x["split"], -x["l"]["fair"]))
-    st.caption(f"{len(items)} players priced by Pinnacle. Ranked by the strongest Over line split on receiving or "
+    st.caption(f"{len(items)} players. Ranked by the strongest Over line split on receiving or "
                f"rushing yards (soft books below Pinnacle's line; {tdp.SPLIT_MIN}+ books off is the group that has won), "
                "then by chance to score. The TD price and EV are info only: in week 1 the 'price beats Pinnacle' plays "
                "lost, because Pinnacle's chances were accurate. Rush yds, Rec yds and Receptions show Pinnacle's line "

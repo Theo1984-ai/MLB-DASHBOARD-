@@ -57,6 +57,11 @@ SPLIT_KEYS = ("rec_yds", "rush_yds")      # the yards props whose Over splits ar
 SPLIT_MIN = 3                             # NFL receiving yards Overs with 3+ books off: 50-28 (64%, +15u) in week 1
 
 
+def any_over(props):
+    """Most soft books below Pinnacle's line on any of receiving yards, rushing yards or receptions (0 = no Over split)."""
+    return max([(v or {}).get("over_off") or 0 for v in (props or {}).values()] or [0])
+
+
 def over_split(props):
     """(books off, key) for the player's strongest Over line split on receiving or rushing yards, or (0, None)."""
     best = (0, None)
