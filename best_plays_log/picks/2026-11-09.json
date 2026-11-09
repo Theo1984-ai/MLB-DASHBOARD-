@@ -58,6 +58,15 @@
         "book_line": 23.5,
         "book_over": -121,
         "book_under": -106
+      },
+      {
+        "t": "2026-11-09T06:55:01.132665-05:00",
+        "pin_line": 24.5,
+        "pin_over": -125,
+        "pin_under": -106,
+        "book_line": 23.5,
+        "book_over": -121,
+        "book_under": -106
       }
     ],
     "result": null,
@@ -78,5 +87,69 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-09|NFL|prop|Buffalo Bills @ Minnesota Vikings|T.J. Hockenson|reception_yds|UNDER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Buffalo Bills @ Minnesota Vikings",
+    "who": "T.J. Hockenson",
+    "market": "reception_yds",
+    "bet": "UNDER",
+    "commence_time": "2026-11-10T01:15:00Z",
+    "first_seen": {
+      "t": "2026-11-09T06:55:01.132665-05:00",
+      "line": 42.5,
+      "price": -113,
+      "book": "draftkings",
+      "pin_line": 41.5,
+      "pin_over": 105,
+      "pin_under": -127,
+      "edge": 0.0191,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-09T06:55:01.132665-05:00",
+      "line": 42.5,
+      "price": -113,
+      "book": "draftkings",
+      "pin_line": 41.5,
+      "pin_over": 105,
+      "pin_under": -127,
+      "edge": 0.0191,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-09T06:55:01.132665-05:00",
+        "pin_line": 41.5,
+        "pin_over": 105,
+        "pin_under": -127,
+        "book_line": 42.5,
+        "book_over": -111,
+        "book_under": -113
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Minnesota Vikings",
+      "opp": "Buffalo Bills",
+      "scope": "team",
+      "shift": 0.0,
+      "tag": "neutral",
+      "win_prob": 0.385,
+      "fav": "Buffalo Bills",
+      "fav_win_prob": 0.615,
+      "fav_spread": -3.0,
+      "blowout": false,
+      "total": 44.0,
+      "total_over": -103,
+      "total_under": -112
+    },
+    "tier": "B",
+    "tier_why": [
+      "football yardage prop"
+    ]
   }
 }
