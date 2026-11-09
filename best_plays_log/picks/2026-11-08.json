@@ -7363,6 +7363,15 @@
         "book_line": 77.5,
         "book_over": -110,
         "book_under": -114
+      },
+      {
+        "t": "2026-11-08T20:30:16.598349-05:00",
+        "pin_line": 77.5,
+        "pin_over": 101,
+        "pin_under": -127,
+        "book_line": 77.5,
+        "book_over": -110,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -11967,7 +11976,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-08T19:45:13.353756-05:00",
+      "t": "2026-11-08T20:30:16.598349-05:00",
       "line": 12.5,
       "price": -111,
       "book": "fanduel",
@@ -11999,6 +12008,15 @@
       },
       {
         "t": "2026-11-08T19:45:13.353756-05:00",
+        "pin_line": 11.5,
+        "pin_over": -130,
+        "pin_under": -101,
+        "book_line": 12.5,
+        "book_over": -115,
+        "book_under": -111
+      },
+      {
+        "t": "2026-11-08T20:30:16.598349-05:00",
         "pin_line": 11.5,
         "pin_over": -130,
         "pin_under": -101,
@@ -12096,5 +12114,68 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-08|NBA|prop|Miami Heat @ Sacramento Kings|Precious Achiuwa|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Miami Heat @ Sacramento Kings",
+    "who": "Precious Achiuwa",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-09T02:10:00Z",
+    "first_seen": {
+      "t": "2026-11-08T20:30:16.598349-05:00",
+      "line": 11.5,
+      "price": -125,
+      "book": "draftkings",
+      "pin_line": 10.5,
+      "pin_over": -116,
+      "pin_under": -114,
+      "edge": 0.0212,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-08T20:30:16.598349-05:00",
+      "line": 11.5,
+      "price": -125,
+      "book": "draftkings",
+      "pin_line": 10.5,
+      "pin_over": -116,
+      "pin_under": -114,
+      "edge": 0.0212,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-08T20:30:16.598349-05:00",
+        "pin_line": 10.5,
+        "pin_over": -116,
+        "pin_under": -114,
+        "book_line": 11.5,
+        "book_over": -102,
+        "book_under": -125
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Sacramento Kings",
+      "opp": "Miami Heat",
+      "scope": "team",
+      "shift": -2.92,
+      "tag": "backed",
+      "win_prob": 0.171,
+      "fav": "Miami Heat",
+      "fav_win_prob": 0.829,
+      "fav_spread": -12.0,
+      "blowout": true,
+      "total": 236.0,
+      "total_over": -101,
+      "total_under": -112
+    },
+    "tier": "A",
+    "tier_why": [],
+    "alerted": "2026-11-08T20:30:16.598349-05:00"
   }
 }
