@@ -567,10 +567,10 @@ def render_sport_tab(sport_label, sport_cfg):
     st.markdown("### 🎯 Actionable Plays")
     n_all = len(all_plays)
     _mode = st.radio(
-        "Plays", ["All plays", f"⭐ {MIN_OFF_2}+ books off Pinnacle only", f"⭐ {MIN_OFF}+ books off Pinnacle only",
-                  f"⭐ {MIN_OFF}+ books off, no points props"],
+        "Plays", ["All plays", f"⭐ {MIN_OFF_2}+ books stale only", f"⭐ {MIN_OFF}+ books stale only",
+                  f"⭐ {MIN_OFF}+ books stale, no points props"],
         horizontal=True, key=f"plays_{sport_key}",
-        help=f"Plays where {MIN_OFF}+ soft books are still off Pinnacle's line. In the First Seen record, these went "
+        help=f"Plays where {MIN_OFF}+ soft books are stale (their line is off Pinnacle's). In the First Seen record, these went "
              "64-44 (+8.9u) while plays with fewer than 4 lost money; with points props removed, 34-14 (+12.5u). "
              "The First Seen page keeps the running record.")
     _thr = MIN_OFF_2 if _mode.startswith(f"⭐ {MIN_OFF_2}+") else MIN_OFF
@@ -581,7 +581,7 @@ def render_sport_tab(sport_label, sport_cfg):
         st.caption(f"Showing {len(all_plays)} of {n_all} plays.")
     if not all_plays:
         st.info("No actionable plays right now. Plays appear when Pinnacle's line splits from follower books."
-                if _mode == "All plays" else f"No plays with {_thr}+ books off right now.")
+                if _mode == "All plays" else f"No plays with {_thr}+ books stale right now.")
     else:
         for play in all_plays:
             bet_color  = "#15803d" if play["bet"] == "OVER" else "#1d4ed8"
@@ -609,7 +609,7 @@ def render_sport_tab(sport_label, sport_cfg):
             else:
                 conf_label, conf_color, conf_bg = "LOW", "#6b7280", "#f3f4f6"
             star_html = (f' <span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;'
-                         f'border-radius:3px;">⭐ {_stale} books off</span>' if _stale >= _thr else "")
+                         f'border-radius:3px;">⭐ {_stale} book{"s" if _stale != 1 else ""} stale</span>' if _stale >= _thr else "")
             juiced_html = (' <span style="color:#dc2626;font-size:10px;font-weight:600;">⚠️ juiced</span>'
                            if _price is not None and _price < -150 else "")
             meta_html = (
