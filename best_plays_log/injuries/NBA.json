@@ -179,11 +179,18 @@
     ],
     "Golden State Warriors": [
       {
+        "name": "Gary Payton II",
+        "status": "Out",
+        "pos": "G",
+        "note": "Payton (left knee soreness) is listed as questionable for Monday's game against New Orleans.",
+        "return": "2026-11-11"
+      },
+      {
         "name": "Will Richard",
         "status": "Out",
         "pos": "G",
-        "note": "Richard is out for Monday's game against the Pelicans due to a left thumb UCL tear.",
-        "return": "2026-11-11"
+        "note": "Richard is deciding between getting surgery or playing with a splint, Luca Evans of the San Francisco Chronicle reports.",
+        "return": "2026-11-16"
       },
       {
         "name": "Kristaps Porzingis",
@@ -205,20 +212,6 @@
         "pos": "F",
         "note": "Butler (knee) could return sometime between January and February as he continues recovering from a torn right ACL, Anthony Slater of ESPN reports.",
         "return": "2027-01-02"
-      },
-      {
-        "name": "Gary Payton II",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Payton (left knee soreness) is listed as questionable for Monday's game against New Orleans.",
-        "return": "2026-11-09"
-      },
-      {
-        "name": "Gui Santos",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Santos (knee) is listed as probable for Monday's game against New Orleans.",
-        "return": "2026-11-09"
       }
     ],
     "Houston Rockets": [
@@ -341,6 +334,13 @@
         "pos": "G",
         "note": "Saunders signed a two-way contract with the Grizzlies on Saturday, Shams Charania of ESPN reports.",
         "return": "2026-12-01"
+      },
+      {
+        "name": "Quinten Post",
+        "status": "Day-To-Day",
+        "pos": "C",
+        "note": "Post is doubtful to return to Monday's game against Toronto due to a head injury.",
+        "return": "2026-11-09"
       }
     ],
     "Miami Heat": [
@@ -817,8 +817,23 @@
     {
       "id": "401909956",
       "start": "2026-11-10T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Indiana Pacers": [
+          "Pascal Siakam",
+          "Ivica Zubac",
+          "Andrew Nembhard",
+          "Aaron Nesmith",
+          "Braden Smith"
+        ],
+        "Dallas Mavericks": [
+          "Caleb Martin",
+          "Daniel Gafford",
+          "P.J. Washington",
+          "Cooper Flagg",
+          "Kyrie Irving"
+        ]
+      },
       "probables": {},
       "home": "Dallas Mavericks",
       "away": "Indiana Pacers"
@@ -826,8 +841,23 @@
     {
       "id": "401909957",
       "start": "2026-11-10T01:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Denver Nuggets": [
+          "Aaron Gordon",
+          "Cameron Johnson",
+          "Nikola Jokic",
+          "Jamal Murray",
+          "Christian Braun"
+        ],
+        "Houston Rockets": [
+          "Kevin Durant",
+          "Jabari Smith Jr.",
+          "Alperen Sengun",
+          "Fred VanVleet",
+          "Amen Thompson"
+        ]
+      },
       "probables": {},
       "home": "Houston Rockets",
       "away": "Denver Nuggets"
@@ -852,5 +882,5 @@
     }
   ],
   "date": "2026-11-09",
-  "fetched": "2026-11-09T20:00:39.896564-05:00"
+  "fetched": "2026-11-09T21:00:35.924671-05:00"
 }
