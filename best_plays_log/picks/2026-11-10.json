@@ -20,7 +20,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-10T01:30:17.944370-05:00",
+      "t": "2026-11-10T02:30:18.587740-05:00",
       "line": 9.5,
       "price": -122,
       "book": "draftkings",
@@ -34,6 +34,15 @@
     "checks": [
       {
         "t": "2026-11-10T01:30:17.944370-05:00",
+        "pin_line": 8.5,
+        "pin_over": -130,
+        "pin_under": -102,
+        "book_line": 9.5,
+        "book_over": -104,
+        "book_under": -122
+      },
+      {
+        "t": "2026-11-10T02:30:18.587740-05:00",
         "pin_line": 8.5,
         "pin_over": -130,
         "pin_under": -102,
@@ -60,5 +69,69 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-10|NBA|prop|Milwaukee Bucks @ New York Knicks|Josh Hart|rebounds|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Milwaukee Bucks @ New York Knicks",
+    "who": "Josh Hart",
+    "market": "rebounds",
+    "bet": "UNDER",
+    "commence_time": "2026-11-11T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-10T02:30:18.587740-05:00",
+      "line": 7.5,
+      "price": -122,
+      "book": "draftkings",
+      "pin_line": 6.5,
+      "pin_over": -141,
+      "pin_under": 106,
+      "edge": 0.0311,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-10T02:30:18.587740-05:00",
+      "line": 7.5,
+      "price": -122,
+      "book": "draftkings",
+      "pin_line": 6.5,
+      "pin_over": -141,
+      "pin_under": 106,
+      "edge": 0.0311,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-10T02:30:18.587740-05:00",
+        "pin_line": 6.5,
+        "pin_over": -141,
+        "pin_under": 106,
+        "book_line": 7.5,
+        "book_over": -108,
+        "book_under": -122
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "New York Knicks",
+      "opp": "Milwaukee Bucks",
+      "scope": "team",
+      "shift": -0.26,
+      "tag": "n/a",
+      "win_prob": 0.893,
+      "fav": "New York Knicks",
+      "fav_win_prob": 0.893,
+      "fav_spread": -16.0,
+      "blowout": true,
+      "total": 219.5,
+      "total_over": -107,
+      "total_under": -107
+    },
+    "tier": "B",
+    "tier_why": [
+      "Pinnacle's price leans against this side"
+    ]
   }
 }
