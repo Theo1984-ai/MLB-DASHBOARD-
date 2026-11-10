@@ -169,8 +169,8 @@ with tab_res:
             has = any(v.get("over_off") is not None for p in ps if p for v in p.values())
             if not has:
                 return "4. No split data (older records)"
-            return ("1. Over rec/rush yds, 3+ books off" if n >= tdp.SPLIT_MIN else
-                    "2. Over rec/rush yds, 1 to 2 books off" if n >= 1 else "3. No Over split")
+            return ("1. Over rec/rush yds, 3+ books stale" if n >= tdp.SPLIT_MIN else
+                    "2. Over rec/rush yds, 1 to 2 books stale" if n >= 1 else "3. No Over split")
 
         for title, keyf in (("By Over line split on receiving or rushing yards", split_bucket),
                             ("Betting the best soft-book price, by how it compares with Pinnacle", ev_bucket),
@@ -209,13 +209,13 @@ with tab_day:
             st.info("No players with an Over line split right now. Turn the switch off to see everyone priced by Pinnacle.")
     items.sort(key=lambda x: (-int(x["split"] >= tdp.SPLIT_MIN), -x["split"], -x["l"]["fair"]))
     st.caption(f"{len(items)} players. Ranked by the strongest Over line split on receiving or "
-               f"rushing yards (soft books below Pinnacle's line; {tdp.SPLIT_MIN}+ books off is the group that has won), "
+               f"rushing yards (soft books below Pinnacle's line; {tdp.SPLIT_MIN}+ books stale is the group that has won), "
                "then by chance to score. The TD price and EV are info only: in week 1 the 'price beats Pinnacle' plays "
                "lost, because Pinnacle's chances were accurate. Rush yds, Rec yds and Receptions show Pinnacle's line "
                "with its Over/Under prices; the range in brackets is where the soft books' lines sit.")
     view = st.radio("View", ["Cards", "Table"], horizontal=True, key="td_view")
     if view == "Table":
-        rows = [{"Over split": (f"{x['split']} book{'s' if x['split'] != 1 else ''} off ({'Rec' if x['split_key'] == 'rec_yds' else 'Rush'} yds)"
+        rows = [{"Over split": (f"{x['split']} book{'s' if x['split'] != 1 else ''} stale ({'Rec' if x['split_key'] == 'rec_yds' else 'Rush'} yds)"
                                 if x["split"] else ""),
                  "Player": x["r"]["who"], "Game": x["r"]["game"], "EV (info)": f"{100 * x['l']['ev']:+.1f}%",
                  "Tip": x["tip"].strftime("%a %I:%M %p").replace(" 0", " "),
@@ -238,11 +238,11 @@ with tab_day:
                 bg, border, colour = "#f9fafb", "#e5e7eb", "#6b7280"
             split_html = (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
                           f'border-radius:3px;">⭐ Over {"rec" if x["split_key"] == "rec_yds" else "rush"} yds · '
-                          f'{x["split"]}/{x["pr"][x["split_key"]].get("n")} books off</span>'
+                          f'{x["split"]} book{"s" if x["split"] != 1 else ""} stale</span>'
                           if x["split"] >= tdp.SPLIT_MIN else
                           f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:10px;'
                           f'font-weight:700;padding:1px 7px;border-radius:3px;">Over {"rec" if x["split_key"] == "rec_yds" else "rush"} yds · '
-                          f'{x["split"]}/{x["pr"][x["split_key"]].get("n")} books off</span>' if x["split"] else "")
+                          f'{x["split"]} book{"s" if x["split"] != 1 else ""} stale</span>' if x["split"] else "")
             out = res.get("outcome")
             if out in ("win", "loss"):
                 rc = "#15803d" if out == "win" else "#b91c1c"

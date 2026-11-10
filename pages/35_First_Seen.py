@@ -130,6 +130,11 @@ def peak(r):
     return max(r["first_seen"].get("stale") or 0, (r.get("last_seen") or r["first_seen"]).get("stale") or 0)
 
 
+def _stale_txt(n):
+    """'1 book stale' / '2 books stale'."""
+    return f"{n} book{'s' if n != 1 else ''} stale"
+
+
 def keep(r):
     """Does this play pass the 'Plays' switch at the top of the page?"""
     if two_plus:
@@ -238,13 +243,13 @@ def render_today(sport, recs_by_day, key, day):
             f'<span style="background:#fff;border:1px solid {border};color:{colour};font-size:11px;'
             f'font-weight:700;padding:1px 7px;border-radius:3px;">gap {fsn["gap"]}</span>'
             + (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
-               f'border-radius:3px;">⭐ {peak(r) if two_plus else fsn["stale"]} books off</span>'
+               f'border-radius:3px;">⭐ {_stale_txt(peak(r) if two_plus else fsn["stale"])}</span>'
                if (peak(r) >= MIN_OFF_2 if two_plus else fsn["stale"] >= MIN_OFF) else "")
             +
             f'<span style="font-size:11px;color:#6b7280;">first seen {x["seen"].strftime("%I:%M %p").lstrip("0")} ET'
             f'{f" · {lead:.1f} h before tip" if lead is not None else ""}</span></div>'
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {fsn["pin_line"]} · '
-            f'{fsn["stale"]} of {fsn["n_books"]} books off it</div>{final_html}</div>',
+            f'{_stale_txt(fsn["stale"])}</div>{final_html}</div>',
             unsafe_allow_html=True,
         )
 
@@ -255,8 +260,8 @@ def render_results(sport):
     mine = [r for r in all_recs if r["sport"] == sport and keep(r)]
     recs = [r for r in mine if (r.get("result") or {}).get("outcome") in ("win", "loss", "push")]
     st.markdown(f"**{len(recs)} graded of {len(mine)} logged** across {len(logs)} days"
-                + (f" (only plays with {MIN_OFF_2}+ books off Pinnacle)" if two_plus else "")
-                + (f" (only plays with {MIN_OFF}+ books off Pinnacle{', no points props' if only4_np else ''})" if only4 or only4_np else "")
+                + (f" (only plays with {MIN_OFF_2}+ books stale)" if two_plus else "")
+                + (f" (only plays with {MIN_OFF}+ books stale{', no points props' if only4_np else ''})" if only4 or only4_np else "")
                 + ". Groups under 30 plays are too small to trust.")
     if not graded_all:
         st.info("None graded yet. The auto snapshot grades them a few hours after each game ends.")
@@ -279,13 +284,13 @@ def render_results(sport):
         if r["first_seen"]["stale"] < MIN_OFF:
             return f"fewer than {MIN_OFF}"
         return f"{MIN_OFF}+ off, points props" if r.get("market") == "points" else f"{MIN_OFF}+ off, no points"
-    show(f"⭐ {MIN_OFF}+ books off Pinnacle vs fewer", _grp,
+    show(f"⭐ {MIN_OFF}+ books stale vs fewer", _grp,
          [f"{MIN_OFF}+ off, no points", f"{MIN_OFF}+ off, points props", f"fewer than {MIN_OFF}"], rows=graded_all)
-    show(f"⭐ {MIN_OFF_2}+ books off Pinnacle vs 1 book off",
-         lambda r: f"{MIN_OFF_2}+ books off" if peak(r) >= MIN_OFF_2 else "1 book off",
-         [f"{MIN_OFF_2}+ books off", "1 book off"], rows=graded_all)
+    show(f"⭐ {MIN_OFF_2}+ books stale vs 1 book stale",
+         lambda r: f"{MIN_OFF_2}+ books stale" if peak(r) >= MIN_OFF_2 else "1 book stale",
+         [f"{MIN_OFF_2}+ books stale", "1 book stale"], rows=graded_all)
     if not recs:
-        st.info(f"No graded plays with {MIN_OFF}+ books off yet for {sport}.")
+        st.info(f"No graded plays with {MIN_OFF}+ books stale yet for {sport}.")
         return
     hour = lambda r: f"{(fs.first_seen_hour(r) % 12) or 12} {'AM' if fs.first_seen_hour(r) < 12 else 'PM'}"
     show("By how long before tip-off it first appeared", lambda r: fs.bucket_lead(fs.hours_before_tip(r)),
@@ -297,7 +302,7 @@ def render_results(sport):
                                                 "1.5-2.5" if r["first_seen"]["gap"] >= 1.5 else
                                                 "1" if r["first_seen"]["gap"] >= 1 else "0.5"),
          ["0.5", "1", "1.5-2.5", "3+"])
-    show("By books still off Pinnacle",
+    show("By books stale (still off Pinnacle)",
          lambda r: str(min(r["first_seen"]["stale"], 5)) + ("+" if r["first_seen"]["stale"] >= 5 else ""))
 
 
@@ -308,12 +313,12 @@ def _day_label(d):
 
 
 day = st.selectbox("Date", days, index=days.index(today), key="fs_day", format_func=_day_label)
-_books = st.radio("Plays", ["All plays", f"⭐ {MIN_OFF_2}+ books off Pinnacle only",
-                            f"⭐ {MIN_OFF}+ books off Pinnacle only",
-                            f"⭐ {MIN_OFF}+ books off, no points props"], horizontal=True, key="fs_books",
-                  help=f"In the first week, plays with {MIN_OFF}+ soft books still off Pinnacle went 41-23 (+10.2u, +16%); "
+_books = st.radio("Plays", ["All plays", f"⭐ {MIN_OFF_2}+ books stale only",
+                            f"⭐ {MIN_OFF}+ books stale only",
+                            f"⭐ {MIN_OFF}+ books stale, no points props"], horizontal=True, key="fs_books",
+                  help=f"A book is stale when its line is off Pinnacle's (an Over line below it). In the first week, plays with {MIN_OFF}+ stale books went 41-23 (+10.2u, +16%); "
                        "plays with fewer than 4 lost money. 2+ is the filter for sports with few books (NHL has 3): NHL shots "
-                       "Overs went 18-7 (+3.5u) at 2+ books off vs 30-19 (-2.8u) at 1. The Results tab shows how this keeps going.")
+                       "Overs went 18-7 (+3.5u) at 2+ books stale vs 30-19 (-2.8u) at 1. The Results tab shows how this keeps going.")
 two_plus = _books.startswith(f"⭐ {MIN_OFF_2}+")
 only4_np = _books.endswith("no points props")
 only4 = _books.startswith(f"⭐ {MIN_OFF}+") and not only4_np
