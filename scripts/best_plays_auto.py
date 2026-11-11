@@ -20,6 +20,8 @@ from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
 from scripts import prop_signals as psig  # noqa: E402
 from scripts import td_props as tdp  # noqa: E402
+from scripts import goal_tracker as gtr  # noqa: E402
+from scripts import nhl_shooting as shoot  # noqa: E402
 from scripts import line_alert_results as lar  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
@@ -58,6 +60,7 @@ def grade_recent(now_et, days=7):
                                (fs.LOG_SUB, bp.grade_log, "first-seen splits"),
                                (psig.LOG_SUB, bp.grade_log, "prop signals"),
                                (tdp.LOG_SUB, bp.grade_log, "TD props"),
+                               (gtr.LOG_SUB, bp.grade_log, "goal tracker"),
                                ("claude_picks", bp.grade_log, "Claude picks"),
                                ("predictions", bp.grade_predictions, "predictions")):
         have = {i["name"] for i in gh.list_dir(TOKEN, OWNER, REPO, f"{LOG_DIR}/{sub}")}
@@ -326,6 +329,14 @@ def main():
             print(f"TD props: {n_td} new")
         except Exception as e:  # noqa: BLE001
             errors.append(f"TD props: {e}")
+        try:
+            # Box scores of finished NHL games (shots and goals), then the goals tracker that uses them.
+            n_box = shoot.harvest_recent(now_et, load, _save_json)
+            n_gt = sum(gtr.catch_up(d, _snapshot_names, load, _save_json)
+                       for d in (date, (now_et - timedelta(days=1)).strftime("%Y-%m-%d")))
+            print(f"NHL shooting: {n_box} new box scores; goal tracker: {n_gt} new")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"goal tracker: {e}")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
         n_pred = bp.update_predictions(plog, pred_rows, iso, date)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json", plog,
