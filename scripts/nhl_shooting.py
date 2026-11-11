@@ -20,8 +20,51 @@ SHRINK_SHOTS = 40            # a player's goals-per-shot counts like this many s
 DEFAULT_RATE = 0.10          # league goals per shot on goal, used until there is data
 
 
+def parse_box(data):
+    """
+    Every player in an ESPN hockey box score: {normalized name: {"team", "pos" (the box score group: forwards,
+    defense, goalies), "s", "g", "stats": {every stat label: number, or the text for times like TOI "18:32"}}}.
+    Goalies have no S/G of their own; their stats (shots against, saves) are kept under "stats".
+    """
+    out = {}
+    for team in (data.get("boxscore") or {}).get("players", []):
+        tname = (team.get("team") or {}).get("displayName", "")
+        for group in team.get("statistics", []):
+            labels = group.get("labels") or []
+            pos = (group.get("name") or group.get("type") or "").lower()
+            for a in group.get("athletes", []):
+                name = bp.norm_name((a.get("athlete") or {}).get("displayName", ""))
+                vals = a.get("stats") or []
+                if not name or not vals:
+                    continue
+                stats = {}
+                for lab, val in zip(labels, vals):
+                    num = bp._num(val)
+                    if num is not None:
+                        stats[lab] = num
+                    elif val not in (None, "", "--"):
+                        stats[lab] = str(val)
+                out[name] = {"team": tname, "pos": pos, "s": stats.get("S") if isinstance(stats.get("S"), (int, float)) else None,
+                             "g": stats.get("G") if isinstance(stats.get("G"), (int, float)) else None, "stats": stats}
+    return out
+
+
+def toi_minutes(value):
+    """'18:32' -> 18.53 minutes (a number is returned as is, anything else as None)."""
+    if isinstance(value, (int, float)):
+        return float(value)
+    try:
+        m, s = str(value).split(":")
+        return int(m) + int(s) / 60
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def harvest_date(date, load, save, fetch=None, log_dir="best_plays_log"):
-    """Save the box score of every finished NHL game on `date` that is not saved yet. Returns the games added."""
+    """
+    Save the box score of every finished NHL game on `date`. A game saved in the old format (only shots and goals)
+    is fetched again so it gains team, every stat label and the goalies. Returns the games added or upgraded.
+    """
     fetch = fetch or bp._get_plain
     path = f"{log_dir}/{LOG_SUB}/{date}.json"
     data = load(path) or {}
@@ -31,14 +74,15 @@ def harvest_date(date, load, save, fetch=None, log_dir="best_plays_log"):
         if not ev["completed"]:
             continue
         key = f"{ev['away']} @ {ev['home']}"
-        if key in games:
+        if key in games and any("stats" in r for r in games[key].values()):
             continue
+        box = parse_box(fetch(f"{bp.ESPN_API}/{bp.SPORTS['NHL']['espn']}/summary?event={ev['id']}"))
         rows = {}
-        for name, rec in bp.espn_boxscore("NHL", ev["id"], fetch).items():
-            s, g = rec.get("S"), rec.get("G")
-            if s is None and g is None:
+        for name, rec in box.items():
+            if rec["s"] is None and rec["g"] is None and rec["pos"] != "goalies":
                 continue
-            rows[name] = {"s": s or 0, "g": g or 0}
+            rec["s"], rec["g"] = rec["s"] or 0, rec["g"] or 0
+            rows[name] = rec
         games[key] = rows
         new += 1
     if new:
