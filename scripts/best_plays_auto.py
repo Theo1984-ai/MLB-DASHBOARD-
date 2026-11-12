@@ -18,6 +18,7 @@ from scripts import best_plays as bp  # noqa: E402
 from scripts import best_plays_alerts as alerts  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
+from scripts import clv as clvm  # noqa: E402
 from scripts import prop_signals as psig  # noqa: E402
 from scripts import td_props as tdp  # noqa: E402
 from scripts import goal_tracker as gtr  # noqa: E402
@@ -317,6 +318,13 @@ def main():
             print(f"first-seen: {n_fs} new line splits")
         except Exception as e:  # noqa: BLE001
             errors.append(f"first-seen: {e}")
+        try:
+            # Closing line (Pinnacle's last line before tip-off) of every First Seen play whose game has started.
+            n_clv = sum(clvm.catch_up(d, now_et, _snapshot_names, load, _save_json)
+                        for d in (date, (now_et - timedelta(days=1)).strftime("%Y-%m-%d")))
+            print(f"CLV: {n_clv} closing lines")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"CLV: {e}")
         try:
             n_ps = sum(psig.catch_up(d, _snapshot_names, load, _save_json)
                        for d in (date, (now_et - timedelta(days=1)).strftime("%Y-%m-%d")))

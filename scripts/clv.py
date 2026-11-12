@@ -19,11 +19,15 @@ import os
 import re
 import sys
 from collections import defaultdict
+from datetime import datetime, timedelta
 
 from scripts import best_plays as bp
 from scripts import first_seen as fs
 
 SNAP_RE = re.compile(r"([A-Z0-9]+)_(\d{4})_props\.json")
+STORE_SUB = "clv"                 # best_plays_log/clv/<date>.json = {pick id: {pin_move, gap_close, close_line}}
+LOOKBACK_H = 8                    # only snapshots taken within this many hours before the first tip-off are read
+GIVE_UP_H = 12                    # a play with no close line this long after tip-off is stored as "none" and not retried
 
 
 def load_snapshots(root, sports=None):
@@ -71,6 +75,58 @@ def clv(rec, close):
     return {"pin_move": sign * (close[0] - f["pin_line"]),
             "gap_close": sign * (close[0] - f["line"]),
             "close_line": close[0]}
+
+
+def catch_up(date, now, list_names, load, save, log_dir="best_plays_log"):
+    """
+    Save the closing line of every First Seen play of `date` whose game has started and that has none stored yet
+    (best_plays_log/clv/<date>.json). Only the snapshots taken shortly before the tip-offs are read. Returns the
+    number of plays stored. list_names(folder) -> [file names]; load(path) -> data or {}; save(path, data, msg).
+    """
+    log = load(f"{log_dir}/{fs.LOG_SUB}/{date}.json") or {}
+    path = f"{log_dir}/{STORE_SUB}/{date}.json"
+    store = load(path) or {}
+    todo = {}
+    for pid, rec in log.items():
+        try:
+            if pid not in store and fs._parse(rec["commence_time"]) <= now:
+                todo[pid] = rec
+        except Exception:  # noqa: BLE001
+            continue
+    if not todo:
+        return 0
+    tips = [fs._parse(r["commence_time"]).astimezone(fs.EASTERN).replace(tzinfo=None) for r in todo.values()]
+    lo, hi = min(tips) - timedelta(hours=LOOKBACK_H), max(tips)
+    days = (date, (datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d"))
+    added = 0
+    for sport in sorted({r["sport"] for r in todo.values()}):
+        snaps = []
+        for d in days:
+            for name in list_names(f"{log_dir}/snapshots/{d}"):
+                m = SNAP_RE.fullmatch(name)
+                if not m or m.group(1) != sport:
+                    continue
+                at = datetime.strptime(f"{d} {m.group(2)}", "%Y-%m-%d %H%M")
+                if not lo <= at <= hi:
+                    continue
+                snap = load(f"{log_dir}/snapshots/{d}/{name}") or {}
+                try:
+                    snaps.append((fs._parse(snap["captured_at"]), snap))
+                except Exception:  # noqa: BLE001
+                    continue
+        snaps.sort(key=lambda x: x[0])
+        for pid, rec in todo.items():
+            if rec["sport"] != sport:
+                continue
+            m = clv(rec, close_line(snaps, rec["game"], rec["who"], rec["market"], rec["commence_time"]))
+            if m:
+                store[pid] = m
+                added += 1
+            elif (now - fs._parse(rec["commence_time"])).total_seconds() / 3600 > GIVE_UP_H:
+                store[pid] = {"close_line": None}
+    if added or any(pid in store for pid in todo):
+        save(path, store, f"CLV {date}: {added} closing lines")
+    return added
 
 
 def collect(root, sports=None):
