@@ -94,6 +94,13 @@
     ],
     "Chicago Bulls": [
       {
+        "name": "Dailyn Swain",
+        "status": "Out",
+        "pos": "G",
+        "note": "Swain (back) is out for Wednesday's game against the Spurs.",
+        "return": "2026-11-13"
+      },
+      {
         "name": "Norman Powell",
         "status": "Out",
         "pos": "G",
@@ -106,27 +113,6 @@
         "pos": "F",
         "note": "Awaka (back) has been ruled out for Wednesday's game against the Spurs.",
         "return": "2026-11-13"
-      },
-      {
-        "name": "Dailyn Swain",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Swain (back) has been downgraded to questionable for Wednesday's game against the Spurs.",
-        "return": "2026-11-11"
-      },
-      {
-        "name": "Caleb Wilson",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Wilson has been downgraded to questionable for Wednesday's game against the Spurs due to right hip soreness.",
-        "return": "2026-11-11"
-      },
-      {
-        "name": "Zach Collins",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Collins (illness) is questionable for Wednesday's game against the Spurs.",
-        "return": ""
       }
     ],
     "Cleveland Cavaliers": [
@@ -235,13 +221,6 @@
         "pos": "F",
         "note": "Butler (knee) could return sometime between January and February as he continues recovering from a torn right ACL, Anthony Slater of ESPN reports.",
         "return": "2027-01-02"
-      },
-      {
-        "name": "Will Richard",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Richard (thumb) has been upgraded to probable for Wednesday's game at Houston.",
-        "return": "2026-11-11"
       }
     ],
     "Houston Rockets": [
@@ -359,13 +338,6 @@
         "pos": "C",
         "note": "Turner has been ruled out for Wednesday's game against the Lakers due to rest.",
         "return": "2026-11-13"
-      },
-      {
-        "name": "Tyler Herro",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Herro (knee) is listed as questionable for Wednesday's game against the Lakers.",
-        "return": "2026-11-11"
       }
     ],
     "Minnesota Timberwolves": [
@@ -682,13 +654,6 @@
         "pos": "F",
         "note": "Jackson has been diagnosed with a torn MCL in his right knee and will be sidelined for 6-to-8 weeks, per Shams Charania of ESPN.",
         "return": "2026-12-14"
-      },
-      {
-        "name": "Keyonte George",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "George (ankle) is questionable for Wednesday's game against Orlando.",
-        "return": "2026-11-11"
       }
     ],
     "Washington Wizards": [
@@ -774,7 +739,7 @@
     {
       "id": "401909968",
       "start": "2026-11-12T00:00Z",
-      "status": "In Progress",
+      "status": "Halftime",
       "starters": {
         "Boston Celtics": [
           "Jayson Tatum",
@@ -798,8 +763,23 @@
     {
       "id": "401909969",
       "start": "2026-11-12T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "San Antonio Spurs": [
+          "Julian Champagnie",
+          "Victor Wembanyama",
+          "De'Aaron Fox",
+          "Stephon Castle",
+          "Dylan Harper"
+        ],
+        "Chicago Bulls": [
+          "Jalen Smith",
+          "Isaac Okoro",
+          "Matas Buzelis",
+          "Caleb Wilson",
+          "Josh Giddey"
+        ]
+      },
       "probables": {},
       "home": "Chicago Bulls",
       "away": "San Antonio Spurs"
@@ -807,8 +787,23 @@
     {
       "id": "401909970",
       "start": "2026-11-12T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Denver Nuggets": [
+          "Aaron Gordon",
+          "Cameron Johnson",
+          "Nikola Jokic",
+          "Jamal Murray",
+          "Christian Braun"
+        ],
+        "Memphis Grizzlies": [
+          "Cedric Coward",
+          "Cameron Boozer",
+          "Jaylen Wells",
+          "Zach Edey",
+          "Ty Jerome"
+        ]
+      },
       "probables": {},
       "home": "Memphis Grizzlies",
       "away": "Denver Nuggets"
@@ -816,8 +811,23 @@
     {
       "id": "401909971",
       "start": "2026-11-12T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Los Angeles Lakers": [
+          "Jake LaRavia",
+          "Walker Kessler",
+          "Matisse Thybulle",
+          "Luka Doncic",
+          "Austin Reaves"
+        ],
+        "Milwaukee Bucks": [
+          "Kyle Kuzma",
+          "Nate Ament",
+          "Kel'el Ware",
+          "Tyler Herro",
+          "Brayden Burries"
+        ]
+      },
       "probables": {},
       "home": "Milwaukee Bucks",
       "away": "Los Angeles Lakers"
@@ -825,8 +835,23 @@
     {
       "id": "401909972",
       "start": "2026-11-12T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Brooklyn Nets": [
+          "Julius Randle",
+          "Michael Porter Jr.",
+          "Danny Wolf",
+          "Day'Ron Sharpe",
+          "Egor Demin"
+        ],
+        "New Orleans Pelicans": [
+          "Herbert Jones",
+          "Zion Williamson",
+          "Karlo Matkovic",
+          "Dejounte Murray",
+          "Jeremiah Fears"
+        ]
+      },
       "probables": {},
       "home": "New Orleans Pelicans",
       "away": "Brooklyn Nets"
@@ -860,5 +885,5 @@
     }
   ],
   "date": "2026-11-11",
-  "fetched": "2026-11-11T19:30:31.294662-05:00"
+  "fetched": "2026-11-11T20:30:31.807689-05:00"
 }
