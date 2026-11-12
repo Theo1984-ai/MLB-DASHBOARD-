@@ -19,6 +19,7 @@ if ROOT not in sys.path:
 
 from scripts import best_plays as bp  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
+from scripts import clv as clvm  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
@@ -79,6 +80,26 @@ def load_all(_token_present):
     return out, failed
 
 
+@st.cache_data(ttl=300, show_spinner=False)
+def load_clv(_token_present):
+    """{day: {pick id: {pin_move, gap_close, close_line}}} saved by the hourly job after each game starts."""
+    from data import github_storage as gh
+    out = {}
+    try:
+        items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{clvm.STORE_SUB}"))
+    except Exception:  # noqa: BLE001
+        return out
+    for item in items:
+        name = item["name"]
+        if name.endswith(".json"):
+            try:
+                out[name[:-5]] = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO,
+                                                              f"{LOG_DIR}/{clvm.STORE_SUB}/{name}")) or {}
+            except Exception:  # noqa: BLE001
+                continue
+    return out
+
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_roster(sport, _token_present):
     from data import github_storage as gh
@@ -113,6 +134,16 @@ if failed_days:
 if not logs:
     st.info("Nothing logged yet. It fills in after the next hourly snapshot.")
     st.stop()
+
+try:
+    _clv_days = load_clv(True)
+except Exception:  # noqa: BLE001
+    _clv_days = {}
+for _d, _log in logs.items():
+    for _pid, _r in _log.items():
+        _c = (_clv_days.get(_d) or {}).get(_pid)
+        if _c and _c.get("close_line") is not None:
+            _r["clv"] = _c
 
 now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
@@ -249,9 +280,24 @@ def render_today(sport, recs_by_day, key, day):
             f'<span style="font-size:11px;color:#6b7280;">first seen {x["seen"].strftime("%I:%M %p").lstrip("0")} ET'
             f'{f" · {lead:.1f} h before tip" if lead is not None else ""}</span></div>'
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {fsn["pin_line"]} · '
-            f'{_stale_txt(fsn["stale"])}</div>{final_html}</div>',
+            f'{_stale_txt(fsn["stale"])}{_clv_txt(r)}</div>{final_html}</div>',
             unsafe_allow_html=True,
         )
+
+
+def _clv_txt(r):
+    """' · Closed 2.5 (Pinnacle moved toward you +1.0)' once the game has started and the close is saved."""
+    c = r.get("clv")
+    if not c:
+        return ""
+    mv = c["pin_move"]
+    word = "moved toward you" if mv > 0 else "moved against you" if mv < 0 else "didn't move"
+    return f" · Closed {c['close_line']:g} (Pinnacle {word}{f' {mv:+g}' if mv else ''})"
+
+
+def _move_group(r):
+    mv = r["clv"]["pin_move"]
+    return "1. Pinnacle moved toward you" if mv > 0 else "3. Pinnacle moved against you" if mv < 0 else "2. No move"
 
 
 def render_results(sport):
@@ -297,6 +343,8 @@ def render_results(sport):
          fs.LEAD_ORDER)
     show("By the hour it first appeared (ET)", hour,
          [f"{(h % 12) or 12} {'AM' if h < 12 else 'PM'}" for h in range(24)])
+    show("By Pinnacle's move before tip-off (closing line value)", _move_group,
+         rows=[r for r in recs if r.get("clv")])
     show("Over vs Under", lambda r: r["bet"])
     show("By line gap to Pinnacle", lambda r: ("3+" if r["first_seen"]["gap"] >= 3 else
                                                 "1.5-2.5" if r["first_seen"]["gap"] >= 1.5 else
