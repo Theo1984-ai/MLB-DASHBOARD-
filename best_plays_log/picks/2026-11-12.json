@@ -20,14 +20,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-12T01:30:22.110101-05:00",
-      "line": 14.5,
-      "price": -117,
+      "t": "2026-11-12T02:30:16.875297-05:00",
+      "line": 15.5,
+      "price": -107,
       "book": "draftkings",
       "pin_line": 17.5,
       "pin_over": 103,
-      "pin_under": -129,
-      "edge": 0.0369,
+      "pin_under": -130,
+      "edge": 0.022,
       "stale": 4,
       "n_books": 4
     },
@@ -49,6 +49,15 @@
         "book_line": 14.5,
         "book_over": -117,
         "book_under": -107
+      },
+      {
+        "t": "2026-11-12T02:30:16.875297-05:00",
+        "pin_line": 17.5,
+        "pin_over": 103,
+        "pin_under": -130,
+        "book_line": 15.5,
+        "book_over": -107,
+        "book_under": -117
       }
     ],
     "result": null,
@@ -95,7 +104,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-12T01:30:22.110101-05:00",
+      "t": "2026-11-12T02:30:16.875297-05:00",
       "line": 38.5,
       "price": -111,
       "book": "draftkings",
@@ -124,6 +133,15 @@
         "book_line": 38.5,
         "book_over": -113,
         "book_under": -111
+      },
+      {
+        "t": "2026-11-12T02:30:16.875297-05:00",
+        "pin_line": 34.5,
+        "pin_over": -129,
+        "pin_under": 103,
+        "book_line": 38.5,
+        "book_over": -113,
+        "book_under": -111
       }
     ],
     "result": null,
@@ -141,6 +159,71 @@
       "total": 41.0,
       "total_over": -108,
       "total_under": -108
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "football yardage prop"
+    ]
+  },
+  "2026-11-12|NFL|prop|Washington Commanders @ New York Giants|Darnell Mooney|reception_yds|OVER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Washington Commanders @ New York Giants",
+    "who": "Darnell Mooney",
+    "market": "reception_yds",
+    "bet": "OVER",
+    "commence_time": "2026-11-13T01:15:00Z",
+    "first_seen": {
+      "t": "2026-11-12T02:30:16.875297-05:00",
+      "line": 13.5,
+      "price": -114,
+      "book": "draftkings",
+      "pin_line": 15.5,
+      "pin_over": -108,
+      "pin_under": -116,
+      "edge": 0.0213,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-12T02:30:16.875297-05:00",
+      "line": 13.5,
+      "price": -114,
+      "book": "draftkings",
+      "pin_line": 15.5,
+      "pin_over": -108,
+      "pin_under": -116,
+      "edge": 0.0213,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-12T02:30:16.875297-05:00",
+        "pin_line": 15.5,
+        "pin_over": -108,
+        "pin_under": -116,
+        "book_line": 13.5,
+        "book_over": -114,
+        "book_under": -110
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "New York Giants",
+      "opp": "Washington Commanders",
+      "scope": "team",
+      "shift": -0.08,
+      "tag": "neutral",
+      "win_prob": 0.544,
+      "fav": "New York Giants",
+      "fav_win_prob": 0.544,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 41.0,
+      "total_over": -104,
+      "total_under": -112
     },
     "tier": "B",
     "tier_why": [
