@@ -36,7 +36,7 @@ EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
 LOG_DIR = "best_plays_log"
 LOOSE_TH = {"min_edge": -1.0, "min_stale": 1, "min_gap": 0.5, "max_juice": 1000}
-MIN_GAP_MINUTES = 45   # the workflow wakes every 10 minutes; a run is skipped if one finished this recently
+MIN_GAP_MINUTES = 25   # the workflow wakes every 10 minutes (the outside timer every 15); a wake-up is skipped if a run started this recently. 25 gives a snapshot about every 30 minutes (every 45 before)
 ODDS_KEY = os.environ.get("THE_ODDS_API_KEY", "")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
@@ -204,7 +204,7 @@ def early_snapshot(now_et, iso, errors, snap=None):
 
 def is_manual():
     """A hand-started run. The outside timer starts runs the same way but sends source=timer, which
-    should behave like a scheduled run (respect the on/off switch and the 45-minute rule)."""
+    should behave like a scheduled run (respect the on/off switch and the minimum gap between runs)."""
     return (os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
             and os.environ.get("RUN_SOURCE", "").strip().lower() != "timer")
 
@@ -235,7 +235,7 @@ def main():
     now_et = datetime.now(tz=EASTERN)
     date, hhmm, iso = now_et.strftime("%Y-%m-%d"), now_et.strftime("%H%M"), now_et.isoformat()
     # GitHub starts scheduled runs late or skips some, so the workflow is scheduled every 10 minutes and
-    # each wake-up only does the work when the last good run is old enough. That keeps it about hourly
+    # each wake-up only does the work when the last good run is old enough. That keeps it about every 30 minutes
     # but lets the next wake-up catch up after a skipped slot. A manual "Run workflow" always runs.
     if not is_manual():
         ago = minutes_since_last_run(now_et)

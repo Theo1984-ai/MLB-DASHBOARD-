@@ -139,10 +139,10 @@ for e in (err_a, err_b, st.session_state.get("au_err")):
 st.subheader("Best Plays")
 bp_key = f"bp_auto_{bp_stamp}"
 st.toggle("🎯 Best Plays auto snapshot", value=bp_on, key=bp_key, on_change=_bp_changed, args=(bp_key,),
-          help="Every hour, all day: snapshots every sport with a game today, logs picks and "
+          help="About every 30 minutes, all day: snapshots every sport with a game today, logs picks and "
                "predictions, grades finished games. Same switch as on the Best Plays page.")
-st.caption("Saved on GitHub: " + ("ON" if bp_on else "OFF") + ". About once an hour. GitHub wakes it every 10 minutes "
-           "and it runs when the last snapshot is 45+ minutes old, so a skipped slot is caught up.")
+st.caption("Saved on GitHub: " + ("ON" if bp_on else "OFF") + ". About every 30 minutes. GitHub wakes it every 10 minutes "
+           "and it runs when the last snapshot is 25+ minutes old, so a skipped slot is caught up.")
 
 st.subheader("Other scheduled jobs")
 for key, label, when in JOBS:

@@ -3,8 +3,8 @@ name: Best Plays Auto Snapshot
 on:
   schedule:
     # GitHub often starts scheduled runs late or skips them. So wake up every 10 minutes (off the busy
-    # :00/:30 marks); the script skips the wake-up unless the last good snapshot is 45+ minutes old.
-    # Result: about one snapshot an hour, and a skipped slot is caught up on the next wake-up.
+    # :00/:30 marks); the script skips the wake-up unless the last snapshot started 25+ minutes ago.
+    # Result: about one snapshot every 30 minutes, and a skipped slot is caught up on the next wake-up.
     - cron: '3,13,23,33,43,53 * * * *'
   workflow_dispatch:
     inputs:
@@ -13,7 +13,7 @@ on:
         type: boolean
         default: false
       source:
-        description: "Leave empty for a manual run (ignores the on/off switch and the 45-minute rule). The outside timer sends 'timer' so it respects both."
+        description: "Leave empty for a manual run (ignores the on/off switch and the minimum gap between runs). The outside timer sends 'timer' so it respects both."
         required: false
         default: ''
 
