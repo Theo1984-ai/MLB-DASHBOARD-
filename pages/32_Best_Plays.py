@@ -383,8 +383,8 @@ if GH_TOKEN:
         auto_cfg, auto_err = {}, str(e)
     auto_on = auto_cfg.get("enabled", True) is not False
     wkey = f"bp_auto_{auto_cfg.get('updated', 'none')}"
-    st.toggle("⏱️ Auto snapshot every hour", value=auto_on, key=wkey, on_change=_auto_changed, args=(wkey,),
-              help="When on, a scheduled job takes the same snapshot as the 📸 button every hour "
+    st.toggle("⏱️ Auto snapshot every 30 minutes", value=auto_on, key=wkey, on_change=_auto_changed, args=(wkey,),
+              help="When on, a scheduled job takes the same snapshot as the 📸 button about every 30 minutes "
                    "and saves it (plays, predictions, grading). Turn it off to stop using Odds API credits.")
     st.caption("Saved on GitHub: " + ("ON" if auto_on else "OFF")
                + (f" (changed {datetime.fromisoformat(auto_cfg['updated']).strftime('%a %I:%M %p').replace(' 0', ' ')} ET)"
