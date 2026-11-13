@@ -19,6 +19,7 @@ from scripts import best_plays_alerts as alerts  # noqa: E402
 from scripts import injuries as injm  # noqa: E402
 from scripts import first_seen as fs  # noqa: E402
 from scripts import clv as clvm  # noqa: E402
+from scripts import filter_alerts as falerts  # noqa: E402
 from scripts import prop_signals as psig  # noqa: E402
 from scripts import td_props as tdp  # noqa: E402
 from scripts import goal_tracker as gtr  # noqa: E402
@@ -318,6 +319,13 @@ def main():
             print(f"first-seen: {n_fs} new line splits")
         except Exception as e:  # noqa: BLE001
             errors.append(f"first-seen: {e}")
+        try:
+            # Telegram: NHL shots Over (2+ books stale) and NBA threes Over, each play once.
+            n_fa = falerts.run(date, now_et, iso, load, _save_json, inj)
+            if n_fa:
+                print(f"Telegram: sent {n_fa} NHL shots / NBA threes play(s)")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"filter alerts: {e}")
         try:
             # Closing line (Pinnacle's last line before tip-off) of every First Seen play whose game has started.
             n_clv = sum(clvm.catch_up(d, now_et, _snapshot_names, load, _save_json)
