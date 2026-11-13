@@ -34,7 +34,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "New York Rangers",
       "win_prob": 0.677,
       "win_conf": "Medium",
@@ -67,10 +67,10 @@
         "Spread: New York Rangers -1.5.",
         "Pinnacle's game total is 6.5 (49% Over after removing the vig).",
         "Props lean adds +0.01 to the total, so we expect 6.6.",
-        "Over/Under: Under 6.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
+        "Over/Under: Under 6.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -107,6 +107,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "New York Rangers",
+        "win_prob": 0.677,
+        "pred_away": 3.9,
+        "pred_home": 2.7,
+        "pred_total": 6.6,
+        "ou_pick": "Under",
+        "ou_ref": 6.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "New York Rangers",
         "win_prob": 0.677,
         "pred_away": 3.9,
@@ -154,9 +165,9 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Vegas Golden Knights",
-      "win_prob": 0.63,
+      "win_prob": 0.628,
       "win_conf": "Medium",
       "alert_pick": null,
       "model_winner": "Vegas Golden Knights",
@@ -174,22 +185,23 @@
       "ou_pick": "Over",
       "ou_gap": 0.2,
       "ou_conf": "Low",
-      "ou_prob": 0.502,
+      "ou_prob": 0.504,
       "pin_favorite": "Vegas Golden Knights",
-      "pin_win_prob": 0.636,
-      "market_win_prob_home": 0.624,
+      "pin_win_prob": 0.633,
+      "market_win_prob_home": 0.621,
       "adj_away": 0.0,
-      "adj_home": 0.0,
+      "adj_home": 0.01,
       "reasons": [
-        "Pinnacle team totals imply Nashville Predators 2.7, Vegas Golden Knights 3.6.",
+        "Pinnacle team totals imply Nashville Predators 2.7, Vegas Golden Knights 3.5.",
+        "Vegas Golden Knights: 1 Over / 0 Under prop plays (+0.01 to its score).",
         "Pinnacle moneyline gives Vegas Golden Knights 62% to win.",
         "Spread: Vegas Golden Knights -1.5.",
         "Pinnacle's game total is 6.0 (50% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 6.2.",
+        "Props lean adds +0.01 to the total, so we expect 6.2.",
         "Over/Under: Over 6.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -228,6 +240,17 @@
         "t": "2026-11-13T03:00:19.731280-05:00",
         "winner": "Vegas Golden Knights",
         "win_prob": 0.63,
+        "pred_away": 2.7,
+        "pred_home": 3.5,
+        "pred_total": 6.2,
+        "ou_pick": "Over",
+        "ou_ref": 6.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Vegas Golden Knights",
+        "win_prob": 0.628,
         "pred_away": 2.7,
         "pred_home": 3.5,
         "pred_total": 6.2,
@@ -273,18 +296,18 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Orlando Magic",
-      "win_prob": 0.768,
+      "win_prob": 0.757,
       "win_conf": "High",
-      "alert_pick": null,
+      "alert_pick": "Milwaukee Bucks",
       "model_winner": "Orlando Magic",
       "alert_ou": null,
       "model_ou_pick": "Over",
       "alert_applied": false,
-      "pred_away": 107.7,
-      "pred_home": 116.8,
-      "pred_margin": 9.1,
+      "pred_away": 107.9,
+      "pred_home": 116.6,
+      "pred_margin": 8.6,
       "pred_total": 224.5,
       "pin_total": 224.5,
       "soft_total": null,
@@ -293,23 +316,26 @@
       "ou_pick": "Over",
       "ou_gap": 0.0,
       "ou_conf": "Low",
-      "ou_prob": 0.501,
+      "ou_prob": 0.5,
       "pin_favorite": "Orlando Magic",
-      "pin_win_prob": 0.78,
-      "market_win_prob_home": 0.759,
+      "pin_win_prob": 0.77,
+      "market_win_prob_home": 0.751,
       "adj_away": 0.12,
-      "adj_home": 0.0,
+      "adj_home": -0.12,
       "reasons": [
-        "Pinnacle team totals imply Milwaukee Bucks 107.6, Orlando Magic 116.8.",
+        "Line alert (info only, not used for NBA picks yet): Milwaukee Bucks team total flagged Over and Orlando Magic Under, which points to Milwaukee Bucks, but the model has Orlando Magic.",
+        "Pinnacle team totals imply Milwaukee Bucks 107.8, Orlando Magic 116.7.",
         "Milwaukee Bucks: 1 Over / 0 Under prop plays (+0.12 to its score).",
-        "Pinnacle moneyline gives Orlando Magic 76% to win.",
+        "Orlando Magic: 0 Over / 1 Under prop plays (-0.12 to its score).",
+        "Milwaukee Bucks's expected score moved +0.7 since the day's first snapshot.",
+        "Pinnacle moneyline gives Orlando Magic 75% to win.",
         "Spread: Orlando Magic -9.0.",
         "Pinnacle's game total is 224.5 (50% Over after removing the vig).",
-        "Props lean adds +0.12 to the total, so we expect 224.5.",
+        "Props lean adds +0.00 to the total, so we expect 224.5.",
         "Over/Under: Over 224.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -354,6 +380,17 @@
         "ou_pick": "Over",
         "ou_ref": 224.5,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Orlando Magic",
+        "win_prob": 0.757,
+        "pred_away": 107.9,
+        "pred_home": 116.6,
+        "pred_total": 224.5,
+        "ou_pick": "Over",
+        "ou_ref": 224.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -393,44 +430,44 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "New York Knicks",
-      "win_prob": 0.71,
+      "win_prob": 0.716,
       "win_conf": "High",
       "alert_pick": null,
       "model_winner": "New York Knicks",
       "alert_ou": null,
-      "model_ou_pick": "Under",
+      "model_ou_pick": "Over",
       "alert_applied": false,
-      "pred_away": 113.7,
+      "pred_away": 113.8,
       "pred_home": 106.7,
-      "pred_margin": 7.0,
-      "pred_total": 220.4,
+      "pred_margin": 7.2,
+      "pred_total": 220.5,
       "pin_total": 220.5,
       "soft_total": null,
       "ou_ref": 220.5,
       "ou_ref_kind": "Pinnacle game total",
-      "ou_pick": "Under",
-      "ou_gap": 0.1,
+      "ou_pick": "Over",
+      "ou_gap": 0.0,
       "ou_conf": "Low",
-      "ou_prob": 0.502,
+      "ou_prob": 0.5,
       "pin_favorite": "New York Knicks",
-      "pin_win_prob": 0.719,
-      "market_win_prob_home": 0.299,
+      "pin_win_prob": 0.725,
+      "market_win_prob_home": 0.294,
       "adj_away": 0.0,
       "adj_home": 0.0,
       "reasons": [
-        "Pinnacle team totals imply New York Knicks 113.9, Indiana Pacers 106.9.",
-        "New York Knicks's expected score moved +0.9 since the day's first snapshot.",
-        "Indiana Pacers's expected score moved +0.8 since the day's first snapshot.",
-        "Pinnacle moneyline gives Indiana Pacers 30% to win.",
+        "Pinnacle team totals imply New York Knicks 114.0, Indiana Pacers 106.8.",
+        "New York Knicks's expected score moved +1.1 since the day's first snapshot.",
+        "Indiana Pacers's expected score moved +0.7 since the day's first snapshot.",
+        "Pinnacle moneyline gives Indiana Pacers 29% to win.",
         "Spread: New York Knicks -7.0.",
         "Pinnacle's game total is 220.5 (50% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 220.4.",
-        "Over/Under: Under 220.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
+        "Props lean adds +0.00 to the total, so we expect 220.5.",
+        "Over/Under: Over 220.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -475,6 +512,17 @@
         "ou_pick": "Under",
         "ou_ref": 220.5,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "New York Knicks",
+        "win_prob": 0.716,
+        "pred_away": 113.8,
+        "pred_home": 106.7,
+        "pred_total": 220.5,
+        "ou_pick": "Over",
+        "ou_ref": 220.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -514,7 +562,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Atlanta Hawks",
       "win_prob": 0.722,
       "win_conf": "High",
@@ -553,7 +601,7 @@
         "Over/Under: Over 245.5 (50% chance, Low confidence)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -590,6 +638,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Atlanta Hawks",
+        "win_prob": 0.722,
+        "pred_away": 126.5,
+        "pred_home": 119.2,
+        "pred_total": 245.7,
+        "ou_pick": "Over",
+        "ou_ref": 245.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Atlanta Hawks",
         "win_prob": 0.722,
         "pred_away": 126.5,
@@ -637,7 +696,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Miami Heat",
       "win_prob": 0.558,
       "win_conf": "Low",
@@ -673,7 +732,7 @@
         "Over/Under: Under 235.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -710,6 +769,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Miami Heat",
+        "win_prob": 0.558,
+        "pred_away": 116.7,
+        "pred_home": 118.6,
+        "pred_total": 235.2,
+        "ou_pick": "Under",
+        "ou_ref": 235.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Miami Heat",
         "win_prob": 0.558,
         "pred_away": 116.7,
@@ -757,7 +827,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Memphis Grizzlies",
       "win_prob": 0.598,
       "win_conf": "Low",
@@ -792,7 +862,7 @@
         "Over/Under: Over 235.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -829,6 +899,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Memphis Grizzlies",
+        "win_prob": 0.598,
+        "pred_away": 119.3,
+        "pred_home": 116.2,
+        "pred_total": 235.5,
+        "ou_pick": "Over",
+        "ou_ref": 235.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Memphis Grizzlies",
         "win_prob": 0.598,
         "pred_away": 119.3,
@@ -876,7 +957,7 @@
       "adj_home": 0.12
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Houston Rockets",
       "win_prob": 0.915,
       "win_conf": "High",
@@ -885,35 +966,35 @@
       "alert_ou": null,
       "model_ou_pick": "Over",
       "alert_applied": false,
-      "pred_away": 101.4,
-      "pred_home": 118.6,
+      "pred_away": 101.2,
+      "pred_home": 118.4,
       "pred_margin": 17.3,
-      "pred_total": 220.0,
+      "pred_total": 219.6,
       "pin_total": 219.5,
       "soft_total": null,
       "ou_ref": 219.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Over",
-      "ou_gap": 0.5,
+      "ou_gap": 0.1,
       "ou_conf": "Low",
-      "ou_prob": 0.511,
+      "ou_prob": 0.502,
       "pin_favorite": "Houston Rockets",
       "pin_win_prob": 0.924,
       "market_win_prob_home": 0.905,
       "adj_away": 0.0,
       "adj_home": 0.08,
       "reasons": [
-        "Pinnacle team totals imply Utah Jazz 101.4, Houston Rockets 118.6.",
+        "Pinnacle team totals imply Utah Jazz 101.2, Houston Rockets 118.4.",
         "Houston Rockets: 1 Over / 0 Under prop plays (+0.08 to its score).",
         "Pinnacle moneyline gives Houston Rockets 90% to win.",
         "Spread: Houston Rockets -17.0.",
         "Blowout risk: starters may sit, which hurts the Over.",
-        "Pinnacle's game total is 219.5 (51% Over after removing the vig).",
-        "Props lean adds +0.08 to the total, so we expect 220.0.",
-        "Over/Under: Over 219.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
+        "Pinnacle's game total is 219.5 (50% Over after removing the vig).",
+        "Props lean adds +0.08 to the total, so we expect 219.6.",
+        "Over/Under: Over 219.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -958,6 +1039,17 @@
         "ou_pick": "Over",
         "ou_ref": 219.5,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Houston Rockets",
+        "win_prob": 0.915,
+        "pred_away": 101.2,
+        "pred_home": 118.4,
+        "pred_total": 219.6,
+        "ou_pick": "Over",
+        "ou_ref": 219.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -997,43 +1089,43 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "San Antonio Spurs",
-      "win_prob": 0.846,
+      "win_prob": 0.847,
       "win_conf": "High",
       "alert_pick": null,
       "model_winner": "San Antonio Spurs",
       "alert_ou": null,
       "model_ou_pick": "Over",
       "alert_applied": false,
-      "pred_away": 103.7,
-      "pred_home": 116.6,
+      "pred_away": 103.9,
+      "pred_home": 116.8,
       "pred_margin": 12.9,
-      "pred_total": 220.3,
-      "pin_total": 220.0,
+      "pred_total": 220.7,
+      "pin_total": 220.5,
       "soft_total": null,
-      "ou_ref": 220.0,
+      "ou_ref": 220.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Over",
-      "ou_gap": 0.3,
+      "ou_gap": 0.2,
       "ou_conf": "Low",
-      "ou_prob": 0.507,
+      "ou_prob": 0.505,
       "pin_favorite": "San Antonio Spurs",
-      "pin_win_prob": 0.858,
-      "market_win_prob_home": 0.833,
+      "pin_win_prob": 0.86,
+      "market_win_prob_home": 0.834,
       "adj_away": 0.0,
       "adj_home": 0.0,
       "reasons": [
-        "Pinnacle team totals imply Golden State Warriors 103.7, San Antonio Spurs 116.6.",
+        "Pinnacle team totals imply Golden State Warriors 103.9, San Antonio Spurs 116.8.",
         "Pinnacle moneyline gives San Antonio Spurs 83% to win.",
         "Spread: San Antonio Spurs -12.5.",
         "Blowout risk: starters may sit, which hurts the Over.",
-        "Pinnacle's game total is 220.0 (51% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 220.3.",
-        "Over/Under: Over 220.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
+        "Pinnacle's game total is 220.5 (50% Over after removing the vig).",
+        "Props lean adds +0.00 to the total, so we expect 220.7.",
+        "Over/Under: Over 220.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1078,6 +1170,17 @@
         "ou_pick": "Over",
         "ou_ref": 220.0,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "San Antonio Spurs",
+        "win_prob": 0.847,
+        "pred_away": 103.9,
+        "pred_home": 116.8,
+        "pred_total": 220.7,
+        "ou_pick": "Over",
+        "ou_ref": 220.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -1117,9 +1220,9 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Portland Trail Blazers",
-      "win_prob": 0.811,
+      "win_prob": 0.805,
       "win_conf": "High",
       "alert_pick": null,
       "model_winner": "Portland Trail Blazers",
@@ -1127,34 +1230,34 @@
       "model_ou_pick": "Over",
       "alert_applied": false,
       "pred_away": 120.3,
-      "pred_home": 109.4,
-      "pred_margin": 11.0,
-      "pred_total": 229.7,
-      "pin_total": 229.0,
+      "pred_home": 109.7,
+      "pred_margin": 10.6,
+      "pred_total": 230.1,
+      "pin_total": 229.5,
       "soft_total": null,
-      "ou_ref": 229.0,
+      "ou_ref": 229.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Over",
-      "ou_gap": 0.7,
+      "ou_gap": 0.6,
       "ou_conf": "Low",
-      "ou_prob": 0.515,
+      "ou_prob": 0.512,
       "pin_favorite": "Portland Trail Blazers",
-      "pin_win_prob": 0.825,
-      "market_win_prob_home": 0.197,
+      "pin_win_prob": 0.817,
+      "market_win_prob_home": 0.202,
       "adj_away": 0.0,
       "adj_home": 0.25,
       "reasons": [
-        "Pinnacle team totals imply Portland Trail Blazers 120.3, Sacramento Kings 109.1.",
+        "Pinnacle team totals imply Portland Trail Blazers 120.4, Sacramento Kings 109.5.",
         "Sacramento Kings: 1 Over / 0 Under prop plays (+0.25 to its score).",
         "Pinnacle moneyline gives Sacramento Kings 20% to win.",
         "Spread: Portland Trail Blazers -10.5.",
         "Blowout risk: starters may sit, which hurts the Over.",
-        "Pinnacle's game total is 229.0 (51% Over after removing the vig).",
-        "Props lean adds +0.25 to the total, so we expect 229.7.",
-        "Over/Under: Over 229.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
+        "Pinnacle's game total is 229.5 (51% Over after removing the vig).",
+        "Props lean adds +0.25 to the total, so we expect 230.1.",
+        "Over/Under: Over 229.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1199,6 +1302,17 @@
         "ou_pick": "Over",
         "ou_ref": 229.0,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Portland Trail Blazers",
+        "win_prob": 0.805,
+        "pred_away": 120.3,
+        "pred_home": 109.7,
+        "pred_total": 230.1,
+        "ou_pick": "Over",
+        "ou_ref": 229.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -1238,18 +1352,18 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Oklahoma City Thunder",
-      "win_prob": 0.728,
+      "win_prob": 0.724,
       "win_conf": "High",
       "alert_pick": null,
       "model_winner": "Oklahoma City Thunder",
       "alert_ou": null,
       "model_ou_pick": "Under",
       "alert_applied": false,
-      "pred_away": 114.6,
-      "pred_home": 107.1,
-      "pred_margin": 7.5,
+      "pred_away": 114.5,
+      "pred_home": 107.2,
+      "pred_margin": 7.3,
       "pred_total": 221.8,
       "pin_total": 222.0,
       "soft_total": null,
@@ -1260,14 +1374,14 @@
       "ou_conf": "Low",
       "ou_prob": 0.506,
       "pin_favorite": "Oklahoma City Thunder",
-      "pin_win_prob": 0.742,
-      "market_win_prob_home": 0.28,
+      "pin_win_prob": 0.735,
+      "market_win_prob_home": 0.279,
       "adj_away": -0.25,
       "adj_home": 0.0,
       "reasons": [
-        "Pinnacle team totals imply Oklahoma City Thunder 114.9, Los Angeles Clippers 107.1.",
+        "Pinnacle team totals imply Oklahoma City Thunder 114.8, Los Angeles Clippers 107.2.",
         "Oklahoma City Thunder: 0 Over / 1 Under prop plays (-0.25 to its score).",
-        "Los Angeles Clippers's expected score moved -0.7 since the day's first snapshot.",
+        "Los Angeles Clippers's expected score moved -0.6 since the day's first snapshot.",
         "Pinnacle moneyline gives Los Angeles Clippers 28% to win.",
         "Spread: Oklahoma City Thunder -7.5.",
         "Pinnacle's game total is 222.0 (50% Over after removing the vig).",
@@ -1275,7 +1389,7 @@
         "Over/Under: Under 222.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1320,6 +1434,17 @@
         "ou_pick": "Under",
         "ou_ref": 222.0,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Oklahoma City Thunder",
+        "win_prob": 0.724,
+        "pred_away": 114.5,
+        "pred_home": 107.2,
+        "pred_total": 221.8,
+        "ou_pick": "Under",
+        "ou_ref": 222.0,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -1359,7 +1484,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Clemson Tigers",
       "win_prob": 0.64,
       "win_conf": "Medium",
@@ -1394,7 +1519,7 @@
         "Over/Under: Under 147.0 (52% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1431,6 +1556,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Clemson Tigers",
+        "win_prob": 0.64,
+        "pred_away": 71.1,
+        "pred_home": 75.1,
+        "pred_total": 146.2,
+        "ou_pick": "Under",
+        "ou_ref": 147.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Clemson Tigers",
         "win_prob": 0.64,
         "pred_away": 71.1,
@@ -1478,7 +1614,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Butler Bulldogs",
       "win_prob": 0.594,
       "win_conf": "Low",
@@ -1519,7 +1655,7 @@
         "Team-total value: Butler Bulldogs UNDER 82.5 @ DraftKings -120 (edge +1.2%)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1556,6 +1692,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Butler Bulldogs",
+        "win_prob": 0.594,
+        "pred_away": 78.3,
+        "pred_home": 81.1,
+        "pred_total": 159.4,
+        "ou_pick": "Under",
+        "ou_ref": 160.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Butler Bulldogs",
         "win_prob": 0.594,
         "pred_away": 78.3,
@@ -1603,7 +1750,7 @@
       "adj_home": 0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Charlotte 49ers",
       "win_prob": 0.73,
       "win_conf": "High",
@@ -1640,7 +1787,7 @@
         "Over/Under: Over 129.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1677,6 +1824,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Charlotte 49ers",
+        "win_prob": 0.73,
+        "pred_away": 61.7,
+        "pred_home": 68.1,
+        "pred_total": 129.9,
+        "ou_pick": "Over",
+        "ou_ref": 129.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Charlotte 49ers",
         "win_prob": 0.73,
         "pred_away": 61.7,
@@ -1724,7 +1882,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Elon Phoenix",
       "win_prob": 0.577,
       "win_conf": "Low",
@@ -1760,7 +1918,7 @@
         "Over/Under: Over 151.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1797,6 +1955,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Elon Phoenix",
+        "win_prob": 0.577,
+        "pred_away": 74.5,
+        "pred_home": 76.6,
+        "pred_total": 151.1,
+        "ou_pick": "Over",
+        "ou_ref": 151.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Elon Phoenix",
         "win_prob": 0.577,
         "pred_away": 74.5,
@@ -1844,7 +2013,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "North Carolina Tar Heels",
       "win_prob": 0.631,
       "win_conf": "Medium",
@@ -1882,7 +2051,7 @@
         "Over/Under: Under 163.5 (51% chance, Low confidence)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -1919,6 +2088,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "North Carolina Tar Heels",
+        "win_prob": 0.631,
+        "pred_away": 79.6,
+        "pred_home": 83.6,
+        "pred_total": 163.2,
+        "ou_pick": "Under",
+        "ou_ref": 163.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "North Carolina Tar Heels",
         "win_prob": 0.631,
         "pred_away": 79.6,
@@ -1966,7 +2146,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "GW Revolutionaries",
       "win_prob": 0.866,
       "win_conf": "High",
@@ -2003,7 +2183,7 @@
         "Over/Under: Over 133.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2040,6 +2220,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "GW Revolutionaries",
+        "win_prob": 0.866,
+        "pred_away": 60.7,
+        "pred_home": 72.8,
+        "pred_total": 133.5,
+        "ou_pick": "Over",
+        "ou_ref": 133.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "GW Revolutionaries",
         "win_prob": 0.866,
         "pred_away": 60.7,
@@ -2087,7 +2278,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Hofstra Pride",
       "win_prob": 0.732,
       "win_conf": "High",
@@ -2123,7 +2314,7 @@
         "Over/Under: Under 134.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2160,6 +2351,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Hofstra Pride",
+        "win_prob": 0.732,
+        "pred_away": 63.4,
+        "pred_home": 70.6,
+        "pred_total": 133.9,
+        "ou_pick": "Under",
+        "ou_ref": 134.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Hofstra Pride",
         "win_prob": 0.732,
         "pred_away": 63.4,
@@ -2207,7 +2409,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Florida Gators",
       "win_prob": 1.0,
       "win_conf": "High",
@@ -2242,7 +2444,7 @@
         "Over/Under: Over 144.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2279,6 +2481,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Florida Gators",
+        "win_prob": 1.0,
+        "pred_away": 52.7,
+        "pred_home": 91.3,
+        "pred_total": 144.0,
+        "ou_pick": "Over",
+        "ou_ref": 144.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Florida Gators",
         "win_prob": 1.0,
         "pred_away": 52.7,
@@ -2326,7 +2539,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Kentucky Wildcats",
       "win_prob": 0.999,
       "win_conf": "High",
@@ -2364,7 +2577,7 @@
         "Over/Under: Under 155.5 (52% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2401,6 +2614,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Kentucky Wildcats",
+        "win_prob": 0.999,
+        "pred_away": 59.3,
+        "pred_home": 95.2,
+        "pred_total": 154.5,
+        "ou_pick": "Under",
+        "ou_ref": 155.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Kentucky Wildcats",
         "win_prob": 0.999,
         "pred_away": 59.3,
@@ -2448,7 +2672,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Michigan St Spartans",
       "win_prob": 0.997,
       "win_conf": "High",
@@ -2458,33 +2682,33 @@
       "model_ou_pick": "Under",
       "alert_applied": false,
       "pred_away": 62.5,
-      "pred_home": 92.7,
-      "pred_margin": 30.2,
-      "pred_total": 155.2,
+      "pred_home": 92.6,
+      "pred_margin": 30.1,
+      "pred_total": 155.1,
       "pin_total": 155.5,
       "soft_total": null,
       "ou_ref": 155.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Under",
-      "ou_gap": 0.3,
+      "ou_gap": 0.4,
       "ou_conf": "Low",
-      "ou_prob": 0.508,
+      "ou_prob": 0.51,
       "pin_favorite": "Michigan St Spartans",
       "pin_win_prob": 0.997,
       "market_win_prob_home": null,
       "adj_away": 0.0,
       "adj_home": 0.25,
       "reasons": [
-        "Pinnacle team totals imply Northern Iowa Panthers 62.2, Michigan St Spartans 92.1.",
+        "Pinnacle team totals imply Northern Iowa Panthers 62.2, Michigan St Spartans 92.0.",
         "Michigan St Spartans: 1 Over / 0 Under prop plays (+0.25 to its score).",
-        "Spread: Michigan St Spartans -29.5.",
+        "Spread: Michigan St Spartans -28.5.",
         "Blowout risk: starters may sit, which hurts the Over.",
-        "Pinnacle's game total is 155.5 (49% Over after removing the vig).",
-        "Props lean adds +0.25 to the total, so we expect 155.2.",
+        "Pinnacle's game total is 155.5 (48% Over after removing the vig).",
+        "Props lean adds +0.25 to the total, so we expect 155.1.",
         "Over/Under: Under 155.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2529,6 +2753,17 @@
         "ou_pick": "Under",
         "ou_ref": 155.5,
         "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Michigan St Spartans",
+        "win_prob": 0.997,
+        "pred_away": 62.5,
+        "pred_home": 92.6,
+        "pred_total": 155.1,
+        "ou_pick": "Under",
+        "ou_ref": 155.5,
+        "ou_conf": "Low"
       }
     ],
     "result": null
@@ -2568,7 +2803,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Purdue Boilermakers",
       "win_prob": 0.965,
       "win_conf": "High",
@@ -2603,7 +2838,7 @@
         "Over/Under: Under 153.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2640,6 +2875,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Purdue Boilermakers",
+        "win_prob": 0.965,
+        "pred_away": 66.3,
+        "pred_home": 86.2,
+        "pred_total": 152.5,
+        "ou_pick": "Under",
+        "ou_ref": 153.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Purdue Boilermakers",
         "win_prob": 0.965,
         "pred_away": 66.3,
@@ -2687,7 +2933,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "NC State Wolfpack",
       "win_prob": 0.98,
       "win_conf": "High",
@@ -2722,7 +2968,7 @@
         "Over/Under: Over 148.5 (52% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2759,6 +3005,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "NC State Wolfpack",
+        "win_prob": 0.98,
+        "pred_away": 63.3,
+        "pred_home": 85.8,
+        "pred_total": 149.1,
+        "ou_pick": "Over",
+        "ou_ref": 148.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "NC State Wolfpack",
         "win_prob": 0.98,
         "pred_away": 63.3,
@@ -2806,7 +3063,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Yale Bulldogs",
       "win_prob": 0.549,
       "win_conf": "Low",
@@ -2842,7 +3099,7 @@
         "Over/Under: Under 154.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -2879,6 +3136,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Yale Bulldogs",
+        "win_prob": 0.549,
+        "pred_away": 77.6,
+        "pred_home": 76.3,
+        "pred_total": 153.9,
+        "ou_pick": "Under",
+        "ou_ref": 154.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Yale Bulldogs",
         "win_prob": 0.549,
         "pred_away": 77.6,
@@ -2926,7 +3194,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "UConn Huskies",
       "win_prob": 0.833,
       "win_conf": "High",
@@ -2963,7 +3231,7 @@
         "Team-total value: UConn Huskies UNDER 79.5 @ DraftKings -105 (edge +1.7%)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3000,6 +3268,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "UConn Huskies",
+        "win_prob": 0.833,
+        "pred_away": 68.4,
+        "pred_home": 78.7,
+        "pred_total": 147.1,
+        "ou_pick": "Under",
+        "ou_ref": 147.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "UConn Huskies",
         "win_prob": 0.833,
         "pred_away": 68.4,
@@ -3047,7 +3326,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Drake Bulldogs",
       "win_prob": 0.885,
       "win_conf": "High",
@@ -3083,7 +3362,7 @@
         "Over/Under: Under 162.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3120,6 +3399,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Drake Bulldogs",
+        "win_prob": 0.885,
+        "pred_away": 74.1,
+        "pred_home": 87.4,
+        "pred_total": 161.6,
+        "ou_pick": "Under",
+        "ou_ref": 162.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Drake Bulldogs",
         "win_prob": 0.885,
         "pred_away": 74.1,
@@ -3167,7 +3457,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "UCF Knights",
       "win_prob": 0.978,
       "win_conf": "High",
@@ -3205,7 +3495,7 @@
         "Over/Under: Over 163.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3242,6 +3532,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "UCF Knights",
+        "win_prob": 0.978,
+        "pred_away": 70.7,
+        "pred_home": 92.9,
+        "pred_total": 163.6,
+        "ou_pick": "Over",
+        "ou_ref": 163.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "UCF Knights",
         "win_prob": 0.978,
         "pred_away": 70.7,
@@ -3289,18 +3590,18 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Illinois St Redbirds",
-      "win_prob": 0.579,
+      "win_prob": 0.596,
       "win_conf": "Low",
       "alert_pick": null,
       "model_winner": "Illinois St Redbirds",
       "alert_ou": null,
       "model_ou_pick": "Under",
       "alert_applied": false,
-      "pred_away": 75.1,
-      "pred_home": 72.6,
-      "pred_margin": 2.5,
+      "pred_away": 75.3,
+      "pred_home": 72.5,
+      "pred_margin": 2.8,
       "pred_total": 147.8,
       "pin_total": 148.0,
       "soft_total": null,
@@ -3309,22 +3610,22 @@
       "ou_pick": "Under",
       "ou_gap": 0.2,
       "ou_conf": "Low",
-      "ou_prob": 0.505,
+      "ou_prob": 0.504,
       "pin_favorite": "Illinois St Redbirds",
-      "pin_win_prob": 0.59,
-      "market_win_prob_home": 0.432,
+      "pin_win_prob": 0.602,
+      "market_win_prob_home": 0.41,
       "adj_away": 0.0,
       "adj_home": 0.0,
       "reasons": [
-        "Pinnacle team totals imply Illinois St Redbirds 75.0, North Dakota St Bison 72.5.",
-        "Pinnacle moneyline gives North Dakota St Bison 43% to win.",
-        "Spread: Illinois St Redbirds -2.5.",
-        "Pinnacle's game total is 148.0 (49% Over after removing the vig).",
+        "Pinnacle team totals imply Illinois St Redbirds 75.2, North Dakota St Bison 72.3.",
+        "Pinnacle moneyline gives North Dakota St Bison 41% to win.",
+        "Spread: Illinois St Redbirds -3.0.",
+        "Pinnacle's game total is 148.0 (50% Over after removing the vig).",
         "Props lean adds +0.00 to the total, so we expect 147.8.",
-        "Over/Under: Under 148.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
+        "Over/Under: Under 148.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3365,6 +3666,17 @@
         "win_prob": 0.579,
         "pred_away": 75.1,
         "pred_home": 72.6,
+        "pred_total": 147.8,
+        "ou_pick": "Under",
+        "ou_ref": 148.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Illinois St Redbirds",
+        "win_prob": 0.596,
+        "pred_away": 75.3,
+        "pred_home": 72.5,
         "pred_total": 147.8,
         "ou_pick": "Under",
         "ou_ref": 148.0,
@@ -3408,7 +3720,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "TCU Horned Frogs",
       "win_prob": 0.987,
       "win_conf": "High",
@@ -3446,7 +3758,7 @@
         "Over/Under: Over 158.0 (50% chance, Low confidence)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3483,6 +3795,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "TCU Horned Frogs",
+        "win_prob": 0.987,
+        "pred_away": 66.8,
+        "pred_home": 91.3,
+        "pred_total": 158.1,
+        "ou_pick": "Over",
+        "ou_ref": 158.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "TCU Horned Frogs",
         "win_prob": 0.987,
         "pred_away": 66.8,
@@ -3530,7 +3853,7 @@
       "adj_home": 0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Duke Blue Devils",
       "win_prob": 1.0,
       "win_conf": "High",
@@ -3569,7 +3892,7 @@
         "Team-total value: SIU-Edwardsville Cougars UNDER 52.5 @ DraftKings -125 (edge +1.8%)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3606,6 +3929,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Duke Blue Devils",
+        "win_prob": 1.0,
+        "pred_away": 50.6,
+        "pred_home": 97.8,
+        "pred_total": 148.4,
+        "ou_pick": "Under",
+        "ou_ref": 148.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Duke Blue Devils",
         "win_prob": 1.0,
         "pred_away": 50.6,
@@ -3653,7 +3987,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Texas State Bobcats",
       "win_prob": 0.829,
       "win_conf": "High",
@@ -3689,7 +4023,7 @@
         "Over/Under: Under 143.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3726,6 +4060,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Texas State Bobcats",
+        "win_prob": 0.829,
+        "pred_away": 66.0,
+        "pred_home": 76.4,
+        "pred_total": 142.5,
+        "ou_pick": "Under",
+        "ou_ref": 143.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Texas State Bobcats",
         "win_prob": 0.829,
         "pred_away": 66.0,
@@ -3773,7 +4118,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Virginia Cavaliers",
       "win_prob": 0.689,
       "win_conf": "Medium",
@@ -3808,7 +4153,7 @@
         "Over/Under: Under 154.0 (52% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3845,6 +4190,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Virginia Cavaliers",
+        "win_prob": 0.689,
+        "pred_away": 79.4,
+        "pred_home": 73.8,
+        "pred_total": 153.2,
+        "ou_pick": "Under",
+        "ou_ref": 154.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Virginia Cavaliers",
         "win_prob": 0.689,
         "pred_away": 79.4,
@@ -3892,7 +4248,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Wright St Raiders",
       "win_prob": 0.529,
       "win_conf": "Low",
@@ -3927,7 +4283,7 @@
         "Over/Under: Over 156.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -3964,6 +4320,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Wright St Raiders",
+        "win_prob": 0.529,
+        "pred_away": 78.7,
+        "pred_home": 77.6,
+        "pred_total": 156.3,
+        "ou_pick": "Over",
+        "ou_ref": 156.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Wright St Raiders",
         "win_prob": 0.529,
         "pred_away": 78.7,
@@ -4011,7 +4378,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Omaha Mavericks",
       "win_prob": 0.614,
       "win_conf": "Medium",
@@ -4051,7 +4418,7 @@
         "Over/Under: Under 156.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4088,6 +4455,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Omaha Mavericks",
+        "win_prob": 0.614,
+        "pred_away": 76.5,
+        "pred_home": 79.4,
+        "pred_total": 155.9,
+        "ou_pick": "Under",
+        "ou_ref": 156.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Omaha Mavericks",
         "win_prob": 0.614,
         "pred_away": 76.5,
@@ -4135,7 +4513,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Arizona Wildcats",
       "win_prob": 0.575,
       "win_conf": "Low",
@@ -4171,7 +4549,7 @@
         "Over/Under: Under 158.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4208,6 +4586,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Arizona Wildcats",
+        "win_prob": 0.575,
+        "pred_away": 80.2,
+        "pred_home": 78.3,
+        "pred_total": 158.4,
+        "ou_pick": "Under",
+        "ou_ref": 158.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Arizona Wildcats",
         "win_prob": 0.575,
         "pred_away": 80.2,
@@ -4255,7 +4644,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "SMU Mustangs",
       "win_prob": 0.981,
       "win_conf": "High",
@@ -4291,7 +4680,7 @@
         "Over/Under: Under 153.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4328,6 +4717,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "SMU Mustangs",
+        "win_prob": 0.981,
+        "pred_away": 65.0,
+        "pred_home": 87.9,
+        "pred_total": 152.9,
+        "ou_pick": "Under",
+        "ou_ref": 153.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "SMU Mustangs",
         "win_prob": 0.981,
         "pred_away": 65.0,
@@ -4375,7 +4775,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Idaho Vandals",
       "win_prob": 0.529,
       "win_conf": "Low",
@@ -4413,7 +4813,7 @@
         "Over/Under: Under 167.5 (51% chance, Low confidence)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4450,6 +4850,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Idaho Vandals",
+        "win_prob": 0.529,
+        "pred_away": 83.1,
+        "pred_home": 84.1,
+        "pred_total": 167.2,
+        "ou_pick": "Under",
+        "ou_ref": 167.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Idaho Vandals",
         "win_prob": 0.529,
         "pred_away": 83.1,
@@ -4497,42 +4908,43 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "DePaul Blue Demons",
-      "win_prob": 0.525,
+      "win_prob": 0.53,
       "win_conf": "Low",
       "alert_pick": null,
       "model_winner": "DePaul Blue Demons",
       "alert_ou": null,
       "model_ou_pick": "Over",
       "alert_applied": false,
-      "pred_away": 70.2,
+      "pred_away": 70.5,
       "pred_home": 69.3,
-      "pred_margin": 1.0,
-      "pred_total": 139.5,
+      "pred_margin": 1.2,
+      "pred_total": 139.8,
       "pin_total": 139.5,
       "soft_total": null,
       "ou_ref": 139.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Over",
-      "ou_gap": 0.0,
+      "ou_gap": 0.2,
       "ou_conf": "Low",
-      "ou_prob": 0.5,
+      "ou_prob": 0.506,
       "pin_favorite": "DePaul Blue Demons",
       "pin_win_prob": 0.534,
       "market_win_prob_home": 0.484,
-      "adj_away": 0.0,
+      "adj_away": 0.25,
       "adj_home": 0.0,
       "reasons": [
         "Pinnacle team totals imply DePaul Blue Demons 70.0, Northwestern Wildcats 69.0.",
+        "DePaul Blue Demons: 1 Over / 0 Under prop plays (+0.25 to its score).",
         "Pinnacle moneyline gives Northwestern Wildcats 48% to win.",
         "Spread: DePaul Blue Demons -1.5.",
         "Pinnacle's game total is 139.5 (50% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 139.5.",
-        "Over/Under: Over 139.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
+        "Props lean adds +0.25 to the total, so we expect 139.8.",
+        "Over/Under: Over 139.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4574,6 +4986,17 @@
         "pred_away": 70.2,
         "pred_home": 69.3,
         "pred_total": 139.5,
+        "ou_pick": "Over",
+        "ou_ref": 139.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "DePaul Blue Demons",
+        "win_prob": 0.53,
+        "pred_away": 70.5,
+        "pred_home": 69.3,
+        "pred_total": 139.8,
         "ou_pick": "Over",
         "ou_ref": 139.5,
         "ou_conf": "Low"
@@ -4616,9 +5039,9 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Alabama Crimson Tide",
-      "win_prob": 0.928,
+      "win_prob": 0.927,
       "win_conf": "High",
       "alert_pick": "Seton Hall Pirates",
       "model_winner": "Alabama Crimson Tide",
@@ -4626,35 +5049,35 @@
       "model_ou_pick": "Under",
       "alert_applied": false,
       "pred_away": 70.0,
-      "pred_home": 86.1,
-      "pred_margin": 16.1,
-      "pred_total": 156.1,
+      "pred_home": 86.0,
+      "pred_margin": 16.0,
+      "pred_total": 156.0,
       "pin_total": 156.5,
       "soft_total": null,
       "ou_ref": 156.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Under",
-      "ou_gap": 0.4,
+      "ou_gap": 0.5,
       "ou_conf": "Low",
-      "ou_prob": 0.511,
+      "ou_prob": 0.512,
       "pin_favorite": "Alabama Crimson Tide",
-      "pin_win_prob": 0.934,
+      "pin_win_prob": 0.933,
       "market_win_prob_home": null,
       "adj_away": 0.25,
       "adj_home": -0.25,
       "reasons": [
         "Line alert (info only, not used for NCAAB picks yet): Seton Hall Pirates team total flagged Over and Alabama Crimson Tide Under, which points to Seton Hall Pirates, but the model has Alabama Crimson Tide.",
-        "Pinnacle team totals imply Seton Hall Pirates 69.7, Alabama Crimson Tide 86.3.",
+        "Pinnacle team totals imply Seton Hall Pirates 69.7, Alabama Crimson Tide 86.2.",
         "Seton Hall Pirates: 1 Over / 0 Under prop plays (+0.25 to its score).",
         "Alabama Crimson Tide: 0 Over / 1 Under prop plays (-0.25 to its score).",
         "Spread: Alabama Crimson Tide -17.0.",
         "Blowout risk: starters may sit, which hurts the Over.",
         "Pinnacle's game total is 156.5 (49% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 156.1.",
+        "Props lean adds +0.00 to the total, so we expect 156.0.",
         "Over/Under: Under 156.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4696,6 +5119,17 @@
         "pred_away": 70.0,
         "pred_home": 86.1,
         "pred_total": 156.1,
+        "ou_pick": "Under",
+        "ou_ref": 156.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Alabama Crimson Tide",
+        "win_prob": 0.927,
+        "pred_away": 70.0,
+        "pred_home": 86.0,
+        "pred_total": 156.0,
         "ou_pick": "Under",
         "ou_ref": 156.5,
         "ou_conf": "Low"
@@ -4738,7 +5172,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Stanford Cardinal",
       "win_prob": 0.519,
       "win_conf": "Low",
@@ -4775,7 +5209,7 @@
         "Over/Under: Over 154.0 (50% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4812,6 +5246,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Stanford Cardinal",
+        "win_prob": 0.519,
+        "pred_away": 77.4,
+        "pred_home": 76.6,
+        "pred_total": 154.1,
+        "ou_pick": "Over",
+        "ou_ref": 154.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Stanford Cardinal",
         "win_prob": 0.519,
         "pred_away": 77.4,
@@ -4859,7 +5304,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Arizona St Sun Devils",
       "win_prob": 0.998,
       "win_conf": "High",
@@ -4895,7 +5340,7 @@
         "Over/Under: Over 150.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -4932,6 +5377,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Arizona St Sun Devils",
+        "win_prob": 0.998,
+        "pred_away": 59.1,
+        "pred_home": 91.7,
+        "pred_total": 150.8,
+        "ou_pick": "Over",
+        "ou_ref": 150.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Arizona St Sun Devils",
         "win_prob": 0.998,
         "pred_away": 59.1,
@@ -4979,7 +5435,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Utah State Aggies",
       "win_prob": 0.877,
       "win_conf": "High",
@@ -5015,7 +5471,7 @@
         "Over/Under: Over 156.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -5052,6 +5508,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Utah State Aggies",
+        "win_prob": 0.877,
+        "pred_away": 71.9,
+        "pred_home": 84.7,
+        "pred_total": 156.5,
+        "ou_pick": "Over",
+        "ou_ref": 156.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Utah State Aggies",
         "win_prob": 0.877,
         "pred_away": 71.9,
@@ -5099,7 +5566,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Saint Mary's Gaels",
       "win_prob": 0.697,
       "win_conf": "Medium",
@@ -5135,7 +5602,7 @@
         "Over/Under: Under 152.5 (52% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -5172,6 +5639,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Saint Mary's Gaels",
+        "win_prob": 0.697,
+        "pred_away": 73.1,
+        "pred_home": 78.7,
+        "pred_total": 151.8,
+        "ou_pick": "Under",
+        "ou_ref": 152.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Saint Mary's Gaels",
         "win_prob": 0.697,
         "pred_away": 73.1,
@@ -5219,7 +5697,7 @@
       "adj_home": -0.25
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "UCLA Bruins",
       "win_prob": 0.777,
       "win_conf": "High",
@@ -5258,7 +5736,7 @@
         "Team-total value: Illinois Fighting Illini UNDER 19.5 @ FanDuel -115 (edge +2.4%)."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -5295,6 +5773,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "UCLA Bruins",
+        "win_prob": 0.777,
+        "pred_away": 18.4,
+        "pred_home": 29.4,
+        "pred_total": 47.8,
+        "ou_pick": "Over",
+        "ou_ref": 47.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "UCLA Bruins",
         "win_prob": 0.777,
         "pred_away": 18.4,
@@ -5342,7 +5831,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Houston Cougars",
       "win_prob": 0.755,
       "win_conf": "High",
@@ -5377,7 +5866,7 @@
         "Over/Under: Over 51.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 4,
+    "n_updates": 5,
     "history": [
       {
         "t": "2026-11-13T00:15:16.332237-05:00",
@@ -5414,6 +5903,17 @@
       },
       {
         "t": "2026-11-13T03:00:19.731280-05:00",
+        "winner": "Houston Cougars",
+        "win_prob": 0.755,
+        "pred_away": 30.5,
+        "pred_home": 20.7,
+        "pred_total": 51.3,
+        "ou_pick": "Over",
+        "ou_ref": 51.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
         "winner": "Houston Cougars",
         "win_prob": 0.755,
         "pred_away": 30.5,
@@ -5461,7 +5961,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-13T03:00:19.731280-05:00",
+      "t": "2026-11-13T04:00:20.878081-05:00",
       "winner": "Miami Hurricanes",
       "win_prob": 0.999,
       "win_conf": "High",
@@ -5473,30 +5973,30 @@
       "pred_away": 58.0,
       "pred_home": 93.1,
       "pred_margin": 35.1,
-      "pred_total": 151.1,
+      "pred_total": 151.2,
       "pin_total": 151.5,
       "soft_total": null,
       "ou_ref": 151.5,
       "ou_ref_kind": "Pinnacle game total",
       "ou_pick": "Under",
-      "ou_gap": 0.4,
+      "ou_gap": 0.3,
       "ou_conf": "Low",
-      "ou_prob": 0.51,
+      "ou_prob": 0.509,
       "pin_favorite": "Miami Hurricanes",
       "pin_win_prob": 0.999,
       "market_win_prob_home": null,
       "adj_away": 0.0,
       "adj_home": 0.0,
       "reasons": [
-        "Pinnacle team totals imply North Alabama Lions 57.8, Miami Hurricanes 92.9.",
+        "Pinnacle team totals imply North Alabama Lions 57.8, Miami Hurricanes 93.0.",
         "Spread: Miami Hurricanes -34.5.",
         "Blowout risk: starters may sit, which hurts the Over.",
         "Pinnacle's game total is 151.5 (49% Over after removing the vig).",
-        "Props lean adds +0.00 to the total, so we expect 151.1.",
+        "Props lean adds +0.00 to the total, so we expect 151.2.",
         "Over/Under: Under 151.5 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 3,
+    "n_updates": 4,
     "history": [
       {
         "t": "2026-11-13T01:00:19.314791-05:00",
@@ -5527,6 +6027,17 @@
         "pred_away": 58.0,
         "pred_home": 93.1,
         "pred_total": 151.1,
+        "ou_pick": "Under",
+        "ou_ref": 151.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-13T04:00:20.878081-05:00",
+        "winner": "Miami Hurricanes",
+        "win_prob": 0.999,
+        "pred_away": 58.0,
+        "pred_home": 93.1,
+        "pred_total": 151.2,
         "ou_pick": "Under",
         "ou_ref": 151.5,
         "ou_conf": "Low"
