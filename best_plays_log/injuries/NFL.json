@@ -1185,13 +1185,6 @@
     ],
     "New England Patriots": [
       {
-        "name": "Drake Maye",
-        "status": "Out",
-        "pos": "QB",
-        "note": "Maye (ankle) has been ruled out for the remainder of Sunday's game against the Lions, Doug Kyed of the Boston Herald reports.",
-        "return": "2026-11-29"
-      },
-      {
         "name": "Brenden Schooler",
         "status": "Out",
         "pos": "S",
@@ -1241,10 +1234,17 @@
         "return": "2026-12-21"
       },
       {
+        "name": "Drake Maye",
+        "status": "Questionable",
+        "pos": "QB",
+        "note": "Following Sunday's 35-10 loss to the Lions, coach Mike Vrabel said that Maye will need additional testing to determine the severity of the ankle injury he suffered during the contest, Doug Kyed of the Boston Herald.",
+        "return": "2026-11-29"
+      },
+      {
         "name": "Dre'Mont Jones",
         "status": "Questionable",
         "pos": "DE",
-        "note": "questionable",
+        "note": "Jones (cramps) is questionable to return to Sunday's game against the Lions in Munich.",
         "return": "2026-11-15"
       },
       {
@@ -1491,6 +1491,13 @@
     ],
     "San Francisco 49ers": [
       {
+        "name": "Mike Evans",
+        "status": "Out",
+        "pos": "WR",
+        "note": "Evans (Achilles) has a chance to return to action next Sunday against the Vikings, Mike Garafolo of NFL Network reports.",
+        "return": "2026-11-22"
+      },
+      {
         "name": "C.J. West",
         "status": "Injured Reserve",
         "pos": "DT",
@@ -1510,13 +1517,6 @@
         "pos": "DT",
         "note": "Halton recently underwent surgery to repair a broken leg and dislocated ankle that he suffered during the 49ers' Week 9 win over the Raiders, Adam Schefter of ESPN reports.",
         "return": "2027-02-15"
-      },
-      {
-        "name": "Mike Evans",
-        "status": "Out",
-        "pos": "WR",
-        "note": "Evans (Achilles) has been ruled out for Sunday's game at Dallas, Nick Wagoner of ESPN reports.",
-        "return": "2026-11-22"
       },
       {
         "name": "Brandon Aiyuk",
@@ -1747,18 +1747,9 @@
   },
   "lineups": [
     {
-      "id": "401873053",
-      "start": "2026-11-15T14:30Z",
-      "status": "Final",
-      "starters": {},
-      "probables": {},
-      "home": "Detroit Lions",
-      "away": "New England Patriots"
-    },
-    {
       "id": "401873058",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Atlanta Falcons",
@@ -1767,7 +1758,7 @@
     {
       "id": "401873056",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Cleveland Browns",
@@ -1776,7 +1767,7 @@
     {
       "id": "401873060",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Green Bay Packers",
@@ -1785,7 +1776,7 @@
     {
       "id": "401873057",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Tennessee Titans",
@@ -1794,7 +1785,7 @@
     {
       "id": "401873059",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Indianapolis Colts",
@@ -1803,7 +1794,7 @@
     {
       "id": "401873055",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "New Orleans Saints",
@@ -1812,11 +1803,20 @@
     {
       "id": "401873054",
       "start": "2026-11-15T18:00Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "New York Jets",
       "away": "Buffalo Bills"
+    },
+    {
+      "id": "401873053",
+      "start": "2026-11-15T14:30Z",
+      "status": "Final",
+      "starters": {},
+      "probables": {},
+      "home": "Detroit Lions",
+      "away": "New England Patriots"
     },
     {
       "id": "401873062",
@@ -1856,5 +1856,5 @@
     }
   ],
   "date": "2026-11-15",
-  "fetched": "2026-11-15T12:45:35.355538-05:00"
+  "fetched": "2026-11-15T13:15:38.147771-05:00"
 }
