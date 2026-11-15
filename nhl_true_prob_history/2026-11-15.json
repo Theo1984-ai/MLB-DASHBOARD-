@@ -1,7 +1,7 @@
 {
   "date": "2026-11-15",
-  "snapshot_at": "2026-11-15T16:23:22.815884-05:00",
-  "n_picks": 5,
+  "snapshot_at": "2026-11-15T18:42:24.583934-05:00",
+  "n_picks": 10,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 5,
+    "n_total": 10,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -81,38 +81,44 @@
       "player": "Philadelphia Flyers",
       "side": "Home",
       "point": 2.5,
-      "best_book": "fanduel",
-      "best_price": -380,
-      "true_prob_pct": 79.81,
-      "ev_per_100": 3.1,
+      "best_book": "pinnacle",
+      "best_price": -377,
+      "true_prob_pct": 79.86,
+      "ev_per_100": 3.92,
       "n_books": 4,
       "all_prices": [
         [
-          "fanduel",
-          -380
-        ],
-        [
           "pinnacle",
-          -383
+          -377
         ],
         [
           "draftkings",
-          -410
+          -400
         ],
         [
           "bovada",
+          -400
+        ],
+        [
+          "fanduel",
           -410
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-15T15:39:54.304451-05:00",
-      "last_seen_at": "2026-11-15T15:39:54.304451-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
       "scan_history": [
         {
           "t": "2026-11-15T15:39:54.304451-05:00",
           "tp": 79.81,
           "ev": 3.1,
           "price": -380
+        },
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 79.86,
+          "ev": 3.92,
+          "price": -377
         }
       ]
     },
@@ -132,8 +138,8 @@
       "point": 1.5,
       "best_book": "draftkings",
       "best_price": -375,
-      "true_prob_pct": 79.77,
-      "ev_per_100": 3.91,
+      "true_prob_pct": 79.81,
+      "ev_per_100": 4.1,
       "n_books": 4,
       "all_prices": [
         [
@@ -146,16 +152,16 @@
         ],
         [
           "pinnacle",
-          -396
+          -400
         ],
         [
           "bovada",
           -430
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-15T15:39:54.304451-05:00",
-      "last_seen_at": "2026-11-15T16:23:22.815839-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
       "scan_history": [
         {
           "t": "2026-11-15T15:39:54.304451-05:00",
@@ -167,6 +173,12 @@
           "t": "2026-11-15T16:23:22.815839-05:00",
           "tp": 79.77,
           "ev": 3.91,
+          "price": -375
+        },
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 79.81,
+          "ev": 4.1,
           "price": -375
         }
       ]
@@ -272,6 +284,235 @@
           "tp": 76.31,
           "ev": 3.1,
           "price": -309
+        }
+      ]
+    },
+    {
+      "event_id": "edbb603c4a7ed77b892f7bba6dcef824",
+      "game": "Panthers @ Stars",
+      "away_team": "Florida Panthers",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-16T01:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Florida Panthers +2.5",
+      "player": "Florida Panthers",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -399,
+      "true_prob_pct": 81.18,
+      "ev_per_100": 6.1,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -399
+        ],
+        [
+          "bovada",
+          -430
+        ],
+        [
+          "draftkings",
+          -450
+        ],
+        [
+          "fanduel",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 81.18,
+          "ev": 6.1,
+          "price": -399
+        }
+      ]
+    },
+    {
+      "event_id": "539a387d9fd0da9af213bf8002fdb0d4",
+      "game": "Flames @ Ducks",
+      "away_team": "Calgary Flames",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-11-16T01:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 8.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 8.5,
+      "best_book": "draftkings",
+      "best_price": -400,
+      "true_prob_pct": 80.92,
+      "ev_per_100": 4.62,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -400
+        ],
+        [
+          "bovada",
+          -425
+        ],
+        [
+          "fanduel",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 80.92,
+          "ev": 4.62,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "d2834086e817eeb75c1ea2cd312f62c5",
+      "game": "Oilers @ Flyers",
+      "away_team": "Edmonton Oilers",
+      "home_team": "Philadelphia Flyers",
+      "first_pitch": "2026-11-16T00:40:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "draftkings",
+      "best_price": -400,
+      "true_prob_pct": 80.61,
+      "ev_per_100": 3.03,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -400
+        ],
+        [
+          "bovada",
+          -400
+        ],
+        [
+          "fanduel",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 80.61,
+          "ev": 3.03,
+          "price": -400
+        }
+      ]
+    },
+    {
+      "event_id": "edbb603c4a7ed77b892f7bba6dcef824",
+      "game": "Panthers @ Stars",
+      "away_team": "Florida Panthers",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-16T01:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "draftkings",
+      "best_price": -385,
+      "true_prob_pct": 80.11,
+      "ev_per_100": 3.54,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "fanduel",
+          -400
+        ],
+        [
+          "bovada",
+          -425
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 80.11,
+          "ev": 3.54,
+          "price": -385
+        }
+      ]
+    },
+    {
+      "event_id": "d2834086e817eeb75c1ea2cd312f62c5",
+      "game": "Oilers @ Flyers",
+      "away_team": "Edmonton Oilers",
+      "home_team": "Philadelphia Flyers",
+      "first_pitch": "2026-11-16T00:40:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "bovada",
+      "best_price": -350,
+      "true_prob_pct": 78.63,
+      "ev_per_100": 3.84,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -350
+        ],
+        [
+          "draftkings",
+          -375
+        ],
+        [
+          "fanduel",
+          -380
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "last_seen_at": "2026-11-15T18:42:24.583837-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T18:42:24.583837-05:00",
+          "tp": 78.63,
+          "ev": 3.84,
+          "price": -350
         }
       ]
     }
