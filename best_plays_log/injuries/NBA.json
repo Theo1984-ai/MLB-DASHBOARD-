@@ -302,13 +302,6 @@
     ],
     "Indiana Pacers": [
       {
-        "name": "Andrew Nembhard",
-        "status": "Out",
-        "pos": "G",
-        "note": "Nembhard (hip) has been ruled out for Sunday's game against the 76ers, Tony East of Forbes.com reports.",
-        "return": "2026-11-18"
-      },
-      {
         "name": "Tyrese Haliburton",
         "status": "Out",
         "pos": "G",
@@ -328,6 +321,13 @@
         "pos": "G",
         "note": "Head coach Rick Carlise confirmed Sheppard will miss \"months\" after undergoing surgery to repair a torn meniscus in his left knee, Tony East of Forbes.com reports.",
         "return": "2027-01-02"
+      },
+      {
+        "name": "Andrew Nembhard",
+        "status": "Day-To-Day",
+        "pos": "G",
+        "note": "Nembhard (hip) has been ruled out for Sunday's game against the 76ers, Tony East of Forbes.com reports.",
+        "return": "2026-11-18"
       }
     ],
     "LA Clippers": [
@@ -581,13 +581,6 @@
     ],
     "Philadelphia 76ers": [
       {
-        "name": "Joel Embiid",
-        "status": "Out",
-        "pos": "C",
-        "note": "Embiid (right foot injury management) has been ruled out for Sunday's game against the Pacers.",
-        "return": "2026-11-16"
-      },
-      {
         "name": "Dominick Barlow",
         "status": "Out",
         "pos": "F",
@@ -607,6 +600,13 @@
         "pos": "C",
         "note": "Hukporti has sustained a season-ending ruptured right Achilles tendon, per Shams Charania of ESPN.",
         "return": "2027-10-01"
+      },
+      {
+        "name": "Joel Embiid",
+        "status": "Day-To-Day",
+        "pos": "C",
+        "note": "Embiid (right foot injury management) has been ruled out for Sunday's game against the Pacers.",
+        "return": "2026-11-16"
       }
     ],
     "Phoenix Suns": [
@@ -683,7 +683,7 @@
         "name": "De'Aaron Fox",
         "status": "Out",
         "pos": "G",
-        "note": "Fox (hip) is listed as questionable for Sunday's game against Utah.",
+        "note": "Fox (hip) has been ruled out for Sunday's game against the Jazz.",
         "return": "2026-11-17"
       },
       {
@@ -834,8 +834,23 @@
     {
       "id": "401909986",
       "start": "2026-11-15T21:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Los Angeles Lakers": [
+          "Jake LaRavia",
+          "Walker Kessler",
+          "Matisse Thybulle",
+          "Luka Doncic",
+          "Quentin Grimes"
+        ],
+        "Phoenix Suns": [
+          "Dillon Brooks",
+          "Miles Bridges",
+          "Oso Ighodaro",
+          "Devin Booker",
+          "Jalen Green"
+        ]
+      },
       "probables": {},
       "home": "Phoenix Suns",
       "away": "Los Angeles Lakers"
@@ -905,5 +920,5 @@
     }
   ],
   "date": "2026-11-15",
-  "fetched": "2026-11-15T15:45:24.892279-05:00"
+  "fetched": "2026-11-15T16:12:06.584037-05:00"
 }
