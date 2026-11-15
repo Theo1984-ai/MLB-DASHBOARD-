@@ -1,7 +1,7 @@
 {
   "date": "2026-11-14",
-  "snapshot_at": "2026-11-14T20:27:51.422781-05:00",
-  "n_picks": 23,
+  "snapshot_at": "2026-11-14T21:18:18.143639-05:00",
+  "n_picks": 24,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 23,
+    "n_total": 24,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -529,14 +529,14 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "pinnacle",
-      "best_price": -317,
-      "true_prob_pct": 77.21,
-      "ev_per_100": 4.95,
+      "best_price": -319,
+      "true_prob_pct": 77.11,
+      "ev_per_100": 4.11,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -317
+          -319
         ],
         [
           "fanduel",
@@ -548,12 +548,12 @@
         ],
         [
           "draftkings",
-          -360
+          -350
         ]
       ],
-      "n_appearances": 5,
+      "n_appearances": 6,
       "first_seen_at": "2026-11-14T15:14:57.748814-05:00",
-      "last_seen_at": "2026-11-14T20:27:51.422717-05:00",
+      "last_seen_at": "2026-11-14T21:18:18.143582-05:00",
       "scan_history": [
         {
           "t": "2026-11-14T15:14:57.748814-05:00",
@@ -584,6 +584,12 @@
           "tp": 77.21,
           "ev": 4.95,
           "price": -317
+        },
+        {
+          "t": "2026-11-14T21:18:18.143582-05:00",
+          "tp": 77.11,
+          "ev": 4.11,
+          "price": -319
         }
       ]
     },
@@ -664,8 +670,8 @@
       "point": 4.5,
       "best_book": "bovada",
       "best_price": -325,
-      "true_prob_pct": 77.32,
-      "ev_per_100": 3.61,
+      "true_prob_pct": 77.27,
+      "ev_per_100": 3.39,
       "n_books": 4,
       "all_prices": [
         [
@@ -673,11 +679,11 @@
           -325
         ],
         [
-          "draftkings",
-          -340
+          "pinnacle",
+          -336
         ],
         [
-          "pinnacle",
+          "draftkings",
           -340
         ],
         [
@@ -685,9 +691,9 @@
           -360
         ]
       ],
-      "n_appearances": 5,
+      "n_appearances": 6,
       "first_seen_at": "2026-11-14T15:14:57.748814-05:00",
-      "last_seen_at": "2026-11-14T20:27:51.422717-05:00",
+      "last_seen_at": "2026-11-14T21:18:18.143582-05:00",
       "scan_history": [
         {
           "t": "2026-11-14T15:14:57.748814-05:00",
@@ -717,6 +723,12 @@
           "t": "2026-11-14T20:27:51.422717-05:00",
           "tp": 77.32,
           "ev": 3.61,
+          "price": -325
+        },
+        {
+          "t": "2026-11-14T21:18:18.143582-05:00",
+          "tp": 77.27,
+          "ev": 3.39,
           "price": -325
         }
       ]
@@ -1368,6 +1380,51 @@
           "tp": 76.63,
           "ev": 5.57,
           "price": -304
+        }
+      ]
+    },
+    {
+      "event_id": "e7f30a1c549ae1d91aac850b81bad637",
+      "game": "Sharks @ Mammoth",
+      "away_team": "San Jose Sharks",
+      "home_team": "Utah Mammoth",
+      "first_pitch": "2026-11-15T02:08:23Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 8.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 8.5,
+      "best_book": "draftkings",
+      "best_price": -325,
+      "true_prob_pct": 79.28,
+      "ev_per_100": 11.93,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -325
+        ],
+        [
+          "fanduel",
+          -370
+        ],
+        [
+          "pinnacle",
+          -476
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-14T21:18:18.143582-05:00",
+      "last_seen_at": "2026-11-14T21:18:18.143582-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-14T21:18:18.143582-05:00",
+          "tp": 79.28,
+          "ev": 11.93,
+          "price": -325
         }
       ]
     }
