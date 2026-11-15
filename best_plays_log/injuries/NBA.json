@@ -40,10 +40,10 @@
     "Brooklyn Nets": [
       {
         "name": "Michael Porter Jr.",
-        "status": "Day-To-Day",
+        "status": "Out",
         "pos": "F",
-        "note": "Porter (personal) is listed as questionable for Saturday's game against Memphis, Erik Slater of ClutchPoints.com reports.",
-        "return": "2026-11-14"
+        "note": "Porter (personal) is out for Saturday's game against the Grizzlies, Brian Lewis of the New York Post reports.",
+        "return": "2026-11-16"
       }
     ],
     "Charlotte Hornets": [
@@ -348,28 +348,42 @@
     ],
     "Los Angeles Lakers": [
       {
+        "name": "Austin Reaves",
+        "status": "Out",
+        "pos": "G",
+        "note": "Reaves (heel) has been ruled out for Sunday's game against the Suns, Daniel Starkand of LakersNation.com reports.",
+        "return": "2026-11-17"
+      },
+      {
+        "name": "Adou Thiero",
+        "status": "Day-To-Day",
+        "pos": "F",
+        "note": "Thiero (ankle) is questionable for Sunday's game against the Suns.",
+        "return": "2026-11-15"
+      },
+      {
         "name": "Collin Sexton",
         "status": "Day-To-Day",
         "pos": "G",
-        "note": "Sexton (head) was a full participant in Saturday's practice, Dave McMenamin of ESPN.com reports.",
-        "return": "2026-11-15"
-      },
-      {
-        "name": "Austin Reaves",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Reaves (heel) didn't participate in Saturday's practice, Dave McMenamin of ESPN.com reports.",
-        "return": "2026-11-15"
-      },
-      {
-        "name": "Quentin Grimes",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Grimes (finger) said he expects to return to action Sunday against the Suns, according to Ricardo Sandoval of Lakers on SI.",
+        "note": "Sexton (head) is questionable for Sunday's game against the Suns, Daniel Starkand of LakersNation.com reports.",
         "return": "2026-11-15"
       }
     ],
     "Memphis Grizzlies": [
+      {
+        "name": "Zach Edey",
+        "status": "Out",
+        "pos": "C",
+        "note": "Edey (ankle) is listed as questionable for Saturday's game against Brooklyn.",
+        "return": "2026-11-16"
+      },
+      {
+        "name": "Jerami Grant",
+        "status": "Out",
+        "pos": "F",
+        "note": "Grant (head) is out for Saturday's game against the Nets.",
+        "return": "2026-11-16"
+      },
       {
         "name": "Quinten Post",
         "status": "Out",
@@ -397,20 +411,6 @@
         "pos": "G",
         "note": "Saunders signed a two-way contract with the Grizzlies on Saturday, Shams Charania of ESPN reports.",
         "return": "2026-12-01"
-      },
-      {
-        "name": "Jerami Grant",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Grant (head) is questionable for Saturday's game against the Nets.",
-        "return": "2026-11-14"
-      },
-      {
-        "name": "Zach Edey",
-        "status": "Day-To-Day",
-        "pos": "C",
-        "note": "Edey (ankle) is listed as questionable for Saturday's game against Brooklyn.",
-        "return": "2026-11-14"
       }
     ],
     "Miami Heat": [
@@ -712,6 +712,13 @@
     ],
     "Utah Jazz": [
       {
+        "name": "Jaxson Hayes",
+        "status": "Out",
+        "pos": "C",
+        "note": "Hayes (knee) has been ruled out for Sunday's game against the Spurs.",
+        "return": "2026-11-17"
+      },
+      {
         "name": "Trey Alexander",
         "status": "Out",
         "pos": "G",
@@ -738,13 +745,6 @@
         "pos": "F",
         "note": "Jackson has been diagnosed with a torn MCL in his right knee and will be sidelined for 6-to-8 weeks, per Shams Charania of ESPN.",
         "return": "2026-12-14"
-      },
-      {
-        "name": "Jaxson Hayes",
-        "status": "Day-To-Day",
-        "pos": "C",
-        "note": "Hayes won't return to Friday's game against the Rockets due to a left knee issue.",
-        "return": "2026-11-15"
       }
     ],
     "Washington Wizards": [
@@ -827,8 +827,23 @@
     {
       "id": "401909981",
       "start": "2026-11-15T00:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Dallas Mavericks": [
+          "Caleb Martin",
+          "Daniel Gafford",
+          "P.J. Washington",
+          "Cooper Flagg",
+          "Kyrie Irving"
+        ],
+        "Cleveland Cavaliers": [
+          "Evan Mobley",
+          "Donovan Mitchell",
+          "Jaylon Tyson",
+          "Tyrese Proctor",
+          "Meleek Thomas"
+        ]
+      },
       "probables": {},
       "home": "Cleveland Cavaliers",
       "away": "Dallas Mavericks"
@@ -862,5 +877,5 @@
     }
   ],
   "date": "2026-11-14",
-  "fetched": "2026-11-14T19:15:33.765506-05:00"
+  "fetched": "2026-11-14T19:45:32.639701-05:00"
 }
