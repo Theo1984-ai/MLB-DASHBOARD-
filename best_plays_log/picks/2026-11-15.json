@@ -11862,6 +11862,15 @@
         "book_line": 17.5,
         "book_over": -114,
         "book_under": -114
+      },
+      {
+        "t": "2026-11-15T20:45:14.193995-05:00",
+        "pin_line": 17.5,
+        "pin_over": -122,
+        "pin_under": -108,
+        "book_line": 17.5,
+        "book_over": -114,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -15374,6 +15383,15 @@
         "book_line": 26.5,
         "book_over": -106,
         "book_under": -120
+      },
+      {
+        "t": "2026-11-15T20:45:14.193995-05:00",
+        "pin_line": 25.5,
+        "pin_over": -115,
+        "pin_under": -115,
+        "book_line": 26.5,
+        "book_over": -104,
+        "book_under": -122
       }
     ],
     "result": null,
@@ -15396,6 +15414,72 @@
     "tier_why": [
       "big gap to Pinnacle (often news)",
       "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-15|NBA|prop|Oklahoma City Thunder @ Sacramento Kings|Jared McCain|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Oklahoma City Thunder @ Sacramento Kings",
+    "who": "Jared McCain",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-11-16T02:10:00Z",
+    "first_seen": {
+      "t": "2026-11-15T20:45:14.193995-05:00",
+      "line": 13.5,
+      "price": -114,
+      "book": "betonlineag",
+      "pin_line": 15.5,
+      "pin_over": 116,
+      "pin_under": -154,
+      "edge": 0.0247,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-15T20:45:14.193995-05:00",
+      "line": 13.5,
+      "price": -114,
+      "book": "betonlineag",
+      "pin_line": 15.5,
+      "pin_over": 116,
+      "pin_under": -154,
+      "edge": 0.0247,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-15T20:45:14.193995-05:00",
+        "pin_line": 15.5,
+        "pin_over": 116,
+        "pin_under": -154,
+        "book_line": 13.5,
+        "book_over": -114,
+        "book_under": -114
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Oklahoma City Thunder",
+      "opp": "Sacramento Kings",
+      "scope": "team",
+      "shift": 0.81,
+      "tag": "backed",
+      "win_prob": 0.83,
+      "fav": "Oklahoma City Thunder",
+      "fav_win_prob": 0.83,
+      "fav_spread": -12.5,
+      "blowout": true,
+      "total": 221.5,
+      "total_over": -103,
+      "total_under": -109
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
     ]
   }
 }
