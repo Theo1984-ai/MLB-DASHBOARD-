@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-16",
+  "sport": "icehockey_nhl",
+  "book": "fanduel",
+  "market": "team_totals",
+  "n_snapshots": 1,
+  "snapshots": [
+    {
+      "captured_at": "2026-11-16T15:46:38.947606-05:00",
+      "n_games": 2,
+      "games": [
+        {
+          "game": "Montr\u00e9al Canadiens @ New York Rangers",
+          "away_team": "Montr\u00e9al Canadiens",
+          "home_team": "New York Rangers",
+          "first_pitch": "2026-11-17T00:30:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -182,
+            "under_price": -176
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -174,
+            "under_price": -182
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -182,
+                "under_price": -176
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -174,
+                "under_price": -182
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Vancouver Canucks @ Utah Mammoth",
+          "away_team": "Vancouver Canucks",
+          "home_team": "Utah Mammoth",
+          "first_pitch": "2026-11-17T02:30:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": 110,
+            "under_price": null
+          },
+          "home": {
+            "line": 4.5,
+            "over_price": 128,
+            "under_price": -164
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": 110,
+                "under_price": null
+              },
+              "home": {
+                "line": 4.5,
+                "over_price": 128,
+                "under_price": -164
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    }
+  ]
+}
