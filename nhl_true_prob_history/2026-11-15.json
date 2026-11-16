@@ -1,7 +1,7 @@
 {
   "date": "2026-11-15",
-  "snapshot_at": "2026-11-15T19:51:56.281686-05:00",
-  "n_picks": 12,
+  "snapshot_at": "2026-11-15T20:30:10.764848-05:00",
+  "n_picks": 14,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 12,
+    "n_total": 14,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -604,14 +604,14 @@
       "side": "Under",
       "point": 7.5,
       "best_book": "pinnacle",
-      "best_price": -280,
-      "true_prob_pct": 75.26,
-      "ev_per_100": 5.99,
+      "best_price": -287,
+      "true_prob_pct": 75.23,
+      "ev_per_100": 4.13,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -280
+          -287
         ],
         [
           "draftkings",
@@ -619,22 +619,126 @@
         ],
         [
           "bovada",
-          -310
+          -300
         ],
         [
           "fanduel",
           -330
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-15T19:51:56.281634-05:00",
-      "last_seen_at": "2026-11-15T19:51:56.281634-05:00",
+      "last_seen_at": "2026-11-15T20:30:10.764800-05:00",
       "scan_history": [
         {
           "t": "2026-11-15T19:51:56.281634-05:00",
           "tp": 75.26,
           "ev": 5.99,
           "price": -280
+        },
+        {
+          "t": "2026-11-15T20:30:10.764800-05:00",
+          "tp": 75.23,
+          "ev": 4.13,
+          "price": -287
+        }
+      ]
+    },
+    {
+      "event_id": "edbb603c4a7ed77b892f7bba6dcef824",
+      "game": "Panthers @ Stars",
+      "away_team": "Florida Panthers",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-16T01:08:48Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Dallas Stars +1.5",
+      "player": "Dallas Stars",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -358,
+      "true_prob_pct": 79.28,
+      "ev_per_100": 5.09,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -358
+        ],
+        [
+          "fanduel",
+          -380
+        ],
+        [
+          "bovada",
+          -385
+        ],
+        [
+          "draftkings",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T20:30:10.764800-05:00",
+      "last_seen_at": "2026-11-15T20:30:10.764800-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T20:30:10.764800-05:00",
+          "tp": 79.28,
+          "ev": 5.09,
+          "price": -358
+        }
+      ]
+    },
+    {
+      "event_id": "edbb603c4a7ed77b892f7bba6dcef824",
+      "game": "Panthers @ Stars",
+      "away_team": "Florida Panthers",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-16T01:08:48Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 6.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 6.5,
+      "best_book": "pinnacle",
+      "best_price": -223,
+      "true_prob_pct": 78.06,
+      "ev_per_100": 29.15,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -223
+        ],
+        [
+          "bovada",
+          -425
+        ],
+        [
+          "draftkings",
+          -430
+        ],
+        [
+          "fanduel",
+          -430
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T20:30:10.764800-05:00",
+      "last_seen_at": "2026-11-15T20:30:10.764800-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T20:30:10.764800-05:00",
+          "tp": 78.06,
+          "ev": 29.15,
+          "price": -223
         }
       ]
     }
