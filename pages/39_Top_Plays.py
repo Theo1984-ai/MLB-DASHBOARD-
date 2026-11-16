@@ -96,6 +96,12 @@ def load_injuries(_token_present):
     return out
 
 
+if st.button("🔄 Refresh", key="tp_refresh",
+             help="Reload the latest saved plays and injuries now. New snapshots are saved about every 30 minutes; "
+                  "this doesn't use any odds credits."):
+    load_all.clear()
+    load_injuries.clear()
+
 try:
     logs, failed_days = load_all(True)
 except Exception as e:  # noqa: BLE001
@@ -116,6 +122,12 @@ now = datetime.now(tz=EASTERN)
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
 graded = [r for r in all_recs if (r.get("result") or {}).get("outcome") in ("win", "loss")]
 pct = lambda a, b: f"{100 * a / (a + b):.0f}%" if a + b else "-"
+try:
+    _latest = max(fs._parse((r.get("last_seen") or r["first_seen"])["t"]) for r in all_recs).astimezone(EASTERN)
+    st.caption(f"Newest snapshot in the log: {_latest.strftime('%a %I:%M %p').replace(' 0', ' ')} ET "
+               f"({int((now - _latest).total_seconds() // 60)} min ago). Page loaded {now.strftime('%I:%M %p').lstrip('0')} ET.")
+except Exception:  # noqa: BLE001
+    pass
 
 
 def _stale_txt(n):
