@@ -1,7 +1,7 @@
 {
   "date": "2026-11-15",
-  "snapshot_at": "2026-11-15T20:30:10.764848-05:00",
-  "n_picks": 14,
+  "snapshot_at": "2026-11-15T21:29:50.153361-05:00",
+  "n_picks": 16,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 14,
+    "n_total": 16,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -739,6 +739,96 @@
           "tp": 78.06,
           "ev": 29.15,
           "price": -223
+        }
+      ]
+    },
+    {
+      "event_id": "c4ac537963707b247ad9e4eab06c15de",
+      "game": "Canucks @ Knights",
+      "away_team": "Vancouver Canucks",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-11-16T02:09:01Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 5.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 5.5,
+      "best_book": "bovada",
+      "best_price": -240,
+      "true_prob_pct": 79.74,
+      "ev_per_100": 31.1,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -240
+        ],
+        [
+          "draftkings",
+          -485
+        ],
+        [
+          "fanduel",
+          -600
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T21:29:50.153319-05:00",
+      "last_seen_at": "2026-11-15T21:29:50.153319-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T21:29:50.153319-05:00",
+          "tp": 79.74,
+          "ev": 31.1,
+          "price": -240
+        }
+      ]
+    },
+    {
+      "event_id": "c4ac537963707b247ad9e4eab06c15de",
+      "game": "Canucks @ Knights",
+      "away_team": "Vancouver Canucks",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-11-16T02:09:01Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Vancouver Canucks +1.5",
+      "player": "Vancouver Canucks",
+      "side": "Away",
+      "point": 1.5,
+      "best_book": "bovada",
+      "best_price": -300,
+      "true_prob_pct": 76.32,
+      "ev_per_100": 5.29,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -300
+        ],
+        [
+          "draftkings",
+          -320
+        ],
+        [
+          "fanduel",
+          -350
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-15T21:29:50.153319-05:00",
+      "last_seen_at": "2026-11-15T21:29:50.153319-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-15T21:29:50.153319-05:00",
+          "tp": 76.32,
+          "ev": 5.29,
+          "price": -300
         }
       ]
     }
