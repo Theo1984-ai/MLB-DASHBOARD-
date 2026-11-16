@@ -1,17 +1,19 @@
 """
 ⭐ Top Plays — the First Seen plays whose record has been best, in one list.
 
-  1. Any play with 3+ books stale (pick the sports, markets and side; default NFL receiving yards Over)
+  1. Any play with 3+ books stale (pick the markets for each sport and the side; default NFL receiving yards Over)
   2. NHL shots on goal Over with 2+ books stale
   3. NBA threes Over
 
 Plays come from the First Seen log (best_plays_log/first_seen/<date>.json): the current line, price and book, Pinnacle's
-line, and how many soft books are stale. The Record tab shows how each rule has done on graded plays.
+line, and how many soft books are stale. There is a tab for All sports and one for each sport; each has a Record
+section showing how the rules have done on graded plays.
 """
 import html
 import os
 import sys
 import time
+from collections import defaultdict
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -45,8 +47,8 @@ GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
 
 st.set_page_config(page_title="Top Plays", page_icon="⭐", layout="wide")
 st.title("⭐ Top Plays")
-st.caption("The plays with the best record so far, in one list: 3+ books stale (you choose the sports, markets and "
-           "side), NHL shots on goal Over with 2+ books stale, and NBA threes Over. \"Books stale\" = soft books whose "
+st.caption("The plays with the best record so far, with a tab for each sport: 3+ books stale (you choose the markets "
+           "for each sport and the side), NHL shots on goal Over with 2+ books stale, and NBA threes Over. \"Books stale\" = soft books whose "
            "line is off Pinnacle's. These rules were picked after seeing the results, so keep stakes small. "
            "Times are Eastern.")
 
@@ -120,52 +122,63 @@ def _stale_txt(n):
     return f"{n} book{'s' if n != 1 else ''} stale"
 
 
-# ── Rule 1 controls ──────────────────────────────────────────────────────────
-sports_seen = sorted({r["sport"] for r in all_recs})
-with st.expander("⚙️ Rule 1: 3+ books stale — choose sports, markets and side", expanded=False):
-    c1, c2, c3 = st.columns(3)
-    sports = c1.multiselect("Sports", sports_seen, default=[s for s in tp.DEFAULT_SPORTS if s in sports_seen],
-                            key="tp_sports")
-    pool = sorted({r["market"] for r in all_recs if r["sport"] in sports and tp.peak(r) >= tp.STALE_MIN})
-    markets = c2.multiselect("Markets", pool, default=[m for m in tp.DEFAULT_MARKETS if m in pool], key="tp_markets")
-    side = c3.radio("Side", ["Over", "Under", "Both"], index=0, horizontal=True, key="tp_side")
-    st.caption("Default = NFL receiving yards Over, the only 3+ stale group that has been clearly positive. The Record "
-               "tab shows every sport and market so you can see where it has and hasn't worked.")
-OPTS = {"sports": tuple(sports), "markets": tuple(markets), "side": side}
+# ── Rule 1 controls (markets per sport, one side for all) ───────────────────
+SPORT_TABS = [("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("NBA", "NBA 🏀"), ("NCAAB", "NCAAB 🏀"), ("CFB", "CFB 🎓")]
+DEFAULT_MARKETS = {"NFL": ["reception_yds"]}          # the one 3+ stale group that has been clearly positive
+sports_seen = {r["sport"] for r in all_recs}
+markets_by_sport = {}
+with st.expander("⚙️ Rule 1: 3+ books stale — choose the markets for each sport and the side", expanded=False):
+    side = st.radio("Side", ["Over", "Under", "Both"], index=0, horizontal=True, key="tp_side")
+    for sp, label in SPORT_TABS:
+        pool = sorted({r["market"] for r in all_recs if r["sport"] == sp and tp.peak(r) >= tp.STALE_MIN})
+        markets_by_sport[sp] = st.multiselect(label, pool, default=[m for m in DEFAULT_MARKETS.get(sp, []) if m in pool],
+                                              key=f"tp_markets_{sp}")
+    st.caption("Default = NFL receiving yards Over, the only 3+ stale group that has been clearly positive. Other "
+               "sports start empty (NHL shots and NBA threes have their own rules). Each tab's Record section shows "
+               "every market with 3+ books stale so you can see where the rule has and hasn't worked.")
+
+
+def passes(r):
+    """Rules this record passes, using each sport's chosen markets."""
+    return tp.matches(r, sports=(r["sport"],), markets=tuple(markets_by_sport.get(r["sport"], [])), side=side)
+
 
 c1, c2 = st.columns(2)
 show_started = c1.checkbox("Include games already started", value=False, key="tp_started")
 sort_by = c2.radio("Sort", ["Tip-off time", "Biggest gap"], horizontal=True, key="tp_sort")
 
-tab_plays, tab_rec = st.tabs(["Plays", "Record"])
-
-with tab_plays:
-    horizon = (now - timedelta(days=1)).strftime("%Y-%m-%d")
-    items = []
-    for d in sorted(logs):
-        if d < horizon:
+# Open plays (and, if asked, started ones) from yesterday's and later logs.
+horizon = (now - timedelta(days=1)).strftime("%Y-%m-%d")
+items = []
+for d in sorted(logs):
+    if d < horizon:
+        continue
+    for r in logs[d].values():
+        rules = passes(r)
+        if not rules:
             continue
-        for r in logs[d].values():
-            rules = tp.matches(r, **OPTS)
-            if not rules:
-                continue
-            tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
-            if tip <= now and not show_started:
-                continue
-            items.append({"r": r, "rules": rules, "tip": tip, "l": r.get("last_seen") or r["first_seen"]})
-    if sort_by == "Biggest gap":
-        items.sort(key=lambda x: (-x["l"]["gap"], x["tip"]))
-    else:
-        items.sort(key=lambda x: (x["tip"], -x["l"]["gap"]))
-    counts = {name: sum(name in x["rules"] for x in items) for name in tp.RULES}
+        tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
+        if tip <= now and not show_started:
+            continue
+        items.append({"r": r, "rules": rules, "tip": tip, "l": r.get("last_seen") or r["first_seen"]})
+if sort_by == "Biggest gap":
+    items.sort(key=lambda x: (-x["l"]["gap"], x["tip"]))
+else:
+    items.sort(key=lambda x: (x["tip"], -x["l"]["gap"]))
+
+
+def render_cards(sport):
+    """Cards for `sport` (None = every sport)."""
+    mine = [x for x in items if sport is None or x["r"]["sport"] == sport]
+    counts = {name: sum(name in x["rules"] for x in mine) for name in tp.RULES}
     m1, m2, m3 = st.columns(3)
     m1.metric(tp.RULE_STALE, counts[tp.RULE_STALE])
     m2.metric(tp.RULE_NHL, counts[tp.RULE_NHL])
     m3.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
-    if not items:
+    if not mine:
         st.info("No open plays match right now. The line splits close as game time gets near, and new ones show up "
                 "after each snapshot (about every 30 minutes).")
-    for x in items:
+    for x in mine:
         r, l, tip = x["r"], x["l"], x["tip"]
         res = r.get("result") or {}
         out = res.get("outcome")
@@ -203,24 +216,47 @@ with tab_plays:
             f'{_stale_txt(tp.peak(r))} of {l["n_books"]} · check the price and lineups first</div></div>',
             unsafe_allow_html=True)
 
-with tab_rec:
-    st.markdown(f"**{len(graded)} graded plays** across {len(logs)} days. Groups under 30 plays are too small to trust.")
-    groups = tp.by_rule(graded, **OPTS)
+
+def render_record(sport):
+    """Each rule's record on graded plays of `sport` (None = every sport), then the 3+ stale breakdown by market."""
+    mine = [r for r in graded if sport is None or r["sport"] == sport]
+    st.markdown(f"**{len(mine)} graded plays** across {len(logs)} days. Groups under 30 plays are too small to trust.")
+    groups = defaultdict(list)
+    for r in mine:
+        for name in passes(r):
+            groups[name].append(r)
     rows = []
     for name in tp.RULES:
+        if sport is not None and ((name == tp.RULE_NHL and sport != "NHL") or (name == tp.RULE_NBA and sport != "NBA")
+                                  or (name == tp.RULE_STALE and not markets_by_sport.get(sport))):
+            continue
         s = tp.record(groups.get(name, []))
         rows.append({"Rule": name, "Plays": s["n"], "W-L": f"{s['w']}-{s['l']}", "Win %": pct(s["w"], s["l"]),
                      "Units": round(s["units"], 1), "ROI %": round(100 * s["units"] / s["n"], 1) if s["n"] else 0.0,
                      "Sample": "small" if s["n"] < 30 else ""})
-    st.markdown("#### Each rule, on every graded play (with your Rule 1 choices)")
+    st.markdown("#### Each rule on graded plays (with your Rule 1 choices)")
     st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-    bd = tp.stale_breakdown(graded, side)
     brow = []
-    for (sp, mk), recs in sorted(bd.items(), key=lambda kv: -len(kv[1])):
+    for (sp, mk), recs in sorted(tp.stale_breakdown(mine, side).items(), key=lambda kv: -len(kv[1])):
         s = tp.record(recs)
         if s["n"]:
             brow.append({"Sport": sp, "Market": mk, "Plays": s["n"], "W-L": f"{s['w']}-{s['l']}",
                          "Win %": pct(s["w"], s["l"]), "Units": round(s["units"], 1),
                          "ROI %": round(100 * s["units"] / s["n"], 1), "Sample": "small" if s["n"] < 30 else ""})
     st.markdown(f"#### 3+ books stale, {side.lower()} side: where it has and hasn't worked")
-    st.dataframe(pd.DataFrame(brow), hide_index=True, use_container_width=True)
+    if brow:
+        st.dataframe(pd.DataFrame(brow), hide_index=True, use_container_width=True)
+    else:
+        st.info("No graded plays yet.")
+
+
+n_open = lambda sp: sum(1 for x in items if sp is None or x["r"]["sport"] == sp)
+tabs = st.tabs([f"All ({n_open(None)})"] + [f"{label} ({n_open(sp)})" for sp, label in SPORT_TABS])
+for tab, sport in zip(tabs, [None] + [sp for sp, _ in SPORT_TABS]):
+    with tab:
+        if sport is not None and sport not in sports_seen:
+            st.info(f"No {sport} plays logged yet.")
+            continue
+        render_cards(sport)
+        with st.expander("📊 Record", expanded=False):
+            render_record(sport)
