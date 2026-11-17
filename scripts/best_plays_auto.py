@@ -24,6 +24,7 @@ from scripts import prop_signals as psig  # noqa: E402
 from scripts import td_props as tdp  # noqa: E402
 from scripts import goal_tracker as gtr  # noqa: E402
 from scripts import nhl_shooting as shoot  # noqa: E402
+from scripts import nba_box as nbabox  # noqa: E402
 from scripts import line_alert_results as lar  # noqa: E402
 
 # Load github_storage straight from its file: importing the `data` package would pull in
@@ -353,6 +354,13 @@ def main():
             print(f"NHL shooting: {n_box} new box scores; goal tracker: {n_gt} new")
         except Exception as e:  # noqa: BLE001
             errors.append(f"goal tracker: {e}")
+        try:
+            # Box scores of finished NBA games (minutes, threes made and attempted per player).
+            n_nba = nbabox.harvest_recent(now_et, load, _save_json)
+            if n_nba:
+                print(f"NBA box scores: {n_nba} new games")
+        except Exception as e:  # noqa: BLE001
+            errors.append(f"NBA box scores: {e}")
         plog = load(f"{LOG_DIR}/predictions/{date}.json")
         n_pred = bp.update_predictions(plog, pred_rows, iso, date)
         gh.save_json(TOKEN, OWNER, REPO, f"{LOG_DIR}/predictions/{date}.json", plog,
