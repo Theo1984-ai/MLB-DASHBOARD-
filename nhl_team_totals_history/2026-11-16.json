@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 6,
+  "n_snapshots": 7,
   "snapshots": [
     {
       "captured_at": "2026-11-16T15:46:38.947606-05:00",
@@ -418,6 +418,76 @@
                 "line": 4.5,
                 "over_price": 120,
                 "under_price": -154
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-11-16T19:32:18.581821-05:00",
+      "n_games": 2,
+      "games": [
+        {
+          "game": "Montr\u00e9al Canadiens @ New York Rangers",
+          "away_team": "Montr\u00e9al Canadiens",
+          "home_team": "New York Rangers",
+          "first_pitch": "2026-11-17T00:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -182,
+            "under_price": -174
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -166,
+            "under_price": -210
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -182,
+                "under_price": -174
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -166,
+                "under_price": -210
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Vancouver Canucks @ Utah Mammoth",
+          "away_team": "Vancouver Canucks",
+          "home_team": "Utah Mammoth",
+          "first_pitch": "2026-11-17T02:30:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": 114,
+            "under_price": null
+          },
+          "home": {
+            "line": 4.5,
+            "over_price": 130,
+            "under_price": -168
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": 114,
+                "under_price": null
+              },
+              "home": {
+                "line": 4.5,
+                "over_price": 130,
+                "under_price": -168
               }
             }
           },
