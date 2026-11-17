@@ -2500,7 +2500,7 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-16T20:45:16.149520-05:00",
+      "t": "2026-11-16T21:15:15.300149-05:00",
       "line": 65.5,
       "price": -105,
       "book": "williamhill_us",
@@ -2739,6 +2739,15 @@
       },
       {
         "t": "2026-11-16T20:45:16.149520-05:00",
+        "pin_line": 66.5,
+        "pin_over": -106,
+        "pin_under": -118,
+        "book_line": 65.5,
+        "book_over": -105,
+        "book_under": -115
+      },
+      {
+        "t": "2026-11-16T21:15:15.300149-05:00",
         "pin_line": 66.5,
         "pin_over": -106,
         "pin_under": -118,
@@ -3663,6 +3672,15 @@
       },
       {
         "t": "2026-11-16T20:45:16.149520-05:00",
+        "pin_line": 84.5,
+        "pin_over": -114,
+        "pin_under": -110,
+        "book_line": 84.5,
+        "book_over": -118,
+        "book_under": -106
+      },
+      {
+        "t": "2026-11-16T21:15:15.300149-05:00",
         "pin_line": 84.5,
         "pin_over": -114,
         "pin_under": -110,
@@ -9741,5 +9759,70 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-16|NHL|prop|Vancouver Canucks @ Utah Mammoth|MacKenzie Weegar|shots_on_goal|OVER": {
+    "sport": "NHL",
+    "kind": "prop",
+    "game": "Vancouver Canucks @ Utah Mammoth",
+    "who": "MacKenzie Weegar",
+    "market": "shots_on_goal",
+    "bet": "OVER",
+    "commence_time": "2026-11-17T02:40:00Z",
+    "first_seen": {
+      "t": "2026-11-16T21:15:15.300149-05:00",
+      "line": 1.5,
+      "price": -135,
+      "book": "draftkings",
+      "pin_line": 2.5,
+      "pin_over": 162,
+      "pin_under": -220,
+      "edge": 0.0522,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-16T21:15:15.300149-05:00",
+      "line": 1.5,
+      "price": -135,
+      "book": "draftkings",
+      "pin_line": 2.5,
+      "pin_over": 162,
+      "pin_under": -220,
+      "edge": 0.0522,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-16T21:15:15.300149-05:00",
+        "pin_line": 2.5,
+        "pin_over": 162,
+        "pin_under": -220,
+        "book_line": 1.5,
+        "book_over": -135,
+        "book_under": 100
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Utah Mammoth",
+      "opp": "Vancouver Canucks",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.743,
+      "fav": "Utah Mammoth",
+      "fav_win_prob": 0.743,
+      "fav_spread": -1.5,
+      "blowout": false,
+      "total": 6.5,
+      "total_over": -111,
+      "total_under": -101
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
+    ]
   }
 }
