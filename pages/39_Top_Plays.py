@@ -4,6 +4,7 @@
   1. Any play with 3+ books stale (pick the markets for each sport and the side; default NFL receiving yards Over)
   2. NHL shots on goal Over with 2+ books stale
   3. NBA threes Over
+  4. NCAAB team totals (from the line alert) with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
 
 Plays come from the First Seen log (best_plays_log/first_seen/<date>.json): the current line, price and book, Pinnacle's
 line, and how many soft books are stale. There is a tab for All sports and one for each sport; each has a Record
@@ -48,7 +49,8 @@ GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
 st.set_page_config(page_title="Top Plays", page_icon="⭐", layout="wide")
 st.title("⭐ Top Plays")
 st.caption("The plays with the best record so far, with a tab for each sport: 3+ books stale (you choose the markets "
-           "for each sport and the side), NHL shots on goal Over with 2+ books stale, and NBA threes Over. \"Books stale\" = soft books whose "
+           "for each sport and the side), NHL shots on goal Over with 2+ books stale, NBA threes Over, and NCAAB team "
+           "totals with a 3 or 4 point gap to Pinnacle at -160 to -199 on BetRivers (from the line alert). \"Books stale\" = soft books whose "
            "line is off Pinnacle's. These rules were picked after seeing the results, so keep stakes small. "
            "Times are Eastern.")
 
@@ -84,6 +86,26 @@ def load_all(_token_present):
     return out, failed
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def load_alerts(_token_present):
+    """{day: {key: line alert record}} for the NCAAB team-total line alerts (best_plays_log/line_alert_results/NCAAB)."""
+    from data import github_storage as gh
+    out = {}
+    folder = f"{LOG_DIR}/line_alert_results/NCAAB"
+    try:
+        items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, folder))
+    except Exception:  # noqa: BLE001
+        return out
+    for item in items:
+        name = item["name"]
+        if name.endswith(".json"):
+            try:
+                out[name[:-5]] = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{folder}/{name}")) or {}
+            except Exception:  # noqa: BLE001
+                continue
+    return out
+
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_injuries(_token_present):
     from data import github_storage as gh
@@ -100,6 +122,7 @@ if st.button("🔄 Refresh", key="tp_refresh",
              help="Reload the latest saved plays and injuries now. New snapshots are saved about every 30 minutes; "
                   "this doesn't use any odds credits."):
     load_all.clear()
+    load_alerts.clear()
     load_injuries.clear()
 
 try:
@@ -123,6 +146,18 @@ all_recs = [r for d in sorted(logs) for r in logs[d].values()]
 graded = [r for r in all_recs if (r.get("result") or {}).get("outcome") in ("win", "loss")]
 pct = lambda a, b: f"{100 * a / (a + b):.0f}%" if a + b else "-"
 try:
+    _alerts = load_alerts(True)
+except Exception:  # noqa: BLE001
+    _alerts = {}
+alert_recs = []
+for _d in sorted(_alerts):
+    for _r in _alerts[_d].values():
+        try:
+            alert_recs.append(tp.alert_to_rec(_r))
+        except Exception:  # noqa: BLE001
+            continue
+alert_graded = [r for r in alert_recs if (r.get("result") or {}).get("outcome") in ("win", "loss")]
+try:
     _latest = max(fs._parse((r.get("last_seen") or r["first_seen"])["t"]) for r in all_recs).astimezone(EASTERN)
     st.caption(f"Newest snapshot in the log: {_latest.strftime('%a %I:%M %p').replace(' 0', ' ')} ET "
                f"({int((now - _latest).total_seconds() // 60)} min ago). Page loaded {now.strftime('%I:%M %p').lstrip('0')} ET.")
@@ -137,7 +172,7 @@ def _stale_txt(n):
 # ── Rule 1 controls (markets per sport, one side for all) ───────────────────
 SPORT_TABS = [("NFL", "NFL 🏈"), ("NHL", "NHL 🏒"), ("NBA", "NBA 🏀"), ("NCAAB", "NCAAB 🏀"), ("CFB", "CFB 🎓")]
 DEFAULT_MARKETS = {"NFL": ["reception_yds"]}          # the one 3+ stale group that has been clearly positive
-sports_seen = {r["sport"] for r in all_recs}
+sports_seen = {r["sport"] for r in all_recs} | {r["sport"] for r in alert_recs}
 markets_by_sport = {}
 with st.expander("⚙️ Rule 1: 3+ books stale — choose the markets for each sport and the side", expanded=False):
     side = st.radio("Side", ["Over", "Under", "Both"], index=0, horizontal=True, key="tp_side")
@@ -173,6 +208,16 @@ for d in sorted(logs):
         if tip <= now and not show_started:
             continue
         items.append({"r": r, "rules": rules, "tip": tip, "l": r.get("last_seen") or r["first_seen"]})
+for r in alert_recs:                                   # NCAAB team-total line alerts that pass the rule
+    rules = passes(r)
+    if not rules:
+        continue
+    tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
+    if tip <= now and not show_started:
+        continue
+    if tip.strftime("%Y-%m-%d") < horizon:
+        continue
+    items.append({"r": r, "rules": rules, "tip": tip, "l": r["last_seen"]})
 if sort_by == "Biggest gap":
     items.sort(key=lambda x: (-x["l"]["gap"], x["tip"]))
 else:
@@ -183,10 +228,11 @@ def render_cards(sport):
     """Cards for `sport` (None = every sport)."""
     mine = [x for x in items if sport is None or x["r"]["sport"] == sport]
     counts = {name: sum(name in x["rules"] for x in mine) for name in tp.RULES}
-    m1, m2, m3 = st.columns(3)
+    m1, m2, m3, m4 = st.columns(4)
     m1.metric(tp.RULE_STALE, counts[tp.RULE_STALE])
     m2.metric(tp.RULE_NHL, counts[tp.RULE_NHL])
     m3.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
+    m4.metric(tp.RULE_NCAAB, counts[tp.RULE_NCAAB])
     if not mine:
         st.info("No open plays match right now. The line splits close as game time gets near, and new ones show up "
                 "after each snapshot (about every 30 minutes).")
@@ -225,7 +271,9 @@ def render_cards(sport):
             f'<span style="font-size:13px;">@ <strong>{html.escape(book)}</strong> {l["price"]:+d}</span>'
             f'{rule_html}</div>'
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {l["pin_line"]} · gap {l["gap"]} · '
-            f'{_stale_txt(tp.peak(r))} of {l["n_books"]} · check the price and lineups first</div></div>',
+            + ("line alert (team total) · check the price first" if r.get("_alert") else
+               f'{_stale_txt(tp.peak(r))} of {l["n_books"]} · check the price and lineups first')
+            + '</div></div>',
             unsafe_allow_html=True)
 
 
@@ -234,12 +282,13 @@ def render_record(sport):
     mine = [r for r in graded if sport is None or r["sport"] == sport]
     st.markdown(f"**{len(mine)} graded plays** across {len(logs)} days. Groups under 30 plays are too small to trust.")
     groups = defaultdict(list)
-    for r in mine:
+    for r in mine + [a for a in alert_graded if sport is None or a["sport"] == sport]:
         for name in passes(r):
             groups[name].append(r)
     rows = []
     for name in tp.RULES:
         if sport is not None and ((name == tp.RULE_NHL and sport != "NHL") or (name == tp.RULE_NBA and sport != "NBA")
+                                  or (name == tp.RULE_NCAAB and sport != "NCAAB")
                                   or (name == tp.RULE_STALE and not markets_by_sport.get(sport))):
             continue
         s = tp.record(groups.get(name, []))

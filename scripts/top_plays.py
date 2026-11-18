@@ -5,16 +5,24 @@ Rules for the Top Plays page: the First Seen plays whose record has been best so
                the default is NFL receiving yards Over: 71-51, 58%, +8.5% ROI so far)
   RULE_NHL     NHL shots on goal Over with 2+ books stale (55-22, 71%, +13% ROI so far)
   RULE_NBA     NBA threes Over (107-45, 70%, +8% ROI so far, heavy juice)
+  RULE_NCAAB   NCAAB team total line alert with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
+               (about 67-73% vs 65% break-even, +3% to +9% ROI so far; thin, and heavy juice eats most of it)
 
 A play's books stale = the most soft books that were off Pinnacle at its first sighting or its latest check.
 Records are First Seen log records, so the same functions work on graded history and on today's open plays.
 """
+import re
 from collections import defaultdict
 
 RULE_STALE = "3+ books stale"
 RULE_NHL = "NHL shots Over, 2+ stale"
 RULE_NBA = "NBA threes Over"
-RULES = (RULE_STALE, RULE_NHL, RULE_NBA)
+RULE_NCAAB = "NCAAB team total, gap 3-4"
+RULES = (RULE_STALE, RULE_NHL, RULE_NBA, RULE_NCAAB)
+
+NCAAB_GAP = (3, 5)                 # gap to Pinnacle of 3 or 4 points (5+ had only 8 plays, and lost)
+NCAAB_PRICE = (-199, -160)         # -160 to -199; -200 or worse was 65% vs 68% break-even
+NCAAB_BOOKS = ("betrivers",)       # 295 of the 298 gap 3+ plays were BetRivers
 
 STALE_MIN = 3
 NHL_STALE_MIN = 2
@@ -24,12 +32,38 @@ DEFAULT_SIDE = "Over"
 
 
 def peak(rec):
-    """Most soft books stale on this play, at the first sighting or the latest check."""
-    return max(rec["first_seen"]["stale"], (rec.get("last_seen") or rec["first_seen"])["stale"])
+    """Most soft books stale on this play, at the first sighting or the latest check (0 for a line alert record)."""
+    return max(rec["first_seen"].get("stale") or 0, (rec.get("last_seen") or rec["first_seen"]).get("stale") or 0)
+
+
+def alert_to_rec(rec):
+    """
+    A line alert record (best_plays_log/line_alert_results/<SPORT>/<date>.json, a team total) in the First Seen shape the
+    page's cards use, with the gap to Pinnacle read from its 'why' text ("... Pinnacle dropped to 70.5"). `_alert` marks it.
+    The books-stale count is unknown for line alerts, so it is None.
+    """
+    f = rec["first_seen"]
+    m = re.search(r"([\d.]+)\s*$", f.get("why") or "")
+    pin = float(m.group(1)) if m else None
+    gap = round(abs(pin - f["line"]), 1) if pin is not None else 0.0
+    stamp = {"t": f["t"], "line": f["line"], "price": f["price"], "book": f["book"], "pin_line": pin, "gap": gap,
+             "stale": None, "n_books": None}
+    return {"sport": rec["sport"], "kind": rec.get("kind", "team total"), "game": rec["game"], "who": rec["who"],
+            "market": "team total", "bet": rec["bet"], "commence_time": rec["commence_time"],
+            "first_seen": stamp, "last_seen": stamp, "result": rec.get("result"), "_alert": True}
+
+
+def alert_matches(rec):
+    """Does a line alert record (alert_to_rec shape) pass the NCAAB team-total rule?"""
+    f = rec["first_seen"]
+    return (rec["sport"] == "NCAAB" and f["pin_line"] is not None and NCAAB_GAP[0] <= f["gap"] < NCAAB_GAP[1]
+            and NCAAB_PRICE[0] <= f["price"] <= NCAAB_PRICE[1] and f["book"] in NCAAB_BOOKS)
 
 
 def matches(rec, sports=DEFAULT_SPORTS, markets=DEFAULT_MARKETS, side=DEFAULT_SIDE):
     """The rules this record passes (a list of rule names, possibly empty)."""
+    if rec.get("_alert"):                       # a line alert record: only the NCAAB team-total rule applies
+        return [RULE_NCAAB] if alert_matches(rec) else []
     out = []
     if (peak(rec) >= STALE_MIN and rec["sport"] in sports and rec["market"] in markets
             and (side == "Both" or rec["bet"] == side.upper())):
