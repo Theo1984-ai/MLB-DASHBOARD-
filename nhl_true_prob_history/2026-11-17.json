@@ -1,7 +1,7 @@
 {
   "date": "2026-11-17",
-  "snapshot_at": "2026-11-17T21:48:31.404411-05:00",
-  "n_picks": 21,
+  "snapshot_at": "2026-11-17T22:16:08.377211-05:00",
+  "n_picks": 22,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 21,
+    "n_total": 22,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -310,18 +310,18 @@
       "side": "Over",
       "point": 4.5,
       "best_book": "pinnacle",
-      "best_price": -353,
-      "true_prob_pct": 78.69,
-      "ev_per_100": 3.47,
+      "best_price": -354,
+      "true_prob_pct": 78.97,
+      "ev_per_100": 4.51,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -353
+          -354
         ],
         [
           "draftkings",
-          -370
+          -375
         ],
         [
           "bovada",
@@ -329,12 +329,12 @@
         ],
         [
           "fanduel",
-          -380
+          -400
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-11-17T18:15:06.392377-05:00",
-      "last_seen_at": "2026-11-17T21:48:31.404357-05:00",
+      "last_seen_at": "2026-11-17T22:16:08.377169-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T18:15:06.392377-05:00",
@@ -353,6 +353,12 @@
           "tp": 78.69,
           "ev": 3.47,
           "price": -353
+        },
+        {
+          "t": "2026-11-17T22:16:08.377169-05:00",
+          "tp": 78.97,
+          "ev": 4.51,
+          "price": -354
         }
       ]
     },
@@ -425,32 +431,32 @@
       "player": "San Jose Sharks",
       "side": "Home",
       "point": 1.5,
-      "best_book": "draftkings",
-      "best_price": -340,
-      "true_prob_pct": 78.01,
-      "ev_per_100": 3.24,
+      "best_book": "pinnacle",
+      "best_price": -334,
+      "true_prob_pct": 83.32,
+      "ev_per_100": 27.59,
       "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
-          -340
-        ],
-        [
           "pinnacle",
-          -350
-        ],
-        [
-          "fanduel",
-          -360
+          -334
         ],
         [
           "bovada",
-          -370
+          -360
+        ],
+        [
+          "draftkings",
+          -775
+        ],
+        [
+          "fanduel",
+          -850
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-17T18:15:06.392377-05:00",
-      "last_seen_at": "2026-11-17T18:41:04.001734-05:00",
+      "last_seen_at": "2026-11-17T22:16:08.377169-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T18:15:06.392377-05:00",
@@ -463,6 +469,12 @@
           "tp": 78.01,
           "ev": 3.24,
           "price": -340
+        },
+        {
+          "t": "2026-11-17T22:16:08.377169-05:00",
+          "tp": 83.32,
+          "ev": 27.59,
+          "price": -334
         }
       ]
     },
@@ -536,31 +548,31 @@
       "side": "Home",
       "point": 1.5,
       "best_book": "fanduel",
-      "best_price": -320,
-      "true_prob_pct": 77.44,
-      "ev_per_100": 5.24,
+      "best_price": -300,
+      "true_prob_pct": 77.06,
+      "ev_per_100": 8.26,
       "n_books": 4,
       "all_prices": [
         [
           "fanduel",
-          -320
-        ],
-        [
-          "draftkings",
-          -335
+          -300
         ],
         [
           "pinnacle",
-          -351
+          -339
+        ],
+        [
+          "draftkings",
+          -350
         ],
         [
           "bovada",
-          -370
+          -360
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-17T18:15:06.392377-05:00",
-      "last_seen_at": "2026-11-17T21:48:31.404357-05:00",
+      "last_seen_at": "2026-11-17T22:16:08.377169-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T18:15:06.392377-05:00",
@@ -585,6 +597,12 @@
           "tp": 77.44,
           "ev": 5.24,
           "price": -320
+        },
+        {
+          "t": "2026-11-17T22:16:08.377169-05:00",
+          "tp": 77.06,
+          "ev": 8.26,
+          "price": -300
         }
       ]
     },
@@ -1094,34 +1112,89 @@
       "player": "Game Total",
       "side": "Over",
       "point": 4.5,
-      "best_book": "draftkings",
-      "best_price": -400,
-      "true_prob_pct": 80.81,
-      "ev_per_100": 4.07,
+      "best_book": "bovada",
+      "best_price": -310,
+      "true_prob_pct": 84.99,
+      "ev_per_100": 38.47,
       "n_books": 3,
       "all_prices": [
         [
+          "bovada",
+          -310
+        ],
+        [
           "draftkings",
-          -400
+          -800
         ],
         [
           "fanduel",
-          -430
-        ],
-        [
-          "bovada",
-          -435
+          -950
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-17T21:48:31.404357-05:00",
-      "last_seen_at": "2026-11-17T21:48:31.404357-05:00",
+      "last_seen_at": "2026-11-17T22:16:08.377169-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T21:48:31.404357-05:00",
           "tp": 80.81,
           "ev": 4.07,
           "price": -400
+        },
+        {
+          "t": "2026-11-17T22:16:08.377169-05:00",
+          "tp": 84.99,
+          "ev": 38.47,
+          "price": -310
+        }
+      ]
+    },
+    {
+      "event_id": "6238e006f875cb22d570c5eda2dfe820",
+      "game": "Flames @ Sharks",
+      "away_team": "Calgary Flames",
+      "home_team": "San Jose Sharks",
+      "first_pitch": "2026-11-18T03:08:05Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Calgary Flames +2.5",
+      "player": "Calgary Flames",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "fanduel",
+      "best_price": -220,
+      "true_prob_pct": 75.54,
+      "ev_per_100": 21.72,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "fanduel",
+          -220
+        ],
+        [
+          "draftkings",
+          -240
+        ],
+        [
+          "pinnacle",
+          -426
+        ],
+        [
+          "bovada",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-17T22:16:08.377169-05:00",
+      "last_seen_at": "2026-11-17T22:16:08.377169-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-17T22:16:08.377169-05:00",
+          "tp": 75.54,
+          "ev": 21.72,
+          "price": -220
         }
       ]
     }
