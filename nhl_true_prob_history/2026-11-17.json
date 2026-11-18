@@ -1,7 +1,7 @@
 {
   "date": "2026-11-17",
-  "snapshot_at": "2026-11-17T18:41:04.001800-05:00",
-  "n_picks": 19,
+  "snapshot_at": "2026-11-17T20:59:48.378340-05:00",
+  "n_picks": 20,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 19,
+    "n_total": 20,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -100,9 +100,9 @@
           -410
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-17T18:15:06.392377-05:00",
-      "last_seen_at": "2026-11-17T18:41:04.001734-05:00",
+      "last_seen_at": "2026-11-17T20:59:48.378293-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T18:15:06.392377-05:00",
@@ -112,6 +112,12 @@
         },
         {
           "t": "2026-11-17T18:41:04.001734-05:00",
+          "tp": 79.13,
+          "ev": 3.98,
+          "price": -360
+        },
+        {
+          "t": "2026-11-17T20:59:48.378293-05:00",
           "tp": 79.13,
           "ev": 3.98,
           "price": -360
@@ -519,8 +525,8 @@
       "point": 1.5,
       "best_book": "fanduel",
       "best_price": -330,
-      "true_prob_pct": 77.65,
-      "ev_per_100": 3.91,
+      "true_prob_pct": 77.71,
+      "ev_per_100": 4.14,
       "n_books": 4,
       "all_prices": [
         [
@@ -528,21 +534,21 @@
           -330
         ],
         [
-          "draftkings",
-          -340
+          "pinnacle",
+          -346
         ],
         [
-          "pinnacle",
-          -352
+          "draftkings",
+          -350
         ],
         [
           "bovada",
           -370
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-17T18:15:06.392377-05:00",
-      "last_seen_at": "2026-11-17T18:41:04.001734-05:00",
+      "last_seen_at": "2026-11-17T20:59:48.378293-05:00",
       "scan_history": [
         {
           "t": "2026-11-17T18:15:06.392377-05:00",
@@ -554,6 +560,12 @@
           "t": "2026-11-17T18:41:04.001734-05:00",
           "tp": 77.65,
           "ev": 3.91,
+          "price": -330
+        },
+        {
+          "t": "2026-11-17T20:59:48.378293-05:00",
+          "tp": 77.71,
+          "ev": 4.14,
           "price": -330
         }
       ]
@@ -996,6 +1008,51 @@
           "tp": 77.2,
           "ev": 3.8,
           "price": -322
+        }
+      ]
+    },
+    {
+      "event_id": "3d788aa0737d2ab5b2bf92f8e40ea63f",
+      "game": "Stars @ Knights",
+      "away_team": "Dallas Stars",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-11-18T03:10:00Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "draftkings",
+      "best_price": -400,
+      "true_prob_pct": 81.21,
+      "ev_per_100": 6.06,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -400
+        ],
+        [
+          "fanduel",
+          -450
+        ],
+        [
+          "bovada",
+          -450
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-17T20:59:48.378293-05:00",
+      "last_seen_at": "2026-11-17T20:59:48.378293-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-17T20:59:48.378293-05:00",
+          "tp": 81.21,
+          "ev": 6.06,
+          "price": -400
         }
       ]
     }
