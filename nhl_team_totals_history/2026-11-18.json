@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 3,
+  "n_snapshots": 4,
   "snapshots": [
     {
       "captured_at": "2026-11-18T14:13:37.330540-05:00",
@@ -304,6 +304,108 @@
                 "line": 2.5,
                 "over_price": -190,
                 "under_price": -166
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-11-18T15:22:40.636884-05:00",
+      "n_games": 3,
+      "games": [
+        {
+          "game": "Boston Bruins @ Detroit Red Wings",
+          "away_team": "Boston Bruins",
+          "home_team": "Detroit Red Wings",
+          "first_pitch": "2026-11-19T00:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -166,
+            "under_price": -190
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -166,
+            "under_price": -192
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -166,
+                "under_price": -190
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -166,
+                "under_price": -192
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Montr\u00e9al Canadiens @ New Jersey Devils",
+          "away_team": "Montr\u00e9al Canadiens",
+          "home_team": "New Jersey Devils",
+          "first_pitch": "2026-11-19T00:40:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -124,
+            "under_price": null
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": null,
+            "under_price": -128
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -124,
+                "under_price": null
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": null,
+                "under_price": -128
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Colorado Avalanche @ Utah Mammoth",
+          "away_team": "Colorado Avalanche",
+          "home_team": "Utah Mammoth",
+          "first_pitch": "2026-11-19T03:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -196,
+            "under_price": -164
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -192,
+            "under_price": -164
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -196,
+                "under_price": -164
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -192,
+                "under_price": -164
               }
             }
           },
