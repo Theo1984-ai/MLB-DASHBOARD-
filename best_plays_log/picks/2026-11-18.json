@@ -20,7 +20,7 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-18T09:00:25.471659-05:00",
+      "t": "2026-11-18T09:30:28.146203-05:00",
       "line": 66.5,
       "price": -105,
       "book": "williamhill_us",
@@ -28,7 +28,7 @@
       "pin_over": -105,
       "pin_under": -120,
       "edge": 0.012,
-      "stale": 4,
+      "stale": 3,
       "n_books": 4
     },
     "checks": [
@@ -52,6 +52,15 @@
       },
       {
         "t": "2026-11-18T09:00:25.471659-05:00",
+        "pin_line": 67.5,
+        "pin_over": -105,
+        "pin_under": -120,
+        "book_line": 66.5,
+        "book_over": -105,
+        "book_under": -115
+      },
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
         "pin_line": 67.5,
         "pin_over": -105,
         "pin_under": -120,
@@ -138,6 +147,15 @@
         "book_line": 120.5,
         "book_over": -106,
         "book_under": -114
+      },
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 119.5,
+        "pin_over": -110,
+        "pin_under": -106,
+        "book_line": 120.5,
+        "book_over": -106,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -155,6 +173,511 @@
       "total": 234.5,
       "total_over": -107,
       "total_under": -107
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-18|NBA|prop|Memphis Grizzlies @ Cleveland Cavaliers|Cameron Boozer|assists|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Memphis Grizzlies @ Cleveland Cavaliers",
+    "who": "Cameron Boozer",
+    "market": "assists",
+    "bet": "OVER",
+    "commence_time": "2026-11-19T00:10:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 4.5,
+      "price": -120,
+      "book": "betrivers",
+      "pin_line": 5.5,
+      "pin_over": 124,
+      "pin_under": -166,
+      "edge": 0.0464,
+      "stale": 4,
+      "n_books": 6
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 4.5,
+      "price": -120,
+      "book": "betrivers",
+      "pin_line": 5.5,
+      "pin_over": 124,
+      "pin_under": -166,
+      "edge": 0.0464,
+      "stale": 4,
+      "n_books": 6
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 5.5,
+        "pin_over": 124,
+        "pin_under": -166,
+        "book_line": 4.5,
+        "book_over": -120,
+        "book_under": -113
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Memphis Grizzlies",
+      "opp": "Cleveland Cavaliers",
+      "scope": "team",
+      "shift": 0.16,
+      "tag": "neutral",
+      "win_prob": 0.369,
+      "fav": "Cleveland Cavaliers",
+      "fav_win_prob": 0.631,
+      "fav_spread": -4.5,
+      "blowout": false,
+      "total": 234.5,
+      "total_over": -109,
+      "total_under": -103
+    },
+    "tier": "B",
+    "tier_why": [
+      "Pinnacle's price leans against this side"
+    ]
+  },
+  "2026-11-18|NCAAB|team total|Howard Bison @ Duquesne Dukes|Duquesne Dukes|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "Howard Bison @ Duquesne Dukes",
+    "who": "Duquesne Dukes",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T00:00:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 72.5,
+      "price": -115,
+      "book": "williamhill_us",
+      "pin_line": 70.5,
+      "pin_over": -123,
+      "pin_under": -104,
+      "edge": 0.025,
+      "stale": 4,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 72.5,
+      "price": -115,
+      "book": "williamhill_us",
+      "pin_line": 70.5,
+      "pin_over": -123,
+      "pin_under": -104,
+      "edge": 0.025,
+      "stale": 4,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 70.5,
+        "pin_over": -123,
+        "pin_under": -104,
+        "book_line": 72.5,
+        "book_over": -105,
+        "book_under": -115
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Duquesne Dukes",
+      "opp": "Howard Bison",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.659,
+      "fav": "Duquesne Dukes",
+      "fav_win_prob": 0.659,
+      "fav_spread": -4.5,
+      "blowout": false,
+      "total": 140.0,
+      "total_over": -102,
+      "total_under": -121
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-18|NCAAB|team total|Texas Southern Tigers @ San Diego St Aztecs|Texas Southern Tigers|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "Texas Southern Tigers @ San Diego St Aztecs",
+    "who": "Texas Southern Tigers",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T03:00:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 65.5,
+      "price": -118,
+      "book": "fanduel",
+      "pin_line": 63.5,
+      "pin_over": -125,
+      "pin_under": -103,
+      "edge": 0.0156,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 65.5,
+      "price": -118,
+      "book": "fanduel",
+      "pin_line": 63.5,
+      "pin_over": -125,
+      "pin_under": -103,
+      "edge": 0.0156,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 63.5,
+        "pin_over": -125,
+        "pin_under": -103,
+        "book_line": 65.5,
+        "book_over": -106,
+        "book_under": -118
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Texas Southern Tigers",
+      "opp": "San Diego St Aztecs",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "fav": "San Diego St Aztecs",
+      "fav_spread": -26.5,
+      "blowout": true,
+      "total": 157.0,
+      "total_over": -114,
+      "total_under": -108
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)"
+    ]
+  },
+  "2026-11-18|NCAAB|team total|Furman Paladins @ Radford Highlanders|Furman Paladins|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "Furman Paladins @ Radford Highlanders",
+    "who": "Furman Paladins",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T00:00:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 77.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 76.5,
+      "pin_over": -119,
+      "pin_under": -107,
+      "edge": 0.0152,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 77.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 76.5,
+      "pin_over": -119,
+      "pin_under": -107,
+      "edge": 0.0152,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 76.5,
+        "pin_over": -119,
+        "pin_under": -107,
+        "book_line": 77.5,
+        "book_over": -115,
+        "book_under": -105
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Furman Paladins",
+      "opp": "Radford Highlanders",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.675,
+      "fav": "Furman Paladins",
+      "fav_win_prob": 0.675,
+      "fav_spread": -5.5,
+      "blowout": false,
+      "total": 149.5,
+      "total_over": -111,
+      "total_under": -111
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-18|NBA|prop|Atlanta Hawks @ Oklahoma City Thunder|Ajay Mitchell|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Atlanta Hawks @ Oklahoma City Thunder",
+    "who": "Ajay Mitchell",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T01:10:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 18.5,
+      "price": -108,
+      "book": "williamhill_us",
+      "pin_line": 17.5,
+      "pin_over": -128,
+      "pin_under": -104,
+      "edge": 0.0142,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 18.5,
+      "price": -108,
+      "book": "williamhill_us",
+      "pin_line": 17.5,
+      "pin_over": -128,
+      "pin_under": -104,
+      "edge": 0.0142,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 17.5,
+        "pin_over": -128,
+        "pin_under": -104,
+        "book_line": 18.5,
+        "book_over": -125,
+        "book_under": -108
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Oklahoma City Thunder",
+      "opp": "Atlanta Hawks",
+      "scope": "team",
+      "shift": -0.22,
+      "tag": "neutral",
+      "win_prob": 0.692,
+      "fav": "Oklahoma City Thunder",
+      "fav_win_prob": 0.692,
+      "fav_spread": -6.5,
+      "blowout": false,
+      "total": 228.0,
+      "total_over": -106,
+      "total_under": -106
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-18|NBA|prop|Atlanta Hawks @ Oklahoma City Thunder|Luguentz Dort|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Atlanta Hawks @ Oklahoma City Thunder",
+    "who": "Luguentz Dort",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T01:10:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 10.5,
+      "price": -121,
+      "book": "draftkings",
+      "pin_line": 9.5,
+      "pin_over": -128,
+      "pin_under": -104,
+      "edge": 0.0119,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 10.5,
+      "price": -121,
+      "book": "draftkings",
+      "pin_line": 9.5,
+      "pin_over": -128,
+      "pin_under": -104,
+      "edge": 0.0119,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 9.5,
+        "pin_over": -128,
+        "pin_under": -104,
+        "book_line": 10.5,
+        "book_over": -106,
+        "book_under": -121
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Atlanta Hawks",
+      "opp": "Oklahoma City Thunder",
+      "scope": "team",
+      "shift": -0.04,
+      "tag": "neutral",
+      "win_prob": 0.308,
+      "fav": "Oklahoma City Thunder",
+      "fav_win_prob": 0.692,
+      "fav_spread": -6.5,
+      "blowout": false,
+      "total": 228.0,
+      "total_over": -106,
+      "total_under": -106
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-18|NCAAB|team total|New Hampshire Wildcats @ Stonehill Skyhawks|New Hampshire Wildcats|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "New Hampshire Wildcats @ Stonehill Skyhawks",
+    "who": "New Hampshire Wildcats",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T01:00:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 65.5,
+      "price": -110,
+      "book": "williamhill_us",
+      "pin_line": 64.5,
+      "pin_over": -115,
+      "pin_under": -111,
+      "edge": 0.0119,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 65.5,
+      "price": -110,
+      "book": "williamhill_us",
+      "pin_line": 64.5,
+      "pin_over": -115,
+      "pin_under": -111,
+      "edge": 0.0119,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 64.5,
+        "pin_over": -115,
+        "pin_under": -111,
+        "book_line": 65.5,
+        "book_over": -110,
+        "book_under": -110
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "New Hampshire Wildcats",
+      "opp": "Stonehill Skyhawks",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.542,
+      "fav": "New Hampshire Wildcats",
+      "fav_win_prob": 0.542,
+      "fav_spread": -1.5,
+      "blowout": false,
+      "total": 131.5,
+      "total_over": -111,
+      "total_under": -111
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-18|NCAAB|team total|UNC Wilmington Seahawks @ LIU Sharks|UNC Wilmington Seahawks|team total|UNDER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "UNC Wilmington Seahawks @ LIU Sharks",
+    "who": "UNC Wilmington Seahawks",
+    "market": "team total",
+    "bet": "UNDER",
+    "commence_time": "2026-11-19T00:00:00Z",
+    "first_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 79.5,
+      "price": -120,
+      "book": "fanduel",
+      "pin_line": 78.5,
+      "pin_over": -105,
+      "pin_under": -122,
+      "edge": 0.0118,
+      "stale": 3,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-18T09:30:28.146203-05:00",
+      "line": 79.5,
+      "price": -120,
+      "book": "fanduel",
+      "pin_line": 78.5,
+      "pin_over": -105,
+      "pin_under": -122,
+      "edge": 0.0118,
+      "stale": 3,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T09:30:28.146203-05:00",
+        "pin_line": 78.5,
+        "pin_over": -105,
+        "pin_under": -122,
+        "book_line": 79.5,
+        "book_over": -104,
+        "book_under": -120
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "UNC Wilmington Seahawks",
+      "opp": "LIU Sharks",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.812,
+      "fav": "UNC Wilmington Seahawks",
+      "fav_win_prob": 0.812,
+      "fav_spread": -10.0,
+      "blowout": false,
+      "total": 147.5,
+      "total_over": -103,
+      "total_under": -119
     },
     "tier": "A",
     "tier_why": []
