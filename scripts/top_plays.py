@@ -4,7 +4,9 @@ Rules for the Top Plays page: the First Seen plays whose record has been best so
   RULE_STALE   any play with 3+ soft books stale (you choose the sports, markets and side on the page;
                the default is NFL receiving yards Over: 71-51, 58%, +8.5% ROI so far)
   RULE_NHL     NHL shots on goal Over with 2+ books stale (55-22, 71%, +13% ROI so far)
-  RULE_NBA     NBA threes Over (107-45, 70%, +8% ROI so far, heavy juice)
+  RULE_NBA     NBA threes Over, the CORE filter: line 1.5 with 1 to 2 books stale (78 plays, 77% vs 65% break-even,
+               +18% ROI so far; everything else in NBA threes Overs is 63%, -3%)
+  RULE_NBA_ALL every NBA threes Over (181 plays, 69%, +6% ROI), still shown, with the core ones starred
   RULE_NCAAB   NCAAB team total line alert with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
                (about 67-73% vs 65% break-even, +3% to +9% ROI so far; thin, and heavy juice eats most of it)
 
@@ -16,9 +18,13 @@ from collections import defaultdict
 
 RULE_STALE = "3+ books stale"
 RULE_NHL = "NHL shots Over, 2+ stale"
-RULE_NBA = "NBA threes Over"
+RULE_NBA = "NBA threes Over, line 1.5 + 1-2 stale"
+RULE_NBA_ALL = "NBA threes Over (all)"
 RULE_NCAAB = "NCAAB team total, gap 3-4"
-RULES = (RULE_STALE, RULE_NHL, RULE_NBA, RULE_NCAAB)
+RULES = (RULE_STALE, RULE_NHL, RULE_NBA, RULE_NBA_ALL, RULE_NCAAB)
+
+NBA_CORE_LINE = 1.5
+NBA_CORE_MAX_STALE = 2
 
 NCAAB_GAP = (3, 5)                 # gap to Pinnacle of 3 or 4 points (5+ had only 8 plays, and lost)
 NCAAB_PRICE = (-199, -160)         # -160 to -199; -200 or worse was 65% vs 68% break-even
@@ -60,6 +66,12 @@ def alert_matches(rec):
             and NCAAB_PRICE[0] <= f["price"] <= NCAAB_PRICE[1] and f["book"] in NCAAB_BOOKS)
 
 
+def nba_core(rec):
+    """The core NBA threes filter: an Over on a 1.5 line with 1 to 2 soft books stale."""
+    return (rec["sport"] == "NBA" and rec["market"] == "threes" and rec["bet"] == "OVER"
+            and rec["first_seen"]["line"] == NBA_CORE_LINE and peak(rec) <= NBA_CORE_MAX_STALE)
+
+
 def matches(rec, sports=DEFAULT_SPORTS, markets=DEFAULT_MARKETS, side=DEFAULT_SIDE):
     """The rules this record passes (a list of rule names, possibly empty)."""
     if rec.get("_alert"):                       # a line alert record: only the NCAAB team-total rule applies
@@ -71,7 +83,9 @@ def matches(rec, sports=DEFAULT_SPORTS, markets=DEFAULT_MARKETS, side=DEFAULT_SI
     if rec["sport"] == "NHL" and rec["market"] == "shots_on_goal" and rec["bet"] == "OVER" and peak(rec) >= NHL_STALE_MIN:
         out.append(RULE_NHL)
     if rec["sport"] == "NBA" and rec["market"] == "threes" and rec["bet"] == "OVER":
-        out.append(RULE_NBA)
+        if nba_core(rec):
+            out.append(RULE_NBA)
+        out.append(RULE_NBA_ALL)
     return out
 
 
@@ -107,3 +121,44 @@ def stale_breakdown(recs, side="Over"):
         if peak(r) >= STALE_MIN and (side == "Both" or r["bet"] == side.upper()):
             out[(r["sport"], r["market"])].append(r)
     return out
+
+
+# ── Last-5-games form for NBA threes (from the saved NBA box scores, best_plays_log/nba_box/<date>.json) ──────────
+
+def load_recent_box(load, date, days=14, log_dir="best_plays_log"):
+    """
+    {normalized name: [(day, threes made, threes attempted), ...] oldest first} from the box scores of the `days` days up to
+    and including `date`. load(path) -> data or {}. Missing days are skipped.
+    """
+    from datetime import datetime, timedelta
+    from scripts import best_plays as bp
+    hist = defaultdict(list)
+    end = datetime.strptime(date, "%Y-%m-%d")
+    for i in range(days - 1, -1, -1):
+        day = (end - timedelta(days=i)).strftime("%Y-%m-%d")
+        try:
+            data = load(f"{log_dir}/nba_box/{day}.json") or {}
+        except Exception:  # noqa: BLE001
+            continue
+        for rows in (data.get("games") or {}).values():
+            for name, r in rows.items():
+                hist[bp.norm_name(name)].append((day, r.get("fg3m", 0), r.get("fg3a", 0)))
+    return hist
+
+
+def form_last5(hist, who, before, n=5):
+    """(avg threes made, avg attempted, games) over the player's last `n` games before the day `before`, or None (fewer than 3 games)."""
+    from scripts import best_plays as bp
+    g = [x for x in hist.get(bp.norm_name(who), []) if x[0] < before][-n:]
+    if len(g) < 3:
+        return None
+    return sum(x[1] for x in g) / len(g), sum(x[2] for x in g) / len(g), len(g)
+
+
+def form_note(hist, rec, before):
+    """'Last 5: 2.4 threes made, 5.4 attempted per game' ('✓' when the makes are at least 0.5 above the line), or ''."""
+    f = form_last5(hist, rec["who"], before)
+    if not f:
+        return ""
+    ok = rec["bet"] == "OVER" and f[0] >= rec["first_seen"]["line"] + 0.5
+    return f"Last {f[2]}: {f[0]:.1f} threes made, {f[1]:.1f} attempted per game" + (" ✓" if ok else "")
