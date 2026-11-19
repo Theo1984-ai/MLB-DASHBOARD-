@@ -5,6 +5,7 @@
   2. NHL shots on goal Over with 2+ books stale
   3. NBA threes Over: the core filter (line 1.5, 1-2 books stale) starred, and every other threes Over listed too
   4. NCAAB team totals (from the line alert) with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
+  5. NBA triple Over watch: a player with an Over split on points, assists AND rebounds (watch list, no proven edge)
 
 Plays come from the First Seen log (best_plays_log/first_seen/<date>.json): the current line, price and book, Pinnacle's
 line, and how many soft books are stale. There is a tab for All sports and one for each sport; each has a Record
@@ -226,6 +227,16 @@ for d in sorted(logs):
         if tip <= now and not show_started:
             continue
         items.append({"r": r, "rules": rules, "tip": tip, "l": r.get("last_seen") or r["first_seen"]})
+for d in sorted(logs):                                 # triple Over watch: points + assists + rebounds Overs, same player
+    if d < horizon:
+        continue
+    for (_game, _who), legs in tp.triples(logs[d]).items():
+        r = legs["points"]
+        tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
+        if tip <= now and not show_started:
+            continue
+        items.append({"r": r, "rules": [tp.RULE_TRIPLE], "tip": tip, "l": r.get("last_seen") or r["first_seen"],
+                      "triple": legs})
 for r in alert_recs:                                   # NCAAB team-total line alerts that pass the rule
     rules = passes(r)
     if not rules:
@@ -242,6 +253,37 @@ else:
     items.sort(key=lambda x: (x["tip"], -x["l"]["gap"]))
 
 
+def render_triple(x):
+    """Card for a triple Over (watch list): the player's Over plays on points, assists and rebounds."""
+    legs, tip = x["triple"], x["tip"]
+    r = x["r"]
+    e = injm.play_injury(injuries, {**r, "line": x["l"]["line"]})
+    parts = []
+    for m, label in (("points", "PTS"), ("assists", "AST"), ("rebounds", "REB")):
+        rec = legs[m]
+        l = rec.get("last_seen") or rec["first_seen"]
+        res = rec.get("result") or {}
+        out = res.get("outcome")
+        mark = ""
+        if out in ("win", "loss"):
+            colour = "#15803d" if out == "win" else "#b91c1c"
+            actual = f' {res["actual"]:g}' if isinstance(res.get("actual"), (int, float)) else ""
+            mark = f' <strong style="color:{colour};">{out.upper()}{actual}</strong>'
+        parts.append(f'<div style="font-size:13px;"><strong>{label}</strong> Over {l["line"]} @ '
+                     f'{html.escape(bp.BOOK_DISPLAY.get(l["book"], l["book"]))} {l["price"]:+d} '
+                     f'<span style="color:#6b7280;font-size:11px;">({_stale_txt(tp.peak(rec))})</span>{mark}</div>')
+    st.markdown(
+        f'<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:10px 14px;margin-bottom:6px;color:#111827;">'
+        f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+        f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}{injm.badge(e)}'
+        f'<span style="font-size:11px;color:#6b7280;font-weight:400;"> — {html.escape(r["game"])} · NBA 🏀</span></span>'
+        f'<span style="font-size:11px;color:#6b7280;white-space:nowrap;">{tip.strftime("%a %I:%M %p")} ET</span></div>'
+        f'<div style="margin:4px 0;"><span style="background:#2563eb;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
+        f'border-radius:3px;">👀 Triple Over watch</span> <span style="font-size:11px;color:#6b7280;">points, assists and rebounds '
+        f'all have an Over split. No proven edge: see the Record.</span></div>' + "".join(parts) + '</div>',
+        unsafe_allow_html=True)
+
+
 def render_cards(sport):
     """Cards for `sport` (None = every sport)."""
     mine = [x for x in items if sport is None or x["r"]["sport"] == sport]
@@ -250,13 +292,18 @@ def render_cards(sport):
     m1.metric(tp.RULE_STALE, counts[tp.RULE_STALE])
     m2.metric(tp.RULE_NHL, counts[tp.RULE_NHL])
     m3.metric(tp.RULE_NCAAB, counts[tp.RULE_NCAAB])
-    m4, m5 = st.columns(2)
+    counts[tp.RULE_TRIPLE] = sum(tp.RULE_TRIPLE in x["rules"] for x in mine)
+    m4, m5, m6 = st.columns(3)
     m4.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
     m5.metric(tp.RULE_NBA_ALL, counts[tp.RULE_NBA_ALL])
+    m6.metric("👀 " + tp.RULE_TRIPLE, counts[tp.RULE_TRIPLE])
     if not mine:
         st.info("No open plays match right now. The line splits close as game time gets near, and new ones show up "
                 "after each snapshot (about every 30 minutes).")
     for x in mine:
+        if x.get("triple"):
+            render_triple(x)
+            continue
         r, l, tip = x["r"], x["l"], x["tip"]
         res = r.get("result") or {}
         out = res.get("outcome")
@@ -322,6 +369,13 @@ def render_record(sport):
         rows.append({"Rule": name, "Plays": s["n"], "W-L": f"{s['w']}-{s['l']}", "Win %": pct(s["w"], s["l"]),
                      "Units": round(s["units"], 1), "ROI %": round(100 * s["units"] / s["n"], 1) if s["n"] else 0.0,
                      "Sample": "small" if s["n"] < 30 else ""})
+    if sport in (None, "NBA"):
+        t = tp.triple_record(logs)
+        n = t["w"] + t["l"]
+        rows.append({"Rule": "👀 " + tp.RULE_TRIPLE + " (all 3 legs)", "Plays": n, "W-L": f"{t['w']}-{t['l']}",
+                     "Win %": pct(t["w"], t["l"]), "Units": round(t["units"], 1),
+                     "ROI %": round(100 * t["units"] / n, 1) if n else 0.0, "Sample": "small" if t["days"] < 30 else ""})
+        st.caption(f"Triple Over watch: {t['days']} player-days so far; all three Overs hit the same night in {t['all3']}.")
     st.markdown("#### Each rule on graded plays (with your Rule 1 choices)")
     st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
     brow = []
