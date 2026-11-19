@@ -3,7 +3,7 @@
 
   1. Any play with 3+ books stale (pick the markets for each sport and the side; default NFL receiving yards Over)
   2. NHL shots on goal Over with 2+ books stale
-  3. NBA threes Over
+  3. NBA threes Over: the core filter (line 1.5, 1-2 books stale) starred, and every other threes Over listed too
   4. NCAAB team totals (from the line alert) with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
 
 Plays come from the First Seen log (best_plays_log/first_seen/<date>.json): the current line, price and book, Pinnacle's
@@ -49,7 +49,8 @@ GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
 st.set_page_config(page_title="Top Plays", page_icon="⭐", layout="wide")
 st.title("⭐ Top Plays")
 st.caption("The plays with the best record so far, with a tab for each sport: 3+ books stale (you choose the markets "
-           "for each sport and the side), NHL shots on goal Over with 2+ books stale, NBA threes Over, and NCAAB team "
+           "for each sport and the side), NHL shots on goal Over with 2+ books stale, NBA threes Over (the core filter "
+           "is line 1.5 with 1-2 books stale; the other threes are listed too), and NCAAB team "
            "totals with a 3 or 4 point gap to Pinnacle at -160 to -199 on BetRivers (from the line alert). \"Books stale\" = soft books whose "
            "line is off Pinnacle's. These rules were picked after seeing the results, so keep stakes small. "
            "Times are Eastern.")
@@ -107,6 +108,13 @@ def load_alerts(_token_present):
 
 
 @st.cache_data(ttl=600, show_spinner=False)
+def load_box(_token_present, today):
+    """{player: [(day, threes made, threes attempted), ...]} from the saved NBA box scores of the last 14 days."""
+    from data import github_storage as gh
+    return dict(tp.load_recent_box(lambda path: gh.load_json(GH_TOKEN, OWNER, REPO, path), today, log_dir=LOG_DIR))
+
+
+@st.cache_data(ttl=600, show_spinner=False)
 def load_injuries(_token_present):
     from data import github_storage as gh
     out = {}
@@ -123,6 +131,7 @@ if st.button("🔄 Refresh", key="tp_refresh",
                   "this doesn't use any odds credits."):
     load_all.clear()
     load_alerts.clear()
+    load_box.clear()
     load_injuries.clear()
 
 try:
@@ -190,9 +199,16 @@ def passes(r):
     return tp.matches(r, sports=(r["sport"],), markets=tuple(markets_by_sport.get(r["sport"], [])), side=side)
 
 
-c1, c2 = st.columns(2)
+try:
+    box_hist = load_box(True, now.strftime("%Y-%m-%d"))
+except Exception:  # noqa: BLE001
+    box_hist = {}
+
+c1, c2, c3 = st.columns(3)
 show_started = c1.checkbox("Include games already started", value=False, key="tp_started")
-sort_by = c2.radio("Sort", ["Tip-off time", "Biggest gap"], horizontal=True, key="tp_sort")
+core_only = c2.checkbox("NBA threes: only the core filter (line 1.5, 1-2 stale)", value=False, key="tp_core_only",
+                        help="Off = every NBA threes Over is listed, with the core ones starred.")
+sort_by = c3.radio("Sort", ["Tip-off time", "Biggest gap"], horizontal=True, key="tp_sort")
 
 # Open plays (and, if asked, started ones) from yesterday's and later logs.
 horizon = (now - timedelta(days=1)).strftime("%Y-%m-%d")
@@ -203,6 +219,8 @@ for d in sorted(logs):
     for r in logs[d].values():
         rules = passes(r)
         if not rules:
+            continue
+        if core_only and rules == [tp.RULE_NBA_ALL]:        # an NBA threes Over that is not in the core filter
             continue
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
         if tip <= now and not show_started:
@@ -228,11 +246,13 @@ def render_cards(sport):
     """Cards for `sport` (None = every sport)."""
     mine = [x for x in items if sport is None or x["r"]["sport"] == sport]
     counts = {name: sum(name in x["rules"] for x in mine) for name in tp.RULES}
-    m1, m2, m3, m4 = st.columns(4)
+    m1, m2, m3 = st.columns(3)
     m1.metric(tp.RULE_STALE, counts[tp.RULE_STALE])
     m2.metric(tp.RULE_NHL, counts[tp.RULE_NHL])
-    m3.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
-    m4.metric(tp.RULE_NCAAB, counts[tp.RULE_NCAAB])
+    m3.metric(tp.RULE_NCAAB, counts[tp.RULE_NCAAB])
+    m4, m5 = st.columns(2)
+    m4.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
+    m5.metric(tp.RULE_NBA_ALL, counts[tp.RULE_NBA_ALL])
     if not mine:
         st.info("No open plays match right now. The line splits close as game time gets near, and new ones show up "
                 "after each snapshot (about every 30 minutes).")
@@ -251,8 +271,13 @@ def render_cards(sport):
                      'border-radius:3px;margin-right:6px;">STARTED</span>')
         else:
             badge = ""
-        rule_html = "".join(f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;'
-                            f'padding:1px 7px;border-radius:3px;">⭐ {html.escape(n)}</span>' for n in x["rules"])
+        shown = [n for n in x["rules"] if not (n == tp.RULE_NBA_ALL and tp.RULE_NBA in x["rules"])]
+        rule_html = "".join(
+            (f'<span style="background:#6b7280;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
+             f'border-radius:3px;">{html.escape(n)} (not core)</span>') if n == tp.RULE_NBA_ALL else
+            (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;'
+             f'padding:1px 7px;border-radius:3px;">⭐ {html.escape(n)}</span>') for n in shown)
+        note = tp.form_note(box_hist, r, tip.strftime("%Y-%m-%d")) if r["sport"] == "NBA" and r["market"] == "threes" else ""
         e = injm.play_injury(injuries, {**r, "line": l["line"]})
         inj_html = injm.badge(e)
         book = bp.BOOK_DISPLAY.get(l["book"], l["book"])
@@ -273,6 +298,7 @@ def render_cards(sport):
             f'<div style="font-size:11px;color:#6b7280;">Pinnacle {l["pin_line"]} · gap {l["gap"]} · '
             + ("line alert (team total) · check the price first" if r.get("_alert") else
                f'{_stale_txt(tp.peak(r))} of {l["n_books"]} · check the price and lineups first')
+            + (f' · {html.escape(note)}' if note else '')
             + '</div></div>',
             unsafe_allow_html=True)
 
@@ -287,7 +313,8 @@ def render_record(sport):
             groups[name].append(r)
     rows = []
     for name in tp.RULES:
-        if sport is not None and ((name == tp.RULE_NHL and sport != "NHL") or (name == tp.RULE_NBA and sport != "NBA")
+        if sport is not None and ((name == tp.RULE_NHL and sport != "NHL")
+                                  or (name in (tp.RULE_NBA, tp.RULE_NBA_ALL) and sport != "NBA")
                                   or (name == tp.RULE_NCAAB and sport != "NCAAB")
                                   or (name == tp.RULE_STALE and not markets_by_sport.get(sport))):
             continue

@@ -1,14 +1,17 @@
 """
-Telegram alerts for the two plays the First Seen record shows have done best:
+Telegram alerts for the plays the First Seen record shows have done best:
 
-  NHL shots on goal, Over, with 2+ soft books stale   46-17 (73%, +9.7u) so far
-  NBA threes (player threes made), Over               97-39 (71%, +12.6u) so far; Unders lost (36-21, -2.0u) and
-                                                      asking for more stale books did not help, so neither is required
+  NHL shots on goal, Over, with 2+ soft books stale   55-22 (71%, +13% ROI) so far
+  NBA threes (player threes made), Over               CORE = line 1.5 with 1-2 books stale: 77% vs 65% break-even, +18%
+                                                      every other threes Over is still sent, in its own section
+                                                      (all threes Overs: 69%, +6%; the non-core ones are 63%, -3%)
 
-Each hour, after the First Seen log is updated, every matching play whose game has not started is sent once.
-It uses the same secrets (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) and the same Automation-page switch as the
-Best Plays alerts, and skips players listed Out or Doubtful. There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are remembered in
-best_plays_log/filter_alerts/<date>.json so nothing is sent twice.
+Each half hour, after the First Seen log is updated, every matching play whose game has not started is sent once. Core plays
+(and NHL shots) come first under a star heading, then the other NBA threes Overs under their own heading. NBA threes also
+show the player's last 5 games (threes made and attempted, from the saved box scores). It uses the same secrets
+(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) and the same Automation-page switch as the Best Plays alerts, and skips players listed
+Out or Doubtful. There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are
+remembered in best_plays_log/filter_alerts/<date>.json so nothing is sent twice.
 """
 import os
 from datetime import datetime, timedelta
@@ -16,6 +19,7 @@ from datetime import datetime, timedelta
 from scripts import best_plays as bp
 from scripts import first_seen as fs
 from scripts import injuries as injm
+from scripts import top_plays as tp
 from scripts.best_plays_alerts import APP_URL, EASTERN, send_telegram
 
 SENT_SUB = "filter_alerts"
@@ -49,8 +53,17 @@ def matches(rec, rules=RULES):
                for s, m, b, n in rules)
 
 
-def pick_alerts(log, sent, now_et, inj=None, cfg=CFG, rules=RULES):
-    """New matching plays worth a message: [(pick id, play)], soonest game first. `log` is one day's First Seen log."""
+def is_core(rec):
+    """NHL shots Overs (2+ stale) and NBA threes Overs on a 1.5 line with 1-2 books stale are the core plays; every other
+    NBA threes Over is still sent, in its own section."""
+    return rec["sport"] == "NHL" or tp.nba_core(rec)
+
+
+def pick_alerts(log, sent, now_et, inj=None, cfg=CFG, rules=RULES, box=None):
+    """
+    New matching plays worth a message: [(pick id, play)], soonest game first. `log` is one day's First Seen log.
+    Each play gets "core" (see is_core) and, for NBA threes with box-score history in `box`, a "form" note (last 5 games).
+    """
     if now_et.hour >= cfg["quiet_start"] or now_et.hour < cfg["quiet_end"]:
         return []
     out = []
@@ -64,7 +77,9 @@ def pick_alerts(log, sent, now_et, inj=None, cfg=CFG, rules=RULES):
             continue
         l = rec["last_seen"]
         play = {**rec, "line": l["line"], "price": l["price"], "book": l["book"], "stale": peak(rec),
-                "n_books": l["n_books"]}
+                "n_books": l["n_books"], "core": is_core(rec)}
+        if box and rec["market"] == "threes":
+            play["form"] = tp.form_note(box, rec, tip.astimezone(EASTERN).strftime("%Y-%m-%d"))
         e = injm.play_injury(inj, play)
         if e and injm.severity(e["status"]) >= injm.STAYS_OFF_ALERTS:     # Out / Doubtful: skip
             continue
@@ -72,17 +87,31 @@ def pick_alerts(log, sent, now_et, inj=None, cfg=CFG, rules=RULES):
     return out
 
 
+def _line(p, inj):
+    start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
+    who = p["who"]
+    e = injm.play_injury(inj, p)
+    if e:
+        who += f" ⚠️ {e['status']}"
+    text = (f"\n{ICON.get(p['sport'], '')} {who}: {LABEL.get(p['market'], p['market'])} {p['bet']} {p['line']} @ "
+            f"{bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d}\n"
+            f"{p['stale']} of {p['n_books']} books stale · {p['game']} · {start} ET")
+    if p.get("form"):
+        text += f"\n{p['form']}"
+    return text
+
+
 def format_alert(picks, inj=None):
-    lines = ["🎯 NHL shots / NBA threes play" + ("s" if len(picks) > 1 else "")]
-    for _, p in picks:
-        start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
-        who = p["who"]
-        e = injm.play_injury(inj, p)
-        if e:
-            who += f" ⚠️ {e['status']}"
-        lines.append(f"\n{ICON.get(p['sport'], '')} {who}: {LABEL.get(p['market'], p['market'])} {p['bet']} {p['line']} @ "
-                     f"{bp.BOOK_DISPLAY.get(p['book'], p['book'])} {p['price']:+d}\n"
-                     f"{p['stale']} of {p['n_books']} books stale · {p['game']} · {start} ET")
+    """Core plays first under a star heading, then the other NBA threes Overs under their own heading."""
+    core = [p for _, p in picks if p.get("core", True)]
+    other = [p for _, p in picks if not p.get("core", True)]
+    lines = []
+    if core:
+        lines.append("⭐ Top play" + ("s" if len(core) > 1 else "") + " (NHL shots Over, NBA threes line 1.5 with 1-2 books stale)")
+        lines += [_line(p, inj) for p in core]
+    if other:
+        lines.append(("\n" if core else "") + "🏀 Other NBA threes Overs (not in the core filter)")
+        lines += [_line(p, inj) for p in other]
     lines.append(f"\nCheck the price and lineups first. {APP_URL}")
     return "\n".join(lines)
 
@@ -102,10 +131,18 @@ def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlop
     today_sent = load(path) or {}
     yesterday = (now_et - timedelta(days=1)).strftime("%Y-%m-%d")
     sent = set(today_sent) | set(load(f"{log_dir}/{SENT_SUB}/{yesterday}.json") or {})
+    logs = {d: load(f"{log_dir}/{fs.LOG_SUB}/{d}.json") or {}
+            for d in (date, (now_et + timedelta(days=1)).strftime("%Y-%m-%d"))}
+    box = None
+    try:                                            # last-5 form for the threes plays (skipped if the box scores can't be read)
+        if any(r["market"] == "threes" and r["bet"] == "OVER" and r["sport"] == "NBA" for lg in logs.values() for r in lg.values()):
+            box = tp.load_recent_box(load, date, log_dir=log_dir)
+    except Exception:  # noqa: BLE001
+        box = None
     picks = []
-    for d in (date, (now_et + timedelta(days=1)).strftime("%Y-%m-%d")):
-        log = load(f"{log_dir}/{fs.LOG_SUB}/{d}.json") or {}
-        picks += pick_alerts(log, sent | {pid for pid, _ in picks}, now_et, inj)
+    for d, log in logs.items():
+        picks += pick_alerts(log, sent | {pid for pid, _ in picks}, now_et, inj, box=box)
+    picks.sort(key=lambda x: (not x[1]["core"], x[1]["commence_time"]))   # core plays first, so the first message has them
     if not picks:
         return 0
     kw = {"urlopen": urlopen} if urlopen else {}
