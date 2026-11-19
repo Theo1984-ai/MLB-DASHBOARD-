@@ -7,6 +7,8 @@ Rules for the Top Plays page: the First Seen plays whose record has been best so
   RULE_NBA     NBA threes Over, the CORE filter: line 1.5 with 1 to 2 books stale (78 plays, 77% vs 65% break-even,
                +18% ROI so far; everything else in NBA threes Overs is 63%, -3%)
   RULE_NBA_ALL every NBA threes Over (181 plays, 69%, +6% ROI), still shown, with the core ones starred
+  RULE_TRIPLE  WATCH LIST, not an edge: an NBA player with an Over line split on points, assists AND rebounds in the same game
+               (46 graded player-days: the three Overs hit 53% of the time, -10% ROI, all three the same night 13%)
   RULE_NCAAB   NCAAB team total line alert with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
                (about 67-73% vs 65% break-even, +3% to +9% ROI so far; thin, and heavy juice eats most of it)
 
@@ -21,7 +23,9 @@ RULE_NHL = "NHL shots Over, 2+ stale"
 RULE_NBA = "NBA threes Over, line 1.5 + 1-2 stale"
 RULE_NBA_ALL = "NBA threes Over (all)"
 RULE_NCAAB = "NCAAB team total, gap 3-4"
+RULE_TRIPLE = "NBA triple Over (points + assists + rebounds)"
 RULES = (RULE_STALE, RULE_NHL, RULE_NBA, RULE_NBA_ALL, RULE_NCAAB)
+TRIPLE_MARKETS = ("points", "assists", "rebounds")
 
 NBA_CORE_LINE = 1.5
 NBA_CORE_MAX_STALE = 2
@@ -162,3 +166,36 @@ def form_note(hist, rec, before):
         return ""
     ok = rec["bet"] == "OVER" and f[0] >= rec["first_seen"]["line"] + 0.5
     return f"Last {f[2]}: {f[0]:.1f} threes made, {f[1]:.1f} attempted per game" + (" ✓" if ok else "")
+
+
+# ── Triple Over watch: one NBA player with an Over split on points, assists AND rebounds ─────────────────────────
+
+def triples(log):
+    """
+    {(game, who): {"points": rec, "assists": rec, "rebounds": rec}} for the NBA players who have an Over play on all three
+    markets in one day's First Seen log ({pick id: record}). Any number of books stale counts.
+    """
+    g = defaultdict(dict)
+    for rec in log.values():
+        if rec["sport"] == "NBA" and rec["bet"] == "OVER" and rec["market"] in TRIPLE_MARKETS:
+            g[(rec["game"], rec["who"])][rec["market"]] = rec
+    return {k: v for k, v in g.items() if all(m in v for m in TRIPLE_MARKETS)}
+
+
+def triple_record(logs):
+    """
+    History of the triple Overs over every day's log ({day: {pick id: record}}): {"days": player-days with all three legs graded,
+    "w", "l", "units": the three legs together, "all3": player-days where all three hit}.
+    """
+    out = {"days": 0, "w": 0, "l": 0, "units": 0.0, "all3": 0}
+    for log in logs.values():
+        for legs in triples(log).values():
+            if not all((legs[m].get("result") or {}).get("outcome") in ("win", "loss") for m in TRIPLE_MARKETS):
+                continue
+            s = record(list(legs.values()))
+            out["days"] += 1
+            out["w"] += s["w"]
+            out["l"] += s["l"]
+            out["units"] += s["units"]
+            out["all3"] += s["w"] == 3
+    return out

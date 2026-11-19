@@ -10,7 +10,8 @@ Each half hour, after the First Seen log is updated, every matching play whose g
 (and NHL shots) come first under a star heading, then the other NBA threes Overs under their own heading. NBA threes also
 show the player's last 5 games (threes made and attempted, from the saved box scores). It uses the same secrets
 (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) and the same Automation-page switch as the Best Plays alerts, and skips players listed
-Out or Doubtful. There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are
+Out or Doubtful. Players with an Over split on points, assists AND rebounds in the same game get a separate "Triple Over
+watch" message, once a day each (a watch list, not a proven edge). There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are
 remembered in best_plays_log/filter_alerts/<date>.json so nothing is sent twice.
 """
 import os
@@ -87,6 +88,49 @@ def pick_alerts(log, sent, now_et, inj=None, cfg=CFG, rules=RULES, box=None):
     return out
 
 
+def pick_triples(log, sent, now_et, date, inj=None, cfg=CFG):
+    """
+    New triple Overs (an NBA player with an Over play on points, assists AND rebounds in the same game) whose game has not
+    started: [(key, {who, game, commence_time, legs})], soonest first. The key is "triple|<date>|<game>|<who>", so each player
+    is sent once a day. Same quiet hours and age limit as the other alerts; players listed Out or Doubtful are skipped.
+    """
+    if now_et.hour >= cfg["quiet_start"] or now_et.hour < cfg["quiet_end"]:
+        return []
+    out = []
+    for (game, who), legs in sorted(tp.triples(log).items(), key=lambda kv: kv[1]["points"]["commence_time"]):
+        key = f"triple|{date}|{game}|{who}"
+        rec = legs["points"]
+        if key in sent:
+            continue
+        tip = _parse(rec["commence_time"])
+        if tip - now_et < timedelta(minutes=cfg["min_minutes_to_start"]):
+            continue
+        if now_et - min(_parse(legs[m]["first_seen"]["t"]) for m in tp.TRIPLE_MARKETS) > timedelta(hours=cfg["max_age_hours"]):
+            continue
+        e = injm.play_injury(inj, {**rec, "line": rec["last_seen"]["line"]})
+        if e and injm.severity(e["status"]) >= injm.STAYS_OFF_ALERTS:
+            continue
+        out.append((key, {"who": who, "game": game, "commence_time": rec["commence_time"], "legs": legs,
+                          "status": (e or {}).get("status")}))
+    return out
+
+
+def format_triples(triples):
+    """One message for the triple Overs: the three lines per player, labelled as a watch list with no proven edge."""
+    lines = ["👀 Triple Over watch: Over splits on points, assists AND rebounds (watch list, no proven edge: the three legs have "
+             "hit about 53% so far)"]
+    for _, t in triples:
+        start = _parse(t["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
+        who = t["who"] + (f" ⚠️ {t['status']}" if t.get("status") else "")
+        lines.append(f"\n🏀 {who} · {t['game']} · {start} ET")
+        for m, label in (("points", "PTS"), ("assists", "AST"), ("rebounds", "REB")):
+            l = t["legs"][m].get("last_seen") or t["legs"][m]["first_seen"]
+            lines.append(f"  {label} Over {l['line']} @ {bp.BOOK_DISPLAY.get(l['book'], l['book'])} {l['price']:+d} "
+                         f"({peak(t['legs'][m])} of {l['n_books']} books stale)")
+    lines.append(f"\nCheck the prices and lineups first. {APP_URL}")
+    return "\n".join(lines)
+
+
 def _line(p, inj):
     start = _parse(p["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
     who = p["who"]
@@ -143,7 +187,10 @@ def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlop
     for d, log in logs.items():
         picks += pick_alerts(log, sent | {pid for pid, _ in picks}, now_et, inj, box=box)
     picks.sort(key=lambda x: (not x[1]["core"], x[1]["commence_time"]))   # core plays first, so the first message has them
-    if not picks:
+    trips = []
+    for d, log in logs.items():
+        trips += pick_triples(log, sent | {k for k, _ in trips}, now_et, d, inj)
+    if not picks and not trips:
         return 0
     kw = {"urlopen": urlopen} if urlopen else {}
     n, step = 0, CFG["plays_per_message"]
@@ -153,6 +200,13 @@ def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlop
             break                                   # the rest is tried again on the next run
         for pid, _ in chunk:
             today_sent[pid] = iso
+        n += len(chunk)
+    for i in range(0, len(trips), 8):                 # triple Over watch list: its own message(s), 8 players each
+        chunk = trips[i:i + 8]
+        if not send_telegram(token, chat, format_triples(chunk), **kw):
+            break
+        for key, _ in chunk:
+            today_sent[key] = iso
         n += len(chunk)
     if n:
         save(path, today_sent, f"Telegram filter alerts {date}: {n} sent")
