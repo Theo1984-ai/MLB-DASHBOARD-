@@ -123,6 +123,39 @@ GH_TOKEN = _resolve_secret("GITHUB_TOKEN")
 GH_OWNER = "Theo1984-ai"
 GH_REPO  = "MLB-DASHBOARD-"
 
+from scripts import line_alert_results as lar  # noqa: E402
+
+
+@st.cache_data(ttl=120, show_spinner=False)
+def _load_day_results(code, day, _has_token):
+    """
+    Every line alert play the hourly job saved for one sport and day, with its result once graded
+    ({play id: record}, best_plays_log/line_alert_results/<SPORT>/<day>.json): GitHub first (fresh), then the local checkout.
+    """
+    path = f"{lar.RESULTS_DIR}/{code}/{day}.json"
+    if GH_TOKEN:
+        try:
+            from data import github_storage as gh
+            data = gh.load_json(GH_TOKEN, GH_OWNER, GH_REPO, path)
+            if data:
+                return data
+        except Exception:
+            pass
+    try:
+        with open(os.path.join(ROOT, path), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _saved_to_play(r):
+    """A saved line alert record as a play dict shaped like the history files' plays."""
+    f = r["first_seen"]
+    return {"game": r["game"], "team": r["who"], "bet": r["bet"], "line": f["line"], "price": f["price"],
+            "book": f["book"], "why": f.get("why", ""), "commence_time": r["commence_time"],
+            "alerted": f.get("t", "")}
+
+
 # ── Fetch ─────────────────────────────────────────────────────────────────────
 
 _CTX = ssl.create_default_context()
@@ -843,6 +876,47 @@ else:
             unsafe_allow_html=True,
         )
 
+# ── STARTED GAMES: the plays that were alerted before tip-off stay here, with the score and result ──────────────
+_CODE_NOW = selected_sport.split()[0]
+if _CODE_NOW in lar.SPORTS:
+    _now_et = datetime.now(tz=EASTERN)
+    _day_saved = _load_day_results(_CODE_NOW, _now_et.strftime("%Y-%m-%d"), bool(GH_TOKEN))
+    _sc_all = st.session_state.get("scores_lookup", {})
+    _started_rows = []
+    for _r in _day_saved.values():
+        try:
+            _tip = datetime.fromisoformat(_r["commence_time"].replace("Z", "+00:00")).astimezone(EASTERN)
+        except Exception:
+            continue
+        if _tip > _now_et:
+            continue                                      # not started: it is in Actionable Plays (or gone)
+        _p = _saved_to_play(_r)
+        _out = (_r.get("result") or {}).get("outcome")
+        _sc = _sc_all.get(_p["game"], {})
+        _team_score = (_sc.get("team_scores") or {}).get(_p["team"])
+        if _out in ("win", "loss", "push"):
+            _res = {"win": "✅ WIN", "loss": "❌ LOSS", "push": "🟡 PUSH"}[_out]
+            _score = str(int((_r.get("result") or {}).get("actual"))) if (_r.get("result") or {}).get("actual") is not None else "—"
+        elif _team_score is not None:
+            _res, _score = ("🟢 Live" if not _sc.get("completed") else "…grading"), str(_team_score)
+        else:
+            _res, _score = "⏳ Pending", "—"
+        try:
+            _alerted = datetime.fromisoformat(_p["alerted"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0")
+        except Exception:
+            _alerted = ""
+        _started_rows.append({"tip": _tip, "Game": _p["game"], "Team": _p["team"], "Bet": f"{_p['bet']} {_p['line']}",
+                              "Book": BOOK_DISPLAY.get(_p["book"], _p["book"]), "Price": _price_str(_p["price"]),
+                              "Alerted": _alerted, "Tip": _tip.strftime("%I:%M %p").lstrip("0"), "Score": _score,
+                              "Result": _res})
+    if _started_rows:
+        import pandas as _pd
+        _started_rows.sort(key=lambda x: (x["tip"], x["Game"], x["Team"], x["Bet"]))
+        st.markdown(f"### 🔒 Started games — {len(_started_rows)} play(s) alerted before tip-off")
+        st.caption("A play stays here after its game starts, with the live score and the result once the game is graded.")
+        st.dataframe(_pd.DataFrame([{k: v for k, v in r.items() if k != "tip"} for r in _started_rows]),
+                     hide_index=True, use_container_width=True)
+
 st.markdown("---")
 
 # ── Signal legend ─────────────────────────────────────────────────────────────
@@ -1168,15 +1242,9 @@ _sel_str  = selected_date.strftime("%Y-%m-%d")
 
 # NHL plays are graded by the hourly job and kept on GitHub (see scripts/line_alert_results.py); use those results
 # first, then fall back to the live scores below.
-from scripts import line_alert_results as lar  # noqa: E402
 _CODE = selected_sport.split()[0]                       # "NHL", "NFL", "CFB", "NBA", "NCAAB", "MLB"
 _IS_NHL = _CODE in lar.SPORTS                           # (name kept) True for every sport the hourly job grades
-_saved = {}
-if _IS_NHL:
-    try:
-        _saved = json.load(open(os.path.join(ROOT, lar.RESULTS_DIR, _CODE, f"{_sel_str}.json"), encoding="utf-8"))
-    except Exception:
-        _saved = {}
+_saved = _load_day_results(_CODE, _sel_str, bool(GH_TOKEN)) if _IS_NHL else {}
 
 
 def _saved_result(rec):
@@ -1192,10 +1260,13 @@ def _saved_result(rec):
 
 _sel_path = os.path.join(HISTORY_DIR, f"{_sel_str}.json")
 
-if not os.path.exists(_sel_path) and (selected_date != _today or not all_plays):
+_has_file = os.path.exists(_sel_path)
+_has_saved = bool(_saved)       # the hourly job's records (every play it alerted, at any hour)
+
+if not _has_file and not _has_saved and (selected_date != _today or not all_plays):
     st.info(f"No records for {selected_date.strftime('%B %d, %Y')}. "
             "Hit **📸 Snapshot Now** to save today's plays, or wait for the cron.")
-elif not os.path.exists(_sel_path) and selected_date == _today and all_plays:
+elif not _has_file and not _has_saved and selected_date == _today and all_plays:
     # No committed history file yet — show live session plays as a fallback
     _snap_label = fetch_time.strftime("%H:%M") if fetch_time else "now"
     st.caption(
@@ -1243,7 +1314,7 @@ elif not os.path.exists(_sel_path) and selected_date == _today and all_plays:
     st.dataframe(df, use_container_width=True, hide_index=True)
 else:
     try:
-        _day_data = json.load(open(_sel_path, encoding="utf-8"))
+        _day_data = json.load(open(_sel_path, encoding="utf-8")) if _has_file else {}
     except Exception:
         _day_data = {}
 
@@ -1266,11 +1337,29 @@ else:
                 _seen.add(_key)
                 _plays_for_day.append({**_p, "snap_time": _snap_time})
 
+    # Add every play the hourly job saved for the day (it checks all day, not only at the cron times), so a play never drops out.
+    _n_file = len(_plays_for_day)
+    for _r in sorted(_saved.values(), key=lambda r: r["first_seen"].get("t", "")):
+        _p = _saved_to_play(_r)
+        if not _play_is_today(_p):
+            continue
+        _key = (_p.get("game"), _p.get("team"), _p.get("bet"), _p.get("line"))
+        if _key in _seen:
+            continue
+        _seen.add(_key)
+        try:
+            _snap = datetime.fromisoformat(_p["alerted"]).astimezone(EASTERN).strftime("%H:%M")
+        except Exception:
+            _snap = ""
+        _plays_for_day.append({**_p, "snap_time": _snap})
+    _plays_for_day.sort(key=lambda p: (p.get("commence_time", ""), p.get("game", ""), p.get("team", ""), str(p.get("bet", ""))))
+
     if not _plays_for_day:
         st.info(f"No plays recorded for {selected_date.strftime('%B %d, %Y')}.")
     else:
-        st.caption(f"**{len(_plays_for_day)} unique plays** detected on {selected_date.strftime('%B %d, %Y')} "
-                   f"across {len(_day_data)} snapshot(s) at: {', '.join(sorted(_day_data.keys()))}")
+        st.caption(f"**{len(_plays_for_day)} unique plays** on {selected_date.strftime('%B %d, %Y')}: "
+                   f"{_n_file} from the {len(_day_data)} saved snapshot(s) ({', '.join(sorted(_day_data.keys())) or 'none'}) "
+                   f"and {len(_plays_for_day) - _n_file} more from the hourly job's records.")
 
         rows_out = []
         for rec in _plays_for_day:
