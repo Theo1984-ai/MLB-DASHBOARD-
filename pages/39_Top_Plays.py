@@ -135,6 +135,25 @@ def load_live(_token_present, today):
 
 
 @st.cache_data(ttl=600, show_spinner=False)
+def load_clv(_token_present):
+    """{day: {pick id: {pin_move, gap_close, close_line}}} from best_plays_log/clv (days from the forward start on)."""
+    from data import github_storage as gh
+    out = {}
+    try:
+        items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/clv"))
+    except Exception:  # noqa: BLE001
+        return out
+    for item in items:
+        name = item["name"]
+        if name.endswith(".json") and name[:-5] >= tp.FORWARD_START:
+            try:
+                out[name[:-5]] = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/clv/{name}")) or {}
+            except Exception:  # noqa: BLE001
+                continue
+    return out
+
+
+@st.cache_data(ttl=600, show_spinner=False)
 def load_injuries(_token_present):
     from data import github_storage as gh
     out = {}
@@ -153,6 +172,7 @@ if st.button("🔄 Refresh", key="tp_refresh",
     load_alerts.clear()
     load_box.clear()
     load_live.clear()
+    load_clv.clear()
     load_injuries.clear()
 
 try:
@@ -430,6 +450,46 @@ def render_record(sport):
     else:
         st.info("No graded plays yet.")
 
+
+def render_scorecard():
+    """Forward scorecard: each frozen rule judged only on plays first seen from tp.FORWARD_START on."""
+    st.markdown(f"### 📈 Forward scorecard (plays first seen from {tp.FORWARD_START} on)")
+    st.caption("The three rules were frozen on that day, so only plays from then on count: no cherry-picking. "
+               f"A verdict needs {tp.FORWARD_MIN} graded plays. The range is a 95% confidence range for the win rate; "
+               "if it includes the break-even rate, we can't tell luck from edge yet.")
+    try:
+        clv_all = load_clv(True)
+    except Exception:  # noqa: BLE001
+        clv_all = {}
+    clv = {pid: v for d in clv_all.values() for pid, v in d.items()}
+    recs = defaultdict(list)
+    for d in sorted(logs):
+        for pid, r in logs[d].items():
+            for name in tp.matches(r):
+                if name in tp.FORWARD_RULES:
+                    recs[name].append({**r, "_id": pid})
+    for r in alert_recs:
+        for name in tp.matches(r):
+            if name in tp.FORWARD_RULES:
+                recs[name].append(r)
+    rows = []
+    for name in tp.FORWARD_RULES:
+        x = tp.scorecard_row(tp.forward_recs(recs.get(name, [])), clv)
+        rows.append({"Rule": name, "Graded": x["n"], "Open": x["open"], "W-L": f"{x['w']}-{x['l']}",
+                     "Win %": f"{100 * x['win']:.0f}%" if x["n"] else "-",
+                     "95% range": f"{100 * x['lo']:.0f}-{100 * x['hi']:.0f}%" if x["n"] else "-",
+                     "Break-even": f"{100 * x['be']:.0f}%" if x["n"] else "-",
+                     "Units": round(x["units"], 1), "ROI %": round(x["roi"], 1) if x["n"] else 0.0,
+                     "Beat the close": (f"{100 * x['beat_close']:.0f}% of {x['n_clv']}"
+                                        if x["beat_close"] is not None else "-"),
+                     "Verdict": x["verdict"]})
+    st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+    st.caption("Beat the close = our number was still better than Pinnacle's final line (needs the game to have started; "
+               "not tracked for NCAAB line alerts).")
+
+
+with st.expander("📈 Forward scorecard: the frozen rules, new plays only", expanded=True):
+    render_scorecard()
 
 n_open = lambda sp: sum(1 for x in items if sp is None or x["r"]["sport"] == sp)
 tabs = st.tabs([f"All ({n_open(None)})"] + [f"{label} ({n_open(sp)})" for sp, label in SPORT_TABS])
