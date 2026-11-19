@@ -5545,6 +5545,15 @@
         "book_line": 83.5,
         "book_over": -120,
         "book_under": -104
+      },
+      {
+        "t": "2026-11-18T22:00:20.111466-05:00",
+        "pin_line": 83.5,
+        "pin_over": 100,
+        "pin_under": -126,
+        "book_line": 83.5,
+        "book_over": -120,
+        "book_under": -104
       }
     ],
     "result": null,
@@ -6479,6 +6488,15 @@
         "book_line": 110.5,
         "book_over": -105,
         "book_under": -115
+      },
+      {
+        "t": "2026-11-18T22:00:20.111466-05:00",
+        "pin_line": 109.5,
+        "pin_over": -112,
+        "pin_under": -104,
+        "book_line": 110.5,
+        "book_over": -106,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -8415,6 +8433,15 @@
         "book_line": 13.5,
         "book_over": -129,
         "book_under": 101
+      },
+      {
+        "t": "2026-11-18T22:00:20.111466-05:00",
+        "pin_line": 13.5,
+        "pin_over": -125,
+        "pin_under": -106,
+        "book_line": 14.5,
+        "book_over": 103,
+        "book_under": -131
       }
     ],
     "result": null,
@@ -10050,6 +10077,71 @@
     },
     "tier": "B",
     "tier_why": [
+      "Pinnacle's price leans against this side"
+    ]
+  },
+  "2026-11-18|NBA|prop|Utah Jazz @ Los Angeles Lakers|Jake LaRavia|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Utah Jazz @ Los Angeles Lakers",
+    "who": "Jake LaRavia",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-11-19T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-18T22:00:20.111466-05:00",
+      "line": 5.5,
+      "price": -109,
+      "book": "betrivers",
+      "pin_line": 6.5,
+      "pin_over": 113,
+      "pin_under": -150,
+      "edge": 0.018,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-18T22:00:20.111466-05:00",
+      "line": 5.5,
+      "price": -109,
+      "book": "betrivers",
+      "pin_line": 6.5,
+      "pin_over": 113,
+      "pin_under": -150,
+      "edge": 0.018,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-18T22:00:20.111466-05:00",
+        "pin_line": 6.5,
+        "pin_over": 113,
+        "pin_under": -150,
+        "book_line": 5.5,
+        "book_over": -109,
+        "book_under": -124
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Los Angeles Lakers",
+      "opp": "Utah Jazz",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "win_prob": 0.82,
+      "fav": "Los Angeles Lakers",
+      "fav_win_prob": 0.82,
+      "fav_spread": -11.5,
+      "blowout": true,
+      "total": 229.0,
+      "total_over": -107,
+      "total_under": -105
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle",
       "Pinnacle's price leans against this side"
     ]
   }
