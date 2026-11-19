@@ -241,3 +241,58 @@ def live_nba_log(load, list_names, date, now, log_dir="best_plays_log"):
     if now - t > timedelta(minutes=LIVE_MAX_AGE_MIN):
         return None
     return live_log(snap, t)
+
+
+# ── Forward scorecard: each frozen rule judged only on plays first seen from FORWARD_START on ─────────────────────
+
+FORWARD_START = "2026-11-19"      # the day the rules were frozen; nothing earlier counts (earlier results were used to pick them)
+FORWARD_RULES = (RULE_NHL, RULE_NBA, RULE_NCAAB)
+FORWARD_MIN = 100                 # plays needed before a verdict is given
+
+
+def implied(price):
+    """Break-even win probability of an American price."""
+    return 100 / (price + 100) if price > 0 else -price / (-price + 100)
+
+
+def wilson(w, n, z=1.96):
+    """95% confidence range (low, high) for a win rate of w out of n (Wilson score interval); (0, 1) when n is 0."""
+    if n == 0:
+        return 0.0, 1.0
+    p = w / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return max(0.0, c - h), min(1.0, c + h)
+
+
+def forward_recs(recs, start=FORWARD_START):
+    """Records first seen on or after `start` (an ET date, 'YYYY-MM-DD')."""
+    return [r for r in recs if str(r["first_seen"]["t"])[:10] >= start]
+
+
+def scorecard_row(recs, clv=None, minimum=FORWARD_MIN):
+    """
+    One rule's forward line from its records: n (graded), w, l, win rate and its 95% range, average break-even, units, ROI,
+    open (not graded yet), CLV (clv = {pick id: {pin_move, gap_close}}, matched on r["_id"]: n_clv plays, the share that beat
+    the close, the average gap_close) and a plain verdict: not enough plays / can't tell / ahead of / below break-even.
+    """
+    s = record(recs)
+    graded = [r for r in recs if (r.get("result") or {}).get("outcome") in ("win", "loss")]
+    n = s["n"]
+    be = sum(implied(r["first_seen"]["price"]) for r in graded) / n if n else 0.0
+    lo, hi = wilson(s["w"], n)
+    if n < minimum:
+        verdict = f"Not enough plays yet ({n} of {minimum})"
+    elif lo > be:
+        verdict = "Ahead of break-even (range is above it)"
+    elif hi < be:
+        verdict = "Below break-even (range is under it)"
+    else:
+        verdict = "Can't tell yet (range includes break-even)"
+    c = [clv[r["_id"]] for r in recs if clv and r.get("_id") in clv and clv[r["_id"]].get("gap_close") is not None]
+    return {"n": n, "w": s["w"], "l": s["l"], "units": s["units"], "roi": 100 * s["units"] / n if n else 0.0,
+            "win": s["w"] / n if n else 0.0, "lo": lo, "hi": hi, "be": be, "verdict": verdict,
+            "open": len(recs) - n, "n_clv": len(c),
+            "beat_close": sum(1 for x in c if x["gap_close"] > 0) / len(c) if c else None,
+            "avg_gap_close": sum(x["gap_close"] for x in c) / len(c) if c else None}
