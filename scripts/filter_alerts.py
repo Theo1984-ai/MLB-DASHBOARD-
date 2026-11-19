@@ -10,8 +10,8 @@ Each half hour, after the First Seen log is updated, every matching play whose g
 (and NHL shots) come first under a star heading, then the other NBA threes Overs under their own heading. NBA threes also
 show the player's last 5 games (threes made and attempted, from the saved box scores). It uses the same secrets
 (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) and the same Automation-page switch as the Best Plays alerts, and skips players listed
-Out or Doubtful. Players with an Over split on points, assists AND rebounds in the same game get a separate "Triple Over
-watch" message, once a day each (a watch list, not a proven edge). There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are
+Out or Doubtful. Players with an Over split on points, assists AND rebounds in the same game right now (read from the newest NBA Player Props
+snapshot) get a separate "Triple Over watch" message, once a day each (a watch list, not a proven edge). There is no limit on how many plays are sent; a long list goes out as several messages. Sent plays are
 remembered in best_plays_log/filter_alerts/<date>.json so nothing is sent twice.
 """
 import os
@@ -160,7 +160,7 @@ def format_alert(picks, inj=None):
     return "\n".join(lines)
 
 
-def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlopen=None):
+def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlopen=None, list_names=None):
     """
     Send the new matching plays of today's and tomorrow's First Seen logs. Returns the number sent.
     Needs the two Telegram secrets (without them nothing happens) and respects the Automation-page switch.
@@ -187,8 +187,14 @@ def run(date, now_et, iso, load, save, inj=None, log_dir="best_plays_log", urlop
     for d, log in logs.items():
         picks += pick_alerts(log, sent | {pid for pid, _ in picks}, now_et, inj, box=box)
     picks.sort(key=lambda x: (not x[1]["core"], x[1]["commence_time"]))   # core plays first, so the first message has them
+    live = None                                     # the triple Over watch reads the newest Player Props (NBA) snapshot ...
+    if list_names:
+        try:
+            live = tp.live_nba_log(load, list_names, date, now_et, log_dir)
+        except Exception:  # noqa: BLE001
+            live = None
     trips = []
-    for d, log in logs.items():
+    for d, log in ({date: live} if live is not None else logs).items():     # ... and falls back to the First Seen log
         trips += pick_triples(log, sent | {k for k, _ in trips}, now_et, d, inj)
     if not picks and not trips:
         return 0

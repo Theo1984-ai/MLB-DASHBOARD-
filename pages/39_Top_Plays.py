@@ -5,7 +5,8 @@
   2. NHL shots on goal Over with 2+ books stale
   3. NBA threes Over: the core filter (line 1.5, 1-2 books stale) starred, and every other threes Over listed too
   4. NCAAB team totals (from the line alert) with a 3 or 4 point gap to Pinnacle, at -160 to -199, on BetRivers
-  5. NBA triple Over watch: a player with an Over split on points, assists AND rebounds (watch list, no proven edge)
+  5. NBA triple Over watch: a player with an Over split on points, assists AND rebounds right now, read from the newest NBA
+     Player Props snapshot (watch list, no proven edge; graded history and started games come from the First Seen log)
 
 Plays come from the First Seen log (best_plays_log/first_seen/<date>.json): the current line, price and book, Pinnacle's
 line, and how many soft books are stale. There is a tab for All sports and one for each sport; each has a Record
@@ -115,6 +116,24 @@ def load_box(_token_present, today):
     return dict(tp.load_recent_box(lambda path: gh.load_json(GH_TOKEN, OWNER, REPO, path), today, log_dir=LOG_DIR))
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def load_live(_token_present, today):
+    """(live NBA line splits {key: record}, snapshot time) from the newest NBA props snapshot of `today`; the log is None when
+    the snapshot is older than tp.LIVE_MAX_AGE_MIN minutes (or missing)."""
+    import re
+    from data import github_storage as gh
+    folder = f"{LOG_DIR}/snapshots/{today}"
+    names = sorted(i["name"] for i in _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, folder))
+                   if re.fullmatch(r"NBA_\d{4}_props\.json", i["name"]))
+    if not names:
+        return None, None
+    snap = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{folder}/{names[-1]}")) or {}
+    t = fs._parse(snap["captured_at"])
+    if (datetime.now(tz=EASTERN) - t).total_seconds() > tp.LIVE_MAX_AGE_MIN * 60:
+        return None, t
+    return tp.live_log(snap, t), t
+
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_injuries(_token_present):
     from data import github_storage as gh
@@ -133,6 +152,7 @@ if st.button("🔄 Refresh", key="tp_refresh",
     load_all.clear()
     load_alerts.clear()
     load_box.clear()
+    load_live.clear()
     load_injuries.clear()
 
 try:
@@ -227,13 +247,32 @@ for d in sorted(logs):
         if tip <= now and not show_started:
             continue
         items.append({"r": r, "rules": rules, "tip": tip, "l": r.get("last_seen") or r["first_seen"]})
-for d in sorted(logs):                                 # triple Over watch: points + assists + rebounds Overs, same player
-    if d < horizon:
-        continue
-    for (_game, _who), legs in tp.triples(logs[d]).items():
+# Triple Over watch (points + assists + rebounds Overs, same player): open games come from the newest Player Props snapshot,
+# so only players with all three splits right now show; games already started (if ticked) come from the First Seen log, with
+# their results. If there is no fresh snapshot, the First Seen log is used for open games too.
+try:
+    live_tri_log, live_time = load_live(True, now.strftime("%Y-%m-%d"))
+except Exception:  # noqa: BLE001
+    live_tri_log, live_time = None, None
+if live_tri_log is not None:
+    st.caption("Triple Over watch: live from the NBA Player Props snapshot taken "
+               f"{live_time.astimezone(EASTERN).strftime('%I:%M %p').lstrip('0')} ET.")
+else:
+    st.caption("Triple Over watch: no fresh NBA Player Props snapshot, so it uses the First Seen log (a leg may have closed).")
+_trip_sources = []
+if live_tri_log is not None:
+    _trip_sources.append((live_tri_log, False))
+for d in sorted(logs):
+    if d >= horizon:
+        _trip_sources.append((logs[d], True))
+for _src, _from_log in _trip_sources:
+    for (_game, _who), legs in tp.triples(_src).items():
         r = legs["points"]
         tip = fs._parse(r["commence_time"]).astimezone(EASTERN)
-        if tip <= now and not show_started:
+        started = tip <= now
+        if _from_log and live_tri_log is not None and not started:
+            continue                                    # open games come from the live snapshot, not the log
+        if started and not show_started:
             continue
         items.append({"r": r, "rules": [tp.RULE_TRIPLE], "tip": tip, "l": r.get("last_seen") or r["first_seen"],
                       "triple": legs})

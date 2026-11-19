@@ -199,3 +199,45 @@ def triple_record(logs):
             out["units"] += s["units"]
             out["all3"] += s["w"] == 3
     return out
+
+
+# ── Triple Over watch from the LIVE Player Props snapshot (the newest NBA props snapshot) ──────────────────────
+
+LIVE_MAX_AGE_MIN = 90            # a snapshot older than this is not used for the live watch (the First Seen log is used instead)
+
+
+def play_to_rec(p, iso):
+    """A play from first_seen.split_plays (a line split in one props snapshot) in the First Seen record shape, stamped `iso`."""
+    stamp = {"t": iso, "line": p["line"], "price": p["price"], "book": p["book"], "pin_line": p["pin_line"], "gap": p["gap"],
+             "stale": p["stale"], "n_books": p["n_books"]}
+    return {"sport": p["sport"], "kind": p["kind"], "game": p["game"], "who": p["who"], "market": p["market"], "bet": p["bet"],
+            "commence_time": p["commence_time"], "first_seen": stamp, "last_seen": stamp, "result": None}
+
+
+def live_log(snap, snap_time):
+    """{key: record} of every NBA line split in one props snapshot, for games that have not started (what Player Props shows)."""
+    from scripts import first_seen as fs
+    iso = snap_time.isoformat()
+    return {str(i): play_to_rec(p, iso) for i, p in enumerate(fs.split_plays("NBA", snap, snap_time))}
+
+
+def live_nba_log(load, list_names, date, now, log_dir="best_plays_log"):
+    """
+    live_log of the newest NBA props snapshot saved for `date` (best_plays_log/snapshots/<date>/NBA_<hhmm>_props.json), or None
+    when there is none or it is older than LIVE_MAX_AGE_MIN minutes. load(path) -> data or {}; list_names(folder) -> [names].
+    """
+    import re
+    from datetime import timedelta
+    from scripts import first_seen as fs
+    folder = f"{log_dir}/snapshots/{date}"
+    names = sorted(n for n in list_names(folder) if re.fullmatch(r"NBA_\d{4}_props\.json", n))
+    if not names:
+        return None
+    snap = load(f"{folder}/{names[-1]}") or {}
+    try:
+        t = fs._parse(snap["captured_at"])
+    except Exception:  # noqa: BLE001
+        return None
+    if now - t > timedelta(minutes=LIVE_MAX_AGE_MIN):
+        return None
+    return live_log(snap, t)
