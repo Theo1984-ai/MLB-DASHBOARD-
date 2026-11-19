@@ -20,7 +20,7 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-19T00:00:23.084202-05:00",
+      "t": "2026-11-19T00:30:16.776414-05:00",
       "line": 26.5,
       "price": -109,
       "book": "draftkings",
@@ -34,6 +34,15 @@
     "checks": [
       {
         "t": "2026-11-19T00:00:23.084202-05:00",
+        "pin_line": 28.5,
+        "pin_over": -112,
+        "pin_under": -112,
+        "book_line": 26.5,
+        "book_over": -109,
+        "book_under": -115
+      },
+      {
+        "t": "2026-11-19T00:30:16.776414-05:00",
         "pin_line": 28.5,
         "pin_over": -112,
         "pin_under": -112,
@@ -86,14 +95,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-19T00:00:23.084202-05:00",
+      "t": "2026-11-19T00:30:16.776414-05:00",
       "line": 175.5,
       "price": -114,
       "book": "betrivers",
       "pin_line": 181.5,
-      "pin_over": -113,
-      "pin_under": -111,
-      "edge": 0.0192,
+      "pin_over": -112,
+      "pin_under": -112,
+      "edge": 0.0171,
       "stale": 4,
       "n_books": 4
     },
@@ -103,6 +112,15 @@
         "pin_line": 181.5,
         "pin_over": -113,
         "pin_under": -111,
+        "book_line": 175.5,
+        "book_over": -114,
+        "book_under": -117
+      },
+      {
+        "t": "2026-11-19T00:30:16.776414-05:00",
+        "pin_line": 181.5,
+        "pin_over": -112,
+        "pin_under": -112,
         "book_line": 175.5,
         "book_over": -114,
         "book_under": -117
@@ -152,7 +170,7 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-19T00:00:23.084202-05:00",
+      "t": "2026-11-19T00:30:16.776414-05:00",
       "line": 39.5,
       "price": -137,
       "book": "betonlineag",
@@ -166,6 +184,15 @@
     "checks": [
       {
         "t": "2026-11-19T00:00:23.084202-05:00",
+        "pin_line": 34.5,
+        "pin_over": -112,
+        "pin_under": -112,
+        "book_line": 39.5,
+        "book_over": 106,
+        "book_under": -137
+      },
+      {
+        "t": "2026-11-19T00:30:16.776414-05:00",
         "pin_line": 34.5,
         "pin_over": -112,
         "pin_under": -112,
@@ -194,6 +221,71 @@
     "tier_why": [
       "big gap to Pinnacle (often news)",
       "football yardage prop"
+    ]
+  },
+  "2026-11-19|NBA|prop|Los Angeles Clippers @ San Antonio Spurs|Darius Garland|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Los Angeles Clippers @ San Antonio Spurs",
+    "who": "Darius Garland",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-20T01:10:00Z",
+    "first_seen": {
+      "t": "2026-11-19T00:30:16.776414-05:00",
+      "line": 20.5,
+      "price": -132,
+      "book": "fanduel",
+      "pin_line": 18.5,
+      "pin_over": -122,
+      "pin_under": -105,
+      "edge": 0.0235,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-19T00:30:16.776414-05:00",
+      "line": 20.5,
+      "price": -132,
+      "book": "fanduel",
+      "pin_line": 18.5,
+      "pin_over": -122,
+      "pin_under": -105,
+      "edge": 0.0235,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-19T00:30:16.776414-05:00",
+        "pin_line": 18.5,
+        "pin_over": -122,
+        "pin_under": -105,
+        "book_line": 20.5,
+        "book_over": 100,
+        "book_under": -132
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Los Angeles Clippers",
+      "opp": "San Antonio Spurs",
+      "scope": "team",
+      "shift": 0.64,
+      "tag": "conflicts",
+      "win_prob": 0.098,
+      "fav": "San Antonio Spurs",
+      "fav_win_prob": 0.902,
+      "fav_spread": -16.0,
+      "blowout": true,
+      "total": 225.5,
+      "total_over": -107,
+      "total_under": -105
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle"
     ]
   }
 }
