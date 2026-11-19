@@ -322,7 +322,7 @@ def main():
             errors.append(f"first-seen: {e}")
         try:
             # Telegram: NHL shots Over (2+ books stale) and NBA threes Over, each play once.
-            n_fa = falerts.run(date, now_et, iso, load, _save_json, inj)
+            n_fa = falerts.run(date, now_et, iso, load, _save_json, inj, list_names=_snapshot_names)
             if n_fa:
                 print(f"Telegram: sent {n_fa} NHL shots / NBA threes play(s)")
         except Exception as e:  # noqa: BLE001
