@@ -9010,7 +9010,7 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-19T22:00:22.744020-05:00",
+      "t": "2026-11-19T22:30:17.739397-05:00",
       "winner": "USC Trojans",
       "win_prob": 0.995,
       "win_conf": "High",
@@ -9047,19 +9047,8 @@
         "Over/Under: Under 159.0 (51% chance, Low confidence). Too close to the market line to call with confidence."
       ]
     },
-    "n_updates": 45,
+    "n_updates": 46,
     "history": [
-      {
-        "t": "2026-11-19T07:30:20.906254-05:00",
-        "winner": "USC Trojans",
-        "win_prob": 0.994,
-        "pred_away": 66.0,
-        "pred_home": 94.0,
-        "pred_total": 160.0,
-        "ou_pick": "Over",
-        "ou_ref": 160.0,
-        "ou_conf": "Low"
-      },
       {
         "t": "2026-11-19T08:00:22.938583-05:00",
         "winner": "USC Trojans",
@@ -9370,6 +9359,17 @@
       },
       {
         "t": "2026-11-19T22:00:22.744020-05:00",
+        "winner": "USC Trojans",
+        "win_prob": 0.995,
+        "pred_away": 65.3,
+        "pred_home": 93.5,
+        "pred_total": 158.7,
+        "ou_pick": "Under",
+        "ou_ref": 159.0,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-19T22:30:17.739397-05:00",
         "winner": "USC Trojans",
         "win_prob": 0.995,
         "pred_away": 65.3,
@@ -13989,13 +13989,13 @@
       "adj_home": 0.0
     },
     "last": {
-      "t": "2026-11-19T22:00:22.744020-05:00",
+      "t": "2026-11-19T22:30:17.739397-05:00",
       "winner": "Houston Cougars",
       "win_prob": 0.596,
-      "win_conf": "Medium",
-      "alert_pick": "Kansas Jayhawks",
+      "win_conf": "Low",
+      "alert_pick": null,
       "model_winner": "Houston Cougars",
-      "alert_ou": null,
+      "alert_ou": "Under",
       "model_ou_pick": "Over",
       "alert_applied": false,
       "pred_away": 77.0,
@@ -14016,16 +14016,17 @@
       "adj_away": 0.0,
       "adj_home": 0.0,
       "reasons": [
-        "Line alert (info only, not used for NCAAB picks yet): Kansas Jayhawks team total flagged Over and Houston Cougars Under, which points to Kansas Jayhawks, but the model has Houston Cougars.",
+        "Line alert (info only, not used for NCAAB picks yet): both team totals flagged Under, but the model has Over.",
         "Pinnacle team totals imply Houston Cougars 76.9, Kansas Jayhawks 74.3.",
         "Pinnacle moneyline gives Kansas Jayhawks 40% to win.",
         "Spread: Houston Cougars -3.0.",
         "Pinnacle's game total is 151.5 (50% Over after removing the vig).",
         "Props lean adds +0.00 to the total, so we expect 151.5.",
-        "Over/Under: Over 151.5 (50% chance, Low confidence). Too close to the market line to call with confidence."
+        "Over/Under: Over 151.5 (50% chance, Low confidence).",
+        "Team-total value: Kansas Jayhawks UNDER 75.5 @ FanDuel -116 (edge +1.0%)."
       ]
     },
-    "n_updates": 27,
+    "n_updates": 28,
     "history": [
       {
         "t": "2026-11-19T09:00:26.212218-05:00",
@@ -14315,6 +14316,17 @@
       },
       {
         "t": "2026-11-19T22:00:22.744020-05:00",
+        "winner": "Houston Cougars",
+        "win_prob": 0.596,
+        "pred_away": 77.0,
+        "pred_home": 74.4,
+        "pred_total": 151.5,
+        "ou_pick": "Over",
+        "ou_ref": 151.5,
+        "ou_conf": "Low"
+      },
+      {
+        "t": "2026-11-19T22:30:17.739397-05:00",
         "winner": "Houston Cougars",
         "win_prob": 0.596,
         "pred_away": 77.0,
