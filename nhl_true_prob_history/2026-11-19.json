@@ -1,7 +1,7 @@
 {
   "date": "2026-11-19",
-  "snapshot_at": "2026-11-19T21:08:41.584094-05:00",
-  "n_picks": 22,
+  "snapshot_at": "2026-11-19T21:47:11.054626-05:00",
+  "n_picks": 23,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 22,
+    "n_total": 23,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -713,14 +713,14 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "pinnacle",
-      "best_price": -304,
-      "true_prob_pct": 76.82,
-      "ev_per_100": 6.34,
+      "best_price": -307,
+      "true_prob_pct": 76.74,
+      "ev_per_100": 5.34,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -304
+          -307
         ],
         [
           "bovada",
@@ -732,12 +732,12 @@
         ],
         [
           "fanduel",
-          -360
+          -350
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-19T17:49:38.525709-05:00",
-      "last_seen_at": "2026-11-19T21:08:41.584034-05:00",
+      "last_seen_at": "2026-11-19T21:47:11.054578-05:00",
       "scan_history": [
         {
           "t": "2026-11-19T17:49:38.525709-05:00",
@@ -762,6 +762,12 @@
           "tp": 76.82,
           "ev": 6.34,
           "price": -304
+        },
+        {
+          "t": "2026-11-19T21:47:11.054578-05:00",
+          "tp": 76.74,
+          "ev": 5.34,
+          "price": -307
         }
       ]
     },
@@ -1227,6 +1233,55 @@
           "tp": 75.74,
           "ev": 3.44,
           "price": -298
+        }
+      ]
+    },
+    {
+      "event_id": "6c4d4bc698a434e4b1d5492b9bff28cb",
+      "game": "Stars @ Knights",
+      "away_team": "Dallas Stars",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-11-20T03:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Vegas Golden Knights +1.5",
+      "player": "Vegas Golden Knights",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -340,
+      "true_prob_pct": 78.05,
+      "ev_per_100": 3.42,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -340
+        ],
+        [
+          "pinnacle",
+          -344
+        ],
+        [
+          "fanduel",
+          -370
+        ],
+        [
+          "bovada",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-19T21:47:11.054578-05:00",
+      "last_seen_at": "2026-11-19T21:47:11.054578-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-19T21:47:11.054578-05:00",
+          "tp": 78.05,
+          "ev": 3.42,
+          "price": -340
         }
       ]
     }
