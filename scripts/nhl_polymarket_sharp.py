@@ -7,6 +7,7 @@ and scan() interface are unchanged.
 """
 from __future__ import annotations
 
+import gzip
 import json
 import ssl as _ssl
 import time
@@ -14,7 +15,7 @@ import urllib.request
 from collections import defaultdict
 
 _SSL = _ssl._create_unverified_context()
-_UA = {"User-Agent": "mlb-dashboard/1.0"}
+_UA = {"User-Agent": "mlb-dashboard/1.0", "Accept-Encoding": "gzip"}
 
 GAMMA = "https://gamma-api.polymarket.com"
 CLOB  = "https://clob.polymarket.com"
@@ -22,7 +23,11 @@ CLOB  = "https://clob.polymarket.com"
 
 def _get(url):
     req = urllib.request.Request(url, headers=_UA)
-    return json.loads(urllib.request.urlopen(req, timeout=20, context=_SSL).read())
+    resp = urllib.request.urlopen(req, timeout=20, context=_SSL)
+    body = resp.read()
+    if resp.headers.get("Content-Encoding") == "gzip":       # pages over 50 events come back compressed only
+        body = gzip.decompress(body)
+    return json.loads(body)
 
 
 # ---------- Market filtering ----------

@@ -8,11 +8,13 @@ saved props snapshot has the same player, market and line at Pinnacle, how far P
 Questions that mention a stat but do not parse are kept in "unparsed" so the parser can be fixed from real data.
 """
 import glob
+import gzip
 import json
 import os
 import re
 import ssl
 import sys
+import urllib.error
 import urllib.request
 from collections import Counter, defaultdict
 from datetime import datetime
@@ -34,9 +36,19 @@ PROP_RE = re.compile(rf"^(?P<who>[^:]+?)\s*[:\-–]\s*(?P<stat>{_STAT_RE})\s*(?:
 _CTX = ssl.create_default_context()
 
 
+_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; mlb-dashboard/1.0)", "Accept": "application/json", "Accept-Encoding": "gzip"}
+
+
 def _get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "mlb-dashboard/1.0"})
-    return json.loads(urllib.request.urlopen(req, timeout=30, context=_CTX).read())
+    req = urllib.request.Request(url, headers=_HEADERS)
+    try:
+        raw = urllib.request.urlopen(req, timeout=30, context=_CTX)
+        body = raw.read()
+        if raw.headers.get("Content-Encoding") == "gzip":      # Polymarket serves pages over 50 events compressed only
+            body = gzip.decompress(body)
+        return json.loads(body)
+    except urllib.error.HTTPError as e:                      # show what Polymarket said, not just the code
+        raise RuntimeError(f"HTTP {e.code} {e.reason}: {e.read()[:200]!r}") from e
 
 
 def _json(v, default):
@@ -79,7 +91,7 @@ def fetch_events():
     for tag in TAGS:
         for off in range(0, 1000, 100):
             try:
-                page = _get(f"{GAMMA}/events?active=true&closed=false&limit=100&offset={off}&tag_slug={tag}")
+                page = _get(f"{GAMMA}/events?closed=false&tag_slug={tag}&limit=100" + (f"&offset={off}" if off else ""))
             except Exception as e:  # noqa: BLE001
                 print(f"tag {tag} offset {off}: {e}")
                 break
