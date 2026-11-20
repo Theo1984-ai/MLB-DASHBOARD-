@@ -8,6 +8,7 @@ saved props snapshot has the same player, market and line at Pinnacle, how far P
 Questions that mention a stat but do not parse are kept in "unparsed" so the parser can be fixed from real data.
 """
 import glob
+import gzip
 import json
 import os
 import re
@@ -35,13 +36,17 @@ PROP_RE = re.compile(rf"^(?P<who>[^:]+?)\s*[:\-–]\s*(?P<stat>{_STAT_RE})\s*(?:
 _CTX = ssl.create_default_context()
 
 
-_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; mlb-dashboard/1.0)", "Accept": "application/json"}
+_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; mlb-dashboard/1.0)", "Accept": "application/json", "Accept-Encoding": "gzip"}
 
 
 def _get(url):
     req = urllib.request.Request(url, headers=_HEADERS)
     try:
-        return json.loads(urllib.request.urlopen(req, timeout=30, context=_CTX).read())
+        raw = urllib.request.urlopen(req, timeout=30, context=_CTX)
+        body = raw.read()
+        if raw.headers.get("Content-Encoding") == "gzip":      # Polymarket serves pages over 50 events compressed only
+            body = gzip.decompress(body)
+        return json.loads(body)
     except urllib.error.HTTPError as e:                      # show what Polymarket said, not just the code
         raise RuntimeError(f"HTTP {e.code} {e.reason}: {e.read()[:200]!r}") from e
 
