@@ -76,6 +76,15 @@
         "book_line": 11.5,
         "book_over": -124,
         "book_under": -103
+      },
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
+        "pin_line": 11.5,
+        "pin_over": -129,
+        "pin_under": -103,
+        "book_line": 11.5,
+        "book_over": -124,
+        "book_under": -103
       }
     ],
     "result": null,
@@ -174,6 +183,15 @@
         "book_line": 12.5,
         "book_over": -118,
         "book_under": -112
+      },
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
+        "pin_line": 11.5,
+        "pin_over": -136,
+        "pin_under": 103,
+        "book_line": 12.5,
+        "book_over": -114,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -216,14 +234,14 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-20T04:30:19.385131-05:00",
+      "t": "2026-11-20T05:00:25.382912-05:00",
       "line": 12.5,
-      "price": -112,
-      "book": "fanduel",
+      "price": -110,
+      "book": "williamhill_us",
       "pin_line": 11.5,
       "pin_over": -124,
       "pin_under": -106,
-      "edge": 0.0284,
+      "edge": 0.0329,
       "stale": 4,
       "n_books": 5
     },
@@ -257,6 +275,15 @@
       },
       {
         "t": "2026-11-20T04:30:19.385131-05:00",
+        "pin_line": 11.5,
+        "pin_over": -124,
+        "pin_under": -106,
+        "book_line": 12.5,
+        "book_over": -118,
+        "book_under": -112
+      },
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
         "pin_line": 11.5,
         "pin_over": -124,
         "pin_under": -106,
@@ -305,14 +332,14 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-20T03:00:20.954689-05:00",
+      "t": "2026-11-20T05:00:25.382912-05:00",
       "line": 12.5,
-      "price": -114,
+      "price": -118,
       "book": "draftkings",
       "pin_line": 11.5,
       "pin_over": -118,
       "pin_under": -112,
-      "edge": 0.0361,
+      "edge": 0.0275,
       "stale": 3,
       "n_books": 5
     },
@@ -352,6 +379,15 @@
         "book_line": 12.5,
         "book_over": -103,
         "book_under": -124
+      },
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
+        "pin_line": 11.5,
+        "pin_over": -118,
+        "pin_under": -112,
+        "book_line": 12.5,
+        "book_over": -108,
+        "book_under": -118
       }
     ],
     "result": null,
@@ -441,6 +477,15 @@
         "book_line": 10.5,
         "book_over": -118,
         "book_under": -110
+      },
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
+        "pin_line": 11.5,
+        "pin_over": -107,
+        "pin_under": -124,
+        "book_line": 10.5,
+        "book_over": -118,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -461,5 +506,69 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-20|NBA|prop|Orlando Magic @ Brooklyn Nets|Michael Porter Jr|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Orlando Magic @ Brooklyn Nets",
+    "who": "Michael Porter Jr",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-21T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-20T05:00:25.382912-05:00",
+      "line": 21.5,
+      "price": -121,
+      "book": "draftkings",
+      "pin_line": 19.5,
+      "pin_over": -136,
+      "pin_under": 103,
+      "edge": 0.0199,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-20T05:00:25.382912-05:00",
+      "line": 21.5,
+      "price": -121,
+      "book": "draftkings",
+      "pin_line": 19.5,
+      "pin_over": -136,
+      "pin_under": 103,
+      "edge": 0.0199,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-20T05:00:25.382912-05:00",
+        "pin_line": 19.5,
+        "pin_over": -136,
+        "pin_under": 103,
+        "book_line": 21.5,
+        "book_over": -105,
+        "book_under": -121
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Brooklyn Nets",
+      "opp": "Orlando Magic",
+      "scope": "team",
+      "shift": 0.46,
+      "tag": "neutral",
+      "win_prob": 0.332,
+      "fav": "Orlando Magic",
+      "fav_win_prob": 0.668,
+      "fav_spread": -5.5,
+      "blowout": false,
+      "total": 224.0,
+      "total_over": -102,
+      "total_under": -113
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)"
+    ]
   }
 }
