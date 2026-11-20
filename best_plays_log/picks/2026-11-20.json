@@ -112,6 +112,15 @@
         "book_line": 11.5,
         "book_over": -128,
         "book_under": 101
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 11.5,
+        "pin_over": -129,
+        "pin_under": -103,
+        "book_line": 11.5,
+        "book_over": -128,
+        "book_under": 101
       }
     ],
     "result": null,
@@ -246,6 +255,15 @@
         "book_line": 12.5,
         "book_over": -108,
         "book_under": -122
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 11.5,
+        "pin_over": -137,
+        "pin_under": 103,
+        "book_line": 12.5,
+        "book_over": -106,
+        "book_under": -125
       }
     ],
     "result": null,
@@ -288,14 +306,14 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-20T06:30:21.958350-05:00",
+      "t": "2026-11-20T07:00:24.026164-05:00",
       "line": 12.5,
-      "price": -112,
+      "price": -110,
       "book": "fanduel",
       "pin_line": 11.5,
       "pin_over": -124,
       "pin_under": -107,
-      "edge": 0.0296,
+      "edge": 0.0341,
       "stale": 4,
       "n_books": 5
     },
@@ -371,6 +389,15 @@
         "book_line": 12.5,
         "book_over": -118,
         "book_under": -112
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 11.5,
+        "pin_over": -124,
+        "pin_under": -107,
+        "book_line": 12.5,
+        "book_over": -120,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -490,6 +517,15 @@
       },
       {
         "t": "2026-11-20T06:30:21.958350-05:00",
+        "pin_line": 11.5,
+        "pin_over": -118,
+        "pin_under": -112,
+        "book_line": 12.5,
+        "book_over": -103,
+        "book_under": -124
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
         "pin_line": 11.5,
         "pin_over": -118,
         "pin_under": -112,
@@ -621,6 +657,15 @@
         "book_line": 10.5,
         "book_over": -127,
         "book_under": -102
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 11.5,
+        "pin_over": -107,
+        "pin_under": -124,
+        "book_line": 10.5,
+        "book_over": -128,
+        "book_under": -101
       }
     ],
     "result": null,
@@ -710,6 +755,15 @@
         "book_line": 21.5,
         "book_over": -105,
         "book_under": -121
+      },
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 19.5,
+        "pin_over": -136,
+        "pin_under": 103,
+        "book_line": 20.5,
+        "book_over": -111,
+        "book_under": -115
       }
     ],
     "result": null,
@@ -731,6 +785,71 @@
     "tier": "B",
     "tier_why": [
       "big gap to Pinnacle (often news)"
+    ]
+  },
+  "2026-11-20|NBA|prop|Washington Wizards @ Chicago Bulls|Isaac Okoro|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Washington Wizards @ Chicago Bulls",
+    "who": "Isaac Okoro",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-11-21T01:10:00Z",
+    "first_seen": {
+      "t": "2026-11-20T07:00:24.026164-05:00",
+      "line": 10.5,
+      "price": 101,
+      "book": "draftkings",
+      "pin_line": 11.5,
+      "pin_over": 109,
+      "pin_under": -145,
+      "edge": 0.0246,
+      "stale": 4,
+      "n_books": 4
+    },
+    "last_seen": {
+      "t": "2026-11-20T07:00:24.026164-05:00",
+      "line": 10.5,
+      "price": 101,
+      "book": "draftkings",
+      "pin_line": 11.5,
+      "pin_over": 109,
+      "pin_under": -145,
+      "edge": 0.0246,
+      "stale": 4,
+      "n_books": 4
+    },
+    "checks": [
+      {
+        "t": "2026-11-20T07:00:24.026164-05:00",
+        "pin_line": 11.5,
+        "pin_over": 109,
+        "pin_under": -145,
+        "book_line": 10.5,
+        "book_over": 101,
+        "book_under": -129
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Chicago Bulls",
+      "opp": "Washington Wizards",
+      "scope": "team",
+      "shift": -0.73,
+      "tag": "conflicts",
+      "win_prob": 0.538,
+      "fav": "Chicago Bulls",
+      "fav_win_prob": 0.538,
+      "fav_spread": -2.0,
+      "blowout": false,
+      "total": 239.5,
+      "total_over": -107,
+      "total_under": -107
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
     ]
   }
 }
