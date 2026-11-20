@@ -491,9 +491,69 @@ def render_scorecard():
 with st.expander("📈 Forward scorecard: the frozen rules, new plays only", expanded=True):
     render_scorecard()
 
+def render_day():
+    """📅 Past days: pick a day and see that day's plays (every rule, with your Rule 1 choices) with their results."""
+    from datetime import date as _date
+    avail = sorted(set(logs) | set(_alerts))
+    if not avail:
+        st.info("No days logged yet.")
+        return
+    lo, hi = _date.fromisoformat(avail[0]), _date.fromisoformat(avail[-1])
+    want = _date.fromisoformat((now - timedelta(days=1)).strftime("%Y-%m-%d"))
+    day = st.date_input("Day", value=min(max(want, lo), hi), min_value=lo, max_value=hi, key="tp_day").strftime("%Y-%m-%d")
+    recs = list(logs.get(day, {}).values())
+    for a in _alerts.get(day, {}).values():
+        try:
+            recs.append(tp.alert_to_rec(a))
+        except Exception:  # noqa: BLE001
+            continue
+    sport_pick = st.radio("Sport", ["All"] + [sp for sp, _ in SPORT_TABS], horizontal=True, key="tp_day_sport")
+    rows, by = [], defaultdict(list)
+    for r in sorted(recs, key=lambda r: r["commence_time"]):
+        if sport_pick != "All" and r["sport"] != sport_pick:
+            continue
+        rules = passes(r)
+        if not rules:
+            continue
+        f = r["first_seen"]
+        l = r.get("last_seen") or f
+        res = r.get("result") or {}
+        out = res.get("outcome")
+        for name in rules:
+            by[name].append(r)
+        rows.append({"Tip (ET)": fs._parse(r["commence_time"]).astimezone(EASTERN).strftime("%I:%M %p").lstrip("0"),
+                     "Sport": r["sport"],
+                     "Play": f"{r['who']} {r['market']} {r['bet'].title()} {l['line']}" if not r.get("_alert")
+                             else f"{r['who']} team total {r['bet'].title()} {f['line']}",
+                     "Price": f"{l['price']:+d} {bp.BOOK_DISPLAY.get(l['book'], l['book'])}",
+                     "Edge": f"{tp.peak(r)} stale" if not r.get("_alert") else f"gap {f['gap']}",
+                     "Result": {"win": "✅ win", "loss": "❌ loss"}.get(out, out or "open"),
+                     "Actual": res.get("actual"),
+                     "Units": round(res.get("profit") or 0.0, 2) if out == "win" else (-1.0 if out == "loss" else None),
+                     "Rules": ", ".join(rules)})
+    if not rows:
+        st.info(f"No plays passed your rules on {day}.")
+        return
+    summ = []
+    for name in tp.RULES:
+        if by.get(name):
+            s_ = tp.record(by[name])
+            summ.append({"Rule": name, "Plays": len(by[name]), "W-L": f"{s_['w']}-{s_['l']}", "Win %": pct(s_["w"], s_["l"]),
+                         "Units": round(s_["units"], 1),
+                         "ROI %": round(100 * s_["units"] / s_["n"], 1) if s_["n"] else 0.0,
+                         "Open": len(by[name]) - s_["n"]})
+    st.markdown(f"#### {day}: record by rule")
+    st.dataframe(pd.DataFrame(summ), hide_index=True, use_container_width=True)
+    st.markdown("#### Every play that day")
+    st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+    st.caption("A play can pass several rules. Units are at the saved price (win = profit, loss = -1). Open = not graded yet.")
+
+
 n_open = lambda sp: sum(1 for x in items if sp is None or x["r"]["sport"] == sp)
-tabs = st.tabs([f"All ({n_open(None)})"] + [f"{label} ({n_open(sp)})" for sp, label in SPORT_TABS])
-for tab, sport in zip(tabs, [None] + [sp for sp, _ in SPORT_TABS]):
+tabs = st.tabs([f"All ({n_open(None)})"] + [f"{label} ({n_open(sp)})" for sp, label in SPORT_TABS] + ["📅 Past days"])
+with tabs[-1]:
+    render_day()
+for tab, sport in zip(tabs[:-1], [None] + [sp for sp, _ in SPORT_TABS]):
     with tab:
         if sport is not None and sport not in sports_seen:
             st.info(f"No {sport} plays logged yet.")
