@@ -20,7 +20,7 @@
       "n_books": 5
     },
     "last_seen": {
-      "t": "2026-11-20T02:30:19.472385-05:00",
+      "t": "2026-11-20T03:00:20.954689-05:00",
       "line": 12.5,
       "price": -111,
       "book": "draftkings",
@@ -28,12 +28,21 @@
       "pin_over": -130,
       "pin_under": -102,
       "edge": 0.0208,
-      "stale": 3,
+      "stale": 4,
       "n_books": 5
     },
     "checks": [
       {
         "t": "2026-11-20T02:30:19.472385-05:00",
+        "pin_line": 11.5,
+        "pin_over": -130,
+        "pin_under": -102,
+        "book_line": 12.5,
+        "book_over": -114,
+        "book_under": -111
+      },
+      {
+        "t": "2026-11-20T03:00:20.954689-05:00",
         "pin_line": 11.5,
         "pin_over": -130,
         "pin_under": -102,
@@ -102,6 +111,15 @@
         "book_line": 12.5,
         "book_over": -114,
         "book_under": -114
+      },
+      {
+        "t": "2026-11-20T03:00:20.954689-05:00",
+        "pin_line": 11.5,
+        "pin_over": -136,
+        "pin_under": 103,
+        "book_line": 12.5,
+        "book_over": -114,
+        "book_under": -114
       }
     ],
     "result": null,
@@ -119,6 +137,192 @@
       "total": 222.5,
       "total_over": -113,
       "total_under": -101
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-20|NBA|prop|Indiana Pacers @ Cleveland Cavaliers|Kelly Oubre Jr.|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Indiana Pacers @ Cleveland Cavaliers",
+    "who": "Kelly Oubre Jr.",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-21T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 12.5,
+      "price": -112,
+      "book": "fanduel",
+      "pin_line": 11.5,
+      "pin_over": -124,
+      "pin_under": -106,
+      "edge": 0.0284,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 12.5,
+      "price": -112,
+      "book": "fanduel",
+      "pin_line": 11.5,
+      "pin_over": -124,
+      "pin_under": -106,
+      "edge": 0.0284,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-20T03:00:20.954689-05:00",
+        "pin_line": 11.5,
+        "pin_over": -124,
+        "pin_under": -106,
+        "book_line": 12.5,
+        "book_over": -118,
+        "book_under": -112
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Indiana Pacers",
+      "opp": "Cleveland Cavaliers",
+      "scope": "team",
+      "shift": 0.13,
+      "tag": "neutral",
+      "win_prob": 0.291,
+      "fav": "Cleveland Cavaliers",
+      "fav_win_prob": 0.709,
+      "fav_spread": -7.5,
+      "blowout": false,
+      "total": 234.5,
+      "total_over": -113,
+      "total_under": -102
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-20|NBA|prop|Toronto Raptors @ Detroit Pistons|John Collins|points|UNDER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Toronto Raptors @ Detroit Pistons",
+    "who": "John Collins",
+    "market": "points",
+    "bet": "UNDER",
+    "commence_time": "2026-11-21T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 12.5,
+      "price": -114,
+      "book": "draftkings",
+      "pin_line": 11.5,
+      "pin_over": -118,
+      "pin_under": -112,
+      "edge": 0.0361,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 12.5,
+      "price": -114,
+      "book": "draftkings",
+      "pin_line": 11.5,
+      "pin_over": -118,
+      "pin_under": -112,
+      "edge": 0.0361,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-20T03:00:20.954689-05:00",
+        "pin_line": 11.5,
+        "pin_over": -118,
+        "pin_under": -112,
+        "book_line": 12.5,
+        "book_over": -112,
+        "book_under": -114
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Detroit Pistons",
+      "opp": "Toronto Raptors",
+      "scope": "team",
+      "shift": 0.53,
+      "tag": "conflicts",
+      "win_prob": 0.714,
+      "fav": "Detroit Pistons",
+      "fav_win_prob": 0.714,
+      "fav_spread": -7.5,
+      "blowout": false,
+      "total": 217.5,
+      "total_over": -109,
+      "total_under": -105
+    },
+    "tier": "A",
+    "tier_why": []
+  },
+  "2026-11-20|NBA|prop|Orlando Magic @ Brooklyn Nets|Egor Demin|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Orlando Magic @ Brooklyn Nets",
+    "who": "Egor Demin",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-11-21T00:40:00Z",
+    "first_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 10.5,
+      "price": -116,
+      "book": "betonlineag",
+      "pin_line": 11.5,
+      "pin_over": -110,
+      "pin_under": -122,
+      "edge": 0.0259,
+      "stale": 3,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-20T03:00:20.954689-05:00",
+      "line": 10.5,
+      "price": -116,
+      "book": "betonlineag",
+      "pin_line": 11.5,
+      "pin_over": -110,
+      "pin_under": -122,
+      "edge": 0.0259,
+      "stale": 3,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-20T03:00:20.954689-05:00",
+        "pin_line": 11.5,
+        "pin_over": -110,
+        "pin_under": -122,
+        "book_line": 10.5,
+        "book_over": -116,
+        "book_under": -111
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Brooklyn Nets",
+      "opp": "Orlando Magic",
+      "scope": "team",
+      "shift": 0.4,
+      "tag": "neutral",
+      "win_prob": 0.329,
+      "fav": "Orlando Magic",
+      "fav_win_prob": 0.671,
+      "fav_spread": -5.5,
+      "blowout": false,
+      "total": 224.0,
+      "total_over": -102,
+      "total_under": -113
     },
     "tier": "A",
     "tier_why": []
