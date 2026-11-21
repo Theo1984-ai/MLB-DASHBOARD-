@@ -351,7 +351,7 @@ for r in alert_recs:                                   # NCAAB team-total line a
 if sort_by == "Biggest gap":
     items.sort(key=lambda x: (-x["l"]["gap"], x["tip"]))
 else:
-    items.sort(key=lambda x: (x["tip"], -x["l"]["gap"]))
+    items.sort(key=lambda x: (x["tip"], x["r"]["game"], -x["l"]["gap"], x["r"]["who"]))   # earliest first, a game's plays together
 
 
 def render_triple(x):
@@ -552,7 +552,7 @@ def render_day():
             continue
     sport_pick = st.radio("Sport", ["All"] + [sp for sp, _ in SPORT_TABS], horizontal=True, key="tp_day_sport")
     rows, by = [], defaultdict(list)
-    for r in sorted(recs, key=lambda r: r["commence_time"]):
+    for r in sorted(recs, key=lambda r: (r["commence_time"], r["game"], r["who"])):
         if sport_pick != "All" and r["sport"] != sport_pick:
             continue
         rules = passes(r)
