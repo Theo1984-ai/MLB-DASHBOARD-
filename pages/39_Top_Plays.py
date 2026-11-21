@@ -91,21 +91,24 @@ def load_all(_token_present):
 
 @st.cache_data(ttl=120, show_spinner=False)
 def load_alerts(_token_present):
-    """{day: {key: line alert record}} for the NCAAB team-total line alerts (best_plays_log/line_alert_results/NCAAB)."""
+    """{day: {"<SPORT>|<key>": line alert record}} for the NCAAB and CFB team-total line alerts (best_plays_log/line_alert_results/<SPORT>).
+    Only the NCAAB rule shows cards; the CFB alerts feed the forward scorecard's CFB candidate."""
     from data import github_storage as gh
     out = {}
-    folder = f"{LOG_DIR}/line_alert_results/NCAAB"
-    try:
-        items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, folder))
-    except Exception:  # noqa: BLE001
-        return out
-    for item in items:
-        name = item["name"]
-        if name.endswith(".json"):
-            try:
-                out[name[:-5]] = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{folder}/{name}")) or {}
-            except Exception:  # noqa: BLE001
-                continue
+    for sport in ("NCAAB", "CFB"):
+        folder = f"{LOG_DIR}/line_alert_results/{sport}"
+        try:
+            items = _retry(lambda: gh.list_dir(GH_TOKEN, OWNER, REPO, folder))
+        except Exception:  # noqa: BLE001
+            continue
+        for item in items:
+            name = item["name"]
+            if name.endswith(".json"):
+                try:
+                    day = _retry(lambda: gh.load_json(GH_TOKEN, OWNER, REPO, f"{folder}/{name}")) or {}
+                except Exception:  # noqa: BLE001
+                    continue
+                out.setdefault(name[:-5], {}).update({f"{sport}|{k}": v for k, v in day.items()})
     return out
 
 
@@ -452,9 +455,10 @@ def render_record(sport):
 
 
 def render_scorecard():
-    """Forward scorecard: each frozen rule judged only on plays first seen from tp.FORWARD_START on."""
+    """Forward scorecard: each frozen rule (and each later candidate) judged only on plays first seen from its start day on."""
     st.markdown(f"### 📈 Forward scorecard (plays first seen from {tp.FORWARD_START} on)")
     st.caption("The three rules were frozen on that day, so only plays from then on count: no cherry-picking. "
+               "The two CFB candidates (found later in a back-test) start Nov 21 and are marked 🧪. "
                f"A verdict needs {tp.FORWARD_MIN} graded plays. The range is a 95% confidence range for the win rate; "
                "if it includes the break-even rate, we can't tell luck from edge yet.")
     try:
@@ -465,17 +469,18 @@ def render_scorecard():
     recs = defaultdict(list)
     for d in sorted(logs):
         for pid, r in logs[d].items():
-            for name in tp.matches(r):
-                if name in tp.FORWARD_RULES:
+            for name in tp.matches(r) + tp.candidate_matches(r):
+                if name in tp.FORWARD_RULES + tp.CANDIDATE_RULES:
                     recs[name].append({**r, "_id": pid})
     for r in alert_recs:
-        for name in tp.matches(r):
-            if name in tp.FORWARD_RULES:
+        for name in tp.matches(r) + tp.candidate_matches(r):
+            if name in tp.FORWARD_RULES + tp.CANDIDATE_RULES:
                 recs[name].append(r)
     rows = []
-    for name in tp.FORWARD_RULES:
-        x = tp.scorecard_row(tp.forward_recs(recs.get(name, [])), clv)
-        rows.append({"Rule": name, "Graded": x["n"], "Open": x["open"], "W-L": f"{x['w']}-{x['l']}",
+    for name in tp.FORWARD_RULES + tp.CANDIDATE_RULES:
+        x = tp.scorecard_row(tp.forward_recs(recs.get(name, []), tp.forward_start(name)), clv)
+        rows.append({"Rule": ("🧪 " if name in tp.CANDIDATE_RULES else "") + name, "Since": tp.forward_start(name),
+                     "Graded": x["n"], "Open": x["open"], "W-L": f"{x['w']}-{x['l']}",
                      "Win %": f"{100 * x['win']:.0f}%" if x["n"] else "-",
                      "95% range": f"{100 * x['lo']:.0f}-{100 * x['hi']:.0f}%" if x["n"] else "-",
                      "Break-even": f"{100 * x['be']:.0f}%" if x["n"] else "-",

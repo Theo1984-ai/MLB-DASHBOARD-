@@ -249,6 +249,28 @@ FORWARD_START = "2026-11-19"      # the day the rules were frozen; nothing earli
 FORWARD_RULES = (RULE_NHL, RULE_NBA, RULE_NCAAB)
 FORWARD_MIN = 100                 # plays needed before a verdict is given
 
+# Candidates found later in a back-test (CFB, Nov 21): tracked on the scorecard only, from their own start day, never on the cards.
+RULE_CFB_PROP = "CFB props Under, 2 books stale"
+RULE_CFB_ALERT = "CFB team total alert, -140 to -179"
+CANDIDATE_RULES = (RULE_CFB_PROP, RULE_CFB_ALERT)
+CFB_ALERT_PRICE = (-179, -140)
+FORWARD_STARTS = {RULE_CFB_PROP: "2026-11-21", RULE_CFB_ALERT: "2026-11-21"}   # every other rule starts at FORWARD_START
+
+
+def forward_start(rule):
+    return FORWARD_STARTS.get(rule, FORWARD_START)
+
+
+def candidate_matches(rec):
+    """The candidate rules (CANDIDATE_RULES) this record passes; works on First Seen records and alert_to_rec records."""
+    out = []
+    if rec.get("_alert"):
+        if rec["sport"] == "CFB" and CFB_ALERT_PRICE[0] <= rec["first_seen"]["price"] <= CFB_ALERT_PRICE[1]:
+            out.append(RULE_CFB_ALERT)
+    elif rec["sport"] == "CFB" and rec["bet"] == "UNDER" and peak(rec) == 2:
+        out.append(RULE_CFB_PROP)
+    return out
+
 
 def implied(price):
     """Break-even win probability of an American price."""
