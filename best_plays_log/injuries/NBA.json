@@ -46,17 +46,17 @@
     ],
     "Boston Celtics": [
       {
-        "name": "Derrick White",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "White had 12 points (5-16 FG, 0-7 3Pt, 2-2 FT), three rebounds, eight assists and one block over 35 minutes during Wednesday's 105-101 loss to Denver.",
-        "return": "2026-11-21"
-      },
-      {
         "name": "Jayson Tatum",
         "status": "Day-To-Day",
         "pos": "F",
-        "note": "Tatum had 24 points (10-22 FG, 3-8 3Pt, 1-2 FT), eight rebounds, three assists and one steal over 37 minutes during Wednesday's 105-101 loss to the Nuggets.",
+        "note": "Tatum (rest) is listed as questionable for Saturday's game against Sacramento.",
+        "return": "2026-11-21"
+      },
+      {
+        "name": "Derrick White",
+        "status": "Day-To-Day",
+        "pos": "G",
+        "note": "White (shoulder) is questionable to play in Saturday's game against Sacramento.",
         "return": "2026-11-21"
       }
     ],
@@ -917,8 +917,23 @@
     {
       "id": "401909309",
       "start": "2026-11-21T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Washington Wizards": [
+          "Anthony Davis",
+          "AJ Dybantsa",
+          "Kyshawn George",
+          "Alex Sarr",
+          "Trae Young"
+        ],
+        "Chicago Bulls": [
+          "Isaac Okoro",
+          "Matas Buzelis",
+          "Nic Claxton",
+          "Norman Powell",
+          "Josh Giddey"
+        ]
+      },
       "probables": {},
       "home": "Chicago Bulls",
       "away": "Washington Wizards"
@@ -926,8 +941,23 @@
     {
       "id": "401909310",
       "start": "2026-11-21T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "New Orleans Pelicans": [
+          "Herbert Jones",
+          "Zion Williamson",
+          "Saddiq Bey",
+          "Yves Missi",
+          "Jeremiah Fears"
+        ],
+        "Oklahoma City Thunder": [
+          "Isaiah Hartenstein",
+          "Aday Mara",
+          "Shai Gilgeous-Alexander",
+          "Jared McCain",
+          "Ajay Mitchell"
+        ]
+      },
       "probables": {},
       "home": "Oklahoma City Thunder",
       "away": "New Orleans Pelicans"
@@ -961,5 +991,5 @@
     }
   ],
   "date": "2026-11-20",
-  "fetched": "2026-11-20T20:00:51.206411-05:00"
+  "fetched": "2026-11-20T20:30:38.533508-05:00"
 }
