@@ -44,6 +44,22 @@
         "return": "2027-07-01"
       }
     ],
+    "Boston Celtics": [
+      {
+        "name": "Derrick White",
+        "status": "Day-To-Day",
+        "pos": "G",
+        "note": "White had 12 points (5-16 FG, 0-7 3Pt, 2-2 FT), three rebounds, eight assists and one block over 35 minutes during Wednesday's 105-101 loss to Denver.",
+        "return": "2026-11-21"
+      },
+      {
+        "name": "Jayson Tatum",
+        "status": "Day-To-Day",
+        "pos": "F",
+        "note": "Tatum had 24 points (10-22 FG, 3-8 3Pt, 1-2 FT), eight rebounds, three assists and one steal over 37 minutes during Wednesday's 105-101 loss to the Nuggets.",
+        "return": "2026-11-21"
+      }
+    ],
     "Brooklyn Nets": [
       {
         "name": "Grant Nelson",
@@ -81,6 +97,13 @@
         "pos": "G",
         "note": "Schroder has been diagnosed with a left hamstring strain and will be reevaluated in two weeks, Michael Scotto of HoopsHype.com reports.",
         "return": "2026-11-25"
+      },
+      {
+        "name": "Brandon Miller",
+        "status": "Day-To-Day",
+        "pos": "F",
+        "note": "Miller amassed 28 points (10-19 FG, 5-12 3Pt, 3-3 FT), two rebounds, four assists and one block in 32 minutes during Tuesday's 118-114 overtime loss to the Lakers.",
+        "return": "2026-11-20"
       }
     ],
     "Chicago Bulls": [
@@ -184,6 +207,13 @@
     ],
     "Detroit Pistons": [
       {
+        "name": "Ronald Holland II",
+        "status": "Out",
+        "pos": "F",
+        "note": "Holland (knee) is listed as out for Friday's game against Toronto.",
+        "return": "2026-11-22"
+      },
+      {
         "name": "Taurean Prince",
         "status": "Out",
         "pos": "F",
@@ -210,20 +240,6 @@
         "pos": "C",
         "note": "Duren (hamstring) has begun on-court activity and will be re-evaluated in two weeks, Hunter Patterson of The Athletic reports.",
         "return": "2026-11-24"
-      },
-      {
-        "name": "Ronald Holland II",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Holland (knee) has been upgraded to doubtful for Friday's game against Toronto, Hunter Patterson of The Athletic reports.",
-        "return": "2026-11-20"
-      },
-      {
-        "name": "Cade Cunningham",
-        "status": "Day-To-Day",
-        "pos": "G",
-        "note": "Cunningham (knee) is expected to play in Friday's game against the Raptors, Blake Murphy of Sportsnet.ca reports.",
-        "return": ""
       },
       {
         "name": "Ugonna Onyenso",
@@ -765,6 +781,13 @@
     ],
     "Washington Wizards": [
       {
+        "name": "Felix Okpara",
+        "status": "Out",
+        "pos": "F",
+        "note": "Okpara (illness) is available for Friday's game against Toronto.",
+        "return": "2026-11-22"
+      },
+      {
         "name": "Tristan Vukcevic",
         "status": "Out",
         "pos": "F",
@@ -791,13 +814,6 @@
         "pos": "G",
         "note": "The Wizards announced Thursday that Watkins has undergone surgery for a torn ACL.",
         "return": "2027-04-02"
-      },
-      {
-        "name": "Felix Okpara",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Okpara (illness) is available for Friday's game against Toronto.",
-        "return": "2026-11-20"
       }
     ]
   },
@@ -829,8 +845,23 @@
     {
       "id": "401909306",
       "start": "2026-11-21T00:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Orlando Magic": [
+          "Franz Wagner",
+          "Wendell Carter Jr.",
+          "Desmond Bane",
+          "Jalen Suggs",
+          "Anthony Black"
+        ],
+        "Brooklyn Nets": [
+          "Julius Randle",
+          "Michael Porter Jr.",
+          "Danny Wolf",
+          "Day'Ron Sharpe",
+          "Nolan Traore"
+        ]
+      },
       "probables": {},
       "home": "Brooklyn Nets",
       "away": "Orlando Magic"
@@ -838,8 +869,23 @@
     {
       "id": "401909307",
       "start": "2026-11-21T00:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Indiana Pacers": [
+          "Pascal Siakam",
+          "Ivica Zubac",
+          "Kelly Oubre Jr.",
+          "Andrew Nembhard",
+          "Aaron Nesmith"
+        ],
+        "Cleveland Cavaliers": [
+          "Jarrett Allen",
+          "James Harden",
+          "Donovan Mitchell",
+          "Peyton Watson",
+          "Tyrese Proctor"
+        ]
+      },
       "probables": {},
       "home": "Cleveland Cavaliers",
       "away": "Indiana Pacers"
@@ -847,8 +893,23 @@
     {
       "id": "401909308",
       "start": "2026-11-21T00:30Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Toronto Raptors": [
+          "Scottie Barnes",
+          "Allen Graves",
+          "Jakob Poeltl",
+          "Immanuel Quickley",
+          "Ja'Kobe Walter"
+        ],
+        "Detroit Pistons": [
+          "John Collins",
+          "Kevin Huerter",
+          "Cade Cunningham",
+          "Ausar Thompson",
+          "Daniss Jenkins"
+        ]
+      },
       "probables": {},
       "home": "Detroit Pistons",
       "away": "Toronto Raptors"
@@ -900,5 +961,5 @@
     }
   ],
   "date": "2026-11-20",
-  "fetched": "2026-11-20T19:30:54.175617-05:00"
+  "fetched": "2026-11-20T20:00:51.206411-05:00"
 }
