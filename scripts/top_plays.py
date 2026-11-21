@@ -127,6 +127,22 @@ def stale_breakdown(recs, side="Over"):
     return out
 
 
+# ── Which team a player is on (from the saved rosters, best_plays_log/rosters/<SPORT>.json) ─────────────────────
+
+def player_team(rosters, game, who):
+    """
+    The team of player `who` in `game` ("Away @ Home"), or "" when it can't be told. `rosters` = {team name: {"names": [normalized
+    names], ...}} for the sport. Only the game's two teams are checked, and the answer must be unambiguous (on exactly one of them).
+    """
+    from scripts import best_plays as bp
+    teams = [t.strip() for t in (game or "").split("@")]
+    nm = bp.norm_name(who)
+    if len(teams) != 2 or not nm:
+        return ""
+    on = [t for t in teams if nm in {bp.norm_name(n) for n in ((rosters or {}).get(t) or {}).get("names", [])}]
+    return on[0] if len(on) == 1 else ""
+
+
 # ── Last-5-games form for NBA threes (from the saved NBA box scores, best_plays_log/nba_box/<date>.json) ──────────
 
 def load_recent_box(load, date, days=14, log_dir="best_plays_log"):
