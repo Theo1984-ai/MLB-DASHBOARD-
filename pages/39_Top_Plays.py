@@ -224,6 +224,15 @@ def team_of(r):
         return ""
 
 
+def team_pill(r):
+    """A bold team label to show right after a player's name (the game line below shows both teams); '' when the team isn't known."""
+    team = team_of(r)
+    if not team:
+        return ""
+    return (f'<span style="background:#166534;color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:10px;'
+            f'margin-left:8px;white-space:nowrap;">{html.escape(team)}</span>')
+
+
 now = datetime.now(tz=EASTERN)
 all_recs = [r for d in sorted(logs) for r in logs[d].values()]
 graded = [r for r in all_recs if (r.get("result") or {}).get("outcome") in ("win", "loss")]
@@ -367,10 +376,9 @@ def render_triple(x):
     st.markdown(
         f'<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:10px 14px;margin-bottom:6px;color:#111827;">'
         f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
-        f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}{injm.badge(e)}'
-        f'<span style="font-size:11px;color:#6b7280;font-weight:400;">{(" (" + html.escape(team_of(r)) + ")") if team_of(r) else ""}'
-        f' — {html.escape(r["game"])} · NBA 🏀</span></span>'
+        f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}{injm.badge(e)}{team_pill(r)}</span>'
         f'<span style="font-size:11px;color:#6b7280;white-space:nowrap;">{tip.strftime("%a %I:%M %p")} ET</span></div>'
+        f'<div style="font-size:11px;color:#6b7280;">{html.escape(r["game"])} · NBA 🏀</div>'
         f'<div style="margin:4px 0;"><span style="background:#2563eb;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
         f'border-radius:3px;">👀 Triple Over watch</span> <span style="font-size:11px;color:#6b7280;">points, assists and rebounds '
         f'all have an Over split. No proven edge: see the Record.</span></div>' + "".join(parts) + '</div>',
@@ -421,18 +429,14 @@ def render_cards(sport):
         e = injm.play_injury(injuries, {**r, "line": l["line"]})
         inj_html = injm.badge(e)
         book = bp.BOOK_DISPLAY.get(l["book"], l["book"])
-        team = team_of(r)
-        team_html = f' ({html.escape(team)})' if team else ""
         st.markdown(
             f'<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;padding:10px 14px;'
             f'margin-bottom:6px;color:#111827;">'
             f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
-            f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}{inj_html}'
-            f'<span style="font-size:11px;color:#6b7280;font-weight:400;">{team_html}'
-            f' — {html.escape(r["game"])} · '
-            f'{bp.SPORTS[r["sport"]]["label"]}</span></span>'
+            f'<span style="font-size:14px;font-weight:700;">{html.escape(r["who"])}{inj_html}{team_pill(r)}</span>'
             f'<span style="font-size:11px;color:#6b7280;white-space:nowrap;">{badge}'
             f'{tip.strftime("%a %I:%M %p")} ET</span></div>'
+            f'<div style="font-size:11px;color:#6b7280;">{html.escape(r["game"])} · {bp.SPORTS[r["sport"]]["label"]}</div>'
             f'<div style="display:flex;align-items:baseline;gap:10px;margin:2px 0;flex-wrap:wrap;">'
             f'<span style="font-size:11px;color:#6b7280;">{html.escape(r["market"].replace("_", " "))}</span>'
             f'<span style="font-size:18px;font-weight:800;color:#15803d;">{r["bet"]} {l["line"]}</span>'
