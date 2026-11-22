@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 7,
+  "n_snapshots": 8,
   "snapshots": [
     {
       "captured_at": "2026-11-22T13:11:56.625206-05:00",
@@ -871,6 +871,108 @@
               "home": {
                 "line": 3.5,
                 "over_price": -128,
+                "under_price": null
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Edmonton Oilers @ St Louis Blues",
+          "away_team": "Edmonton Oilers",
+          "home_team": "St Louis Blues",
+          "first_pitch": "2026-11-23T00:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -148,
+            "under_price": -220
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -190,
+            "under_price": -174
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -148,
+                "under_price": -220
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -190,
+                "under_price": -174
+              }
+            }
+          },
+          "n_books": 1
+        },
+        {
+          "game": "Chicago Blackhawks @ Vancouver Canucks",
+          "away_team": "Chicago Blackhawks",
+          "home_team": "Vancouver Canucks",
+          "first_pitch": "2026-11-23T01:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -210,
+            "under_price": -148
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -200,
+            "under_price": -160
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -210,
+                "under_price": -148
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -200,
+                "under_price": -160
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-11-22T17:25:56.460746-05:00",
+      "n_games": 3,
+      "games": [
+        {
+          "game": "Pittsburgh Penguins @ Dallas Stars",
+          "away_team": "Pittsburgh Penguins",
+          "home_team": "Dallas Stars",
+          "first_pitch": "2026-11-23T00:10:00Z",
+          "away": {
+            "line": 2.5,
+            "over_price": -106,
+            "under_price": null
+          },
+          "home": {
+            "line": 3.5,
+            "over_price": -130,
+            "under_price": null
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 2.5,
+                "over_price": -106,
+                "under_price": null
+              },
+              "home": {
+                "line": 3.5,
+                "over_price": -130,
                 "under_price": null
               }
             }
