@@ -1,7 +1,7 @@
 {
   "date": "2026-11-21",
-  "snapshot_at": "2026-11-21T20:04:06.159152-05:00",
-  "n_picks": 25,
+  "snapshot_at": "2026-11-21T20:51:04.945753-05:00",
+  "n_picks": 26,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 25,
+    "n_total": 26,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -1072,32 +1072,32 @@
       "player": "Anaheim Ducks",
       "side": "Away",
       "point": 2.5,
-      "best_book": "draftkings",
-      "best_price": -290,
-      "true_prob_pct": 75.43,
-      "ev_per_100": 4.2,
+      "best_book": "pinnacle",
+      "best_price": -306,
+      "true_prob_pct": 76.94,
+      "ev_per_100": 6.37,
       "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
-          -290
+          "pinnacle",
+          -306
         ],
         [
-          "pinnacle",
-          -300
+          "draftkings",
+          -325
         ],
         [
           "bovada",
-          -320
+          -330
         ],
         [
           "fanduel",
-          -320
+          -380
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-21T16:19:39.596442-05:00",
-      "last_seen_at": "2026-11-21T20:04:06.159106-05:00",
+      "last_seen_at": "2026-11-21T20:51:04.945702-05:00",
       "scan_history": [
         {
           "t": "2026-11-21T16:19:39.596442-05:00",
@@ -1122,6 +1122,12 @@
           "tp": 75.43,
           "ev": 4.2,
           "price": -290
+        },
+        {
+          "t": "2026-11-21T20:51:04.945702-05:00",
+          "tp": 76.94,
+          "ev": 6.37,
+          "price": -306
         }
       ]
     },
@@ -1438,6 +1444,55 @@
           "tp": 79.89,
           "ev": 4.06,
           "price": -377
+        }
+      ]
+    },
+    {
+      "event_id": "2c807988a077495f0a1349ddd3ab6936",
+      "game": "Ducks @ Mammoth",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Utah Mammoth",
+      "first_pitch": "2026-11-22T02:00:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Utah Mammoth +1.5",
+      "player": "Utah Mammoth",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -370,
+      "true_prob_pct": 79.81,
+      "ev_per_100": 5.12,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "draftkings",
+          -370
+        ],
+        [
+          "pinnacle",
+          -394
+        ],
+        [
+          "fanduel",
+          -400
+        ],
+        [
+          "bovada",
+          -420
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-21T20:51:04.945702-05:00",
+      "last_seen_at": "2026-11-21T20:51:04.945702-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-21T20:51:04.945702-05:00",
+          "tp": 79.81,
+          "ev": 5.12,
+          "price": -370
         }
       ]
     }
