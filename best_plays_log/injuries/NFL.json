@@ -151,6 +151,13 @@
         "pos": "QB",
         "note": "The Ravens believe \"there's a chance\" that Jackson (thumb) could return for their Week 16 matchup with the Browns, assuming all goes well in his recovery from right thumb surgery, Dan Graziano of ESPN.com reports.",
         "return": "2026-12-27"
+      },
+      {
+        "name": "Derrick Henry",
+        "status": "Questionable",
+        "pos": "RB",
+        "note": "Henry is being evaluated for a concussion during Sunday's game against the Panthers.",
+        "return": "2026-11-22"
       }
     ],
     "Buffalo Bills": [
@@ -285,13 +292,6 @@
     ],
     "Chicago Bears": [
       {
-        "name": "Roschon Johnson",
-        "status": "Out",
-        "pos": "RB",
-        "note": "Johnson (ankle) has been ruled out for the rest of Sunday's game against the Saints, Courtney Cronin of ESPN.com reports.",
-        "return": "2026-11-26"
-      },
-      {
         "name": "Case Keenum",
         "status": "Out",
         "pos": "QB",
@@ -324,6 +324,13 @@
         "status": "Out",
         "pos": "CB",
         "note": "inactive",
+        "return": "2026-11-26"
+      },
+      {
+        "name": "Roschon Johnson",
+        "status": "Questionable",
+        "pos": "RB",
+        "note": "Johnson (ankle) has been ruled out for the rest of Sunday's game against the Saints, Courtney Cronin of ESPN.com reports.",
         "return": "2026-11-26"
       }
     ],
@@ -993,6 +1000,20 @@
         "pos": "CB",
         "note": "The Chargers placed Shelley (ankle) on injured reserve Saturday.",
         "return": "2026-12-17"
+      },
+      {
+        "name": "Keaton Mitchell",
+        "status": "Questionable",
+        "pos": "RB",
+        "note": "questionable",
+        "return": "2026-11-22"
+      },
+      {
+        "name": "David Njoku",
+        "status": "Questionable",
+        "pos": "TE",
+        "note": "questionable",
+        "return": "2026-11-22"
       }
     ],
     "Los Angeles Rams": [
@@ -1296,7 +1317,7 @@
         "status": "Questionable",
         "pos": "TE",
         "note": "Johnson injured his hamstring during Sunday's game in Chicago, Jeff Nowak of WWL Radio reports.",
-        "return": "2026-11-22"
+        "return": "2026-11-29"
       }
     ],
     "New York Giants": [
@@ -1887,9 +1908,18 @@
   },
   "lineups": [
     {
+      "id": "401873074",
+      "start": "2026-11-22T21:05Z",
+      "status": "In Progress",
+      "starters": {},
+      "probables": {},
+      "home": "Los Angeles Chargers",
+      "away": "New York Jets"
+    },
+    {
       "id": "401873070",
       "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
+      "status": "Final",
       "starters": {},
       "probables": {},
       "home": "Buffalo Bills",
@@ -1898,7 +1928,7 @@
     {
       "id": "401873071",
       "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
+      "status": "Final",
       "starters": {},
       "probables": {},
       "home": "Chicago Bears",
@@ -1907,7 +1937,7 @@
     {
       "id": "401873073",
       "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
+      "status": "Final",
       "starters": {},
       "probables": {},
       "home": "Dallas Cowboys",
@@ -1916,29 +1946,11 @@
     {
       "id": "401873072",
       "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
+      "status": "Final",
       "starters": {},
       "probables": {},
       "home": "Detroit Lions",
       "away": "Tampa Bay Buccaneers"
-    },
-    {
-      "id": "401873076",
-      "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
-      "starters": {},
-      "probables": {},
-      "home": "Philadelphia Eagles",
-      "away": "Pittsburgh Steelers"
-    },
-    {
-      "id": "401873068",
-      "start": "2026-11-22T18:00Z",
-      "status": "In Progress",
-      "starters": {},
-      "probables": {},
-      "home": "Carolina Panthers",
-      "away": "Baltimore Ravens"
     },
     {
       "id": "401873067",
@@ -1950,18 +1962,27 @@
       "away": "Arizona Cardinals"
     },
     {
-      "id": "401873074",
-      "start": "2026-11-22T21:05Z",
-      "status": "Scheduled",
+      "id": "401873076",
+      "start": "2026-11-22T18:00Z",
+      "status": "Final",
       "starters": {},
       "probables": {},
-      "home": "Los Angeles Chargers",
-      "away": "New York Jets"
+      "home": "Philadelphia Eagles",
+      "away": "Pittsburgh Steelers"
+    },
+    {
+      "id": "401873068",
+      "start": "2026-11-22T18:00Z",
+      "status": "Final",
+      "starters": {},
+      "probables": {},
+      "home": "Carolina Panthers",
+      "away": "Baltimore Ravens"
     },
     {
       "id": "401873075",
       "start": "2026-11-22T21:25Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "Denver Broncos",
@@ -1970,7 +1991,7 @@
     {
       "id": "401873069",
       "start": "2026-11-22T21:25Z",
-      "status": "Scheduled",
+      "status": "In Progress",
       "starters": {},
       "probables": {},
       "home": "New York Giants",
@@ -1987,5 +2008,5 @@
     }
   ],
   "date": "2026-11-22",
-  "fetched": "2026-11-22T16:00:46.523849-05:00"
+  "fetched": "2026-11-22T16:30:42.150193-05:00"
 }
