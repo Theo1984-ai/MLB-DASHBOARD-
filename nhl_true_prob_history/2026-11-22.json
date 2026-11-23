@@ -1,7 +1,7 @@
 {
   "date": "2026-11-22",
-  "snapshot_at": "2026-11-22T19:34:34.831411-05:00",
-  "n_picks": 5,
+  "snapshot_at": "2026-11-22T20:28:31.180287-05:00",
+  "n_picks": 10,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 5,
+    "n_total": 10,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -284,6 +284,235 @@
           "tp": 75.86,
           "ev": 9.73,
           "price": -274
+        }
+      ]
+    },
+    {
+      "event_id": "3a8553e25e16a66e676afc349395fec6",
+      "game": "Blackhawks @ Canucks",
+      "away_team": "Chicago Blackhawks",
+      "home_team": "Vancouver Canucks",
+      "first_pitch": "2026-11-23T01:12:10Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Vancouver Canucks +3.5",
+      "player": "Vancouver Canucks",
+      "side": "Home",
+      "point": 3.5,
+      "best_book": "fanduel",
+      "best_price": -380,
+      "true_prob_pct": 82.02,
+      "ev_per_100": 13.68,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "fanduel",
+          -380
+        ],
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "bovada",
+          -700
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "last_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T20:28:31.180244-05:00",
+          "tp": 82.02,
+          "ev": 13.68,
+          "price": -380
+        }
+      ]
+    },
+    {
+      "event_id": "3a8553e25e16a66e676afc349395fec6",
+      "game": "Blackhawks @ Canucks",
+      "away_team": "Chicago Blackhawks",
+      "home_team": "Vancouver Canucks",
+      "first_pitch": "2026-11-23T01:12:10Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 5.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 5.5,
+      "best_book": "bovada",
+      "best_price": -335,
+      "true_prob_pct": 81.51,
+      "ev_per_100": 19.59,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -335
+        ],
+        [
+          "draftkings",
+          -450
+        ],
+        [
+          "fanduel",
+          -600
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "last_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T20:28:31.180244-05:00",
+          "tp": 81.51,
+          "ev": 19.59,
+          "price": -335
+        }
+      ]
+    },
+    {
+      "event_id": "2d095386ab1321c89df24896d98495ee",
+      "game": "Leafs @ Islanders",
+      "away_team": "Toronto Maple Leafs",
+      "home_team": "New York Islanders",
+      "first_pitch": "2026-11-24T00:40:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "New York Islanders +1.5",
+      "player": "New York Islanders",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -385,
+      "true_prob_pct": 81.12,
+      "ev_per_100": 8.42,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "pinnacle",
+          -441
+        ],
+        [
+          "bovada",
+          -470
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "last_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T20:28:31.180244-05:00",
+          "tp": 81.12,
+          "ev": 8.42,
+          "price": -385
+        }
+      ]
+    },
+    {
+      "event_id": "806787e1b3ac73d09e3ae05f6d595865",
+      "game": "Kings @ Canadiens",
+      "away_team": "Los Angeles Kings",
+      "home_team": "Montr\u00e9al Canadiens",
+      "first_pitch": "2026-11-24T00:40:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Montr\u00e9al Canadiens +1.5",
+      "player": "Montr\u00e9al Canadiens",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -375,
+      "true_prob_pct": 80.32,
+      "ev_per_100": 6.54,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -375
+        ],
+        [
+          "pinnacle",
+          -414
+        ],
+        [
+          "bovada",
+          -440
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "last_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T20:28:31.180244-05:00",
+          "tp": 80.32,
+          "ev": 6.54,
+          "price": -375
+        }
+      ]
+    },
+    {
+      "event_id": "3a8553e25e16a66e676afc349395fec6",
+      "game": "Blackhawks @ Canucks",
+      "away_team": "Chicago Blackhawks",
+      "home_team": "Vancouver Canucks",
+      "first_pitch": "2026-11-23T01:12:10Z",
+      "market": "Moneyline",
+      "market_key": "h2h",
+      "stat_key": "h2h",
+      "settle_type": "Team",
+      "selection": "Chicago Blackhawks",
+      "player": "Chicago Blackhawks",
+      "side": "Away",
+      "point": null,
+      "best_book": "pinnacle",
+      "best_price": -239,
+      "true_prob_pct": 78.91,
+      "ev_per_100": 28.51,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -239
+        ],
+        [
+          "draftkings",
+          -410
+        ],
+        [
+          "fanduel",
+          -460
+        ],
+        [
+          "bovada",
+          -475
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "last_seen_at": "2026-11-22T20:28:31.180244-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T20:28:31.180244-05:00",
+          "tp": 78.91,
+          "ev": 28.51,
+          "price": -239
         }
       ]
     }
