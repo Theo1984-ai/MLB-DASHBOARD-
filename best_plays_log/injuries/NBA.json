@@ -451,6 +451,13 @@
     ],
     "New York Knicks": [
       {
+        "name": "Miles McBride",
+        "status": "Out",
+        "pos": "G",
+        "note": "McBride (abdomen) has been ruled out for Sunday's game against the Pacers.",
+        "return": "2026-11-25"
+      },
+      {
         "name": "OG Anunoby",
         "status": "Out",
         "pos": "F",
@@ -463,13 +470,6 @@
         "pos": "G",
         "note": "Clarkson (foot) has been ruled out for Sunday's game against Indiana.",
         "return": "2026-11-25"
-      },
-      {
-        "name": "Karl-Anthony Towns",
-        "status": "Day-To-Day",
-        "pos": "C",
-        "note": "Towns (illness) is questionable to play in Sunday's game against the Pacers.",
-        "return": "2026-11-22"
       }
     ],
     "Oklahoma City Thunder": [
@@ -818,8 +818,23 @@
     {
       "id": "401910031",
       "start": "2026-11-23T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Orlando Magic": [
+          "Franz Wagner",
+          "Wendell Carter Jr.",
+          "Desmond Bane",
+          "Jalen Suggs",
+          "Anthony Black"
+        ],
+        "Washington Wizards": [
+          "Anthony Davis",
+          "AJ Dybantsa",
+          "Kyshawn George",
+          "Alex Sarr",
+          "Trae Young"
+        ]
+      },
       "probables": {},
       "home": "Washington Wizards",
       "away": "Orlando Magic"
@@ -827,8 +842,23 @@
     {
       "id": "401910032",
       "start": "2026-11-23T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Denver Nuggets": [
+          "Aaron Gordon",
+          "Cameron Johnson",
+          "Nikola Jokic",
+          "Jamal Murray",
+          "Christian Braun"
+        ],
+        "Chicago Bulls": [
+          "Jalen Smith",
+          "Isaac Okoro",
+          "Matas Buzelis",
+          "Buddy Hield",
+          "Josh Giddey"
+        ]
+      },
       "probables": {},
       "home": "Chicago Bulls",
       "away": "Denver Nuggets"
@@ -836,8 +866,23 @@
     {
       "id": "401910033",
       "start": "2026-11-23T00:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Dallas Mavericks": [
+          "Caleb Martin",
+          "Daniel Gafford",
+          "Cooper Flagg",
+          "Zaccharie Risacher",
+          "Kyrie Irving"
+        ],
+        "Utah Jazz": [
+          "Jaxson Hayes",
+          "Josh Green",
+          "Keyonte George",
+          "Ace Bailey",
+          "Darryn Peterson"
+        ]
+      },
       "probables": {},
       "home": "Utah Jazz",
       "away": "Dallas Mavericks"
@@ -862,5 +907,5 @@
     }
   ],
   "date": "2026-11-22",
-  "fetched": "2026-11-22T19:00:42.344716-05:00"
+  "fetched": "2026-11-22T19:30:29.832240-05:00"
 }
