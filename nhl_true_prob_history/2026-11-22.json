@@ -1,7 +1,7 @@
 {
   "date": "2026-11-22",
-  "snapshot_at": "2026-11-22T17:11:41.346434-05:00",
-  "n_picks": 3,
+  "snapshot_at": "2026-11-22T19:34:34.831411-05:00",
+  "n_picks": 5,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 3,
+    "n_total": 5,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -36,28 +36,32 @@
       "player": "Game Total",
       "side": "Over",
       "point": 4.5,
-      "best_book": "bovada",
-      "best_price": -385,
-      "true_prob_pct": 80.24,
-      "ev_per_100": 4.17,
-      "n_books": 3,
+      "best_book": "draftkings",
+      "best_price": -290,
+      "true_prob_pct": 77.62,
+      "ev_per_100": 12.73,
+      "n_books": 4,
       "all_prices": [
         [
+          "draftkings",
+          -290
+        ],
+        [
           "bovada",
-          -385
+          -335
+        ],
+        [
+          "pinnacle",
+          -379
         ],
         [
           "fanduel",
-          -410
-        ],
-        [
-          "draftkings",
-          -425
+          -400
         ]
       ],
-      "n_appearances": 2,
+      "n_appearances": 3,
       "first_seen_at": "2026-11-22T16:24:30.912473-05:00",
-      "last_seen_at": "2026-11-22T17:11:41.346379-05:00",
+      "last_seen_at": "2026-11-22T19:34:34.831374-05:00",
       "scan_history": [
         {
           "t": "2026-11-22T16:24:30.912473-05:00",
@@ -70,6 +74,12 @@
           "tp": 80.24,
           "ev": 4.17,
           "price": -385
+        },
+        {
+          "t": "2026-11-22T19:34:34.831374-05:00",
+          "tp": 77.62,
+          "ev": 12.73,
+          "price": -290
         }
       ]
     },
@@ -176,6 +186,104 @@
           "tp": 76.46,
           "ev": 3.51,
           "price": -310
+        }
+      ]
+    },
+    {
+      "event_id": "d58a81d96dc96c937a865548f3a1a7c5",
+      "game": "Penguins @ Stars",
+      "away_team": "Pittsburgh Penguins",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-23T00:08:45Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Pittsburgh Penguins +2.5",
+      "player": "Pittsburgh Penguins",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -271,
+      "true_prob_pct": 76.27,
+      "ev_per_100": 11.95,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -271
+        ],
+        [
+          "bovada",
+          -325
+        ],
+        [
+          "draftkings",
+          -350
+        ],
+        [
+          "fanduel",
+          -350
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T19:34:34.831374-05:00",
+      "last_seen_at": "2026-11-22T19:34:34.831374-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T19:34:34.831374-05:00",
+          "tp": 76.27,
+          "ev": 11.95,
+          "price": -271
+        }
+      ]
+    },
+    {
+      "event_id": "7472170e7ddebcf27cc4e03a8b32edcc",
+      "game": "Oilers @ Blues",
+      "away_team": "Edmonton Oilers",
+      "home_team": "St Louis Blues",
+      "first_pitch": "2026-11-23T00:08:22Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "St Louis Blues +2.5",
+      "player": "St Louis Blues",
+      "side": "Home",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -274,
+      "true_prob_pct": 75.86,
+      "ev_per_100": 9.73,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -274
+        ],
+        [
+          "bovada",
+          -300
+        ],
+        [
+          "draftkings",
+          -325
+        ],
+        [
+          "fanduel",
+          -370
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-22T19:34:34.831374-05:00",
+      "last_seen_at": "2026-11-22T19:34:34.831374-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-22T19:34:34.831374-05:00",
+          "tp": 75.86,
+          "ev": 9.73,
+          "price": -274
         }
       ]
     }
