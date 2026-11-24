@@ -1,7 +1,7 @@
 {
   "date": "2026-11-23",
-  "snapshot_at": "2026-11-23T21:40:49.445662-05:00",
-  "n_picks": 4,
+  "snapshot_at": "2026-11-23T22:05:22.500159-05:00",
+  "n_picks": 6,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 4,
+    "n_total": 6,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -100,12 +100,18 @@
           -325
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-23T21:40:49.445628-05:00",
-      "last_seen_at": "2026-11-23T21:40:49.445628-05:00",
+      "last_seen_at": "2026-11-23T22:05:22.500115-05:00",
       "scan_history": [
         {
           "t": "2026-11-23T21:40:49.445628-05:00",
+          "tp": 76.0,
+          "ev": 3.76,
+          "price": -301
+        },
+        {
+          "t": "2026-11-23T22:05:22.500115-05:00",
           "tp": 76.0,
           "ev": 3.76,
           "price": -301
@@ -126,38 +132,44 @@
       "player": "Game Total",
       "side": "Under",
       "point": 7.5,
-      "best_book": "draftkings",
-      "best_price": -285,
-      "true_prob_pct": 75.32,
-      "ev_per_100": 4.97,
+      "best_book": "pinnacle",
+      "best_price": -291,
+      "true_prob_pct": 75.79,
+      "ev_per_100": 5.35,
       "n_books": 4,
       "all_prices": [
         [
-          "draftkings",
-          -285
+          "pinnacle",
+          -291
         ],
         [
-          "pinnacle",
-          -290
+          "draftkings",
+          -300
         ],
         [
           "bovada",
-          -310
+          -325
         ],
         [
           "fanduel",
           -340
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-23T21:40:49.445628-05:00",
-      "last_seen_at": "2026-11-23T21:40:49.445628-05:00",
+      "last_seen_at": "2026-11-23T22:05:22.500115-05:00",
       "scan_history": [
         {
           "t": "2026-11-23T21:40:49.445628-05:00",
           "tp": 75.32,
           "ev": 4.97,
           "price": -285
+        },
+        {
+          "t": "2026-11-23T22:05:22.500115-05:00",
+          "tp": 75.79,
+          "ev": 5.35,
+          "price": -291
         }
       ]
     },
@@ -194,15 +206,115 @@
           -320
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-23T21:40:49.445628-05:00",
-      "last_seen_at": "2026-11-23T21:40:49.445628-05:00",
+      "last_seen_at": "2026-11-23T22:05:22.500115-05:00",
       "scan_history": [
         {
           "t": "2026-11-23T21:40:49.445628-05:00",
           "tp": 75.08,
           "ev": 5.31,
           "price": -280
+        },
+        {
+          "t": "2026-11-23T22:05:22.500115-05:00",
+          "tp": 75.08,
+          "ev": 5.31,
+          "price": -280
+        }
+      ]
+    },
+    {
+      "event_id": "5074be0d13d60cc7fd82b06c4d8ddd31",
+      "game": "Ducks @ Kraken",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Seattle Kraken",
+      "first_pitch": "2026-11-24T02:50:25Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "draftkings",
+      "best_price": -320,
+      "true_prob_pct": 77.15,
+      "ev_per_100": 4.05,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -320
+        ],
+        [
+          "bovada",
+          -335
+        ],
+        [
+          "fanduel",
+          -360
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-23T22:05:22.500115-05:00",
+      "last_seen_at": "2026-11-23T22:05:22.500115-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-23T22:05:22.500115-05:00",
+          "tp": 77.15,
+          "ev": 4.05,
+          "price": -320
+        }
+      ]
+    },
+    {
+      "event_id": "5074be0d13d60cc7fd82b06c4d8ddd31",
+      "game": "Ducks @ Kraken",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Seattle Kraken",
+      "first_pitch": "2026-11-24T02:50:25Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Seattle Kraken +1.5",
+      "player": "Seattle Kraken",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "pinnacle",
+      "best_price": -267,
+      "true_prob_pct": 75.24,
+      "ev_per_100": 9.14,
+      "n_books": 4,
+      "all_prices": [
+        [
+          "pinnacle",
+          -267
+        ],
+        [
+          "bovada",
+          -300
+        ],
+        [
+          "draftkings",
+          -325
+        ],
+        [
+          "fanduel",
+          -330
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-23T22:05:22.500115-05:00",
+      "last_seen_at": "2026-11-23T22:05:22.500115-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-23T22:05:22.500115-05:00",
+          "tp": 75.24,
+          "ev": 9.14,
+          "price": -267
         }
       ]
     }
