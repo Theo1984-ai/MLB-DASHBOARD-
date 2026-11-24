@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 6,
+  "n_snapshots": 7,
   "snapshots": [
     {
       "captured_at": "2026-11-23T17:25:33.808243-05:00",
@@ -1026,6 +1026,44 @@
                 "line": 2.5,
                 "over_price": -128,
                 "under_price": 100
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-11-23T22:05:02.426172-05:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Minnesota Wild @ San Jose Sharks",
+          "away_team": "Minnesota Wild",
+          "home_team": "San Jose Sharks",
+          "first_pitch": "2026-11-24T03:10:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": null,
+            "under_price": -116
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -128,
+            "under_price": null
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": null,
+                "under_price": -116
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -128,
+                "under_price": null
               }
             }
           },
