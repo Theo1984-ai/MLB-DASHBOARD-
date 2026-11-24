@@ -20,14 +20,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-24T09:15:28.456372-05:00",
+      "t": "2026-11-24T09:45:19.956206-05:00",
       "line": 73.5,
       "price": -110,
       "book": "fanduel",
       "pin_line": 72.5,
-      "pin_over": -112,
-      "pin_under": -112,
-      "edge": 0.016,
+      "pin_over": -102,
+      "pin_under": -123,
+      "edge": 0.0379,
       "stale": 4,
       "n_books": 4
     },
@@ -64,6 +64,15 @@
         "pin_line": 72.5,
         "pin_over": -112,
         "pin_under": -112,
+        "book_line": 73.5,
+        "book_over": -114,
+        "book_under": -110
+      },
+      {
+        "t": "2026-11-24T09:45:19.956206-05:00",
+        "pin_line": 72.5,
+        "pin_over": -102,
+        "pin_under": -123,
         "book_line": 73.5,
         "book_over": -114,
         "book_under": -110
@@ -158,6 +167,15 @@
         "book_line": 88.5,
         "book_over": -115,
         "book_under": -115
+      },
+      {
+        "t": "2026-11-24T09:45:19.956206-05:00",
+        "pin_line": 86.5,
+        "pin_over": -127,
+        "pin_under": 101,
+        "book_line": 88.5,
+        "book_over": -110,
+        "book_under": -120
       }
     ],
     "result": null,
@@ -232,6 +250,15 @@
         "book_line": 79.5,
         "book_over": -120,
         "book_under": -110
+      },
+      {
+        "t": "2026-11-24T09:45:19.956206-05:00",
+        "pin_line": 79.5,
+        "pin_over": -102,
+        "pin_under": -123,
+        "book_line": 79.5,
+        "book_over": -120,
+        "book_under": -110
       }
     ],
     "result": null,
@@ -276,15 +303,15 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-24T09:15:28.456372-05:00",
+      "t": "2026-11-24T09:45:19.956206-05:00",
       "line": 75.5,
-      "price": -110,
+      "price": -104,
       "book": "fanduel",
       "pin_line": 74.5,
       "pin_over": -113,
       "pin_under": -111,
-      "edge": 0.0139,
-      "stale": 3,
+      "edge": 0.0279,
+      "stale": 4,
       "n_books": 4
     },
     "checks": [
@@ -296,6 +323,15 @@
         "book_line": 75.5,
         "book_over": -114,
         "book_under": -110
+      },
+      {
+        "t": "2026-11-24T09:45:19.956206-05:00",
+        "pin_line": 74.5,
+        "pin_over": -113,
+        "pin_under": -111,
+        "book_line": 75.5,
+        "book_over": -120,
+        "book_under": -104
       }
     ],
     "result": null,
@@ -316,5 +352,67 @@
     },
     "tier": "A",
     "tier_why": []
+  },
+  "2026-11-24|NCAAB|team total|Delaware St Hornets @ Chattanooga Mocs|Delaware St Hornets|team total|OVER": {
+    "sport": "NCAAB",
+    "kind": "team total",
+    "game": "Delaware St Hornets @ Chattanooga Mocs",
+    "who": "Delaware St Hornets",
+    "market": "team total",
+    "bet": "OVER",
+    "commence_time": "2026-11-25T00:00:00Z",
+    "first_seen": {
+      "t": "2026-11-24T09:45:19.956206-05:00",
+      "line": 65.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 66.5,
+      "pin_over": -112,
+      "pin_under": -114,
+      "edge": 0.0256,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-24T09:45:19.956206-05:00",
+      "line": 65.5,
+      "price": -105,
+      "book": "williamhill_us",
+      "pin_line": 66.5,
+      "pin_over": -112,
+      "pin_under": -114,
+      "edge": 0.0256,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-24T09:45:19.956206-05:00",
+        "pin_line": 66.5,
+        "pin_over": -112,
+        "pin_under": -114,
+        "book_line": 65.5,
+        "book_over": -105,
+        "book_under": -115
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Delaware St Hornets",
+      "opp": "Chattanooga Mocs",
+      "scope": "team",
+      "shift": null,
+      "tag": "n/a",
+      "fav": "Chattanooga Mocs",
+      "fav_spread": -16.0,
+      "blowout": true,
+      "total": 149.0,
+      "total_over": -111,
+      "total_under": -111
+    },
+    "tier": "B",
+    "tier_why": [
+      "every book is off Pinnacle"
+    ]
   }
 }
