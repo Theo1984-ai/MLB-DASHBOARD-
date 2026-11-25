@@ -2079,6 +2079,15 @@
         "book_line": 77.5,
         "book_over": -115,
         "book_under": -105
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 76.5,
+        "pin_over": -127,
+        "pin_under": 101,
+        "book_line": 77.5,
+        "book_over": -115,
+        "book_under": -105
       }
     ],
     "result": null,
@@ -3723,6 +3732,15 @@
         "book_line": 25.5,
         "book_over": -103,
         "book_under": -123
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 23.5,
+        "pin_over": -155,
+        "pin_under": 116,
+        "book_line": 23.5,
+        "book_over": -117,
+        "book_under": -109
       }
     ],
     "result": null,
@@ -3914,6 +3932,15 @@
       },
       {
         "t": "2026-11-24T20:45:17.396983-05:00",
+        "pin_line": 72.5,
+        "pin_over": -109,
+        "pin_under": -115,
+        "book_line": 72.5,
+        "book_over": -110,
+        "book_under": -110
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
         "pin_line": 72.5,
         "pin_over": -109,
         "pin_under": -115,
@@ -4826,6 +4853,15 @@
         "book_line": 83.5,
         "book_over": -108,
         "book_under": -116
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 81.5,
+        "pin_over": -129,
+        "pin_under": 102,
+        "book_line": 82.5,
+        "book_over": -116,
+        "book_under": -108
       }
     ],
     "result": null,
@@ -4990,6 +5026,15 @@
         "book_line": 81.5,
         "book_over": -120,
         "book_under": -104
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 80.5,
+        "pin_over": -122,
+        "pin_under": -103,
+        "book_line": 81.5,
+        "book_over": -112,
+        "book_under": -112
       }
     ],
     "result": null,
@@ -5124,6 +5169,15 @@
         "book_line": 12.5,
         "book_over": 102,
         "book_under": -137
+      },
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 11.5,
+        "pin_over": -132,
+        "pin_under": 100,
+        "book_line": 12.5,
+        "book_over": 100,
+        "book_under": -136
       }
     ],
     "result": null,
@@ -5719,6 +5773,72 @@
     "tier": "B",
     "tier_why": [
       "every book is off Pinnacle"
+    ]
+  },
+  "2026-11-24|NBA|prop|Dallas Mavericks @ Denver Nuggets|Zaccharie Risacher|points|OVER": {
+    "sport": "NBA",
+    "kind": "prop",
+    "game": "Dallas Mavericks @ Denver Nuggets",
+    "who": "Zaccharie Risacher",
+    "market": "points",
+    "bet": "OVER",
+    "commence_time": "2026-11-25T03:10:00Z",
+    "first_seen": {
+      "t": "2026-11-24T21:15:19.639790-05:00",
+      "line": 6.5,
+      "price": -122,
+      "book": "draftkings",
+      "pin_line": 8.5,
+      "pin_over": 141,
+      "pin_under": -189,
+      "edge": 0.0144,
+      "stale": 5,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-24T21:15:19.639790-05:00",
+      "line": 6.5,
+      "price": -122,
+      "book": "draftkings",
+      "pin_line": 8.5,
+      "pin_over": 141,
+      "pin_under": -189,
+      "edge": 0.0144,
+      "stale": 5,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-24T21:15:19.639790-05:00",
+        "pin_line": 8.5,
+        "pin_over": 141,
+        "pin_under": -189,
+        "book_line": 6.5,
+        "book_over": -122,
+        "book_under": -104
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Dallas Mavericks",
+      "opp": "Denver Nuggets",
+      "scope": "team",
+      "shift": 1.51,
+      "tag": "backed",
+      "win_prob": 0.29,
+      "fav": "Denver Nuggets",
+      "fav_win_prob": 0.71,
+      "fav_spread": -8.5,
+      "blowout": false,
+      "total": 234.5,
+      "total_over": -104,
+      "total_under": -108
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
     ]
   }
 }
