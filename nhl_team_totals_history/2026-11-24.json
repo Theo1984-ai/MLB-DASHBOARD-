@@ -3,7 +3,7 @@
   "sport": "icehockey_nhl",
   "book": "fanduel",
   "market": "team_totals",
-  "n_snapshots": 5,
+  "n_snapshots": 6,
   "snapshots": [
     {
       "captured_at": "2026-11-24T15:58:38.247955-05:00",
@@ -159,6 +159,44 @@
     },
     {
       "captured_at": "2026-11-24T19:18:45.819142-05:00",
+      "n_games": 1,
+      "games": [
+        {
+          "game": "Vegas Golden Knights @ Edmonton Oilers",
+          "away_team": "Vegas Golden Knights",
+          "home_team": "Edmonton Oilers",
+          "first_pitch": "2026-11-25T01:10:00Z",
+          "away": {
+            "line": 3.5,
+            "over_price": null,
+            "under_price": -134
+          },
+          "home": {
+            "line": 2.5,
+            "over_price": -210,
+            "under_price": -150
+          },
+          "anchor_book": "fanduel",
+          "books": {
+            "fanduel": {
+              "away": {
+                "line": 3.5,
+                "over_price": null,
+                "under_price": -134
+              },
+              "home": {
+                "line": 2.5,
+                "over_price": -210,
+                "under_price": -150
+              }
+            }
+          },
+          "n_books": 1
+        }
+      ]
+    },
+    {
+      "captured_at": "2026-11-24T19:33:35.384110-05:00",
       "n_games": 1,
       "games": [
         {
