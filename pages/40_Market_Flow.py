@@ -29,6 +29,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from scripts import market_flow as mf  # noqa: E402
+from scripts import market_flow_tracker as tk  # noqa: E402
 
 EASTERN = ZoneInfo("America/New_York")
 OWNER, REPO = "Theo1984-ai", "MLB-DASHBOARD-"
@@ -78,6 +79,24 @@ def load_latest(_token_present, sport, today):
     if not best:
         return None, None
     return gh.load_json(GH_TOKEN, OWNER, REPO, best), best
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_plays(_token_present, today):
+    """{key: play} of every recorded playable side (best_plays_log/market_flow_plays/<date>.json, the last 30 days saved)."""
+    from data import github_storage as gh
+    out = {}
+    try:
+        items = gh.list_dir(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{tk.PLAYS_SUB}")
+    except Exception:  # noqa: BLE001
+        return out
+    for item in sorted(i["name"] for i in items if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", i["name"]))[-30:]:
+        try:
+            day = gh.load_json(GH_TOKEN, OWNER, REPO, f"{LOG_DIR}/{tk.PLAYS_SUB}/{item}") or {}
+        except Exception:  # noqa: BLE001
+            continue
+        out.update(day)
+    return out
 
 
 def start_of(meta, title):
@@ -156,6 +175,7 @@ min_total = c1.slider("Games with at least this much traded ($)", 0, 50_000, 1_0
 only_play = c2.checkbox("Only games with a ✅ playable side", value=False, key="mf_play")
 if c3.button("🔄 Reload", key="mf_reload", help="Reload the newest saved reports (they are saved about every 30 minutes)."):
     load_latest.clear()
+    load_plays.clear()
 
 now = datetime.now(tz=EASTERN)
 today = now.strftime("%Y-%m-%d")
@@ -188,7 +208,7 @@ for sport, _ in SPORTS:
             all_plays.append((start, sport, title, p, cap))
 all_plays.sort(key=lambda x: (x[0] is None, x[0] or now, not x[3]["agree"], -x[3]["delta"]))
 
-tabs = st.tabs([f"✅ What to play ({len(all_plays)})"] + [label for _, label in SPORTS])
+tabs = st.tabs([f"✅ What to play ({len(all_plays)})"] + [label for _, label in SPORTS] + ["📊 Track record"])
 with tabs[0]:
     if not all_plays:
         st.info("Nothing playable right now: no side has a big enough Δ with real money, a spread-out crowd and a sensible price. "
@@ -204,7 +224,55 @@ with tabs[0]:
             st.success(f"{dict(SPORTS)[sport]} · " + play_text(p, title, fmt_when(start)), icon="✅")
     st.caption("Checks: Δ +15 or more · at least $5,000 and 20 trades on the side · no wallet holds 40% or more · price no worse than -250.")
 
-for tab, (sport, _) in zip(tabs[1:], SPORTS):
+with tabs[-1]:
+    try:
+        plays = load_plays(True, today)
+    except Exception as e:  # noqa: BLE001
+        plays = {}
+        st.warning(f"Couldn't load the recorded plays: {e}")
+    if not plays:
+        st.info("No playable sides recorded yet. Each one is saved the first time it shows up (the job records them every 30 "
+                "minutes) and graded after its game ends.")
+    else:
+        s = tk.summarize(plays)
+        firsts = sorted(p["first_seen"][:10] for p in plays.values() if p.get("first_seen"))
+        st.caption(f"Every ✅ playable side, saved the first time it showed up (since {firsts[0] if firsts else '?'}), graded after "
+                   "the game from Polymarket's own result. Units are at Polymarket's odds when first seen (a stand-in for a "
+                   "sportsbook's price): a win pays the odds, a loss is -1, a push 0. Too few plays means nothing yet.")
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Record (graded)", f"{s['w']}-{s['l']}" + (f"-{s['push']}" if s["push"] else ""))
+        m2.metric("Win %", f"{100 * s['w'] / s['n']:.0f}%" if s["n"] else "-")
+        m3.metric("Units / ROI", f"{s['units']:+.1f}u / {s['roi']:+.0f}%" if s["n"] else "-")
+        m4.metric("Open (not graded yet)", s["open"])
+        groups = []
+        for label, keyf in (("Sport", lambda p: p["sport"]), ("Market", lambda p: p["kind"])):
+            by = {}
+            for p in plays.values():
+                by.setdefault(keyf(p), {})[id(p)] = p
+            for name, grp in sorted(by.items()):
+                g = tk.summarize(grp)
+                if g["n"] or g["open"]:
+                    groups.append({"By": label, "Group": name, "W-L": f"{g['w']}-{g['l']}", "Open": g["open"],
+                                   "Units": round(g["units"], 1), "ROI %": round(g["roi"], 0) if g["n"] else None})
+        if groups:
+            st.dataframe(pd.DataFrame(groups), hide_index=True, use_container_width=True)
+        rows = []
+        for p in sorted(plays.values(), key=lambda p: p.get("first_seen") or "", reverse=True):
+            r = p.get("result") or {}
+            o = r.get("outcome")
+            fs_ = p.get("first_seen")
+            try:
+                seen = datetime.fromisoformat(fs_).astimezone(EASTERN).strftime("%a %I:%M %p").replace(" 0", " ")
+            except Exception:  # noqa: BLE001
+                seen = "?"
+            rows.append({"First seen (ET)": seen, "Sport": p["sport"], "Game": p["game"], "Pick": f"{p['side']} {p['kind'].lower()}",
+                         "Odds": f"{p['odds']:+d}" if p.get("odds") else "-", "Δ": f"{p['delta']:+.1f}%",
+                         "On it": mf.money(p["cash"]), "Top wallet": f"{p['top_wallet_pct']}%" if p.get("top_wallet_pct") is not None else "-",
+                         "Result": {"win": "✅ win", "loss": "❌ loss", "push": "➖ push", "unresolved": "? unresolved"}.get(o, "open"),
+                         "Units": round(r["profit"], 2) if o in ("win", "loss", "push") and r.get("profit") is not None else None})
+        st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
+
+for tab, (sport, _) in zip(tabs[1:-1], SPORTS):
     with tab:
         report = reports.get(sport)
         if not report or not report.get("games"):

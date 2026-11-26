@@ -31,11 +31,13 @@ jobs:
           pip install tzdata
       - name: Market flow
         run: python -m scripts.market_flow "${{ github.event.inputs.sport || 'ALL' }}"
+      - name: Track the playable sides (record new ones, grade finished games)
+        run: python -m scripts.market_flow_tracker
       - name: Commit + push
         run: |
           git config user.name "Market Flow Bot"
           git config user.email "bot@noreply.github.com"
-          git add best_plays_log/market_flow/
+          git add best_plays_log/market_flow/ best_plays_log/market_flow_plays/
           if git diff --staged --quiet; then
             echo "Nothing to save"
           else
