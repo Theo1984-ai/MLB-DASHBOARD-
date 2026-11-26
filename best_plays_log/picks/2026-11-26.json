@@ -20,14 +20,14 @@
       "n_books": 3
     },
     "last_seen": {
-      "t": "2026-11-26T04:00:25.706742-05:00",
-      "line": 24.5,
-      "price": 100,
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 23.5,
+      "price": -125,
       "book": "fanduel",
       "pin_line": 26.5,
       "pin_over": 122,
       "pin_under": -144,
-      "edge": 0.0389,
+      "edge": 0.0358,
       "stale": 3,
       "n_books": 3
     },
@@ -112,6 +112,15 @@
         "book_line": 24.5,
         "book_over": 100,
         "book_under": -128
+      },
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 26.5,
+        "pin_over": 122,
+        "pin_under": -144,
+        "book_line": 23.5,
+        "book_over": -125,
+        "book_under": -102
       }
     ],
     "result": null,
@@ -158,14 +167,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-26T04:00:25.706742-05:00",
+      "t": "2026-11-26T04:30:22.092321-05:00",
       "line": 39.5,
       "price": -110,
       "book": "draftkings",
       "pin_line": 36.5,
       "pin_over": -115,
-      "pin_under": -106,
-      "edge": 0.028,
+      "pin_under": -105,
+      "edge": 0.0268,
       "stale": 4,
       "n_books": 4
     },
@@ -247,6 +256,15 @@
         "pin_line": 36.5,
         "pin_over": -115,
         "pin_under": -106,
+        "book_line": 39.5,
+        "book_over": -114,
+        "book_under": -110
+      },
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 36.5,
+        "pin_over": -115,
+        "pin_under": -105,
         "book_line": 39.5,
         "book_over": -114,
         "book_under": -110
@@ -296,14 +314,14 @@
       "n_books": 4
     },
     "last_seen": {
-      "t": "2026-11-26T04:00:25.706742-05:00",
+      "t": "2026-11-26T04:30:22.092321-05:00",
       "line": 42.5,
-      "price": -118,
+      "price": -115,
       "book": "betrivers",
       "pin_line": 46.5,
       "pin_over": -110,
       "pin_under": -110,
-      "edge": 0.015,
+      "edge": 0.0214,
       "stale": 3,
       "n_books": 4
     },
@@ -388,6 +406,15 @@
         "book_line": 42.5,
         "book_over": -118,
         "book_under": -113
+      },
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 46.5,
+        "pin_over": -110,
+        "pin_under": -110,
+        "book_line": 42.5,
+        "book_over": -115,
+        "book_under": -115
       }
     ],
     "result": null,
@@ -405,6 +432,202 @@
       "total": 46.5,
       "total_over": 101,
       "total_under": -116
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "football yardage prop"
+    ]
+  },
+  "2026-11-26|NFL|team total|Kansas City Chiefs @ Buffalo Bills|Kansas City Chiefs|team total|OVER": {
+    "sport": "NFL",
+    "kind": "team total",
+    "game": "Kansas City Chiefs @ Buffalo Bills",
+    "who": "Kansas City Chiefs",
+    "market": "team total",
+    "bet": "OVER",
+    "commence_time": "2026-11-27T01:20:00Z",
+    "first_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 21.5,
+      "price": -113,
+      "book": "fanduel",
+      "pin_line": 23.5,
+      "pin_over": 117,
+      "pin_under": -138,
+      "edge": 0.0184,
+      "stale": 3,
+      "n_books": 3
+    },
+    "last_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 21.5,
+      "price": -113,
+      "book": "fanduel",
+      "pin_line": 23.5,
+      "pin_over": 117,
+      "pin_under": -138,
+      "edge": 0.0184,
+      "stale": 3,
+      "n_books": 3
+    },
+    "checks": [
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 23.5,
+        "pin_over": 117,
+        "pin_under": -138,
+        "book_line": 21.5,
+        "book_over": -113,
+        "book_under": -113
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Kansas City Chiefs",
+      "opp": "Buffalo Bills",
+      "scope": "team",
+      "shift": -0.01,
+      "tag": "neutral",
+      "win_prob": 0.417,
+      "fav": "Buffalo Bills",
+      "fav_win_prob": 0.583,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 45.0,
+      "total_over": -110,
+      "total_under": -104
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "every book is off Pinnacle",
+      "Pinnacle's price leans against this side"
+    ]
+  },
+  "2026-11-26|NFL|prop|Kansas City Chiefs @ Buffalo Bills|Patrick Mahomes|pass_yds|OVER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Kansas City Chiefs @ Buffalo Bills",
+    "who": "Patrick Mahomes",
+    "market": "pass_yds",
+    "bet": "OVER",
+    "commence_time": "2026-11-27T01:20:00Z",
+    "first_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 229.5,
+      "price": -114,
+      "book": "betrivers",
+      "pin_line": 237.5,
+      "pin_over": -108,
+      "pin_under": -112,
+      "edge": 0.0158,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 229.5,
+      "price": -114,
+      "book": "betrivers",
+      "pin_line": 237.5,
+      "pin_over": -108,
+      "pin_under": -112,
+      "edge": 0.0158,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 237.5,
+        "pin_over": -108,
+        "pin_under": -112,
+        "book_line": 229.5,
+        "book_over": -114,
+        "book_under": -117
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Kansas City Chiefs",
+      "opp": "Buffalo Bills",
+      "scope": "team",
+      "shift": -0.01,
+      "tag": "neutral",
+      "win_prob": 0.417,
+      "fav": "Buffalo Bills",
+      "fav_win_prob": 0.583,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 45.0,
+      "total_over": -110,
+      "total_under": -104
+    },
+    "tier": "B",
+    "tier_why": [
+      "big gap to Pinnacle (often news)",
+      "football yardage prop"
+    ]
+  },
+  "2026-11-26|NFL|prop|Kansas City Chiefs @ Buffalo Bills|Rashee Rice|reception_yds|OVER": {
+    "sport": "NFL",
+    "kind": "prop",
+    "game": "Kansas City Chiefs @ Buffalo Bills",
+    "who": "Rashee Rice",
+    "market": "reception_yds",
+    "bet": "OVER",
+    "commence_time": "2026-11-27T01:20:00Z",
+    "first_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 43.5,
+      "price": -118,
+      "book": "betrivers",
+      "pin_line": 47.5,
+      "pin_over": -109,
+      "pin_under": -111,
+      "edge": 0.0119,
+      "stale": 4,
+      "n_books": 5
+    },
+    "last_seen": {
+      "t": "2026-11-26T04:30:22.092321-05:00",
+      "line": 43.5,
+      "price": -118,
+      "book": "betrivers",
+      "pin_line": 47.5,
+      "pin_over": -109,
+      "pin_under": -111,
+      "edge": 0.0119,
+      "stale": 4,
+      "n_books": 5
+    },
+    "checks": [
+      {
+        "t": "2026-11-26T04:30:22.092321-05:00",
+        "pin_line": 47.5,
+        "pin_over": -109,
+        "pin_under": -111,
+        "book_line": 43.5,
+        "book_over": -118,
+        "book_under": -113
+      }
+    ],
+    "result": null,
+    "context": {
+      "team": "Kansas City Chiefs",
+      "opp": "Buffalo Bills",
+      "scope": "team",
+      "shift": -0.01,
+      "tag": "neutral",
+      "win_prob": 0.417,
+      "fav": "Buffalo Bills",
+      "fav_win_prob": 0.583,
+      "fav_spread": -2.5,
+      "blowout": false,
+      "total": 45.0,
+      "total_over": -110,
+      "total_under": -104
     },
     "tier": "B",
     "tier_why": [
