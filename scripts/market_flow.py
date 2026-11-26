@@ -34,8 +34,11 @@ from zoneinfo import ZoneInfo
 EASTERN = ZoneInfo("America/New_York")
 GAMMA = "https://gamma-api.polymarket.com"
 DATA = "https://data-api.polymarket.com"
-TAGS = {"NFL": ("nfl",), "NBA": ("nba",), "NHL": ("nhl",), "MLB": ("mlb",), "CFB": ("college-football", "ncaaf", "ncaa-football"),
-        "NCAAB": ("cbb", "college-basketball", "ncaab")}      # Polymarket tag slugs, tried in order and merged
+TAGS = {"NFL": ("nfl",), "NBA": ("nba",), "NHL": ("nhl",), "MLB": ("mlb",), "CFB": (),
+        "NCAAB": ("ncaa-basketball",)}      # Polymarket tag slugs (merged with the series below)
+# The college sports' single games are listed under the league's series, not under the tags that sound right (those only hold
+# futures): "cfb" = series 12756, men's "cbb" = series 10470 (found with DISCOVER).
+SERIES = {"CFB": ("12756",), "NCAAB": ("10470",)}
 ALL_SPORTS = ("NFL", "NBA", "NHL", "CFB", "NCAAB", "MLB")
 MAX_GAMES = 25                 # per sport: the busiest games (by Polymarket volume) are read, so a big college slate stays quick
 MIN_SIDE_CASH = 5_000          # a side needs this many dollars ...
@@ -74,21 +77,22 @@ FUTURES_TOKENS = ("season series", "world series", "super bowl", "champion", "mv
 def is_game_event(title, slug=""):
     """True for a single game ("A vs. B", "A @ B"), not a futures or season-long market."""
     blob = f"{title} {slug}".lower()
-    if any(t in blob for t in FUTURES_TOKENS):
+    if title.strip().endswith("(W)") or any(t in blob for t in FUTURES_TOKENS):      # women's games are not read
         return False
     return any(x in blob for x in (" vs.", " vs ", " @ ", " at "))
 
 
 def fetch_events(sport, page=100, max_pages=10):
-    """Open Polymarket events with the sport's tag(s), merged. Polymarket caps a page at 100 events, so this reads up to
-    `max_pages` pages per tag (the first pages are mostly novelty and futures markets; the games come later)."""
+    """Open Polymarket events for the sport, merged from its tag slugs and series ids. Polymarket caps a page at 100 events, so this
+    reads up to `max_pages` pages per query (the first pages are mostly novelty and futures markets; the games come later)."""
     out, seen = [], set()
-    for tag in TAGS[sport]:
+    queries = [f"tag_slug={t}" for t in TAGS.get(sport, ())] + [f"series_id={x}" for x in SERIES.get(sport, ())]
+    for q in queries:
         for i in range(max_pages):
             try:
-                batch = _get(f"{GAMMA}/events?closed=false&tag_slug={tag}&limit={page}&offset={i * page}")
+                batch = _get(f"{GAMMA}/events?closed=false&{q}&limit={page}&offset={i * page}")
             except Exception as e:  # noqa: BLE001
-                print(f"  tag {tag} offset {i * page}: {e}")
+                print(f"  {q} offset {i * page}: {e}")
                 break
             for ev in batch if isinstance(batch, list) else []:
                 if ev.get("id") not in seen:
