@@ -319,8 +319,8 @@ def summarize_market(kind, market, trades):
     sides = side_stats(trades, outcomes)
     for s, p in zip(sides, prices):
         s["odds"] = american(p)
-    return {"kind": kind, "question": market.get("question"), "volume": round(sum(s["cash"] for s in sides), 2),
-            "trades": sum(s["orders"] for s in sides), "sides": sides}
+    return {"kind": kind, "question": market.get("question"), "condition_id": market.get("conditionId"),
+            "volume": round(sum(s["cash"] for s in sides), 2), "trades": sum(s["orders"] for s in sides), "sides": sides}
 
 
 def heaviest(markets):
@@ -432,7 +432,7 @@ def run(sport="NFL"):
         if summaries:
             games[ev["title"]] = summaries
             gs = game_start(ev)
-            meta[ev["title"]] = {"start": gs.isoformat() if gs else None}
+            meta[ev["title"]] = {"start": gs.isoformat() if gs else None, "slug": ev.get("slug")}
             print("\n" + format_game(ev["title"], summaries, sport))
     if not games:                                   # nothing to show (off season, tags empty): don't save an empty report
         print("\nno games with trades, nothing saved")
