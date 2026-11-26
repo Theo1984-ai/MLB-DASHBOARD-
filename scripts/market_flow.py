@@ -408,6 +408,9 @@ def run(sport="NFL"):
             gs = game_start(ev)
             meta[ev["title"]] = {"start": gs.isoformat() if gs else None}
             print("\n" + format_game(ev["title"], summaries, sport))
+    if not games:                                   # nothing to show (off season, tags empty): don't save an empty report
+        print("\nno games with trades, nothing saved")
+        return games
     now = datetime.now(EASTERN)
     folder = f"best_plays_log/market_flow/{now.strftime('%Y-%m-%d')}"
     os.makedirs(folder, exist_ok=True)
@@ -415,6 +418,18 @@ def run(sport="NFL"):
         json.dump({"captured_at": now.isoformat(), "sport": sport, "games": games, "meta": meta}, f)
     print(f"\nsaved {len(games)} games")
     return games
+
+
+def prune(keep_days=3, root="best_plays_log/market_flow"):
+    """Delete the saved report folders older than `keep_days` days (the job runs every 30 minutes, so they add up)."""
+    import shutil
+    from datetime import timedelta
+    if not os.path.isdir(root):
+        return
+    cutoff = (datetime.now(EASTERN) - timedelta(days=keep_days)).strftime("%Y-%m-%d")
+    for d in os.listdir(root):
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", d) and d < cutoff:
+            shutil.rmtree(os.path.join(root, d), ignore_errors=True)
 
 
 def summary_line(sport, games):
@@ -486,4 +501,6 @@ if __name__ == "__main__":
     if arg == "DISCOVER":
         discover()
         sys.exit(0)
-    sys.exit(0 if (run_all() if arg == "ALL" else run(arg)) is not None else 1)
+    ok = (run_all() if arg == "ALL" else run(arg)) is not None
+    prune()
+    sys.exit(0 if ok else 1)
