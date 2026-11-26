@@ -43,7 +43,7 @@ ALL_SPORTS = ("NFL", "NBA", "NHL", "CFB", "NCAAB", "MLB")
 MAX_GAMES = 25                 # per sport: the busiest games (by Polymarket volume) are read, so a big college slate stays quick
 MIN_SIDE_CASH = 5_000          # a side needs this many dollars ...
 MIN_SIDE_ORDERS = 20           # ... and this many trades behind it to count as the heaviest side
-MAX_TRADES = 2500              # newest trades read per market
+MAX_TRADES = 5000              # newest trades read per market (busy NFL markets have thousands)
 _HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; mlb-dashboard/1.0)", "Accept": "application/json",
             "Accept-Encoding": "gzip"}
 _CTX = ssl.create_default_context()
@@ -366,7 +366,7 @@ def run(sport="NFL"):
     print(f"{sport}: {len(events)} Polymarket events, {len(game_events)} look like single games")
     for ev in game_events[:6]:
         print("  game event:", ev.get("title"), "|", len(ev.get("markets") or []), "markets")
-    games, shown_raw = {}, False
+    games, meta, shown_raw = {}, {}, False
     picked = pick_games(events)
     print(f"  reading {len(picked)} games that start in the next 48 hours (soonest first)")
     for ev in picked:
@@ -405,12 +405,14 @@ def run(sport="NFL"):
                 print("  trades had an unexpected shape:", json.dumps(trades[0])[:400])
         if summaries:
             games[ev["title"]] = summaries
+            gs = game_start(ev)
+            meta[ev["title"]] = {"start": gs.isoformat() if gs else None}
             print("\n" + format_game(ev["title"], summaries, sport))
     now = datetime.now(EASTERN)
     folder = f"best_plays_log/market_flow/{now.strftime('%Y-%m-%d')}"
     os.makedirs(folder, exist_ok=True)
     with open(f"{folder}/{sport}_{now.strftime('%H%M')}.json", "w") as f:
-        json.dump({"captured_at": now.isoformat(), "sport": sport, "games": games}, f)
+        json.dump({"captured_at": now.isoformat(), "sport": sport, "games": games, "meta": meta}, f)
     print(f"\nsaved {len(games)} games")
     return games
 
