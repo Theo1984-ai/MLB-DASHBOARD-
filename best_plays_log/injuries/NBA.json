@@ -193,13 +193,6 @@
     ],
     "Golden State Warriors": [
       {
-        "name": "Brandon Williams",
-        "status": "Out",
-        "pos": "G",
-        "note": "Head coach Steve Kerr said Tuesday that Williams (hamstring) is questionable to play Wednesday against the Kings, per Dalton Johnson of NBC Sports Bay Area.",
-        "return": "2026-11-25"
-      },
-      {
         "name": "Stephen Curry",
         "status": "Out",
         "pos": "G",
@@ -226,13 +219,6 @@
         "pos": "F",
         "note": "Butler (knee) could return sometime between January and February as he continues recovering from a torn right ACL, Anthony Slater of ESPN reports.",
         "return": "2027-01-02"
-      },
-      {
-        "name": "Yaxel Lendeborg",
-        "status": "Day-To-Day",
-        "pos": "F",
-        "note": "Lendeborg is questionable for Wednesday's game against the Kings with an illness.",
-        "return": "2026-11-25"
       }
     ],
     "Indiana Pacers": [
@@ -493,25 +479,25 @@
     ],
     "Philadelphia 76ers": [
       {
-        "name": "Jaylen Brown",
-        "status": "Out",
-        "pos": "G",
-        "note": "Brown (hamstring) won't return to Wednesday's game against Miami, Kyle Neubeck of AllPHLY.com reports. He finished with six points (2-8 FG, 0-1 3Pt, 2-2 FT), one rebound and one assist over 17 minutes.",
-        "return": "2026-11-27"
-      },
-      {
-        "name": "Joel Embiid",
-        "status": "Out",
-        "pos": "C",
-        "note": "Embiid (illness) is out for Wednesday's game against Miami, Ira Winderman of the South Florida Sun Sentinel reports.",
-        "return": "2026-11-27"
-      },
-      {
         "name": "Ariel Hukporti",
         "status": "Out",
         "pos": "C",
         "note": "Hukporti has sustained a season-ending ruptured right Achilles tendon, per Shams Charania of ESPN.",
         "return": "2027-10-01"
+      },
+      {
+        "name": "Joel Embiid",
+        "status": "Day-To-Day",
+        "pos": "C",
+        "note": "Embiid (illness) is out for Wednesday's game against Miami, Ira Winderman of the South Florida Sun Sentinel reports.",
+        "return": "2026-11-27"
+      },
+      {
+        "name": "Jaylen Brown",
+        "status": "Day-To-Day",
+        "pos": "G",
+        "note": "Brown (hamstring) will receive imaging, and the Sixers will provide an update Thursday, Ky Carlin of USA Today reports.",
+        "return": "2026-11-27"
       }
     ],
     "Phoenix Suns": [
@@ -797,8 +783,23 @@
     {
       "id": "401909321",
       "start": "2026-11-26T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "LA Clippers": [
+          "Brandon Ingram",
+          "Derrick Jones Jr.",
+          "Rui Hachimura",
+          "Brook Lopez",
+          "Darius Garland"
+        ],
+        "Memphis Grizzlies": [
+          "Kris Murray",
+          "Cedric Coward",
+          "Jaylen Wells",
+          "Zach Edey",
+          "Ty Jerome"
+        ]
+      },
       "probables": {},
       "home": "Memphis Grizzlies",
       "away": "LA Clippers"
@@ -806,8 +807,23 @@
     {
       "id": "401909322",
       "start": "2026-11-26T01:00Z",
-      "status": "Scheduled",
-      "starters": {},
+      "status": "In Progress",
+      "starters": {
+        "Brooklyn Nets": [
+          "Julius Randle",
+          "Michael Porter Jr.",
+          "Danny Wolf",
+          "Day'Ron Sharpe",
+          "Mikel Brown Jr."
+        ],
+        "Milwaukee Bucks": [
+          "Kyle Kuzma",
+          "Jaime Jaquez Jr.",
+          "Myles Turner",
+          "Tyler Herro",
+          "Ryan Rollins"
+        ]
+      },
       "probables": {},
       "home": "Milwaukee Bucks",
       "away": "Brooklyn Nets"
@@ -841,5 +857,5 @@
     }
   ],
   "date": "2026-11-25",
-  "fetched": "2026-11-25T20:00:56.772912-05:00"
+  "fetched": "2026-11-25T20:30:33.880930-05:00"
 }
