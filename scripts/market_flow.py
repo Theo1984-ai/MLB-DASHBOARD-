@@ -206,6 +206,41 @@ def _vol(m):
         return 0.0
 
 
+def game_start(event):
+    """Earliest gameStartTime (aware datetime) among an event's markets, or None. Gamma writes it like '2026-11-26 18:00:00+00'."""
+    from datetime import timezone
+    best = None
+    for m in event.get("markets") or []:
+        gs = str(m.get("gameStartTime") or "").replace(" ", "T")
+        if not gs:
+            continue
+        if gs.endswith("+00"):
+            gs += ":00"
+        try:
+            d = datetime.fromisoformat(gs)
+        except ValueError:
+            continue
+        d = d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+        best = d if best is None or d < best else best
+    return best
+
+
+def pick_games(events, now=None, ahead_hours=48, behind_hours=4, limit=MAX_GAMES):
+    """
+    The games to read: single-game events that start within the next `ahead_hours` (or began within `behind_hours`), soonest
+    first. Events with no start time are used only when no game has one, busiest first (by Polymarket volume).
+    """
+    from datetime import timedelta, timezone
+    now = now or datetime.now(timezone.utc)
+    games = [e for e in events if is_game_event(e.get("title", ""), e.get("slug", ""))]
+    timed = [(game_start(e), e) for e in games]
+    soon = sorted([(t, e) for t, e in timed if t and now - timedelta(hours=behind_hours) <= t <= now + timedelta(hours=ahead_hours)],
+                  key=lambda x: x[0])
+    if soon or any(t for t, _ in timed):
+        return [e for _, e in soon][:limit]
+    return sorted(games, key=lambda e: -sum(_vol(m) for m in e.get("markets") or []))[:limit]
+
+
 def event_markets(event):
     """{'Moneyline'|'Spread'|'Total': the highest-volume market of that kind} for one Gamma event (a game)."""
     best = {}
@@ -328,8 +363,9 @@ def run(sport="NFL"):
     for ev in game_events[:6]:
         print("  game event:", ev.get("title"), "|", len(ev.get("markets") or []), "markets")
     games, shown_raw = {}, False
-    game_events.sort(key=lambda e: -sum(_vol(m) for m in e.get("markets") or []))
-    for ev in game_events[:MAX_GAMES]:
+    picked = pick_games(events)
+    print(f"  reading {len(picked)} games that start in the next 48 hours (soonest first)")
+    for ev in picked:
         mk = event_markets(ev)
         if not mk:
             ms = ev.get("markets") or []
@@ -355,7 +391,7 @@ def run(sport="NFL"):
                 print("  sample raw trade:", json.dumps(trades[0])[:400])
                 shown_raw = True
             ts = [t.get("timestamp") for t in trades if t.get("timestamp")]
-            print(f"  {ev['title']} / {kind}: {len(trades)} trades read"
+            print(f"  {ev['title']} / {kind}: Polymarket volume ${_vol(m):,.0f}, {len(trades)} trades read"
                   + (f", oldest {min(ts)}, newest {max(ts)}" if ts else "")
                   + f" | pages {json.dumps(META.get('pages'))[:300]}")
             s = summarize_market(kind, m, trades)
