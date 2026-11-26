@@ -110,6 +110,7 @@ def _text(url, limit=6000):
 
 
 _PROBED = []
+META = {}                      # what the last fetch_trades call saw (rows per page, pagination block), printed for diagnosis
 
 
 def probe_v2(condition_id):
@@ -151,6 +152,7 @@ def fetch_trades(condition_id, max_trades=MAX_TRADES, limit=500):
     gives, until `max_trades` or no cursor. A trade has proxy_wallet, side, outcome, outcome_index, size (shares), price, timestamp.
     """
     out, cursor = [], None
+    META.clear()
     for _ in range(max_trades // 100 + 1):
         url = f"{DATA}/v2/trades?conditionId={condition_id}" + (f"&cursor={cursor}" if cursor else f"&limit={limit}")
         try:
@@ -167,6 +169,8 @@ def fetch_trades(condition_id, max_trades=MAX_TRADES, limit=500):
             break
         out += batch
         pag = (resp.get("pagination") if isinstance(resp, dict) else None) or {}
+        META.setdefault("pages", []).append({"rows": len(batch), "pagination": pag,
+                                              "other_keys": [k for k in (resp if isinstance(resp, dict) else {}) if k != "data"]})
         cursor = next((pag[k] for k in ("next_cursor", "nextCursor", "cursor") if pag.get(k)), None)
         if not cursor or len(out) >= max_trades:
             break
@@ -295,9 +299,12 @@ def money(x):
     return f"${x / 1e6:.2f}M" if x >= 1e6 else f"${x / 1e3:.0f}K" if x >= 1e3 else f"${x:.0f}"
 
 
-def format_game(game, markets):
+ICON = {"NFL": "🏈", "CFB": "🎓", "NBA": "🏀", "NCAAB": "🏀", "NHL": "🏒", "MLB": "⚾"}
+
+
+def format_game(game, markets, sport=None):
     """Plain-text report for one game (the layout of the Discord post: cash %, orders %, delta, avg order, top wallet)."""
-    lines = [f"🏈 {game}"]
+    lines = [f"{ICON.get(sport, '🎯')} {game}"]
     h = heaviest(markets)
     if h:
         lines.append(f"🐋 Heaviest side: {h[1]} ({h[0]}) at Δ {h[2]:+.1f}%")
@@ -347,6 +354,10 @@ def run(sport="NFL"):
             if trades and not shown_raw:
                 print("  sample raw trade:", json.dumps(trades[0])[:400])
                 shown_raw = True
+            ts = [t.get("timestamp") for t in trades if t.get("timestamp")]
+            print(f"  {ev['title']} / {kind}: {len(trades)} trades read"
+                  + (f", oldest {min(ts)}, newest {max(ts)}" if ts else "")
+                  + f" | pages {json.dumps(META.get('pages'))[:300]}")
             s = summarize_market(kind, m, trades)
             if s["trades"]:
                 summaries.append(s)
@@ -354,7 +365,7 @@ def run(sport="NFL"):
                 print("  trades had an unexpected shape:", json.dumps(trades[0])[:400])
         if summaries:
             games[ev["title"]] = summaries
-            print("\n" + format_game(ev["title"], summaries))
+            print("\n" + format_game(ev["title"], summaries, sport))
     now = datetime.now(EASTERN)
     folder = f"best_plays_log/market_flow/{now.strftime('%Y-%m-%d')}"
     os.makedirs(folder, exist_ok=True)
