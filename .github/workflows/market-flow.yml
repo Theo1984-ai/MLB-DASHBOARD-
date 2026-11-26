@@ -1,9 +1,12 @@
-name: Market flow report (hand-run)
+name: Market flow report
 
-# Run by hand from the Actions tab. Reads Polymarket's trades for each game's moneyline, spread and total and prints, per side,
+# Runs every 30 minutes from about 10 AM to midnight ET (so the Market Flow page stays fresh) and can be run by hand from the
+# Actions tab. Reads Polymarket's trades for each game's moneyline, spread and total and prints, per side,
 # cash %, orders %, delta, average order and top-wallet share (like the Discord market-flow post). Saves each run to
 # best_plays_log/market_flow/<date>/. Polymarket is reachable from Actions, not from the cloud sandbox.
 on:
+  schedule:
+    - cron: '7,37 15-23,0-4 * * *'    # UTC: 10 AM to 11:37 PM ET in winter (11 AM to 12:37 AM in summer)
   workflow_dispatch:
     inputs:
       sport:
