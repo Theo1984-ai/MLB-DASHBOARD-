@@ -411,8 +411,22 @@ def run(sport="NFL"):
     return games
 
 
+def summary_line(sport, games):
+    """One line per sport: games read, dollars traded and the heaviest side across all its games."""
+    if not games:
+        return f"{sport}: no games with trades"
+    vol = sum(m["volume"] for ms in games.values() for m in ms)
+    best = None
+    for g, ms in games.items():
+        h = heaviest(ms)
+        if h and (best is None or h[2] > best[3]):
+            best = (g, h[1], h[0], h[2])
+    return (f"{sport}: {len(games)} games, {money(vol)} traded" +
+            (f", heaviest side {best[1]} ({best[2]}, {best[0]}) at delta {best[3]:+.1f}%" if best else ", no side with enough money yet"))
+
+
 def run_all(sports=ALL_SPORTS):
-    """run() for every sport; one sport failing does not stop the others. {sport: games}."""
+    """run() for every sport; one sport failing does not stop the others. {sport: games}. Ends with one summary line per sport."""
     out = {}
     for sp in sports:
         print(f"\n{'=' * 20} {sp} {'=' * 20}")
@@ -421,6 +435,9 @@ def run_all(sports=ALL_SPORTS):
         except Exception as e:  # noqa: BLE001
             print(f"{sp} failed: {e}")
             out[sp] = {}
+    print("\n" + "=" * 20 + " SUMMARY " + "=" * 20)
+    for sp in sports:
+        print(summary_line(sp, out[sp]))
     return out
 
 
