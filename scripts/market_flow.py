@@ -144,22 +144,33 @@ class DataApiRetired(RuntimeError):
     pass
 
 
-def fetch_trades(condition_id, max_trades=MAX_TRADES, page=500):
-    """Newest trades of one market (Polymarket data API), newest first."""
-    out = []
-    for off in range(0, max_trades, page):
+def fetch_trades(condition_id, max_trades=MAX_TRADES, limit=500):
+    """
+    Newest trades of one market, newest first, from Polymarket's data API v2 (GET /v2/trades?conditionId=0x...; the v1 /trades
+    route was retired). The reply is {"data": [trade, ...], "pagination": {...}}; later pages are fetched with the cursor the reply
+    gives, until `max_trades` or no cursor. A trade has proxy_wallet, side, outcome, outcome_index, size (shares), price, timestamp.
+    """
+    out, cursor = [], None
+    for _ in range(max_trades // 100 + 1):
+        url = f"{DATA}/v2/trades?conditionId={condition_id}" + (f"&cursor={cursor}" if cursor else f"&limit={limit}")
         try:
-            batch = _get(f"{DATA}/trades?market={condition_id}&limit={page}&offset={off}")
+            resp = _get(url)
         except RuntimeError as e:
-            if "HTTP 410" in str(e):
+            if "HTTP 400" in str(e) and not cursor and limit > 100:        # page size too big: try 100
+                limit = 100
+                continue
+            if "HTTP 410" in str(e):                                        # this API version was retired again
                 raise DataApiRetired(str(e)) from e
             raise
+        batch = resp.get("data") if isinstance(resp, dict) else resp
         if not isinstance(batch, list) or not batch:
             break
         out += batch
-        if len(batch) < page:
+        pag = (resp.get("pagination") if isinstance(resp, dict) else None) or {}
+        cursor = next((pag[k] for k in ("next_cursor", "nextCursor", "cursor") if pag.get(k)), None)
+        if not cursor or len(out) >= max_trades:
             break
-    return out
+    return out[:max_trades]
 
 
 # ── Markets ──────────────────────────────────────────────────────────────────
@@ -216,7 +227,7 @@ def bet_side(trade, outcomes):
         return None
     name = trade.get("outcome")
     if name not in outcomes:
-        idx = trade.get("outcomeIndex")
+        idx = trade.get("outcome_index", trade.get("outcomeIndex"))
         if not isinstance(idx, int) or not 0 <= idx < len(outcomes):
             return None
         name = outcomes[idx]
@@ -242,7 +253,7 @@ def side_stats(trades, outcomes):
         name, usd = b
         cash[name] += usd
         orders[name] += 1
-        w = t.get("proxyWallet") or t.get("maker") or t.get("user")
+        w = t.get("proxy_wallet") or t.get("proxyWallet") or t.get("maker") or t.get("user")
         if w:
             wallets[name][w] += usd
     tc, to = sum(cash.values()), sum(orders.values())
