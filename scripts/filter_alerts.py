@@ -2,8 +2,8 @@
 Telegram alerts for the plays the First Seen record shows have done best:
 
   NHL shots on goal, Over, with 2+ soft books stale   55-22 (71%, +13% ROI) so far
-  NHL player points, UNDER (any stale)                NOT PROVEN, heavy juice (about -225): Under 1.5 went 82% in the first look but only +1% ROI
-                                                      in the later half; sent in its own section. Overs are not sent (they lost).
+  NHL player points, OVER (1+ stale)                  NOT PROVEN: Over 0.5 has lost about -11% over 19 graded plays (63% wins vs 70% break-even);
+                                                      sent in its own section at the user's request. Unders are not sent.
   NBA threes (player threes made), Over               CORE = line 1.5 with 1-2 books stale: 77% vs 65% break-even, +18%
                                                       every other threes Over is still sent, in its own section
                                                       (all threes Overs: 69%, +6%; the non-core ones are 63%, -3%)
@@ -30,7 +30,7 @@ SENT_SUB = "filter_alerts"
 RULES = (
     ("NHL", "shots_on_goal", "OVER", 2),
     ("NBA", "threes", "OVER", 1),
-    ("NHL", "points", "UNDER", 1),
+    ("NHL", "points", "OVER", 1),
 )
 CFG = {
     "min_minutes_to_start": 15,   # not a game that is about to start
@@ -59,7 +59,7 @@ def matches(rec, rules=RULES):
 
 def is_core(rec):
     """NHL shots Overs (2+ stale) and NBA threes Overs on a 1.5 line with 1-2 books stale are the core plays; every other
-    NBA threes Over and every NHL points Under is still sent, in its own section."""
+    NBA threes Over and every NHL points Over is still sent, in its own section."""
     return (rec["sport"] == "NHL" and rec["market"] == "shots_on_goal") or tp.nba_core(rec)
 
 
@@ -165,7 +165,7 @@ def format_alert(picks, inj=None):
         lines.append(("\n" if core else "") + "🏀 Other NBA threes Overs (not in the core filter)")
         lines += [_line(p, inj) for p in other]
     if pts:
-        lines.append(("\n" if (core or other) else "") + "🏒 NHL points Under (heavy juice, NOT proven: it faded to about break-even in the later half)")
+        lines.append(("\n" if (core or other) else "") + "🏒 NHL points Over (NOT proven: Over 0.5 has lost about -11% so far, 63% wins vs 70% needed)")
         lines += [_line(p, inj) for p in pts]
     lines.append(f"\nCheck the price and lineups first. {APP_URL}")
     return "\n".join(lines)
