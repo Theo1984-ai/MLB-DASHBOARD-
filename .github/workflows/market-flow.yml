@@ -38,6 +38,6 @@ jobs:
           else
             git commit -m "Market flow report"
             for i in 1 2 3; do
-              git pull --rebase origin main && git push origin HEAD:main && break || sleep 5
+              git pull --rebase origin main && git push && break || sleep 5
             done
           fi
