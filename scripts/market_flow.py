@@ -99,11 +99,61 @@ def fetch_events(sport, page=100, max_pages=10):
     return out
 
 
+def _text(url, limit=6000):
+    """First `limit` characters of a page (used to read Polymarket's docs from Actions, where the sandbox can't)."""
+    req = urllib.request.Request(url, headers={**_HEADERS, "Accept": "text/markdown,text/plain,*/*"})
+    resp = urllib.request.urlopen(req, timeout=30, context=_CTX)
+    body = resp.read()
+    if resp.headers.get("Content-Encoding") == "gzip":
+        body = gzip.decompress(body)
+    return body.decode("utf-8", "replace")[:limit]
+
+
+_PROBED = []
+
+
+def probe_v2(condition_id):
+    """Polymarket retired the v1 data API (HTTP 410). Print the migration docs and the replies of likely v2 trades URLs once,
+    so the parser can be written from real output."""
+    if _PROBED:
+        return
+    _PROBED.append(1)
+    print("\n=== Polymarket Data API v2 probe ===")
+    for url in ("https://docs.polymarket.com/api-reference/data-api/overview.md",
+                "https://docs.polymarket.com/api-reference/data-api/overview",
+                "https://docs.polymarket.com/llms.txt"):
+        try:
+            t = _text(url, 5000 if "llms" not in url else 200000)
+            if "llms" in url:                                   # only the lines about trades / data api
+                t = "\n".join(l for l in t.splitlines() if "trade" in l.lower() or "data-api" in l.lower())[:4000]
+            print(f"--- {url}\n{t}")
+            if "overview" in url and t.strip():
+                break
+        except Exception as e:  # noqa: BLE001
+            print(f"--- {url}: {e}")
+    for url in (f"{DATA}/v2/", f"{DATA}/v2/trades?market={condition_id}&limit=3",
+                f"{DATA}/v2/trades?conditionId={condition_id}&limit=3"):
+        try:
+            print(f"--- {url}\n{_text(url, 1500)}")
+        except Exception as e:  # noqa: BLE001
+            print(f"--- {url}: {e}")
+    print("=== end probe ===\n")
+
+
+class DataApiRetired(RuntimeError):
+    pass
+
+
 def fetch_trades(condition_id, max_trades=MAX_TRADES, page=500):
     """Newest trades of one market (Polymarket data API), newest first."""
     out = []
     for off in range(0, max_trades, page):
-        batch = _get(f"{DATA}/trades?market={condition_id}&limit={page}&offset={off}")
+        try:
+            batch = _get(f"{DATA}/trades?market={condition_id}&limit={page}&offset={off}")
+        except RuntimeError as e:
+            if "HTTP 410" in str(e):
+                raise DataApiRetired(str(e)) from e
+            raise
         if not isinstance(batch, list) or not batch:
             break
         out += batch
@@ -275,6 +325,11 @@ def run(sport="NFL"):
                 continue
             try:
                 trades = fetch_trades(m["conditionId"])
+            except DataApiRetired as e:
+                print(f"  trades API retired: {e}")
+                probe_v2(m["conditionId"])
+                print(f"{sport}: stopping, the trades data source has to be updated first")
+                return games
             except Exception as e:  # noqa: BLE001
                 print(f"  {ev['title']} / {kind}: trades failed: {e}")
                 continue
