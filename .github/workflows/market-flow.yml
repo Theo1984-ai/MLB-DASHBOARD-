@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
     inputs:
       sport:
-        description: "Sport (NFL, NBA, NHL or CFB)"
-        default: "NFL"
+        description: "Sport (ALL, NFL, NBA, NHL, CFB, NCAAB or MLB)"
+        default: "ALL"
 
 jobs:
   flow:
@@ -27,7 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install tzdata
       - name: Market flow
-        run: python -m scripts.market_flow "${{ github.event.inputs.sport || 'NFL' }}"
+        run: python -m scripts.market_flow "${{ github.event.inputs.sport || 'ALL' }}"
       - name: Commit + push
         run: |
           git config user.name "Market Flow Bot"
