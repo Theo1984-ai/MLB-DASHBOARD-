@@ -425,6 +425,40 @@ def summary_line(sport, games):
             (f", heaviest side {best[1]} ({best[2]}, {best[0]}) at delta {best[3]:+.1f}%" if best else ", no side with enough money yet"))
 
 
+CANDIDATE_TAGS = ("cfb", "ncaaf", "college-football", "ncaa-football", "college-football-games", "cbb", "ncaab", "college-basketball",
+                  "ncaa-basketball", "ncaa", "ncaa-cbb", "march-madness", "cwbb")
+
+
+def discover():
+    """
+    Find the Polymarket tag slugs for sports whose games we can't find: print the sports list Gamma publishes (entries that mention
+    college / ncaa / cfb / cbb) and, for each candidate tag slug, how many open events it returns and a few single-game titles.
+    """
+    print("=== Polymarket sports list (entries about college sports) ===")
+    try:
+        sports = _get(f"{GAMMA}/sports")
+        for sp in sports if isinstance(sports, list) else []:
+            blob = json.dumps(sp).lower()
+            if any(k in blob for k in ("college", "ncaa", "cfb", "cbb")):
+                print(json.dumps(sp)[:400])
+        print(f"({len(sports) if isinstance(sports, list) else '?'} sports in total; codes: "
+              + ", ".join(str(sp.get('sport')) for sp in sports)[:600] + ")" if isinstance(sports, list) else "(unexpected shape)")
+    except Exception as e:  # noqa: BLE001
+        print(f"/sports failed: {e}")
+    print("\n=== candidate tag slugs ===")
+    for tag in CANDIDATE_TAGS:
+        try:
+            evs = _get(f"{GAMMA}/events?closed=false&tag_slug={tag}&limit=100")
+        except Exception as e:  # noqa: BLE001
+            print(f"{tag}: {e}")
+            continue
+        games = [ev for ev in evs if is_game_event(ev.get("title", ""), ev.get("slug", ""))]
+        print(f"{tag}: {len(evs)} events, {len(games)} look like single games")
+        for ev in (games or evs)[:5]:
+            gs = game_start(ev)
+            print(f"    {ev.get('title')} | {len(ev.get('markets') or [])} markets | starts {gs.isoformat() if gs else '?'}")
+
+
 def run_all(sports=ALL_SPORTS):
     """run() for every sport; one sport failing does not stop the others. {sport: games}. Ends with one summary line per sport."""
     out = {}
@@ -443,4 +477,7 @@ def run_all(sports=ALL_SPORTS):
 
 if __name__ == "__main__":
     arg = (sys.argv[1] if len(sys.argv) > 1 else "NFL").upper()
+    if arg == "DISCOVER":
+        discover()
+        sys.exit(0)
     sys.exit(0 if (run_all() if arg == "ALL" else run(arg)) is not None else 1)

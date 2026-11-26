@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       sport:
-        description: "Sport (ALL, NFL, NBA, NHL, CFB, NCAAB or MLB)"
+        description: "Sport (ALL, NFL, NBA, NHL, CFB, NCAAB or MLB), or DISCOVER to list Polymarket tag names"
         default: "ALL"
 
 jobs:
