@@ -14,7 +14,7 @@ bet on it; a SELL of an outcome is counted as a bet on the other outcome (cost =
 
 Run in GitHub Actions (Polymarket is reachable there, not from the cloud sandbox):
 
-    python -m scripts.market_flow [NFL]
+    python -m scripts.market_flow [NFL | NBA | NHL | CFB | NCAAB | MLB | ALL]
 
 It prints a text report for each game and saves best_plays_log/market_flow/<date>/<SPORT>_<hhmm>.json. If a trades call fails or has
 an unexpected shape, the first raw trade is printed so the parser can be fixed from real data.
@@ -34,7 +34,10 @@ from zoneinfo import ZoneInfo
 EASTERN = ZoneInfo("America/New_York")
 GAMMA = "https://gamma-api.polymarket.com"
 DATA = "https://data-api.polymarket.com"
-TAGS = {"NFL": "nfl", "NBA": "nba", "NHL": "nhl", "CFB": "college-football"}
+TAGS = {"NFL": ("nfl",), "NBA": ("nba",), "NHL": ("nhl",), "MLB": ("mlb",), "CFB": ("college-football", "ncaaf", "ncaa-football"),
+        "NCAAB": ("cbb", "college-basketball", "ncaab")}      # Polymarket tag slugs, tried in order and merged
+ALL_SPORTS = ("NFL", "NBA", "NHL", "CFB", "NCAAB", "MLB")
+MAX_GAMES = 25                 # per sport: the busiest games (by Polymarket volume) are read, so a big college slate stays quick
 MIN_SIDE_CASH = 5_000          # a side needs this many dollars ...
 MIN_SIDE_ORDERS = 20           # ... and this many trades behind it to count as the heaviest side
 MAX_TRADES = 2500              # newest trades read per market
@@ -64,7 +67,7 @@ def _json(v, default):
         return default
 
 
-FUTURES_TOKENS = ("world series", "super bowl", "champion", "mvp", "rookie of", "division", "clinch", "playoff", "make the",
+FUTURES_TOKENS = ("season series", "world series", "super bowl", "champion", "mvp", "rookie of", "division", "clinch", "playoff", "make the",
                   "regular season", "season wins", "coach of", "win the", "most ", "leader", "draft")
 
 
@@ -76,14 +79,23 @@ def is_game_event(title, slug=""):
     return any(x in blob for x in (" vs.", " vs ", " @ ", " at "))
 
 
-def fetch_events(sport):
-    """Open Polymarket events with the sport's tag, up to 400 (pages of 200; Polymarket needs gzip for big pages)."""
-    out = []
-    for off in (0, 200):
-        page = _get(f"{GAMMA}/events?closed=false&tag_slug={TAGS[sport]}&limit=200" + (f"&offset={off}" if off else ""))
-        out += page if isinstance(page, list) else []
-        if not isinstance(page, list) or len(page) < 200:
-            break
+def fetch_events(sport, page=100, max_pages=10):
+    """Open Polymarket events with the sport's tag(s), merged. Polymarket caps a page at 100 events, so this reads up to
+    `max_pages` pages per tag (the first pages are mostly novelty and futures markets; the games come later)."""
+    out, seen = [], set()
+    for tag in TAGS[sport]:
+        for i in range(max_pages):
+            try:
+                batch = _get(f"{GAMMA}/events?closed=false&tag_slug={tag}&limit={page}&offset={i * page}")
+            except Exception as e:  # noqa: BLE001
+                print(f"  tag {tag} offset {i * page}: {e}")
+                break
+            for ev in batch if isinstance(batch, list) else []:
+                if ev.get("id") not in seen:
+                    seen.add(ev.get("id"))
+                    out.append(ev)
+            if not isinstance(batch, list) or len(batch) < page:
+                break
     return out
 
 
@@ -245,10 +257,11 @@ def run(sport="NFL"):
     events = fetch_events(sport)
     game_events = [ev for ev in events if is_game_event(ev.get("title", ""), ev.get("slug", ""))]
     print(f"{sport}: {len(events)} Polymarket events, {len(game_events)} look like single games")
-    for ev in events[:8]:
-        print("  event:", ev.get("title"), "|", len(ev.get("markets") or []), "markets")
+    for ev in game_events[:6]:
+        print("  game event:", ev.get("title"), "|", len(ev.get("markets") or []), "markets")
     games, shown_raw = {}, False
-    for ev in game_events:
+    game_events.sort(key=lambda e: -sum(_vol(m) for m in e.get("markets") or []))
+    for ev in game_events[:MAX_GAMES]:
         mk = event_markets(ev)
         if not mk:
             ms = ev.get("markets") or []
@@ -285,5 +298,19 @@ def run(sport="NFL"):
     return games
 
 
+def run_all(sports=ALL_SPORTS):
+    """run() for every sport; one sport failing does not stop the others. {sport: games}."""
+    out = {}
+    for sp in sports:
+        print(f"\n{'=' * 20} {sp} {'=' * 20}")
+        try:
+            out[sp] = run(sp)
+        except Exception as e:  # noqa: BLE001
+            print(f"{sp} failed: {e}")
+            out[sp] = {}
+    return out
+
+
 if __name__ == "__main__":
-    sys.exit(0 if run(sys.argv[1] if len(sys.argv) > 1 else "NFL") is not None else 1)
+    arg = (sys.argv[1] if len(sys.argv) > 1 else "NFL").upper()
+    sys.exit(0 if (run_all() if arg == "ALL" else run(arg)) is not None else 1)
