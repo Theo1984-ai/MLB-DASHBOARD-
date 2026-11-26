@@ -64,8 +64,27 @@ def _json(v, default):
         return default
 
 
+FUTURES_TOKENS = ("world series", "super bowl", "champion", "mvp", "rookie of", "division", "clinch", "playoff", "make the",
+                  "regular season", "season wins", "coach of", "win the", "most ", "leader", "draft")
+
+
+def is_game_event(title, slug=""):
+    """True for a single game ("A vs. B", "A @ B"), not a futures or season-long market."""
+    blob = f"{title} {slug}".lower()
+    if any(t in blob for t in FUTURES_TOKENS):
+        return False
+    return any(x in blob for x in (" vs.", " vs ", " @ ", " at "))
+
+
 def fetch_events(sport):
-    return _get(f"{GAMMA}/events?closed=false&tag_slug={TAGS[sport]}&limit=100")
+    """Open Polymarket events with the sport's tag, up to 400 (pages of 200; Polymarket needs gzip for big pages)."""
+    out = []
+    for off in (0, 200):
+        page = _get(f"{GAMMA}/events?closed=false&tag_slug={TAGS[sport]}&limit=200" + (f"&offset={off}" if off else ""))
+        out += page if isinstance(page, list) else []
+        if not isinstance(page, list) or len(page) < 200:
+            break
+    return out
 
 
 def fetch_trades(condition_id, max_trades=MAX_TRADES, page=500):
@@ -224,11 +243,17 @@ def format_game(game, markets):
 
 def run(sport="NFL"):
     events = fetch_events(sport)
-    print(f"{sport}: {len(events)} Polymarket events")
+    game_events = [ev for ev in events if is_game_event(ev.get("title", ""), ev.get("slug", ""))]
+    print(f"{sport}: {len(events)} Polymarket events, {len(game_events)} look like single games")
+    for ev in events[:8]:
+        print("  event:", ev.get("title"), "|", len(ev.get("markets") or []), "markets")
     games, shown_raw = {}, False
-    for ev in events:
+    for ev in game_events:
         mk = event_markets(ev)
-        if not mk or not ev.get("title"):
+        if not mk:
+            ms = ev.get("markets") or []
+            print(f"  skipped {ev.get('title')}: no moneyline/spread/total market found among {len(ms)} markets; first: "
+                  + json.dumps({k: ms[0].get(k) for k in ("question", "outcomes", "conditionId")})[:300] if ms else "  (no markets)")
             continue
         summaries = []
         for kind in ("Moneyline", "Spread", "Total"):
