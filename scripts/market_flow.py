@@ -334,6 +334,32 @@ def heaviest(markets):
     return best
 
 
+PLAY_MIN_DELTA = 15            # a playable side needs a delta of at least this many points ...
+PLAY_MAX_WALLET = 40           # ... its biggest wallet under this % of the side's dollars (when known: it is not one bettor) ...
+PLAY_WORST_ODDS = -250         # ... and a price no worse than this (a heavy favorite pays too little)
+
+
+def playable(markets):
+    """
+    The sides worth a look in one game: [{kind, side, odds, delta, cash, orders, avg, top_wallet_pct, agree}], best first.
+    A side passes with a delta of PLAY_MIN_DELTA or more, at least MIN_SIDE_CASH dollars and MIN_SIDE_ORDERS trades, a top wallet
+    under PLAY_MAX_WALLET % and odds no worse than PLAY_WORST_ODDS. `agree` = the same team also passes in another market
+    (e.g. moneyline and spread). Agreeing sides first, then the biggest delta. This describes where money went; it is not a tested edge.
+    """
+    out = []
+    for m in markets:
+        for s in m["sides"]:
+            tw = s.get("top_wallet_pct")
+            if (s["delta"] >= PLAY_MIN_DELTA and s["cash"] >= MIN_SIDE_CASH and s["orders"] >= MIN_SIDE_ORDERS
+                    and (tw is None or tw < PLAY_MAX_WALLET) and not (s.get("odds") and s["odds"] < PLAY_WORST_ODDS)):
+                out.append({"kind": m["kind"], "side": s["name"], "odds": s.get("odds"), "delta": s["delta"], "cash": s["cash"],
+                            "orders": s["orders"], "avg": s["avg"], "top_wallet_pct": tw})
+    names = [p["side"] for p in out]
+    for p in out:
+        p["agree"] = names.count(p["side"]) > 1
+    return sorted(out, key=lambda p: (not p["agree"], -p["delta"]))
+
+
 def money(x):
     return f"${x / 1e6:.2f}M" if x >= 1e6 else f"${x / 1e3:.0f}K" if x >= 1e3 else f"${x:.0f}"
 
