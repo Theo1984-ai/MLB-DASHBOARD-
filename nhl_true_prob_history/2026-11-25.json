@@ -1,7 +1,7 @@
 {
   "date": "2026-11-25",
-  "snapshot_at": "2026-11-25T21:36:01.870426-05:00",
-  "n_picks": 29,
+  "snapshot_at": "2026-11-25T22:25:52.313861-05:00",
+  "n_picks": 31,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 29,
+    "n_total": 31,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -375,31 +375,31 @@
       "side": "Home",
       "point": 1.5,
       "best_book": "draftkings",
-      "best_price": -320,
-      "true_prob_pct": 77.53,
-      "ev_per_100": 5.62,
+      "best_price": -300,
+      "true_prob_pct": 76.62,
+      "ev_per_100": 6.47,
       "n_books": 4,
       "all_prices": [
         [
           "draftkings",
-          -320
-        ],
-        [
-          "pinnacle",
-          -343
-        ],
-        [
-          "fanduel",
-          -350
+          -300
         ],
         [
           "bovada",
-          -370
+          -310
+        ],
+        [
+          "pinnacle",
+          -329
+        ],
+        [
+          "fanduel",
+          -380
         ]
       ],
-      "n_appearances": 4,
+      "n_appearances": 5,
       "first_seen_at": "2026-11-25T00:10:08.871379-05:00",
-      "last_seen_at": "2026-11-25T21:36:01.870366-05:00",
+      "last_seen_at": "2026-11-25T22:25:52.313807-05:00",
       "scan_history": [
         {
           "t": "2026-11-25T00:10:08.871379-05:00",
@@ -424,6 +424,12 @@
           "tp": 77.53,
           "ev": 5.62,
           "price": -320
+        },
+        {
+          "t": "2026-11-25T22:25:52.313807-05:00",
+          "tp": 76.62,
+          "ev": 6.47,
+          "price": -300
         }
       ]
     },
@@ -770,31 +776,31 @@
       "side": "Away",
       "point": 2.5,
       "best_book": "pinnacle",
-      "best_price": -371,
-      "true_prob_pct": 80.33,
-      "ev_per_100": 7.33,
+      "best_price": -376,
+      "true_prob_pct": 82.29,
+      "ev_per_100": 15.7,
       "n_books": 4,
       "all_prices": [
         [
           "pinnacle",
-          -371
-        ],
-        [
-          "bovada",
-          -400
-        ],
-        [
-          "draftkings",
-          -410
+          -376
         ],
         [
           "fanduel",
           -460
+        ],
+        [
+          "draftkings",
+          -525
+        ],
+        [
+          "bovada",
+          -526
         ]
       ],
-      "n_appearances": 3,
+      "n_appearances": 4,
       "first_seen_at": "2026-11-25T18:53:41.524767-05:00",
-      "last_seen_at": "2026-11-25T21:36:01.870366-05:00",
+      "last_seen_at": "2026-11-25T22:25:52.313807-05:00",
       "scan_history": [
         {
           "t": "2026-11-25T18:53:41.524767-05:00",
@@ -813,6 +819,12 @@
           "tp": 80.33,
           "ev": 7.33,
           "price": -371
+        },
+        {
+          "t": "2026-11-25T22:25:52.313807-05:00",
+          "tp": 82.29,
+          "ev": 15.7,
+          "price": -376
         }
       ]
     },
@@ -1594,6 +1606,96 @@
           "tp": 77.5,
           "ev": 4.39,
           "price": -325
+        }
+      ]
+    },
+    {
+      "event_id": "c68f7a448ea05f866093dfb4221e076e",
+      "game": "Sharks @ Ducks",
+      "away_team": "San Jose Sharks",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-11-26T03:08:51Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Under 7.5",
+      "player": "Game Total",
+      "side": "Under",
+      "point": 7.5,
+      "best_book": "pinnacle",
+      "best_price": -263,
+      "true_prob_pct": 78.82,
+      "ev_per_100": 23.1,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -263
+        ],
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "fanduel",
+          -550
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-25T22:25:52.313807-05:00",
+      "last_seen_at": "2026-11-25T22:25:52.313807-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-25T22:25:52.313807-05:00",
+          "tp": 78.82,
+          "ev": 23.1,
+          "price": -263
+        }
+      ]
+    },
+    {
+      "event_id": "c68f7a448ea05f866093dfb4221e076e",
+      "game": "Sharks @ Ducks",
+      "away_team": "San Jose Sharks",
+      "home_team": "Anaheim Ducks",
+      "first_pitch": "2026-11-26T03:08:51Z",
+      "market": "Total alt",
+      "market_key": "alternate_totals",
+      "stat_key": "total",
+      "settle_type": "Over/Under",
+      "selection": "Over 4.5",
+      "player": "Game Total",
+      "side": "Over",
+      "point": 4.5,
+      "best_book": "bovada",
+      "best_price": -285,
+      "true_prob_pct": 77.56,
+      "ev_per_100": 13.6,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "bovada",
+          -285
+        ],
+        [
+          "fanduel",
+          -360
+        ],
+        [
+          "draftkings",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-25T22:25:52.313807-05:00",
+      "last_seen_at": "2026-11-25T22:25:52.313807-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-25T22:25:52.313807-05:00",
+          "tp": 77.56,
+          "ev": 13.6,
+          "price": -285
         }
       ]
     }
