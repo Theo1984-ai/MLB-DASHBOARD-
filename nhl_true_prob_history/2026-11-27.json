@@ -1,7 +1,7 @@
 {
   "date": "2026-11-27",
-  "snapshot_at": "2026-11-27T21:27:16.018987-05:00",
-  "n_picks": 6,
+  "snapshot_at": "2026-11-27T22:10:32.938192-05:00",
+  "n_picks": 8,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 6,
+    "n_total": 8,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -220,12 +220,18 @@
           -400
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
-      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T22:10:32.938143-05:00",
       "scan_history": [
         {
           "t": "2026-11-27T21:27:16.018952-05:00",
+          "tp": 79.41,
+          "ev": 3.63,
+          "price": -368
+        },
+        {
+          "t": "2026-11-27T22:10:32.938143-05:00",
           "tp": 79.41,
           "ev": 3.63,
           "price": -368
@@ -265,12 +271,18 @@
           -410
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
-      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T22:10:32.938143-05:00",
       "scan_history": [
         {
           "t": "2026-11-27T21:27:16.018952-05:00",
+          "tp": 78.86,
+          "ev": 8.03,
+          "price": -335
+        },
+        {
+          "t": "2026-11-27T22:10:32.938143-05:00",
           "tp": 78.86,
           "ev": 8.03,
           "price": -335
@@ -293,8 +305,8 @@
       "point": 1.5,
       "best_book": "draftkings",
       "best_price": -290,
-      "true_prob_pct": 75.88,
-      "ev_per_100": 5.95,
+      "true_prob_pct": 75.57,
+      "ev_per_100": 4.73,
       "n_books": 3,
       "all_prices": [
         [
@@ -303,22 +315,118 @@
         ],
         [
           "pinnacle",
-          -317
+          -310
         ],
         [
           "bovada",
-          -340
+          -330
         ]
       ],
-      "n_appearances": 1,
+      "n_appearances": 2,
       "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
-      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T22:10:32.938143-05:00",
       "scan_history": [
         {
           "t": "2026-11-27T21:27:16.018952-05:00",
           "tp": 75.88,
           "ev": 5.95,
           "price": -290
+        },
+        {
+          "t": "2026-11-27T22:10:32.938143-05:00",
+          "tp": 75.57,
+          "ev": 4.73,
+          "price": -290
+        }
+      ]
+    },
+    {
+      "event_id": "c7d8345f0df3b99a79c00eefada5673a",
+      "game": "Mammoth @ Stars",
+      "away_team": "Utah Mammoth",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-29T01:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Dallas Stars +1.5",
+      "player": "Dallas Stars",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -385,
+      "true_prob_pct": 80.76,
+      "ev_per_100": 6.71,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -385
+        ],
+        [
+          "pinnacle",
+          -420
+        ],
+        [
+          "bovada",
+          -460
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-27T22:10:32.938143-05:00",
+      "last_seen_at": "2026-11-27T22:10:32.938143-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-27T22:10:32.938143-05:00",
+          "tp": 80.76,
+          "ev": 6.71,
+          "price": -385
+        }
+      ]
+    },
+    {
+      "event_id": "c7d8345f0df3b99a79c00eefada5673a",
+      "game": "Mammoth @ Stars",
+      "away_team": "Utah Mammoth",
+      "home_team": "Dallas Stars",
+      "first_pitch": "2026-11-29T01:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Utah Mammoth +2.5",
+      "player": "Utah Mammoth",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -366,
+      "true_prob_pct": 79.38,
+      "ev_per_100": 3.9,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -366
+        ],
+        [
+          "bovada",
+          -390
+        ],
+        [
+          "draftkings",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-27T22:10:32.938143-05:00",
+      "last_seen_at": "2026-11-27T22:10:32.938143-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-27T22:10:32.938143-05:00",
+          "tp": 79.38,
+          "ev": 3.9,
+          "price": -366
         }
       ]
     }
