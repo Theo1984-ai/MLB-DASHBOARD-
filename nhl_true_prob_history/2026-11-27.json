@@ -1,7 +1,7 @@
 {
   "date": "2026-11-27",
-  "snapshot_at": "2026-11-27T19:16:56.646524-05:00",
-  "n_picks": 3,
+  "snapshot_at": "2026-11-27T21:27:16.018987-05:00",
+  "n_picks": 6,
   "filter": {
     "min_true_prob": 0.75,
     "min_books": 3,
@@ -10,7 +10,7 @@
     "min_ev_per_100": 3.0
   },
   "summary": {
-    "n_total": 3,
+    "n_total": 6,
     "n_settled": 0,
     "n_void": 0,
     "wins": 0,
@@ -183,6 +183,141 @@
           "t": "2026-11-27T19:16:56.646480-05:00",
           "tp": 76.01,
           "ev": 6.44,
+          "price": -290
+        }
+      ]
+    },
+    {
+      "event_id": "b593db6702ca42144f478008ba894214",
+      "game": "Ducks @ Kings",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Los Angeles Kings",
+      "first_pitch": "2026-11-29T02:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Anaheim Ducks +2.5",
+      "player": "Anaheim Ducks",
+      "side": "Away",
+      "point": 2.5,
+      "best_book": "pinnacle",
+      "best_price": -368,
+      "true_prob_pct": 79.41,
+      "ev_per_100": 3.63,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "pinnacle",
+          -368
+        ],
+        [
+          "bovada",
+          -390
+        ],
+        [
+          "draftkings",
+          -400
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-27T21:27:16.018952-05:00",
+          "tp": 79.41,
+          "ev": 3.63,
+          "price": -368
+        }
+      ]
+    },
+    {
+      "event_id": "b593db6702ca42144f478008ba894214",
+      "game": "Ducks @ Kings",
+      "away_team": "Anaheim Ducks",
+      "home_team": "Los Angeles Kings",
+      "first_pitch": "2026-11-29T02:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Los Angeles Kings +1.5",
+      "player": "Los Angeles Kings",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -335,
+      "true_prob_pct": 78.86,
+      "ev_per_100": 8.03,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -335
+        ],
+        [
+          "pinnacle",
+          -380
+        ],
+        [
+          "bovada",
+          -410
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-27T21:27:16.018952-05:00",
+          "tp": 78.86,
+          "ev": 8.03,
+          "price": -335
+        }
+      ]
+    },
+    {
+      "event_id": "6a172659dcbd6344e1b89ea63f20786c",
+      "game": "Canadiens @ Knights",
+      "away_team": "Montr\u00e9al Canadiens",
+      "home_team": "Vegas Golden Knights",
+      "first_pitch": "2026-11-28T21:10:00Z",
+      "market": "Puck Line alt",
+      "market_key": "alternate_spreads",
+      "stat_key": "spread",
+      "settle_type": "Team",
+      "selection": "Vegas Golden Knights +1.5",
+      "player": "Vegas Golden Knights",
+      "side": "Home",
+      "point": 1.5,
+      "best_book": "draftkings",
+      "best_price": -290,
+      "true_prob_pct": 75.88,
+      "ev_per_100": 5.95,
+      "n_books": 3,
+      "all_prices": [
+        [
+          "draftkings",
+          -290
+        ],
+        [
+          "pinnacle",
+          -317
+        ],
+        [
+          "bovada",
+          -340
+        ]
+      ],
+      "n_appearances": 1,
+      "first_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "last_seen_at": "2026-11-27T21:27:16.018952-05:00",
+      "scan_history": [
+        {
+          "t": "2026-11-27T21:27:16.018952-05:00",
+          "tp": 75.88,
+          "ev": 5.95,
           "price": -290
         }
       ]
