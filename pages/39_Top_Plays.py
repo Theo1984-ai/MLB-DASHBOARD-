@@ -398,6 +398,8 @@ def render_cards(sport):
     m4.metric(tp.RULE_NBA, counts[tp.RULE_NBA])
     m5.metric(tp.RULE_NBA_ALL, counts[tp.RULE_NBA_ALL])
     m6.metric("👀 " + tp.RULE_TRIPLE, counts[tp.RULE_TRIPLE])
+    m7, _, _ = st.columns(3)
+    m7.metric(tp.RULE_NHL_POINTS + " (not proven)", counts[tp.RULE_NHL_POINTS])
     if not mine:
         st.info("No open plays match right now. The line splits close as game time gets near, and new ones show up "
                 "after each snapshot (about every 30 minutes).")
@@ -422,7 +424,8 @@ def render_cards(sport):
         shown = [n for n in x["rules"] if not (n == tp.RULE_NBA_ALL and tp.RULE_NBA in x["rules"])]
         rule_html = "".join(
             (f'<span style="background:#6b7280;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;'
-             f'border-radius:3px;">{html.escape(n)} (not core)</span>') if n == tp.RULE_NBA_ALL else
+             f'border-radius:3px;">{html.escape(n)} ({"not core" if n == tp.RULE_NBA_ALL else "not proven"})</span>')
+            if n in (tp.RULE_NBA_ALL, tp.RULE_NHL_POINTS) else
             (f'<span style="background:#15803d;color:#fff;font-size:10px;font-weight:700;'
              f'padding:1px 7px;border-radius:3px;">⭐ {html.escape(n)}</span>') for n in shown)
         note = tp.form_note(box_hist, r, tip.strftime("%Y-%m-%d")) if r["sport"] == "NBA" and r["market"] == "threes" else ""
@@ -460,7 +463,7 @@ def render_record(sport):
             groups[name].append(r)
     rows = []
     for name in tp.RULES:
-        if sport is not None and ((name == tp.RULE_NHL and sport != "NHL")
+        if sport is not None and ((name in (tp.RULE_NHL, tp.RULE_NHL_POINTS) and sport != "NHL")
                                   or (name in (tp.RULE_NBA, tp.RULE_NBA_ALL) and sport != "NBA")
                                   or (name == tp.RULE_NCAAB and sport != "NCAAB")
                                   or (name == tp.RULE_STALE and not markets_by_sport.get(sport))):
@@ -496,7 +499,8 @@ def render_scorecard():
     """Forward scorecard: each frozen rule (and each later candidate) judged only on plays first seen from its start day on."""
     st.markdown(f"### 📈 Forward scorecard (plays first seen from {tp.FORWARD_START} on)")
     st.caption("The three rules were frozen on that day, so only plays from then on count: no cherry-picking. "
-               "The two CFB candidates (found later in a back-test) start Nov 21 and are marked 🧪. "
+               "The 🧪 candidates were added later (the two CFB ones from Nov 21, NHL points Over from Nov 28) and count only "
+               "from their own start day. "
                f"A verdict needs {tp.FORWARD_MIN} graded plays. The range is a 95% confidence range for the win rate; "
                "if it includes the break-even rate, we can't tell luck from edge yet.")
     try:

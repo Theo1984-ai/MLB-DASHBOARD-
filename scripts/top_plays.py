@@ -20,11 +20,12 @@ from collections import defaultdict
 
 RULE_STALE = "3+ books stale"
 RULE_NHL = "NHL shots Over, 2+ stale"
+RULE_NHL_POINTS = "NHL points Over, 1+ stale"   # NOT PROVEN: Over 0.5 lost about -11% over 19 graded plays (63% vs 70% break-even)
 RULE_NBA = "NBA threes Over, line 1.5 + 1-2 stale"
 RULE_NBA_ALL = "NBA threes Over (all)"
 RULE_NCAAB = "NCAAB team total, gap 3-4"
 RULE_TRIPLE = "NBA triple Over (points + assists + rebounds)"
-RULES = (RULE_STALE, RULE_NHL, RULE_NBA, RULE_NBA_ALL, RULE_NCAAB)
+RULES = (RULE_STALE, RULE_NHL, RULE_NHL_POINTS, RULE_NBA, RULE_NBA_ALL, RULE_NCAAB)
 TRIPLE_MARKETS = ("points", "assists", "rebounds")
 
 NBA_CORE_LINE = 1.5
@@ -86,6 +87,8 @@ def matches(rec, sports=DEFAULT_SPORTS, markets=DEFAULT_MARKETS, side=DEFAULT_SI
         out.append(RULE_STALE)
     if rec["sport"] == "NHL" and rec["market"] == "shots_on_goal" and rec["bet"] == "OVER" and peak(rec) >= NHL_STALE_MIN:
         out.append(RULE_NHL)
+    if rec["sport"] == "NHL" and rec["market"] == "points" and rec["bet"] == "OVER" and peak(rec) >= 1:
+        out.append(RULE_NHL_POINTS)
     if rec["sport"] == "NBA" and rec["market"] == "threes" and rec["bet"] == "OVER":
         if nba_core(rec):
             out.append(RULE_NBA)
@@ -265,12 +268,14 @@ FORWARD_START = "2026-11-19"      # the day the rules were frozen; nothing earli
 FORWARD_RULES = (RULE_NHL, RULE_NBA, RULE_NCAAB)
 FORWARD_MIN = 100                 # plays needed before a verdict is given
 
-# Candidates found later in a back-test (CFB, Nov 21): tracked on the scorecard only, from their own start day, never on the cards.
+# Candidates, chosen after seeing results: tracked on the scorecard from their own start day (🧪), so the earlier results don't count.
+# The two CFB ones are scorecard-only (candidate_matches, never on the cards); NHL points Over is also a card rule (matches).
 RULE_CFB_PROP = "CFB props Under, 2 books stale"
 RULE_CFB_ALERT = "CFB team total alert, -140 to -179"
-CANDIDATE_RULES = (RULE_CFB_PROP, RULE_CFB_ALERT)
+CANDIDATE_RULES = (RULE_CFB_PROP, RULE_CFB_ALERT, RULE_NHL_POINTS)
 CFB_ALERT_PRICE = (-179, -140)
-FORWARD_STARTS = {RULE_CFB_PROP: "2026-11-21", RULE_CFB_ALERT: "2026-11-21"}   # every other rule starts at FORWARD_START
+FORWARD_STARTS = {RULE_CFB_PROP: "2026-11-21", RULE_CFB_ALERT: "2026-11-21",
+                  RULE_NHL_POINTS: "2026-11-28"}      # every other rule starts at FORWARD_START
 
 
 def forward_start(rule):
